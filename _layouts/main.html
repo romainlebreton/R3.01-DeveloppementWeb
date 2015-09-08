@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="utf-8">
+    <title>{{ page.title | strip_html }}</title>
+
+    {% if page.plugins contains 'highlight' %}
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/highlight-default.css">
+    {% endif %}
+
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/main.css">
+    {% for s in page.styles %}
+    <link rel="stylesheet" href="{{ s }}"/>
+    {% endfor %}
+
+    {% if page.plugins contains 'slideshow' %}
+    <link class="slideshow-css" rel="stylesheet" href="{{ site.baseurl }}/css/dz-slides.css" disabled>
+    <link class="slideshow-css" rel="stylesheet" href="{{ site.baseurl }}/css/dz-slides-customization.css" disabled>
+    <script>
+      // Hack for Firefox
+      var st = document.getElementsByClassName("slideshow-css");
+      Array.prototype.forEach.call(st, function(x) { x.disabled = true; });
+    </script>
+    {% endif %}
+
+    <link href="{{ site.github.zip_url | replace: 'zipball', 'commits' }}.atom" rel="alternate" title="Recent Commits to {{ site.github.repository_name }}" type="application/atom+xml" />
+
+    <script src="{{ site.baseurl }}/js/polyfills.js"></script>
+  </head>
+  <body>
+
+    <ul class="menu dont-print" id="top-menu">
+      <li><a href="{{ site.baseurl }}/">Home</a></li>
+      <li><a href="{{ site.github.zip_url | replace: 'zipball', 'blob' }}/{{ page.path }}">Source</a></li>
+      <li><a href="{{ site.github.zip_url | replace: 'zipball', 'edit' }}/{{ page.path }}">Quick edit</a></li>
+      <li><a href="javascript:window.print()">Print</a></li>
+      {% if page.plugins contains 'slideshow' %}
+      <li><a href="javascript:Dz.play()">Start slideshow</a>
+	<script src="{{ site.baseurl }}/js/dz-slides.js"></script>
+      </li>
+      {% endif %}
+    </ul>
+
+    <div class="main">
+      <div class="container">
+	{{ content }}
+      </div>
+
+      <footer class="footer">
+	<div class="container">
+	  <p><a rel="license"
+		href="http://creativecommons.org/licenses/by-sa/4.0/">
+	      <img alt="Creative Commons Licence" style="border-width:0"
+		   src="{{ site.baseurl }}/assets/80x15.png"/></a>
+	    <a href="https://github.com/romainlebreton">Romain Lebreton</a>,
+	    Julien Champ et Rémi Coletta
+	    {{ site.time | date:"%Y" }}, licensed
+	    under <a rel="license" class="print-link"
+		     href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA
+	      4.0</a>.</p>
+
+	  <p class="dont-print">Source code available
+	    on <a href="{{ site.github.repository_url }}">GitHub</a>,
+	    static Website generated
+	    with <a href="http://jekyllrb.com/">Jekyll</a> and kindly
+	    hosted by <a href="http://pages.github.com/">GitHub</a>.
+	  <a href="https://github.com/defeo/class-boilerplate">Structure of the website</a> by <a href="http://defeo.lu">Luca De Feo</a></p>
+	</div>
+      </footer>
+    </div>
+
+    {% if page.plugins contains 'mathjax' %}
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        config: ["MMLorHTML.js"],
+        jax: ["input/TeX","input/AsciiMath","output/HTML-CSS","output/NativeMML"],
+        extensions: ["MathMenu.js","MathZoom.js"],
+        TeX: {
+          extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"],
+        }
+      });
+    </script>
+    <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+    {% endif %}
+
+    {% if page.plugins contains 'highlight' %}
+    <script src="{{ site.baseurl }}/js/highlight.pack.js"></script>
+    <script>
+      hljs.configure({
+        tabReplace: '    '
+      });
+      hljs.initHighlightingOnLoad();
+    </script>
+    {% endif %}
+
+    {% for s in page.scripts %}
+    <script src="{{ s }}"></script>
+    {% endfor %}
+  </body>
+</html>

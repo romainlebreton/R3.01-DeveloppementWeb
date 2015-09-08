@@ -1,0 +1,42 @@
+---
+layout: main
+plugins: ['highlight', 'slideshow']
+---
+
+<div id="slides">
+
+  <section class="title-slide">
+    <div>
+      <h1>{{ page.title }} <span class="subtitle">{{ page.subtitle }}</span></h1>
+
+      <div id="slides-license" style="display: none">
+	<p></p>
+          <p><a href="https://github.com/romainlebreton">Romain Lebreton</a>,
+	  Julien Champ et Rémi Coletta
+	  {{ site.time | date:"%Y" }},<br/> Distribué avec une licence
+	  <a rel="license"
+	     href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA
+	    4.0</a><sup>*</sup>
+          <a rel="license"
+	      href="http://creativecommons.org/licenses/by-sa/4.0/">
+	    <img alt="Creative Commons Licence" style="border-width:0"
+		 src="{{ site.baseurl }}/assets/88x31.png"/>
+	  </a></p>
+	
+	<p><small><sup>*</sup>Vous avez droit de reproduire, distribuer
+	    et modifier à condition d'inclure un lien vers cette source,
+	    et de partager sous les mêmes conditions.</small></p>
+      </div>
+    </div>
+  </section>
+
+  {{ content }}
+
+  <section id="exit-slide" style="display:none">
+    <h3 class="centered">Appuyer sur ECHAP pour sortir de la
+    présentation.</h3>
+  </section>
+</div>
+
+<div id="controls"></div>
+<div id="progress-bar"></div>
