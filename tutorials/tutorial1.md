@@ -1,228 +1,284 @@
 ---
-title: TD1 &ndash; Prise en main de JavaScript
-subtitle: JavaScript et DOM
+title: TD1 &ndash; Introduction aux objets en PHP
+subtitle: Et quelques révisions sur HTTP
 layout: tutorial
 ---
 
+## Méthodologie
 
-## Les outils de développements
+Quelques consignes qui vous feront gagner beaucoup de temps en développement web:
 
-Nous allons utiliser les outils de développements de Chrome pour nos TDs. Pour ouvrir les outils de développements de Chrome, appuyez sur `F12` (ou `Ctrl+Shift+I` ou Outils > Outils de développement).
+1. PHP est un langage de programmation. Vous ne codez pas du Java avec
+   BlocNotes, c'est pareil pour PHP. Utilisez un environnement de développement
+   et nous allons utiliser NetBeans dans ce cours (sauf si vous avez déjà votre
+   éditeur préféré).
+  <!--
+  NetBeans à partir du TD2 pour qu'ils ne croient pas que NetBeans cache le
+  fonctionnement d'une page Web
+  -->
+2. Ne copiez **jamais** vos fichiers à plusieurs endroits.
+3. Merci de ne pas imprimer ce TP.
 
-#### L'inspecteurs d'éléments de page Web 
+## Accédez à vos pages web
 
-L'onglet **Élément** contient le code HTML de la page Web courante. En survolant le code HTML, l'inspecteur vous indique où se trouve la boîte englobant l'élément courant. Les rectangles affichés de couleurs différentes représentent les quatre boites englobantes&nbsp;: la marge extérieure (`margin`), la bordure, la marge intérieure (`padding`) et le contenu. Les dimensions des boîtes sont indiquées dans l'onglet style, qui regroupe toutes les règles CSS s'appliquant à cet élément.
+Créez une page **index.html** avec le contenu suivant et enregistrez la dans
+le répertoire **public_html** de votre espace personnel.
 
-À l'inverse, vous pouvez vous servir de la loupe ![loupe]({{ site.baseurl }}/assets/magnifying.png) (`Ctrl+Shift+C`) pour explorer visuellement le rendu de la page Web. La loupe vous montre alors le code HTML de l'élément sous votre souris.
+~~~
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title> Insérer le titrer ici </title>
+    </head>
 
-<div class="exercice">
-1. Inspectez la page courante dans l'onglet **Élément**. 
-2. Éditez la page HTML. Modifiez le texte du TD. Rajouter ou enlevez des balises de la page HTML. <br/>
-**Note:** Pour éditer le HTML, il faut faire clic droit > 'Edit as HTML'.
-3. Changez des éléments de style. Par exemple la façon dont les bouts de code en ligne comme `margin`, `padding` sont stylisés. Ou passez à une numérotation binaire des listes d'exercices (`list-style-type: binary` ; [Ne marche pas sur Firefox ni IE](http://www.quirksmode.org/css/lists.html)).
-**Note:** Vous pouvez faire ces modifications de style dans la sous-partie **Styles** de l'onglet **Élément** ou directement dans le ficher *CSS* qui se trouve dans l'onglet **Sources**.
-4. Rajouter votre premier gestionnaire d'événement (event handler). Pour cela, rajoutez `onclick="alert('À Malibu!')"` comme attribut à l'une des balises HTML. Vous n'avez alors plus qu'à cliquer dessus pour voir le message s'afficher.
-</div>
+    <body>
+        Un problème avec les accents à é è ?
+        <!-- ceci est un commentaire -->
+    </body>
+</html>
+~~~
+{:.html}
 
-L'un des grands avantages de l'onglet **Élément** est que l'on voit le code HTML de la page en direct. L'affichage classique des sources `Ctrl+U` ne montre que le code source original envoyé par le serveur.
-Les modifications que vous avez faites sont temporaires et disparaîtrons lors du rechargement de la page. Il faudra reporter les modifications côté serveur pour les enregistrer (cf. plus bas).
 
-#### Le moniteur réseau
+1. Ouvrez cette page dans le navigateur directement en double-cliquant dessus
+   directement depuis votre gestionnaire de fichiers.
+   Notez l'URL du fichier :
+   [file://chemin_de_mon_compte/public_html/index.html](file://chemin_de_mon_compte/public_html/index.html).
+   
+   **Un problème avec les accents ?** Dans l'entête du fichier HTML vous avez
+   spécifié l'encodage `<meta charset="utf-8" />`. Il faut que vos
+   fichiers soient enregistrés avec le même encodage. UTF-8 est souvent l'encodage
+   par défaut, mais les éditeurs de texte offrent des fois souvent le choix de
+   l'encodage lors du premier enregistrement du fichier.
 
-L'onglet **Network** permet d'observer les requêtes HTTP faites pour charger votre page. On y voit le chargement de la page HTML, des styles CSS et des images liées.
+2. Ouvrez cette même page depuis le navigateur en tapant l'URL suivante dans
+   la barre d'adresse
+   [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/index.html](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/index.html)
 
-<div class="exercice">
-1. Cliquez sur l'onglet **Network** et observez les différentes fichiers échangés lors du chargement de la page. Si l'onglet est vide, rechargez la page.
-2. Cliquez sur la ligne de la page Web *tutorial1.html* et observez le sous-onglet **Headers**. On y voit les caractéristiques principales de la [requête HTTP](http://openclassrooms.com/courses/les-requetes-http) qui demande la page au serveur :
-  * l'adresse du serveur : **romainlebreton.github.io**
-  * l'URL de la page demandée :  **http://romainlebreton.github.io/ProgWeb-ClientRiche/tutorials/tutorial1.html**
-  * la méthode de requête : **GET**
-  * le [code de statut](http://fr.wikipedia.org/wiki/Liste_des_codes_HTTP) de la réponse : 200 OK ou 304 Not modified (ou 404 Not Found)
-</div>
+   **Un problème de droit ?** Pour afficher vos pages, le serveur HTTP Apache
+   doit pouvoir lister le contenu de votre répertoire **public_html**. À
+   l'IUT, la gestion des droits se fait par les ACL. Les droits UNIX classique
+   sont rendus inopérants par les ACL.  Il faut donner les droits à l'utilisateur
+   www-data (Apache) par la commande setfacl dans un terminal sous Linux :
+   
+   `setfacl -m u:www-data:rwx nom\_du\_fichier ou répertoire`
 
-#### La console JavaScript
+3. Quelle(s) différence(s) observez-vous entre les deux pages ?
 
-C'est ici que nous allons passer le reste du TD. L'onglet **Console** (caché tout à droite) présente deux avantages :
 
- - c'est une console JavaScript. Ce sera donc notre bac à sable pour expérimenter du code JavaScript;
- - nous avons accès au DOM de la page Web courante. Ceci nous permettra d'interagir avec la page Web.
-
-## Le Document Object Model (DOM)
-
-Le Document Object Model (DOM) de JavaScript est un objet JavaScript qui modélise le document (la page Web). Cet objet possède un ensemble de méthodes qui nous permettent d'interagir avec le document. Nous allons aborder le DOM d'un point de vue très pratique. 
-
-Le DOM est accessible dans la console JavaScript dans la variable `document`.
-
-<div class="exercice">
-1. Explorez dans la console quelques attributs de la variable `document`, par exemple `document.URL`, `document.head`, `document.body`.
-</div>
-
-#### Trouver un élément de la page Web
-
-La manière la plus pratique de trouver un élément de la page Web est via les méthodes `getElementById`, `getElementsByTagName` et `getElementsByClassName` de l'objet `document`. Les trois méthodes prennent une chaîne de caractères et renvoient le tableau des éléments correspondants, sauf `getElementById` qui ne renvoie qu'un élément puisqu'un identifiant est unique.
-
-<div class="exercice">
-1. Accédez dans la console à l'élément d'identifiant **le-document-object-model-dom** à l'aide du code
-
-        var e1 = document.getElementById("le-document-object-model-dom");
-        console.log(e1);
-
-2. Dans le même ordre d'idée, sélectionnez tous les *list items* `<li>` à l'aide de `getElementsByTagName` et comptez les en utilisant leur propriété `.length`.
-
-3. Enfin, sélectionnez tous les éléments ayant la classe *exercice* à l'aide de `getElementsByClassName` et comptez les en utilisant leur propriété `.length`.
-
-</div>
-
-Supposons que nous souhaitons accéder à tous les `<li>` correspondant à des exercices, donc descendant d'un bloc de classe *exercice*. C'est exactement le genre de sélection que l'on fait en CSS pour appliquer du style. Vous ne serez donc pas surpris que JavaScript possède une fonction `document.querySelector` qui prend un sélecteur en entrée et renvoie le premier élément correspondant. De même, `querySelectorAll` renvoie tous les éléments correspondants.
-
-<div class="exercice">
-1. Sélectionnez dans la console tous les `<li>` correspondant à des exercices à l'aide de la fonction `document.querySelectorAll`. Combien y en a-t-il ?<br>
-   **Aide:** Vous pouvez consulter ce [rappel sur les sélecteurs](http://www.w3schools.com/cssref/css_selectors.asp).
-
-#### Modifier une page Web
-
-Nous allons ici faire un petit tour d'horizon des méthodes pour modifier une page Web. Nous utiliserons ces méthodes dans la section suivante : [Mise en application -- Formulaire dynamique](#mise-en-application----formulaire-dynamique).
-
-Pour créer des éléments (ou nœuds), il y a principalement deux fonctions : [`document.createElement`](https://developer.mozilla.org/fr/docs/Web/API/Document/createTextNode) et [`document.createTextNode`](https://developer.mozilla.org/fr/docs/Web/API/Document/createTextNode). La fonction `createElement` prend en paramètre un nom de balise HTML et crée l'élément de type balise correspondant. La fonction `createTextNode` prend en paramètre le texte et crée l'élément de type texte correspondant.
-
-Une fois un élément créé, il faut l'insérer dans la page Web. Les fonctions à votre disposition sont [`appendChild`](https://developer.mozilla.org/fr/docs/Web/API/Node/appendChild) et [`insertBefore`](https://developer.mozilla.org/fr/docs/Web/API/Node/insertBefore).
-
-Enfin, la fonction [`setAttribute`](https://developer.mozilla.org/fr/docs/Web/API/Element/setAttribute) permet de modifier les attributs d'un élément.
-
-<div class="exercice">
-1. À l'aide des fonctions précédentes, créez l'élément correspondant au code HTML suivant :
+4. Créez une page echo.php avec le contenu suivant et enregistrez-la dans le
+   répertoire **public_html** de votre espace personnel.
 
    ~~~
-   <tr>
-     <TD>Nom:<input type="text" name="nom"></TD>
-     <TD>Prénom:<input type="text" name="prenom"></TD>
-   </tr>
+   <!DOCTYPE html>
+   <html>
+       <head>
+           <meta charset="utf-8" />
+           <title> Mon premier php </title>
+       </head>
+   
+       <body>
+   	<?php
+     	$texte="hello";             //commentaire en PHP
+           $texte=$texte." "."world"; // concatenation de 2 chaines de caracteres
+           echo $texte;
+           ?>
+           <!-- ceci est un commentaire -->
+           Bonjour
+       </body>
+   </html> 
    ~~~
    {:.html}
-   **Aide:** Créer les nœuds de l'intérieur vers l'extérieur. 
-   Sauver votre code au fur et à mesure quelque part car nous nous en resservirons dans ce TD.
-</div>
 
 
-## Mise en application -- Formulaire dynamique
+5. Ouvrez cette page dans le navigateur directement depuis votre gestionnaire de fichiers :  
+   [file://chemin_de_mon_compte/public_html/echo.php](file://chemin_de_mon_compte/public_html/echo.php).
 
-Nous allons utiliser JavaScript pour rajouter du dynamisme <span style="text-decoration: line-through">aux étudiants</span> à un formulaire. Dans notre cas, nous allons développer un formulaire avec une partie facultative et de taille variable. Veuillez récupérer le [fichier HTML]({{ site.baseurl }}/assets/DynamicForm/DynamicForm.html) et [fichier CSS]({{ site.baseurl }}/assets/DynamicForm/DynamicForm.css) qui vous serviront de base pour notre formulaire dynamique.
+6. Ouvrez cette page dans le navigateur dans un second onglet en passant par le serveur web :   
+   [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/echo.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/echo.php)
 
-Créez un projet **DynamicForm** avec ces deux fichiers dans NetBeans (ou votre IDE préféré).
+7. Quelle(s) différence(s) observez-vous dans l'affichage des deux pages Web ?
 
-#### Affichage de la partie facultative du formulaire
+8. Quelle(s) différence(s) observez-vous dans le code source des deux pages Web ?  
+   (Clic droit, code source ou `Ctrl-U`)
 
-<div class="exercice">
-1. On souhaite cacher par défaut la partie facultative du formulaire correspondant à la liste des enfants. Rajouter `class="hidden"` comme attribut au `<div>` contenant la liste des enfants.  Créer la règle de style suivante qui a pour effet de cacher le contenu.
 
-   ~~~
-   .hidden {
-     display:none;
-   }
-   ~~~
-   {:.css}
+## La programmation objet en PHP
 
-2. Pour l'instant, nous allons développer notre code dans la console JavaScript de Chrome. Sélectionnez l'élément d'identifiant "enfants" à l'aide de `document.getElementById()` et stockez le dans une variable `enfants`
+PHP était initialement conçu comme un langage de script, mais est passé Objet à partir de la
+version 5.
 
-3. Pour accéder en lecture/écriture aux classes de `enfants`, nous allons utiliser sa propriété `enfants.classList` ([documentation](https://developer.mozilla.org/fr/docs/Web/API/Element/classList), [Ne marche pas sur IE <=9](http://caniuse.com/#search=classlist)).
-   Une fonction très pratique de `classList` est la fonction `toggle()` qui agit comme un interrupteur : il active/désactive la classe selon si elle était désactivé/activé ([exemple d'utilisation](https://developer.mozilla.org/fr/docs/Web/API/Element/classList#Exemple)). Utilisez-la pour afficher/cacher le formulaire enfant.
+### Un exemple de classe PHP
 
-5. Veuillez regrouper le code précédant au sein d'une fonction `ActiverEnfants`
+Créer un fichier **Voiture.php** :
 
-   ~~~
-   function ActiverEnfants () {
-     // Votre code ici
-   }
-   ~~~
-   {:.javascript}
+~~~
+<?php
+class Voiture {
+
+  private $marque;
+  private $couleur;
+  private $immatriculation;
+   
+  //un getter      
+  public function getMarque() {
+       return $this->marque;  
+  }
   
-6. Nous allons maintenant associer cette fonction au clic sur le bouton <input type='checkbox' checked> de *"Avez-vous des enfants ?"*
-   1. Pour cela, donnez à `querySelector` le sélecteur qui sélectionne les inputs d'attribut `type='checkbox'` ([documentation sur les sélecteurs](http://www.w3schools.com/cssref/css_selectors.asp)). Mettez cet élément dans une variable `aEnfant`
-   2. On va associer à l'élément `aEnfant` un gestionnaire d'événement qui lancera notre fonction `ActiverEnfants` lors de chaque clic sur le bouton.
-      La fonction `addEventListener` prend en premier argument le nom de l'événement à écouter et en deuxième argument la fonction à appeler.
+  //un setter 
+  public function setMarque($marque2) {
+       $this->marque = $marque2;
+  }
+   
+   //Un constructeur
+   public function __construct($m,$c,$i)  {
+     $this->marque = $m;
+     $this->couleur = $c;
+     $this->immatriculation = $i;     
+  } 
+        
+  // une methode d'affichage.
+  public function afficher() {
+    echo '<p> Voiture '.$this->immatriculation.' de marque'.$this->marque.'</p>' ;
+  }
+}
+?>
+~~~
+{:.php}
 
-      ~~~
-      aEnfant.addEventListener("click",ActiverEnfants);
-      ~~~
-      {:.javascript}
 
-      
+### Différences avec Java
 
-7. *Last but not least:* Maintenant que notre code est prêt, nous allons le déployer côté serveur pour qu'il soit envoyé et exécuté avec la page Web. 
-   1. Créez donc un ficher **DynamicForm.js** contenant ce code dans le répertoire de votre projet **DynamicForm**. 
-   2. Pour lier le script **DynamicForm.js** à notre page Web **DynamicForm.html**, ajouter dans cette dernière une balise
+1. Pas de typage 
+2. Les variables sont précédées d'un `$`
+3. Pour accéder à un attribut ou une fonction d'un objet, on utilise le `->` au lieu du `.`
+4. Le constructeur ne porte pas le nom de la classe, mais s'appelle `__construct()`.
 
-      ~~~
-      <script src="DynamicForm.js"></script>
-      ~~~
-      {:.html}
-      juste avant la balise fermante `</body>`.
-      Votre script sera ainsi exécuté au chargement de la page ; l'action d'affichage du formulaire 'enfant' sera donc lié à la *checkbox*.
-      Note : Comme le script DynamicForm.js est mis qqaprès le formulaire dans la page, nous sommes sûr de pouvoir modifier des éléments existants en javascript (l'élément d'id "enfants" existe, etc).
 
-</div>
+### Utilisation de cette classe
 
-#### Avoir un formulaire de taille variable
+Dans un fichier **testVoiture.php**, le code suivant
 
-Notre objectif dans cette dernière partie est de pouvoir rajouter des lignes à un formulaire en cliquant sur un bouton.
+~~~
+<?php
+  require 'Voiture.php';   //Equivalent du import en Java
+  $voiture1 = new Voiture('Renault','Bleu','256AB34'); 
+  $voiture2 = new Voiture('Peugeot','Vert','128AC30');
+  $voiture1->afficher();
+  $voiture2->afficher();
+?>
+~~~
+{:.php}
 
-<div class="exercice">
+Testez cette page: 
+[http://infolimon.iutmontp.univ-montp2.fr/~mon_login/testVoiture.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/testVoiture.php)
 
-1. Sélectionnez l'élément de balise `<tbody>` inclus dans l'élément d'identifiant *enfants* à l'aide de `document.querySelector()` et stockez le dans une variable `table_enfants`
-2. Nous souhaitons maintenant ajouter une nouvelle ligne à notre tableau. Ajoutez le code HTML suivant à la fin du tableau comme nous avons vu à la section [Modifier une page Web](modifier-une-page-web).
+À la différence de Java, il n'y a pas de besoin d'une méthode `main()`. N'importe quelle
+fichier **PHP** est considéré comme un `main()`.
+
+
+### Gestion des listes
+
+1. Ajouter un attribut **options** à la classe voiture. 
+2. Initialiser cette liste dans le constructeur, à l'aide de `\$this->options = array();`
+3. Ajouter une méthode à la classe `Voiture` qui permet d'ajouter une option à la liste,
+   à l'aide de `\$this->options[] = \$uneOption;` qui ajoute l'option `uneOption`
+   à la fin du tableau d'options `options.
+4. Modifier la méthode `afficher()` pour qu'elle permette de lister les options
 
    ~~~
-   <tr>
-     <TD>2</TD>
-     <TD><input type="text" name="nom-e2"></TD>
-     <TD><input type="text" name="prenom-e2"></TD>
-   </tr>
+   foreach ($this->options as $i => $option) {
+       echo($this->options[$i]);
+       //de meme pour echo($option); 
+   }
+   ~~~
+   {:.php}
+
+
+
+## Interaction avec un formulaire
+
+1. Créez un fichier **formulaireVoiture.html**, réutilisiez l'entête du fichier
+   **index.html** et dans le body, insérez le formulaire suivant:
+
+   ~~~
+   <form method="get" action="creerVoiture.php">
+     <fieldset>
+        <legend>Mon formulaire :</legend> <p>
+        <label for="immatriculation">Immatriculation</label> :
+        <input type="text" placeholder="Ex : 256AB34" name="immatriculation" 
+        	        id="immatriculation" required/>
+        </p> <p>
+        <label for="marque">Marque</label> :
+        <input type="text" placeholder="Ex : Renault" name="marque" id="marque"  required/>
+        </p> <p>
+        <label for="couleur">Couleur</label> :
+        <input type="text" placeholder="Ex : Bleu" name="couleur" id="couleur"  required/>
+        </p> <p>
+        <input type="submit" value="Envoyer" /> </p>
+      </fieldset> 
+   </form>
    ~~~
    {:.html}
+
+2. Cliquez sur le bouton "Envoyer". Vous voyez apparaître dans votre navigateur l'url:
+   [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/creerVoiture.php?immatriculation=256AB34&marque=Renault&couleur=Bleu](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/creerVoiture.php?immatriculation=256AB34&marque=Renault&couleur=Bleu)
+
+   La page **creerVoiture.php** n'existe pas, vous devez donc avoir une erreur 404.
+
+3. Dans le corps de cette page, vous pouvez récupérer la valeur du champ "marque"
+   du formulaire à l'aide de :
+
+   ~~~
+   <?php
+     $marque = $_GET["Marque"];
+   ?>
+   ~~~
+   {:.php}
+
+4. Complétez cette page de sorte qu'elle récupère tous les champs de voiture,
+   instancie la classe Voiture et appelle la méthode affiche().
+
+5. Afin d'éviter que les paramètres du formulaire n'apparaissent dans l'url, modifiez 
+   le formulaire pour qu'il appelle la méthode post:
+
+   ~~~
+   <form method="post" action="creerVoiture.php">
+   ~~~
+   {:.html}
+
+   et côté PHP, récupérez les paramètres avec
+
+   ~~~
+   <?php
+     $marque = $_POST["Marque"];
+   ?>
+   ~~~
+   {:.php}
+
+   
+## Exercice : Site de covoiturage
+
+Vous allez programmer les classes d'un site de covoiturage, dont voici la description d'une version
+minimaliste:
+
+* **Trajet :** Un trajet comprend un point de départ, un point d'arrivée et une date de
+départ. 
+* **Utilisateur :** Un utilisateur peut proposer un trajet en indiquant le nombre de places 
+disponibles et un prix. 
 <!--
-   Nous allons procéder en plusieurs étapes :
-
-   1. Créer un nouvel élément HTML de type `<tr>` à l'aide de 
-
-      ~~~
-      var e = document.createElement("tr");
-      ~~~
-      {:.javascript}
-
-   2. Actuellement, notre élément `e` représente juste le code HTML `<tr></tr>`. Nous allons le remplir en éditant son intérieur via `e.innerHTML` ([documentation](https://developer.mozilla.org/fr/docs/Web/API/Element/innertHTML)).
-      Ajoutez le code HTML nécessaire en assignant la bonne chaîne de caractères à `e.innerHTML`.
-
-      **Remarque:** Les chaînes de caractères en JavaScript commencent et finissent par **"** (ou **'**). Le caractère d'échappement **\\** est nécessaire pour les caractères spéciaux comme les guillemets `\"` &#8594; **"**, le saut de ligne `\n` &#8594;  **&#8626;**.
-
-   3. Il ne reste plus qu'à ajouter notre élément `e` à la fin de body. Pour cela, utilisons `table_enfants.`[`appendChild`](https://developer.mozilla.org/fr/docs/Web/API/Node/appendChild)`(e)`.
+ demander à participer à un trajet (comme passager).
+ accepter la demande de participation.
 -->
+* **Plateforme :** Connait la liste des utilisateurs et de tous les trajets. 
 
-3. Associons notre action à l'événement 'clic' sur le bouton *Ajouter un enfant* 
-   1. Empaquetons tout cela dans une fonction `function AjoutEnfant()`.
-   2. Sélectionner notre bouton à l'aide de `querySelector` (c'est le premier bouton qui provient de la balise d'identifiant *enfants*).
-   3. Associer lui le gestionnaire d'événement qui associe au clic l'action `AjoutEnfant`.
 
-4. Actuellement, nous rajoutons toujours la même ligne n°2 au tableau lors de clic successifs. 
-   1. Pour garder trace du numéro de la ligne actuelle, nous allons créer une variable globale `enf_count` que nous incrémenterons dans `AjoutEnfant`.
+## Chez vous
 
-      ~~~
-      var enf_count = 2;
-      function AjoutEnfant () {
-        // ...
-        enf_count++;
-      }
-      ~~~
-      {:.javascript}
+Vous pouvez installer Apache + PhP + MySql sur votre machine perso (WAMP sous
+windows, LAMP sous Linux, MAMP sous MacOs)
 
-   2. Changer le corps de la fonction `AjoutEnfant` pour créer la ligne n° `enf_count`.
-
-5. Déployez votre code avec un copier/coller dans **DynamicForm.js**. Quand tout marche bien, profiter de l'instant.
-
-</div>
-
-## Quelques liens
-
-- [La présentation des outils de développements sur le site de Chrome](https://developer.chrome.com/devtools)
-- [Le site de Mozilla sur les technologies Web](https://developer.mozilla.org/fr/)
-- [La structure d'arbre du HTML](http://fr.eloquentjavascript.net/chapter12.html)
-
+Attention, pensez à modifier le php.ini pour mettre `display_errors = On`, pour
+avoir les messages d'erreurs. Car par défaut, le serveur est configuré en mode
+production (`display\_errors = Off`).
