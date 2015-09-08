@@ -9,4 +9,4 @@ Cours à l'IUT de Montpellier - 2ème année
 **Mots clés :** PHP, MVC, MySQL
 
 ## TDs
-1. Semaine du 7 Septembre 2015 -- [TD 1](tutorials/tutorial1.html) -- Introduction aux objets en PHP
+1. Semaine du 7 Septembre 2015 -- [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html) 

@@ -8,14 +8,15 @@ layout: tutorial
 
 Quelques consignes qui vous feront gagner beaucoup de temps en développement web:
 
-1. PHP est un langage de programmation. Vous ne codez pas du Java avec
-   BlocNotes, c'est pareil pour PHP. Utilisez un environnement de développement
-   et nous allons utiliser NetBeans dans ce cours (sauf si vous avez déjà votre
-   éditeur préféré).
-  <!--
-  NetBeans à partir du TD2 pour qu'ils ne croient pas que NetBeans cache le
-  fonctionnement d'une page Web
-  -->
+1. PHP est un langage de programmation donc utilisez un environnement de
+   développement. Vous ne codez pas du Java avec BlocNotes, c'est pareil pour
+   PHP. Nous coderons donc notre PHP sous NetBeans à partir du TD2 (sauf si vous
+   avez déjà votre éditeur préféré).
+
+   **Exceptionnellement** pour ce TD, utilisez un éditeur de base comme
+     *gedit*. Ainsi, nous n'aurons pas l'impression que la grosse machinerie
+     qu'est NetBeans nous cache trop de choses.
+     
 2. Ne copiez **jamais** vos fichiers à plusieurs endroits.
 3. Merci de ne pas imprimer ce TP.
 
@@ -62,7 +63,7 @@ le répertoire **public_html** de votre espace personnel.
    sont rendus inopérants par les ACL.  Il faut donner les droits à l'utilisateur
    www-data (Apache) par la commande setfacl dans un terminal sous Linux :
    
-   `setfacl -m u:www-data:rwx nom\_du\_fichier ou répertoire`
+   `setfacl -m u:www-data:rwx nom_du_fichier ou répertoire`
 
 3. Quelle(s) différence(s) observez-vous entre les deux pages ?
 
@@ -281,4 +282,4 @@ windows, LAMP sous Linux, MAMP sous MacOs)
 
 Attention, pensez à modifier le php.ini pour mettre `display_errors = On`, pour
 avoir les messages d'erreurs. Car par défaut, le serveur est configuré en mode
-production (`display\_errors = Off`).
+production (`display_errors = Off`).
