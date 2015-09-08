@@ -1,0 +1,169 @@
+---
+---
+
+@import "http://fonts.googleapis.com/css?family=Marcellus&subset=latin";
+@import "http://fonts.googleapis.com/css?family=Oxygen+Mono";
+
+// Constants
+$exercise: "Exercice";
+
+/* Page Structure */
+html, input, textarea, select {
+    font-family: 'Marcellus', serif;
+    font-size: 18pt;
+    line-height: 1.3;
+}
+input, textarea, select { font-size: 80% }
+code, .code {
+    font-family: 'Oxygen Mono', mono;
+    font-size: 0.9em ;
+}
+footer {
+    border-top: solid thin black;
+    font-size: smaller;
+    margin-top: 4ex;
+}
+body {
+    text-align: justify;
+    tab-size: 4;
+    width: 85%;
+    min-width: 200px;
+    margin: auto;
+    padding-left: 20px;
+    counter-reset: section exercise subsection subsubsection;
+}
+h1 {
+    font-size: 2em;
+    .subtitle {
+	font-size: 0.5em;
+	color: #999;
+    }
+}
+h1, h2, footer { margin-left: -20px }
+h2 {
+    counter-reset: subsection subsubsection;
+}
+h3 {
+    counter-reset: subsubsection;
+}
+h2:before {
+    counter-increment: section;
+    content: counter(section) ". ";
+
+}
+h3:before{
+    counter-increment: subsection;
+    content: counter(section) "." counter(subsection) " ";
+}
+h4:before{
+    counter-increment: subsubsection;
+    content: counter(subsubsection,lower-roman) ". ";
+    font-style: italic;
+}
+.exercise {
+    margin-left: 1em;
+}
+.exercise:before {
+    margin-left: -1em;
+    counter-increment: exercise;
+    content: $exercise " " counter(exercise);
+    font-weight: bold;
+    font-size: 110%;
+}
+.exercise p:first-of-type {
+    margin-top: 0.5em
+}
+
+/* Inline style */
+a {
+    text-decoration: none;
+    &:hover { text-decoration: underline }
+}
+dt {
+    font-weight: bold;
+}
+ul.menu {
+    list-style-type: none;
+
+    li {
+	display: inline-block;
+	border-right: solid thin;
+	padding: 0 1ex;
+	&:last-child { border-right: none }
+    }
+}
+.centered {
+    margin: auto;
+    text-align: center;
+}
+
+/* Tables */
+table { border-collapse: collapse }
+td, th { padding: 1ex; }
+table.pretty {
+    td:not(:first-child), 
+    th:not(:first-child) {
+	border-left: solid thin black;
+    }
+    th {
+	border-bottom: solid thin black;
+    }
+}
+
+/* Source code */
+pre, div.codeexample {
+    clear: both;
+    background-color: #eee;
+    border-radius: 4px;
+    border: solid thin #aaa;
+    padding-left: 2ex;
+}
+:not(pre)>code {
+    color: #d00;
+}
+
+/* Horrible hack, waiting for CSS3 text-decoration */
+a code, code a {
+    border-bottom: dashed thin blue;
+
+    &:hover {
+	border-bottom: none;
+    }
+}
+
+/* Footnotes */
+.footnotesize {
+    font-size: 80%;
+}
+.footnote {
+    @extend .footnotesize;
+    &:before { content: '[' }
+    &:after  { content: ']' }
+}
+.footnotes {
+    @extend .footnotesize;
+    border-top: solid thin #888;
+    margin-left: -20px;
+    margin-top: 2em;
+}
+
+// Citations
+.cite { font-style: italic; }
+blockquote.cite {
+    > p:first-of-type:before { content: open-quote; }
+    > p:last-of-type:after { content: close-quote; }
+}
+
+/* Print */
+@media print {
+    .dont-print { display: none }
+    body { font-size: 9pt }
+    a.print-link:after { content: " <" attr(href) ">" }
+    h1, h2, h3, h4 { page-break-after: avoid }
+    .force-page-break { page-break-after: always }
+}
+
+/* Romain Lebreton */
+ol ol {
+  list-style-type: lower-roman;
+}

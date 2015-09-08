@@ -1,0 +1,7 @@
+baseurl: /ProgWeb-CoteServeur
+permalink: /:categories/:title
+
+kramdown:
+  input: GFM
+  parse_block_html: true
+  hard_wrap: false
