@@ -63,7 +63,7 @@ le répertoire **public_html** de votre espace personnel.
    sont rendus inopérants par les ACL.  Il faut donner les droits à l'utilisateur
    www-data (Apache) par la commande setfacl dans un terminal sous Linux :
    
-   `setfacl -m u:www-data:rwx nom_du_fichier ou répertoire`
+   `setfacl -m u:www-data:r-x nom_du_fichier ou répertoire`
 
 3. Quelle(s) différence(s) observez-vous entre les deux pages ?
 

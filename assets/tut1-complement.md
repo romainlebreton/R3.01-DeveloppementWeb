@@ -6,79 +6,152 @@ layout: tutorial
 
 ## Révisions (?) sur le fonctionnement des pages Web
 
-### Qu'est-ce que le HTTP ? À quoi ressemble une requête HTTP ?
+### Qu'est-ce que le HTTP ? 
 
-La requête HTTP la plus courante est la requête GET
-Exemple pour demander la page Web http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html : 
- GET /~rletud/index.html HTTP/1.1
- host: infolimon.iutmontp.univ-montp2.fr
+L'HyperText Transfer Protocol est un protocole de communication entre un client
+et un serveur développé pour le Web. L'une de ses fonctions principales est
+ainsi de récupérer des pages Web.
+
+### À quoi ressemble une requête HTTP ?
+
+La requête HTTP la plus courante est la requête GET. Par exemple pour demander la page Web [http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html](http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html) :
+
+~~~
+GET /~rletud/index.html HTTP/1.1
+host: infolimon.iutmontp.univ-montp2.fr
+~~~
+{:.http}
 
  La réponse est alors:
- HTTP/1.1 200 OK
- Date: Tue, 08 Sep 2015 13:32:19 GMT
- Server: Apache/2.2.14 (Ubuntu)
- Last-Modified: Tue, 08 Sep 2015 13:06:07 GMT
- Accept-Ranges: bytes
- Content-Length: 5781
- Content-Type: text/html
 
-<html><head>... la page Web
+~~~
+HTTP/1.1 200 OK
+Date: Tue, 08 Sep 2015 13:32:19 GMT
+Server: Apache/2.2.14 (Ubuntu)
+Last-Modified: Tue, 08 Sep 2015 13:06:07 GMT
+Accept-Ranges: bytes
+Content-Length: 5781
+Content-Type: text/html
 
-On retrouve Cookie: dans la requête, Set-Cookie: dans la réponse
-Un autre type courant de requêtes (POST) est envoyé par les formulaires en method="post"
+<html><head>...
+~~~
+{:.http}
 
-Exemple :
-telnet infolimon.iutmontp.univ-montp2.fr 80
-Trying 162.38.222.142...
-Connected to infolimon.iutmontp.univ-montp2.fr.
-Escape character is '^]'.
+Nous verrons l'autre type courant de requêtes (POST) lors de l'envoi de
+formulaires en méthode POST. Nous verrons aussi plus tard que les cookies ont
+gérés dans les requêtes et réponses HTTP.
+
+<!-- On retrouve Cookie: dans la requête, Set-Cookie: dans la réponse -->
+
+**Expérience amusante :**  
+Même si le client HTTP le plus connu est votre navigateur, il est facile de
+simuler un client HTTP autrement. La commande `telnet` permet d'envoyer du texte à
+une machine distance. En envoyant le texte d'une requête HTTP à un serveur HTTP,
+celui nous envoie sa réponse HTTP normalement.
+
+**Exemple :**  
+
+~~~
+> telnet infolimon.iutmontp.univ-montp2.fr 80
 GET /~rletud/ HTTP/1.1
 host: infolimon.iutmontp.univ-montp2.fr
 
+~~~
+{:.http}
 
+nous répond
+
+~~~
+HTTP/1.1 200 OK
+Date: Tue, 08 Sep 2015 20:24:04 GMT
+Server: Apache/2.2.14 (Ubuntu)
+Last-Modified: Tue, 08 Sep 2015 20:05:38 GMT
+Accept-Ranges: bytes
+Content-Length: 225
+Content-Type: text/html
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title> Insérer le titrer ici </title>
+  </head>
+
+  <body>
+    Un problème avec les accents à é è ?
+    <!-- ceci est un commentaire -->
+  </body>
+</html>
+~~~
+{:.http}
 
 ### Qu'est-ce qu'un serveur HTTP ? 
 
-Un serveur HTTP est un logiciel qui répond à des requêtes HTTP
+Un serveur HTTP est un logiciel qui répond à des requêtes HTTP. Il est souvent
+associé au port 80 de la machine hôte.
 
-### Connaissez-vous des serveurs HTTP ? 
+### Quelques exemples de serveurs HTTP ? 
 
 Apache HTTP Server (classique, celui de l'IUT), Apache TomCat (évolution
- pour J2EE), IIS (Microsoft), Node.js (codé en JavaScript)
+ pour J2EE), IIS (Microsoft), Node.js (codé en JavaScript).
 
 ### Comment faire pour qu'une page Web soit servie par le serveur HTTP sur infolimon ?
 
-On écrit une page Web dans le dossier public_html de son répertoire personnel et on donne les droits au serveur HTTP Apache (utilisateur www-data) de lire les pages Web (bit r--) et de traverser les dossiers menant à la page Web (bit de permission --x)
- % Si on a activé le mod mod_dir qui permet de lister le contenu d'un dossier,
- % il faut la permission de lecture sur les dossiers pour pouvoir lister leur
- % contenu
+On écrit une page Web dans le dossier public_html de son répertoire personnel et
+on donne les droits au serveur HTTP Apache (utilisateur www-data) de lire les
+pages Web (bit r--) et de traverser les dossiers menant à la page Web (bit de
+permission --x).
 
+Dans le TD, nous vous avons indiqué la commande
+
+~~~
+setfacl -m u:www-data:r-x nom_du_fichier ou nom_du_répertoire
+~~~
+{:.bash}
+
+Cette commande donne les droits `r-x` à l'utilisateur `www-data`. Les ACL
+permettent d'avoir des droits spécifiques à plusieurs utilisateurs et à
+plusieurs groupes quand les droits classiques sont limités à un utilisateur et un
+groupe.
+
+**Note :**  
+Si on a activé le module `mod_dir` qui permet de lister le contenu d'un dossier,
+il faut la permission de lecture sur les dossiers pour pouvoir lister leur
+contenu.
+ 
 ### Quel est le rôle du navigateur pour une page Web file:// et une page web http://
 
 Pour une URL en file://, le navigateur va lire la page Web sur le disque dur
  et interpréter son contenu (HTML par exemple) pour l'afficher.  
  
- Pour une URL en http://, le navigateur va envoyer une requête HTTP à l'hôte
- indiqué dans l'URL. Le serveur HTTP renvoie une réponse HTTP qui contient
- (normalement) la page Web demandée. Le vanigateur interprête alors la page Web
- et l'affiche.
- % Voire RequeteHTTP.png
+ Pour une URL en http://, le navigateur va en plus agir comme un client HTTP. Il
+ va donc envoyer une requête HTTP à l'hôte indiqué dans l'URL. Le serveur HTTP
+ renvoie une réponse HTTP qui contient (normalement) la page Web demandée. Le
+ vanigateur interprête alors la page Web et l'affiche.
+
+ <p style="text-align:center">
+ ![Requête HTTP]({{site.baseurl}}/assets/RequeteHTTP.png)
+ </p>
 
 ### Où intervient le PHP ?
 
-Un module PHP (mod_php5) est intégré au serveur HTTP Apache.  
+Un module PHP (mod_php5) est intégré au serveur HTTP Apache.  Quand le serveur
+Web reçoit une requête d'un fichier .php, il génère dynamiquement la page Web en
+exécutant le code PHP de la page. La page généré est ensuite renvoyée dans la
+réponse HTTP.  
+C'est ce que l'on appelle une page dynamique.
 
- Quand le serveur Web reçoit une requête d'un fichier .php, il génère
- dynamiquement la page Web en executant le code PHP de la page.
-
+<!--
  La création du document advient au moment de la requête
- % Trouver une image mieux que RolePHP.png
  Le serveur peut
  o Compiler le document à la volée (comme dans la génération statique),
  o Interagir avec d’autres serveurs (authentification, API, …),
  o Interroger des bases de données.
+-->
 
-
+ <p style="text-align:center">
+ ![Rôle du PHP]({{site.baseurl}}/assets/RolePHP.png)
+ </p>
 
 ## Note sur les URLs
 
@@ -145,17 +218,7 @@ La commande `iconv` est utile pour changer l'encodage des caractères d'un fichi
 **Exemple :** `iconv -f ISO-8859-15 -t UTF-8 < input.txt > output.txt`
 
 
-## Les permissions des fichiers Web
-
-Dans le TD, nous vous avons indiqué 
-
-`setfacl -m u:www-data:rwx nom_du_fichier ou nom_du_répertoire`
-
-Cette commande donne tous les droits (rwx) à l'utilisateur `www-data`. Les ACL
-permettent d'avoir des droits spécifiques à plusieurs utilisateurs et à
-plusieurs groupes quand les droits classique sont limités à un utilisateur et un
-groupe.
-
-
+<!--
 % Créer un dossier WebServeur dans public-HTML puis un sous-dossier TD1
 % Tuto NetBeans
+-->
