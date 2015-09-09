@@ -18,9 +18,11 @@ Quelques consignes qui vous feront gagner beaucoup de temps en développement we
      qu'est NetBeans nous cache trop de choses.
      
 2. Ne copiez **jamais** vos fichiers à plusieurs endroits.
-3. Merci de ne pas imprimer ce TP.
+3. Merci de **ne pas** imprimer ce TP.
 
 ## Accédez à vos pages web
+
+### Une page HTML de base
 
 Créez une page **index.html** avec le contenu suivant et enregistrez la dans
 le répertoire **public_html** de votre espace personnel.
@@ -29,7 +31,6 @@ le répertoire **public_html** de votre espace personnel.
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" />
         <title> Insérer le titrer ici </title>
     </head>
 
@@ -47,29 +48,54 @@ le répertoire **public_html** de votre espace personnel.
    Notez l'URL du fichier :
    [file://chemin_de_mon_compte/public_html/index.html](file://chemin_de_mon_compte/public_html/index.html).
    
-   **Un problème avec les accents ?** Dans l'entête du fichier HTML vous avez
-   spécifié l'encodage `<meta charset="utf-8" />`. Il faut que vos
-   fichiers soient enregistrés avec le même encodage. UTF-8 est souvent l'encodage
-   par défaut, mais les éditeurs de texte offrent des fois souvent le choix de
-   l'encodage lors du premier enregistrement du fichier.
+   **Un problème avec les accents ?**
+   Dans l'en-tête du fichier HTML vous devez rajouter la ligue qui spécifie
+   l'encodage
+   
+   ~~~
+   <meta charset="utf-8" />
+   ~~~
+   {:.html}
+   Il faut que vos fichiers soient enregistrés avec le même encodage. UTF-8 est
+   souvent l'encodage par défaut, mais les éditeurs de texte offrent des fois
+   souvent le choix de l'encodage lors du premier enregistrement du fichier.
 
-2. Ouvrez cette même page depuis le navigateur en tapant l'URL suivante dans
+2. **Vous souvenez-vous comment fait-on pour qu'une page Web soit servie par le serveur HTTP de l'IUT (sur [infolimon.iutmontp.univ-montp2.fr](infolimon.iutmontp.univ-montp2.fr)) ?**
+
+   Les pages Web écrites dans le dossier **public_html** de son répertoire
+   personnel seront servies sur [infolimon](infolimon.iutmontp.univ-montp2.fr).
+   Ouvrez donc `index.html` depuis le navigateur en tapant l'URL suivante dans
    la barre d'adresse
    [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/index.html](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/index.html)
 
-   **Un problème de droit ?** Pour afficher vos pages, le serveur HTTP Apache
-   doit pouvoir lister le contenu de votre répertoire **public_html**. À
-   l'IUT, la gestion des droits se fait par les ACL. Les droits UNIX classique
-   sont rendus inopérants par les ACL.  Il faut donner les droits à l'utilisateur
-   www-data (Apache) par la commande setfacl dans un terminal sous Linux :
-   
-   `setfacl -m u:www-data:r-x nom_du_fichier ou répertoire`
+   **Un problème de droit ?**
+   Pour pouvoir servir vos pages, le serveur HTTP (Apache) de l'IUT doit avoir
+   le droit de lecture des pages Web (permission `r--`) et le droit de
+   traverser les dossiers menant à la page Web (permission `--x`). À
+   l'IUT, la gestion des droits se fait par les ACL.  
+   Pour donner les droits à l'utilisateur www-data (Apache), utilisez la commande
+   `setfacl` dans un terminal sous Linux :
 
-3. Quelle(s) différence(s) observez-vous entre les deux pages ?
+   * `setfacl -m u:www-data:--x nom_du_répertoire`  pour chaque répertoire
+     menant à votre page Web.
+     
+   * Puis `setfacl -m u:www-data:r-- nom_de_la_page_Web`
 
+   **Note :** Les ACL permettent d'avoir des droits spécifiques à plusieurs
+   utilisateurs et à plusieurs groupes quand les droits classiques sont limités
+   à un utilisateur et un groupe. Pour lire les droits ACL d'un fichier ou
+   dossier, on tape `getfacl nom_du_fichier`.
 
-4. Créez une page echo.php avec le contenu suivant et enregistrez-la dans le
-   répertoire **public_html** de votre espace personnel.
+3. Quelle(s) différence(s) observez-vous entre les deux `index.html` ouvert de
+deux manières différentes ?
+
+### Notre première page PHP
+
+4. Créez une page `echo.php` avec le contenu suivant.  
+   Pour ne pas que votre **public_html** devient un dépôt de page Web à ciel
+   ouvert, créez des répertoires pour les cours et les TDs. Nous vous
+   conseillons donc d'enregistrer `echo.php` dans
+   `.../public_html/PHP/TD1.echo.php`.
 
    ~~~
    <!DOCTYPE html>
@@ -80,13 +106,22 @@ le répertoire **public_html** de votre espace personnel.
        </head>
    
        <body>
-   	<?php
-     	$texte="hello";             //commentaire en PHP
-           $texte=$texte." "."world"; // concatenation de 2 chaines de caracteres
-           echo $texte;
+           Voici le résultat du script PHP : 
+           <?php
+             // Ceci est un commentaire PHP sur une ligne
+             /* Ceci est le 2ème type de commentaire PHP
+             sur plusieurs lignes */
+           
+             // On met la chaine de caractères "hello" dans la variable 'texte'
+             // Les nom de variable commencent par $ en PHP
+             $texte="hello";
+
+             // Concatenation de 2 chaînes de caractères avec '.'
+             $texte=$texte . " world";
+
+             // On écrit le contenu de la variable 'texte' dans la page Web
+             echo $texte;
            ?>
-           <!-- ceci est un commentaire -->
-           Bonjour
        </body>
    </html> 
    ~~~
@@ -94,10 +129,10 @@ le répertoire **public_html** de votre espace personnel.
 
 
 5. Ouvrez cette page dans le navigateur directement depuis votre gestionnaire de fichiers :  
-   [file://chemin_de_mon_compte/public_html/echo.php](file://chemin_de_mon_compte/public_html/echo.php).
+   [file://chemin_de_mon_compte/public_html/PHP/TD1/echo.php](file://chemin_de_mon_compte/public_html/PHP/TD1/echo.php).
 
 6. Ouvrez cette page dans le navigateur dans un second onglet en passant par le serveur web :   
-   [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/echo.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/echo.php)
+   [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/echo.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/echo.php)
 
 7. Quelle(s) différence(s) observez-vous dans l'affichage des deux pages Web ?
 
@@ -151,8 +186,9 @@ class Voiture {
 
 ### Différences avec Java
 
-1. Pas de typage 
-2. Les variables sont précédées d'un `$`
+1. Pas de typage
+2. Le code PHP doit être compris entre la balise ouvrante `<?php` et la balise fermante `?>`
+<!-- 2. Les variables sont précédées d'un `$` --> 
 3. Pour accéder à un attribut ou une fonction d'un objet, on utilise le `->` au lieu du `.`
 4. Le constructeur ne porte pas le nom de la classe, mais s'appelle `__construct()`.
 
@@ -162,18 +198,31 @@ class Voiture {
 Dans un fichier **testVoiture.php**, le code suivant
 
 ~~~
-<?php
-  require 'Voiture.php';   //Equivalent du import en Java
-  $voiture1 = new Voiture('Renault','Bleu','256AB34'); 
-  $voiture2 = new Voiture('Peugeot','Vert','128AC30');
-  $voiture1->afficher();
-  $voiture2->afficher();
-?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title> Mon premier php </title>
+    </head>
+   
+    <body>
+    <?php
+      // On importe 'Voiture.php', comme import en Java
+      require 'Voiture.php';   
+
+      $voiture1 = new Voiture('Renault','Bleu','256AB34'); 
+      $voiture2 = new Voiture('Peugeot','Vert','128AC30');
+
+      $voiture1->afficher();
+      $voiture2->afficher();
+    ?>
+    </body>
+</html>
 ~~~
 {:.php}
 
 Testez cette page: 
-[http://infolimon.iutmontp.univ-montp2.fr/~mon_login/testVoiture.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/testVoiture.php)
+[http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php)
 
 À la différence de Java, il n'y a pas de besoin d'une méthode `main()`. N'importe quelle
 fichier **PHP** est considéré comme un `main()`.
@@ -224,7 +273,7 @@ fichier **PHP** est considéré comme un `main()`.
    {:.html}
 
 2. Cliquez sur le bouton "Envoyer". Vous voyez apparaître dans votre navigateur l'url:
-   [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/creerVoiture.php?immatriculation=256AB34&marque=Renault&couleur=Bleu](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/creerVoiture.php?immatriculation=256AB34&marque=Renault&couleur=Bleu)
+   [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/creerVoiture.php?immatriculation=256AB34&marque=Renault&couleur=Bleu](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/creerVoiture.php?immatriculation=256AB34&marque=Renault&couleur=Bleu)
 
    La page **creerVoiture.php** n'existe pas, vous devez donc avoir une erreur 404.
 
@@ -258,6 +307,10 @@ fichier **PHP** est considéré comme un `main()`.
    ~~~
    {:.php}
 
+<!--
+ Expliquer les requêtes HTTP POST, et qu'elles permettent d'avoir un corps de requête.
+ En simuler une avec telnet ?
+-->
    
 ## Exercice : Site de covoiturage
 

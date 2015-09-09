@@ -43,6 +43,8 @@ gérés dans les requêtes et réponses HTTP.
 
 <!-- On retrouve Cookie: dans la requête, Set-Cookie: dans la réponse -->
 
+<!-- On peut voir les en-têtes avec les outils de développement de FIrefox ou Chrome --> 
+
 **Expérience amusante :**  
 Même si le client HTTP le plus connu est votre navigateur, il est facile de
 simuler un client HTTP autrement. La commande `telnet` permet d'envoyer du texte à
@@ -95,30 +97,6 @@ associé au port 80 de la machine hôte.
 Apache HTTP Server (classique, celui de l'IUT), Apache TomCat (évolution
  pour J2EE), IIS (Microsoft), Node.js (codé en JavaScript).
 
-### Comment faire pour qu'une page Web soit servie par le serveur HTTP sur infolimon ?
-
-On écrit une page Web dans le dossier public_html de son répertoire personnel et
-on donne les droits au serveur HTTP Apache (utilisateur www-data) de lire les
-pages Web (bit r--) et de traverser les dossiers menant à la page Web (bit de
-permission --x).
-
-Dans le TD, nous vous avons indiqué la commande
-
-~~~
-setfacl -m u:www-data:r-x nom_du_fichier ou nom_du_répertoire
-~~~
-{:.bash}
-
-Cette commande donne les droits `r-x` à l'utilisateur `www-data`. Les ACL
-permettent d'avoir des droits spécifiques à plusieurs utilisateurs et à
-plusieurs groupes quand les droits classiques sont limités à un utilisateur et un
-groupe.
-
-**Note :**  
-Si on a activé le module `mod_dir` qui permet de lister le contenu d'un dossier,
-il faut la permission de lecture sur les dossiers pour pouvoir lister leur
-contenu.
- 
 ### Quel est le rôle du navigateur pour une page Web file:// et une page web http://
 
 Pour une URL en file://, le navigateur va lire la page Web sur le disque dur
@@ -153,6 +131,75 @@ C'est ce que l'on appelle une page dynamique.
  ![Rôle du PHP]({{site.baseurl}}/assets/RolePHP.png)
  </p>
 
+<!--
+
+## Note sur `echo`, les chaines de caractères et l'imbrication de PHP dans le HTML
+
+### Les différents `echo`
+
+Référence [sur php.net](http://php.net/manual/fr/function.echo.php).
+
+Le `echo` permet d'écrire une chaîne de caractères dans la page Web que l'on génère dynamiquement 
+
+
+echo "L'échappement de caractères se fait : \"comme ceci\".";
+
+echo "Cet echo() se
+répartit sur plusieurs lignes. Il affiche aussi les
+nouvelles lignes";
+
+On peut mettre des noms de variables dans les chaînes de caractères
+Attention aux tableaux
+
+echo "this is {$baz['value']} !"; // c'est foo !
+
+echo <<< EOT
+  Texte à afficher
+  sur plusieurs lignes
+  avec caractères spéciaux \t \n
+EOT;
+
+echo <<<END
+Cette syntaxe s'intitule le "here document" et
+permet d'afficher plusieurs lignes avec de
+l'interpolation de variables. Notez que la fin de
+la syntaxe doit apparaître sur une nouvelle ligne,
+avec uniquement un point-virgule, et pas d'espace
+de plus !
+END;
+
+<?= $var_name ?> équivalent de <?php echo $var_name ?>
+
+### Imbrication de PHP dans le HTML
+
+echo.php avec le contenu suivant
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Mon premier php </title>
+    </head>
+    <body>
+      <?php echo "Bonjour" ?>
+    </body>
+</html>
+
+est équivalent au fichier suivant
+
+<?php
+  echo "<!DOCTYPE html>";
+  echo "<html>
+      <head>
+          <title> Mon premier php </title>
+      </head>
+      <body>";
+  echo "Bonjour";
+  echo "</body></html>";
+?>
+
+En effet, ce qui est en dehors des balises PHP est écrit tel quel dans la page Web générée.
+-->
+
 ## Note sur les URLs
 
 ### Les URL en `http://` et `https://`
@@ -167,6 +214,8 @@ qui décrit la machine à qui s'adresser. Enfin la 3ème partie
 **Référence :** [Les URL](https://fr.wikipedia.org/wiki/Uniform_Resource_Locator)
 
 <!--
+Pour les formulaires, il faut définir la query string
+
 Parler d'URL relative ? 
 
 En général 
@@ -211,7 +260,7 @@ Le problème vient comme souvent de Windows qui tend encore à utiliser l'encoda
 ISO-8859-15.
 
 Sous linux, on peut utiliser la commande 
-`file -bi nom_du_fichier`
+`file nom_du_fichier`
 pour détecter l'encodage des caractères.
 
 La commande `iconv` est utile pour changer l'encodage des caractères d'un fichier.  
@@ -221,4 +270,30 @@ La commande `iconv` est utile pour changer l'encodage des caractères d'un fichi
 <!--
 % Créer un dossier WebServeur dans public-HTML puis un sous-dossier TD1
 % Tuto NetBeans
+-->
+
+<!--
+### Comment faire pour qu'une page Web soit servie par le serveur HTTP sur infolimon ?
+
+On écrit une page Web dans le dossier **public_html** de son répertoire personnel et
+on donne les droits au serveur HTTP Apache (utilisateur www-data) de lire les
+pages Web (bit r--) et de traverser les dossiers menant à la page Web (bit de
+permission --x).
+
+Dans le TD, nous vous avons indiqué la commande
+
+~~~
+setfacl -m u:www-data:r-x nom_du_fichier ou nom_du_répertoire
+~~~
+{:.bash}
+
+Cette commande donne les droits `r-x` à l'utilisateur `www-data`. Les ACL
+permettent d'avoir des droits spécifiques à plusieurs utilisateurs et à
+plusieurs groupes quand les droits classiques sont limités à un utilisateur et un
+groupe.
+
+**Note :**  
+Si on a activé le module Apache `mod_dir` qui permet de lister le
+contenu d'un dossier, il faut donner la permission de lecture sur les dossiers à
+Apache pour qu'il puisse lister leur contenu.
 -->
