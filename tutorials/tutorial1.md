@@ -231,9 +231,9 @@ fichier **PHP** est considéré comme un `main()`.
 ### Gestion des listes
 
 1. Ajouter un attribut **options** à la classe voiture. 
-2. Initialiser cette liste dans le constructeur, à l'aide de `\$this->options = array();`
+2. Initialiser cette liste dans le constructeur, à l'aide de `$this->options = array();`
 3. Ajouter une méthode à la classe `Voiture` qui permet d'ajouter une option à la liste,
-   à l'aide de `\$this->options[] = \$uneOption;` qui ajoute l'option `uneOption`
+   à l'aide de `$this->options[] = $uneOption;` qui ajoute l'option `uneOption`
    à la fin du tableau d'options `options.
 4. Modifier la méthode `afficher()` pour qu'elle permette de lister les options
 
