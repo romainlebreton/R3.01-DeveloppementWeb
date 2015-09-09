@@ -282,7 +282,7 @@ fichier **PHP** est considéré comme un `main()`.
 
    ~~~
    <?php
-     $marque = $_GET["Marque"];
+     $marque = $_GET["marque"];
    ?>
    ~~~
    {:.php}
