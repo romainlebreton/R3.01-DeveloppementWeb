@@ -1,6 +1,6 @@
 ---
-title: TD1 &ndash; Introduction aux objets en PHP
-subtitle: Et quelques révisions sur HTTP
+title: TD1 &ndash; Introduction à PHP
+subtitle: Hello World, objets et formulaires
 layout: tutorial
 ---
 
@@ -139,6 +139,7 @@ deux manières différentes ?
 8. Quelle(s) différence(s) observez-vous dans le code source des deux pages Web ?  
    (Clic droit, code source ou `Ctrl-U`)
 
+**Remarque :** Comme vous l'avez sans doute intuité en regardant le code source de [http://infolimon...echo.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/echo.php), la page Web produite est composée des lignes en dehors du PHP, et de ce que le PHP écrit avec `echo`.
 
 ## La programmation objet en PHP
 
@@ -186,7 +187,7 @@ class Voiture {
 
 ### Différences avec Java
 
-1. Pas de typage
+1. Pas de typage des variables
 2. Le code PHP doit être compris entre la balise ouvrante `<?php` et la balise fermante `?>`
 <!-- 2. Les variables sont précédées d'un `$` --> 
 3. Pour accéder à un attribut ou une fonction d'un objet, on utilise le `->` au lieu du `.`
@@ -195,7 +196,7 @@ class Voiture {
 
 ### Utilisation de cette classe
 
-Dans un fichier **testVoiture.php**, le code suivant
+Dans un fichier **testVoiture.php**, copiez le code suivant
 
 ~~~
 <!DOCTYPE html>
@@ -234,17 +235,26 @@ fichier **PHP** est considéré comme un `main()`.
 2. Initialiser cette liste dans le constructeur, à l'aide de `$this->options = array();`
 3. Ajouter une méthode à la classe `Voiture` qui permet d'ajouter une option à la liste,
    à l'aide de `$this->options[] = $uneOption;` qui ajoute l'option `uneOption`
-   à la fin du tableau d'options `options.
+   à la fin du tableau d'options `options`.
 4. Modifier la méthode `afficher()` pour qu'elle permette de lister les options
 
    ~~~
    foreach ($this->options as $i => $option) {
-       echo($this->options[$i]);
+       echo $this->options[$i];
        //de meme pour echo($option); 
    }
    ~~~
    {:.php}
 
+   **Remarque :** La boucle `foreach` est pratique pour parcourir les indices et
+   valeurs d'un tableau. Il existe aussi bien sûr une boucle `for` classique
+
+   ~~~
+   for ($i = 0; $i < count($this->options); $i++) {
+       echo $this->options[$i];
+   }
+   ~~~
+   {:.php}
 
 
 ## Interaction avec un formulaire
@@ -255,24 +265,34 @@ fichier **PHP** est considéré comme un `main()`.
    ~~~
    <form method="get" action="creerVoiture.php">
      <fieldset>
-        <legend>Mon formulaire :</legend> <p>
-        <label for="immatriculation">Immatriculation</label> :
-        <input type="text" placeholder="Ex : 256AB34" name="immatriculation" 
-        	        id="immatriculation" required/>
-        </p> <p>
-        <label for="marque">Marque</label> :
-        <input type="text" placeholder="Ex : Renault" name="marque" id="marque"  required/>
-        </p> <p>
-        <label for="couleur">Couleur</label> :
-        <input type="text" placeholder="Ex : Bleu" name="couleur" id="couleur"  required/>
-        </p> <p>
-        <input type="submit" value="Envoyer" /> </p>
-      </fieldset> 
+       <legend>Mon formulaire :</legend>
+       <p>
+         <label for="immat_id">Immatriculation</label> :
+         <input type="text" placeholder="Ex : 256AB34" name="immatriculation" id="immat_id" required/>
+       </p>
+       <p>
+         <label for="marque_id">Marque</label> :
+         <input type="text" placeholder="Ex : Renault" name="marque" id="marque_id"  required/>
+       </p>
+       <p>
+         <label for="couleur_id">Couleur</label> :
+         <input type="text" placeholder="Ex : Bleu" name="couleur" id="couleur_id"  required/>
+       </p>
+       <p>
+         <input type="submit" value="Envoyer" />
+       </p>
+     </fieldset> 
    </form>
    ~~~
    {:.html}
 
-2. Cliquez sur le bouton "Envoyer". Vous voyez apparaître dans votre navigateur l'url:
+   **Rappel :** L'attribut important des `<input type="text">` est `name="marque"`
+   qui indique que ce que vous taperez dans ce champ texte sera associé au nom de variable `marque`.  
+	Quand l'attribut `for` de `<label>` contient l'identifiant d'un champ, un
+    clic sur le text du label vous amène directement dans ce champ.
+   
+
+2. Cliquez sur le bouton **"Envoyer"**. Vous voyez apparaître dans votre navigateur l'URL:
    [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/creerVoiture.php?immatriculation=256AB34&marque=Renault&couleur=Bleu](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/creerVoiture.php?immatriculation=256AB34&marque=Renault&couleur=Bleu)
 
    La page **creerVoiture.php** n'existe pas, vous devez donc avoir une erreur 404.
@@ -290,7 +310,7 @@ fichier **PHP** est considéré comme un `main()`.
 4. Complétez cette page de sorte qu'elle récupère tous les champs de voiture,
    instancie la classe Voiture et appelle la méthode affiche().
 
-5. Afin d'éviter que les paramètres du formulaire n'apparaissent dans l'url, modifiez 
+5. Afin d'éviter que les paramètres du formulaire n'apparaissent dans l'URL, modifiez 
    le formulaire pour qu'il appelle la méthode post:
 
    ~~~
@@ -302,7 +322,7 @@ fichier **PHP** est considéré comme un `main()`.
 
    ~~~
    <?php
-     $marque = $_POST["Marque"];
+     $marque = $_POST["marque"];
    ?>
    ~~~
    {:.php}
@@ -336,3 +356,7 @@ windows, LAMP sous Linux, MAMP sous MacOs)
 Attention, pensez à modifier le php.ini pour mettre `display_errors = On`, pour
 avoir les messages d'erreurs. Car par défaut, le serveur est configuré en mode
 production (`display_errors = Off`).
+
+<!--
+Référence utile : php.net
+-->

@@ -14,11 +14,15 @@ ainsi de récupérer des pages Web.
 
 ### À quoi ressemble une requête HTTP ?
 
-La requête HTTP la plus courante est la requête GET. Par exemple pour demander la page Web [http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html](http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html) :
+La requête HTTP la plus courante est la requête GET. Par exemple pour demander
+la page Web
+[http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html](http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html)
+:
 
 ~~~
 GET /~rletud/index.html HTTP/1.1
 host: infolimon.iutmontp.univ-montp2.fr
+
 ~~~
 {:.http}
 
@@ -296,4 +300,105 @@ groupe.
 Si on a activé le module Apache `mod_dir` qui permet de lister le
 contenu d'un dossier, il faut donner la permission de lecture sur les dossiers à
 Apache pour qu'il puisse lister leur contenu.
+-->
+
+## Formulaires et PHP
+
+### Méthode GET
+
+Comprenons comment marche le formulaire suivant :
+
+~~~
+<form method="get" action="traitement.php">
+    <input type="text" name="nom_var" />
+	<input type="submit" />
+</form>
+~~~
+{:.html}
+
+Un clic sur le bouton de soumission `<input type="submit" />` du formulaire a
+pour effet de charger la page Web `traitement.php` avec des arguments.  Plus
+précisement, si l'utilisateur a tapé `valeur` dans le champ texte
+`<input type="text" name="nom_var" />`,
+le navigateur va demander la page Web `traitement.php?nom_var=valeur`.
+
+La partie `nom_var=valeur` de l'URL s'appelle la *query string*. PHP comprend la
+*query string* et s'en sert pour remplir le tableau `$_GET`. Dans notre
+exemple, PHP se charge de faire l'affectation
+`$_GET["nom_var"] = "valeur"`
+juste avant d'exécuter la page PHP `traitement.php`.
+
+**Pourquoi la méthode s'appelle "GET" ?**  
+Parce qu'elle correspond à une requête HTTP de type GET (la plus courante pour
+demander une page Web.
+
+Lors du clic sur le bouton de soumission du formulaire, le navigateur (qui est un client HTTP) va envoyer la requête HTTP suivante
+
+~~~
+GET /~rletud/traitement.php?nom_var=valeur HTTP/1.1
+host: infolimon.iutmontp.univ-montp2.fr
+
+~~~
+{:.http}
+
+Vous pouvez utiliser la commande `telnet infolimon.iutmontp.univ-montp2.fr 80` dans le terminal pour répéter vous-même l'expérience.
+
+
+### Méthode POST
+
+Considérons le même formulaire mais en `method="post"` :
+
+~~~
+<form method="post" action="traitementPost.php">
+    <input type="text" name="nom_var" />
+	<input type="submit" />
+</form>
+~~~
+{:.html}
+
+La fonctionnement va être similaire à trois différences près :
+
+1. la page chargée va être `traitementPost.php` sans query string ;
+2. les données du formulaire sont envoyées avec la requête HTTP ;
+3. On récupère les données dans le tableau PHP `$_POST`. Dans notre exemple, PHP
+   fait l'affectation `$_POST["nom_var"] = "valeur"` juste avant d'exécuter la
+   page PHP `traitementPost.php`.
+
+
+Plus précisement, le navigateur va faire la requête HTTP suivante
+
+~~~
+POST /~rletud/traitementPost.php HTTP/1.1
+host: localhost
+Content-Length:14
+Content-Type:application/x-www-form-urlencoded
+
+nom_var=valeur
+
+~~~
+
+Nous voyons ici le deuxième type de requête HTTP le plus courant : les requêtes
+POST. Elles servent aussi à demander des pages Web. La principale différence est
+que l'on peut envoyer, en plus de l'en-tête de la requête HTTP, un corps de
+requête HTTP contenant des informations. L'en-tête et le corps de la requête
+sont séparés par une ligne vide.
+
+Vous pouvez le tester comme précédement avec la commande `telnet`.
+
+### Avantages et inconvénients des 2 méthodes
+
+* La méthode GET se prête bien à un site en développement car on peut facilement
+contrôler les valeurs et noms de variables du formulaire.  
+  Il est facile de créer un lien `<a>` vers une page traitant un formulaire en
+  méthode GET et d'y envoyer des données via le *query string.*
+
+* La méthode POST est plus propre car les valeurs ne sont plus affichées dans la barre d'adresse du navigateur. Attention, ces informations ne sont pas vraiment cachées pour autant.
+
+<!--
+Note sur ù met-on le dollar 
+
+$objet->attribut
+$tableau[$index]
+Classe::$attribut_static
+
 -->
