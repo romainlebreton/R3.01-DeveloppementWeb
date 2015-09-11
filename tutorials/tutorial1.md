@@ -297,8 +297,8 @@ fichier **PHP** est considéré comme un `main()`.
 
    La page **creerVoiture.php** n'existe pas, vous devez donc avoir une erreur 404.
 
-3. Dans le corps de cette page, vous pouvez récupérer la valeur du champ "marque"
-   du formulaire à l'aide de :
+3. Créer **creerVoiture.php** et dans le corps de cette page, vous pouvez
+   récupérer la valeur du champ "marque" du formulaire à l'aide de :
 
    ~~~
    <?php
