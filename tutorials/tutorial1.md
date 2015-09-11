@@ -332,7 +332,7 @@ fichier **PHP** est considéré comme un `main()`.
  En simuler une avec telnet ?
 -->
    
-## Exercice : Site de covoiturage
+## Les bases d'un site de covoiturage
 
 Vous allez programmer les classes d'un site de covoiturage, dont voici la description d'une version
 minimaliste:
