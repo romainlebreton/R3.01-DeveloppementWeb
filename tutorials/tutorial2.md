@@ -210,30 +210,30 @@ SELECT * FROM voiture
 
 1. Créez un fichier `lireVoiture.php` avec les éléments suivants
 
-i. Récupérons la connection à la BDD de Model.php. Il faut donc faire un
-`require_once "Model.php"`.
-
-ii. La fonction `query` de l'objet **PDO**
-`Model::$pdo` prend en entrée un chaîne de caractères représentant une requête
-SQL et renvoie la réponse de la requête (sous la forme d'un objet **PDO???**).  
-
-Appelez cette fonction et stockez sa réponse dans une variable `$rep`.
-
-Référence : [Documentation de query](http://www.php.net/ ... )
-
-iii. Pour lire les réponses à des requêtes SQL, l'objet `$rep` dispose des fonctions suivantes :
-
-* `fetch` qui renvoie une ligne de résultats.
-
-	`fetch(PDO::FETCH_OBJ)` renvoie
-	le résultat sous forme d'objet possédant un attribut par champ de la BDD
-
-<!-- Créer directement un objet de classe Voiture -->
-	
-	
-* `rowCount` qui renvoie le nombre de résultats restants à lire
-
-Utilisez ces fonctions pour écrire une boucle qui affiche tous les champs de toutes les entrées de la table voiture.
+   i. Récupérons la connection à la BDD de Model.php. Il faut donc faire un
+   `require_once "Model.php"`.
+   
+   ii. La fonction `query` de l'objet **PDO** `Model::$pdo` prend en entrée un
+   chaîne de caractères représentant une requête SQL et renvoie la réponse de la
+   requête (sous la forme d'un objet **PDO???**).  
+   Appelez cette fonction et stockez sa réponse dans une variable `$rep`.
+   
+   Référence : [Documentation de query](http://www.php.net/ ... )
+   
+   iii. Pour lire les réponses à des requêtes SQL, l'objet `$rep` dispose des fonctions suivantes :
+   
+      * `fetch` qui renvoie une ligne de résultats.
+      
+      	`fetch(PDO::FETCH_OBJ)` renvoie
+      	le résultat sous forme d'objet possédant un attribut par champ de la BDD
+      
+      <!-- Créer directement un objet de classe Voiture -->
+      	
+      	
+      * `rowCount` qui renvoie le nombre de résultats restants à lire
+      
+   Utilisez ces fonctions pour écrire une boucle qui affiche tous les champs de
+   toutes les entrées de la table voiture.
 
 Testez le code suivant dans `lireVoiture.php`.
 
