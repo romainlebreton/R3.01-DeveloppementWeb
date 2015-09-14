@@ -5,7 +5,7 @@ layout: tutorial
 ---
 
 
-## ## Les attributs et méthodes `static`
+## Les attributs et méthodes `static`
 
 ## Chaînes de caractères
 
@@ -13,45 +13,68 @@ layout: tutorial
 
 ## Note sur `echo`, les chaines de caractères et l'imbrication de PHP dans le HTML
 
-### Les différents `echo`
+### Les chaînes de caractères
 
-Référence [sur php.net](http://php.net/manual/fr/function.echo.php).
+* Les chaînes de caractères avec *double quote* `"` peuvent contenir des
+  variables(qui seront remplacées), des sautes de lignes, des caractères
+  spéciaux (tabulation `\t`, saut de ligne `\n`). Les caractères protégés sont
+  `"`, `$` et `\` qui doivent être échappés comme ceci `\"`, `\$` et `\\`;
+   
+   Exemple :
 
-Le `echo` permet d'écrire une chaîne de caractères dans la page Web que l'on génère dynamiquement 
+  ~~~
+  $prenom="Helmut";
+  echo "Bonjour $prenom,\n çà farte ?";
+  ~~~
+  {:.php}
+   
+  donne
+   
+  ~~~
+  Bonjour Helmut,
+  çà farte ?
+  ~~~
+  {:.text}
+
+  **Attention :** Pour les tableaux, il faut rajouter des accolades autour du
+   nom de variable `"{$tab[0]}"`.
+   
+* Les chaînes de caractères avec *simple quote* `'` sont conservées telles quelles
+(pas de remplacement, de caractères spéciaux ...). Les caractères protégés sont
+`'` et `\` qui doivent être échappés comme ceci `\` et `\\`;
 
 
-echo "L'échappement de caractères se fait : \"comme ceci\".";
+### Le `echo` *here document*
 
-echo "Cet echo() se
-répartit sur plusieurs lignes. Il affiche aussi les
-nouvelles lignes";
+Il existe un `echo` sur plusieurs ligne très pratique
 
-On peut mettre des noms de variables dans les chaînes de caractères
-Attention aux tableaux
-
-echo "this is {$baz['value']} !"; // c'est foo !
-
+~~~
 echo <<< EOT
   Texte à afficher
   sur plusieurs lignes
   avec caractères spéciaux \t \n
+  et remplacement de variables $prenom
+  les caractères suivants passent : " ' $ / \ ;
 EOT;
+~~~
+{:.php}
 
-echo <<<END
-Cette syntaxe s'intitule le "here document" et
-permet d'afficher plusieurs lignes avec de
-l'interpolation de variables. Notez que la fin de
-la syntaxe doit apparaître sur une nouvelle ligne,
-avec uniquement un point-virgule, et pas d'espace
-de plus !
-END;
+Cette syntaxe s'intitule le "here document" et permet d'afficher plusieurs
+lignes avec les mêmes caractéristiques que les chaînes entre *double quote*.
+Notez que la fin de la syntaxe doit apparaître sur une nouvelle ligne, avec
+uniquement un point-virgule, et pas d'espace de plus !  END;
 
-<?= $var_name ?> équivalent de <?php echo $var_name ?>
+### Short tag `echo`
+
+`<?= $var_name ?>`  est équivalent à `<?php echo $var_name ?>`.
 
 ### Imbrication de PHP dans le HTML
 
-echo.php avec le contenu suivant
+Les deux fichiers suivants sont équivalents. En effet, ce qui est en dehors des
+balises PHP est écrit tel quel dans la page Web générée.
 
+
+~~~
 <!DOCTYPE html>
 <html>
     <head>
@@ -61,9 +84,10 @@ echo.php avec le contenu suivant
       <?php echo "Bonjour" ?>
     </body>
 </html>
+~~~
+{:.html}
 
-est équivalent au fichier suivant
-
+~~~
 <?php
   echo "<!DOCTYPE html>";
   echo "<html>
@@ -74,13 +98,13 @@ est équivalent au fichier suivant
   echo "Bonjour";
   echo "</body></html>";
 ?>
+~~~
+{:.php}
 
-En effet, ce qui est en dehors des balises PHP est écrit tel quel dans la page
-Web générée.
 
 ## Requêtes préparées
 
-Source : https://openclassrooms.com/courses/requete-preparee-1
+Source : [https://openclassrooms.com/courses/requete-preparee-1](https://openclassrooms.com/courses/requete-preparee-1)
 
 ### Schéma d'une requête normale :
 
@@ -106,10 +130,17 @@ Source : https://openclassrooms.com/courses/requete-preparee-1
 2. exécution
 3. résultat du serveur au client
 
+### Avantages
+
+Outre cet aspect purement technique, il existe deux autres raisons qui peuvent
+justifier l'utilisation d'une requête préparée :
+
+* limiter la bande passante utilisée entre le client et le serveur : dû au fait que l'échange d'informations est limité au strict minimum.
+* éviter les injections Sql : cela concerne la sécurité et évite que les informations rentrées par un client (à travers un formulaire par exemple) soient interprétées.
 
 ## Exemple d'injection SQL
 
-Source : https://fr.wikipedia.org/wiki/Injection_SQL
+Source : [https://fr.wikipedia.org/wiki/Injection_SQL](https://fr.wikipedia.org/wiki/Injection_SQL)
 
 On exécute la requête SQL suivante et on connecte l'utilisateur dès que la
 requête renvoie au moins une réponse.
@@ -142,6 +173,14 @@ SELECT uid FROM Users WHERE name = 'Dupont';
 L'attaquant peut alors se connecter sous l'utilisateur Dupont avec n'importe
 quel mot de passe.
 
+### Un cas concret
+
+Pour éviter les radars, il y a des petits malins.
+
+ <p style="text-align:center">
+ ![Requête HTTP]({{site.baseurl}}/assets/injection-sql-radar.jpg)
+ </p>
+ 
 ## Require
 
 * `require` : fait un copier-coller d'un fichier externe

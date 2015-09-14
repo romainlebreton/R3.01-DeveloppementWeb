@@ -333,7 +333,20 @@ voiture courante dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
 
 
 3. Modifier la page  `creerVoiture.php` du TD précédent de sorte qu'elle sauvegarde
-l'objet voiture crée.
+l'objet voiture crée.  
+   Nous devons régler le problème du constructeur de `Voiture`. Voici une solution
+   
+   ~~~
+   public function __construct($m = NULL, $c = NULL, $i = NULL) {
+     if (!is_null($m) && !is_null($c) && !is_null($i)) {
+       $this->marque = $m;
+       $this->couleur = $c;
+       $this->immatriculation = $i;
+     }
+   }
+   ~~~
+   {:.php}
+
 4. Testez l'insertion grâce au formulaire du TD n°1. 
 5. Vérifiez dans MYSQL que les voitures sont bien sauvegardées.
 
