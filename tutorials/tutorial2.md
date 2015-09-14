@@ -266,8 +266,8 @@ Imaginez que nous avons une fonction `getVoiture($immatriculation)` codé comme
 suit
 
 ~~~
-function getVoitureByImmat($immatriculation) {
-    $sql = "SELECT * from voiture WHERE immatriculation='$immatriculation'";
+function getVoitureByImmat($immat) {
+    $sql = "SELECT * from voiture WHERE immatriculation='$immat'";
     $rep = Model::$pdo->query($sql);
     $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
     return $rep->fetch();
@@ -290,10 +290,10 @@ comment elles fonctionnent :
 * On peut alors récupérer les résultats comme précédemment
 
 ~~~
-function getVoitureByImmat($immatriculation) {
+function getVoitureByImmat($immat) {
   $sql = "SELECT * from voiture WHERE immatriculation=:nom_var";
   $req_prep = Model::$pdo->prepare($sql);
-  $req_prep->bindParam(":nom_var", $immatriculation);
+  $req_prep->bindParam(":nom_var", $immat);
   $req_prep->execute();
 
   $req_prep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');

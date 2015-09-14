@@ -14,8 +14,8 @@ Quelques consignes qui vous feront gagner beaucoup de temps en développement we
    avez déjà votre éditeur préféré).
 
    **Exceptionnellement** pour ce TD, utilisez un éditeur de base comme
-     *gedit*. Ainsi, nous n'aurons pas l'impression que la grosse machinerie
-     qu'est NetBeans nous cache trop de choses.
+    *gedit*. Ainsi, nous n'aurons pas l'impression que la grosse machinerie
+    qu'est NetBeans nous cache trop de choses.
      
 2. Ne copiez **jamais** vos fichiers à plusieurs endroits.
 3. Merci de **ne pas** imprimer ce TP.
@@ -356,7 +356,8 @@ windows, LAMP sous Linux, MAMP sous MacOs)
 
 Attention, pensez à modifier le php.ini pour mettre `display_errors = On`, pour
 avoir les messages d'erreurs. Car par défaut, le serveur est configuré en mode
-production (`display_errors = Off`).
+production (`display_errors = Off`). Il faut redémarrer Apache pour que les
+modifications soient prises en compte.
 
 <!--
 Référence utile : php.net
