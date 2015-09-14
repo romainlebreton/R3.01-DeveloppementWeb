@@ -5,7 +5,7 @@ layout: tutorial
 ---
 
 
-## Attributs statiques
+## ## Les attributs et méthodes `static`
 
 ## Chaînes de caractères
 
