@@ -115,24 +115,25 @@ s'appellent avec `->` en PHP.
 ### L'objet **PDO**
 
 En PHP pour se connecter à une base de données on utilise une classe fournie
-avec PHP qui s'appelle **PDO** (Php Database Object). Cette classe va nous
+avec PHP qui s'appelle **PDO**
+([Php Data Object](http://php.net/manual/fr/book.pdo.php)). Cette classe va nous
 fournir de nombreuses méthodes très utiles pour manipuler n'importe quelle base
 de donnée.
 
 1. Commençons par établir une connexion à la BDD. Créez un fichier `Model.php`
-   contenant une classe `Model`. Ce modèle possèdera 
-   * un attribut `protected static $pdo`
+   contenant une classe `Model`. Ce modèle possédera 
+   * un attribut `public static $pdo` <!-- protected -->
    * une fonction `public static function Init()`.
 
-   **Souvenez-vous :** Qu'est-ce qu'un attribut `protected` ? (Cours de
-   Programmation Orientée Objet de l'an dernier)
+   <!--**Souvenez-vous :** Qu'est-ce qu'un attribut `protected` ? (Cours de
+   Programmation Orientée Objet de l'an dernier)-->
 
 2. Dans la fonction `Init`, nous allons initialiser l'attribut `$pdo` en lui
    assignant un objet **PDO**. Procédons en 4 étapes :
    
    1. Mettez dans les variables `$host`, `$dbname`, `$login` et `$pass` les chaînes
    de caractères correspondant à l'hôte, au nom, au login et au mot de passe de
-   notre BDD. Récupérez ces informations à l'aide des fonctions de `Conf.php`.
+   notre BDD. Récupérez ces informations à l'aide des fonctions de la classe `Conf`.
 
    2. Pour créer la connexion à notre base de donnée, il faut utiliser le
    constructeur de **PDO** de la façon suivante
@@ -144,17 +145,18 @@ de donnée.
    
    3. Stockez ce nouvel objet **PDO** dans la variable statique `$pdo`.  
    **Note :** Comme la variable est statique, elle s'accède par une syntaxe
-   `Type::$nom_var` comme indiqué précédemment. Le type de l'object courant
+   `Type::$nom_var` comme indiqué précédemment. Le type de l'objet courant
    s'obtient avec le mot clé `self`.
 
-   4. Comme notre classe `Model` dépend de `Conf.php`, ajoutez un `require_one
+   4. Comme notre classe `Model` dépend de `Conf.php`, ajoutez un `require_once
    Conf.php` au début du fichier.  
    Enfin, on souhaite que `Model` soit initialisée juste après sa
    déclaration. Appelez donc l'initialisation statique `Model::Init()` à la fin
    du fichier.
 
-2. Lorsqu'une erreur se produit, PDO n'affiche pas de message d'erreur, à la
-place, il lève une exception. Il faut donc la récupérer et la traiter. Placez donc votre `new PDO(...)` au sein d'un try - catch :
+2. Lorsqu'une erreur se produit, PDO n'affiche pas de message d'erreur. À la
+place, il lève une exception qu'il faut donc récupérer et traiter. Placez donc
+votre `new PDO(...)` au sein d'un try - catch :
 
    ~~~
    try{
@@ -176,7 +178,7 @@ place, il lève une exception. Il faut donc la récupérer et la traiter. Placez
    ~~~
    <?php
    require_once "Model.php";
-   echo "Connection réussie !" ;
+   echo "Connexion réussie !" ;
    ?>
    ~~~
 
@@ -210,198 +212,157 @@ SELECT * FROM voiture
 
 1. Créez un fichier `lireVoiture.php` avec les éléments suivants
 
-   i. Récupérons la connection à la BDD de Model.php. Il faut donc faire un
+   i. Récupérons la connexion à la BDD de Model.php. Il faut donc faire un
    `require_once "Model.php"`.
    
-   ii. La fonction `query` de l'objet **PDO** `Model::$pdo` prend en entrée un
-   chaîne de caractères représentant une requête SQL et renvoie la réponse de la
-   requête (sous la forme d'un objet **PDO???**).  
+   ii. La [fonction `query`](http://php.net/manual/fr/pdo.query.php) de l'objet
+   **PDO** `Model::$pdo` prend en entrée un chaîne de caractères représentant
+   une requête SQL et renvoie la réponse de la requête (sous la forme
+   [d'un objet PDOStatement](http://php.net/manual/fr/class.pdostatement.php)).   
    Appelez cette fonction et stockez sa réponse dans une variable `$rep`.
    
-   Référence : [Documentation de query](http://www.php.net/ ... )
-   
-   iii. Pour lire les réponses à des requêtes SQL, l'objet `$rep` dispose des fonctions suivantes :
-   
-      * `fetch` qui renvoie une ligne de résultats.
-      
-      	`fetch(PDO::FETCH_OBJ)` renvoie
-      	le résultat sous forme d'objet possédant un attribut par champ de la BDD
-      
-      <!-- Créer directement un objet de classe Voiture -->
-      	
-      	
-      * `rowCount` qui renvoie le nombre de résultats restants à lire
-      
-   Utilisez ces fonctions pour écrire une boucle qui affiche tous les champs de
+   iii. Pour lire les réponses à des requêtes SQL, vous pouvez utiliser
+
+   ~~~
+   $rep->fetchAll(PDO::FETCH_OBJ)
+   ~~~
+   {:.php}
+
+   qui renvoie un tableau d'objets ayant pour attributs les champs de la BDD.
+   Utilisez cette fonction pour écrire une boucle qui affiche tous les champs de
    toutes les entrées de la table voiture.
 
-Testez le code suivant dans `lireVoiture.php`.
+2. Ce code fonctionne mais ne crée pas d'objets de la classe `Voiture` sur
+lesquelles l'on pourrait appeler des méthodes (par exemple `afficher`). Voici
+comment récupérer directement un objet de la classe `Voiture`.
+   
+   ~~~
+   $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
+   $ans = $rep->fetchAll();
+   ~~~
+   {:.php}
+   
+   **Note :** Avec l'option `PDO::FETCH_CLASS`, PDO va créer une instance de la
+   classe `Voiture`, écrire les attributs correspondants au champs de la BDD
+   **puis** appeler le constructeur sans arguments.  
+   **Commentez donc votre ancien constructeur pour l'instant (puisqu'il ne
+     marche pas sans arguments).**
 
-~~~
-<?php
-  try{
-    $pdo = new PDO('mysql:host=serveur_base_donnee;dbname=nom_base_donnee','login', 'password');
-    //$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-   }catch(PDOException $e){
-      echo $e->getMessage(); // affiche un message d'erreur
-      die();
-   }
+   Mettez à jour le code de `lireVoiture.php` pour utiliser le code précédent et
+   faire l'affichage à l'aide de la fonction `afficher()` de `Voiture`.
 
-   $sql = 'SELECT * FROM voiture'; // requete SQL
+3. Nous allons réorganiser ce code. Créez une fonction statique
+   `getAllVoitures()` dans la classe `Voiture` qui ne prend pas d'arguments et
+   renvoie le tableau des voitures de la BDD. Mettez à jour `lireVoiture.php`.
 
-   try{
-      $req = $pdo->query($sql); // execute le requete sql
-      
-      // On teste si le resultat est non vide
-      if($req->rowCount() != 0){
-        while($data = $req->fetch(PDO::FETCH_OBJ)){
-          echo 'immatriculation : '.$data->immatriculation.' ; marque : '.$data->marque.' ; couleur : '.$data->couleur;
-        }
-      }
-   }catch(PDOException $e){
-      echo $e->getMessage();
-   }
-?>
-~~~
-{:.php}
-
-Ce code fonctionne mais ne crée pas d'objets de la classe voiture sur lesquelles
-l'on pourrait appeler des méthodes.
-
-1. Vous allez donc créer une méthode statique (voir la Section \ref{sec:conf}
-pour plus de détails sur les méthodes statiques) `getAllVoitures()` dans la
-classe `Voiture` qui retourne un tableau contenant toutes les voitures présentes
-dans la base.
-1. Créer une méthode statique `getVoiture($immatriculation)` qui renvoie
-   une voiture suivant le numéro d'immatriculation donné en paramètre.
-
-### Requêtes préparées et insertion d'éléments dans la base
-
-PDO fonctionne uniquement que par l'utilisation de requêtes préparées. Pour
-insérer une données dans la base, au lieu d'écrire la requête en utilisant les
-variables, on va utiliser des tags.
-
-~~~
-<?php
-  $req = $pdo->prepare('INSERT INTO voiture (immatriculation, marque, couleur) VALUE
-              (:immatriculation, :marque, :couleur)');
-?>
-~~~
-{:.php}
+### Requêtes préparées
+<!--et insertion d'éléments dans la base-->
 
 <!--
-Faire des bind pour bien expliquer le mécanisme de protection
-ie que PDO transforme en un type donné
-Où force-t-on que ce sont des données html 'safe'
+Intervention sur les injections SQL avec un exemple simple
 -->
 
-On exécute le requête en appelant la méthode `execute` de `$req` et en lui
-donnant un tableau contenant les données.  Il est important que les clés du
-tableau soit les mêmes que les tags utilisés dans la construction de la requête.
-
-Au final, on obtient le code suivant :
+Imaginez que nous avons une fonction `getVoiture($immatriculation)` codé comme
+suit
 
 ~~~
-<?php
-  try{
-    // Preparation de la requete
-    $req = $pdo->prepare('INSERT INTO voiture (immatriculation, marque, couleur) VALUES 
-         (:immatriculation, :marque, :couleur)');
-    
-    // Donnees a inserer
-    $data = array(
-      'immatriculation'    => '256AB34',
-      'marque' => 'Renaut',
-      'couleur'  => 'Bleu'
-      );
-
-    // execution de la requete
-    $req->execute($data);
-
-  } catch(PDOException $e){
-       echo $e->getMessage();
-  }
-?>
+function getVoitureByImmat($immatriculation) {
+    $sql = "SELECT * from voiture WHERE immatriculation='$immatriculation'";
+    $rep = Model::$pdo->query($sql);
+    $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
+    return $rep->fetch();
+}
 ~~~
 {:.php}
 
-L'utilisation des requêtes préparées est importante d'un point de vue sécurité,
-on se prévient ainsi des attaques par injections SQL (qui seront abordées plus
-tard dans un TD sur la sécurisation des sites).
+Cette fonction marche mais pose un gros problèmes de sécurité ; elle est
+vulnérable à ce que l'on appelle les *injections SQL*. 
+<!--
+Faire une démo d'injection SQL
+L'utilisateur pourrait rentrer dans `$immatriculation` quelque chose d'autre
+-->
+Pour éviter ceci, PDO fonctionne uniquement par des requêtes préparées. Voici
+comment elles fonctionnent :
 
-1. Ajouter une méthode `save()` à la classe  `voiture`
-1. Modifier la page  `creerVoiture.php` du TD précédent de sorte qu'elle sauvegarde
-l'objet voiture crée.  
-1. Testez l'insertion grâce au formulaire du TD n°1. 
-1. Vérifiez dans MYSQL que les voitures sont bien sauvegardées. 
-
-### Héritage
-
-Toutes les classes de votre site de covoiturage doivent désormais implémenter la
-persistance.  Vous noterez quelles partagent toutes l'accès à une base de
-données.  Pour factoriser au maximum notre code, nous allons créer une classe
-`Model` qui va gérer la connexion à la base de données.  Toutes les classes
-voulant se connecter à la base devront hériter de `Model`.
-
-Exemple d'héritage en PHP : 
+* On met un *tag* `:nom_var` en lieu de la valeur à remplacer
+* On doit préparer la requête
+* La requête préparée attend alors des valeurs et d'être exécutée
+* On peut alors récupérer les résultats comme précédemment
 
 ~~~
-<?php
-  class Vehicule {
-    private $nbRoue;
+function getVoitureByImmat($immatriculation) {
+  $sql = "SELECT * from voiture WHERE immatriculation=:nom_var";
+  $req_prep = Model::$pdo->prepare($sql);
+  $req_prep->bindParam(":nom_var", $immatriculation);
+  $req_prep->execute();
 
-    public function getNbRoue(){
-      echo $this->nbRoue;
-    }
-  }
-
-  class Voiture extends Vehicule {
-
-    __construct(){
-     //appelle le constructeur de la classe mere	
-      parent::__construct();  //equivalent du super() en Java
-      $this->nbRoue = 4;
-    }
-  }
-
-  $v = new Voiture();
-
- 	
-  // Affiche le noubre de roue d'une voiture en utilisant la methode de la classe mere.
-  public function affiche() {
-	  echo $v->getNbRoue().' roues.';
-  }
-?>
+  $req_prep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
+  // Vérifier si $rep->rowCount() != 0
+  return $req_prep->fetch();
+}
 ~~~
 {:.php}
 
-1. Créer une classe `Model` qui se connecte à la base de données lors de sa
-   construction et stocke la connexion dans un attribut publique statique.
-   1. Modifier votre code pour que la classe `Voiture` hérite de `Model`.
+1. Copiez la fonction précédente dans `Voiture.php` et testez-là dans
+`lireVoiture.php`.
 
-<!-- Expliquez pourquoi on veut un $pdo statique -->
+2. Créez une fonction `insertVoiture()` dans la classe `Voiture` qui insère la
+voiture courante dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
 
-### Site de covoiturage
+   ~~~
+   INSERT INTO table_name (column1, column2, ...) VALUES (value1, value2, ...)
+   ~~~
+   {:.sql}
 
-Reprendre les classes du TP précédent sur le covoiturage et y ajouter
-l'utilisation d'une base de données.
+   **Astuce :** Plutôt que de faire un `bindParam` par valeurs, vous pouvez créer
+   un tableau contenant toutes les valeurs et le donner à la fonction `execute()`. Remarquez que les indices du tableau doivent correspondre aux noms des *tags*.
+   
+   ~~~
+   $sql = "SELECT * from voiture WHERE immatriculation=:immat AND
+                                       couleur=:couleur AND
+                                       marque=:marque";
+   $req_prep = Model::$pdo->prepare($sql);
+   $values = array(
+     "immat" => "aze13be",
+     "couleur" => "bleu",
+     "marque" => "Tesla"
+   );
+   $req_prep->execute($values);
+   ~~~
+   {:.php}
 
-Chaque utilisateur sera identifié par un id, de même pour chaque trajet. Utiliser une table de jonction pour lier les utilisateurs aux trajets.
+
+3. Modifier la page  `creerVoiture.php` du TD précédent de sorte qu'elle sauvegarde
+l'objet voiture crée.
+4. Testez l'insertion grâce au formulaire du TD n°1. 
+5. Vérifiez dans MYSQL que les voitures sont bien sauvegardées.
+
+**N'oubliez-pas** de protéger tout votre code avec PDO (`getAllVoitures`, ...)
+  avec des try - catch comme dans `Model`. 
 
 ### Gestion des erreurs
 
-Dans un site en production, pour des raisons de sécurité et de confort
+1. Pour avoir plus de messages d'erreur de PDO et qu'il gère mieux l'UTF-8,
+  **mettez à jour** la connexion dans `Model` avec
+
+   ~~~
+   // Connexion à la base de données            
+   // Le dernier argument sert à ce que toutes les chaines de caractères 
+   // en entrée et sortie de MySql soit dans le codage UTF-8
+   self::$pdo = new PDO("mysql:host=$host;dbname=$dbname", $login, $pass,
+                        array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+   
+   // On active le mode d'affichage des erreurs, et le lancement d'exception en cas d'erreur
+   self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+   ~~~
+   {:.php}
+
+2. Dans un site en production, pour des raisons de sécurité et de confort
 d'utilisation, il déconseillé d'afficher directement un message d'erreur. Pour
 cela on va créer une variable pour activer ou désactiver l'affichage des
 messages d'erreurs.
 
-<!-- Rajouter
-self::$pdo = new PDO("mysql:host=$host;dbname=$dbname", $login, $pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-// On active le mode d'affichage des erreurs, et le lancement d'exception en cas d'erreur
-self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
--->
-
-1. Dans la classe `Conf`, ajouter un attribut  statique `debug` et son getter publique. 
+   Dans la classe `Conf`, ajouter un attribut  statique `debug` et son getter publique. 
 
    ~~~
    <?php
@@ -434,3 +395,13 @@ self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
    }
    ~~~
    {:.php}
+
+### Site de covoiturage
+
+Reprendre les classes du TP précédent sur le covoiturage et y ajouter
+l'utilisation d'une base de données.
+
+Chaque utilisateur sera identifié par un id, de même pour chaque trajet.
+
+<!-- Utiliser une table de jonction pour lier les utilisateurs aux trajets. -->
+

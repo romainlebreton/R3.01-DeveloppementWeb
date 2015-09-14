@@ -110,6 +110,10 @@ Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiac
   color: #88F
 }
 
+.php .hljs-variable {
+  color: green
+}
+
 .hljs-keyword,
 .hljs-id,
 .hljs-title,
