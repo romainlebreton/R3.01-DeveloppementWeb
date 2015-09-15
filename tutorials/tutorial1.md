@@ -57,8 +57,8 @@ le répertoire **public_html** de votre espace personnel.
    ~~~
    {:.html}
    Il faut que vos fichiers soient enregistrés avec le même encodage. UTF-8 est
-   souvent l'encodage par défaut, mais les éditeurs de texte offrent des fois
-   souvent le choix de l'encodage lors du premier enregistrement du fichier.
+   souvent l'encodage par défaut, mais les éditeurs de texte offrent généralement
+   le choix de l'encodage lors du premier enregistrement du fichier.
 
 2. **Vous souvenez-vous comment fait-on pour qu'une page Web soit servie par le serveur HTTP de l'IUT (sur [infolimon.iutmontp.univ-montp2.fr](infolimon.iutmontp.univ-montp2.fr)) ?**
 
