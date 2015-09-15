@@ -297,7 +297,7 @@ function getVoitureByImmat($immat) {
   $req_prep->execute();
 
   $req_prep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
-  // Vérifier si $rep->rowCount() != 0
+  // Vérifier si $req_prep->rowCount() != 0
   return $req_prep->fetch();
 }
 ~~~
