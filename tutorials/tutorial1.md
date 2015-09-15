@@ -49,7 +49,7 @@ le répertoire **public_html** de votre espace personnel.
    [file://chemin_de_mon_compte/public_html/index.html](file://chemin_de_mon_compte/public_html/index.html).
    
    **Un problème avec les accents ?**
-   Dans l'en-tête du fichier HTML vous devez rajouter la ligue qui spécifie
+   Dans l'en-tête du fichier HTML vous devez rajouter la ligne qui spécifie
    l'encodage
    
    ~~~
