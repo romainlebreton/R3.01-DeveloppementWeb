@@ -39,6 +39,8 @@ Le login est votre login IUT et votre mot de passe initial votre numéro  INE.
    
 3. Insérez des données en utilisant l'onglet `insérer` de PhpMyAdmin.
 
+4. Dans la suite du TD, pensez à systématiquement tester vos requêtes SQL dans PhpMyAdmin avant de les inclure dans vos pages PHP. 
+
 ### Configuration
 
 Pour avoir un code portable, il est préférable de ne pas utiliser les
