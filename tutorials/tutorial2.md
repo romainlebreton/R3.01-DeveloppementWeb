@@ -78,7 +78,7 @@ informations du serveur directement dans le code.
    
      static public function getLogin() {
        //en PHP l'indice d'un tableau n'est pas forcement un chiffre.
-       return self::$databases['login'];  //idem self::$databases[1]; 
+       return self::$databases['login'];
      }
    
    }
