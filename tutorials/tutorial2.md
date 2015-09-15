@@ -73,7 +73,7 @@ informations du serveur directement dans le code.
        // Sur votre machine, vous avez surement un compte 'root'
        'login' => 'a_remplir',
        // A l'IUT, c'est votre mdp (INE par defaut)
-       // Sur votre machine, vous avez creez ce mdp a l'installation
+       // Sur votre machine personelle, vous avez creez ce mdp a l'installation
        'password' => 'a_remplir'
      );
    
@@ -238,6 +238,7 @@ lesquelles l'on pourrait appeler des méthodes (par exemple `afficher`). Voici
 comment récupérer directement un objet de la classe `Voiture`.
    
    ~~~
+   require_once('Voiture.php'); //il faut "importer" la classe pour pouvoir l'utiliser
    $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
    $ans = $rep->fetchAll();
    ~~~
@@ -268,7 +269,7 @@ suit
 
 ~~~
 function getVoitureByImmat($immat) {
-    $sql = "SELECT * from voiture WHERE immatriculation='$immat'";
+    $sql = "SELECT * from voiture WHERE immatriculation='$immat'"; 
     $rep = Model::$pdo->query($sql);
     $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
     return $rep->fetch();
