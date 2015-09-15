@@ -113,7 +113,7 @@ deux manières différentes ?
              sur plusieurs lignes */
            
              // On met la chaine de caractères "hello" dans la variable 'texte'
-             // Les nom de variable commencent par $ en PHP
+             // Les noms de variable commencent par $ en PHP
              $texte="hello";
 
              // Concatenation de 2 chaînes de caractères avec '.'
@@ -189,7 +189,7 @@ class Voiture {
 
 1. Pas de typage des variables
 2. Le code PHP doit être compris entre la balise ouvrante `<?php` et la balise fermante `?>`
-<!-- 2. Les variables sont précédées d'un `$` --> 
+2. Les variables sont précédées d'un `$`
 3. Pour accéder à un attribut ou une fonction d'un objet, on utilise le `->` au lieu du `.`
 4. Le constructeur ne porte pas le nom de la classe, mais s'appelle `__construct()`.
 
@@ -342,10 +342,6 @@ d'arrivée) et des détails spécifiques à l'annonce comme une date de départ,
 nombre de places disponibles et un prix.
 * **Utilisateur :** Un utilisateur possède des champs propres (nom, prénom)
 et peut proposer une liste d'annonces.
-<!--
- demander à participer à un trajet (comme passager).
- accepter la demande de participation.
--->
 * **Plateforme :** Connait la liste des utilisateurs et de toutes les annonces. 
 
 
