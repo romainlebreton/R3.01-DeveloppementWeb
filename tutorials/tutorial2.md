@@ -14,8 +14,8 @@ sauvegardant dans une base de données. Ainsi il sera possible de retrouver les
 objets d'une visite à l'autre du site web.
 
 **Rappel :** PHP est un langage interprété, les erreurs ne sont pas détectées
-comme lors d'une compilation.  Il est donc conseillé de tester régulièrement
-chaque nouvelle partie de code.
+avant exécution comme lors d'une compilation.  Il est donc conseillé de tester 
+régulièrement chaque nouvelle partie de code.
 
 
 ## Connexion à la base de données
@@ -371,7 +371,7 @@ l'objet voiture crée.
    {:.php}
 
 2. Dans un site en production, pour des raisons de sécurité et de confort
-d'utilisation, il déconseillé d'afficher directement un message d'erreur. Pour
+d'utilisation, il est déconseillé d'afficher directement un message d'erreur. Pour
 cela on va créer une variable pour activer ou désactiver l'affichage des
 messages d'erreurs.
 
