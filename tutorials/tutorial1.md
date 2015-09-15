@@ -92,7 +92,7 @@ deux manières différentes ?
 ### Notre première page PHP
 
 4. Créez une page `echo.php` avec le contenu suivant.  
-   Pour ne pas que votre **public_html** devient un dépôt de page Web à ciel
+   Pour ne pas que votre **public_html** devienne un dépôt de pages Web à ciel
    ouvert, créez des répertoires pour les cours et les TDs. Nous vous
    conseillons donc d'enregistrer `echo.php` dans
    `.../public_html/PHP/TD1.echo.php`.
