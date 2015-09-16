@@ -260,10 +260,11 @@ comment récupérer directement un objet de la classe `Voiture`.
    ~~~
    {:.php}
    
-   **Note :** Avec l'option `PDO::FETCH_CLASS`, PDO va créer une instance de la
-   classe `Voiture`, écrire les attributs correspondants au champs de la BDD.
-   **puis** appeler le constructeur sans arguments.   
-    Pensez à importer la classe `Voiture` à l'aide de l'appel `require_once('Voiture.php');`
+   **Note :** 
+   * Pensez à importer la classe `Voiture` à l'aide de l'appel `require_once('Voiture.php');`
+   * Avec l'option `PDO::FETCH_CLASS`, PDO va créer une instance de la
+   classe `Voiture`, écrire les attributs correspondants au champs de la BDD
+   **puis** appeler le constructeur sans arguments.  
    **Commentez donc votre ancien constructeur pour l'instant (puisqu'il ne
      marche pas sans arguments).**
 
