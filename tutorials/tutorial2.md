@@ -26,6 +26,8 @@ Le login est votre login IUT et votre mot de passe initial votre numéro  INE.
 
 2. Changez votre mot de passe en quelque chose de simple et pas secret. En
    effet, vous devrez bientôt écrire ce mot de passe en clair dans un fichier.
+   Si vous n'arrivez pas à vous logger après avoir changé le mot de passe, essayer avec 
+   un autre navigateur ou bien videz le cache du navigateur. 
 
 2. Créez une table `voiture` possédant 3 champs :
 
@@ -185,7 +187,20 @@ votre `new PDO(...)` au sein d'un try - catch :
    ?>
    ~~~
 
+4. Pour avoir plus de messages d'erreur de PDO et qu'il gère mieux l'UTF-8,
+  **mettez à jour** la connexion dans `Model` avec
 
+   ~~~
+   // Connexion à la base de données            
+   // Le dernier argument sert à ce que toutes les chaines de caractères 
+   // en entrée et sortie de MySql soit dans le codage UTF-8
+   self::$pdo = new PDO("mysql:host=$host;dbname=$dbname", $login, $pass,
+                        array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+   
+   // On active le mode d'affichage des erreurs, et le lancement d'exception en cas d'erreur
+   self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+   ~~~
+   {:.php}
 
 **Remarque :** Dans cet exemple, la gestion est très brutale: En effet,
 l'instruction `die();` équivaut à un système `System.exit(-1);` en Java.  
@@ -240,15 +255,15 @@ lesquelles l'on pourrait appeler des méthodes (par exemple `afficher`). Voici
 comment récupérer directement un objet de la classe `Voiture`.
    
    ~~~
-   require_once('Voiture.php'); //il faut "importer" la classe pour pouvoir l'utiliser
    $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
    $ans = $rep->fetchAll();
    ~~~
    {:.php}
    
    **Note :** Avec l'option `PDO::FETCH_CLASS`, PDO va créer une instance de la
-   classe `Voiture`, écrire les attributs correspondants au champs de la BDD
-   **puis** appeler le constructeur sans arguments.  
+   classe `Voiture`, écrire les attributs correspondants au champs de la BDD.
+   **puis** appeler le constructeur sans arguments.   
+    Pensez à importer la classe `Voiture` à l'aide de l'appel `require_once('Voiture.php');`
    **Commentez donc votre ancien constructeur pour l'instant (puisqu'il ne
      marche pas sans arguments).**
 
@@ -359,20 +374,7 @@ l'objet voiture crée.
 
 ### Gestion des erreurs
 
-1. Pour avoir plus de messages d'erreur de PDO et qu'il gère mieux l'UTF-8,
-  **mettez à jour** la connexion dans `Model` avec
 
-   ~~~
-   // Connexion à la base de données            
-   // Le dernier argument sert à ce que toutes les chaines de caractères 
-   // en entrée et sortie de MySql soit dans le codage UTF-8
-   self::$pdo = new PDO("mysql:host=$host;dbname=$dbname", $login, $pass,
-                        array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-   
-   // On active le mode d'affichage des erreurs, et le lancement d'exception en cas d'erreur
-   self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-   ~~~
-   {:.php}
 
 2. Dans un site en production, pour des raisons de sécurité et de confort
 d'utilisation, il est déconseillé d'afficher directement un message d'erreur. Pour
