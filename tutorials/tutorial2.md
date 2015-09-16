@@ -271,6 +271,8 @@ comment récupérer directement un objet de la classe `Voiture`.
    Mettez à jour le code de `lireVoiture.php` pour utiliser le code précédent et
    faire l'affichage à l'aide de la fonction `afficher()` de `Voiture`.
 
+   **Note :** La variable `$ans` contient un tableau d'objets. Pour afficher les voitures, il faut itérer sur la tableau avec une boucle [`foreach`](http://php.net/manual/fr/control-structures.foreach.php)  
+
 3. Nous allons réorganiser ce code. Créez une fonction statique
    `getAllVoitures()` dans la classe `Voiture` qui ne prend pas d'arguments et
    renvoie le tableau des voitures de la BDD. Mettez à jour `lireVoiture.php`.
