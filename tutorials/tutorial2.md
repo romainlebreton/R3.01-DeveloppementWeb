@@ -35,7 +35,7 @@ Le login est votre login IUT et votre mot de passe initial votre numéro  INE.
    * `couleur` de type `VARCHAR` est de longueur maximale 12.
    
    **Attention** : Les noms des champs sont comme des noms de variables,
-   ils ne doivent pas contenir d'accents.
+   ils ne doivent pas contenir d'accents. Par ailleurs, et contrairement à Oracle, MySQL est sensible à la casse (minuscules/majuscules). 
    
 3. Insérez des données en utilisant l'onglet `insérer` de PhpMyAdmin.
 
