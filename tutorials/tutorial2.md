@@ -253,27 +253,47 @@ SELECT * FROM voiture
    toutes les entrées de la table voiture.
 
 2. Ce code fonctionne mais ne crée pas d'objets de la classe `Voiture` sur
-lesquelles l'on pourrait appeler des méthodes (par exemple `afficher`). Voici
-comment récupérer directement un objet de la classe `Voiture`.
-   
-   ~~~
-   $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
-   $ans = $rep->fetchAll();
-   ~~~
-   {:.php}
-   
-   **Note :** 
-   * Pensez à importer la classe `Voiture` à l'aide de l'appel `require_once('Voiture.php');`
-   * Avec l'option `PDO::FETCH_CLASS`, PDO va créer une instance de la
+lesquelles l'on pourrait appeler des méthodes (par exemple `afficher`).  Mettez
+à jour le code de `lireVoiture.php` pour utiliser le code précédent et faire
+l'affichage à l'aide de la fonction `afficher()` de `Voiture` en lisant bien les
+trois points suivants :
+
+
+
+   1. Voici comment récupérer directement un objet de la classe `Voiture`.
+
+      ~~~
+      $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
+      $ans = $rep->fetchAll();
+      ~~~
+      {:.php}
+
+      **Note :** La variable `$ans` contient un tableau de `Voiture`. Pour afficher les
+     voitures, il faudra itérer sur la tableau avec une boucle
+     [`foreach`](http://php.net/manual/fr/control-structures.foreach.php).
+
+   2. Pensez à importer la classe `Voiture` à l'aide de l'appel `require_once
+      'Voiture.php';`
+
+   3. Avec l'option `PDO::FETCH_CLASS`, PDO va créer une instance de la
    classe `Voiture`, écrire les attributs correspondants au champs de la BDD
    **puis** appeler le constructeur sans arguments.  
-   **Commentez donc votre ancien constructeur pour l'instant (puisqu'il ne
-     marche pas sans arguments).**
+   **Adaptons donc l'ancien constructeur de `Voiture` pour qu'il accepte aucun
+     argument et trois arguments.**
 
-   Mettez à jour le code de `lireVoiture.php` pour utiliser le code précédent et
-   faire l'affichage à l'aide de la fonction `afficher()` de `Voiture`.
+      ~~~
+      public function __construct($m = NULL, $c = NULL, $i = NULL) {
+        if (!is_null($m) && !is_null($c) && !is_null($i)) {
+          $this->marque = $m;
+          $this->couleur = $c;
+          $this->immatriculation = $i;
+        }
+        $this->options = array();
+      }
+      ~~~
+      {:.php}
 
-   **Note :** La variable `$ans` contient un tableau d'objets. Pour afficher les voitures, il faut itérer sur la tableau avec une boucle [`foreach`](http://php.net/manual/fr/control-structures.foreach.php)  
+
 
 3. Nous allons réorganiser ce code. Créez une fonction statique
    `getAllVoitures()` dans la classe `Voiture` qui ne prend pas d'arguments et
@@ -357,20 +377,7 @@ voiture courante dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
 
 
 3. Modifier la page  `creerVoiture.php` du TD précédent de sorte qu'elle sauvegarde
-l'objet voiture crée.  
-   Nous devons régler le problème du constructeur de `Voiture`. Voici une solution
-   
-   ~~~
-   public function __construct($m = NULL, $c = NULL, $i = NULL) {
-     if (!is_null($m) && !is_null($c) && !is_null($i)) {
-       $this->marque = $m;
-       $this->couleur = $c;
-       $this->immatriculation = $i;
-     }
-   }
-   ~~~
-   {:.php}
-
+l'objet `Voiture` créé.
 4. Testez l'insertion grâce au formulaire du TD n°1. 
 5. Vérifiez dans MYSQL que les voitures sont bien sauvegardées.
 
