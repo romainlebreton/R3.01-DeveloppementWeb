@@ -156,7 +156,7 @@ de donnée.
    s'obtient avec le mot clé `self`.
 
    4. Comme notre classe `Model` dépend de `Conf.php`, ajoutez un `require_once
-   Conf.php` au début du fichier.  
+   'Conf.php'` au début du fichier.  
    Enfin, on souhaite que `Model` soit initialisée juste après sa
    déclaration. Appelez donc l'initialisation statique `Model::Init()` à la fin
    du fichier.
