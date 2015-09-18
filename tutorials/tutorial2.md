@@ -136,7 +136,7 @@ de donnée.
    Programmation Orientée Objet de l'an dernier)-->
 
 2. Dans la fonction `Init`, nous allons initialiser l'attribut `$pdo` en lui
-   assignant un objet **PDO**. Procédons en 4 étapes :
+   assignant un objet **PDO**. Procédons en 3 étapes :
    
    1. Mettez dans les variables `$host`, `$dbname`, `$login` et `$pass` les chaînes
    de caractères correspondant à l'hôte, au nom, au login et au mot de passe de
