@@ -150,8 +150,8 @@ de donnée.
       ~~~
       {:.php}
    
-   3. Stockez ce nouvel objet **PDO** dans la variable statique `$pdo`.  
-   **Note :** Comme la variable est statique, elle s'accède par une syntaxe
+      Stockez ce nouvel objet **PDO** dans la variable statique `self::$pdo`.  
+      **Note :** Comme la variable est statique, elle s'accède par une syntaxe
    `Type::$nom_var` comme indiqué précédemment. Le type de l'objet courant
    s'obtient avec le mot clé `self`.
 
