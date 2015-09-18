@@ -248,8 +248,14 @@ SELECT * FROM voiture
    ~~~
    {:.php}
 
-   qui renvoie un tableau d'objets `tab_obj` ayant pour attributs les champs de la BDD.
-   Utilisez cette fonction pour écrire une boucle qui affiche tous les champs de
+   qui renvoie un tableau d'objets `tab_obj` ayant pour attributs les champs de
+   la BDD.  Chacun des objets `$obj` de `$tab_obj` contient donc trois attributs
+   `immatriculation`, `couleur` et `marque` (les champs de la BDD) qui sont
+   accessibles classiquement par `$obj->immatriculation`, .... Utilisez une
+   boucle [`foreach`](http://php.net/manual/fr/control-structures.foreach.php)
+   comme au TD précédent pour itérer sur le tableau `$tab_obj`.
+
+Utilisez cette fonction pour écrire une boucle qui affiche tous les champs de
    toutes les entrées de la table voiture.
 
 2. Ce code fonctionne mais ne crée pas d'objets de la classe `Voiture` sur
@@ -269,7 +275,7 @@ trois points suivants :
       {:.php}
 
       **Note :** La variable `$ans` contient un tableau de `Voiture`. Pour afficher les
-     voitures, il faudra itérer sur la tableau avec une boucle
+     voitures, il faudra itérer sur le tableau avec une boucle
      [`foreach`](http://php.net/manual/fr/control-structures.foreach.php).
 
    2. Pensez à importer la classe `Voiture` à l'aide de l'appel `require_once
