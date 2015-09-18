@@ -244,11 +244,11 @@ SELECT * FROM voiture
    iii. Pour lire les réponses à des requêtes SQL, vous pouvez utiliser
 
    ~~~
-   $rep->fetchAll(PDO::FETCH_OBJ)
+   $tab_obj = $rep->fetchAll(PDO::FETCH_OBJ)
    ~~~
    {:.php}
 
-   qui renvoie un tableau d'objets ayant pour attributs les champs de la BDD.
+   qui renvoie un tableau d'objets `tab_obj` ayant pour attributs les champs de la BDD.
    Utilisez cette fonction pour écrire une boucle qui affiche tous les champs de
    toutes les entrées de la table voiture.
 
