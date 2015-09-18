@@ -270,11 +270,11 @@ trois points suivants :
 
       ~~~
       $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
-      $ans = $rep->fetchAll();
+      $tab_voit = $rep->fetchAll();
       ~~~
       {:.php}
 
-      **Note :** La variable `$ans` contient un tableau de `Voiture`. Pour afficher les
+      **Note :** La variable `$tab_voit` contient un tableau de `Voiture`. Pour afficher les
      voitures, il faudra itérer sur le tableau avec une boucle
      [`foreach`](http://php.net/manual/fr/control-structures.foreach.php).
 
