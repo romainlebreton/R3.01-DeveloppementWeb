@@ -22,7 +22,9 @@ régulièrement chaque nouvelle partie de code.
 
 1. Connectez vous à votre base de données MySQL, à l'aide de l'interface PhpMyAdmin
 [http://infolimon.iutmontp.univ-montp2.fr/my](http://infolimon.iutmontp.univ-montp2.fr/my)
-Le login est votre login IUT et votre mot de passe initial votre numéro  INE.
+Le login est votre login IUT et votre mot de passe initial votre numéro  INE.  
+(Si vous êtes sur votre machine, allez sur votre phpmyadmin qui est sûrement à l'adresse
+[suivante](http://localhost/phpmyadmin)).
 
 2. Changez votre mot de passe en quelque chose de simple et pas secret. En
    effet, vous devrez bientôt écrire ce mot de passe en clair dans un fichier.
