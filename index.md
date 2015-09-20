@@ -16,3 +16,4 @@ Cours à l'IUT de Montpellier - 2ème année
 ## Notes complémentaires
 
 1. [HTTP, rôle du PHP, URL et formulaires]({{site.baseurl}}/assets/tut1-complement.html)
+2. [Requête préparée, injection SQL et require]({{site.baseurl}}/assets/tut2-complement.html)
