@@ -1,229 +1,368 @@
 ---
-title: TD3 &ndash; Architecture MVC
-subtitle: Modèle, Vue, Controlleur
+title: TD3 &ndash; Fin TD2 et association de classes
+subtitle: SQL JOIN
 layout: tutorial
 ---
 
-Si vous programmez de manière monolithique, vos pages actuelles mélangent
-traitement (couche d'accès aux données) et présentation (balises HTML),
-*et c'est le mal !*
+Dans ce TD, nous allons reprendre et finir le TD précédent sur l'enregistrement
+des données dans une BDD en utilisant la classe `PDO` de PHP. Nous reprenons à
+partir du concept très important de requêtes préparées. Puis nous coderons des
+associations entre plusieurs tables de la BDD.
 
+**Attention :** Il est nécessaire d'avoir fini
+  [la section 2.1 du TD précédent](tutorial2.html#consulter-la-base-de-donnes),
+  qui vous faisait coder votre première requête `SELECT * FROM voiture`, pour
+  attaquer ce TD.
 
-L'objectif de ce TD est donc de réorganiser le code du TD2 pour finalement y
-rajouter plus facilement de nouvelles fonctionnalités.
+## Requêtes préparées
 
-<div class="exercice">
-Récupérez sur [http://www.lirmm.fr/~lebreton/teaching.html](http://www.lirmm.fr/~lebreton/teaching.html)
-l'archive TD3.zip qui vous servira de base pour ce TD. Décompressez cette
-archive dans votre `public_html` et créez un nouveau projet 'Php à
-partir de sources existantes' si vous utilisez NetBeans. Rentrez vos
-informations dans `./config/Conf.php`.
-</div>
-
-
-
-## M: Le modèle
-
-Le modèle est chargé de la gestion des données, notamment des interactions avec
-la base de données. C'est, par exemple, la classe Voiture que vous avez créé
-lors des TD précédents. Nous avons renommé la classe en `ModelVoiture` et
-déplacé le fichier dans `./model/modelVoiture.php`.  Dans notre cas, la
-nouvelle classe ModelVoiture gère la persistance, au travers des méthodes:
-
-~~~
- $mv->save():
- $mv2 = ModelVoiture::getVoiture($immatriculation);
- $arrayVoitures = ModelVoiture::getAllVoitures();
-~~~
-{:.php}
-
-**N.B. :** Souvenez-vous que les deux dernières fonctions `getVoiture`
-et `getAllVoitures` sont `static`. Elles ne dépendent donc que de
-leur classe (et non pas des objets instanciés). D'où la syntaxe différente
-`Class::fonction_statique()` pour les appeler.
-
-## V: la vue
-
-Ce avec quoi l'utilisateur interagit se nomme précisément la vue.  Sa première
-tâche est d'afficher la page Web à l'utilisateur. La vue reçoit aussi toute les
-actions de l'utilisateur (remplissage de formulaire dans notre cas) et les
-envoient au contrôleur.
-
-Les vues sont des fichiers qui ne contiennent quasiment exclusivement que du
-code HTML, à l'exception de quelques `echo` permettant d'afficher les
-variables pré-remplies par le contrôleur.
-
-La vue n'effectue pas de traitement, elle se contente d'afficher les résultats
-des traitements effectués par le modèle et d'interagir avec l'utilisateur.  Une
-boucle `for` est toutefois autorisée pour les vues qui affichent une
-liste d'éléments.
-
-## C: le contrôleur
-
-Le contrôleur gère le tout ; il reçoit les actions de l'utilisateur, lit ou met
-à jour les données à travers le modèle, puis appelle la vue adéquate.
-
-Il existe une multitude d'implémentations du MVC:
-
-1. un gros contrôleur unique
-1. un contrôleur par modèle
-1. un contrôleur pour chaque action de chaque modèle
-
-Nous choisissons ici la version intermédiaire. Vous trouverez dans
-`./controller/controllerVoiture.php` un squelette de contrôleur basé sur
-le contrôleur suivant :
-
-~~~
-<?php
-include ('Voiture.php');  //connait le modele
-$action = $_GET['action'];    //recupere l'action  passee dans l'url
-
-switch ($action) {
-    case "get":
-        $im = $_GET['immatriculation']; //recupere l'immatriculation passee dans l'url
-        $v = Voiture::getVoiture($im);
-        if ($v == null)
-            require ('viewErrorVoiture.php'); //redirige vers une vue d'erreur
-        else
-            require ('viewVoiture.php');  //redirige vers la vue 
-        break;
-    case "all":
-        $tabVoitures = Voiture::getAllVoitures();
-        require ('viewAllVoiture.php');
-        break;
-    case "save":
-        // A vous de remplir cette partie
-        break;
-    default:
-        require ('viewErrorVoiture.php'); //redirige vers une vue d'erreur
-}
-
-?>
-~~~
-{:.php}
-
-## À vous de jouer
-
-### Vue "détail d'une voiture"
-
-<div class="exercice"> 
-Remplissez la vue `./view/voiture/viewVoiture.php`
-</div> 
-
-<div class="exercice">
-Testez cette vue en appelant la page du contrôleur avec les bons
-paramètres dans l'URL.  
-(Souvenez-vous comment les formulaires utilisant la méthode **GET** écrivent les
-paramètres dans l'URL)
-</div>
-
-<div class="exercice">
-Testez cette vue en appelant le contrôleur via un
-formulaire. Un squelette de formulaire vous est donné dans
-`./exempleFormulaire.html`
-</div>
-
-<div class="exercice">
-Remplissez la vue `./view/voiture/viewErrorVoiture.php`
-pour gérer les immatriculations non reconnues
-</div>
-
-### Vue "liste des voitures"
-
-<div class="exercice"> 
-Remplissez la vue `./view/voiture/viewAllVoiture.php`
-</div> 
-
-<div class="exercice"> 
-Testez cette vue en appelant la page du contrôleur avec les bons paramètres dans l'URL
-</div> 
-
-<div class="exercice"> 
-Dans la vue `viewAllVoiture.php` ajoutez un lien cliquable
-pour chaque voiture, qui renvoie vers la page de détail `viewVoiture.php`
-</div> 
-
-### Vue "ajout d'une voiture"
-
-<div class="exercice">
-Complétez l'action `save` de `./controller/controllerVoiture.php` pour que le
-contrôleur sauvegarde dans la base de donnée la voiture donnée en paramètre dans
-l'URL et appelle la future vue `viewCreateVoiture.php`
-</div> 
-
-<div class="exercice">
-Remplissez la vue `./view/voiture/viewCreateVoiture.php` pour signifier que la
-création a bien eu lieu
-</div>
-
-<div class="exercice"> 
-Testez le contrôleur et la vue via un formulaire
-</div> 
-
-## Et si le temps le permet...
-
-<div class="exercice">
-Rajouter une fonctionnalité *"Supprimer une voiture"* à votre site. Ajouter un
-lien cliquable pour supprimer chaque voiture dans la liste des voitures.
-</div>
-
-<div class="exercice">
-Gérer le cas particulier de l'ajout d'une voiture existant déjà dans la base
-de donnée. 
-</div> 
-
-<div class="exercice"> 
-Rajoutons des comportements par défaut. 
-
-Nous voudrions qu'un utilisateur qui navigue à la racine du site arrive
-automatiquement sur la page du contrôleur. Créer pour cela un `index.php` à la
-racine qui charge seulement la page `./controller/controllerVoiture.php` par un
-require.
-
-Nous voudrions aussi que le contrôleur exécute l'action `"all"` si aucune action
-n'est spécifiée dans les paramètres de l'URL. Utiliser la fonction
-`isset($_GET['action'])` pour déterminer si une action a été donnée.
-</div>
-
-<div class="exercice">
-Gérer les options des voitures : Créer une table options
- dans votre base de données avec trois champs `id_option`, `immatriculation` et
- `option`.
-
-Le champ `id_option` sera un entier automatiquement incrémenté à chaque
-insertion d'option. On obtient ce comportement en cochant la case `A_I`
-(auto_increment) lors de la création de la table et en insérant la valeur NULL à
-la colonne `id_option` lors d'un ajout d'option.
-
-Mettre à jour les fonctions `save()`, `getVoiture($im)` et `getAllVoitures()`
-pour qu'elles prennent en charge les options.  Mettre aussi à jour la vue de
-détail pour qu'elle affiche les options.  </div>
-
-<div class="exercice">
-Créer dans le répertoire view deux fichiers `header.php`
-et `footer.php`. Le header correspond à l'en-tête de votre site qui ne varie pas
-selon la page. Vous pouvez par exemple le remplir avec une liste de lien vers
-les différentes actions (liste, ajout, recherche) sur vos voitures. Le footer
-pourrait être un simple bandeau avec votre nom, un copyright et un lien pour
-vous écrire.
-
-Charger ces fichiers respectivement au début et à la fin du `<body>` de toutes vos vues.
-</div> 
+<!--et insertion d'éléments dans la base-->
 
 <!--
- Choses à faire:
- ---------------
- - préparer squelette class avec fonction/attribut statique/non statique 
- -> Comment appelle-t-on la fonction/attribut dedans/dehors la classe
-
- - chaîne de charactères et php : syntaxe '', "" et heredoc . Plus Attention guillemets inversés ` optionnel pour nom de table / colonne dans MySQL
-
- Pouvant être rajouté au TD
- --------------------------
- - Rajouter header & footer & titre aux vues
- - header : liste + chercher + ajout
- - Gérer page par défaut : liste
- - Gérer racine renvoie vers controleur
- - Gérer ajout de voiture existante !
- - Action / Vue "del" = supprimer avec lien dans la liste des voitures
+Intervention sur les injections SQL avec un exemple simple
 -->
+
+Imaginez que nous avons une fonction `getVoiture($immatriculation)` codé comme
+suit
+
+~~~
+function getVoitureByImmat($immat) {
+    $sql = "SELECT * from voiture WHERE immatriculation='$immat'"; 
+    $rep = Model::$pdo->query($sql);
+    $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
+    return $rep->fetch();
+}
+~~~
+{:.php}
+
+Cette fonction marche mais pose un gros problèmes de sécurité ; elle est
+vulnérable à ce que l'on appelle les *injections SQL*. 
+<!--
+Faire une démo d'injection SQL
+L'utilisateur pourrait rentrer dans `$immatriculation` quelque chose d'autre
+-->
+Pour éviter ceci, PDO fonctionne uniquement par des requêtes préparées. Voici
+comment elles fonctionnent :
+
+* On met un *tag* `:nom_var` en lieu de la valeur à remplacer
+* On doit préparer la requête
+* La requête préparée attend alors des valeurs et d'être exécutée
+* On peut alors récupérer les résultats comme précédemment
+
+~~~
+function getVoitureByImmat($immat) {
+  $sql = "SELECT * from voiture WHERE immatriculation=:nom_var";
+  $req_prep = Model::$pdo->prepare($sql);
+  $req_prep->bindParam(":nom_var", $immat);
+  $req_prep->execute();
+
+  $req_prep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
+  // Vérifier si $req_prep->rowCount() != 0
+  return $req_prep->fetch();
+}
+~~~
+{:.php}
+
+<div class="exercise">
+1. Copiez la fonction précédente dans `Voiture.php` et testez-là dans
+`lireVoiture.php`.
+
+2. Créez une fonction `insertVoiture()` dans la classe `Voiture` qui insère la
+voiture courante dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
+
+   ~~~
+   INSERT INTO table_name (column1, column2, ...) VALUES (value1, value2, ...)
+   ~~~
+   {:.sql}
+
+3. Il y a une autre syntaxe qu'il faut maîtriser : Plutôt que de faire un
+   `bindParam` par valeurs, vous pouvez créer un tableau contenant toutes les
+   valeurs et le donner à la fonction `execute()`. Voici un exemple :
+   
+   ~~~
+   $sql = "SELECT * from voiture WHERE immatriculation=:immat AND
+                                       couleur=:couleur AND
+                                       marque=:marque";
+   $req_prep = Model::$pdo->prepare($sql);
+   $values = array(
+     "immat" => "aze13be",
+     "couleur" => "bleu",
+     "marque" => "Tesla"
+   );
+   $req_prep->execute($values);
+   ~~~
+   {:.php}
+
+   Remarquez que les indices du tableau doivent correspondre aux noms des
+   *tags*.
+   
+   **À vous d'écrire** une fonction `insertVoiture2()` similaire à la précédente mais
+     avec cette syntaxe.
+   	
+3. Modifier la page  `creerVoiture.php` du TD précédent de sorte qu'elle sauvegarde
+l'objet `Voiture` créé.
+4. Testez l'insertion grâce au formulaire `formulaireVoiture.html` du TD n°1. 
+5. Vérifiez dans PhpMyAdmin que les voitures sont bien sauvegardées.
+
+**N'oubliez-pas** de protéger tout votre code contenant du PDO
+  (`getAllVoitures`, ...)  avec des try - catch comme dans `Model`. En effet,
+  chaque ligne de code liée à PDO est susceptible de lancer une exception,
+  qu'il nous faut capturer et traiter (rôle du `catch`).
+
+</div>
+
+## Création des tables de notre site de covoiturage
+
+<div class="exercise">
+1. Dans votre PhpMyAdmin, créez une table `utilisateur` avec les champs suivants :
+
+   * `login` : VARCHAR 32, clé primaire
+   * `nom` : VARCHAR 32
+   * `prenom` : VARCHAR 32
+
+1. Insérez quelques utilisateurs.
+
+2. Créez une table `trajet` avec les champs suivants :
+
+   * `id` : VARCHAR 32, clé primaire
+   * `depart` : VARCHAR 32
+   * `arrivee` : VARCHAR 32
+   * `date` : DATE
+   * `nbplaces` : INT
+   * `prix` : INT
+   * `conducteur` : VARCHAR 32
+
+   **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque nouvelle
+   insertion dans la table.  Pour ce faire, sélectionnez pour le champ `id` la
+   valeur par défaut `NULL` et cochez la case `A_I` (auto-increment).
+
+2. Insérez quelques trajets en prenant soin de ne pas remplis la case `id` (pour
+   que l'auto-incrément marche) et en mettant dans conducteur des login
+   d'utilisateurs valides (pour éviter des problèmes par la suite).
+
+## Premier lien entre `utilisateur` et `trajet`
+
+On souhaite que le champ `trajet.conducteur` corresponde à tout moment à un
+login de conducteur `utilisateur.login`. Vous souvenez-vous quelle est la
+fonctionnalité des bases de données qui permet ceci ?
+
+**Réponse:** <span style="color:#FCFCFC">Il faut utiliser des clés
+  étrangères.</span>
+
+<div class="exercise">
+
+Voici les étapes pour faire ce lien :
+
+1. À l'aide de l'interface de PhpMyAdmin, faites de `trajet.conducteur` un
+**index**.
+
+**Aide:** Dans l'onglet `Structure` de la table `trajet`, cliquez sur l'icône de
+  l'action `index` en face du champ `conducteur`.
+
+
+**Plus de détails:** Dire que le champ `conducteur` est un **index** revient à
+dire à MySql que l'on veut trouver rapidement les lignes qui ont un `conducteur`
+donné. Du coup, MySql va construire une structure de donnée pour permettre cette
+recherche rapide.  Une **clé étrangère** est nécessairement un **index** car on
+a besoin de ce genre de recherches pour tester rapidement la contrainte de clé
+étrangère.
+
+
+2. Rajoutez la contrainte de **clé étrangère** entre `trajet.conducteur` et
+   `utilisateur.login`. Pour ceci, allez dans l'onglet `Structure` de la table
+   `trajet` et cliquez sur `Gestion des relations` pour accéder à la
+   gestion des clés étrangères.  
+
+Nous allons utiliser le comportement `ON DELETE CASCADE` pour qu'une association
+soit supprimé si la clé étrangère est supprimée, et le comportement `ON UPDATE
+CASCADE` pour qu'une association soit mise à jour si la clé étrangère est mise à
+jour.
+
+**Attention :** Pour supporter les clés étrangères, il faut que le moteur de
+stockage de toutes vos tables impliqués soit `InnoDB` . Vous pouvez choisir ce
+paramètre à la création de la table ou le changer après coup dans l'onglet
+`Opérations`.
+
+
+
+</div>
+
+
+
+<!--
+Plutôt que le texte: "Reprendre les classes du TP précédent sur le covoiturage et y ajouter l'utilisation d'une base de données. Chaque utilisateur sera identifié par un id, de même pour chaque trajet."
+
+-> Il faudrait donner soit le diagramme de classe, soit mieux entités/associations de trajet (annonce), voiture et utilisateur. 
+-->
+
+
+## Association entre utilisateurs et trajets
+
+### Dans la base de donnée
+
+Vous avez couvert dans le cours "Analyse, Conception et Développements
+d'Applications" les diagrammes de classes. Ce type de diagramme est utile pour
+penser la base de donnée d'une application web.
+
+<div class="exercise">
+Si vous deviez dessiner les classes 'Utilisateur' et 'Trajet' et leur lien d'association, quelle multiplicité mettriez-vous ?
+En fonction de votre multiplicité, comment implémenteriez-vous l'association entre utilisateurs et trajets dans la base de donnée?
+</div>
+
+#### Notre solution
+Dans ce TD, nous allons développer notre site pour une association entre utilisateurs et trajets de multiplicités non bornées. C'est-à-dire qu'on ne va pas limiter le nombre d'utilisateurs d'un trajet et inversement.
+
+<div class="exercise">
+Comment implémente-t-on cette association avec des bases de données ?
+</div>
+
+**Réponse:** <span style="color:#EEE">On utilise une table de jointure.</span>
+
+
+Nous choisissons donc de créer une table `passager` qui contiendra trois champs :
+
+* une clé primaire INT `id` qui numérote les associations,
+* l'identifiant INT `trajet_id` d'un trajet et
+* l'identifiant VARCHAR(32) `utilisateur_login` d'un utilisateur.
+
+Pour inscrire un utilisateur à un trajet, il suffit d'écrire la ligne correspondante dans la table `passager` avec leur `utilisateur_login` et leur `trajet_id`.
+
+L'interclassement général de votre table sera toujours `utf8_general_ci` (c'est l'encodage des données, et donc des accents, caractères spéciaux ...).
+
+<div class="exercise">
+On souhaite que le champ `passager.trajet_id` corresponde à tout moment à un identifiant de trajet `trajet.id`. Quelle est la fonctionnalité des bases de données qui permet ceci ?
+</div>
+
+**Réponse:** <span style="color:#EEE">Il faut utiliser des clés étrangères.</span>
+
+<div class="exercise"> 
+Créer la table `passager` en utilisant l'interface de PhpMyAdmin. 
+
+**Attention :** 
+Pour supporter les clés étrangères, il faut que le moteur de stockage de toutes vos tables impliqués soit `InnoDB` . Vous pouvez choisir ce paramètre à la création de la table ou le changer après coup dans l'onglet `Opérations`.
+</div>
+
+
+<div class="exercise">
+À l'aide de l'interface de PhpMyAdmin, faites de `trajet_id` et `login` des **index**. 
+
+**Aide:** Dans l'onglet `Structure` de la table passager, cliquer sur l'icône de l'action `index` en face des champs `trajet_id` et `utilisateur_login`.
+
+
+**Plus de détails:** Dire que le champ `trajet_id` est un **index** revient à dire à MySql que l'on veut trouver rapidement les lignes qui ont un `trajet_id` donné. Du coup, MySql va construire une structure de donnée pour permettre cette recherche rapide.
+Une **clé étrangère** est nécessairement un **index** car on a besoin de ce genre de recherches pour tester rapidement la contrainte de clé étrangère.
+</div>
+
+<div class="exercise">
+Rajoutez la contrainte de **clé étrangère** entre `passager.trajet_id` et
+`trajet.id`, puis entre `passager.utilisateur_login` et `utilisateur.login`.
+Nous allons utiliser le comportement `ON DELETE CASCADE` pour qu'une association
+soit supprimé si la clé étrangère est supprimée, et le comportement `ON UPDATE
+CASCADE` pour qu'une association soit mise à jour si la clé étrangère est mise à
+jour.
+
+**Aide:** Dans l'onglet `Structure` de la table `passager`, il faut cliquer sur `Gestion des relations` pour accéder à la gestion des clés étrangères.
+</div>
+
+<div class="exercise">
+À l'aide de l'interface de PhpMyAdmin, insérer quelques associations pour que la table `passager` ne soit pas vide.
+</div>
+
+### Au niveau du PHP
+
+#### Liste des utilisateurs d'un trajet et inversement
+
+Nous allons maintenant pouvoir compléter le code PHP de notre site pour gérer l'association. Commençons par rajouter des fonctions à nos modèles 'Utilisateur' et 'Trajet'.
+
+Avant toute chose, vous souvenez-vous comment faire une jointure en SQL ? Si vous n'êtes pas tout à fait au point sur les différents `JOIN` de SQL, vous pouvez vous rafraîchir la mémoire en lisant 
+[http://www.w3schools.com/sql/sql_join.asp](http://www.w3schools.com/sql/sql_join.asp).
+
+<div class="exercise">
+Créer une `public static function findUtilisateurs($data)` dans `ModelTrajet.php` qui prendra en entrée un tableau associatif `$data` avec un champ `$data['id']`. Cette fonction devra retourner la liste des utilisateurs inscrit aux trajet d'identifiant `$data['id']` en faisant la requête adéquate.
+
+**Indice :** Utiliser une requête à base d'`INNER JOIN`. Une bonne stratégie pour développer la bonne requête est d'essayer des requêtes dans l'onglet SQL de PhpMyAdmin jusqu'à tenir la bonne.
+</div>
+
+<div class="exercise">
+De la même manière, créer une `public static function findTrajets($data)` dans `ModelUtilisateur.php` qui prendra en entrée un tableau associatif `$data` avec un champ `$data['login']`.
+</div>
+
+Nous allons maintenant compléter la vue et le contrôleur de notre site. Comme nous avons déjà fait ensemble ce type exact d'exercice, nous allons juste vous donner le résultat voulu et vous laisser vous débrouiller pour y parvenir.
+
+<div class="exercise">
+Nous souhaitons avoir un lien `Liste des trajets` dans la vue de détail (action `read`) d'un utilisateur. Ce lien amènera vers une nouvelle vue associée à l'action `readAllTrajets` qui listera les trajets de l'utilisateur. La vue associée ressemblera à la vue de listage des trajets classique (vue `List`) mais avec un titre `Liste des trajets de l'utilisateur ... :` au lieu de `Liste des trajets :`.
+</div>
+
+<div class="exercise">
+Faire la même chose mais avec la liste des utilisateurs d'un trajet.
+</div>
+
+#### Désinscrire un utilisateur d'un trajet et inversement
+
+Rajoutons une dernière fonctionnalité : dans la vue qui liste les trajets d'un utilisateur, nous voudrions avoir un lien 'Désinscrire' qui enlèverait l'utilisateur courant du trajet sélectionné.
+
+<div class="exercise">
+Créer une `public static function deleteUtilisateur($data)` dans `ModelTrajet.php` qui prendra en entrée un tableau associatif `$data` avec deux champs `$data['trajet_id']` et `$data['utilisateur_login']`. Cette fonction devra désinscrire l'utilisateur `utilisateur_login` du trajet `trajet_id`.
+</div>
+
+Comme précédemment, nous allons vous donner le 'cahier des charges' de la fonctionnalité 'Désinscription' et nous vous laissons le soin de l'implémenter.
+
+<div class="exercise">
+Nous désirons avoir un lien 'Désinscription' dans la vue de liste des trajets d'un utilisateur (action `readAllTrajets`). Ce lien mènera vers une nouvelle vue associée à l'action `deleteUtilisateur` qui écrira `L'utilisateur .. a été désinscrit du trajet n°..` puis réaffichera la liste mise à jour des utilisateurs du trajet.
+</div>
+
+<div class="exercise">
+Faire de même pour désinscrire un trajet d'un utilisateur.
+
+**Amélioration possible :** En fait, les fonctions `deleteUtilisateur($data)` de `ModelTrajet.php` et `deleteTrajet($data)` de `ModelUtilisateur.php` sont identique. On peut donc faire une unique fonction `deletePassager($data)`  dans `Model.php`. Ainsi `ModelUtilisateur` et `ModelUtilisateur` hériteront de cette fonction.
+</div>
+
+### Et si le temps le permet
+
+Voici une liste d'idée pour compléter notre site :
+
+1. Notre liste des trajets d'un utilisateur est incomplète : il manque les trajets dont il est conducteur (et non passager). La page qui liste les trajets d'un utilisateur pourrait donner les deux listes comme conducteur et comme passager.
+1. Similairement, nous avons oublié le conducteur de la liste des passagers d'un trajet. Le rajouter avec un statut à part.
+1. Vous pouvez aussi éventuellement mettre en place des `trigger` dans votre SQL pour gérer le nombre de passager par véhicule, le fait qu'un passager ne soit pas inscrit deux fois à un trajet ...
+
+## Gestion des erreurs
+
+2. Dans un site en production, pour des raisons de sécurité et de confort
+d'utilisation, il est déconseillé d'afficher directement un message d'erreur. Pour
+cela on va créer une variable pour activer ou désactiver l'affichage des
+messages d'erreurs.
+
+   Dans la classe `Conf`, ajouter un attribut  statique `debug` et son getter publique. 
+
+   ~~~
+   <?php
+     class Conf{
+      ...
+      
+       // la variable debug est un boolean
+       static private $debug = True; 
+       
+       static public function getDebug() {
+       	return self::$debug;
+       }
+   }
+   ?>
+   ~~~
+   {:.php}
+   
+   Ainsi on peut modifier les messages d'erreurs dans les `catch`.
+   
+   ~~~
+   try {
+     ...
+   } catch (PDOException $e) {
+     if (Conf::getDebug()) {
+       echo $e->getMessage(); // affiche un message d'erreur
+     } else {
+       echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
+     }
+     die();
+   }
+   ~~~
+   {:.php}
+

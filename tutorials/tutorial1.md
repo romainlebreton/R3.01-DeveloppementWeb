@@ -337,11 +337,11 @@ fichier **PHP** est considéré comme un `main()`.
 Vous allez programmer les classes d'un site de covoiturage, dont voici la description d'une version
 minimaliste:
 
-* **Annonce :** Une annonce comprend un trajet (un point de départ et un point
+* **Trajet :** Une annonce de trajet comprend un trajet (un point de départ et un point
 d'arrivée) et des détails spécifiques à l'annonce comme une date de départ, un
 nombre de places disponibles et un prix.
 * **Utilisateur :** Un utilisateur possède des champs propres (nom, prénom)
-et peut proposer une liste d'annonces.
+et peut proposer une liste d'annonces de trajets.
 * **Plateforme :** Connait la liste des utilisateurs et de toutes les annonces. 
 
 
