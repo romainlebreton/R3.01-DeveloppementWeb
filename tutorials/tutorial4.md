@@ -75,7 +75,7 @@ le contrôleur suivant :
 
 ~~~
 <?php
-include ('Voiture.php');  //connait le modele
+include ('ModelVoiture.php');  //connait le modele
 $action = $_GET['action'];    //recupere l'action  passee dans l'url
 
 switch ($action) {
