@@ -169,10 +169,10 @@ class Voiture {
   }
    
    //Un constructeur
-   public function __construct($m,$c,$i)  {
-     $this->marque = $m;
-     $this->couleur = $c;
-     $this->immatriculation = $i;     
+  public function __construct($m,$c,$i)  {
+   if (!is_null($m) ) { $this->marque = $m; }
+   if (!is_null($c) ) { $this->couleur = $c; }
+   if (!is_null($i) ) { $this->immatriculation = $i; }   
   } 
         
   // une methode d'affichage.
@@ -191,7 +191,7 @@ class Voiture {
 2. Le code PHP doit être compris entre la balise ouvrante `<?php` et la balise fermante `?>`
 2. Les variables sont précédées d'un `$`
 3. Pour accéder à un attribut ou une fonction d'un objet, on utilise le `->` au lieu du `.`
-4. Le constructeur ne porte pas le nom de la classe, mais s'appelle `__construct()`.
+4. Le constructeur ne porte pas le nom de la classe, mais s'appelle `__construct()`. Et on a le droit à au plus un constructeur, qu'on pourra eventuellement appeler avec un sous-ensemble de paramètres. 
 
 
 ### Utilisation de cette classe
@@ -337,7 +337,7 @@ fichier **PHP** est considéré comme un `main()`.
 Vous allez programmer les classes d'un site de covoiturage, dont voici la description d'une version
 minimaliste:
 
-* **Annonce :** Une annonce comprend un trajet (un point de départ et un point
+* **Trajet :** Une annonce comprend un trajet (un point de départ et un point
 d'arrivée) et des détails spécifiques à l'annonce comme une date de départ, un
 nombre de places disponibles et un prix.
 * **Utilisateur :** Un utilisateur possède des champs propres (nom, prénom)
