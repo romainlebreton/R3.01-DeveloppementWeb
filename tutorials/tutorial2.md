@@ -284,7 +284,7 @@ trois points suivants :
    2. Pensez à importer la classe `Voiture` à l'aide de l'appel `require_once
       'Voiture.php';`
 
-   3. Avec l'option `PDO::FETCH_CLASS`, PDO va créer une instance de la
+   3. Avec l'option <code id="majconst">PDO::FETCH_CLASS</code>, PDO va créer une instance de la
    classe `Voiture`, écrire les attributs correspondants au champs de la BDD
    **puis** appeler le constructeur sans arguments.  
    **Adaptons donc l'ancien constructeur de `Voiture` pour qu'il accepte aucun
