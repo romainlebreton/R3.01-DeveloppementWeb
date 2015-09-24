@@ -355,9 +355,9 @@ function getVoitureByImmat($immat) {
 ~~~
 {:.php}
 
-Remarque, il existe uen autre solution pour associer une à une les valeurs aux variables d'une requête
-préparée avec la fonction [`bindParam`](http://php.net/manual/fr/pdostatement.bindparam.php) de le la classe
-PDO, nous vous conseillons d'utiliser systématiquement un tableau. 
+**Remarque :** Il existe une autre solution pour associer une à une les valeurs aux variables d'une requête
+préparée avec la fonction [`bindParam`](http://php.net/manual/fr/pdostatement.bindparam.php) de la classe
+PDO. Cependant nous vous conseillons d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`. 
 
 1. Copiez la fonction précédente dans `Voiture.php` et testez-là dans
 `lireVoiture.php`.
@@ -442,7 +442,7 @@ messages d'erreurs.
 ### Site de covoiturage
 
 Reprendre les classes du TP précédent sur le covoiturage et y ajouter
-la gestiond e la persistance.
+la gestion de la persistance.
 
 
 <!-- Utiliser une table de jonction pour lier les utilisateurs aux trajets. -->
@@ -450,8 +450,6 @@ la gestiond e la persistance.
 ## Association entre utilisateurs et trajets
 
 ### Dans la base de donnée
-
-
 
 Vous avez couvert dans le cours "Analyse, Conception et Développements
 d'Applications" les diagrammes de classes. Ce type de diagramme est utile pour
@@ -466,7 +464,7 @@ En fonction de votre multiplicité, comment implémenteriez-vous les deux associ
 #### Notre solution
 La relation conducteur est de multiplicité bornée, il suffit de rajouter un champs `conducteur_login` dans la table `Trajet`.
 
-Dans la suite de ce TD, nous allons nous interesser à l'association `passager` entre utilisateurs et trajets de multiplicités non bornées. C'est-à-dire qu'on ne va pas limiter le nombre d'utilisateurs d'un trajet et inversement.
+Dans la suite de ce TD, nous allons nous intéresser à l'association `passager` entre utilisateurs et trajets de multiplicités non bornées. C'est-à-dire qu'on ne va pas limiter le nombre d'utilisateurs d'un trajet et inversement.
 
 <div class="exercise">
 Comment implémente-t-on cette association avec des bases de données ?
