@@ -169,7 +169,7 @@ class Voiture {
   }
    
    //Un constructeur
-  public function __construct($m,$c,$i)  {
+  public function __construct($m = NULL, $c = NULL, $i = NULL)  { //On spécifie les valeurs par défaut
    if (!is_null($m) ) { $this->marque = $m; }
    if (!is_null($c) ) { $this->couleur = $c; }
    if (!is_null($i) ) { $this->immatriculation = $i; }   
