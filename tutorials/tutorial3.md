@@ -256,11 +256,10 @@ pouvez vous rafraîchir la mémoire en lisant
 
 <div class="exercise">
 
-1. Créer une `public static function findUtilisateurs($data)` dans
-   `Trajet.php` qui prendra en entrée un tableau associatif `$data` avec un
-   champ `$data['id']`. Cette fonction devra retourner un tableau d'objets
-   `Utilisateur` correspondant aux utilisateurs inscrits au trajet d'identifiant
-   `$data['id']` en faisant la requête adéquate.
+1. Créer une `public static function findPassagers($id)` dans `Trajet.php` qui
+   prendra en entrée un identifiant de trajet. Cette fonction devra retourner un
+   tableau d'objets `Utilisateur` correspondant aux utilisateurs inscrits au
+   trajet d'identifiant `$id` en faisant la requête adéquate.
    
    <!-- Pourquoi prendre $data et pas $trajet_id en paramètre ? -->
    
@@ -269,8 +268,6 @@ pouvez vous rafraîchir la mémoire en lisant
    * Utiliser une requête à base d'`INNER JOIN`. Une bonne stratégie
    pour développer la bonne requête est d'essayer des requêtes dans l'onglet SQL de
    PhpMyAdmin jusqu'à tenir la bonne.
-   * Le tableau `$data` est celui que l'on passe à la fonction `execute` de PDO
-     selon la syntaxe apprise [au début du TD](#requtes-prpares).
    * Il faut peut-être mettre à jour la classe `Utilisateur` pour qu'elle ait le
    mêmes attributs que la table `utilisateur` de la BDD. Il faut aussi mettre à
    jour le constructeur comme
@@ -278,9 +275,8 @@ pouvez vous rafraîchir la mémoire en lisant
 
 2. Testons votre fonction. Créez une page `testFindUtil.php` qui
    1. charge les classes nécessaires,
-   2. crée un `$data` dont `$data['id']` correspond à un trajet de votre
-   BDD,
-   3. appelle la fonction `findUtilisateurs($data)`,
+   3. appelle la fonction `findPassagers($id)` avec un identifiant de trajet
+      existant,
    4. affiche les utilisateurs renvoyés grâce à la fonction `afficher`.
 
 3. Créez un formulaire `formFindUtil.php` de méthode `GET` avec un champ texte
@@ -293,9 +289,9 @@ récupère l'identifiant envoyé par le formulaire.
 
 <div class="exercise">
 
-1. De la même manière, créer une `public static function findTrajets($data)` dans
-`Utilisateur.php` qui prendra en entrée un tableau associatif `$data` avec
-un champ `$data['login']`.
+1. De la même manière, créer une `public static function findTrajets($login)`
+dans `Utilisateur.php` qui prendra en entrée un login d'utilisateur `$login` et
+retourne les trajets auxquels il est inscrit en tant que passager.
 
 2.  De la même manière, créez une page de test `testFindTraj.php` et un
 formulaire `testFindTraj.php`.
