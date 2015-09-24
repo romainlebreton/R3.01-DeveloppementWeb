@@ -343,8 +343,10 @@ comment elles fonctionnent :
 function getVoitureByImmat($immat) {
   $sql = "SELECT * from voiture WHERE immatriculation=:nom_var";
   $req_prep = Model::$pdo->prepare($sql);
-  $req_prep->bindParam(":nom_var", $immat);
-  $req_prep->execute();
+  $values = array(
+     "nom_var" => $immat  
+   );
+  $req_prep->execute($values);
 
   $req_prep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
   // Vérifier si $req_prep->rowCount() != 0
@@ -352,6 +354,10 @@ function getVoitureByImmat($immat) {
 }
 ~~~
 {:.php}
+
+Remarque, il existe uen autre solution pour associer une à une les valeurs aux variables d'une requête
+préparée avec la fonction [`bindParam`](http://php.net/manual/fr/pdostatement.bindparam.php) de le la classe
+PDO, nous vous conseillons d'utiliser systématiquement un tableau. 
 
 1. Copiez la fonction précédente dans `Voiture.php` et testez-là dans
 `lireVoiture.php`.
@@ -436,9 +442,8 @@ messages d'erreurs.
 ### Site de covoiturage
 
 Reprendre les classes du TP précédent sur le covoiturage et y ajouter
-l'utilisation d'une base de données.
+la gestiond e la persistance.
 
-Chaque utilisateur sera identifié par un id, de même pour chaque trajet.
 
 <!-- Utiliser une table de jonction pour lier les utilisateurs aux trajets. -->
 
@@ -446,17 +451,22 @@ Chaque utilisateur sera identifié par un id, de même pour chaque trajet.
 
 ### Dans la base de donnée
 
+
+
 Vous avez couvert dans le cours "Analyse, Conception et Développements
 d'Applications" les diagrammes de classes. Ce type de diagramme est utile pour
 penser la base de donnée d'une application web.
 
+![Diagramme entité association](/images/logo.png)
+
 <div class="exercise">
-Si vous deviez dessiner les classes 'Utilisateur' et 'Trajet' et leur lien d'association, quelle multiplicité mettriez-vous ?
-En fonction de votre multiplicité, comment implémenteriez-vous l'association entre utilisateurs et trajets dans la base de donnée?
+En fonction de votre multiplicité, comment implémenteriez-vous les deux associations entre utilisateurs et trajets dans la base de donnée ?
 </div>
 
 #### Notre solution
-Dans ce TD, nous allons développer notre site pour une association entre utilisateurs et trajets de multiplicités non bornées. C'est-à-dire qu'on ne va pas limiter le nombre d'utilisateurs d'un trajet et inversement.
+La relation conducteur est de multiplicité bornée, il suffit de rajouter un champs `conducteur_login` dans la table `Trajet`.
+
+Dans la suite de ce TD, nous allons nous interesser à l'association `passager` entre utilisateurs et trajets de multiplicités non bornées. C'est-à-dire qu'on ne va pas limiter le nombre d'utilisateurs d'un trajet et inversement.
 
 <div class="exercise">
 Comment implémente-t-on cette association avec des bases de données ?
@@ -465,16 +475,19 @@ Comment implémente-t-on cette association avec des bases de données ?
 **Réponse:** <span style="color:#EEE">On utilise une table de jointure.</span>
 
 
-Nous choisissons donc de créer une table `passager` qui contiendra trois champs :
+Nous choisissons donc de créer une table `passager` qui contiendra deux champs :
 
-* une clé primaire INT `id` qui numérote les associations,
 * l'identifiant INT `trajet_id` d'un trajet et
 * l'identifiant VARCHAR(32) `utilisateur_login` d'un utilisateur.
 
 Pour inscrire un utilisateur à un trajet, il suffit d'écrire la ligne correspondante dans la table `passager` avec leur `utilisateur_login` et leur `trajet_id`.
 
-On souhaite que le champ primaire 'id' s'incrémente à chaque nouvelle insertion dans la table.
-Pour ce faire, sélectionnez pour le champ 'id' la valeur par défaut `NULL` et cochez la case `A_I` (auto-increment).
+<div class="exercise">
+Quelle est la clé primaire de cette table ? 
+</div>
+
+**Réponse:** <span style="color:#EEE">Le couple `(trajet_id,utilisateur_login)`. Si vous choissisez `trajet_id` seul comme clé primaire, un trajet aura au plus un passager, et si vous choississez `utilisateur_login`, chaque utilisateur ne pourra être passager que sur un unique trajet.</span>
+
 L'interclassement général de votre table sera toujours `utf8_general_ci` (c'est l'encodage des données, et donc des accents, caractères spéciaux ...).
 
 <div class="exercise">
