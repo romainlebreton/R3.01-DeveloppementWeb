@@ -337,9 +337,12 @@ fichier **PHP** est considéré comme un `main()`.
 Vous allez programmer les classes d'un site de covoiturage, dont voici la description d'une version
 minimaliste:
 
-* **Trajet :** Une annonce de trajet comprend un identifiant unique `id` les détails d'un trajet (un point de départ `depart` et un point d’arrivée `arrivee`) et des détails spécifiques à l’annonce comme une date de départ `date`, un nombre de places disponibles `npplaces` et un prix `prix`.
-* **Utilisateur :** Un utilisateur possède des champs propres `(login, nom, prénom)`
-et peut proposer une liste d'annonces de trajets.
+* **Trajet :** Une annonce de trajet comprend un identifiant unique `id`, les
+  détails d'un trajet (un point de départ `depart` et un point d’arrivée
+  `arrivee`) et des détails spécifiques à l’annonce comme une date de départ
+  `date`, un nombre de places disponibles `nbplaces` et un prix `prix`.
+* **Utilisateur :** Un utilisateur possède des champs propres `(login, nom,
+prénom)` et peut proposer une liste d'annonces de trajets.
 
 
 ## Chez vous

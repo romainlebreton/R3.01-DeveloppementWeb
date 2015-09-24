@@ -308,83 +308,6 @@ trois points suivants :
    `getAllVoitures()` dans la classe `Voiture` qui ne prend pas d'arguments et
    renvoie le tableau des voitures de la BDD. Mettez à jour `lireVoiture.php`.
 
-### Requêtes préparées
-<!--et insertion d'éléments dans la base-->
-
-<!--
-Intervention sur les injections SQL avec un exemple simple
--->
-
-Imaginez que nous avons une fonction `getVoiture($immatriculation)` codée comme
-suit
-
-~~~
-function getVoitureByImmat($immat) {
-    $sql = "SELECT * from voiture WHERE immatriculation='$immat'"; 
-    $rep = Model::$pdo->query($sql);
-    $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
-    return $rep->fetch();
-}
-~~~
-{:.php}
-
-Cette fonction marche mais pose un gros problèmes de sécurité ; elle est
-vulnérable à ce que l'on appelle les *injections SQL*. 
-<!--
-Faire une démo d'injection SQL
-L'utilisateur pourrait rentrer dans `$immatriculation` quelque chose d'autre
--->
-Pour éviter ceci, PDO fonctionne uniquement par des requêtes préparées. Voici
-comment elles fonctionnent :
-
-* On met un *tag* `:nom_var` en lieu de la valeur à remplacer
-* On doit préparer la requête
-* La requête préparée attend alors des valeurs et d'être exécutée
-* On peut alors récupérer les résultats comme précédemment
-
-~~~
-function getVoitureByImmat($immat) {
-  $sql = "SELECT * from voiture WHERE immatriculation=:nom_var";
-  $req_prep = Model::$pdo->prepare($sql);
-  $values = array(
-     "nom_var" => $immat  
-   );
-  $req_prep->execute($values);
-
-  $req_prep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
-  // Vérifier si $req_prep->rowCount() != 0
-  return $req_prep->fetch();
-}
-~~~
-{:.php}
-
-**Remarque :** Il existe une autre solution pour associer une à une les valeurs
-aux variables d'une requête préparée avec la fonction
-[`bindParam`](http://php.net/manual/fr/pdostatement.bindparam.php) de la classe
-PDO. Cependant nous vous conseillons d'utiliser systématiquement la syntaxe avec
-un tableau `execute($values)`.
-
-1. Copiez la fonction précédente dans `Voiture.php` et testez-là dans
-`lireVoiture.php`.
-
-2. Créez une fonction `insertVoiture()` dans la classe `Voiture` qui insère la
-voiture courante dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
-
-   ~~~
-   INSERT INTO table_name (column1, column2, ...) VALUES (value1, value2, ...)
-   ~~~
-   {:.sql}
-
-3. Modifier la page  `creerVoiture.php` du TD précédent de sorte qu'elle sauvegarde
-l'objet `Voiture` créé.
-4. Testez l'insertion grâce au formulaire `formulaireVoiture.html` du TD n°1. 
-5. Vérifiez dans PhpMyAdmin que les voitures sont bien sauvegardées.
-
-**N'oubliez-pas** de protéger tout votre code contenant du PDO
-  (`getAllVoitures`, ...)  avec des try - catch comme dans `Model`. En effet,
-  chaque ligne de code liée à PDO est susceptible de lancer une exception,
-  qu'il nous faut capturer et traiter (rôle du `catch`).
-
 ### Gestion des erreurs
 
 2. Dans un site en production, pour des raisons de sécurité et de confort
@@ -433,4 +356,6 @@ Reprendre les classes du TP précédent sur le covoiturage et y ajouter
 la gestion de la persistance.
 
 
-<!-- Utiliser une table de jonction pour lier les utilisateurs aux trajets. -->
+
+<!-- Si qq a fini en avance alors il peut coder insert avec query et une
+injection SQL-->

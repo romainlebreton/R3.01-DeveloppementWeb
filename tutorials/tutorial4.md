@@ -1,5 +1,5 @@
 ---
-title: TD3 &ndash; Architecture MVC
+title: TD4 &ndash; Architecture MVC
 subtitle: Modèle, Vue, Controlleur
 layout: tutorial
 ---
@@ -103,6 +103,12 @@ switch ($action) {
 {:.php}
 
 ## À vous de jouer
+
+\** Nous allons découper notre Voiture.php en plusieurs fichiers selon le modèle suivant ... * *
+
+<img alt="Structure de nos fichiers"
+src="../assets/RepStructure.png" style="margin-left:auto;margin-right:auto;display:block;">
+
 
 ### Vue "détail d'une voiture"
 

@@ -80,8 +80,8 @@ un tableau `execute($values)`.
 <div class="exercise">
 1. Copiez la fonction précédente dans `Voiture.php` et testez-là dans
 `lireVoiture.php`.
-2. Créez une fonction `insertVoiture()` dans la classe `Voiture` qui insère la
-voiture courante dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
+2. Créez une fonction `save()` dans la classe `Voiture` qui insère la voiture
+courante (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
 
    ~~~
    INSERT INTO table_name (column1, column2, ...) VALUES (value1, value2, ...)
@@ -102,8 +102,20 @@ l'objet `Voiture` créé.
 
 ## Création des tables de notre site de covoiturage
 
-Reprennons les classes du TP précédent sur le covoiturage pour y ajouter la
-gestion de la persistance.
+Reprenons les classes du TD précédent sur le covoiturage pour y ajouter la
+gestion de la persistance. Vous avez couvert dans le cours "Analyse, Conception
+et Développements d'Applications" les diagrammes de classes. Ce type de
+diagramme est utile pour penser la base de donnée d'une application web. Voici
+le notre :
+
+<img alt="Diagramme entité association"
+src="../assets/DiagClasse.png" style="margin-left:auto;margin-right:auto;display:block;">
+
+**Question :** Comment implémenteriez-vous l'association *conducteur* entre
+utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
+
+**Notre solution.** Comme il n'y a qu'un conducteur par trajet, nous allons
+  rajouter un champ `conducteur_login` à la table `trajet`.
 
 
 <div class="exercise">
@@ -184,24 +196,12 @@ Plutôt que le texte: "Reprendre les classes du TP précédent sur le covoiturag
 
 ### Dans la base de donnée
 
-Vous avez couvert dans le cours "Analyse, Conception et Développements
-d'Applications" les diagrammes de classes. Ce type de diagramme est utile pour
-penser la base de donnée d'une application web.
+**Question :** Comment implémenteriez-vous l'association *passager* entre
+utilisateurs et trajets dans la BDD en tenant compte de ses multiplicités ?
 
-<!-- ![Diagramme entité association](/images/logo.png) --> 
-
-**Question :** En fonction de votre multiplicité, comment implémenteriez-vous
-l'association entre utilisateurs et trajets dans la base de donnée?
-
-**Notre solution.** La relation *conducteur* est de multiplicité bornée, il a
-donc suffi de rajouter un champ `conducteur_login` dans la table `Trajet`. À
-l'opposé, la relation *passager* est non bornée (on ne limite pas le nombre
-d'utilisateurs d'un trajet et inversement).
-
-**Question :** Comment implémente-t-on ce type d'association non borné avec des
-  bases de données ?
-
-**Réponse:** <span style="color:#FCFCFC">On utilise une table de jointure.</span>
+**Réponse:** <span style="color:#FCFCFC">Comme la relation *passager* est non
+bornée (on ne limite pas le nombre d'utilisateurs d'un trajet et inversement), on
+utilise une table de jointure.</span>
 
 
 Nous choisissons donc de créer une table `passager` qui contiendra deux champs :
@@ -216,8 +216,8 @@ correspondante dans la table `passager` avec leur `utilisateur_login` et leur
 **Question :** Quelle est la clé primaire de la table `passager` ?
 
 **Réponse:** <span style="color:#FCFCFC">Le couple
-  (trajet_id,utilisateur_login). Si vous choissisez trajet_id seul comme clé
-  primaire, un trajet aura au plus un passager, et si vous choississez
+  (trajet_id,utilisateur_login). Si vous choisissez trajet_id seul comme clé
+  primaire, un trajet aura au plus un passager, et si vous choisissez
   utilisateur_login, chaque utilisateur ne pourra être passager que sur un
   unique trajet.</span>
 
@@ -259,7 +259,7 @@ pouvez vous rafraîchir la mémoire en lisant
 1. Créer une `public static function findUtilisateurs($data)` dans
    `Trajet.php` qui prendra en entrée un tableau associatif `$data` avec un
    champ `$data['id']`. Cette fonction devra retourner un tableau d'objets
-   `Utilisateur` correspondant aux utilisateurs inscrits aux trajet d'identifiant
+   `Utilisateur` correspondant aux utilisateurs inscrits au trajet d'identifiant
    `$data['id']` en faisant la requête adéquate.
    
    <!-- Pourquoi prendre $data et pas $trajet_id en paramètre ? -->
@@ -278,41 +278,28 @@ pouvez vous rafraîchir la mémoire en lisant
 
 2. Testons votre fonction. Créez une page `testFindUtil.php` qui
    1. charge les classes nécessaires,
-   2. crée un `$data` dont `$data['id']` correspond à unutilisateur dans votre
+   2. crée un `$data` dont `$data['id']` correspond à un trajet de votre
    BDD,
    3. appelle la fonction `findUtilisateurs($data)`,
    4. affiche les utilisateurs renvoyés grâce à la fonction `afficher`.
 
+3. Créez un formulaire `formFindUtil.php` de méthode `GET` avec un champ texte
+où l'on rentrera l'identifiant d'un trajet. La page de traitement de ce
+formulaire sera `testFindUtil.php`. Modifiez `testFindUtil.php` pour qu'il
+récupère l'identifiant envoyé par le formulaire.
+
 </div>
 
 
 <div class="exercise">
 
-De la même manière, créer une `public static function findTrajets($data)` dans
+1. De la même manière, créer une `public static function findTrajets($data)` dans
 `Utilisateur.php` qui prendra en entrée un tableau associatif `$data` avec
 un champ `$data['login']`.
 
-</div>
+2.  De la même manière, créez une page de test `testFindTraj.php` et un
+formulaire `testFindTraj.php`.
 
-
-Nous allons maintenant compléter la vue et le contrôleur de notre site. Comme
-nous avons déjà fait ensemble ce type exact d'exercice, nous allons juste vous
-donner le résultat voulu et vous laisser vous débrouiller pour y parvenir.
-
-
-<div class="exercise">
-
-Nous souhaitons avoir un lien `Liste des trajets` dans la vue de détail (action
-`read`) d'un utilisateur. Ce lien amènera vers une nouvelle vue associée à
-l'action `readAllTrajets` qui listera les trajets de l'utilisateur. La vue
-associée ressemblera à la vue de listage des trajets classique (vue `List`) mais
-avec un titre `Liste des trajets de l'utilisateur ... :` au lieu de `Liste des
-trajets :`.
-
-</div>
-
-<div class="exercise">
-Faire la même chose mais avec la liste des utilisateurs d'un trajet.
 </div>
 
 #### Désinscrire un utilisateur d'un trajet et inversement
@@ -323,35 +310,19 @@ l'utilisateur courant du trajet sélectionné.
 
 <div class="exercise">
 
-Créer une `public static function deleteUtilisateur($data)` dans `Trajet.php`
+1. Créer une `public static function deleteUtilisateur($data)` dans `Trajet.php`
 qui prendra en entrée un tableau associatif `$data` avec deux champs
 `$data['trajet_id']` et `$data['utilisateur_login']`. Cette fonction devra
 désinscrire l'utilisateur `utilisateur_login` du trajet `trajet_id`.
 
-</div>
-
-Comme précédemment, nous allons vous donner le 'cahier des charges' de la
-fonctionnalité 'Désinscription' et nous vous laissons le soin de l'implémenter.
-
-<div class="exercise">
-
-Nous désirons avoir un lien 'Désinscription' dans la vue de liste des trajets
-d'un utilisateur (action `readAllTrajets`). Ce lien mènera vers une nouvelle vue
-associée à l'action `deleteUtilisateur` qui écrira `L'utilisateur .. a été
-désinscrit du trajet n°..` puis réaffichera la liste mise à jour des
-utilisateurs du trajet.
+2. Créez une page de test `testDelUtil.php` et un formulaire `formDelUtil.php`
+   de sorte que l'on puisse rentrer un identifiant de trajet et un login
+   d'utilisateur dans le formulaire, et que l'envoi du formulaire redirige sur
+   `testDelUtil.php` qui supprimera le passager dans la BDD.
 
 </div>
 
-<div class="exercise">
-Faire de même pour désinscrire un trajet d'un utilisateur.
-
-**Amélioration possible :** **ICI !!** En fait, les fonctions
-`deleteUtilisateur($data)` de `Trajet.php` et `deleteTrajet($data)` de
-`Utilisateur.php` sont identique. On peut donc faire une unique fonction
-`deletePassager($data)` dans `Model.php`. Ainsi `Utilisateur` et `Utilisateur`
-hériteront de cette fonction.  </div>
-
+<!--
 ### Et si le temps le permet
 
 Voici une liste d'idée pour compléter notre site :
@@ -365,6 +336,7 @@ Voici une liste d'idée pour compléter notre site :
 1. Vous pouvez aussi éventuellement mettre en place des `trigger` dans votre SQL
    pour gérer le nombre de passager par véhicule, le fait qu'un passager ne soit
    pas inscrit deux fois à un trajet ...
+-->
 
 ## Gestion des erreurs
 
