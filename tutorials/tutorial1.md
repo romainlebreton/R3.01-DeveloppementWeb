@@ -169,10 +169,10 @@ class Voiture {
   }
    
    //Un constructeur
-   public function __construct($m,$c,$i)  {
-     $this->marque = $m;
-     $this->couleur = $c;
-     $this->immatriculation = $i;     
+  public function __construct($m = NULL, $c = NULL, $i = NULL)  { //On spécifie les valeurs par défaut
+   if (!is_null($m) ) { $this->marque = $m; }
+   if (!is_null($c) ) { $this->couleur = $c; }
+   if (!is_null($i) ) { $this->immatriculation = $i; }   
   } 
         
   // une methode d'affichage.
@@ -191,7 +191,7 @@ class Voiture {
 2. Le code PHP doit être compris entre la balise ouvrante `<?php` et la balise fermante `?>`
 2. Les variables sont précédées d'un `$`
 3. Pour accéder à un attribut ou une fonction d'un objet, on utilise le `->` au lieu du `.`
-4. Le constructeur ne porte pas le nom de la classe, mais s'appelle `__construct()`.
+4. Le constructeur ne porte pas le nom de la classe, mais s'appelle `__construct()`. Et on a le droit à au plus un constructeur, qu'on pourra eventuellement appeler avec un sous-ensemble de paramètres. 
 
 
 ### Utilisation de cette classe

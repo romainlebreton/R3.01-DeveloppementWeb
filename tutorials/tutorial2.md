@@ -20,7 +20,8 @@ régulièrement chaque nouvelle partie de code.
 
 ## Connexion à la base de données
 
-1. Connectez vous à votre base de données MySQL, à l'aide de l'interface PhpMyAdmin
+1. Connectez vous à votre base de données MySQL, à l'aide de l'interface
+PhpMyAdmin
 [http://infolimon.iutmontp.univ-montp2.fr/my](http://infolimon.iutmontp.univ-montp2.fr/my)
 Le login est votre login IUT et votre mot de passe initial votre numéro  INE.  
 (Si vous êtes sur votre machine, allez sur votre phpmyadmin à l'adresse
@@ -28,8 +29,8 @@ Le login est votre login IUT et votre mot de passe initial votre numéro  INE.
 
 2. Changez votre mot de passe en quelque chose de simple et pas secret. En
    effet, vous devrez bientôt écrire ce mot de passe en clair dans un fichier.
-   Si vous n'arrivez pas à vous logger après avoir changé le mot de passe, essayer avec 
-   un autre navigateur ou bien videz le cache du navigateur. 
+   Si vous n'arrivez pas à vous logger après avoir changé le mot de passe,
+   essayer avec un autre navigateur ou bien videz le cache du navigateur.
 
 2. Créez une table `voiture` possédant 3 champs :
 
@@ -38,12 +39,14 @@ Le login est votre login IUT et votre mot de passe initial votre numéro  INE.
    * `marque` de type `VARCHAR` est de longueur maximale 25.
    * `couleur` de type `VARCHAR` est de longueur maximale 12.
    
-   **Attention** : Les noms des champs sont comme des noms de variables,
-   ils ne doivent pas contenir d'accents. Par ailleurs, et contrairement à Oracle, MySQL est sensible à la casse (minuscules/majuscules). 
+   **Attention** : Les noms des champs sont comme des noms de variables, ils ne
+   doivent pas contenir d'accents. Par ailleurs, et contrairement à Oracle,
+   MySQL est sensible à la casse (minuscules/majuscules).
    
 3. Insérez des données en utilisant l'onglet `insérer` de PhpMyAdmin.
 
-4. Dans la suite du TD, pensez à systématiquement tester vos requêtes SQL dans PhpMyAdmin avant de les inclure dans vos pages PHP. 
+4. Dans la suite du TD, pensez à systématiquement tester vos requêtes SQL dans
+   PhpMyAdmin avant de les inclure dans vos pages PHP.
 
 ### Configuration
 
@@ -312,7 +315,7 @@ trois points suivants :
 Intervention sur les injections SQL avec un exemple simple
 -->
 
-Imaginez que nous avons une fonction `getVoiture($immatriculation)` codé comme
+Imaginez que nous avons une fonction `getVoiture($immatriculation)` codée comme
 suit
 
 ~~~
@@ -343,8 +346,10 @@ comment elles fonctionnent :
 function getVoitureByImmat($immat) {
   $sql = "SELECT * from voiture WHERE immatriculation=:nom_var";
   $req_prep = Model::$pdo->prepare($sql);
-  $req_prep->bindParam(":nom_var", $immat);
-  $req_prep->execute();
+  $values = array(
+     "nom_var" => $immat  
+   );
+  $req_prep->execute($values);
 
   $req_prep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
   // Vérifier si $req_prep->rowCount() != 0
@@ -352,6 +357,12 @@ function getVoitureByImmat($immat) {
 }
 ~~~
 {:.php}
+
+**Remarque :** Il existe une autre solution pour associer une à une les valeurs
+aux variables d'une requête préparée avec la fonction
+[`bindParam`](http://php.net/manual/fr/pdostatement.bindparam.php) de la classe
+PDO. Cependant nous vous conseillons d'utiliser systématiquement la syntaxe avec
+un tableau `execute($values)`.
 
 1. Copiez la fonction précédente dans `Voiture.php` et testez-là dans
 `lireVoiture.php`.
@@ -364,42 +375,25 @@ voiture courante dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
    ~~~
    {:.sql}
 
-   **Astuce :** Plutôt que de faire un `bindParam` par valeurs, vous pouvez créer
-   un tableau contenant toutes les valeurs et le donner à la fonction `execute()`. Remarquez que les indices du tableau doivent correspondre aux noms des *tags*.
-   
-   ~~~
-   $sql = "SELECT * from voiture WHERE immatriculation=:immat AND
-                                       couleur=:couleur AND
-                                       marque=:marque";
-   $req_prep = Model::$pdo->prepare($sql);
-   $values = array(
-     "immat" => "aze13be",
-     "couleur" => "bleu",
-     "marque" => "Tesla"
-   );
-   $req_prep->execute($values);
-   ~~~
-   {:.php}
-
-
 3. Modifier la page  `creerVoiture.php` du TD précédent de sorte qu'elle sauvegarde
 l'objet `Voiture` créé.
-4. Testez l'insertion grâce au formulaire du TD n°1. 
-5. Vérifiez dans MYSQL que les voitures sont bien sauvegardées.
+4. Testez l'insertion grâce au formulaire `formulaireVoiture.html` du TD n°1. 
+5. Vérifiez dans PhpMyAdmin que les voitures sont bien sauvegardées.
 
-**N'oubliez-pas** de protéger tout votre code avec PDO (`getAllVoitures`, ...)
-  avec des try - catch comme dans `Model`. 
+**N'oubliez-pas** de protéger tout votre code contenant du PDO
+  (`getAllVoitures`, ...)  avec des try - catch comme dans `Model`. En effet,
+  chaque ligne de code liée à PDO est susceptible de lancer une exception,
+  qu'il nous faut capturer et traiter (rôle du `catch`).
 
 ### Gestion des erreurs
-
-
 
 2. Dans un site en production, pour des raisons de sécurité et de confort
 d'utilisation, il est déconseillé d'afficher directement un message d'erreur. Pour
 cela on va créer une variable pour activer ou désactiver l'affichage des
 messages d'erreurs.
 
-   Dans la classe `Conf`, ajouter un attribut  statique `debug` et son getter publique. 
+   Dans la classe `Conf`, ajouter un attribut statique `debug` et son getter
+   publique.
 
    ~~~
    <?php
@@ -436,9 +430,7 @@ messages d'erreurs.
 ### Site de covoiturage
 
 Reprendre les classes du TP précédent sur le covoiturage et y ajouter
-l'utilisation d'une base de données.
+la gestion de la persistance.
 
-Chaque utilisateur sera identifié par un id, de même pour chaque trajet.
 
 <!-- Utiliser une table de jonction pour lier les utilisateurs aux trajets. -->
-

@@ -22,7 +22,7 @@ associations entre plusieurs tables de la BDD.
 Intervention sur les injections SQL avec un exemple simple
 -->
 
-Imaginez que nous avons une fonction `getVoiture($immatriculation)` codé comme
+Imaginez que nous avons une fonction `getVoiture($immatriculation)` codée comme
 suit
 
 ~~~
@@ -53,8 +53,10 @@ comment elles fonctionnent :
 function getVoitureByImmat($immat) {
   $sql = "SELECT * from voiture WHERE immatriculation=:nom_var";
   $req_prep = Model::$pdo->prepare($sql);
-  $req_prep->bindParam(":nom_var", $immat);
-  $req_prep->execute();
+  $values = array(
+     "nom_var" => $immat  
+   );
+  $req_prep->execute($values);
 
   $req_prep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
   // Vérifier si $req_prep->rowCount() != 0
@@ -62,6 +64,12 @@ function getVoitureByImmat($immat) {
 }
 ~~~
 {:.php}
+
+**Remarque :** Il existe une autre solution pour associer une à une les valeurs
+aux variables d'une requête préparée avec la fonction
+[`bindParam`](http://php.net/manual/fr/pdostatement.bindparam.php) de la classe
+PDO. Cependant nous vous conseillons d'utiliser systématiquement la syntaxe avec
+un tableau `execute($values)`.
 
 <div class="exercise">
 1. Copiez la fonction précédente dans `Voiture.php` et testez-là dans
@@ -75,30 +83,6 @@ voiture courante dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
    ~~~
    {:.sql}
 
-3. Il y a une autre syntaxe qu'il faut maîtriser : Plutôt que de faire un
-   `bindParam` par valeurs, vous pouvez créer un tableau contenant toutes les
-   valeurs et le donner à la fonction `execute()`. Voici un exemple :
-   
-   ~~~
-   $sql = "SELECT * from voiture WHERE immatriculation=:immat AND
-                                       couleur=:couleur AND
-                                       marque=:marque";
-   $req_prep = Model::$pdo->prepare($sql);
-   $values = array(
-     "immat" => "aze13be",
-     "couleur" => "bleu",
-     "marque" => "Tesla"
-   );
-   $req_prep->execute($values);
-   ~~~
-   {:.php}
-
-   Remarquez que les indices du tableau doivent correspondre aux noms des
-   *tags*.
-   
-   **À vous d'écrire** une fonction `insertVoiture2()` similaire à la précédente mais
-     avec cette syntaxe.
-   	
 3. Modifier la page  `creerVoiture.php` du TD précédent de sorte qu'elle sauvegarde
 l'objet `Voiture` créé.
 4. Testez l'insertion grâce au formulaire `formulaireVoiture.html` du TD n°1. 
@@ -112,6 +96,10 @@ l'objet `Voiture` créé.
 </div>
 
 ## Création des tables de notre site de covoiturage
+
+Reprennons les classes du TP précédent sur le covoiturage pour y ajouter la
+gestion de la persistance.
+
 
 <div class="exercise">
 1. Dans votre PhpMyAdmin, créez une table `utilisateur` avec les champs suivants :
@@ -187,7 +175,17 @@ paramètre à la création de la table ou le changer après coup dans l'onglet
 
 </div>
 
+<!--
+<div class="exercise">
+À l'aide de l'interface de PhpMyAdmin, faites de `trajet_id` et `login` des **index**. 
 
+**Aide:** Dans l'onglet `Structure` de la table passager, cliquer sur l'icône de l'action `index` en face des champs `trajet_id` et `utilisateur_login`.
+
+
+**Plus de détails:** Dire que le champ `trajet_id` est un **index** revient à dire à MySql que l'on veut trouver rapidement les lignes qui ont un `trajet_id` donné. Du coup, MySql va construire une structure de donnée pour permettre cette recherche rapide.
+Une **clé étrangère** est nécessairement un **index** car on a besoin de ce genre de recherches pour tester rapidement la contrainte de clé étrangère.
+</div>
+-->
 
 <!--
 Plutôt que le texte: "Reprendre les classes du TP précédent sur le covoiturage et y ajouter l'utilisation d'une base de données. Chaque utilisateur sera identifié par un id, de même pour chaque trajet."
@@ -204,28 +202,44 @@ Vous avez couvert dans le cours "Analyse, Conception et Développements
 d'Applications" les diagrammes de classes. Ce type de diagramme est utile pour
 penser la base de donnée d'une application web.
 
+<!-- ![Diagramme entité association](/images/logo.png) --> 
+
 <div class="exercise">
-Si vous deviez dessiner les classes 'Utilisateur' et 'Trajet' et leur lien d'association, quelle multiplicité mettriez-vous ?
 En fonction de votre multiplicité, comment implémenteriez-vous l'association entre utilisateurs et trajets dans la base de donnée?
 </div>
 
 #### Notre solution
-Dans ce TD, nous allons développer notre site pour une association entre utilisateurs et trajets de multiplicités non bornées. C'est-à-dire qu'on ne va pas limiter le nombre d'utilisateurs d'un trajet et inversement.
+
+La relation conducteur est de multiplicité bornée, il suffit de rajouter un
+champ `conducteur_login` dans la table `Trajet`.
+
+Dans la suite de ce TD, nous allons nous intéresser à l'association `passager`
+entre utilisateurs et trajets de multiplicités non bornées. C'est-à-dire qu'on
+ne va pas limiter le nombre d'utilisateurs d'un trajet et inversement.
 
 <div class="exercise">
 Comment implémente-t-on cette association avec des bases de données ?
 </div>
 
-**Réponse:** <span style="color:#EEE">On utilise une table de jointure.</span>
+**Réponse:** <span style="color:#FCFCFC">On utilise une table de jointure.</span>
 
 
-Nous choisissons donc de créer une table `passager` qui contiendra trois champs :
+Nous choisissons donc de créer une table `passager` qui contiendra deux champs :
 
-* une clé primaire INT `id` qui numérote les associations,
 * l'identifiant INT `trajet_id` d'un trajet et
 * l'identifiant VARCHAR(32) `utilisateur_login` d'un utilisateur.
 
 Pour inscrire un utilisateur à un trajet, il suffit d'écrire la ligne correspondante dans la table `passager` avec leur `utilisateur_login` et leur `trajet_id`.
+
+<div class="exercise">
+Quelle est la clé primaire de cette table ? 
+</div>
+
+**Réponse:** <span style="color:#FCFCFC">Le couple
+  (trajet_id,utilisateur_login). Si vous choissisez trajet_id seul comme clé
+  primaire, un trajet aura au plus un passager, et si vous choississez
+  utilisateur_login, chaque utilisateur ne pourra être passager que sur un
+  unique trajet.</span>
 
 L'interclassement général de votre table sera toujours `utf8_general_ci` (c'est l'encodage des données, et donc des accents, caractères spéciaux ...).
 
@@ -233,24 +247,13 @@ L'interclassement général de votre table sera toujours `utf8_general_ci` (c'es
 On souhaite que le champ `passager.trajet_id` corresponde à tout moment à un identifiant de trajet `trajet.id`. Quelle est la fonctionnalité des bases de données qui permet ceci ?
 </div>
 
-**Réponse:** <span style="color:#EEE">Il faut utiliser des clés étrangères.</span>
+**Réponse:** <span style="color:#FCFCFC">Il faut utiliser des clés étrangères.</span>
 
 <div class="exercise"> 
 Créer la table `passager` en utilisant l'interface de PhpMyAdmin. 
 
 **Attention :** 
 Pour supporter les clés étrangères, il faut que le moteur de stockage de toutes vos tables impliqués soit `InnoDB` . Vous pouvez choisir ce paramètre à la création de la table ou le changer après coup dans l'onglet `Opérations`.
-</div>
-
-
-<div class="exercise">
-À l'aide de l'interface de PhpMyAdmin, faites de `trajet_id` et `login` des **index**. 
-
-**Aide:** Dans l'onglet `Structure` de la table passager, cliquer sur l'icône de l'action `index` en face des champs `trajet_id` et `utilisateur_login`.
-
-
-**Plus de détails:** Dire que le champ `trajet_id` est un **index** revient à dire à MySql que l'on veut trouver rapidement les lignes qui ont un `trajet_id` donné. Du coup, MySql va construire une structure de donnée pour permettre cette recherche rapide.
-Une **clé étrangère** est nécessairement un **index** car on a besoin de ce genre de recherches pour tester rapidement la contrainte de clé étrangère.
 </div>
 
 <div class="exercise">
