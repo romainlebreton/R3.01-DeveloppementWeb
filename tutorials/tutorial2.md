@@ -504,15 +504,6 @@ Pour supporter les clés étrangères, il faut que le moteur de stockage de tout
 </div>
 
 
-<div class="exercise">
-À l'aide de l'interface de PhpMyAdmin, faites de `trajet_id` et `login` des **index**. 
-
-**Aide:** Dans l'onglet `Structure` de la table passager, cliquer sur l'icône de l'action `index` en face des champs `trajet_id` et `utilisateur_login`.
-
-
-**Plus de détails:** Dire que le champ `trajet_id` est un **index** revient à dire à MySql que l'on veut trouver rapidement les lignes qui ont un `trajet_id` donné. Du coup, MySql va construire une structure de donnée pour permettre cette recherche rapide.
-Une **clé étrangère** est nécessairement un **index** car on a besoin de ce genre de recherches pour tester rapidement la contrainte de clé étrangère.
-</div>
 
 <div class="exercise">
 Rajoutez la contrainte de **clé étrangère** entre `passager.trajet_id` et
