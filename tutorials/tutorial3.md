@@ -126,7 +126,7 @@ utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
 
 1. Insérez quelques utilisateurs.
 2. Créez une table `trajet` avec les champs suivants :
-   * `id` : VARCHAR 32, clé primaire, qui s'auto-incrémente (voir en dessous)
+   * `id` : INT, clé primaire, qui s'auto-incrémente (voir en dessous)
    * `depart` : VARCHAR 32
    * `arrivee` : VARCHAR 32
    * `date` : DATE
