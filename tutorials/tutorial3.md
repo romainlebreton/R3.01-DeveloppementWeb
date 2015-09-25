@@ -124,6 +124,10 @@ utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
    * `nom` : VARCHAR 32
    * `prenom` : VARCHAR 32
 
+   **Important :** Pour faciliter la suite du TD, mettez à la création de toutes
+     vos tables `InnoDB` comme moteur de stockage, et `utf8_general_ci` comme
+     interclassement (explications plus loin).
+
 1. Insérez quelques utilisateurs.
 2. Créez une table `trajet` avec les champs suivants :
    * `id` : INT, clé primaire, qui s'auto-incrémente (voir en dessous)
@@ -137,6 +141,9 @@ utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
    **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque nouvelle
    insertion dans la table.  Pour ce faire, sélectionnez pour le champ `id` la
    valeur par défaut `NULL` et cochez la case `A_I` (auto-increment).
+
+   **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
+
 2. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
    que l'auto-incrément marche) et en mettant dans `conducteur_login` des login
    d'utilisateurs valides (pour éviter des problèmes par la suite).
@@ -225,6 +232,8 @@ correspondante dans la table `passager` avec leur `utilisateur_login` et leur
 1. Créer la table `passager` en utilisant l'interface de PhpMyAdmin.
 L'interclassement général de vos table sera toujours `utf8_general_ci` (c'est
 l'encodage des données, et donc des accents, caractères spéciaux ...).
+
+   **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
 
 1. Assurez-vous que vous avez bien le bon couple en tant que clé primaire. Cela
    se voit dans `Gestion des relations`.
