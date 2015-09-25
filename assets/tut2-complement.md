@@ -212,9 +212,9 @@ $sql = "SELECT * from voiture WHERE couleur=:c";
 $req_prep = $pdo->prepare($sql);
 
 $req_prep->bindParam(":c","bleu");
-$rep = $req_prep->execute();
+$req_prep->execute();
 
-$tab_obj = $rep->fetchAll(PDO::FETCH_OBJ);
+$req_prep->fetchAll(PDO::FETCH_OBJ);
 ~~~
 {:.php}
 
