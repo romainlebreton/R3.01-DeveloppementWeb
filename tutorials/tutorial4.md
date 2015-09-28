@@ -79,6 +79,8 @@ Renommez le ficher `Voiture.php` en `./model/modelVoiture.php`. Renommez la
 classe en `ModelVoiture`. Commentez ou supprimez la fonction `afficher()`.
 </div>
 
+**N.B. :** Il est vraiment conseillé de renommer le fichier et non de le copier. Avoir plusieurs copies de vos classes et fichiers est source d'erreur difficle à debuger.
+
 Dans notre cas, la nouvelle classe `ModelVoiture` gère la persistance au travers
 des méthodes:
 
@@ -160,8 +162,8 @@ $action = $_GET['action'];          // recupère l'action passée dans l'URL
 
 switch ($action) {
     case "readAll":
-        $tabVoitures = Voiture::getAllVoitures();
-        require ('view/voiture/viewAllVoiture.php');
+        $tabVoitures = Voiture::getAllVoitures();     //appel au modèle pour gerer la BD
+        require ('view/voiture/viewAllVoiture.php');  //"redirige" vers la vue
         break;
 }
 ?>
@@ -184,7 +186,7 @@ nous devrons demander l'URL
 
 Notre contrôleur se décompose donc en plusieurs parties :
 
-1. on récupère l'action de l'utilisateur avec `$action = $_GET['action'];` ;
+1. on récupère l'action de l'utilisateur avec `$action = $_GET['action'];` 
 2. le `switch` - `case` nous permet d'exécuter le code de la bonne action ;
 3. on se sert du modèle pour récupérer le tableau de toutes les voitures avec  
 `$tabVoitures = Voiture::getAllVoitures();`
@@ -299,49 +301,13 @@ dans la BDD.
 
 Rajouter une fonctionnalité *"Supprimer une voiture"* à
 votre site (action `delete`). Ajouter un lien cliquable pour supprimer chaque
-voiture dans la liste des voitures.
+voiture dans la liste des voitures (dans la vue `view/voiture/viewAllVoiture.php`).
 
 </div>
 
-## Et si le temps le permet...
 
-<div class="exercise">
-Gérer le cas particulier de l'ajout d'une voiture existant déjà dans la base
-de donnée. 
-</div> 
 
-<div class="exercise"> 
-
-Rajoutons des comportements par défaut :
-
-1. Nous voudrions qu'un utilisateur qui navigue à la racine du site arrive
-automatiquement sur la page du contrôleur. Créer pour cela un `index.php` à la
-racine qui charge seulement la page `./controller/controllerVoiture.php` par un
-require.
-
-1. Nous voudrions aussi que le contrôleur exécute l'action `"readAll"` si aucune
-action n'est spécifiée dans les paramètres de l'URL.
-
-   **Aide :** Utiliser la fonction `isset($_GET['action'])` pour déterminer si
-une action a été donnée. Vous aurez aussi besoin du 'case' `default` de switch -
-case
-([http://php.net/manual/fr/control-structures.switch.php](http://php.net/manual/fr/control-structures.switch.php)).
-
-</div>
-
-<div class="exercise">
-Gérer les options des voitures : Créer une table options
- dans votre base de données avec trois champs `id_option`, `immatriculation` et
- `option`.
-
-Le champ `id_option` sera un entier automatiquement incrémenté à chaque
-insertion d'option. On obtient ce comportement en cochant la case `A_I`
-(auto_increment) lors de la création de la table et en insérant la valeur NULL à
-la colonne `id_option` lors d'un ajout d'option.
-
-Mettre à jour les fonctions `save()`, `getVoitureByImmat($im)` et `getAllVoitures()`
-pour qu'elles prennent en charge les options.  Mettre aussi à jour la vue de
-détail pour qu'elle affiche les options.  </div>
+### Factorisation du code des vues
 
 <div class="exercise">
 Créer dans le répertoire view deux fichiers `header.php`
@@ -352,7 +318,49 @@ pourrait être un simple bandeau avec votre nom, un copyright et un lien pour
 vous écrire.
 
 Charger ces fichiers respectivement au début et à la fin du `<body>` de toutes vos vues.
+
+  **NB ** : Attention aux chemins relatifs lors de l'inclusion des header et footer dans vos vues. 
 </div> 
+
+## Et si le temps le permet...
+
+
+
+<div class="exercise"> 
+
+Rajoutons des comportements par défaut :
+
+1. Nous voudrions qu'un utilisateur qui navigue à la racine du site arrive
+automatiquement sur la page du contrôleur. Créer pour cela un `index.php` à la
+racine qui charge seulement la page `./controller/controllerVoiture.php` à l'aide 
+d'un `require`.
+
+2. Nous voudrions aussi que le contrôleur exécute l'action `"readAll"` si aucune
+action n'est spécifiée dans les paramètres de l'URL.
+
+   **Aide :** Utiliser la fonction `isset($_GET['action'])` pour déterminer si
+une action a été donnée. Vous aurez aussi besoin du 'case' `default` de switch -
+case
+([http://php.net/manual/fr/control-structures.switch.php](http://php.net/manual/fr/control-structures.switch.php)).
+</div>
+
+<div class="exercise">
+Gérer le cas particulier de l'ajout d'une voiture existant déjà dans la base
+de donnée. 
+</div> 
+
+<div class="exercise">
+Gérer les options des voitures : 
+Reprendre la méthodologie du TD précédent pour l'association `passager` entre les Trajets et les Utilisateurs. 
+
+Créer une table options dans votre base de données avec deux champs de type VARCHAR, `immatriculation` et `option`, qui constitueront la clé primaire.
+
+Mettre à jour les fonctions `save()`, `getVoitureByImmat($im)` et `getAllVoitures()`
+pour qu'elles prennent en charge les options.  Mettre aussi à jour la vue de
+détail pour qu'elle affiche les options.
+</div>
+
+
 
 <!--
  Choses à faire:
