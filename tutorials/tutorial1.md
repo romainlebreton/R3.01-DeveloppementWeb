@@ -239,9 +239,8 @@ fichier **PHP** est considéré comme un `main()`.
 4. Modifier la méthode `afficher()` pour qu'elle permette de lister les options
 
    ~~~
-   foreach ($this->options as $i => $option) {
-       echo $this->options[$i];
-       //de meme pour echo($option); 
+   foreach ($this->options as $option) {
+       echo $this->option; 
    }
    ~~~
    {:.php}
