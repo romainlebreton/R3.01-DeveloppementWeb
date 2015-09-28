@@ -14,10 +14,8 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaine du 14 Septembre 2015 -- [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html) 
 1. Semaine du 21 Septembre 2015 --
 [TD 3 -- Fin TD2 et association entre classes](tutorials/tutorial3.html)
-
-<!--
 1. Semaine du 28 Septembre 2015 --  [TD 4 -- Architecture MVC simple](tutorials/tutorial4.html)
--->
+
 
 ## Notes complémentaires
 

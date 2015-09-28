@@ -22,7 +22,7 @@ associations entre plusieurs tables de la BDD.
 Intervention sur les injections SQL avec un exemple simple
 -->
 
-Imaginez que nous avons une fonction `getVoiture($immatriculation)` codée comme
+Imaginez que nous avons une fonction `getVoitureByImmat($immatriculation)` codée comme
 suit
 
 ~~~
