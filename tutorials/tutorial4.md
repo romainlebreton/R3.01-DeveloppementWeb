@@ -128,7 +128,7 @@ suivant :
     </head>
     <body>
         <?php
-        foreach ($tabVoitures as $v)
+        foreach ($tab_v as $v)
           echo '<p> Voiture d\'immatriculation ' . $v->getImmatriculation() . '.</p>';
         ?>
     </body>
@@ -162,7 +162,7 @@ $action = $_GET['action'];          // recupère l'action passée dans l'URL
 
 switch ($action) {
     case "readAll":
-        $tabVoitures = ModelVoiture::getAllVoitures();     //appel au modèle pour gerer la BD
+        $tab_v = ModelVoiture::getAllVoitures();     //appel au modèle pour gerer la BD
         require ('view/voiture/viewAllVoiture.php');  //"redirige" vers la vue
         break;
 }
@@ -189,7 +189,7 @@ Notre contrôleur se décompose donc en plusieurs parties :
 1. on récupère l'action de l'utilisateur avec `$action = $_GET['action'];` 
 2. le `switch` - `case` nous permet d'exécuter le code de la bonne action ;
 3. on se sert du modèle pour récupérer le tableau de toutes les voitures avec  
-`$tabVoitures = Voiture::getAllVoitures();`
+`$tab_v = Voiture::getAllVoitures();`
 4. on appelle alors la vue qui va nous générer la page Web avec  
 `require ('view/voiture/viewAllVoiture.php');`
 
