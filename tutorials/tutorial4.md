@@ -75,11 +75,14 @@ la base de données. C'est, par exemple, la classe `Voiture` que vous avez cré�
 lors des TDs précédents (sauf la fonction `afficher()`).
 
 <div class="exercise">
-Renommez le ficher `Voiture.php` en `./model/modelVoiture.php`. Renommez la
-classe en `ModelVoiture`. Commentez ou supprimez la fonction `afficher()`.
+1. Créez les répertoires `config, controller, model, view` et `view/voiture`.
+1. Renommez le ficher `Voiture.php` en `modelVoiture.php`. 
+1. Déplacez vos fichiers `modelVoiture.php` et `Model.php` dans le répertoire `model/`.
+1. Renommez la classe en `ModelVoiture`. Commentez ou supprimez la fonction `afficher()`.
+1. Corrigez le chemin relatif de l'include du fichier `Conf.php`.
 </div>
 
-**N.B. :** Il est vraiment conseillé de renommer le fichier et non de le copier. Avoir plusieurs copies de vos classes et fichiers est source d'erreur difficle à debuger.
+**N.B. :** Il est vraiment conseillé de renommer le fichier et non de le copier. Avoir plusieurs copies de vos classes et fichiers est source d'erreur difficile à debuger.
 
 Dans notre cas, la nouvelle classe `ModelVoiture` gère la persistance au travers
 des méthodes:
