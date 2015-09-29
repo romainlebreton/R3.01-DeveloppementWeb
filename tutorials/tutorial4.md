@@ -79,6 +79,7 @@ lors des TDs précédents (sauf la fonction `afficher()`).
 1. Renommez le ficher `Voiture.php` en `modelVoiture.php`. 
 1. Déplacez vos fichiers `modelVoiture.php` et `Model.php` dans le répertoire `model/`.
 1. Renommez la classe en `ModelVoiture`. Commentez ou supprimez la fonction `afficher()`.
+2. Pensez à corriger la classe appeler dans vos `setFetchMode(PDO::FETCH_CLASS, 'modelVoiture');`
 1. Corrigez le chemin relatif de l'include du fichier `Conf.php`.
 </div>
 
