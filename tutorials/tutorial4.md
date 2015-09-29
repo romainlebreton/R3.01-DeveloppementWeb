@@ -128,8 +128,8 @@ suivant :
     </head>
     <body>
         <?php
-        foreach ($tab_v as $v)
-          echo '<p> Voiture d\'immatriculation ' . $v->immatriculation . '.</p>';
+        foreach ($tabVoitures as $v)
+          echo '<p> Voiture d\'immatriculation ' . $v->getImmatriculation() . '.</p>';
         ?>
     </body>
 </html>
@@ -162,7 +162,7 @@ $action = $_GET['action'];          // recupère l'action passée dans l'URL
 
 switch ($action) {
     case "readAll":
-        $tabVoitures = Voiture::getAllVoitures();     //appel au modèle pour gerer la BD
+        $tabVoitures = ModelVoiture::getAllVoitures();     //appel au modèle pour gerer la BD
         require ('view/voiture/viewAllVoiture.php');  //"redirige" vers la vue
         break;
 }
