@@ -283,7 +283,7 @@ dans la BDD.
    l'action `create`.
 
 1. Créez l'action `created` et sa vue associée
-`./view/voiture/viewCreateVoiture.php`. L'action dans le contrôleur devra
+`./view/voiture/viewCreatesVoiture.php`. L'action dans le contrôleur devra
 
    1. récupérer les donnés de la voiture à partir de la *query string*,
    2. appeler la méthode `save` du modèle,
