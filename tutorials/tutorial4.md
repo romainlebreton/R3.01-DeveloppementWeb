@@ -161,13 +161,13 @@ Nous choisissons ici la version intermédiaire. Voici le contrôleur
 
 ~~~
 <?php
-include ('model/modelVoiture.php'); // chargement du modèle
+require_once ('../model/modelVoiture.php'); // chargement du modèle
 $action = $_GET['action'];          // recupère l'action passée dans l'URL
 
 switch ($action) {
     case "readAll":
         $tab_v = ModelVoiture::getAllVoitures();     //appel au modèle pour gerer la BD
-        require ('view/voiture/viewAllVoiture.php');  //"redirige" vers la vue
+        require ('../view/voiture/viewAllVoiture.php');  //"redirige" vers la vue
         break;
 }
 ?>
