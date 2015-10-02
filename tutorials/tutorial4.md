@@ -78,9 +78,10 @@ lors des TDs précédents (sauf la fonction `afficher()`).
 1. Créez les répertoires `config`, `controller`, `model`, `view` et `view/voiture`.
 1. Renommez le fichier `Voiture.php` en `modelVoiture.php`. 
 1. Déplacez vos fichiers `modelVoiture.php` et `Model.php` dans le répertoire `model/`.
+1. Déplacez `Conf.php` dans le dossier `config`.
 1. Renommez la classe en `ModelVoiture`. Commentez ou supprimez la fonction `afficher()`.
 2. Pensez à corriger la classe appelée dans vos `setFetchMode()` pour créer des objets de `ModelVoiture`.
-1. Corrigez le chemin relatif de l'`include` du fichier `Conf.php`.
+1. Corrigez le chemin relatif de l'`include` du fichier `Conf.php` dans `Model.php`.
 </div>
 
 **N.B. :** Il est vraiment conseillé de renommer le fichier et non de le
