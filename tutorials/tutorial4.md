@@ -182,13 +182,16 @@ savoir:
 
 1. afficher toutes les voitures : action `readAll`
 2. afficher les détails d'une voiture : action `read`
-3. enregistrer une voiture : action `save`
+3. afficher le formulaire de création d'une voiture : action `create`
+3. créer une voiture dans la BDD : action `created`
 4. supprimer une voiture : action `delete`
 
 L'action est passée dans l'URL au format *query string* (comme les données des
 formulaires en méthode `GET`). Par exemple, pour afficher toutes les voitures,
 nous devrons demander l'URL
-[.../controllerVoiture.php?action=readAll](http://infolimon/~mon_login/PHP/TD4/controller/controllerVoiture.php?action=readAll).
+[.../controllerVoiture.php?action=readAll](http://infolimon/~mon_login/PHP/TD4/controller/controllerVoiture.php?action=readAll).  
+**Rappel sur query string :** Dans les
+[compléments du TD1]({{site.baseurl}}/assets/tut1-complement.html#mthode-get).
 
 Notre contrôleur se décompose donc en plusieurs parties :
 
@@ -197,7 +200,9 @@ Notre contrôleur se décompose donc en plusieurs parties :
 3. on se sert du modèle pour récupérer le tableau de toutes les voitures avec  
 `$tab_v = Voiture::getAllVoitures();`
 4. on appelle alors la vue qui va nous générer la page Web avec  
-`require ('view/voiture/viewAllVoiture.php');`
+`require ('../view/voiture/viewAllVoiture.php');`  
+**Pourquoi `../` ?** Les adresses sont relatives au fichier courant qui est
+  `controller/controllerVoiture.php` dans notre cas.
 
 Notez bien que c'est le contrôleur qui initialise la variable `$tab_v` et que la
 vue ne fait que la lire pour générer la page Web.
@@ -316,7 +321,7 @@ voiture dans la liste des voitures (dans la vue `view/voiture/viewAllVoiture.php
 ### Factorisation du code des vues
 
 <div class="exercise">
-Créer dans le répertoire view deux fichiers `header.php`
+Créer dans le répertoire `view` deux fichiers `header.php`
 et `footer.php`. Le header correspond à l'en-tête de votre site qui ne varie pas
 selon la page. Vous pouvez par exemple le remplir avec une liste de lien vers
 les différentes actions (liste, ajout, recherche) sur vos voitures. Le footer
@@ -325,7 +330,7 @@ vous écrire.
 
 Charger ces fichiers respectivement au début et à la fin du `<body>` de toutes vos vues.
 
-  **NB ** : Attention aux chemins relatifs lors de l'inclusion des header et footer dans vos vues. 
+**NB :** Attention aux chemins relatifs lors de l'inclusion des header et footer dans vos vues. 
 </div> 
 
 ## Et si le temps le permet...
