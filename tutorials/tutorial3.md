@@ -88,6 +88,8 @@ courante (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion 
    ~~~
    {:.sql}
 
+   **Attention :** La requête `INSERT INTO` ne renvoie pas de résultats ; il ne faut donc pas faire de `fetch()` sous peine d'avoir une `SQLSTATE[HY000]: General error`.
+
 3. Modifier la page  `creerVoiture.php` du TD précédent de sorte qu'elle sauvegarde
 l'objet `Voiture` créé.
 4. Testez l'insertion grâce au formulaire `formulaireVoiture.html` du TD n°1. 

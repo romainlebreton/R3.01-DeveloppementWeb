@@ -350,7 +350,11 @@ Rajoutons des comportements par défaut :
 1. Nous voudrions qu'un utilisateur qui navigue à la racine du site arrive
 automatiquement sur la page du contrôleur. Créer pour cela un `index.php` à la
 racine qui charge seulement la page `./controller/controllerVoiture.php` à l'aide 
-d'un `require`.
+d'un `require`.  
+**Remarque :** Tous les chemins que vous écrivez sont relatifs à la page
+  demandée. Comme on change la page de `controller/controllerVoiture.php` vers
+  `index.php`, tous vos `require` sont décalés. On peut évitera ce problème dans
+  un prochaine TD en utilisant des chemins absolus.
 
 2. Nous voudrions aussi que le contrôleur exécute l'action `"readAll"` si aucune
 action n'est spécifiée dans les paramètres de l'URL.
