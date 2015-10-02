@@ -74,6 +74,11 @@ Le modèle est chargé de la gestion des données, notamment des interactions av
 la base de données. C'est, par exemple, la classe `Voiture` que vous avez créé
 lors des TDs précédents (sauf la fonction `afficher()`).
 
+<!--
+L'année prochaine : nommer les fichiers comme les classes ModelVoiture.php
+et peut-être nom de vue plus simple genre view/voiture/List.php
+-->
+
 <div class="exercise">
 1. Créez les répertoires `config`, `controller`, `model`, `view` et `view/voiture`.
 1. Renommez le fichier `Voiture.php` en `modelVoiture.php`. 
@@ -292,7 +297,7 @@ dans la BDD.
    aviez créé lors du TD1 dans le fichier `creerVoiture.php`. La vue que vous
    créerez s'appelera `./view/voiture/viewCreateVoiture.php`. La page de
    traitement de ce formulaire devra être le contrôleur `controllerVoiture` avec
-   l'action `create`.
+   l'action `created`.
 
 1. Créez l'action `created` et sa vue associée
 `./view/voiture/viewCreatedVoiture.php`. L'action dans le contrôleur devra
