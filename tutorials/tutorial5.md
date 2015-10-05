@@ -119,25 +119,15 @@ bon slash de séparation des chemins selon le système :
 
 
 <!--
------------------------- Commenté --------------------------------------
-## Mise en route
-
-Pour ce TD, nous vous passons un squelette de site qui sera à compléter et à
-enrichir.
-
-<div class="exercise">
-
-Récupérez sur http://www.lirmm.fr/~lebreton/teaching.html} l'archive TD4.zip qui
+Récupérez sur http://www.lirmm.fr/~lebreton/teaching.html} l'archive TD5.zip qui
 vous servira de base pour ce TD. Décompressez cette archive dans votre
 `public_html`.  **Rentrez vos informations de connexion dans
 `./config/Conf.php`.**
 
 Si vous utilisez NetBeans, ce qui est conseillé, créez un nouveau projet à
-partir du répertoire TD4 (File $\to$ New Project $\to$ 'Php application from
-existing sources' $\to$ sélectionnez le répertoire TD4).
-</div>
+partir du répertoire TD5 (File $\to$ New Project $\to$ 'Php application from
+existing sources' $\to$ sélectionnez le répertoire TD5).
 
-<div class="exercise">
 En utilisant, l'interface de PhpMyAdmin, créez les deux tables si elles
 n'existent pas déjà (attention aux majuscules) :
 
@@ -147,7 +137,6 @@ On souhaite que le champ primaire 'id' s'incrémente à chaque nouvelle insertio
 Pour ce faire, sélectionnez pour le champ 'id' la valeur par défaut `NULL` et cochez la case `A_I` (auto-increment).
 L'interclassement sera toujours `utf8_general_ci`.
 
-</div>
 -->
 
 ## CRUD pour les utilisateurs
@@ -164,10 +153,10 @@ premières actions (une action correspond à peu près à une page Web) :
 
 
 <!--
-Le site squelette se navigue à partir de la page principale `TD4/index.php` en
+Le site squelette se navigue à partir de la page principale `TD5/index.php` en
 passant des paramètres dans l'URL comme par exemple
-`TD4/index.php?controller=utilisateur\&action=readAll`. La page principale
-`TD4/index.php` contient principalement le code du dispatcher, dont la fonction
+`TD5/index.php?controller=utilisateur\&action=readAll`. La page principale
+`TD5/index.php` contient principalement le code du dispatcher, dont la fonction
 est de charger le bon contrôleur en fonction des paramètres reçus dans
 l'URL. Dans notre exemple, nous avons passé en paramètres
 `controller=utilisateur`, donc le dispatcher chargera le contrôleur
@@ -191,52 +180,89 @@ Prendre le temps de vérifier que l'on comprend bien le site squelette donné et
 
 -->
 
+On veut rajouter un comportement par défaut pour la page d'accueil ; nous allons
+faire en sorte qu'un utilisateur qui arrive sur `index.php` voit la même page
+que s'il était arrivé sur `index.php?action=readAll`.
+
 <div class="exercise">
-On veut rajouter un comportement par défaut pour la page d'accueil. 
-Modifier le code du dispatcher pour qu'un utilisateur qui arrive sur `TD4/index.php` voit la même page que s'il était arrivé sur  
-`TD4/index.php?controller=utilisateur&action=readAll`.
 
-Si aucun paramètre n'est donné dans l'URL, initialisons les variables `$controller` et `$action` comme si le contrôleur 'utilisateur' et l'action 'readAll' étaient donnés en paramètres. 
-Pour tester si un paramètre 'controller' est donné dans l'URL, utilisez la fonction `isset` sur `$_GET['controller']`. La fonction `isset` teste si une variable a été initialisée.
-
-Désormais, la page
-[http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD4/index.php](http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD4/index.php)
-doit marcher sans paramètre. Notez que vous pouvez aussi y accéder avec
-l'adresse
-[http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD4/](http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD4/) :
-Apache ouvre directement les pages `index.html` ou `index.php` d'un répertoire
-si elles existent.
+Si aucun paramètre n'est donné dans l'URL, initialisons la variable `$action`
+comme si l'action 'readAll' était donné en paramètre.  Pour tester si un
+paramètre 'action' est donné dans l'URL, utilisez la fonction
+`isset($_GET['controller'])` qui teste si une variable a été initialisée.
 
 </div>
 
+Désormais, la page
+[http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/index.php](http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/index.php)
+doit marcher sans paramètre. Notez que vous pouvez aussi y accéder avec
+l'adresse
+[http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/](http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/) :
+Apache ouvre directement les pages `index.html` ou `index.php` d'un répertoire
+si elles existent.
+
 <div class="exercise">
-Nous souhaitons rajouter l'action 'delete' aux Utilisateurs. Pour cela :
 
-1. Complétez dans le modèle d'utilisateur la fonction `delete($data)`. L'entrée `$data` sera un tableau associatif qui contiendra le login à supprimer dans son champ `$data['login']`. Utilisez pour cela les requêtes préparées de PDO, en suivant l'exemple de `select($data)`.
+Nous souhaitons rajouter l'action `delete` aux utilisateurs. Pour cela :
 
-**Rappel :** Ce type d'objet  `$data` est celui qui est pris en entrée par la méthode `execute` de `PDO`.
-1. Complétez l'action 'delete' du contrôleur d'utilisateur pour qu'il supprime l'utilisateur dont le login est passé en paramètre dans l'URL, initialise les variables  `$login` et `$tab_util`, puis qu'il affiche la vue précédemment créée.
-1. Complétez la vue `viewDeletedUtilisateur.php` pour qu'elle affiche un message indiquant que l'utilisateur de login `$login` a bien été supprimé. Affichez en dessous de ce message la liste d'utilisateurs contenue dans `$tab_util` comme dans la page d'accueil.
-1. Enrichissez la vue de détail `viewFindUtilisateur.php` pour ajouter un lien HTML qui permet de supprimer l'utilisateur dont on affiche les détails.
+1. Écrivez dans le modèle d'utilisateur la fonction `delete($login)` qui prend
+   en entrée le login à supprimer. Utilisez pour cela les requêtes préparées de
+   PDO.
+1. Complétez l'action `delete` du contrôleur d'utilisateur pour qu'il supprime
+   l'utilisateur dont le login est passé en paramètre dans l'URL, initialise les
+   variables `$login` et `$tab_util`, puis qu'il affiche la vue
+   `viewDeletedUtilisateur.php` que l'on va créer dans la question suivante.
+1. Complétez la vue `viewDeletedUtilisateur.php` pour qu'elle affiche un message
+   indiquant que l'utilisateur de login `$login` a bien été supprimé. Affichez
+   en dessous de ce message la liste d'utilisateurs contenue dans `$tab_util`
+   comme dans la page d'accueil.
+1. Enrichissez la vue de détail `viewFindUtilisateur.php` pour ajouter un lien
+   HTML qui permet de supprimer l'utilisateur dont on affiche les détails.
 1. Testez le tout. Quand la fonctionnalité marche, appréciez l'instant.
 
 </div>
 
 <div class="exercise">
-Nous souhaitons rajouter l'action 'update' aux Utilisateurs. Pour cela :
 
-1. Complétez dans le modèle d'utilisateur la fonction `update($data)`. L'entrée `$data` sera un tableau associatif associant aux champs de la table 'utilisateur' les valeurs correspondante à l'utilisateur courant. La fonction doit mettre à jour tous les champs de l'utilisateur dont le login est `$data['login']`.
-1. Complétez la vue `viewUpdateUtilisateur.php` pour qu'elle affiche un formulaire identique à celui de `view-Create-Utilisateur.php`, mais qui sera pré-rempli par les données de l'utilisateur courant. Toutes les informations nécessaires seront une fois de plus passées *via* l'URL.
+Nous souhaitons rajouter l'action `update` aux Utilisateurs. Pour cela :
 
-**Indice :** L'attribut `value` de la balise `<input>` permet de pré-remplir un champ du formulaire.  Notez aussi que l'attribut `readonly` de `<input>` permet d'afficher le login sans que l'internaute puisse le changer.
-1. Complétez la vue `viewUpdatedUtilisateur.php` pour qu'elle affiche un message indiquant que l'utilisateur de login `$login` a bien été mis à jour. Affichez en dessous de ce message la liste d'utilisateurs mise à jour contenue dans `$tab_util` comme dans la page d'accueil.
-1. Complétez l'action 'update' du contrôleur d'utilisateur pour qu'il affiche le formulaire pré-rempli.
-1. Complétez l'action 'updated' du contrôleur d'utilisateur pour qu'il mette à jour l'utilisateur dont le login est passé en paramètre dans l'URL, puis qu'il affiche la vue `viewUpdatedUtilisateur.php` après l'avoir correctement initialisé.
-1. Enrichissez la vue de détail `viewFindUtilisateur.php` pour ajouter un lien HTML qui permet de mettre à jour l'utilisateur dont on affiche les détails.
-1. Testez le tout. Quand la fonctionnalité marche, appréciez de nouveau l'instant.
+1. Complétez dans le modèle d'utilisateur la fonction `update($data)`. L'entrée
+   `$data` sera un tableau associatif associant aux champs de la table
+   'utilisateur' les valeurs correspondantes à l'utilisateur courant. La fonction
+   doit mettre à jour tous les champs de l'utilisateur dont le login est
+   `$data['login']`.
+
+   **Rappel :** Ce type d'objet `$data` est celui qui est pris en entrée par la
+   méthode `execute` de `PDO`.
+
+1. Complétez la vue `viewUpdateUtilisateur.php` pour qu'elle affiche un
+   formulaire identique à celui de `viewCreateUtilisateur.php`, mais qui sera
+   pré-rempli par les données de l'utilisateur courant. Toutes les informations
+   nécessaires seront une fois de plus passées *via* l'URL.
+
+   **Indice :** L'attribut `value` de la balise `<input>` permet de pré-remplir un
+   champ du formulaire.  Notez aussi que l'attribut `readonly` de `<input>`
+   permet d'afficher le login sans que l'internaute puisse le changer.
+  
+1. Complétez l'action `update` du contrôleur d'utilisateur pour qu'il affiche le
+   formulaire pré-rempli. **Testez** votre action.
+
+1. Complétez la vue `viewUpdatedUtilisateur.php` pour qu'elle affiche un message
+   indiquant que l'utilisateur de login `$login` a bien été mis à jour. Affichez
+   en dessous de ce message la liste d'utilisateurs mise à jour contenue dans
+   `$tab_util` comme dans la page d'accueil.
+1. Complétez l'action `updated` du contrôleur d'utilisateur pour qu'il mette à
+   jour l'utilisateur dont le login est passé en paramètre dans l'URL, puis
+   qu'il affiche la vue `viewUpdatedUtilisateur.php` après l'avoir correctement
+   initialisé.
+1. Enrichissez la vue de détail `viewFindUtilisateur.php` pour ajouter un lien
+   HTML qui permet de mettre à jour l'utilisateur dont on affiche les détails.
+1. Testez le tout. Quand la fonctionnalité marche, appréciez de nouveau
+   l'instant.
 
 </div>
 
+<!--
 ## Vues modulaires
 
 En l'état, certains bouts de code de nos vues se retrouvent dupliqués à de multiples endroits. Par exemple, l'affichage de la liste qui se trouve dans `viewListUtilisateur.php` se retrouve en partie dans `viewCreatedUtilisateur.php`, `viewDeletedUtilisateur.php`, `viewUpdatedUtilisateur.php`, ....
@@ -353,6 +379,7 @@ Répétez la question précédente avec la fonction `insert()`.
 
 Couper l'adaptation du contrôleur en petit bouts testables. Il faut aussi adapter les vues au fur et à mesure. Finalement, il faut faire quelques remplacements dans VIEW_PATH, ModelUtilisateur et les vues (comme  viewErrorUtilisateur) pour simplifier la tâche.
 </div>
+-->
 
 <!-- 
 %%%%%%%%%%%%%%%%%%%%%%%% Idées année dernière %%%%%%%%%%
