@@ -189,7 +189,7 @@ que s'il était arrivé sur `index.php?action=readAll`.
 Si aucun paramètre n'est donné dans l'URL, initialisons la variable `$action`
 comme si l'action 'readAll' était donné en paramètre.  Pour tester si un
 paramètre 'action' est donné dans l'URL, utilisez la fonction
-`isset($_GET['controller'])` qui teste si une variable a été initialisée.
+`isset($_GET['action'])` qui teste si une variable a été initialisée.
 
 </div>
 
