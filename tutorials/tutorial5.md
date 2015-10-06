@@ -139,7 +139,7 @@ L'interclassement sera toujours `utf8_general_ci`.
 
 -->
 
-## CRUD pour les utilisateurs
+## CRUD pour les voitures
 
 CRUD est un acronyme pour Create Read Update Delete, qui sont les 4 opérations
 de base de toute donnée. Nous allons compléter notre site pour qu'il implémente
