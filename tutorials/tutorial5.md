@@ -111,7 +111,7 @@ bon slash de séparation des chemins selon le système :
      guillemets `"`. Essayez d'obtenir par exemple :
 
    ~~~
-   require "{$ROOT}{$DS}controller{$DS}Conf.php";
+   require "{$ROOT}{$DS}config{$DS}Conf.php";
    ~~~
    {:.php}
 
