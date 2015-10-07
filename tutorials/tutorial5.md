@@ -1,6 +1,6 @@
 ---
 title: TD5 &ndash; Architecture MVC avancée 1/2
-subtitle: CRUD, index.php et dispatcher
+subtitle: CRUD, index.php <!--et dispatcher-->
 layout: tutorial
 ---
 
