@@ -8,10 +8,10 @@ Aujourd'hui nous allons développer notre site-école de covoiturage. Au fur et 
 mesure que le projet grandit, nous allons bénéficier du modèle MVC qui va nous
 faciliter la tâche de conception.
 
-Le but de ce TD est donc d'avoir un site qui propose une gestion minimale des
+<!--Le but de ce TD est donc d'avoir un site qui propose une gestion minimale des
 utilisateurs et des trajets proposés en covoiturage. En attendant de pouvoir
 gérer les sessions d'utilisateur, nous allons développer l'interface
-"administrateur" du site.
+"administrateur" du site.-->
 
 Ce TD présuppose que vous avez au moins fait les [questions 1 à 5 du TD
 précédent](tutorial4.html#vue-ajout-dune-voiture), c'est-à-dire que vous avez codé les actions `create` et `created`.
