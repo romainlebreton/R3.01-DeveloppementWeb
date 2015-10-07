@@ -117,6 +117,8 @@ pre, div.codeexample {
     border-radius: 4px;
     border: solid thin #aaa;
     padding-left: 2ex;
+    /* Text will wrap when necessary, and on line breaks */
+    white-space: pre-wrap;
 }
 :not(pre)>code {
     color: #d00;
