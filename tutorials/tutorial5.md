@@ -52,7 +52,7 @@ vers l'adresse inconnue `../config/Conf.php`.
    sur mon ordinateur
    
    ~~~
-   $ROOT = "/home/lebreton/public_html/covoiturage"
+   $ROOT = "/home/lebreton/public_html/covoiturage";
    ~~~
    {:.php}
 
