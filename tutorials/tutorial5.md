@@ -203,60 +203,60 @@ si elles existent.
 
 <div class="exercise">
 
-Nous souhaitons rajouter l'action `delete` aux utilisateurs. Pour cela :
+Nous souhaitons rajouter l'action `delete` aux voitures. Pour cela :
 
-1. Écrivez dans le modèle d'utilisateur la fonction `delete($login)` qui prend
-   en entrée le login à supprimer. Utilisez pour cela les requêtes préparées de
+1. Écrivez dans le modèle de voiture la fonction `delete($immat)` qui prend
+   en entrée l'immatriculation à supprimer. Utilisez pour cela les requêtes préparées de
    PDO.
-1. Complétez l'action `delete` du contrôleur d'utilisateur pour qu'il supprime
-   l'utilisateur dont le login est passé en paramètre dans l'URL, initialise les
-   variables `$login` et `$tab_util`, puis qu'il affiche la vue
-   `viewDeletedUtilisateur.php` que l'on va créer dans la question suivante.
-1. Complétez la vue `viewDeletedUtilisateur.php` pour qu'elle affiche un message
-   indiquant que l'utilisateur de login `$login` a bien été supprimé. Affichez
-   en dessous de ce message la liste d'utilisateurs contenue dans `$tab_util`
+1. Complétez l'action `delete` du contrôleur de voiture pour qu'il supprime
+   la voiture dont l'immatriculation est passée en paramètre dans l'URL, initialise les
+   variables `$immat` et `$tab_v`, puis qu'il affiche la vue
+   `viewDeletedVoiture.php` que l'on va créer dans la question suivante.
+1. Complétez la vue `viewDeletedVoiture.php` pour qu'elle affiche un message
+   indiquant que la voiture d'immatriculation  `$immat` a bien été supprimée. Affichez
+   en dessous de ce message la liste des voitures contenue dans `$tab_v`
    comme dans la page d'accueil.
-1. Enrichissez la vue de détail `viewFindUtilisateur.php` pour ajouter un lien
-   HTML qui permet de supprimer l'utilisateur dont on affiche les détails.
+1. Enrichissez la vue de détail `viewFindVoiture.php` pour ajouter un lien
+   HTML qui permet de supprimer la voiture dont on affiche les détails.
 1. Testez le tout. Quand la fonctionnalité marche, appréciez l'instant.
 
 </div>
 
 <div class="exercise">
 
-Nous souhaitons rajouter l'action `update` aux Utilisateurs. Pour cela :
+Nous souhaitons rajouter l'action `update` aux voitures. Pour cela :
 
-1. Complétez dans le modèle d'utilisateur la fonction `update($data)`. L'entrée
+1. Complétez dans le modèle de voiture la fonction `update($data)`. L'entrée
    `$data` sera un tableau associatif associant aux champs de la table
-   'utilisateur' les valeurs correspondantes à l'utilisateur courant. La fonction
-   doit mettre à jour tous les champs de l'utilisateur dont le login est
-   `$data['login']`.
+   'voiture' les valeurs correspondantes à la voiture courante. La fonction
+   doit mettre à jour tous les champs de la voiture  dont l'immatriculation  est
+   `$data['immat']`.
 
    **Rappel :** Ce type d'objet `$data` est celui qui est pris en entrée par la
    méthode `execute` de `PDO`.
 
-1. Complétez la vue `viewUpdateUtilisateur.php` pour qu'elle affiche un
-   formulaire identique à celui de `viewCreateUtilisateur.php`, mais qui sera
-   pré-rempli par les données de l'utilisateur courant. Toutes les informations
+1. Complétez la vue `viewUpdateVoiture.php` pour qu'elle affiche un
+   formulaire identique à celui de `viewCreateVoiture.php`, mais qui sera
+   pré-rempli par les données de la voiture courante. Toutes les informations
    nécessaires seront une fois de plus passées *via* l'URL.
 
    **Indice :** L'attribut `value` de la balise `<input>` permet de pré-remplir un
    champ du formulaire.  Notez aussi que l'attribut `readonly` de `<input>`
-   permet d'afficher le login sans que l'internaute puisse le changer.
+   permet d'afficher l'immatriculation sans que l'internaute puisse le changer.
   
-1. Complétez l'action `update` du contrôleur d'utilisateur pour qu'il affiche le
+1. Complétez l'action `update` du contrôleur de voiture pour qu'il affiche le
    formulaire pré-rempli. **Testez** votre action.
 
-1. Complétez la vue `viewUpdatedUtilisateur.php` pour qu'elle affiche un message
-   indiquant que l'utilisateur de login `$login` a bien été mis à jour. Affichez
-   en dessous de ce message la liste d'utilisateurs mise à jour contenue dans
-   `$tab_util` comme dans la page d'accueil.
-1. Complétez l'action `updated` du contrôleur d'utilisateur pour qu'il mette à
-   jour l'utilisateur dont le login est passé en paramètre dans l'URL, puis
-   qu'il affiche la vue `viewUpdatedUtilisateur.php` après l'avoir correctement
-   initialisé.
-1. Enrichissez la vue de détail `viewFindUtilisateur.php` pour ajouter un lien
-   HTML qui permet de mettre à jour l'utilisateur dont on affiche les détails.
+1. Complétez la vue `viewUpdatedVoiture.php` pour qu'elle affiche un message
+   indiquant que la voiture d'immatriculation `$immat` a bien été mis à jour. Affichez
+   en dessous de ce message la liste des voitures mise à jour contenue dans
+   `$tab_v` comme dans la page d'accueil.
+1. Complétez l'action `updated` du contrôleur de voiture pour qu'il mette à
+   jour la voiture dont l'immatriculation passée en paramètre dans l'URL, puis
+   qu'il affiche la vue `viewUpdatedVoiture.php` après l'avoir correctement
+   initialisée.
+1. Enrichissez la vue de détail `viewFindVoiture.php` pour ajouter un lien
+   HTML qui permet de mettre à jour la voiture dont on affiche les détails.
 1. Testez le tout. Quand la fonctionnalité marche, appréciez de nouveau
    l'instant.
 
