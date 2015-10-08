@@ -310,6 +310,16 @@ Nous souhaitons rajouter l'action `update` aux voitures. Pour cela :
    **Indice :** L'attribut `value` de la balise `<input>` permet de pré-remplir un
    champ du formulaire.  Notez aussi que l'attribut `readonly` de `<input>`
    permet d'afficher l'immatriculation sans que l'internaute puisse le changer.
+
+   **Attention au mélange de `POST` et `GET` :** Vous souhaitez envoyez
+     l'information `action=updated` en plus des informations saisies lors de
+     l'envoi du formulaire. Il y a deux possibilités :
+
+      1. Vous pouvez rajouter l'information dans l'URL avec `<form
+         ... action='index.php?action=updated`> **mais** cela ne marche pas si
+         la méthode est `GET`.
+	  2. Ou (conseillé) vous rajoutez un champ caché `<input type='hidden'
+         name='action' value='updated'>` à votre formulaire.
   
 1. Complétez l'action `update` du contrôleur de voiture pour qu'il affiche le
    formulaire pré-rempli. **Testez** votre action.

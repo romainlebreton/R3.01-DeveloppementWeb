@@ -4,6 +4,17 @@ subtitle: Hello World, objets et formulaires
 layout: tutorial
 ---
 
+<!--
+
+Rajouter un exercice qui fait écrire un lien HTML en PHP avec une partie variable.
+Genre:
+$liens = array("index","contact") et crée le menu
+
+OU
+
+Créer un lien de type GET
+-->
+
 ## Méthodologie
 
 Quelques consignes qui vous feront gagner beaucoup de temps en développement web:
