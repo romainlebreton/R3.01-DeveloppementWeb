@@ -1,6 +1,6 @@
 ---
 title: TD5 &ndash; Architecture MVC avancée 1/2
-subtitle: CRUD, index.php et dispatcher
+subtitle: CRUD, index.php <!--et dispatcher-->
 layout: tutorial
 ---
 
@@ -8,10 +8,10 @@ Aujourd'hui nous allons développer notre site-école de covoiturage. Au fur et 
 mesure que le projet grandit, nous allons bénéficier du modèle MVC qui va nous
 faciliter la tâche de conception.
 
-Le but de ce TD est donc d'avoir un site qui propose une gestion minimale des
+<!--Le but de ce TD est donc d'avoir un site qui propose une gestion minimale des
 utilisateurs et des trajets proposés en covoiturage. En attendant de pouvoir
 gérer les sessions d'utilisateur, nous allons développer l'interface
-"administrateur" du site.
+"administrateur" du site.-->
 
 Ce TD présuppose que vous avez au moins fait les [questions 1 à 5 du TD
 précédent](tutorial4.html#vue-ajout-dune-voiture), c'est-à-dire que vous avez codé les actions `create` et `created`.
@@ -52,7 +52,7 @@ vers l'adresse inconnue `../config/Conf.php`.
    sur mon ordinateur
    
    ~~~
-   $ROOT = "/home/lebreton/public_html/covoiturage"
+   $ROOT = "/home/lebreton/public_html/covoiturage";
    ~~~
    {:.php}
 
@@ -111,7 +111,7 @@ bon slash de séparation des chemins selon le système :
      guillemets `"`. Essayez d'obtenir par exemple :
 
    ~~~
-   require "$ROOT$DSconfig$DSConf.php";
+   require "{$ROOT}{$DS}config{$DS}Conf.php";
    ~~~
    {:.php}
 
@@ -139,7 +139,7 @@ L'interclassement sera toujours `utf8_general_ci`.
 
 -->
 
-## CRUD pour les utilisateurs
+## CRUD pour les voitures
 
 CRUD est un acronyme pour Create Read Update Delete, qui sont les 4 opérations
 de base de toute donnée. Nous allons compléter notre site pour qu'il implémente
@@ -189,7 +189,7 @@ que s'il était arrivé sur `index.php?action=readAll`.
 Si aucun paramètre n'est donné dans l'URL, initialisons la variable `$action`
 comme si l'action 'readAll' était donné en paramètre.  Pour tester si un
 paramètre 'action' est donné dans l'URL, utilisez la fonction
-`isset($_GET['controller'])` qui teste si une variable a été initialisée.
+`isset($_GET['action'])` qui teste si une variable a été initialisée.
 
 </div>
 
@@ -203,60 +203,60 @@ si elles existent.
 
 <div class="exercise">
 
-Nous souhaitons rajouter l'action `delete` aux utilisateurs. Pour cela :
+Nous souhaitons rajouter l'action `delete` aux voitures. Pour cela :
 
-1. Écrivez dans le modèle d'utilisateur la fonction `delete($login)` qui prend
-   en entrée le login à supprimer. Utilisez pour cela les requêtes préparées de
+1. Écrivez dans le modèle de voiture la fonction `delete($immat)` qui prend
+   en entrée l'immatriculation à supprimer. Utilisez pour cela les requêtes préparées de
    PDO.
-1. Complétez l'action `delete` du contrôleur d'utilisateur pour qu'il supprime
-   l'utilisateur dont le login est passé en paramètre dans l'URL, initialise les
-   variables `$login` et `$tab_util`, puis qu'il affiche la vue
-   `viewDeletedUtilisateur.php` que l'on va créer dans la question suivante.
-1. Complétez la vue `viewDeletedUtilisateur.php` pour qu'elle affiche un message
-   indiquant que l'utilisateur de login `$login` a bien été supprimé. Affichez
-   en dessous de ce message la liste d'utilisateurs contenue dans `$tab_util`
+1. Complétez l'action `delete` du contrôleur de voiture pour qu'il supprime
+   la voiture dont l'immatriculation est passée en paramètre dans l'URL, initialise les
+   variables `$immat` et `$tab_v`, puis qu'il affiche la vue
+   `viewDeletedVoiture.php` que l'on va créer dans la question suivante.
+1. Complétez la vue `viewDeletedVoiture.php` pour qu'elle affiche un message
+   indiquant que la voiture d'immatriculation  `$immat` a bien été supprimée. Affichez
+   en dessous de ce message la liste des voitures contenue dans `$tab_v`
    comme dans la page d'accueil.
-1. Enrichissez la vue de détail `viewFindUtilisateur.php` pour ajouter un lien
-   HTML qui permet de supprimer l'utilisateur dont on affiche les détails.
+1. Enrichissez la vue de détail `viewFindVoiture.php` pour ajouter un lien
+   HTML qui permet de supprimer la voiture dont on affiche les détails.
 1. Testez le tout. Quand la fonctionnalité marche, appréciez l'instant.
 
 </div>
 
 <div class="exercise">
 
-Nous souhaitons rajouter l'action `update` aux Utilisateurs. Pour cela :
+Nous souhaitons rajouter l'action `update` aux voitures. Pour cela :
 
-1. Complétez dans le modèle d'utilisateur la fonction `update($data)`. L'entrée
+1. Complétez dans le modèle de voiture la fonction `update($data)`. L'entrée
    `$data` sera un tableau associatif associant aux champs de la table
-   'utilisateur' les valeurs correspondantes à l'utilisateur courant. La fonction
-   doit mettre à jour tous les champs de l'utilisateur dont le login est
-   `$data['login']`.
+   'voiture' les valeurs correspondantes à la voiture courante. La fonction
+   doit mettre à jour tous les champs de la voiture  dont l'immatriculation  est
+   `$data['immat']`.
 
    **Rappel :** Ce type d'objet `$data` est celui qui est pris en entrée par la
    méthode `execute` de `PDO`.
 
-1. Complétez la vue `viewUpdateUtilisateur.php` pour qu'elle affiche un
-   formulaire identique à celui de `viewCreateUtilisateur.php`, mais qui sera
-   pré-rempli par les données de l'utilisateur courant. Toutes les informations
+1. Complétez la vue `viewUpdateVoiture.php` pour qu'elle affiche un
+   formulaire identique à celui de `viewCreateVoiture.php`, mais qui sera
+   pré-rempli par les données de la voiture courante. Toutes les informations
    nécessaires seront une fois de plus passées *via* l'URL.
 
    **Indice :** L'attribut `value` de la balise `<input>` permet de pré-remplir un
    champ du formulaire.  Notez aussi que l'attribut `readonly` de `<input>`
-   permet d'afficher le login sans que l'internaute puisse le changer.
+   permet d'afficher l'immatriculation sans que l'internaute puisse le changer.
   
-1. Complétez l'action `update` du contrôleur d'utilisateur pour qu'il affiche le
+1. Complétez l'action `update` du contrôleur de voiture pour qu'il affiche le
    formulaire pré-rempli. **Testez** votre action.
 
-1. Complétez la vue `viewUpdatedUtilisateur.php` pour qu'elle affiche un message
-   indiquant que l'utilisateur de login `$login` a bien été mis à jour. Affichez
-   en dessous de ce message la liste d'utilisateurs mise à jour contenue dans
-   `$tab_util` comme dans la page d'accueil.
-1. Complétez l'action `updated` du contrôleur d'utilisateur pour qu'il mette à
-   jour l'utilisateur dont le login est passé en paramètre dans l'URL, puis
-   qu'il affiche la vue `viewUpdatedUtilisateur.php` après l'avoir correctement
-   initialisé.
-1. Enrichissez la vue de détail `viewFindUtilisateur.php` pour ajouter un lien
-   HTML qui permet de mettre à jour l'utilisateur dont on affiche les détails.
+1. Complétez la vue `viewUpdatedVoiture.php` pour qu'elle affiche un message
+   indiquant que la voiture d'immatriculation `$immat` a bien été mis à jour. Affichez
+   en dessous de ce message la liste des voitures mise à jour contenue dans
+   `$tab_v` comme dans la page d'accueil.
+1. Complétez l'action `updated` du contrôleur de voiture pour qu'il mette à
+   jour la voiture dont l'immatriculation passée en paramètre dans l'URL, puis
+   qu'il affiche la vue `viewUpdatedVoiture.php` après l'avoir correctement
+   initialisée.
+1. Enrichissez la vue de détail `viewFindVoiture.php` pour ajouter un lien
+   HTML qui permet de mettre à jour la voiture dont on affiche les détails.
 1. Testez le tout. Quand la fonctionnalité marche, appréciez de nouveau
    l'instant.
 

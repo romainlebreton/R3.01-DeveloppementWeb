@@ -323,7 +323,7 @@ voiture dans la liste des voitures (dans la vue `view/voiture/viewAllVoiture.php
 </div>
 
 
-
+<!--
 ### Factorisation du code des vues
 
 <div class="exercise">
@@ -338,7 +338,7 @@ Charger ces fichiers respectivement au début et à la fin du `<body>` de toutes
 
 **NB :** Attention aux chemins relatifs lors de l'inclusion des header et footer dans vos vues. 
 </div> 
-
+-->
 ## Et si le temps le permet...
 
 
