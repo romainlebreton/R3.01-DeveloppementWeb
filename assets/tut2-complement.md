@@ -89,8 +89,9 @@ et l'existence des boucles
   ~~~
   {:.text}
 
-  **Attention :** Pour les tableaux, il faut rajouter des accolades autour du
-   nom de variable `"{$tab[0]}"`.
+  **Astuce :** En cas de problèmes, rajoutez des accolades autour de la variable
+    à remplacer. Cela marche aussi bien pour les tableaux `"{$tab[0]}"`, les
+    attributs `"{$objet->attribut}"` et les fonctions `"{$objet->fonction()}"`.
    
 * Les chaînes de caractères avec *simple quote* `'` sont conservées telles quelles
 (pas de remplacement, de caractères spéciaux ...). Les caractères protégés sont

@@ -1,6 +1,6 @@
 ---
 title: TD5 &ndash; Architecture MVC avancée 1/2
-subtitle: CRUD, index.php <!--et dispatcher-->
+subtitle: index.php, chemins absolus, CRUD
 layout: tutorial
 ---
 
@@ -13,36 +13,85 @@ utilisateurs et des trajets proposés en covoiturage. En attendant de pouvoir
 gérer les sessions d'utilisateur, nous allons développer l'interface
 "administrateur" du site.-->
 
-Ce TD présuppose que vous avez au moins fait les [questions 1 à 5 du TD
-précédent](tutorial4.html#vue-ajout-dune-voiture), c'est-à-dire que vous avez codé les actions `create` et `created`.
+Ce TD présuppose que vous avez au moins fait les
+[questions 1 à 5 du TD précédent](tutorial4.html#vue-ajout-dune-voiture),
+c'est-à-dire que vous avez codé les actions `create` et `created`.
 
 ## Remise en route
 
 La semaine dernière, nous avons commencer à utiliser l'architecture
 MVC. Le code était découpé en trois parties :
 
-1. Le contrôleur(*e.g.* `controller/controllerVoiture.php`) est la partie
-   principale du script PHP. C'est cette page qui est exécuté en premier. C'est
-   donc cette page que le client qui se connecte au site doit demander ;
-2. La vue (*e.g.* `view/voiture/viewAllVoiture.php`) ne doit contenir que les
-parties du code qui écrivent la page Web ;
+1. Le contrôleur (*e.g.* `controller/controllerVoiture.php`) est la partie
+principale du script PHP. L'utilisateur se connecte au site **en appelant cette
+page**. C'est donc le script PHP de cette page qui est **exécuté** ;
+2. Les vues (*e.g.* `view/voiture/viewAllVoiture.php`) ne doivent contenir que
+les parties du code qui écrivent la page Web. Ces scripts seront appelés par le
+contrôleur qui s'en servira comme d'un outil pour générer la page Web ;
 3. Le modèle (*e.g.* `model/modelVoiture.php`) est une bibliothèque des
 fonctions permettant de gérer les données, *i.e.* l'interaction avec la BDD dans
-notre cas.
+notre cas. Cette bibliothèque sera utilisée par le contrôleur.
 
 Comme nous venons de le rappeler, l'utilisateur doit se connecter au contrôleur
 `controller/controllerVoiture.php` pour accéder au site. Or l'organisation
 interne du site Web ne doit pas être visible au client pour des raisons de
-clareté et sécurité. Nous allons bouger la page d'entrée de notre site vers
+clareté et sécurité. Nous allons déplacer la page d'entrée de notre site vers
 `index.php`.
 
-**Attention :** Tous nos `require` était basés sur des chemins relatifs par
+<!-- Que fait un require, qu'est-ce qu'un chemin relatif, require d'un chemin
+relatif par rapport à quoi ? Script exécuté ? -->
+
+**Rappels :**
+
+* Que fait un `require` ?  
+  Il fait un copier-coller du fichier indiqué ;
+* Qu'est-ce qu'un chemin relatif ?  
+  Il y a deux types de chemins : les chemins *absolus* (commençant par `/`)
+  comme `/home/lebreton/public_html` partent du répertoire racine. Les chemins
+  *relatifs* partent du répertoire courant comme par exemple
+  `../config/Conf.php`. Dans ce cas, `.` désigne le répertoire courant et `..`
+  le répertoire parent.
+* Si un `require` utilise un chemin relatif, quelle est la base de ce chemin ?
+  Cette question prend tout son sens quand on fait `require` d'un fichier qui
+  appelle encore `require`.  
+  Comme les `require` font des copier-coller, tout se passe comme si les
+  `require` étaient écrits dans le premier script PHP appelé. Donc tous les
+  chemins sont relatifs au premier script appelé.  
+  **Exemple :** Si l'utilisateur demande la page
+    `controller/controllerVoiture.php` qui fait `require
+    ../model/modelVoiture.php` qui fait `require '../model/Model.php'` qui fait
+    `require '../config/Conf.php'`, toutes les URL sont relatives à la page
+    demandée `controller/controllerVoiture.php`. Du coup on charge bien les
+    fichiers `model/modelVoiture.php`, `model/Model.php` et `config/Conf.php`.
+
+<!--
+
+En fait, si on ne fournit aucun chemin, le include (ou require) cherche dans les
+chemins de l'include_path (.:/usr/share/php chez moi). Si le fichier n'est pas
+trouvé dans l' include_path, include vérifiera dans le dossier du script
+appelant et dans le dossier de travail courant avant d'échouer.
+
+Par exemple : si on est dans model/modelUtilisateur alors require `Model.php` marche
+car il n'y a pas de chemin mais require `./Model.php` ne marche pas.
+
+-->
+
+<!--
+
+Il semble que l'on puisse coder un $ROOTWEB portable à base de
+$_SERVER['HTTP_HOST'] qui donne l'hôte et $_SERVER['REQUEST_URI'] qui donne le
+chemin dans le serveur (?)
+
+-->
+
+**Problème pour passer à `index.php` :**
+
+Tous nos `require` étaient basés sur des chemins relatifs par
 rapport à la page demandée, qui était le contrôleur
 `controller/controllerVoiture.php`. Lorsque l'on va déplacer la page d'accueil
 vers `index.php`, tous nos `require` vont être décalés. Par exemple, un `require
 '../config/Conf.php'` qui pointait vers `config/Conf.php` va désormais renvoyer
-vers l'adresse inconnue `../config/Conf.php`.  
-
+vers l'adresse inconnue `../config/Conf.php`.
 
 <div class="exercise">
 
@@ -57,14 +106,22 @@ vers l'adresse inconnue `../config/Conf.php`.
    {:.php}
 
 2. Modifiez tous les `require` de tous les fichiers pour qu'ils utilisent des
-   chemins absolus à l'aide de la variable `$ROOT` précédente. Testez que votre
-   site marche toujours bien.
+   chemins absolus à l'aide de la variable `$ROOT` précédente. **Testez** que
+   votre site marche toujours bien.
+   
+   **Astuces :**
+
+   * Utilisez la fonction de recherche de votre éditeur de page PHP
+   pour trouver tous les `require`.
+   * Utilisez la syntaxe avec les *double quotes* `"..."` qui permettent le
+     remplacement de variables,
+     [*cf.* les compléments.]({{site.baseurl}}/assets/tut2-complement.html#les-chanes-de-caractres)
 
 3. On souhaite désormais que la page d'accueil soit `index.php`. Créez donc un
    tel fichier à la racine de votre site. Déplacez la définition de `$ROOT` au
-   début de `index.php`, puis incluez le code du contrôleur
-   `controller/controllerVoiture.php` avec un `require`.  
-   **Testez** que votre site marche toujours bien quand vous demandez la page
+   début de `index.php`, puis faites un `require` du contrôleur
+   `controller/controllerVoiture.php`.  
+   **Testez** que votre site marche encore quand vous demandez la page
    `index.php` dans le navigateur.
 
 </div>
@@ -141,10 +198,11 @@ L'interclassement sera toujours `utf8_general_ci`.
 
 ## CRUD pour les voitures
 
-CRUD est un acronyme pour Create Read Update Delete, qui sont les 4 opérations
-de base de toute donnée. Nous allons compléter notre site pour qu'il implémente
-toutes ces fonctionnalités. Lors du TD précédent, nous avont implémenté nos
-premières actions (une action correspond à peu près à une page Web) :
+CRUD est un acronyme pour *Create/Read/Update/Delete*, qui sont les quatre
+opérations de base de toute donnée. Nous allons compléter notre site pour qu'il
+implémente toutes ces fonctionnalités. Lors du TD précédent, nous avont
+implémenté nos premières actions (une action correspond à peu près à une page
+Web) :
 
 1. afficher toutes les voitures : action `readAll`
 2. afficher les détails d'une voiture : action `read`
@@ -187,8 +245,8 @@ que s'il était arrivé sur `index.php?action=readAll`.
 <div class="exercise">
 
 Si aucun paramètre n'est donné dans l'URL, initialisons la variable `$action`
-comme si l'action 'readAll' était donné en paramètre.  Pour tester si un
-paramètre 'action' est donné dans l'URL, utilisez la fonction
+comme si l'action `readAll` était donné en paramètre.  Pour tester si un
+paramètre `action` est donné dans l'URL, utilisez la fonction
 `isset($_GET['action'])` qui teste si une variable a été initialisée.
 
 </div>
@@ -215,9 +273,17 @@ Nous souhaitons rajouter l'action `delete` aux voitures. Pour cela :
 1. Complétez la vue `viewDeletedVoiture.php` pour qu'elle affiche un message
    indiquant que la voiture d'immatriculation  `$immat` a bien été supprimée. Affichez
    en dessous de ce message la liste des voitures contenue dans `$tab_v`
-   comme dans la page d'accueil.
+   comme dans la page d'accueil.  
+   **Note :** Comme vous l'avez remarquez, le code de cette vue est très
+     similaire à celle de l'action `readAll`. Nous améliorerons le système de
+     vue dans le prochain TD pour éviter d'avoir deux fois le même code à deux
+     endroits différents.
 1. Enrichissez la vue de détail `viewFindVoiture.php` pour ajouter un lien
-   HTML qui permet de supprimer la voiture dont on affiche les détails.
+HTML qui permet de supprimer la voiture dont on affiche les détails.  
+   **Aide :** Procédez par étape. Écrivez d'abord un lien 'fixe' dans votre vue.
+   Puis la partie qui dépend de la voiture.
+   <!-- Erreur tentante : utiliser $ROOT dans les liens. On pourrait leur faire faire
+   du $ROOTWEB -->
 1. Testez le tout. Quand la fonctionnalité marche, appréciez l'instant.
 
 </div>
@@ -228,12 +294,13 @@ Nous souhaitons rajouter l'action `update` aux voitures. Pour cela :
 
 1. Complétez dans le modèle de voiture la fonction `update($data)`. L'entrée
    `$data` sera un tableau associatif associant aux champs de la table
-   'voiture' les valeurs correspondantes à la voiture courante. La fonction
+   `voiture` les valeurs correspondantes à la voiture courante. La fonction
    doit mettre à jour tous les champs de la voiture  dont l'immatriculation  est
    `$data['immat']`.
 
    **Rappel :** Ce type d'objet `$data` est celui qui est pris en entrée par la
-   méthode `execute` de `PDO`.
+   méthode `execute` de `PDO`,
+   [*cf.* le TD3](/tutorials/tutorial3.html#requtes-prpares).
 
 1. Complétez la vue `viewUpdateVoiture.php` pour qu'elle affiche un
    formulaire identique à celui de `viewCreateVoiture.php`, mais qui sera
@@ -261,6 +328,11 @@ Nous souhaitons rajouter l'action `update` aux voitures. Pour cela :
    l'instant.
 
 </div>
+
+<!--
+Question complémentaire pour ceux en avance :
+Refaites tout ce que vous avez fait sur Utilisateur (et Trajets).
+-->
 
 <!--
 ## Vues modulaires
