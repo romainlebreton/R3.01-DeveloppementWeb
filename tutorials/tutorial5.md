@@ -38,13 +38,16 @@ interne du site Web ne doit pas être visible au client pour des raisons de
 clareté et sécurité. Nous allons déplacer la page d'entrée de notre site vers
 `index.php`.
 
+<!-- De plus, quand nous aurons plusieurs controlleurs, index.php nous permettra
+d'avoir une page de navigation unique -->
+
 <!-- Que fait un require, qu'est-ce qu'un chemin relatif, require d'un chemin
 relatif par rapport à quoi ? Script exécuté ? -->
 
 **Rappels :**
 
 * Que fait un `require` ?  
-  Il fait un copier-coller du fichier indiqué ;
+  Il copie-colle le script du fichier indiqué à l'endroit du `require` ;
 * Qu'est-ce qu'un chemin relatif ?  
   Il y a deux types de chemins : les chemins *absolus* (commençant par `/`)
   comme `/home/lebreton/public_html` partent du répertoire racine. Les chemins
@@ -97,17 +100,26 @@ vers l'adresse inconnue `../config/Conf.php`.
 
 1. Pour remédier au problème précédent, nous allons utiliser des chemins
    absolus. Créez une variable `$ROOT` dans votre contrôleur qui stockera le
-   chemin absolu menant à votre site Web (sans slash à la fin).  Par exemple,
-   sur mon ordinateur
+   chemin absolu menant à votre site Web (sans slash à la fin). Par exemple,
+   sur mon ordinateur Linux
    
    ~~~
-   $ROOT = "/home/lebreton/public_html/covoiturage";
+   $ROOT = "/home/lebreton/public_html/TD5";
    ~~~
    {:.php}
 
+   ou un autre exemple sur Windows 
+   
+   ~~~
+   $ROOT = "C:\\wamp\www\TD5";
+   ~~~
+   {:.php}
+
+
 2. Modifiez tous les `require` de tous les fichiers pour qu'ils utilisent des
-   chemins absolus à l'aide de la variable `$ROOT` précédente. **Testez** que
-   votre site marche toujours bien.
+chemins absolus à l'aide de la variable `$ROOT` précédente.  
+**Testez** que votre ancien site marche toujours bien en demandant la page
+`controller/controllerVoiture.php?action=readAll` dans Firefox.
    
    **Astuces :**
 
@@ -117,12 +129,22 @@ vers l'adresse inconnue `../config/Conf.php`.
      remplacement de variables,
      [*cf.* les compléments.]({{site.baseurl}}/assets/tut2-complement.html#les-chanes-de-caractres)
 
+   <!-- **Erreurs classiques :** -->   
+   <!-- * Utiliser des *simple quotes* `'...'` dans l'adresse des fichiers : la variable -->
+   <!-- `$ROOT` n'est pas remplacée. -->
+   <!-- * Appeler la page `index.php` sans action dans Firefox ; il faut demander une -->
+   <!--   action comme par exemple `readAll` pour que le site marche (pour l'instant). -->
+
 3. On souhaite désormais que la page d'accueil soit `index.php`. Créez donc un
    tel fichier à la racine de votre site. Déplacez la définition de `$ROOT` au
    début de `index.php`, puis faites un `require` du contrôleur
    `controller/controllerVoiture.php`.  
-   **Testez** que votre site marche encore quand vous demandez la page
-   `index.php` dans le navigateur.
+   **Testez** que votre site marche encore en demandant la page
+   `index.php?action=readAll` dans le navigateur.
+
+4. Changer tous les liens hypertextes que vous écrivez dans `viewVoiture.php` et
+   `viewAllVoiture.php` pour qu'ils pointent sur `index.php` à la place de
+   `controller/controllerVoiture.php`.
 
 </div>
 
@@ -274,7 +296,7 @@ Nous souhaitons rajouter l'action `delete` aux voitures. Pour cela :
    indiquant que la voiture d'immatriculation  `$immat` a bien été supprimée. Affichez
    en dessous de ce message la liste des voitures contenue dans `$tab_v`
    comme dans la page d'accueil.  
-   **Note :** Comme vous l'avez remarquez, le code de cette vue est très
+   **Note :** Comme vous l'avez remarqué, le code de cette vue est très
      similaire à celle de l'action `readAll`. Nous améliorerons le système de
      vue dans le prochain TD pour éviter d'avoir deux fois le même code à deux
      endroits différents.
