@@ -267,8 +267,9 @@ que s'il était arrivé sur `index.php?action=readAll`.
 <div class="exercise">
 
 Si aucun paramètre n'est donné dans l'URL, initialisons la variable `$action`
-comme si l'action `readAll` était donné en paramètre.  Pour tester si un
-paramètre `action` est donné dans l'URL, utilisez la fonction
+avec la chaîne de caractères `readAll`.  Ainsi le `switch($action)` chargera
+bien la bonne partie du code.  
+Pour tester si un paramètre `action` est donné dans l'URL, utilisez la fonction
 `isset($_GET['action'])` qui teste si une variable a été initialisée.
 
 </div>
