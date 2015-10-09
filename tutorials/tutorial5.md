@@ -272,6 +272,10 @@ bien la bonne partie du code.
 Pour tester si un paramètre `action` est donné dans l'URL, utilisez la fonction
 `isset($_GET['action'])` qui teste si une variable a été initialisée.
 
+**Note :** De manière générale, il ne faut jamais lire un `$_GET['action']`
+  avant d'avoir vérifié si il était bien défini avec un `isset(...)` sous peine
+  d'avoir des erreurs `Undefined index : action ...`.
+
 </div>
 
 Désormais, la page
