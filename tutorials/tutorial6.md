@@ -215,11 +215,11 @@ Nous allons bénéficier de notre changement d'organisation pour rajouter un
 avec trois liens:
 
    * un lien vers la page d'accueil des voitures  
-     `index.php?controller=voiture&action=readall`
+     `index.php?controller=voiture&action=readAll`
    * un lien vers la future page d'accueil des utilisateurs  
-     `index.php?controller=utilisateur&action=readall`
+     `index.php?controller=utilisateur&action=readAll`
    * un lien vers la future page d'accueil des trajets  
-   `index.php?controller=trajet&action=readall`
+   `index.php?controller=trajet&action=readAll`
 
    <!-- Le lien vers utilisateur doit marcher après la partie sur le dispatcher
    ? -->
