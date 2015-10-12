@@ -164,25 +164,25 @@ de `view.php` est de charger une en-tête et un pied de page communs, ainsi que
 la bonne vue en fonction de la variable `$view`.
 
    ~~~
-   <!DOCTYPE html>
-   <html>
-       <head>
-           <meta charset="UTF-8">
-           <title><?php echo $pagetitle; ?></title>
-       </head>
-       <body>
-   <?php
-   // Si $controleur='voiture' et $view='find',
-   // alors $filepath=".../view/voiture/"
-   //       $filename="viewFindVoiture.php";
-   // et on charge '.../view/voiture/viewFindVoiture.php'
-   $filepath = "{$ROOT}{$DS}{$controller}{$DS}view{DS}";
-   $filename = ucfirst($view) . ucfirst($controller) . '.php'
-   require "{$filepath}{$filename}";
-   ?>
-       </body>
-   </html>
-   ~~~
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title><?php echo $pagetitle; ?></title>
+    </head>
+    <body>
+<?php
+// Si $controleur='voiture' et $view='find',
+// alors $filepath=".../view/voiture/"
+//       $filename="viewFindVoiture.php";
+// et on charge '.../view/voiture/viewFindVoiture.php'
+$filepath = "{$ROOT}{$DS}view{$DS}{$controller}{$DS}";
+$filename = "view".ucfirst($view) . ucfirst($controller) . '.php';
+require "{$filepath}{$filename}";
+?>
+    </body>
+</html>
+~~~
    {:.php}
    
    **Explication:** La fonction `ucfirst` (UpperCase FIRST letter) sert à mettre
