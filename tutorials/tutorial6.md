@@ -82,7 +82,7 @@ voitures.
 
 En l'état, certains bouts de code de nos vues se retrouvent dupliqués à de
 multiples endroits. Par exemple, l'affichage de la liste des voitures, qui
-se trouve dans `viewListVoiture.php`, se retrouve en partie dans
+se trouve dans `viewAllVoiture.php`, se retrouve en partie dans
 `viewCreatedVoiture.php`, `viewDeletedVoiture.php` et
 `viewUpdatedVoiture.php`.
 
@@ -240,7 +240,7 @@ Notre réorganisation nous permet aussi de résoudre le problème soulevé plus 
 
 <div class="exercise">
 
-Le script `viewListVoiture.php` sert à écrire la liste des
+Le script `viewAllVoiture.php` sert à écrire la liste des
 voitures. Plutôt que d'avoir une copie de ce script dans
 `viewCreatedVoiture.php`, `viewDeletedVoiture.php` et
 `viewUpdatedVoiture.php`, incluez-le avec un `require`.
