@@ -15,7 +15,8 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaine du 21 Septembre 2015 --
 [TD 3 -- Fin TD2 et association entre classes](tutorials/tutorial3.html)
 1. Semaine du 28 Septembre 2015 --  [TD 4 -- Architecture MVC simple](tutorials/tutorial4.html)
-1. Semaine du 05 Octobre 2015 --  [TD 5 -- Architecture MVC avancée](tutorials/tutorial5.html)
+1. Semaine du 05 Octobre 2015 --  [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html)
+1. Semaine du 12 Octobre 2015 --  [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html)
 
 
 ## Notes complémentaires
