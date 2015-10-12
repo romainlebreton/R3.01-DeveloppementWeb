@@ -172,10 +172,10 @@ la bonne vue en fonction de la variable `$view`.
     </head>
     <body>
 <?php
-// Si $controleur='voiture' et $view='find',
+// Si $controleur='voiture' et $view='All',
 // alors $filepath=".../view/voiture/"
-//       $filename="viewFindVoiture.php";
-// et on charge '.../view/voiture/viewFindVoiture.php'
+//       $filename="viewAllVoiture.php";
+// et on charge '.../view/voiture/viewAllVoiture.php'
 $filepath = "{$ROOT}{$DS}view{$DS}{$controller}{$DS}";
 $filename = "view".ucfirst($view) . ucfirst($controller) . '.php';
 require "{$filepath}{$filename}";
@@ -192,9 +192,9 @@ require "{$filepath}{$filename}";
    *header* et *footer*.
 
 3. Reprendre le contrôleur pour que, par exemple, à la place d'un `require
-   './view/voiture/viewFindVoiture.php'`, on initialise la variable
-   `$view` avec `'find'` et `$pagetitle` avec le titre de page `'Détails de
-   la voiture`.
+   './view/voiture/viewAllVoiture.php'`, on utilise `require
+   './view/view.php'` en initialisant la variable
+   `$view` avec `'All'` et `$pagetitle` avec le titre de page `'Liste des voitures`.
 
    <!-- 3. Redéfinir le `VIEW_PATH` en début de fichier par `define('VIEW_PATH', ROOT -->
    <!--    . DS . 'view' . DS);` -->
