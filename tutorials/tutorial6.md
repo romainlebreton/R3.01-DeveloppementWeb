@@ -41,7 +41,7 @@ de charger le bon sous-contrôleur (par ex. *voiture*, *utilisateur* ou
 *trajet*). Désormais, nous devons donc spécifier le contrôleur demandé dans le
 *query string*. Par exemple, l'ancienne page
 `index.php?action=readAll` du contrôleur *voiture* devra s'obtenir avec
-`index.php?controller=utilisateur&action=readAll`.
+`index.php?controller=voiture&action=readAll`.
 
 <div class="exercise">
 
