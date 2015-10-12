@@ -46,7 +46,7 @@ de charger le bon sous-contrôleur (par ex. *voiture*, *utilisateur* ou
 <div class="exercise">
 
 1. Définissez une variable `$controller` dans `index.php` en récupérant sa
-valeur à partir de l'URL ou en mettant le contrôleur *voiture* par défaut.
+valeur à partir de l'URL, et en mettant le contrôleur *voiture* par défaut.
 
    **Aide :** Ce bout de code est similaire à celui concernant `$action` dans
   `controlleurVoiture.php`.
