@@ -343,9 +343,9 @@ Nous souhaitons rajouter l'action `update` aux voitures. Pour cela :
      l'envoi du formulaire. Il y a deux possibilités :
 
       1. Vous pouvez rajouter l'information dans l'URL avec `<form
-         ... action='index.php?action=updated`> **mais** cela ne marche pas si
+         ... action='index.php?action=updated'>` **mais** cela ne marche pas si
          la méthode est `GET`.
-	  2. Ou (conseillé) vous rajoutez un champ caché `<input type='hidden'
+      2. Ou (conseillé) vous rajoutez un champ caché `<input type='hidden'
          name='action' value='updated'>` à votre formulaire.
   
 1. Complétez l'action `update` du contrôleur de voiture pour qu'il affiche le
