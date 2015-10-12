@@ -163,7 +163,7 @@ la page.
 de `view.php` est de charger une en-tête et un pied de page communs, ainsi que
 la bonne vue en fonction de la variable `$view`.
 
-   ~~~
+~~~
 <!DOCTYPE html>
 <html>
     <head>
@@ -183,7 +183,7 @@ require "{$filepath}{$filename}";
     </body>
 </html>
 ~~~
-   {:.php}
+{:.php}
    
    **Explication:** La fonction `ucfirst` (UpperCase FIRST letter) sert à mettre
    en majuscule la première lettre d'une chaîne de caractère.
