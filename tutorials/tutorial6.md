@@ -31,22 +31,22 @@ second temps.
 
 ## Dispatcher
 
-Pour l'instant, nous n'avons travaillé que sur le contrôleur voiture. Nous
-souhaitons maintenant rajouter les contrôleurs utilisateur et trajet. Pour gérer
+Pour l'instant, nous n'avons travaillé que sur le contrôleur *voiture*. Nous
+souhaitons maintenant rajouter les contrôleurs *utilisateur* et *trajet*. Pour gérer
 tous les contrôleurs à partir de notre page d'accueil unique `index.php`, nous
 avons besoin d'un *dispatcher*.
 
 Le *dispatcher* (répartisseur) est une partie du contrôleur dont la fonction est
-de charger le bon sous-contrôleur (par ex. voiture, utilisateur ou
-trajet). Désormais, nous devons donc spécifier le contrôleur demandé dans le
+de charger le bon sous-contrôleur (par ex. *voiture*, *utilisateur* ou
+*trajet*). Désormais, nous devons donc spécifier le contrôleur demandé dans le
 *query string*. Par exemple, l'ancienne page
-`index.php?action=readAll` du contrôleur voiture devra s'obtenir avec
+`index.php?action=readAll` du contrôleur *voiture* devra s'obtenir avec
 `index.php?controller=utilisateur&action=readAll`.
 
 <div class="exercise">
 
 1. Définissez une variable `$controller` dans `index.php` en récupérant sa
-valeur à partir de l'URL ou en mettant le contrôleur voiture par défaut.
+valeur à partir de l'URL ou en mettant le contrôleur *voiture* par défaut.
 
    **Aide :** Ce bout de code est similaire à celui concernant `$action` dans
   `controlleurVoiture.php`.
@@ -54,27 +54,37 @@ valeur à partir de l'URL ou en mettant le contrôleur voiture par défaut.
 2. Rajoutez un `switch` - `case` dans `index.php` pour charger le bon contrôleur
 à l'aide d'un `require`.
 
-3. Testez votre code en appelant vos anciennes pages du contrôleur voiture.
+3. Testez votre code en appelant vos anciennes pages du contrôleur *voiture*.
 
 </div>
 
 Maintenant que notre dispatcher est en place, nous pouvons créer de nouveaux
-contrôleurs utilisateur et trajet.
+contrôleurs *utilisateur* et *trajet*.
 
-**ici**
+<div class="exercise">
 
+1. Créez un contrôleur `controller/controllerUtilisateur.php` similaire à celui
+des voitures avec uniquement l'action `readAll` pour l'instant.
 
+2. Créez un modèle `model/modelUtilisateur.php` basé sur votre classe
+   `Utilisateur` des TDs 2 & 3. Supprimer les fonctions d'affichage pour ne
+   laisser que l'interaction avec la BDD. Vérifiez que votre classe correspond
+   bien à la table `utilisateur` dans votre BDD.
 
-Déjà besoin de `controller`. Faire coder une première action Utilisateur readAll
-en détaillant le copier coller du modèle, du contrôleur et de la vue.
+3. Créez une vue `view/utilisateur/viewAllUtilisateur.php` similaire à celle des
+voitures.
+
+4. **Testez** votre action en appelant la bonne URL (voir exercice 1).
+
+</div>
 
 ## Vues modulaires
 
 En l'état, certains bouts de code de nos vues se retrouvent dupliqués à de
-multiples endroits. Par exemple, l'affichage de la liste des utilisateurs, qui
-se trouve dans `viewListUtilisateur.php`, se retrouve en partie dans
-`viewCreatedUtilisateur.php`, `viewDeletedUtilisateur.php` et
-`viewUpdatedUtilisateur.php`.
+multiples endroits. Par exemple, l'affichage de la liste des voitures, qui
+se trouve dans `viewListVoiture.php`, se retrouve en partie dans
+`viewCreatedVoiture.php`, `viewDeletedVoiture.php` et
+`viewUpdatedVoiture.php`.
 
 Les prochaines questions vont vous aider à réorganiser le code pour éviter les
 redondances en vue d'améliorer la maintenance du code et son debuggage.
@@ -85,7 +95,7 @@ Actuellement, les scripts de vues sont chargées d'écrire l'ensemble de la page
 Web, du `<!DOCTYPE HTML><html>...` jusqu'au `</body></html>`. Ceci empéchait de
 mettre facilement deux vues bout à bout.
 
-Par exemple, notre vue de création (action `created`) de voiture affichait
+Par exemple, notre vue de création (action `created`) de *voiture* affichait
 *"Votre voiture a bien été créée"* puis la liste des voitures. Il semblerait
 donc naturel que la vue correspondante écrive le message puis appelle la vue
 `viewAllVoiture.php`. Mais comme cette dernière vue écrivait la page HTML du
@@ -162,10 +172,10 @@ la bonne vue en fonction de la variable `$view`.
        </head>
        <body>
    <?php
-   // Si $controleur='utilisateur' et $view='find',
-   // alors $filepath=".../view/utilisateur/"
-   //       $filename="viewFindUtilisateur.php";
-   // et on charge '.../view/utilisateur/viewFindUtilisateur.php'
+   // Si $controleur='voiture' et $view='find',
+   // alors $filepath=".../view/voiture/"
+   //       $filename="viewFindVoiture.php";
+   // et on charge '.../view/voiture/viewFindVoiture.php'
    $filepath = "{$ROOT}{$DS}{$controller}{$DS}view{DS}";
    $filename = ucfirst($view) . ucfirst($controller) . '.php'
    require "{$filepath}{$filename}";
@@ -182,9 +192,9 @@ la bonne vue en fonction de la variable `$view`.
    *header* et *footer*.
 
 3. Reprendre le contrôleur pour que, par exemple, à la place d'un `require
-   './view/utilisateur/viewFindUtilisateur.php'`, on initialise la variable
+   './view/voiture/viewFindVoiture.php'`, on initialise la variable
    `$view` avec `'find'` et `$pagetitle` avec le titre de page `'Détails de
-   l'utilisateur'`.
+   la voiture`.
 
    <!-- 3. Redéfinir le `VIEW_PATH` en début de fichier par `define('VIEW_PATH', ROOT -->
    <!--    . DS . 'view' . DS);` -->
@@ -230,33 +240,42 @@ Notre réorganisation nous permet aussi de résoudre le problème soulevé plus 
 
 <div class="exercise">
 
-Le script `viewListUtilisateur.php` sert à écrire la liste des
-utilisateurs. Plutôt que d'avoir une copie de ce script dans
-`viewCreatedUtilisateur.php`, `viewDeletedUtilisateur.php` et
-`viewUpdatedUtilisateur.php`, incluez-le avec un `require`.
+Le script `viewListVoiture.php` sert à écrire la liste des
+voitures. Plutôt que d'avoir une copie de ce script dans
+`viewCreatedVoiture.php`, `viewDeletedVoiture.php` et
+`viewUpdatedVoiture.php`, incluez-le avec un `require`.
 
-**Remarque :** Le fichier `viewDeletedUtilisateur.php` ne doit plus faire que
+**Remarque :** Le fichier `viewDeletedVoiture.php` ne doit plus faire que
 deux lignes maintenant.
 
 </div>
 
 ### Un seul formulaire pour la création et la mise à jour
 
-<div class="exercise"> 
-Les vues `viewCreateUtilisateur.php` et `viewUpdateUtilisateur.php` sont quasiment identiques : elles affichent le même formulaire, et le ré-remplissent ou non. Nous allons donc fusionner `viewCreateUtilisateur.php` et `viewUpdateUtilisateur.php` en une unique page. 
-En pratique, 
+<div class="exercise">
 
-* on supprime la vue `viewCreateUtilisateur.php` et on modifie le contrôleur de sorte
-que l'action `create` appelle la vue `viewUpdateUtilisateur.php`.
+Les vues `viewCreateVoiture.php` et `viewUpdateVoiture.php` sont quasiment
+identiques : elles affichent le même formulaire, et le ré-remplissent ou
+non. Nous allons donc fusionner `viewCreateVoiture.php` et
+`viewUpdateVoiture.php` en une unique page.  En pratique,
 
-* **Attention :** quand on arrive sur la vue `viewUpdateUtilisateur.php` depuis l'action `create`, les variables 
-`$n`, `$p`, ... ne sont pas renseignées. Penser à les initialiser à chaîne vide dans le contrôleur. 
+* on supprime la vue `viewCreateVoiture.php` et on modifie le contrôleur de
+sorte que l'action `create` appelle la vue `viewUpdateVoiture.php`.
 
-* le champ `login` du formulaire doit être `required` si l'action est `create` ou `readonly` si l'action est `update` (on ne peut pas modifier la clé primaire d'un tuple).  
-Utiliser une variable dans le contrôleur pour permettre l'adaptation de la vue à ces deux actions. 
+* **Attention :** quand on arrive sur la vue `viewUpdateVoiture.php` depuis
+l'action `create`, les variables `$n`, `$p`, ... ne sont pas renseignées. Penser
+à les initialiser à chaîne vide dans le contrôleur.
 
-* enfin, le champ `action` du formulaire doit  être `save` si l'action est `create` ou `updated` si l'action est `update`.
-Là aussi, utiliser une variable spécifique.
+* le champ `immatriculation` du formulaire doit être `required` si l'action est
+`create` ou `readonly` si l'action est `update` (on ne peut pas modifier la clé
+primaire
+d'un tuple).  
+   Utiliser une variable dans le contrôleur pour permettre l'adaptation de la
+vue à ces deux actions.
+
+* enfin, le champ `action` du formulaire doit être `save` si l'action est
+`create` ou `updated` si l'action est `update`.  Là aussi, utiliser une variable
+spécifique.
 
 
 <!-- Mettre à jour le contrôleur en conséquence.\\ -->
@@ -268,57 +287,80 @@ avec la valeur de `$val` autrement. -->
 
 ## CRUD pour les trajets
 
-L'implémentation du CRUD pour les trajets est un code très similaire à celui pour les utilisateurs. Nous pourrions donc copier/coller le code des utilisateurs et changer les (nombreux) endroits nécessaires. 
+L'implémentation du CRUD pour les trajets est un code très similaire à celui
+pour les voitures. Nous pourrions donc copier/coller le code des voitures et
+changer les (nombreux) endroits nécessaires.
 
-Pour éviter de perdre un temps conséquent à développer le CRUD pour chaque nouvel objet, nous allons le créer automatiquement autant que possible.
+Pour éviter de perdre un temps conséquent à développer le CRUD pour chaque
+nouvel objet, nous allons le créer automatiquement autant que possible.
 
 ### Création d'un modèle générique
 
-Nous allons déplacer de `ModelUtilisateur.php` vers le modèle générique `Model.php` toutes les fonctions qui ne sont pas spécifiques aux utilisateurs.
+Nous allons déplacer de `ModelVoiture.php` vers le modèle générique `Model.php`
+toutes les fonctions qui ne sont pas spécifiques aux voitures.
 
 <div class="exercise">
-Commençons par la fonction `selectAll()` de `ModelUtilisateur.php`. Dans cette fonction, seul le nom de la table présent dans la requête SQL varie. 
 
-1. Déplacez la fonction `selectAll()` de `ModelUtilisateur.php` vers `Model.php`.
-1. Créez dans `ModelUtilisateur.php` une variable `$table` qui est `protected` (accessible uniquement dans la classe courante et ses classes filles) et `static` (qui ne dépend que de la classe, pas des objets).
-1. Utilisez cette variable dans la fonction `selectAll()` de `Model.php` pour faire la requête sur la bonne table.
-Pour cela, accéder à la variable `$table` avec `static::$table` dans `Model.php`.
+Commençons par la fonction `selectAll()` de `ModelVoiture.php`. Dans cette
+fonction, seul le nom de la table présent dans la requête SQL varie.
 
-**Plus d'explications:** La syntaxe `static::$table` est quelque peu subtile. Dans notre cas, elle permet que lorsque l'on appelle `ModelUtilisateur::selectAll()`, qui est héritée de `Model::selectAll()`, la variable `static::$table` aille chercher `ModelUtilisateur::$table` et non pas `Model::$table`.
+1. Déplacez la fonction `selectAll()` de `ModelVoiture.php` vers `Model.php`.
+1. Créez dans `ModelVoiture.php` une variable `$table` qui est `protected`
+   (accessible uniquement dans la classe courante et ses classes filles) et
+   `static` (qui ne dépend que de la classe, pas des objets).
+1. Utilisez cette variable dans la fonction `selectAll()` de `Model.php` pour
+faire la requête sur la bonne table.  Pour cela, accéder à la variable `$table`
+avec `static::$table` dans `Model.php`.
+
+   **Plus d'explications:** La syntaxe `static::$table` est quelque peu
+  subtile. Dans notre cas, elle permet que lorsque l'on appelle
+  `ModelVoiture::selectAll()`, qui est héritée de `Model::selectAll()`, la
+  variable `static::$table` aille chercher `ModelVoiture::$table` et non pas
+  `Model::$table`.
 1. Testez que votre site marche toujours.
 
 </div>
 
 <div class="exercise">
-Passons à la fonction `select()`. Dans cette fonction, le nom de la table et la condition `WHERE` varie. 
 
-1. Déplacez la fonction `select()` de `ModelUtilisateur.php` vers `Model.php`.
-1. Utilisez la variable statique `$table` de `ModelUtilisateur.php` pour remplacer le nom de la table.
-1. Créez une variable statique `$primary` dans `ModelUtilisateur.php` qui contiendra le nom du champ de la clé primaire.
-Utilisez cette variable pour remplacer le nom de la clé primaire dans `select()`.
+Passons à la fonction `select()`. Dans cette fonction, le nom de la table et la
+condition `WHERE` varie.
+
+1. Déplacez la fonction `select()` de `ModelVoiture.php` vers `Model.php`.
+1. Utilisez la variable statique `$table` de `ModelVoiture.php` pour remplacer
+   le nom de la table.
+1. Créez une variable statique `$primary` dans `ModelVoiture.php` qui contiendra
+le nom du champ de la clé primaire.  Utilisez cette variable pour remplacer le
+nom de la clé primaire dans `select()`.
 
 </div>
 
 <div class="exercise">
+
 Répétez la question précédente avec la fonction `delete()`.
+
 </div>
 
 <div class="exercise">
+
 Passons à la fonction `update()`. Pour reconstituer la requête 
 
 ~~~
-UPDATE utilisateur SET nom=:nom,prenom=:prenom,email=:email,login=:login WHERE login=:login
+UPDATE voiture SET marque=:marque,couleur=:couleur,immatriculation=:immatriculation WHERE id=:id
 ~~~
 {:.mysql}
 
- il est nécessaire de pouvoir lister les champs de la table 'utilisateur'. 
-Ces champs sont les entrées du tableau `$data` et c'est ainsi que nous allons les récupérer.
+   il est nécessaire de pouvoir lister les champs de la table 'voiture'.  Ces
+   champs sont les entrées du tableau `$data` et c'est ainsi que nous allons les
+   récupérer.
 
-1. Déplacez la fonction `update()` de `ModelUtilisateur.php` vers `Model.php`.
+1. Déplacez la fonction `update()` de `ModelVoiture.php` vers `Model.php`.
 1. Remplacer la table et le nom de la clé primaire par les variables adéquates.
-1. Nous allons générer la partie `SET` à partir des clés du tableau associatif `$data`. Autrement dit, si `$data['un_champ']` existe, nous voulons rajouter la condition ``un_champ = :un_champ'` à `SET`.
+1. Nous allons générer la partie `SET` à partir des clés du tableau associatif
+   `$data`. Autrement dit, si `$data['un_champ']` existe, nous voulons rajouter
+   la condition ``un_champ = :un_champ'` à `SET`.
 
-**Indice:** Utilisez la boucle `foreach ($tableau as $cle => $valeur)` pour
+   **Indice:** Utilisez la boucle `foreach ($tableau as $cle => $valeur)` pour
   récupérer les clés du tableau. Googler aussi la fonction `rtrim` de PHP qui
   pourra vous être utile pour enlever la virgule de trop à la fin de votre
   requête.
@@ -326,44 +368,62 @@ Ces champs sont les entrées du tableau `$data` et c'est ainsi que nous allons l
 </div>
 
 <div class="exercise">
+
 Répétez la question précédente avec la fonction `insert()`.
+
 </div>
 
 ### Adaptation du contrôleur
 
-Pour mémoire, dans la variante du MVC que nous avons choisi d'implémenter, il y a un contrôleur par classe. 
-Dans cette partie, nous allons nous donc créer un contrôleur pour la classe 'Trajets'. 
+Pour mémoire, dans la variante du MVC que nous avons choisi d'implémenter, il y
+a un contrôleur par classe.  Dans cette partie, nous allons nous donc créer un
+contrôleur pour la classe 'Trajets'.
 
-**Attention :** NE PAS copier/coller bêtement `ControleurUtilisateur.php` en `ControleurTrajet.php`. 
-Adaptez chacune des actions de `ControleurTrajet.php` et les tester une à une. 
+**Attention :** NE PAS copier/coller bêtement `ControleurVoiture.php` en
+`ControleurTrajet.php`.  Adaptez chacune des actions de `ControleurTrajet.php`
+et les tester une à une.
 <!-- Couper l'adaptation du contrôleur en petit bouts testables. -->
 
 <div class="exercise"> 
-Créer une vue `viewListTrajets`, et gérer l'action `readAll` de `ControleurTrajet.php`.
+
+Créer une vue `viewListTrajets`, et gérer l'action `readAll` de
+`ControleurTrajet.php`.
+
 </div>
 
 <div class="exercise">
-Faire de même pour les autres actions. Nous vous conseillons de faire dans l'ordre les actions `read`, `delete`, `create`, `update`, `save` et `updated`.
+
+Faire de même pour les autres actions. Nous vous conseillons de faire dans
+l'ordre les actions `read`, `delete`, `create`, `update`, `save` et `updated`.
+
 </div>
 
 <!-- Il faut aussi adapter les vues au fur et à mesure. Finalement, il faut
-faire quelques remplacements dans VIEW_PATH, ModelUtilisateur et les vues (comme
-viewErrorUtilisateur) pour simplifier la tâche.  -->
+faire quelques remplacements dans VIEW_PATH, ModelVoiture et les vues (comme
+viewErrorVoiture) pour simplifier la tâche.  -->
 <!-- Modifier le header pour afficher un menu vers les pages d'accueils pour les
-utilisateurs et les trajets. -->
+voitures et les trajets. -->
 
 <!--
 
 <div class="exercise">
-Factoriser le modèle dans `Model.php`. Reste le nom de la table que l'on peut avoir dans un premier temps comme variable. Dans un deuxième temps, le récupérer automatiquement à base d'introspection.
+
+Factoriser le modèle dans `Model.php`. Reste le nom de la table que l'on peut
+avoir dans un premier temps comme variable. Dans un deuxième temps, le récupérer
+automatiquement à base d'introspection.
+
 </div>
 
 <div class="exercise">
+
 Factoriser le contrôleur en utilisant l'introspection ** ?? get_name
+
 </div>
 
 <div class="exercise">
+
 Adapter les vues
+
 </div>
 
 ## Association d'utilisateur et de trajets
