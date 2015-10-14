@@ -55,7 +55,7 @@ relatif par rapport à quoi ? Script exécuté ? -->
   Il copie-colle le script du fichier indiqué à l'endroit du `require` ;
 * Qu'est-ce qu'un chemin relatif ?  
   Il y a deux types de chemins : les chemins *absolus* (commençant par `/`)
-  comme `/home/lebreton/public_html` partent du répertoire racine. Les chemins
+  comme `/home/ann2/lebreton/public_html` partent du répertoire racine. Les chemins
   *relatifs* partent du répertoire courant comme par exemple
   `../config/Conf.php`. Dans ce cas, `.` désigne le répertoire courant et `..`
   le répertoire parent.

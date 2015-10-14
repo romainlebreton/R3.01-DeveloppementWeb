@@ -41,12 +41,12 @@ de charger le bon sous-contrôleur (par ex. *voiture*, *utilisateur* ou
 *trajet*). Désormais, nous devons donc spécifier le contrôleur demandé dans le
 *query string*. Par exemple, l'ancienne page
 `index.php?action=readAll` du contrôleur *voiture* devra s'obtenir avec
-`index.php?controller=utilisateur&action=readAll`.
+`index.php?controller=voiture&action=readAll`.
 
 <div class="exercise">
 
 1. Définissez une variable `$controller` dans `index.php` en récupérant sa
-valeur à partir de l'URL ou en mettant le contrôleur *voiture* par défaut.
+valeur à partir de l'URL, et en mettant le contrôleur *voiture* par défaut.
 
    **Aide :** Ce bout de code est similaire à celui concernant `$action` dans
   `controlleurVoiture.php`.
@@ -82,7 +82,7 @@ voitures.
 
 En l'état, certains bouts de code de nos vues se retrouvent dupliqués à de
 multiples endroits. Par exemple, l'affichage de la liste des voitures, qui
-se trouve dans `viewListVoiture.php`, se retrouve en partie dans
+se trouve dans `viewAllVoiture.php`, se retrouve en partie dans
 `viewCreatedVoiture.php`, `viewDeletedVoiture.php` et
 `viewUpdatedVoiture.php`.
 
@@ -163,27 +163,27 @@ la page.
 de `view.php` est de charger une en-tête et un pied de page communs, ainsi que
 la bonne vue en fonction de la variable `$view`.
 
-   ~~~
-   <!DOCTYPE html>
-   <html>
-       <head>
-           <meta charset="UTF-8">
-           <title><?php echo $pagetitle; ?></title>
-       </head>
-       <body>
-   <?php
-   // Si $controleur='voiture' et $view='find',
-   // alors $filepath=".../view/voiture/"
-   //       $filename="viewFindVoiture.php";
-   // et on charge '.../view/voiture/viewFindVoiture.php'
-   $filepath = "{$ROOT}{$DS}{$controller}{$DS}view{DS}";
-   $filename = ucfirst($view) . ucfirst($controller) . '.php'
-   require "{$filepath}{$filename}";
-   ?>
-       </body>
-   </html>
-   ~~~
-   {:.php}
+~~~
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title><?php echo $pagetitle; ?></title>
+    </head>
+    <body>
+<?php
+// Si $controleur='voiture' et $view='All',
+// alors $filepath=".../view/voiture/"
+//       $filename="viewAllVoiture.php";
+// et on charge '.../view/voiture/viewAllVoiture.php'
+$filepath = "{$ROOT}{$DS}view{$DS}{$controller}{$DS}";
+$filename = "view".ucfirst($view) . ucfirst($controller) . '.php';
+require "{$filepath}{$filename}";
+?>
+    </body>
+</html>
+~~~
+{:.php}
    
    **Explication:** La fonction `ucfirst` (UpperCase FIRST letter) sert à mettre
    en majuscule la première lettre d'une chaîne de caractère.
@@ -192,9 +192,9 @@ la bonne vue en fonction de la variable `$view`.
    *header* et *footer*.
 
 3. Reprendre le contrôleur pour que, par exemple, à la place d'un `require
-   './view/voiture/viewFindVoiture.php'`, on initialise la variable
-   `$view` avec `'find'` et `$pagetitle` avec le titre de page `'Détails de
-   la voiture`.
+   './view/voiture/viewAllVoiture.php'`, on utilise `require
+   './view/view.php'` en initialisant la variable
+   `$view` avec `'All'` et `$pagetitle` avec le titre de page `'Liste des voitures`.
 
    <!-- 3. Redéfinir le `VIEW_PATH` en début de fichier par `define('VIEW_PATH', ROOT -->
    <!--    . DS . 'view' . DS);` -->
@@ -215,11 +215,11 @@ Nous allons bénéficier de notre changement d'organisation pour rajouter un
 avec trois liens:
 
    * un lien vers la page d'accueil des voitures  
-     `index.php?controller=voiture&action=readall`
+     `index.php?controller=voiture&action=readAll`
    * un lien vers la future page d'accueil des utilisateurs  
-     `index.php?controller=utilisateur&action=readall`
+     `index.php?controller=utilisateur&action=readAll`
    * un lien vers la future page d'accueil des trajets  
-   `index.php?controller=trajet&action=readall`
+   `index.php?controller=trajet&action=readAll`
 
    <!-- Le lien vers utilisateur doit marcher après la partie sur le dispatcher
    ? -->
@@ -240,7 +240,7 @@ Notre réorganisation nous permet aussi de résoudre le problème soulevé plus 
 
 <div class="exercise">
 
-Le script `viewListVoiture.php` sert à écrire la liste des
+Le script `viewAllVoiture.php` sert à écrire la liste des
 voitures. Plutôt que d'avoir une copie de ce script dans
 `viewCreatedVoiture.php`, `viewDeletedVoiture.php` et
 `viewUpdatedVoiture.php`, incluez-le avec un `require`.
