@@ -4,6 +4,11 @@ subtitle: index.php, chemins absolus, CRUD
 layout: tutorial
 ---
 
+<!-- Prévoir une explication écrite de la différence entre chemin de fichier et
+URL.  Notament pour ceux qui mettent du ROOT dans les URL -->
+
+<!-- require d'un chemin de fichier **et pas de query string** -->
+
 Aujourd'hui nous allons développer notre site-école de covoiturage. Au fur et à
 mesure que le projet grandit, nous allons bénéficier du modèle MVC qui va nous
 faciliter la tâche de conception.
@@ -171,6 +176,9 @@ anti-slash `\` sur Windows, contrairement à Linux et Mac qui utilisent des slas
    **Référence :**
      [Constantes magiques en PHP](http://php.net/manual/fr/language.constants.predefined.php)
 
+
+   <!-- An prochain : optionel ! Et vérifier si c'est vraiment nécessaire sous Windows ?  -->
+
 2. Définissez la constante suivante dans `index.php` qui permet d'utiliser le
 bon slash de séparation des chemins selon le système :
 
@@ -305,7 +313,7 @@ Nous souhaitons rajouter l'action `delete` aux voitures. Pour cela :
      similaire à celle de l'action `readAll`. Nous améliorerons le système de
      vue dans le prochain TD pour éviter d'avoir deux fois le même code à deux
      endroits différents.
-1. Enrichissez la vue de détail `viewFindVoiture.php` pour ajouter un lien
+1. Enrichissez la vue de détail `viewVoiture.php` pour ajouter un lien
 HTML qui permet de supprimer la voiture dont on affiche les détails.  
    **Aide :** Procédez par étape. Écrivez d'abord un lien 'fixe' dans votre vue.
    Puis la partie qui dépend de la voiture.
@@ -359,7 +367,7 @@ Nous souhaitons rajouter l'action `update` aux voitures. Pour cela :
    jour la voiture dont l'immatriculation passée en paramètre dans l'URL, puis
    qu'il affiche la vue `viewUpdatedVoiture.php` après l'avoir correctement
    initialisée.
-1. Enrichissez la vue de détail `viewFindVoiture.php` pour ajouter un lien
+1. Enrichissez la vue de détail `viewVoiture.php` pour ajouter un lien
    HTML qui permet de mettre à jour la voiture dont on affiche les détails.
 1. Testez le tout. Quand la fonctionnalité marche, appréciez de nouveau
    l'instant.
