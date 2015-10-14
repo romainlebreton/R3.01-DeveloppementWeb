@@ -8,6 +8,11 @@ layout: tutorial
 
 Rajouter un exercice qui fait écrire un lien HTML en PHP avec une partie variable.
 Genre:
+
+Un formulaire où on rentre le nom et l'adresse d'un lien et qui crée le lien
+
+OU
+
 $liens = array("index","contact") et crée le menu
 
 OU

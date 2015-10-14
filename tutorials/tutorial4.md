@@ -339,31 +339,30 @@ Charger ces fichiers respectivement au début et à la fin du `<body>` de toutes
 **NB :** Attention aux chemins relatifs lors de l'inclusion des header et footer dans vos vues. 
 </div> 
 -->
+
 ## Et si le temps le permet...
 
+<!-- <div class="exercise">  -->
 
+<!-- Rajoutons des comportements par défaut : -->
 
-<div class="exercise"> 
+<!-- 1. Nous voudrions qu'un utilisateur qui navigue à la racine du site arrive -->
+<!-- automatiquement sur la page du contrôleur. Créer pour cela un `index.php` à la -->
+<!-- racine qui charge seulement la page `./controller/controllerVoiture.php` à l'aide  -->
+<!-- d'un `require`.   -->
+<!-- **Remarque :** Tous les chemins que vous écrivez sont relatifs à la page -->
+<!--   demandée. Comme on change la page de `controller/controllerVoiture.php` vers -->
+<!--   `index.php`, tous vos `require` sont décalés. On peut évitera ce problème dans -->
+<!--   un prochaine TD en utilisant des chemins absolus. -->
 
-Rajoutons des comportements par défaut :
+<!-- 2. Nous voudrions aussi que le contrôleur exécute l'action `"readAll"` si aucune -->
+<!-- action n'est spécifiée dans les paramètres de l'URL. -->
 
-1. Nous voudrions qu'un utilisateur qui navigue à la racine du site arrive
-automatiquement sur la page du contrôleur. Créer pour cela un `index.php` à la
-racine qui charge seulement la page `./controller/controllerVoiture.php` à l'aide 
-d'un `require`.  
-**Remarque :** Tous les chemins que vous écrivez sont relatifs à la page
-  demandée. Comme on change la page de `controller/controllerVoiture.php` vers
-  `index.php`, tous vos `require` sont décalés. On peut évitera ce problème dans
-  un prochaine TD en utilisant des chemins absolus.
-
-2. Nous voudrions aussi que le contrôleur exécute l'action `"readAll"` si aucune
-action n'est spécifiée dans les paramètres de l'URL.
-
-   **Aide :** Utiliser la fonction `isset($_GET['action'])` pour déterminer si
-une action a été donnée. Vous aurez aussi besoin du 'case' `default` de switch -
-case
-([http://php.net/manual/fr/control-structures.switch.php](http://php.net/manual/fr/control-structures.switch.php)).
-</div>
+<!--    **Aide :** Utiliser la fonction `isset($_GET['action'])` pour déterminer si -->
+<!-- une action a été donnée. Vous aurez aussi besoin du 'case' `default` de switch - -->
+<!-- case -->
+<!-- ([http://php.net/manual/fr/control-structures.switch.php](http://php.net/manual/fr/control-structures.switch.php)). -->
+<!-- </div> -->
 
 <div class="exercise">
 Gérer le cas particulier de l'ajout d'une voiture existant déjà dans la base

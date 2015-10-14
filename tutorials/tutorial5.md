@@ -105,15 +105,16 @@ vers l'adresse inconnue `../config/Conf.php`.
 
 1. Pour remédier au problème précédent, nous allons utiliser des chemins
    absolus. Créez une variable `$ROOT` dans votre contrôleur qui stockera le
-   chemin absolu menant à votre site Web (sans slash à la fin). Par exemple,
-   sur mon ordinateur Linux
+   chemin absolu menant à votre site Web (sans slash à la fin). Par exemple, sur
+   les machines de l'IUT (serveur infolimon) ou sur vos machines personnelles
+   Linux
    
    ~~~
-   $ROOT = "/home/lebreton/public_html/TD5";
+   $ROOT = "/home/ann2/lebreton/public_html/TD5";
    ~~~
    {:.php}
 
-   ou un autre exemple sur Windows 
+   ou sur vos machines personnelles  Windows 
    
    ~~~
    $ROOT = "C:\\wamp\www\TD5";
@@ -160,7 +161,7 @@ machines Windows ont dû se rendre compte que les chemins était séparés par d
 anti-slash `\` sur Windows, contrairement à Linux et Mac qui utilisent des slash
 `/`.
 
-**Exemple :** `C:\\wamp\www` sur Windows et `/home/lebreton/public_html` sur Linux.
+**Exemple :** `C:\\wamp\www` sur Windows et `/home/ann2/lebreton/public_html` sur Linux.
 
 <div class="exercise">
 
