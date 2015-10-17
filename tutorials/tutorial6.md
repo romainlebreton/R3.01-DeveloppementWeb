@@ -159,7 +159,7 @@ la page.
 
 <div class="exercise">
 
-1. Créer une vue générique `TD5/view/view.php` avec le code suivant. La fonction
+1. Créer une vue générique `TD6/view/view.php` avec le code suivant. La fonction
 de `view.php` est de charger une en-tête et un pied de page communs, ainsi que
 la bonne vue en fonction de la variable `$view`.
 
