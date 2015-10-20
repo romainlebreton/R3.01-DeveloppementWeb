@@ -1,6 +1,6 @@
 ---
 title:  Démarage du projet Web
-subtitle: Planning cahier des charges 
+subtitle: Planning et cahier des charges 
 layout: tutorial
 ---
 
