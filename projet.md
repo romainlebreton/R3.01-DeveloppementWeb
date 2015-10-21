@@ -97,8 +97,7 @@ Factorisation code (aucune / include header+footer / include content)
 
 1. mail confirmation pour l'inscription
 
-￼￼￼￼2. différents niveaux: admin/users
-
+2. différents niveaux: admin/users
 
 ###Gestion du panier 
 1. Cookie 
