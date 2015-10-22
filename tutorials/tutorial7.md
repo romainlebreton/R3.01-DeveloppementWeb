@@ -4,6 +4,65 @@ subtitle: Panier ?
 layout: tutorial
 ---
 
+**Notes de Romain:**
+
+Rajouter plus d'explications générales sur les cookies et les sessions :
+
+Les cookies sont des informations stockées sur l'ordinateur du client à
+l'initiative du serveur. Le client envoie les informations de son cookie lors de
+sa requête (dans l'en-tête). Lors de sa réponse, le serveur peut indiquer des
+informations à stocker dans le cookie.
+
+Il y a une restriction (classique ? obligatoire ?) sur les cookies qu'on peut
+lire : on ne peut lire & écrire des cookies qu'au sein du même hôte (nom de
+domaine du serveur Web).
+>Learning_PHP,_MySQL,_JavaScript,_CSS_and_HTML5,_3rd_Edition, p. 301
+>Because of their privacy implications, cookies can be read only from the issuing
+>domain.  In other words, if a cookie is issued by, for example, oreilly.com, it
+>can be retrieved only by a web server using that domain. This prevents other
+>websites from gaining access to details for which they are not authorized.
+
+Parler de la durée de vie d'un cookie ?
+
+taille < 4KB
+
+Ne contient que alphanumeric information
+
+Montrer les requêtes / réponses HTTP pour mettre en place les cookies et les lire
+
+>Common uses include session tracking, maintaining data across multiple visits,
+>holding shopping cart contents, storing login details, and more.
+
+Avantages / inconvénients : ?
+
+---------
+
+Les sessions sont un mécanisme basé sur les cookies qui permet de stocker des
+informations non plus chez le client mais chez le serveur.
+
+Le principe des sessions est que la seule information stockée chez le client
+dans les Cookies soit un identifiant unique. Lors de sa requête, le client
+envoie son cookie avec son identifiant, et le serveur a stocké de son côté des
+informations liés à cet identifiant.
+
+Mettre ici le pb d'hébergement mutualisé.
+
+Montrer le stockage des sessions sur le disque dur dans le dossier ???
+
+Durée de vie ?
+
+
+<!--
+Note technique :
+
+Si les cookies ne sont pas utilisés, le PHPSESSID peut être passé en GET (et en
+POST ?)
+Alors il y a un risque de "session fixation"
+-->
+
+
+--------------
+
 <!-- sans Authentification et ni BackOffice pour le premier TD -->
 
 ## Modification du Modèle Utilisateur
@@ -514,6 +573,25 @@ La seule façon fiable de sécuriser une application web est le recours au
 cryptage de l'ensemble des communications entre le client (browser) et le
 serveur, via l'utilisation du protocole `ssl` sur `http`, à savoir
 `https`.
+
+<!-- Preventing session hijacking -->
+
+<!-- When SSL is not a possibility, you can further authenticate users by storing -->
+<!-- their IP address along with their other details by adding a line such as the -->
+<!-- following when you store their session: -->
+
+<!-- $_SESSION['ip'] = $_SERVER['REMOTE_ADDR']; -->
+
+<!-- Then, as an extra check, whenever any page loads and a session is available, -->
+<!-- perform the following check. It calls the function different_user if the stored -->
+<!-- IP address doesn’t match the current one: -->
+
+<!-- if ($_SESSION['ip'] != $_SERVER['REMOTE_ADDR']) different_user(); -->
+
+<!-- What code you place in your different_user function is up to you. I recommend -->
+<!-- that you simply delete the current session and ask the user to log in again due -->
+<!-- to a technical error. Don’t say any more than that, or you’re giving away -->
+<!-- potentially useful information. -->
 
 
 <!--   ------- FIN DU TD DE L'AN DERNIER -----------
