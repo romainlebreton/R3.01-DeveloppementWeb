@@ -4,38 +4,106 @@ subtitle: Panier ?
 layout: tutorial
 ---
 
-**Notes de Romain:**
+## Idées pour le TD
+
+EDT prévisionnel :
+
+* 2  Nov - Cookie & session + 1h projet
+* 16 Nov - authentification back-office +  projet
+* 23 Nov - email +  projet
+
+Ajouter une note sur l'upload de fichiers par formulaire comme une image de
+profil par exemple le 23 Nov ?
+
+Idées pour développer un TD sur cookies sessions :
+
+* formulaire de préférence pour choix par défaut du contrôleur et de l'action
+
+* panier pour leur site marchand
+
+## Notes de Romain
+
+**Explications techniques :** Certaines sont à rajouter, d'autres à laisser en
+  commentaires pour nous
 
 Rajouter plus d'explications générales sur les cookies et les sessions :
 
+### Les cookies
+
+#### Déposer un cookie
+
 Les cookies sont des informations stockées sur l'ordinateur du client à
-l'initiative du serveur. Le client envoie les informations de son cookie lors de
-sa requête (dans l'en-tête). Lors de sa réponse, le serveur peut indiquer des
-informations à stocker dans le cookie.
+l'initiative du serveur. Pour stocker des informations dans un cookie chez le
+client, le serveur écrit une ligne `Set-Cookie` dans l'en-tête de sa
+réponse par cookie comme suit :
 
-Il y a une restriction (classique ? obligatoire ?) sur les cookies qu'on peut
-lire : on ne peut lire & écrire des cookies qu'au sein du même hôte (nom de
-domaine du serveur Web).
->Learning_PHP,_MySQL,_JavaScript,_CSS_and_HTML5,_3rd_Edition, p. 301
->Because of their privacy implications, cookies can be read only from the issuing
->domain.  In other words, if a cookie is issued by, for example, oreilly.com, it
->can be retrieved only by a web server using that domain. This prevents other
->websites from gaining access to details for which they are not authorized.
+~~~
+HTTP/1.1 200 OK
+Date:Thu, 22 Oct 2015 15:43:27 GMT
+Server: Apache/2.2.14 (Ubuntu)
+Accept-Ranges: bytes
+Content-Length: 5781
+Content-Type: text/html
+Set-Cookie: TestCookie1=valeur1; expires=Thu, 22-Oct-2015 16:43:27 GMT; Max-Age=3600
+Set-Cookie: TestCookie2=valeur2; expires=Thu, 22-Oct-2015 16:43:27 GMT; Max-Age=3600
 
-Parler de la durée de vie d'un cookie ?
+<html><head>...
+~~~
+{:.http}
 
-taille < 4KB
+Référence : [La RFC des cookies](http://tools.ietf.org/html/rfc6265)
 
-Ne contient que alphanumeric information
+The Max-Age attribute defines the lifetime of the  cookie, in seconds.
 
-Montrer les requêtes / réponses HTTP pour mettre en place les cookies et les lire
+The Expires attribute indicates the maximum lifetime of the cookie,
+represented as the date and time at which the cookie expires.
+
+D'un point de vue pratique en PHP, on dépose un cookie à l'aide de la fonction
+[`setcookie`](http://php.net/manual/fr/function.setcookie.php).
+
+Parler de ?
+
+* la durée de vie d'un cookie 
+* taille < 4KB (sûrement car inclus dans l'en-tête des requêtes qui doit être de
+taille limitée)
+* Ne contient que alphanumeric information
+
+
+#### Récupérer un cookie
+
+Le client envoie les informations de ses cookies lors dans l'en-tête de ses
+requêtes.
+
+~~~
+GET /~rletud/index.html HTTP/1.1
+host: infolimon.iutmontp.univ-montp2.fr
+Cookie: TestCookie1=valeur1; TestCookie2=valeur2
+~~~
+{:.http}
+
+Il y a une restriction sur les cookies auquel un site peut accéder : le client
+n'envoie que les cookies provenant du même nom de domaine que le serveur. Dit
+autrement, un cookie envoyé par un site hébergé sur
+`infolimon.iutmontp.univ-montp2.fr` ne sera accessible qu'aux sites ayant le
+même nom de domaine `univ-montp2.fr`. Il est possible de préciser le nom du
+serveur en donnant plus de paramètres à la fonction
+[`setcookie`](http://php.net/manual/fr/function.setcookie.php).
+
+Pour cela, le nom de domaine est enregistré en même temps que les cookies chez
+le client.
+
+D'un point de vue pratique en PHP, un cookie est récupéré à l'aide de
+[`$_COOKIE`](http://php.net/manual/fr/reserved.variables.cookies.php).
+
+
+Utilisation classiques :
 
 >Common uses include session tracking, maintaining data across multiple visits,
 >holding shopping cart contents, storing login details, and more.
 
-Avantages / inconvénients : ?
+Avantages / inconvénients : ???
 
----------
+### Les sessions 
 
 Les sessions sont un mécanisme basé sur les cookies qui permet de stocker des
 informations non plus chez le client mais chez le serveur.
@@ -47,9 +115,39 @@ informations liés à cet identifiant.
 
 Mettre ici le pb d'hébergement mutualisé.
 
-Montrer le stockage des sessions sur le disque dur dans le dossier ???
+pas de limite de taille car stockée sur le DD du serveur
 
-Durée de vie ?
+
+Montrer le stockage des sessions sur le disque dur dans le dossier : chez moi
+/var/lib/php5/sessions
+(s'obtient dans la partie session de phpinfo() )
+
+
+~~~
+GET /~rletud/index.html HTTP/1.1
+host: infolimon.iutmontp.univ-montp2.fr
+Cookie: PHPSESSID=aapot441b64paom67vccq0nvv6
+~~~
+{:.http}
+
+
+
+Si j'ai fait
+
+~~~
+$_SESSION['login'] = "rlebreton";
+$_SESSION['admin'] = "1";
+~~~
+{:.php}
+
+Dans mon fichier /var/lib/php5/sessions/sess_aapot441b64paom67vccq0nvv6, je trouve 
+
+~~~
+login|s:9:"rlebreton";admin|s:1:"1";
+~~~
+
+
+Durée de vie ? Perdue quand le navigateur se ferme, autre ?
 
 
 <!--
@@ -195,6 +293,8 @@ Une session permet d'associer à une navigation (même adresse ip, même navigat
 un ensemble de valeurs définies de manière transparente pour le visiteur et que le serveur conserve de page en page. 
 Le maniement des valeurs de sessions est assez simple en PHP, on peut stocker presque tout dans une variable de session : un chiffre, un texte, voir un objet (il faut utiliser `serialize($o)` lors de la mise en session de l'objet `$o`, puis `unserialize($o)` quand on le récupère de la session). 
 
+<!-- session_name remplace le nom de la variable du cookie qui contient l'ID
+unique, qui est PHPSESSID par défaut -->
 
 *  **Dans toute page qui manipule les sessions**
 
