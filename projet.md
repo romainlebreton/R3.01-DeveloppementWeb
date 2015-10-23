@@ -32,6 +32,10 @@ projet Web interviendra pour moitié dans la note de l'UE 'Programmation Web cô
 serveur'. L'autre moitié sera donnée par l'examen final sur papier (pas de code
 à écrire, questions de compréhension).
 
+Le jour de la soutenance, **le site devra être déployé sur `infolimon`** sous
+l'un de vos comptes. Les sources du site devront être accessible dans un fichier
+`sources.zip` à la racine de votre site.
+
 **Emploi du temps prévisionnel :**
 
 1. 19 Oct - Début projet

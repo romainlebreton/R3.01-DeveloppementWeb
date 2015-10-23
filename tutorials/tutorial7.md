@@ -21,6 +21,22 @@ Idées pour développer un TD sur cookies sessions :
 
 * panier pour leur site marchand
 
+#### Rajouter un timeout sur les sessions
+
+http://stackoverflow.com/questions/520237/how-do-i-expire-a-php-session-after-30-minutes
+
+~~~
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
+    // last request was more than 30 minutes ago
+    session_unset();     // unset $_SESSION variable for the run-time 
+    session_destroy();   // destroy session data in storage
+}
+$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+~~~
+{:.php}
+
+avec un setcookie with an expire of time()+60*30
+
 ## Notes de Romain
 
 **Explications techniques :** Certaines sont à rajouter, d'autres à laisser en
