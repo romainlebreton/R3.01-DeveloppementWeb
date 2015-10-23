@@ -18,9 +18,11 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaine du 05 Octobre 2015 --  [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html)
 1. Semaine du 12 Octobre 2015 --  [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html)
 
-
-## Notes complémentaires
+### Notes complémentaires
 
 1. [HTTP, rôle du PHP, URL et formulaires]({{site.baseurl}}/assets/tut1-complement.html)
 2. [Requête préparée, injection SQL et require]({{site.baseurl}}/assets/tut2-complement.html)
 
+## Instructions du projet
+
+[Instructions du projet](projet.html)
