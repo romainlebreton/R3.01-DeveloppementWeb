@@ -444,10 +444,12 @@ Pour éviter de perdre un temps conséquent à développer le CRUD pour chaque n
 Commençons par la fonction `selectAll()`. Dans cette fonction, seul le nom de la table présent dans la requête SQL varie. 
 
 1. Déplacez la fonction `selectAll()` de `ModelUtilisateur.php` vers `Model.php`.
+1. Faites que la classe `ModelUtilisateur` hérite de `Model` avec le mot clé `extends`.
 1. Créez dans `ModelUtilisateur.php` une variable `$table` qui est `protected` (accessible uniquement dans la classe courante et ses classes filles) et `static` (qui ne dépend que de la classe, pas des objets).
 1. Utilisez cette variable dans la fonction `selectAll()` de `Model.php` pour faire la requête sur la bonne table.
 Pour cela, accéder à la variable `$table` avec `static::$table` dans `Model.php`.
 
+<!-- Dernier problème, la nom de la classe dans setFetchMode doit être récupérer. C'est faisable sans attribut à l'aide de la fonction get_called_class() -->
 
 **Plus d'explications:** La syntaxe `static::$table` est quelque peu subtile. Dans notre cas, elle permet que lorsque l'on appelle `ModelUtilisateur::selectAll()`, qui est héritée de `Model::selectAll()`, la variable `static::$table` aille chercher `ModelUtilisateur::$table` et non pas `Model::$table`.
 1. Testez que votre site marche toujours.
