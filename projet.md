@@ -32,6 +32,19 @@ projet Web interviendra pour moitié dans la note de l'UE 'Programmation Web cô
 serveur'. L'autre moitié sera donnée par l'examen final sur papier (pas de code
 à écrire, questions de compréhension).
 
+**Emploi du temps prévisionnel :**
+
+1. 19 Oct - Début projet
+1. 26 Oct - Pas de TDs : Congé IUT
+1. 2  Nov - Cookie & session + 1h projet
+1. 9  Nov - Pas de TDs : Partiels IUT
+1. 16 Nov - Authentification + 1h projet
+1. 23 Nov - Validation par email + 1h projet
+1. 30 Nov - 3h projet
+1. 7  Déc - 3h projet
+1. 14 Déc - soutenances
+
+
 ## Ce que ce projet n'est pas :
 
 * Un site vitrine joli avec beaucoup d'images par exemple. 
@@ -96,19 +109,25 @@ n'y a **pas** de rapport à écrire, ni de présentation à préparer. Vous devr
 juste répondre à une série de questions sur votre code qui nous permettra
 d'évaluer ce qui a été implémenté.
 
+[Grille évaluation Projet Prog Web 2015](https://docs.google.com/spreadsheets/d/1CSC5-27rFoJRAlEbQCamBMf3vY6FASgEtcxIKipgwxk/edit#gid=0)
+
+<!--
 ### Front-Office 
 
-**Rappel:** le projet porte sur la programmation web, la partie de la note correspondante au design est faible. 
+**Rappel:** le projet portant sur la programmation côté serveur, la partie de la note correspondante au design HTML/CSS est faible. 
 
-1. HTML / CSS
-3. utilisation de DIVs pour la mise en page
-2. CSS responsive 
-3. Problème d’encodage: problème avec les accents dans les textes fixes ou issues de la BD.
+1. HTML / CSS valides et séparés
+3. Problème d’encodage: problème avec les accents dans les textes fixes ou issues de la BD.
 4. W3C (plus de 10 erreurs  / 1-2 erreurs / aucune erreur)
+5. Factorisation code (aucune / include header+footer / include content)
 
-Factorisation code (aucune / include header+footer / include content)
+Pourquoi les items suivants ?
+3. utilisation de `<div>` pour la mise en page
+2. CSS responsive
+
 
 ### Gestion des formulaires Formulaire (de contacts ou autre)
+
 2. Vérification des données en HTML5 ou Javascript
 3. Vérification des données en PHP
 4. Re-Remplissage du formulaire en cas d'erreur de saisie.
@@ -149,3 +168,5 @@ Aucun code HTML hors des vues
 Aucun SQL hors du modèle 
 
 ### Qualité de la démonstration 
+
+-->
