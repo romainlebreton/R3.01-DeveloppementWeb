@@ -552,6 +552,7 @@ Sécuriser l'accès à l'action de suppression d'un utilisateur.
 
 </div>
 
+<!--
 ### Super administrateur
 
 <div class="exercise">
@@ -596,10 +597,10 @@ l'on met à jour en administrateur.
 </div>
 
 
- <!-- <div class="exercise"> -->
- <!-- Modifier l'action update du contrôleur Utilisateur de sorte à rediriger sur la bonne vue viewUpdateAdminUtilisateur.php -->
- <!-- ou viewUpdateUtilisateur.php selon que l'utilisateur connecté est un "admin ou non". -->
- <!-- </div> -->
+ <div class="exercise"> 
+  Modifier l'action update du contrôleur Utilisateur de sorte à rediriger sur la bonne vue viewUpdateAdminUtilisateur.php 
+ ou viewUpdateUtilisateur.php selon que l'utilisateur connecté est un "admin ou non". 
+  </div> 
 
 Attention, il ne suffit pas de contrôler que l'utilisateur est un administrateur
 dans les vues. Un petit malin pourrait quand même accéder au actions du
@@ -622,8 +623,6 @@ Corriger cette faille de sécurité.
 
 </div>
 
-
-<!--
 
 
 ## Enregistrement avec une adresse email valide
