@@ -76,10 +76,10 @@ Set-Cookie: TestCookie2=valeur2; expires=Thu, 22-Oct-2015 16:43:27 GMT; Max-Age=
 
 En PHP, la ligne ci-dessous créée un cookie nommé "TestCookie" contenant la valeur $value et qui expire dans 1h.
 
-   ~~~
-   setcookie("TestCookie", $value, time()+3600);  /* expire dans 1 heure */
-   ~~~
-   {:.php}
+~~~
+setcookie("TestCookie", $value, time()+3600);  /* expire dans 1 heure */
+~~~
+{:.php}
 
    Attention,  la fonction setcookie() doit être appelée avant tout utilisation de HTML (le protocole HTTP impose cette restriction).
 
@@ -120,10 +120,10 @@ D'un point de vue pratique en PHP, un cookie est récupéré à l'aide de
 
 Par exemple:
 
-   ~~~
-   echo $_COOKIE["TestCookie"];
-   ~~~
-   {:.php}
+~~~
+echo $_COOKIE["TestCookie"];
+~~~
+{:.php}
 
 Il y a une restriction sur les cookies auquel un site peut accéder : le client
 n'envoie que les cookies provenant du même nom de domaine que le serveur. Dit
@@ -138,10 +138,10 @@ le client.
 
 Enfin pour effacer un cookie, il suffit de le faire expirer (en lui mettant une date d'expiration inférieure à la date courante).
 
-   ~~~
-   setcookie ("TestCookie", "", time() - 1);
-   ~~~
-   {:.php}
+~~~
+setcookie ("TestCookie", "", time() - 1);
+~~~
+{:.php}
 
 
 ##Exercice sur l'utilisation des cookies
@@ -153,18 +153,20 @@ vers l'action `viewAll" du controleur de voiture.
 Dans cet exercice, nous allons permettre à chaque visiteur du site de configurer sur quelle
 page par défaut il souhaite arriver lorsqu'il visite le site web.
 
-1. créer un formulaire avec un champs `preference` de type checkbox permettant de choisir `voiture` ou `trajet` comme page d'acceuil et qui appele le script `personalisation.php`.
-
-2. Dans votre menu, qui doit se trouver dans l'entête commune de chaque page, ajouter un lien `personalisation` qui pointe vers ce formulaire.
+1. créer un formulaire `preference.html` avec un champs `preference` de type checkbox permettant de choisir `voiture`, `trajet` ou `utilisateur` comme page d'acceuil et qui appele le script `personalisation.php`.
 
 4. Ecrire le script `personalisation.php` qui récupère la valeur `preference` du formulaire et dépose sa valeur dans un cookie en utilisant le même nom de variable. 
 
-3. Dans la page d'acceuil du site (index.php situé à la racine), créez une variable `$controleur_default` initialisée à `voiture`.
-Puis vérifiez l'existance d'un cookie, et la présence dans ce cookie du variable `preference`. Si elle est renseignée modifiez le contenu de la variable `$controleur_default`.
+5. Verifier que ce cookie a bien été déposé. Par exemple sous Firefox, Préférences -> Vie Privé -> Historique ->  "supprimer des cookies spécifiques".
 
-Enfin rediriger l'utilisateur vers la page de son choix. 
+2. Dans votre menu, qui doit se trouver dans l'entête commune de chaque page, ajouter un lien qui pointe vers le formulaire `preference.html`.
 
-5. Testez le bon fonctionnement de cette personalisation de la page d'acceuil. 
+3. Dans la page d'acceuil du site (index.php situé à la racine), créez une variable `$controleur_default` initialisée à `voiture`. Puis vérifiez l'existance d'un cookie, et la présence dans ce cookie du variable `preference`. Si elle est renseignée modifiez le contenu de la variable `$controleur_default`.
+
+Enfin redirigez l'utilisateur vers la page de son choix. 
+
+
+5. Testez le bon fonctionnement de cette personalisation de la page d'acceuil en choissant autre chose que `voiture` dans le formulaire. 
 </div>
 
 
