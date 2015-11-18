@@ -40,10 +40,10 @@ l'un de vos comptes. Les sources du site devront être accessible dans un fichie
 
 1. 19 Oct - Début projet
 1. 26 Oct - Pas de TDs : Congé IUT
-1. 2  Nov - Cookie & session + 1h projet
+1. 2  Nov - 3h projet
 1. 9  Nov - Pas de TDs : Partiels IUT
-1. 16 Nov - Authentification + 1h projet
-1. 23 Nov - Validation par email + 1h projet
+1. 16 Nov - Cookie & session + 1h projet + 1h projet
+1. 23 Nov - Authentification & validation par email + 1h projet
 1. 30 Nov - 3h projet
 1. 7  Déc - 3h projet
 1. 14 Déc - soutenances
