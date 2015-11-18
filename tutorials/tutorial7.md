@@ -33,13 +33,13 @@ Rajouter plus d'explications générales sur les cookies et les sessions :
 # Les cookies
 
 Un cookie est utilisé pour stocker une information spécifique sur l'utilisateur,
-comme les préférences d'un site ou le contenu d'un panier d'achat électronique. 
+comme les préférences d'un site ou, dans certains cas, le contenu d'un panier d'achat électronique. 
 Le cookie est un fichier qui est stocké directement sur la machine
 de l'utilisateur, il s'agit d'une association nom/valeur. Il ne faut pas stocker
 de données critiques dans les cookies!
 
 
-Les Utilisations les plus classiques visnet à maintenir un information lié à l'utilisateur/visiteur
+Les utilisations les plus classiques visent à maintenir un information lié à l'utilisateur/visiteur
 entre ses différentes visites sur le site:
    
   - stockage de son panier courant 
@@ -153,7 +153,7 @@ vers l'action `viewAll" du controleur de voiture.
 Dans cet exercice, nous allons permettre à chaque visiteur du site de configurer sur quelle
 page par défaut il souhaite arriver lorsqu'il visite le site web.
 
-1. créer un formulaire `preference.html` avec un champs `preference` de type checkbox permettant de choisir `voiture`, `trajet` ou `utilisateur` comme page d'acceuil et qui appele le script `personalisation.php`.
+1. créer un formulaire `preference.html` avec un champ `preference` de type checkbox permettant de choisir `voiture`, `trajet` ou `utilisateur` comme page d'acceuil et qui appele le script `personalisation.php`.
 
 4. Ecrire le script `personalisation.php` qui récupère la valeur `preference` du formulaire et dépose sa valeur dans un cookie en utilisant le même nom de variable. 
 
@@ -186,11 +186,11 @@ liées à l'authentification de l'utilisateur dans des cookies ?
 # Les sessions 
 
 Les sessions sont un mécanisme basé sur les cookies qui permet de stocker des
-informations non plus chez le client mais chez le serveur.
+informations non plus du côté du client mais sur le serveur.
 
 Cela offre plusieurs avantages. Il n'y a plus de limite de taille sur les données stockées
 côté client. Mais surtout, l'utilisateur ne peut plus tricher en éditant lui même le contenu
-du cookie. Par exemple en passant le champs `admin` à la valeur `true`.  
+du cookie. Par exemple en passant le champ `admin` à la valeur `true`.  
 
 Le principe des sessions est que la seule information stockée chez le client
 dans les Cookies soit un identifiant unique. Lors de sa requête, le client
@@ -287,7 +287,7 @@ Nous allons commencer par modifier la table utilisateur en lui ajoutant une
 colonne `VARCHAR(64) mdp` stockant son mot de passe.
 
 **Plus d'explications :** Étant donné que nous allons utiliser une fonction de
-cryptage pour stocker ce mot de passe, vous devez prévoir une taille de champs
+cryptage pour stocker ce mot de passe, vous devez prévoir une taille de champ
 correspondant à la taille du mot de passe crypté et non de la taille du mot de
 passe lui-même (64 caractères pour SHA-256).
 
@@ -399,7 +399,7 @@ réservées sans avoir à retaper son mot de passe.
 
 Il faut donc faire circuler l'information "s'être authentifié" de pages en pages.
 
-On pourrait faire ceci grâce à un champs caché dans un formulaire,
+On pourrait faire ceci grâce à un champ caché dans un formulaire,
 mais ça ne serait absolument pas sécurisé. Nous allons donc utiliser les sessions.
 
 
@@ -452,7 +452,7 @@ unique, qui est PHPSESSID par défaut -->
 <div class="exercise">
 
 Créer une vue `viewConnectUtilisateur.php` qui comprend un formulaire avec deux
-champs, l'un pour le login, l'autre pour le mot de passe. Ce formulaire appelle
+, l'un pour le login, l'autre pour le mot de passe. Ce formulaire appelle
 l'action `connected` du contrôleur de Utilisateur.
 
 Ajouter une action `connect` qui affiche ce formulaire dans
@@ -661,7 +661,7 @@ envoyé.
 
 
 -->
-<!-- Dans le TD 2, vous avez vu comment vérifier qu'un champs texte a le format d'une -->
+<!-- Dans le TD 2, vous avez vu comment vérifier qu'un  texte a le format d'une -->
 <!-- adresse email valide.  Mais vous n'avez pas garanti que cette adresse email -->
 <!-- existe réellement, ni que son propriétaire est bien la personne en train de -->
 <!-- s'enregistrer sur votre site. 
@@ -675,7 +675,7 @@ Ajouter un champs de type VARCHAR[32] à la table utilisateur.
 <div class="exercise">
 
 Modifier l'action connect du contrôleur Utilisateur, de sorte d'accepter la
-connexion uniquement si ce champs validation is NULL.
+connexion uniquement si ce  validation is NULL.
 
 </div>
 
