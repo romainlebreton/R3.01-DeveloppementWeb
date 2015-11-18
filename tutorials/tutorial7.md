@@ -4,7 +4,7 @@ subtitle: Panier ?
 layout: tutorial
 ---
 
-## Idées pour le TD
+<!--## Idées pour le TD
 
 EDT prévisionnel :
 
@@ -20,33 +20,39 @@ Idées pour développer un TD sur cookies sessions :
 * formulaire de préférence pour choix par défaut du contrôleur et de l'action
 
 * panier pour leur site marchand
+-->
 
-#### Rajouter un timeout sur les sessions
-
-http://stackoverflow.com/questions/520237/how-do-i-expire-a-php-session-after-30-minutes
-
-~~~
-if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
-    // last request was more than 30 minutes ago
-    session_unset();     // unset $_SESSION variable for the run-time 
-    session_destroy();   // destroy session data in storage
-}
-$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
-~~~
-{:.php}
-
-avec un setcookie with an expire of time()+60*30
-
-## Notes de Romain
+<!--## Notes de Romain
 
 **Explications techniques :** Certaines sont à rajouter, d'autres à laisser en
   commentaires pour nous
 
 Rajouter plus d'explications générales sur les cookies et les sessions :
+-->
 
-### Les cookies
+# Les cookies
 
-#### Déposer un cookie
+Un cookie est utilisé pour stocker une information spécifique sur l'utilisateur,
+comme les préférences d'un site ou, dans certains cas, le contenu d'un panier d'achat électronique. 
+Le cookie est un fichier qui est stocké directement sur la machine
+de l'utilisateur, il s'agit d'une association nom/valeur. Il ne faut pas stocker
+de données critiques dans les cookies!
+
+
+Les utilisations les plus classiques visent à maintenir un information lié à l'utilisateur/visiteur
+entre ses différentes visites sur le site:
+   
+  - stockage de son panier courant 
+
+  - personalisation de l'interface 
+
+ 
+<!--  
+>Common uses include session tracking, maintaining data across multiple visits,
+>holding shopping cart contents, storing login details, and more.
+-->
+
+### Déposer un cookie
 
 Les cookies sont des informations stockées sur l'ordinateur du client à
 l'initiative du serveur. Pour stocker des informations dans un cookie chez le
@@ -67,6 +73,17 @@ Set-Cookie: TestCookie2=valeur2; expires=Thu, 22-Oct-2015 16:43:27 GMT; Max-Age=
 ~~~
 {:.http}
 
+
+En PHP, la ligne ci-dessous créée un cookie nommé "TestCookie" contenant la valeur $value et qui expire dans 1h.
+
+~~~
+setcookie("TestCookie", $value, time()+3600);  /* expire dans 1 heure */
+~~~
+{:.php}
+
+   Attention,  la fonction setcookie() doit être appelée avant tout utilisation de HTML (le protocole HTTP impose cette restriction).
+
+
 Référence : [La RFC des cookies](http://tools.ietf.org/html/rfc6265)
 
 The Max-Age attribute defines the lifetime of the  cookie, in seconds.
@@ -77,15 +94,15 @@ represented as the date and time at which the cookie expires.
 D'un point de vue pratique en PHP, on dépose un cookie à l'aide de la fonction
 [`setcookie`](http://php.net/manual/fr/function.setcookie.php).
 
-Parler de ?
+<!--Parler de ?
 
 * la durée de vie d'un cookie 
 * taille < 4KB (sûrement car inclus dans l'en-tête des requêtes qui doit être de
 taille limitée)
 * Ne contient que alphanumeric information
+-->
 
-
-#### Récupérer un cookie
+### Récupérer un cookie
 
 Le client envoie les informations de ses cookies lors dans l'en-tête de ses
 requêtes.
@@ -96,6 +113,17 @@ host: infolimon.iutmontp.univ-montp2.fr
 Cookie: TestCookie1=valeur1; TestCookie2=valeur2
 ~~~
 {:.http}
+
+
+D'un point de vue pratique en PHP, un cookie est récupéré à l'aide de
+[`$_COOKIE`](http://php.net/manual/fr/reserved.variables.cookies.php).
+
+Par exemple:
+
+~~~
+echo $_COOKIE["TestCookie"];
+~~~
+{:.php}
 
 Il y a une restriction sur les cookies auquel un site peut accéder : le client
 n'envoie que les cookies provenant du même nom de domaine que le serveur. Dit
@@ -108,36 +136,92 @@ serveur en donnant plus de paramètres à la fonction
 Pour cela, le nom de domaine est enregistré en même temps que les cookies chez
 le client.
 
-D'un point de vue pratique en PHP, un cookie est récupéré à l'aide de
-[`$_COOKIE`](http://php.net/manual/fr/reserved.variables.cookies.php).
+Enfin pour effacer un cookie, il suffit de le faire expirer (en lui mettant une date d'expiration inférieure à la date courante).
+
+~~~
+setcookie ("TestCookie", "", time() - 1);
+~~~
+{:.php}
 
 
-Utilisation classiques :
+##Exercice sur l'utilisation des cookies
 
->Common uses include session tracking, maintaining data across multiple visits,
->holding shopping cart contents, storing login details, and more.
+<div class="exercise">
+Dans le site de covoiturage, vous avez mis en place une redirection de la page index
+vers l'action `viewAll" du controleur de voiture. 
 
-Avantages / inconvénients : ???
+Dans cet exercice, nous allons permettre à chaque visiteur du site de configurer sur quelle
+page par défaut il souhaite arriver lorsqu'il visite le site web.
 
-### Les sessions 
+1. créer un formulaire `preference.html` avec un champ `preference` de type checkbox permettant de choisir `voiture`, `trajet` ou `utilisateur` comme page d'acceuil et qui appele le script `personalisation.php`.
+
+4. Ecrire le script `personalisation.php` qui récupère la valeur `preference` du formulaire et dépose sa valeur dans un cookie en utilisant le même nom de variable. 
+
+5. Verifier que ce cookie a bien été déposé. Par exemple sous Firefox, Préférences -> Vie Privé -> Historique ->  "supprimer des cookies spécifiques".
+
+2. Dans votre menu, qui doit se trouver dans l'entête commune de chaque page, ajouter un lien qui pointe vers le formulaire `preference.html`.
+
+3. Dans la page d'acceuil du site (index.php situé à la racine), créez une variable `$controleur_default` initialisée à `voiture`. Puis vérifiez l'existance d'un cookie, et la présence dans ce cookie du variable `preference`. Si elle est renseignée modifiez le contenu de la variable `$controleur_default`.
+
+Enfin redirigez l'utilisateur vers la page de son choix. 
+
+
+5. Testez le bon fonctionnement de cette personalisation de la page d'acceuil en choissant autre chose que `voiture` dans le formulaire. 
+</div>
+
+
+<div class="exercise">
+Après avoir réalisé 
+Dans votre site personel, utiliser les cookies pour stocker le panier actuel du visiteur. 
+Pévroyez  
+</div>
+
+
+##Limitations:
+
+Pourquoi n'est ce pas une bonne idée de poser des données sensibles, telles que les données
+liées à l'authentification de l'utilisateur dans des cookies ? 
+
+
+# Les sessions 
 
 Les sessions sont un mécanisme basé sur les cookies qui permet de stocker des
-informations non plus chez le client mais chez le serveur.
+informations non plus du côté du client mais sur le serveur.
+
+Cela offre plusieurs avantages. Il n'y a plus de limite de taille sur les données stockées
+côté client. Mais surtout, l'utilisateur ne peut plus tricher en éditant lui même le contenu
+du cookie. Par exemple en passant le champ `admin` à la valeur `true`.  
 
 Le principe des sessions est que la seule information stockée chez le client
 dans les Cookies soit un identifiant unique. Lors de sa requête, le client
 envoie son cookie avec son identifiant, et le serveur a stocké de son côté des
 informations liés à cet identifiant.
 
-Mettre ici le pb d'hébergement mutualisé.
-
-pas de limite de taille car stockée sur le DD du serveur
 
 
-Montrer le stockage des sessions sur le disque dur dans le dossier : chez moi
-/var/lib/php5/sessions
-(s'obtient dans la partie session de phpinfo() )
+#### Le cas particulier des sessions en hébergement mutualisé
 
+Dans le cas d'un hébergement mutualisé, (comme à l'IUT) deux répertoires
+différents par exemple [http://infolimon.iutmontp.univ-montp2.fr/~mon_login](http://infolimon.iutmontp.univ-montp2.fr/~mon_login)
+et [http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin](http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin) sont vus
+comme un seul site web, alors qu'il s'agit en réalité de deux sites web
+différents.  De ce fait, si vous utilisez exactement le même nom de variable de
+session, il est possible que s'authentifier sur
+[http://infolimon.iutmontp.univ-montp2.fr/~mon_login](http://infolimon.iutmontp.univ-montp2.fr/~mon_login) vous permette de
+contourner l'authentification de
+[http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin](http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin).
+
+Afin d'éviter ces désagréments ils suffit d'utiliser des noms de variables de
+session qu'on ne puisse deviner, ou plus simple d'affecter un nom qu'on ne
+puisse pas deviner à votre session, avec l'instruction
+`session_name("chaineUniqueInventeParMoi");` que vous appellerez de manière
+systématique, avant chaque appel à `session_start();`
+
+##Ou sont stockées les sessions ?
+
+Le stockage des sessions sur le disque dur du serveur web.
+Par exemple, avec LAMP, dans le dossier  /var/lib/php5/sessions.
+Se reporter à  la partie session de la fonction `phpinfo()` pour connaitre ce chemin. 
 
 ~~~
 GET /~rletud/index.html HTTP/1.1
@@ -165,6 +249,22 @@ login|s:9:"rlebreton";admin|s:1:"1";
 
 Durée de vie ? Perdue quand le navigateur se ferme, autre ?
 
+#### Rajouter un timeout sur les sessions
+
+http://stackoverflow.com/questions/520237/how-do-i-expire-a-php-session-after-30-minutes
+
+~~~
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
+    // last request was more than 30 minutes ago
+    session_unset();     // unset $_SESSION variable for the run-time 
+    session_destroy();   // destroy session data in storage
+}
+$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+~~~
+{:.php}
+
+avec un setcookie with an expire of time()+60*30
+
 
 <!--
 Note technique :
@@ -187,7 +287,7 @@ Nous allons commencer par modifier la table utilisateur en lui ajoutant une
 colonne `VARCHAR(64) mdp` stockant son mot de passe.
 
 **Plus d'explications :** Étant donné que nous allons utiliser une fonction de
-cryptage pour stocker ce mot de passe, vous devez prévoir une taille de champs
+cryptage pour stocker ce mot de passe, vous devez prévoir une taille de champ
 correspondant à la taille du mot de passe crypté et non de la taille du mot de
 passe lui-même (64 caractères pour SHA-256).
 
@@ -299,7 +399,7 @@ réservées sans avoir à retaper son mot de passe.
 
 Il faut donc faire circuler l'information "s'être authentifié" de pages en pages.
 
-On pourrait faire ceci grâce à un champs caché dans un formulaire,
+On pourrait faire ceci grâce à un champ caché dans un formulaire,
 mais ça ne serait absolument pas sécurisé. Nous allons donc utiliser les sessions.
 
 
@@ -352,7 +452,7 @@ unique, qui est PHPSESSID par défaut -->
 <div class="exercise">
 
 Créer une vue `viewConnectUtilisateur.php` qui comprend un formulaire avec deux
-champs, l'un pour le login, l'autre pour le mot de passe. Ce formulaire appelle
+, l'un pour le login, l'autre pour le mot de passe. Ce formulaire appelle
 l'action `connected` du contrôleur de Utilisateur.
 
 Ajouter une action `connect` qui affiche ce formulaire dans
@@ -452,6 +552,7 @@ Sécuriser l'accès à l'action de suppression d'un utilisateur.
 
 </div>
 
+<!--
 ### Super administrateur
 
 <div class="exercise">
@@ -496,10 +597,10 @@ l'on met à jour en administrateur.
 </div>
 
 
- <!-- <div class="exercise"> -->
- <!-- Modifier l'action update du contrôleur Utilisateur de sorte à rediriger sur la bonne vue viewUpdateAdminUtilisateur.php -->
- <!-- ou viewUpdateUtilisateur.php selon que l'utilisateur connecté est un "admin ou non". -->
- <!-- </div> -->
+ <div class="exercise"> 
+  Modifier l'action update du contrôleur Utilisateur de sorte à rediriger sur la bonne vue viewUpdateAdminUtilisateur.php 
+ ou viewUpdateUtilisateur.php selon que l'utilisateur connecté est un "admin ou non". 
+  </div> 
 
 Attention, il ne suffit pas de contrôler que l'utilisateur est un administrateur
 dans les vues. Un petit malin pourrait quand même accéder au actions du
@@ -521,25 +622,6 @@ Corriger cette faille de sécurité.
 **Indice :** Modifier l'action updated dans le controlleur.
 
 </div>
-
-
-## Le cas particulier des sessions  en hébergement mutualisé
-
-Dans le cas d'un hébergement mutualisé, (comme à l'IUT) deux répertoires
-différents par exemple [http://infolimon.iutmontp.univ-montp2.fr/~mon_login](http://infolimon.iutmontp.univ-montp2.fr/~mon_login)
-et [http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin](http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin) sont vus
-comme un seul site web, alors qu'il s'agit en réalité de deux sites web
-différents.  De ce fait, si vous utilisez exactement le même nom de variable de
-session, il est possible que s'authentifier sur
-[http://infolimon.iutmontp.univ-montp2.fr/~mon_login](http://infolimon.iutmontp.univ-montp2.fr/~mon_login) vous permette de
-contourner l'authentification de
-[http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin](http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin).
-
-Afin d'éviter ces désagréments ils suffit d'utiliser des noms de variables de
-session qu'on ne puisse deviner, ou plus simple d'affecter un nom qu'on ne
-puisse pas deviner à votre session, avec l'instruction
-`session_name("chaineUniqueInventeParMoi");` que vous appellerez de manière
-systématique, avant chaque appel à `session_start();`
 
 
 
@@ -578,10 +660,11 @@ Pour se faire, nous allons lui envoyer un mail et ne valider l'utilisateur
 envoyé.
 
 
-<!-- Dans le TD 2, vous avez vu comment vérifier qu'un champs texte a le format d'une -->
+-->
+<!-- Dans le TD 2, vous avez vu comment vérifier qu'un  texte a le format d'une -->
 <!-- adresse email valide.  Mais vous n'avez pas garanti que cette adresse email -->
 <!-- existe réellement, ni que son propriétaire est bien la personne en train de -->
-<!-- s'enregistrer sur votre site. -->
+<!-- s'enregistrer sur votre site. 
 
 <div class="exercise">
 
@@ -592,7 +675,7 @@ Ajouter un champs de type VARCHAR[32] à la table utilisateur.
 <div class="exercise">
 
 Modifier l'action connect du contrôleur Utilisateur, de sorte d'accepter la
-connexion uniquement si ce champs validation is NULL.
+connexion uniquement si ce  validation is NULL.
 
 </div>
 
@@ -634,43 +717,9 @@ le suivant, un mail envoyé à `bob@yopmail.com` est immédiatement lisible
 sur [http://bob.yopmail.com](http://bob.yopmail.com).
 
 </div>
+-->
 
-
-## Sessions vs. Cookies
-
-Un cookie est utilisé pour stocker une information spécifique sur l'utilisateur,
-comme les préférences d'un site ou le contenu d'un panier d'achat
-électronique. Le cookie est un fichier qui est stocké directement sur la machine
-de l'utilisateur, il s'agit d'une association nom/valeur. Il ne faut pas stocker
-de données critiques dans les cookies!
-
-Utilisations en PHP :
-
- * La ligne ci-dessous créée un cookie nommé "TestCookie" contenant la valeur $value et qui expire dans 1h.
-
-   ~~~
-   setcookie("TestCookie", $value, time()+3600);  /* expire dans 1 heure */
-   ~~~
-   {:.php}
-
-   Attention, comme les session ou la fonction header(), la fonction setcookie()
-   doit être appelée avant tout utilisation de HTML (le protocole HTTP impose cette
-   restriction).
-
- * Accéder à un cookie :
-
-   ~~~
-   echo $_COOKIE["TestCookie"];
-   ~~~
-   {:.php}
-
- * Effacer un cookie (il suffit de le faire expirer) :
-
-   ~~~
-   setcookie ("TestCookie", "", time() - 1);
-   ~~~
-   {:.php}
-
+<!--
 
 ## Autres sécurisations:
 
@@ -689,6 +738,8 @@ La seule façon fiable de sécuriser une application web est le recours au
 cryptage de l'ensemble des communications entre le client (browser) et le
 serveur, via l'utilisation du protocole `ssl` sur `http`, à savoir
 `https`.
+
+-->
 
 <!-- Preventing session hijacking -->
 
