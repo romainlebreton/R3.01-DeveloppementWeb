@@ -286,16 +286,23 @@ unique, qui est PHPSESSID par défaut -->
    if (!empty($_SESSION['login'])) {//do something}
    ~~~
    {:.php}
+   
+*  **Supprimer une variable de session**
 
-*  **Destruction des variables en session**
+   ~~~
+   unset($_SESSION['login']);
+   ~~~
+   {:.php}   
+
+*  **Destruction de toutes variables en session**
 
    ~~~
    session_unset();     // unset $_SESSION variable for the run-time 
    session_destroy();   // destroy session data in storage
    ~~~
    {:.php}
-
-
+   
+   <!-- setcookie(session_name(),'',time()-1); -->
 
 ### Le cas particulier des sessions en hébergement mutualisé
 
