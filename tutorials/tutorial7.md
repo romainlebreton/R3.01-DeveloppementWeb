@@ -4,32 +4,6 @@ subtitle: Panier et préférences
 layout: tutorial
 ---
 
-<!--## Idées pour le TD
-
-EDT prévisionnel :
-
-* 2  Nov - Cookie & session + 1h projet
-* 16 Nov - authentification back-office +  projet
-* 23 Nov - email +  projet
-
-Ajouter une note sur l'upload de fichiers par formulaire comme une image de
-profil par exemple le 23 Nov ?
-
-Idées pour développer un TD sur cookies sessions :
-
-* formulaire de préférence pour choix par défaut du contrôleur et de l'action
-
-* panier pour leur site marchand
--->
-
-<!--## Notes de Romain
-
-**Explications techniques :** Certaines sont à rajouter, d'autres à laisser en
-  commentaires pour nous
-
-Rajouter plus d'explications générales sur les cookies et les sessions :
--->
-
 ## Les cookies
 
 Un cookie est utilisé pour stocker une information spécifique sur l'utilisateur,
@@ -48,7 +22,7 @@ l'utilisateur/visiteur entre ses différentes visites sur le site:
 * mécanisme de session (voir la section suivante) ...
 
  
-<!--  
+<!--
 >Common uses include session tracking, maintaining data across multiple visits,
 >holding shopping cart contents, storing login details, and more.
 -->
@@ -156,12 +130,6 @@ cookies périmés chez le client.
 
 ### Notes techniques 
 
-<!-- Limitations:  -->
-<!-- Pourquoi n'est ce pas une bonne idée de poser des données sensibles, telles que les données -->
-<!-- liées à l'authentification de l'utilisateur dans des cookies ?  -->
-
-<!-- * la durée de vie d'un cookie  -->
-
 1. La taille d'un cookie est limité à 4KB (car les en-têtes HTTP doivent être <4KB).
 
 1. Les cookies ne peuvent contenir que du texte, donc *a priori* pas des objets
@@ -181,8 +149,11 @@ cookies périmés chez le client.
    * sous Chrome, l'accès est plus simple ; allez dans les outils développeurs
    (avec `F12`) &#8594; Onglet Ressources &#8594; Cookies.
 
+1. Si vous ne spécifiez pas le temps d'expiration d'un cookie (3ème paramètre de
+   `setcookie`) ou que vous le mettez à `0` alors le cookie sera supprimé à la
+   fermeture du navigateur.
 
-## Exercice sur l'utilisation des cookies
+## Exercices sur l'utilisation des cookies
 
 Dans le site de covoiturage, vous avez mis en place une redirection dans la page
 `index.php` vers l'action `viewAll` du contrôleur `voiture`. Dans cet exercice,
@@ -192,7 +163,7 @@ il souhaite arriver par défaut lorsqu'il visite le site web.
 <div class="exercise">
 
 1. Créer un formulaire `preference.html` avec un champ `preference` de type
-   checkbox permettant de choisir `voiture`, `trajet` ou `utilisateur` comme
+   *bouton radio* permettant de choisir `voiture`, `trajet` ou `utilisateur` comme
    page d'accueil et qui appelle le script `personalisation.php`.
 
 4. Écrire le script `personalisation.php` qui récupère la valeur `preference` du
@@ -205,10 +176,10 @@ il souhaite arriver par défaut lorsqu'il visite le site web.
    ajouter un lien qui pointe vers le formulaire `preference.html`.
 
 3. Dans la page d'accueil du site `index.php`, créez une variable
-   `$controleur_default` initialisée à `voiture`. Puis vérifiez l'existence d'un
+   `$controller_default` initialisée à `voiture`. Puis vérifiez l'existence d'un
    cookie, et la présence dans ce cookie de la variable `preference`. Si elle
-   est renseignée, modifiez le contenu de la variable `$controleur_default`.  
-   Enfin redirigez l'utilisateur vers la page de son choix. 
+   est renseignée, modifiez le contenu de la variable `$controller_default`.  
+   Enfin redirigez l'utilisateur vers la page de son choix.
 
 5. Testez le bon fonctionnement de cette personalisation de la page d'acceuil en
 choisissant autre chose que `voiture` dans le formulaire.
@@ -255,19 +226,16 @@ presque tout dans une variable de session : un chiffre, un texte, voir un objet
 puis `unserialize($o)` quand on le récupère de la session comme avec les
 cookies).
 
-<!-- session_name remplace le nom de la variable du cookie qui contient l'ID
-unique, qui est PHPSESSID par défaut -->
-
 *  **Dans toute page qui manipule les sessions**
 
    ~~~
-   session_name("chaineUniqueInventeParMoi");  // Optionnel : voir section 3.2
    session_start();
    ~~~
    {:.php}
 
+   <!-- session_name("chaineUniqueInventeParMoi");  // Optionnel : voir section 3.2 -->
 
-   **Attention :** Il faut mettre `session_name()` avant `session_start()` et
+   **Attention :** Il faut mettre <!-- `session_name()` avant `session_start()` et -->
      `session_start()` avant toute écriture de code HTML dans la page (pour la
      même raison qu'il faut mettre `setcookie()` avant les mêmes écritures).
 
@@ -297,27 +265,28 @@ unique, qui est PHPSESSID par défaut -->
 
 
 
-### Le cas particulier des sessions en hébergement mutualisé
+<!-- ### Le cas particulier des sessions en hébergement mutualisé -->
 
-Dans le cas d'un hébergement mutualisé, (comme à l'IUT) deux répertoires
-différents par exemple
-[http://infolimon.iutmontp.univ-montp2.fr/~mon_login](http://infolimon.iutmontp.univ-montp2.fr/~mon_login)
-et
-[http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin](http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin)
-sont vus comme un seul site web, alors qu'il s'agit en réalité de deux sites web
-différents.  De ce fait, si vous utilisez exactement le même nom de variable de
-session, il est possible que s'authentifier sur
-[http://infolimon.iutmontp.univ-montp2.fr/~mon_login](http://infolimon.iutmontp.univ-montp2.fr/~mon_login)
-vous permette de contourner l'authentification de
-[http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin](http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin).
+<!-- Dans le cas d'un hébergement mutualisé, (comme à l'IUT) deux répertoires -->
+<!-- différents par exemple -->
+<!-- [http://infolimon.iutmontp.univ-montp2.fr/~mon_login](http://infolimon.iutmontp.univ-montp2.fr/~mon_login) -->
+<!-- et -->
+<!-- [http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin](http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin) -->
+<!-- sont vus comme un seul site web, alors qu'il s'agit en réalité de deux sites web -->
+<!-- différents.  De ce fait, si vous utilisez exactement le même nom de variable de -->
+<!-- session, il est possible que s'authentifier sur -->
+<!-- [http://infolimon.iutmontp.univ-montp2.fr/~mon_login](http://infolimon.iutmontp.univ-montp2.fr/~mon_login) -->
+<!-- vous permette de contourner l'authentification de -->
+<!-- [http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin](http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin). -->
 
-Afin d'éviter ces désagréments, il suffit d'utiliser un nom de variable de
-session qu'on ne puisse deviner avec l'instruction
-`session_name("chaineUniqueInventeParMoi");` que vous appellerez de manière
-systématique, avant chaque appel à `session_start();`.
+<!-- Afin d'éviter ces désagréments, il suffit d'utiliser un nom de variable de -->
+<!-- session qu'on ne puisse deviner avec l'instruction -->
+<!-- `session_name("chaineUniqueInventeParMoi");` que vous appellerez de manière -->
+<!-- systématique, avant chaque appel à `session_start();`. Cela a pour effet de -->
+<!-- remplacer le nom de la variable unique `PHPSESSID` en -->
+<!-- `chaineUniqueInventeParMoi`. -->
 
 <!-- TODO : tester que cela sépare bien les fichiers de session ! -->
-<!-- ICI : dire que cela remplace PHPSESSID comme nom de var dans les cookies -->
 <!-- DIRE que l'on peut faire des sessions sans cookie - mais pas pratique ? -->
 
 ### Où sont stockées les sessions ?
@@ -341,13 +310,31 @@ alors le fichier `/var/lib/php5/sessions/sess_aapot` contient
 login|s:9:"rlebreton";isAdmin|s:1:"1";
 ~~~
 
-### Comment rajouter un timeout sur les sessions
+### Expiration des sessions
+
+#### Durée de vie d'une session
+
+Par défaut, une session est supprimée à la fermeture du navigateur. Ceci est dû
+au délai d'expiration du cookie de l'identifiant unique `PHPSESSID` qui est par
+défaut `0`. Or nous avons vu dans la section sur les cookies que cela entraîne
+l'expiration du cookie à la fermeture du navigateur.
+
+Vous pouvez changer cela en modifiant la variable de configuration
+`session.cookie_lifetime` qui gère le délai d'expiration du cookie. La fonction
+[`session_set_cookie_params`](http://php.net/manual/en/function.session-set-cookie-params.php)
+permet de régler facilement cette variable.
+
+Ceci peut être utile si vous souhaitez que votre panier stocké avec des sessions
+soit conservé disons 30 minutes, même en cas de fermeture du navigateur.
+
+#### Comment rajouter un timeout sur les sessions
 
 La durée de vie d'une session est liée à deux paramètres. D'une part, le délai
 d'expiration du cookie permet d'effacer l'identifiant unique côté
 client. D'autre part, une variable de PHP permet de définir un délai
-d'expiration aux fichiers de session. Cependant, aucune de ces techniques
-n'offre de réelle garantie.
+d'expiration aux fichiers de session (`session.gc_maxlifetime`). Cependant,
+aucune de ces techniques n'offre de réelle garantie de suppression de la session
+après le délai imparti.
 
 La seule manière sûre de bien gérer la durée de vie d'une session est de stocker
 la date de dernière activité dans la session :
@@ -362,7 +349,8 @@ $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
 ~~~
 {:.php}
 
-Nous recommandons de mettre un délai d'expiration correspondant au cookie avec `setcookie` (ici 1800 secondes).
+Nous recommandons de mettre un délai d'expiration correspondant au
+`session.cookie_lifetime` (si celui-ci est non nul).
 
 Référence : [Stackoverflow](http://stackoverflow.com/questions/520237/how-do-i-expire-a-php-session-after-30-minutes)
 
