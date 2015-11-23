@@ -7,52 +7,78 @@ layout: tutorial
 <!-- Prévoir d'ajouter une note sur l'upload de fichiers par formulaire comme une -->
 <!-- image de profil par exemple le 23 Nov ? -->
 
+Ce TD vient à la suite du
+[TD7 -- cookies & sessions]({{site.baseurl}}/tutorials/tutorial7.html) et
+prendra donc comme acquis l'utilisation de cookies et des sessions. Cette
+semaine, nous allons :
 
-## Modification du Modèle Utilisateur
+1. mettre en place l'authentification par mot de passe des utilisateurs du site ;
+2. verrouiller l'accès à certaines pages ou actions à certains utilisateurs. Par
+   exemple, un utilisateur ne peut modifier que ses données. Ou encore,
+   l'administrateur a tous les droits sur les utilisateurs ;
+3. mettre en place une validation par email de l'inscription des utilisateurs.
+
+## Authentification par mot de passe
+
+### Mise en place dans la BDD et les formulaires
 
 <div class="exercise">
 
-Nous allons commencer par modifier la table utilisateur en lui ajoutant une
+1. Nous allons commencer par modifier la table utilisateur en lui ajoutant une
 colonne `VARCHAR(64) mdp` stockant son mot de passe.
 
-**Plus d'explications :** Étant donné que nous allons utiliser une fonction de
-cryptage pour stocker ce mot de passe, vous devez prévoir une taille de champ
-correspondant à la taille du mot de passe crypté et non de la taille du mot de
-passe lui-même (64 caractères pour SHA-256).
+   **Plus d'explications :** Étant donné que nous allons utiliser une fonction de
+   cryptage pour stocker ce mot de passe, vous devez prévoir une taille de champ
+   correspondant à la taille du mot de passe crypté (64 caractères pour SHA-256) et
+   non de la taille du mot de passe lui-même.
 
-</div>
-
-<div class="exercise">
-
-Modifier la vue `viewCreateUtilisateur.php` pour ajouter deux champs de mot de
+1. Modifier la vue `viewCreateUtilisateur.php` pour ajouter deux champs de mot de
 passe au formulaire.  Le deuxième champ mot de passe sert à valider le premier.
 
-</div>
+   <!-- Erreur commune : oubli input type=''password'' laisse value='$m' -->
 
-<!-- Erreur commune : oubli input type=''password'' laisse value='$m' -->
-
-<div class="exercise">
-
-Modifier les actions `save` puis `updated` du contrôleur
+1. Modifier les actions `save` puis `updated` du contrôleur
 `ControlleurUtilisateur.php` pour sauver dans la base le mot de passe de
 l'utilisateur.  Vérifier auparavant que les deux champs coïncident.
 
 </div>
+
+### Premier cryptage
 
 Comme mentionné ci-dessus, on ne stocke jamais le mot de passe en clair dans la
 base, mais sa version cryptée:
 
 ~~~
 <?php
+function chiffrer($texte_en_clair) {
+  $texte_crypte = hash('sha256', $texte_en_clair);
+  return $texte_crypte;
+}
+
 $mot_passe_en_clair = 'apple';
-$mot_passe_crypte = hash('sha256', $mot_passe_en_clair);
-echo $mot_passe_crypte;  
+$mot_passe_crypte = chiffrer($mot_passe_en_clair);
+echo $mot_passe_crypte;
 //affiche '3a7bd3e2360a3d29eea436fcfb7e44c735d117c42d1c1835420b6b9942dd4f1b'
 ?>
 ~~~
-
 {:.php}
 
+<div class="exercise">
+
+1. Copier la fonction `chiffrer` ci-dessus dans un fichier `Security.php`. Pour
+  faire les choses plus proprement, créez une classe `Security` englobant la
+  fonction.
+2. Modifier les actions `save` puis `updated` du contrôleur
+`ControlleurUtilisateur.php` pour sauver dans la BDD le mot de passe
+crypté. N'oubliez pas de faire un `require` de `Security.php` pour pouvoir
+appeler la fonction.
+
+</div>
+
+Les autres vues et actions du contrôleur ne sont pas impactées par la
+modification car le mot de passe n'a pas vocation à être affiché.
+
+### Plus de sécurité
 
 Pour éviter les attaques de type dictionnaire, qui permettent de retrouver le
 mot de passe original à partir de la chaîne de caractères cryptée, on va
@@ -61,84 +87,98 @@ passe.
 
 <div class="exercise">
 
-Recopier le code suivant dans le fichier `Conf.php`. Ce code stocke votre chaîne
-aléatoire dans une variable `static` qui sera accessible par la méthode statique
-`Conf::getSeed()`.
+Cette exercice propose de simuler une attaque par dictionnaire pour comprendre
+son fonctionnement.
 
-~~~
-private static $seed = 'votre chaine aleatoire fixe';
+1. Créez un utilisateur bidon dont [le mot de passe est l'un des plus courant en
+   2014](https://www.google.fr/search?q=most+used+password), par exemple `password`.
+2. Allez lire dans la base de donnée le crypté du mot de passe de cet
+utilisateur.
+3. Utilisez un site comme [md5decrypt](http://md5decrypt.net/Sha256/) pour
+   retrouver le mot de passe originel.
+   <!-- http://reverse-hash-lookup.online-domain-tools.com/ -->
 
-static public function getSeed() {
-   return self::$seed;
-}
-~~~
-{:.php}
+**Explication :** Ce site stocke le haché de millions de mots courants et si
+  votre mot de passe est trop classique, alors son haché sera connu et
+  permettra de remonter vers le mot de passe en clair.
 
 </div>
+
 
 <div class="exercise">
 
-Modifier les actions `save` puis `updated` du contrôleur
-ControlleurUtilisateur.php pour sauver dans la base la version SHA-256 de la
-racine concaténée au mot de passe de l'utilisateur.
+Pour remédier à ce problème, nous allons rajouter une chaîne aléatoire fixe à
+nos mots de passes en clair pour qu'aucun ne soit plus "classique".
+
+1. Recopier le code suivant dans la classe `Security`. Ce code stocke votre
+chaîne aléatoire dans une variable `static` qui sera accessible par la méthode
+statique `Conf::getSeed()`.
+
+   ~~~
+   private static $seed = 'votre chaine aleatoire fixe';
+
+   static public function getSeed() {
+      return self::$seed;
+   }
+   ~~~
+   {:.php}
+
+1. Modifier la fonction `chiffrer` pour qu'elle concatène la graine aléatoire
+`$seed` au mot de passe avant de le hacher.
 
 </div>
 
-Les autres vues et actions du contrôleur ne sont pas impactées par la
-modification car le mot de passe n'a pas vocation à être affiché.
-
-
 ## Sécurisation d'une page avec les sessions
 
+Pour accéder à une page réservée, un utilisateur doit s'authentifier.  Une fois
+authentifié, un utilisateur peut accéder à toutes les pages réservées sans avoir
+à retaper son mot de passe.  Il faut donc faire circuler l'information "s'être
+authentifié" de pages en pages et nous allons donc utiliser les sessions.
 
-Pour accéder à une page réservée, un utilisateur doit s'authentifier.
-Une fois authentifié, un utilisateur peut accéder à toutes les pages
-réservées sans avoir à retaper son mot de passe.
-
-Il faut donc faire circuler l'information "s'être authentifié" de pages en pages.
-
-On pourrait faire ceci grâce à un champ caché dans un formulaire,
-mais ça ne serait absolument pas sécurisé. Nous allons donc utiliser les sessions.
-
+<!-- On pourrait faire ceci grâce à un champ caché dans un formulaire, mais ça ne -->
+<!-- serait absolument pas sécurisé. -->
 
 ### Page de connexion
 
 <div class="exercise">
 
-Créer une vue `viewConnectUtilisateur.php` qui comprend un formulaire avec deux
-, l'un pour le login, l'autre pour le mot de passe. Ce formulaire appelle
-l'action `connected` du contrôleur de Utilisateur.
+Procédons en plusieurs étapes :
 
-Ajouter une action `connect` qui affiche ce formulaire dans
-`ControlleurUtilisateur.php`.
+1. Créons une vue pour afficher un formulaire de connexion :
 
-</div>
+   1. Créer une vue `viewConnectUtilisateur.php` qui comprend un formulaire avec deux
+   champs, l'un pour le login, l'autre pour le mot de passe. Ce formulaire appelle
+   l'action `connected` du contrôleur de Utilisateur.
+   1. Ajouter une action `connect` qui affiche ce formulaire dans
+   `ControlleurUtilisateur.php`.
 
-<div class="exercise">
+1. Si ce n'est déjà fait lors du TD précédent, démarrez la session au début de `index.php`.
 
-Démarrez la session au début du dispatcher.
+1. Enfin il faut vérifier le login/mot de passe de l'utilisateur et le connecter le cas échéant :
 
-</div>
+   1. Créez une fonction
+      `ModelUtilisateur::checkPassword($login,$mot_de_passe_crypte)` qui cherche
+      dans la BDD les couples (login / mot de passe crypté) correspondant. Cette
+      fonction doit renvoyer `true` si il n'y a qu'un tel couple, et `false`
+      sinon.
 
-<div class="exercise">
+   1. Ajouter une action `connected` dans le contrôleur de Utilisateur, qui
+   vérifie que le couple (login / mot de passe) donné est valide et qui, le cas
+   échéant, met le login de l'utilisateur en session. Puis affichez la vue de
+   détail de l'utilisateur qui vient de se connecter.
 
-Ajouter une action `connected` dans le contrôleur de Utilisateur, qui vérifie
-que le couple (login / passwd) correspond à un utilisateur existant et qui, si
-oui, met le login de l'utilisateur en session. Affichons par défaut la vue de
-détail de l'utilisateur qui vient de se connecter.
-
-
-**Aide :** 
-
-1. Utilisez la fonction `ModelUtilisateur::selectWhere($data)` qui fait un
-   select sur les champs de `$data` (ici 'login' et 'mdp'). En effet, la
-   fonction de base `ModelUtilisateur::select($data)` ne sert qu'à récupérer un
-   utilisateur étant donné son login.
-1. Notez que `ModelUtilisateur::selectWhere($data)` renvoie un **tableau
-   d'utilisateurs**. Il faudra donc tester si le tableau est vide avec
-   `count()`. De plus, la vue find a besoin que l'on initialise une variable
-   d'utilisateur `$u` contenant l'utilisateur.
-1. Enfin, n'oubliez pas de hasher le mot de passe convenablement.
+   **Aide :** 
+  
+   <!-- 1. Utilisez la fonction `ModelUtilisateur::selectWhere($data)` qui fait un -->
+   <!--   select sur les champs de `$data` (ici 'login' et 'mdp'). En effet, la -->
+   <!--   fonction de base `ModelUtilisateur::select($data)` ne sert qu'à récupérer un -->
+   <!--   utilisateur étant donné son login. -->
+   <!-- 1. Notez que `ModelUtilisateur::selectWhere($data)` renvoie un **tableau -->
+   <!--   d'utilisateurs**. Il faudra donc tester si le tableau est vide avec -->
+   <!--   `count()`. De plus, -->
+   1. La vue `find` a besoin que l'on initialise une variable d'utilisateur `$u`
+     contenant l'utilisateur.
+   1. N'oubliez pas de hacher le mot de passe convenablement.
 
 </div>
 
@@ -152,21 +192,22 @@ d'accueil du site.
 
 <div class="exercise">
 
-Modifier le `header.php` de sorte à ajouter:
+1. Modifier le `header` de votre site (*a priori* dans `view.php` à moins que
+vous n'ayez créé un `header.php`) de sorte à ajouter:
 
-* un lien vers la page de connexion, quand l'utilisateur n'est pas connecté (pas
-   présent en session).
-* un message de bienvenu, quand l'utilisateur est connecté, et un lien vers
-  l'action de déconnexion.
+   * un lien vers la page de connexion, quand l'utilisateur n'est pas connecté (pas
+      présent en session).
+   * un message de bienvenu, quand l'utilisateur est connecté, et un lien vers
+     l'action de déconnexion.
 
-Tester la connexion/déconnexion avec un couple login/passwd correct et un
+1. Tester la connexion/déconnexion avec un couple login/passwd correct et un
 incorrect.
 
 </div>
 
 ### Sécurisation d'une page à accès réservé
 
-On souhaite restreindre les actions de mise à jour et de suppression qu'à
+On souhaite restreindre les actions de mise à jour et de suppression à
 l'utilisateur actuellement authentifié.
 
 <div class="exercise">
@@ -190,89 +231,80 @@ class Session {
 
 </div>
 
-Cette modification n'est pas suffisante car un petit malin pourrait accéder à la suppression d'un utilisateur quelconque en rentrant l'action delete dans l'URL.
+Cette modification n'est pas suffisante car un petit malin pourrait accéder à la
+suppression d'un utilisateur quelconque en rentrant l'action `delete` dans
+l'URL.
 
 <div class="exercise">
 
-Modifier les actions update et updated du contrôleur de Utilisateur de sorte que
-si le login pour lequel une modification est demandé ne concorde pas avec celui
-stocké en session, on redirige l'utilisateur sur la page de connexion.
+1. Modifier les actions `update` et `updated` du contrôleur `Utilisateur` de sorte
+que si le login pour lequel une modification est demandé ne concorde pas avec
+celui stocké en session, on redirige l'utilisateur sur la page de connexion.
 
-</div>
-
-<div class="exercise">
-
-Sécuriser l'accès à l'action de suppression d'un utilisateur. 
+1. Sécuriser l'accès à l'action `delete` d'un utilisateur. 
 
 </div>
 
 ### Super administrateur
 
-<div class="exercise">
-
-Ajouter un champ admin de type boolean à la table Utilisateur. 
-
-</div>
+Nous souhaitons pouvoir avoir des comptes administrateur sur notre site.
 
 <div class="exercise">
 
-Modifier l'action connected de `ControllerUtilisateur.php` pour enregistrer dans
-la session si l'utilisateur est un administrateur ou non.
+1. Ajouter un champ `admin` de type `boolean` à la table `utilisateur`. 
 
-</div>
+1. Modifier l'action `connected` de `ControllerUtilisateur.php` pour enregistrer
+dans la session si l'utilisateur est un administrateur ou non avec
 
-<div class="exercise">
+   ~~~
+   $_SESSION['admin'] = true; // ou false
+   ~~~
+   {:.php}
 
-Modifier l'action `update` de `ControllerUtilisateur.php` de sorte qu'un
+1. Modifier l'action `update` de `ControllerUtilisateur.php` de sorte qu'un
 utilisateur de type admin ait tous les droits sur toutes les actions de tous les
 utilisateurs.
 
-**Conseil :** Pour faciliter la lecture du code, nous vous conseillons de
-  compléter le fichier `config/Session.php` avec la fonction `is_admin` :
-
-~~~
-public static function is_admin() {
-    return (!empty($_SESSION['admin']) && $_SESSION['admin']);
-}
-~~~
-{:.php}
+   **Conseil :** Pour faciliter la lecture du code, nous vous conseillons de
+     compléter le fichier `config/Session.php` avec la fonction `is_admin` :
+   
+   ~~~
+   public static function is_admin() {
+       return (!empty($_SESSION['admin']) && $_SESSION['admin']);
+   }
+   ~~~
+   {:.php}
 
 </div>
 
-
+Nous souhaitons maintenant permettre à un administrateur de facilement
+promouvoir un autre utilisateur en tant qu'administrateur.
 
 <div class="exercise">
 
-Modifier la vue de mise à jour pour que, si l'utilisateur authentifié est un
-administrateur, il puisse promouvoir à l'aide d'une checkbox l'utilisateur que
-l'on met à jour en administrateur.
+1. On souhaite ajouter au formulaire de mise à jour d'un utilisateur un bouton
+   `checkbox` "Administrateur ?". Ce bouton ne doit être présent que si
+   l'utilisateur authentifié est un administrateur.  
+   À vous de modifier l'action `update` du contrôleur `Utilisateur` et la vue
+   `viewUpdateUtilisateur.php`. **N'oubliez pas** que les vues ne doivent pas
+   faire de calculs (donc pas de `if`).
 
-</div>
+1. Modifiez l'action `updated` pour prendre en compte un bouton
+`checkbox` "Administrateur ?" et mettre à jour le champ `admin` de la table `utilisateur`.
 
-
- <div class="exercise"> 
-  Modifier l'action update du contrôleur Utilisateur de sorte à rediriger sur la bonne vue viewUpdateAdminUtilisateur.php 
- ou viewUpdateUtilisateur.php selon que l'utilisateur connecté est un "admin ou non". 
-  </div> 
-
-Attention, il ne suffit pas de contrôler que l'utilisateur est un administrateur
+1. **Attention :** Il ne suffit pas de contrôler que l'utilisateur est un administrateur
 dans les vues. Un petit malin pourrait quand même accéder au actions du
-contrôleur et faire des dégâts.
+contrôleur et faire des dégâts :
 
-<div class="exercise">
+   1. Sans toucher le code PHP[^nbp], hacker votre propre site en permettant à un
+utilisateur non admin de se passer lui même en admin.
+   1. Corriger cette faille de sécurité et rajoutant une vérification dans
+   l'action `updated` du contrôleur.
+
+   **De manière générale**, il ne faut jamais faire confiance au client ; seule
+     une vérification côté serveur est sûre.
 
 [^nbp]: vous avez donc le droit à modifier le code HTML, ce qui peut se faire côté client !
-
-Sans toucher le code PHP[^nbp], hacker votre propre site en
-permettant à un utilisateur non admin de se passer lui même en admin.
-
-</div>
-
-<div class="exercise">
-
-Corriger cette faille de sécurité.
-
-**Indice :** Modifier l'action updated dans le controlleur.
 
 </div>
 
@@ -281,92 +313,106 @@ Corriger cette faille de sécurité.
 ## Enregistrement avec une adresse email valide
 
 Dans beaucoup de sites Web, il est important de savoir si un utilisateur est
-bien réel. Pour se faire on peut utiliser une vérification de son numéro de
+bien réel. Pour ce faire on peut utiliser une vérification de son numéro de
 portable, de sa carte bancaire, etc...  Nous allons ici nous baser sur la
 vérification de l'adresse email.
 
 <div class="exercise">
+1. Dans votre formulaire de création d'un utilisateur, vérifiez le format de
+l'adresse email côté client, avec par exemple [le champ `type="email" du HTML5](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input).
 
-Dans votre formulaire de création d'un utilisateur, vous vérifiez actuellement
-le format de l'adresse email côté client avec du HTML5 (ou du JavaScript),
-hacker votre propre site de sorte
-
-</div>
+1. Une fois de plus, un contrôle côté client n'est pas suffisant.  
+**Hackez** votre propre site de sorte à vous inscrire avec une adresse mail non valide.
 
 Vous devriez en conclure que les contrôles côté client (navigateur) offrent un
-confort d'affichage mais ne constituent en aucun cas, une sécurisation de votre
+confort d'affichage mais ne constituent en aucun cas une sécurisation de votre
 site !
 
-<div class="exercise">
-
-Dans l'action create du contrôleur Utilisateur, vérifier le format de l'adresse
-email de l'utilisateur.
+1. Dans l'action `create` du contrôleur `Utilisateur`, vérifiez le format de
+l'adresse email de l'utilisateur. Pour cela, vous pouvez par exemple utiliser la
+fonction [`filter_var()`](http://php.net/manual/en/function.filter-var.php) avec
+le filtre
+[`FILTER_VALIDATE_EMAIL`](http://www.php.net/manual/en/filter.filters.validate.php).
 
 </div>
 
-A ce stade vous savez que votre utilisateur a saisi une adresse email d'un
+À ce stade vous savez que votre utilisateur a saisi une adresse email d'un
 format valide. Nous allons maintenant vérifier que cette adresse existe
-réellement et qu'elle appartient bien à notre utilisateur.
+réellement et qu'elle appartient bien à notre utilisateur. Pour ce faire, nous
+allons lui envoyer un mail et ne valider l'utilisateur (l'autoriser à se
+connecter) que s'il a consulté le mail que nous lui avons envoyé.
 
-Pour se faire, nous allons lui envoyer un mail et ne valider l'utilisateur
-(l'autoriser à se connecter) que s'il a consulté le mail que nous lui avons
-envoyé.
-
-
-<!-- Dans le TD 2, vous avez vu comment vérifier qu'un  texte a le format d'une -->
-<!-- adresse email valide.  Mais vous n'avez pas garanti que cette adresse email -->
-<!-- existe réellement, ni que son propriétaire est bien la personne en train de -->
-<!-- s'enregistrer sur votre site. 
 
 <div class="exercise">
 
-Ajouter un champs de type VARCHAR[32] à la table utilisateur.
+Expliquons brièvement le mécanisme de validation par adresse email que nous
+allons mettre en place. À la création d'un utilisateur, nous associons à
+l'utilisateur une chaîne de caractères aléatoires
+([un nonce cryptographique](https://fr.wiktionary.org/wiki/nonce)) dans un champ
+`nonce` de la BDD. Nous envoyons ce nonce par email à l'adresse indiqué. La
+connaissance de ce nonce sert de preuve que l'adresse email existe ; le client
+renverra donc le nonce au site qui validera donc l'adresse email (en mettant la
+valeur du nonce à `NULL` dans notre cas).
 
-</div>
+Mettons en place ce procédé :
 
-<div class="exercise">
+1. Ajoutez un champ `nonce` de type `VARCHAR[32]` à la table `utilisateur`
+   (qui stockera le nonce).
 
-Modifier l'action connect du contrôleur Utilisateur, de sorte d'accepter la
-connexion uniquement si ce  validation is NULL.
+1. Modifiez l'action `connect` du contrôleur `Utilisateur` de sorte à accepter la
+connexion uniquement si le champ `nonce` est `NULL`.
 
-</div>
+1. Ajoutez une action `validate` au contrôleur `Utilisateur` qui récupère en GET
+deux valeurs `login` et `nonce`.  Si le login correspond à un utilisateur
+présent dans la base et que le `nonce` passé en GET correspond au `nonce`
+de la BDD, alors passez à `NULL` le champ `nonce` de la BDD.
 
-<div class="exercise">
+1. Il ne reste plus qu'à initialiser ce nonce avec une chaîne de caractères
+aléatoires à la création de l'utilisateur :
 
-Ajouter une action validate au contrôleur Utilisateur, qui récupère en GET, le
-login de l'utilisateur, et une chaîne de caractère nommée "validate".  Si le
-login correspond à un utilisateur présent dans la base, et que la chaîne
-"validate" passée en GET correspond à celle stockée dans la base, mettre à jour
-le tuple correspondant dans le la table Utilisateur en mettant à NULL le champs
-'validate".
+   * Copiez la fonction `generateRandomHex()` suivante dans `Security.php` qui
+     permet de générer des chaînes de 32 caractères aléatoires
 
-</div>
+     ~~~
+     function generateRandomHex() {
+       // Generate a 32 digits hexadecimal number
+       $numbytes = 16; // Because 32 digits hexadecimal = 16 bytes
+       $bytes = openssl_random_pseudo_bytes($numbytes); 
+       $hex   = bin2hex($bytes);
+       return $hex;
+     }
+     ~~~
+     {:.php}
 
-<div class="exercise">
+   <!--
+   uniqid pas top car basé sur l'horloge donc prévisible
+   http://php.net/manual/fr/function.uniqid.php](http://php.net/manual/fr/function.uniqid.php
+   -->
 
-Dans l'action create du contrôleur Utilisateur, générez un identifiant unique
-avec la fonction uniqid() ( [http://php.net/manual/fr/function.uniqid.php](http://php.net/manual/fr/function.uniqid.php) )
-que vous stocker en base.
+   * Dans l'action `create` du contrôleur `Utilisateur`, générez un identifiant
+   unique avec la fonction `generateRandomHex()`  que vous stockerez
+   dans le champ `nonce` de la table `utilisateur`.
 
-Puis envoyer un email à l'adresse qu'il a renseigné, contenant dans le corps du
-message le lien (avec les paramètres en GET) vers l'action validante du
-contrôleur Utilisateur.
 
-</div>
+1. Il ne reste plus qu'à envoyer un mail à l'adresse à l'adresse renseignée
+contenant avec un lien qui enverra le nonce au site :
 
-<div class="exercise">
+   1. Rédigez le mail en HTML dans une variable `$mail`. Ce mail doit contenir
+      un lien vers l'action `validate` avec le login et le nonce dans l'URL (au
+      format *query string*).  
+	  **Testez** bien l'adresse de votre lien avant de passer à la question suivante.
 
-Puis envoyez lui un mail contenant un lien de validation (utilisant cette
-chaîne). vérifier le format de l'adresse email de l'utilisateur.
+   1. Envoyez ce mail en utilisant
+      [la fonction `mail()`](http://php.net/manual/en/function.mail.php) de PHP.
 
-Pour ce faire vous aller utiliser la fonction mail() de PHP. **Abuser de cette
-fonction serait considéré comme une violation de la charte d'utilisation des
-ressources informatiques de l'IUT et vous exposerait à des sanctions !**.
- 
-Pour éviter d'être blacklistés des serveurs de mail, nous allons envoyer
-uniquement des emails dans le domaine *yopmail.com*, dont le fonctionnement est
-le suivant, un mail envoyé à `bob@yopmail.com` est immédiatement lisible
-sur [http://bob.yopmail.com](http://bob.yopmail.com).
+     **Abuser de cette fonction serait considéré comme une violation de la
+     charte d'utilisation des ressources informatiques de l'IUT et vous
+     exposerait à des sanctions !**
+      
+     Pour éviter d'être blacklistés des serveurs de mail, nous allons envoyer
+     uniquement des emails dans le domaine `yopmail.com`, dont le fonctionnement
+     est le suivant : un mail envoyé à `bob@yopmail.com` est immédiatement
+     lisible sur [http://bob.yopmail.com](http://bob.yopmail.com).
 
 </div>
 
@@ -378,55 +424,60 @@ sur [http://bob.yopmail.com](http://bob.yopmail.com).
 
 À l'heure actuelle, le mot de passe transite en clair dans l'URL. Vous
 conviendrez facilement que ce n'est pas top. Nous allons donc passer nos
-formulaires en méthode POST.
+formulaires en méthode POST si le site est en production, ou en méthode GET si
+le site est en développement (selon [la variable `Conf::getDebug()` du
+TD2](tutorial2.html#gestion-des-erreurs)).
 
-Il faudrait donc maintenant récupérer les variables à l'aide de `$_POST` et
-non `$_GET`. Cependant, nos liens internes, tels que 'Détails' ou 'Mettre à
-jour' fonctionnent en passant les variables dans l'URL comme un formulaire GET.
-Nous avons donc besoin d'être capable de récupérer les variables automatiquement
-dans `$_POST` ou le cas échéant dans `$_GET`.
-
-<div class="exercise">
-
-Créer dans le dispatcher une fonction `myGet($nomvar)` qui retournera `$_GET[$nomvar]` s'il est défini, ou `$_POST[$nomvar]` s'il est défini, ou sinon `NULL`.
-
-</div>
+Il faudrait donc maintenant récupérer les variables à l'aide de `$_POST` ou
+`$_GET`. Cependant, nos liens internes, tels que 'Détails' ou 'Mettre à jour'
+fonctionnent en passant les variables dans l'URL comme un formulaire GET.  Nous
+avons donc besoin d'être capable de récupérer les variables automatiquement dans
+`$_POST` ou le cas échéant dans `$_GET`.
 
 <div class="exercise">
-Remplacer tous les `$_GET` de `dispatcher.php`, `ControllerUtilisateur.php` et `ControllerTrajet.php` par des appels à `myGet`.
 
+1. Créer dans le dispatcher une fonction `myGet($nomvar)` qui retournera
+   `$_GET[$nomvar]` s'il est défini, ou `$_POST[$nomvar]` s'il est défini, ou
+   sinon `NULL`.
+
+1. Remplacer tous les `$_GET` de `dispatcher.php`, `ControllerUtilisateur.php`
+et `ControllerTrajet.php` par des appels à `myGet`.  
 Remplacer les tests du type `isset($_GET['login'])` par `!is_null(myGet('login'))`.
 
+   **Aide :** Utiliser la fonction de remplacement `Ctrl+H` de NetBeans pour vous aider.
 
-**Aide :** Utiliser la fonction de remplacement `Ctrl+H` de NetBeans pour vous aider.
-</div>
+1. Passez le formulaire de `viewCreateUtilisateur.php` en méthode POST si
+   `Conf::getDebug()` est `false` ou en méthode GET sinon. Faites de même avec
+   les autres formulaires que vous souhaitez changer.
 
-<!-- On peut enfin changer la méthode de notre formulaire -->
-<!-- `viewCreateUtilisateur.php`. -->
-
-<div class="exercise">
-Passer le formulaire de viewCreateUtilisateur.php en méthode POST.
 </div>
 
 ### Sécurité avancée
 
+Remarquez que les mots de passe envoyés en POST sont toujours visible car envoyé
+en clair. Vous pouvez par exemple les voir dans l'onglet réseau des outils de
+développement (raccourci `F12`) dans la section paramètres sous Firefox (ou Form
+data sous Chrome).
+
 Le fait de crypter les mots de passe (ou les numéros de carte de crédit) dans la
 base de données évite qu'un accès en lecture à la base (suite à une faille de
-sécurité) ne permettent à l'attaquant de récupérer toutes les données de tous
+sécurité) ne permette à l'attaquant de récupérer toutes les données de tous
 les utilisateurs.
 
-On peut aussi crypter le mot de passe sur le navigateur. Dans ce cas une attaque
-du tiers-écouteur (type **Man in the middle**) ne permet pas d'obtenir le
-mot de passe en clair de l'utilisateur. Mais puisque l'authentification repose
-sur le mot passe crypté, le tiers peut s'authentifier avec le mot de passe
-crypté, qu'il a récupéré.
+On pourrait aussi crypter le mot de passe côté client, et n'envoyer que le mot
+de passe crypté au serveur. Dans le cas d'une attaque de l'homme du milieu (où
+quelqu'un écoute vos communications avec le serveur), l'attaquant n'obtiendra
+que le mot de passe crypté et pas le mot de passe en clair. Mais cela ne
+l'empêchera pas de pouvoir s'authentifier puisque l'authentification repose sur
+le mot passe crypté qu'il a récupéré.
 
 La seule façon fiable de sécuriser une application web est le recours au
 cryptage de l'ensemble des communications entre le client (browser) et le
-serveur, via l'utilisation du protocole `ssl` sur `http`, à savoir
-`https`.
-
--->
+serveur, via l'utilisation du protocole `TLS` sur `http`, à savoir
+`https`. Cependant, la mise en place de cet infrastructure était jusqu'à présent
+compliqué. Même si
+[elle s'est simplifié considérablement récemment](https://letsencrypt.org/),
+cela dépasse le cadre de notre cours.
 
 <!-- Preventing session hijacking -->
 
@@ -446,59 +497,3 @@ serveur, via l'utilisation du protocole `ssl` sur `http`, à savoir
 <!-- that you simply delete the current session and ask the user to log in again due -->
 <!-- to a technical error. Don’t say any more than that, or you’re giving away -->
 <!-- potentially useful information. -->
-
-
-<!--   ------- FIN DU TD DE L'AN DERNIER -----------
-Je me suis arreté là pour le moment, je reprends après le diner avec les italiens. 
-
-* **authentification.php** est la page appelée par le formulaire d'authentification
- 
-~~~
-<?php
-session_start(); //premiere instruction de toute page manipulant une session
-/*
- * Récupération des login/passwd en POST
- * Vérification dans la base 
- * remplissage de la variable $is_ok
- */
-$is_ok = true;
-
-if ($is_ok) {
-	$_SESSION['login'] = 'remi';
-	echo "Vous etes authentifie";
-}
-?> 
-~~~
-{:.php}
-
-* **une_page_reserve.php** : Une page a accès restreint aux seuls utilisateurs
-  authentifiés.
-
-~~~
-<?php
-require 'est_autorise.php';  //require et pas include 
-
-echo "Vous etes sur une page reserve</br>";
-$login = $_SESSION['login'];
-echo "Bonjour $login";
-?>
-~~~
-{:.php}
-
-* **est_autorise.php** Le script qui est requis par toutes les pages a accès réservé. 
-
-~~~
-<?php
-session_start();
-if ((isset($_SESSION['login'])) && (!empty($_SESSION['login']))) {
-	//do nothing
-}
-else {
-	// pas de login en session : redirection sur la page public
-	header('Location: page_public.php'); 	
-}
-?>
-~~~
-{:.php}
--->
-

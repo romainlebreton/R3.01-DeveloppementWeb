@@ -20,6 +20,10 @@ OU
 Créer un lien de type GET
 -->
 
+<!--
+Parler de var_dump ou print_r
+-->
+
 ## Méthodologie
 
 Quelques consignes qui vous feront gagner beaucoup de temps en développement web:
