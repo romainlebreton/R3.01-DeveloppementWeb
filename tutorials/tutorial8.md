@@ -112,7 +112,7 @@ nos mots de passes en clair pour qu'aucun ne soit plus "classique".
 
 1. Recopier le code suivant dans la classe `Security`. Ce code stocke votre
 chaîne aléatoire dans une variable `static` qui sera accessible par la méthode
-statique `Conf::getSeed()`.
+statique `Security::getSeed()`.
 
    ~~~
    private static $seed = 'votre chaine aleatoire fixe';
