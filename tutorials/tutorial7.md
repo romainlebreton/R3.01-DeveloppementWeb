@@ -235,9 +235,16 @@ cookies).
 
    <!-- session_name("chaineUniqueInventeParMoi");  // Optionnel : voir section 3.2 -->
 
-   **Attention :** Il faut mettre <!-- `session_name()` avant `session_start()` et -->
-     `session_start()` avant toute écriture de code HTML dans la page (pour la
-     même raison qu'il faut mettre `setcookie()` avant les mêmes écritures).
+   [`session_start()`](http://php.net/manual/fr/function.session-start.php)
+   démarre une nouvelle session ou reprend une session existante. Cette fonction
+   est donc indispensable pour se servir des sessions (et donc pouvoir utiliser
+   `$_SESSION`).
+
+   **Attention :** Il faut mettre <!-- `session_name()` avant `session_start()`
+     et --> `session_start()` avant toute écriture de code HTML dans la page
+     pour la même raison qu'il faut mettre `setcookie()` avant les mêmes
+     écritures (on doit écrire l'en-tête HTTP avant d'envoyer le corps de la
+     réponse HTTP).
 
 *  **Mettre une variable en session**
 
