@@ -115,6 +115,8 @@ d'évaluer ce qui a été implémenté.
 
 [Grille évaluation Projet Prog Web 2015](https://docs.google.com/spreadsheets/d/1CSC5-27rFoJRAlEbQCamBMf3vY6FASgEtcxIKipgwxk/edit#gid=0)
 
+[Planning des soutenances](https://docs.google.com/spreadsheets/d/1XTz2e8liq8Gzs_ZJTGaZiFozNHHhjwY547SLj12NZiU/edit?usp=sharing)
+
 <!--
 ### Front-Office 
 
