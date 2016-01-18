@@ -5,6 +5,7 @@ layout: tutorial
 ---
 
 <!-- Dire modalités évaluation sans dossier ni présentation, déposer le site sur infolimon -->
+<!-- J'ai fait 60% projet & 40% examen cette année (50/50 l'an dernier) -->
 
 ## Sujet
 
