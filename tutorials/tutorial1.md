@@ -369,7 +369,7 @@ prénom)` et peut proposer une liste d'annonces de trajets.
 Vous pouvez installer Apache + PhP + MySql sur votre machine perso (WAMP sous
 windows, LAMP sous Linux, MAMP sous MacOs)
 
-Attention, pensez à modifier le php.ini pour mettre `display_errors = On`, pour
+**Attention**, pensez à modifier le php.ini pour mettre `display_errors = On`, pour
 avoir les messages d'erreurs. Car par défaut, le serveur est configuré en mode
 production (`display_errors = Off`). Il faut redémarrer Apache pour que les
 modifications soient prises en compte.
