@@ -1,7 +1,11 @@
 baseurl: /ProgWeb-CoteServeur
 permalink: /:categories/:title
 
+markdown: kramdown
+highlighter: rouge
+
 kramdown:
   input: GFM
   parse_block_html: true
   hard_wrap: false
+

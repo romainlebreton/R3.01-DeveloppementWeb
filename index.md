@@ -8,6 +8,10 @@ Cours à l'IUT de Montpellier - 2ème année
 
 **Mots clés :** PHP, MVC, MySQL
 
+## Cours
+
+1. Vendredi 2 Septembre 2016 -- [Cours 1 -- Introduction à PHP](classes/class1.html)
+
 ## TDs
 
 1. Semaine du 7 Septembre 2015 -- [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html) 
@@ -22,7 +26,7 @@ Cours à l'IUT de Montpellier - 2ème année
 
 ### Notes complémentaires
 
-1. [HTTP, rôle du PHP, URL et formulaires]({{site.baseurl}}/assets/tut1-complement.html)
+<!-- 1. [HTTP, rôle du PHP, URL et formulaires]({{site.baseurl}}/assets/tut1-complement.html) -->
 2. [Requête préparée, injection SQL et require]({{site.baseurl}}/assets/tut2-complement.html)
 3. [Upload de fichiers]({{site.baseurl}}/assets/tut3-complement.html)
 
