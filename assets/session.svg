@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   style="margin:auto;display:block;flex: 0 0 550px"
+   version="1.1"
+   width="550"
+   height="140"
+   id="svg2"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="session.svg">
+  <metadata
+     id="metadata47">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2495"
+     inkscape:window-height="1416"
+     id="namedview45"
+     showgrid="false"
+     inkscape:zoom="2.2763636"
+     inkscape:cx="158.85068"
+     inkscape:cy="121.90749"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <style
+     id="style4">
+  /*  */
+    html[data-incremental=&quot;0&quot;] #sessid-c {display: none}
+    html[data-incremental=&quot;1&quot;] #sessid-s,
+    html[data-incremental=&quot;2&quot;] #sessid-s,
+    html[data-incremental=&quot;3&quot;] #sessid-s {display: none}
+	
+	@keyframes flash0-s { from { stroke: #eee } to { stroke: #000 } }
+	@keyframes flash1-s { from { stroke: #eee } to { stroke: #000 } }
+	@keyframes flash0-f { from { fill: #eee } to { fill: #000 } }
+	@keyframes flash1-f { from { fill: #eee } to { fill: #000 } }
+	@-webkit-keyframes flash0-s { from { stroke: #eee } to { stroke: #000 } }
+	@-webkit-keyframes flash1-s { from { stroke: #eee } to { stroke: #000 } }
+	@-webkit-keyframes flash0-f { from { fill: #eee } to { fill: #000 } }
+	@-webkit-keyframes flash1-f { from { fill: #eee } to { fill: #000 } }
+	html[data-incremental=&quot;1&quot;] .flash-s, html[data-incremental=&quot;3&quot;] .flash-s
+	{ animation: flash1-s 2s; -webkit-animation: flash1-s 2s; }
+	html[data-incremental=&quot;2&quot;] .flash-s
+	{ animation: flash0-s 2s; -webkit-animation: flash0-s 2s; }
+	html[data-incremental=&quot;1&quot;] .flash-f, html[data-incremental=&quot;3&quot;] .flash-f
+	{ animation: flash1-f 2s; -webkit-animation: flash1-f 2s; }
+	html[data-incremental=&quot;2&quot;] .flash-f
+	{ animation: flash0-f 2s; -webkit-animation: flash0-f 2s; }
+  /*  */
+  </style>
+  <defs
+     id="defs6">
+    <marker
+       class="flash-f"
+       refX="0"
+       refY="0"
+       orient="auto"
+       id="Arrow1Lend"
+       style="overflow:visible">
+      <path
+         class="flash-s"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         id="path9" />
+    </marker>
+  </defs>
+  <image
+     sodipodi:absref="/home/lebreton/Cours/PHP-15-16/GitHub/tutorials/../assets/firefox.png"
+     xlink:href="../assets/firefox.png"
+     id="image13"
+     height="71"
+     width="100"
+     y="30"
+     x="0" />
+  <image
+     sodipodi:absref="/home/lebreton/Cours/PHP-15-16/GitHub/tutorials/../assets/server.png"
+     xlink:href="../assets/server.png"
+     id="image15"
+     height="100"
+     width="100"
+     y="20"
+     x="300" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:2;marker-end:url(#Arrow1Lend)"
+     d="m 110,60 180,0"
+     id="path19"
+     inkscape:connector-curvature="0" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:2;marker-end:url(#Arrow1Lend)"
+     d="M 290,90 110,90"
+     id="path21"
+     inkscape:connector-curvature="0" />
+  <text
+     id="text23"
+     y="20"
+     x="10">CLIENT</text>
+  <text
+     id="text25"
+     y="20"
+     x="300">SERVER</text>
+  <text
+     style="font-size:12.00000048px;font-family:mono;-inkscape-font-specification:'mono, Normal';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%;"
+     x="110"
+     y="40"
+     id="text29"
+     sodipodi:linespacing="125%">
+    <tspan
+       sodipodi:role="line"
+       id="tspan4214">Cookie: PHPSESSID=aapot</tspan>
+  </text>
+  <text
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.00000048px;line-height:125%;font-family:mono;-inkscape-font-specification:'mono, Normal';text-align:start;writing-mode:lr;text-anchor:start;"
+     id="sessid-s"
+     x="110"
+     y="120"
+     sodipodi:linespacing="125%">
+    <tspan
+       sodipodi:role="line"
+       id="tspan4158"> </tspan>
+  </text>
+  <rect
+     id="rect33"
+     style="fill:none;stroke:#000000;stroke-width:4;stroke-dasharray:4, 4"
+     height="130"
+     width="140"
+     y="4"
+     x="400"
+     class="flash-s" />
+  <text
+     id="text35"
+     class="flash-f"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12.00000048px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';text-align:start;writing-mode:lr;text-anchor:start;"
+     y="25"
+     x="428.64453"
+     sodipodi:linespacing="125%">
+    <tspan
+       sodipodi:role="line"
+       id="tspan4156">Sess aapot</tspan>
+  </text>
+  <text
+     style="font-size:medium"
+     x="415"
+     dy="55"
+     id="text39">user: toto</text>
+  <text
+     style="font-size:medium"
+     x="415"
+     dy="85"
+     id="text41">loggedin: yes</text>
+  <text
+     style="font-size:medium"
+     x="415"
+     dy="115"
+     id="text43">likes: oranges</text>
+</svg>
