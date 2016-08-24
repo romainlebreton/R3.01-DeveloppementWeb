@@ -499,10 +499,9 @@ Répétez la question précédente avec la fonction `insert()`.
 
 Couper l'adaptation du contrôleur en petit bouts testables. Il faut aussi adapter les vues au fur et à mesure. Finalement, il faut faire quelques remplacements dans VIEW_PATH, ModelUtilisateur et les vues (comme  viewErrorUtilisateur) pour simplifier la tâche.
 </div>
--->
 
 <!-- 
-%%%%%%%%%%%%%%%%%%%%%%%% Idées année dernière %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%% Idées année dernière %%%%%%%%%%
 
 <div class="exercise">
 Factoriser le contrôleur en utilisant l'introspection ** ?? get_name
