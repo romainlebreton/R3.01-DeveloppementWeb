@@ -9,3 +9,6 @@ kramdown:
   parse_block_html: true
   hard_wrap: false
 
+# Server Config options
+livereload: true    # You no longer need to include --livereload
+reload_port: 5678    # If you don't want to use the default port

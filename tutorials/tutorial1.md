@@ -5,6 +5,13 @@ layout: tutorial
 ---
 
 <!--
+Dire un mot sur les chaînes de caractères et
+require ? (cf tut1-complement)
+
+CORRIGER LES LIENS VERS tut1-complement ...
+-->
+
+<!--
 
 Rajouter un exercice qui fait écrire un lien HTML en PHP avec une partie variable.
 Genre:

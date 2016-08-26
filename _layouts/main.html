@@ -83,6 +83,7 @@
     <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
     {% endif %}
 
+    {% comment %}
     {% if layout.plugins contains 'highlight' %}
     <script src="{{ site.baseurl }}/js/highlight.pack.js"></script>
     <script>
@@ -92,9 +93,15 @@
       hljs.initHighlightingOnLoad();
     </script>
     {% endif %}
+    {% endcomment %}
 
     {% for s in page.scripts %}
     <script src="{{ s }}"></script>
     {% endfor %}
+
+    {% if jekyll.environment == "development" %}
+    <script src="http://localhost:5678/livereload.js"></script>
+    {% endif %}
+    
   </body>
 </html>

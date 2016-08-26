@@ -1,6 +1,6 @@
 ---
-title : Cours 1 <br> Introduction au PHP
-subtitle : pour des pages Web dynamiques
+title : Cours 1 <br> Introduction au Web dynamique
+subtitle : Le rôle du PHP
 layout : slideshow
 ---
 
@@ -22,7 +22,7 @@ layout : slideshow
 Le client fait une *requête* que serveur, qui répond en donnant la page Web
 </p>
 
-#### Comment communiquent le client et le serveur ?
+### Comment communiquent le client et le serveur ?
 
 **HTTP** (*HyperText Transfer Protocol*) est un protocole de communication
 entre un client et un serveur développé pour le Web. L'une de ses fonctions
@@ -57,7 +57,7 @@ Content-Type: text/html
 
 <!-- Parler de réponse et découpage en en-tête et corps de la réponse -->
 
-#### Le navigateur comme client HTTP
+### Le navigateur comme client HTTP
 
 Quand on ouvre une URL en `http://`, le navigateur va agir comme un client
 HTTP. Il va donc envoyer une *requête HTTP*.
@@ -70,7 +70,7 @@ demandée. Le navigateur interprête alors la page Web et l'affiche.
 </p>
 
 
-#### Écoutons le réseau
+### Écoutons le réseau
 
 <!-- Ouvrir http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html dans le
 navigateur en expliquant la requête et réponse -->
@@ -89,7 +89,7 @@ Response
 Nous verrons l'autre type courant (POST) de requêtes HTTP lors de l'envoi de
 formulaires en méthode POST. 
 
-#### Qu'est-ce qu'un serveur HTTP ? 
+### Qu'est-ce qu'un serveur HTTP ? 
 
 Un *serveur* **HTTP** est un logiciel qui répond à des requêtes HTTP. Il est souvent
 associé au port 80 de la machine hôte.
@@ -107,7 +107,7 @@ associé au port 80 de la machine hôte.
 
 <!-- La pratique du serveur avec public_html, PB file://, installation chez eux -->
 
-### Pages Web statiques ou dynamiques
+## Pages Web statiques ou dynamiques
 
 * Les sites *statiques* :  
   sites réalisés uniquement à l'aide de HTML/CSS. Ils
@@ -132,7 +132,7 @@ associé au port 80 de la machine hôte.
 un espace membres, un forum, un compteur de visiteurs, des actualités, une
 newsletter
 
-#### Mécanisme de génération des pages dynamiques
+### Mécanisme de génération des pages dynamiques
 
 <!-- Voir l'un puis l'autre -->
 
@@ -155,7 +155,7 @@ newsletter
 ![Génération PHP]({{site.baseurl}}/assets/RolePHP.png)
 </p>
 
-#### Où intervient le PHP ?
+### Où intervient le PHP ?
 
 Un module PHP (mod_php5) est intégré au serveur HTTP Apache.  Quand le serveur
 Web reçoit une requête d'un fichier .php, il génère dynamiquement la page Web en
@@ -177,7 +177,7 @@ C'est ce que l'on appelle une page dynamique.
 
 
 
-#### Le langage de création de page Web : PHP
+### Le langage de création de page Web : PHP
 
 Le rôle de PHP est justement de générer du code HTML.  
 précédents. C'est un langage que seuls les serveurs comprennent et qui permet de
@@ -198,7 +198,7 @@ l'IUT), le fichier PHP est envoyé directement au navigateur qui ne sait pas le
 lire
 -->
 
-#### Les concurrents de PHP
+### Les concurrents de PHP
 
 * ASP .NET : conçu par Microsoft, il exploite le framework .NET bien connu des développeurs C#.
 * Ruby on Rails : ce framework s'utilise avec le langage Ruby.
@@ -220,6 +220,262 @@ Popularité des langages côté serveur
 </p>
 
 
+## Un premier aperçu de PHP
+
+### PHP comme langage de génération de pages Web
+
+**PHP sert à créer des documents HTML :**
+
+* Il prend donc en entrée un fichier .php qui contient de l'HTML et du PHP
+* Il ressort un document HTML pur.
+* Pour cela, il exécute les instructions PHP qui lui indique comment générer le
+document en sortie.
+
+**Remarque :** PHP peut en générer tout type de document, pas nécessairement du
+  HTML.
+
+
+### Votre premier fichier PHP
+
+Document PHP en entrée :
+
+```php
+<?php
+  echo "Hello World!";
+?>
+```
+
+PHP s'exécute sur ce document et produit
+
+```text
+Hello World
+```
+
+**Explications :**
+
+* Les balises ouvrantes `<?php` et fermantes `?>` doivent le code PHP
+* L'instruction `echo` a pour effet d'insérer du texte dans le document en sortie
+
+<!-- Démo avec php_cli ou LAMP -->
+
+### Imbrication de PHP dans le HTML 1/2
+
+```php
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Mon premier php </title>
+    </head>
+    <body>
+      <?php echo "Bonjour" ?>
+    </body>
+</html>
+```
+
+produira
+
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Mon premier php </title>
+    </head>
+    <body>
+      Bonjour
+    </body>
+</html>
+```
+
+### Imbrication de PHP dans le HTML 2/2
+
+En fait, les deux fichiers suivants sont équivalents.  
+En effet, ce qui est en dehors des balises PHP est écrit tel quel dans la page
+Web générée.
+
+
+```php
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Mon premier php </title>
+    </head>
+    <body>
+      <?php echo "Bonjour" ?>
+    </body>
+</html>
+```
+
+```php
+<?php
+  echo "<!DOCTYPE html>";
+  echo "<html>
+      <head>
+          <title> Mon premier php </title>
+      </head>
+      <body>";
+  echo "Bonjour";
+  echo "</body></html>";
+?>
+```
+
+### Test de la page sur un serveur HTTP
+
+Enregistrons ce fichier PHP sur le serveur HTTP `infolimon` de l'IUT. Les
+fichiers PHP se mettent dans le dossier `public_html` de votre répertoire
+personnel.
+
+Vous pouvez alors y accéder à partir de l'URL
+[http://infolimon.iutmontp.univ-montp2.fr/~loginIUT/](http://infolimon.iutmontp.univ-montp2.fr/~loginIUT/)
+en remplaçant `loginIUT` par votre login.
+
+```php
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Mon premier php </title>
+    </head>
+    <body>
+      <?php echo "Bonjour" ?>
+    </body>
+</html>
+```
+
+## Transmettre des données entre pages Web
+
+### Comment faire ?
+
+Les pages Web se transmettent des données entre elles. Par exemple, votre
+nom/prénom, le fait que vous soyez connectés, vos réponses au formulaire
+d'inscription.
+
+Sinon on aurait pas de pages personnalisés, on serait ramenés aux sites
+statiques.
+
+<p style="text-align:center">
+**Mais comment çà marche ?**
+</p>
+
+<!-- ICI HERE : expliquer d'abord les query string ? -->
+
+### Les *query strings* dans l'URL
+
+### Récupérer des données GET en PHP
+
+### Les formulaires GET
+
+<div style="display:flex;">
+Comprenons comment marche le formulaire suivant :&nbsp;
+
+<form method="get" action="traitement.php" style="display:inline">
+<input type="text" name="nom_var">
+<input type="submit">
+</form>
+</div>
+
+```html
+<form method="get" action="traitement.php">
+    <input type="text" name="nom_var" />
+	<input type="submit" />
+</form>
+```
+
+
+Un clic sur le bouton de soumission `<input type="submit" />` du formulaire a
+pour effet de charger la page Web `traitement.php` avec des arguments.  Plus
+précisement, si l'utilisateur a tapé `valeur` dans le champ texte
+`<input type="text" name="nom_var" />`,
+le navigateur va demander la page Web `traitement.php?nom_var=valeur`.
+
+La partie `nom_var=valeur` de l'URL s'appelle la *query string*. PHP comprend la
+*query string* et s'en sert pour remplir le tableau `$_GET`. Dans notre
+exemple, PHP se charge de faire l'affectation
+`$_GET["nom_var"] = "valeur"`
+juste avant d'exécuter la page PHP `traitement.php`.
+
+**Pourquoi la méthode s'appelle "GET" ?**  
+Parce qu'elle correspond à une requête HTTP de type GET (la plus courante pour
+demander une page Web.
+
+Lors du clic sur le bouton de soumission du formulaire, le navigateur (qui est un client HTTP) va envoyer la requête HTTP suivante
+
+```http
+GET /~rletud/traitement.php?nom_var=valeur HTTP/1.1
+host: infolimon.iutmontp.univ-montp2.fr
+
+```
+
+
+
+Vous pouvez utiliser la commande `telnet infolimon.iutmontp.univ-montp2.fr 80` dans le terminal pour répéter vous-même l'expérience.
+
+### Exemple avec un fichier PHP
+
+
+### Les formulaires POST
+
+Considérons le même formulaire mais en `method="post"` :
+
+```html
+<form method="post" action="traitementPost.php">
+    <input type="text" name="nom_var" />
+	<input type="submit" />
+</form>
+```
+
+La fonctionnement va être similaire à trois différences près :
+
+1. la page chargée va être `traitementPost.php` sans query string ;
+2. les données du formulaire sont envoyées avec la requête HTTP ;
+3. On récupère les données dans le tableau PHP `$_POST`. Dans notre exemple, PHP
+   fait l'affectation `$_POST["nom_var"] = "valeur"` juste avant d'exécuter la
+   page PHP `traitementPost.php`.
+
+
+Plus précisement, le navigateur va faire la requête HTTP suivante
+
+```http
+POST /~rletud/traitementPost.php HTTP/1.1
+host: localhost
+Content-Length:14
+Content-Type:application/x-www-form-urlencoded
+
+nom_var=valeur
+
+```
+
+Nous voyons ici le deuxième type de requête HTTP le plus courant : les requêtes
+POST. Elles servent aussi à demander des pages Web. La principale différence est
+que l'on peut envoyer, en plus de l'en-tête de la requête HTTP, un corps de
+requête HTTP contenant des informations. L'en-tête et le corps de la requête
+sont séparés par une ligne vide.
+
+Vous pouvez le tester comme précédement avec la commande `telnet`.
+
+### Récupérer des données POST avec PHP
+
+### Avantages et inconvénients des 2 méthodes
+
+* La méthode GET se prête bien à un site en développement car on peut facilement
+contrôler les valeurs et noms de variables du formulaire.  
+  Il est facile de créer un lien `<a>` vers une page traitant un formulaire en
+  méthode GET et d'y envoyer des données via le *query string.*
+
+* La méthode POST est plus propre car les valeurs ne sont plus affichées dans la barre d'adresse du navigateur. Attention, ces informations ne sont pas vraiment cachées pour autant.
+
+<!--
+Note sur ù met-on le dollar 
+
+$objet->attribut
+$tableau[$index]
+Classe::$attribut_static
+
+-->
+
+Source : https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/introduction-a-php
+
+
+
+%%%
 
 
 PHP 7
@@ -268,7 +524,7 @@ echo
 if - for imbriqués html
 
 
-
+## Émuler un client HTTP textuel
 
 **Expérience amusante :**  
 Même si le client HTTP le plus connu est votre navigateur, il est facile de
@@ -310,320 +566,4 @@ Content-Type: text/html
 </html>
 ```
 
-## Note sur les URLs
-
-### Les URL en `http://` et `https://`
-
-**Exemple :** http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html 
-
-Ici, la 1ère partie de l'URL `http://` correspond toujours au protocole de
-communication, qui est bien sûr le Hypertext Transfer Protocol dans notre cas.
-En 2ème partie, nous avons désormais l'hôte `infolimon.iutmontp.univ-montp2.fr`
-qui décrit la machine à qui s'adresser. Enfin la 3ème partie
-`/~rletud/index.html` correspond au chemin complet de la page Web pour le serveur.  
-**Référence :** [Les URL](https://fr.wikipedia.org/wiki/Uniform_Resource_Locator)
-
-<!--
-Pour les formulaires, il faut définir la query string
-
-Parler d'URL relative ? 
-
-En général 
-scheme:[//[user:password@]domain[:port]][/]path[?query][#fragment]
-Nous reviendrons plus tard en particulier sur la partie query et fragment.
--->
-
-### Les URL en `file://`
-
-**Exemple :** file:///home/lebreton/public_html/index.html
-
-L'URL (Uniform Ressource Locator "localisateur uniforme de ressource") est un
-format d'adresse qui permet de localiser des pages Web. La 1ère partie
-`file://` correspond au protocole de communication (ici un fichier sur votre
-disque dur). La 2ème partie est le chemin absolu du fichier Web
-`/home/lebreton/public_html/index.html`  
-**Référence :** [Schéma d'URI 'file'](https://en.wikipedia.org/wiki/File_URI_scheme)
-
-
-Pour nous, une adresse commençant par `file://` est à proscrire. En effet, une
-telle adresse signifie que nos pages PHP ne passent pas par le serveur HTTP
-(Apache). Et donc que le PHP n'est pas interprété.
-
-
-*Note culturelle (optionelle):* En fait, `file://` est un schéma d'URI (Uniform Ressource
-Identifier) qui est un schéma plus général et qui identifie pleins d'autres
-objets que des pages Web.
-Les schémas d'URI "http://" et "https:" correspondent à ce que l'on appelle
-les URL.
-
-
-
-## Encodage des caractères
-
-**Un problème avec les accents ?**  
-Cela provient sûrement de l'encodage des caractères. Comme indiqué dans le TD,
-l'encodage d'une page Web se déclare dans son en-tête avec `<meta
-charset="utf-8" />` si le fichier est encodé en UTF-8.
-
-Sous linux, les fichiers sont encodés en UTF8 (ou ASCII) par défaut. 
-Le problème vient comme souvent de Windows qui tend encore à utiliser l'encodage
-ISO-8859-15.
-
-Sous linux, on peut utiliser la commande 
-`file nom_du_fichier`
-pour détecter l'encodage des caractères.
-
-La commande `iconv` est utile pour changer l'encodage des caractères d'un fichier.  
-**Exemple :** `iconv -f ISO-8859-15 -t UTF-8 < input.txt > output.txt`
-
-
-<!--
-% Créer un dossier WebServeur dans public-HTML puis un sous-dossier TD1
-% Tuto NetBeans
--->
-
-<!--
-### Comment faire pour qu'une page Web soit servie par le serveur HTTP sur infolimon ?
-
-On écrit une page Web dans le dossier **public_html** de son répertoire personnel et
-on donne les droits au serveur HTTP Apache (utilisateur www-data) de lire les
-pages Web (bit r--) et de traverser les dossiers menant à la page Web (bit de
-permission --x).
-
-Dans le TD, nous vous avons indiqué la commande
-
-```bash
-setfacl -m u:www-data:r-x nom_du_fichier ou nom_du_répertoire
-```
-
-Cette commande donne les droits `r-x` à l'utilisateur `www-data`. Les ACL
-permettent d'avoir des droits spécifiques à plusieurs utilisateurs et à
-plusieurs groupes quand les droits classiques sont limités à un utilisateur et un
-groupe.
-
-**Note :**  
-Si on a activé le module Apache `mod_dir` qui permet de lister le
-contenu d'un dossier, il faut donner la permission de lecture sur les dossiers à
-Apache pour qu'il puisse lister leur contenu.
--->
-
-## Formulaires et PHP
-
-### Méthode GET
-
-Comprenons comment marche le formulaire suivant :
-
-```html
-<form method="get" action="traitement.php">
-    <input type="text" name="nom_var" />
-	<input type="submit" />
-</form>
-```
-
-Un clic sur le bouton de soumission `<input type="submit" />` du formulaire a
-pour effet de charger la page Web `traitement.php` avec des arguments.  Plus
-précisement, si l'utilisateur a tapé `valeur` dans le champ texte
-`<input type="text" name="nom_var" />`,
-le navigateur va demander la page Web `traitement.php?nom_var=valeur`.
-
-La partie `nom_var=valeur` de l'URL s'appelle la *query string*. PHP comprend la
-*query string* et s'en sert pour remplir le tableau `$_GET`. Dans notre
-exemple, PHP se charge de faire l'affectation
-`$_GET["nom_var"] = "valeur"`
-juste avant d'exécuter la page PHP `traitement.php`.
-
-**Pourquoi la méthode s'appelle "GET" ?**  
-Parce qu'elle correspond à une requête HTTP de type GET (la plus courante pour
-demander une page Web.
-
-Lors du clic sur le bouton de soumission du formulaire, le navigateur (qui est un client HTTP) va envoyer la requête HTTP suivante
-
-```http
-GET /~rletud/traitement.php?nom_var=valeur HTTP/1.1
-host: infolimon.iutmontp.univ-montp2.fr
-
-```
-
-Vous pouvez utiliser la commande `telnet infolimon.iutmontp.univ-montp2.fr 80` dans le terminal pour répéter vous-même l'expérience.
-
-
-### Méthode POST
-
-Considérons le même formulaire mais en `method="post"` :
-
-```html
-<form method="post" action="traitementPost.php">
-    <input type="text" name="nom_var" />
-	<input type="submit" />
-</form>
-```
-
-La fonctionnement va être similaire à trois différences près :
-
-1. la page chargée va être `traitementPost.php` sans query string ;
-2. les données du formulaire sont envoyées avec la requête HTTP ;
-3. On récupère les données dans le tableau PHP `$_POST`. Dans notre exemple, PHP
-   fait l'affectation `$_POST["nom_var"] = "valeur"` juste avant d'exécuter la
-   page PHP `traitementPost.php`.
-
-
-Plus précisement, le navigateur va faire la requête HTTP suivante
-
-```http
-POST /~rletud/traitementPost.php HTTP/1.1
-host: localhost
-Content-Length:14
-Content-Type:application/x-www-form-urlencoded
-
-nom_var=valeur
-
-```
-
-Nous voyons ici le deuxième type de requête HTTP le plus courant : les requêtes
-POST. Elles servent aussi à demander des pages Web. La principale différence est
-que l'on peut envoyer, en plus de l'en-tête de la requête HTTP, un corps de
-requête HTTP contenant des informations. L'en-tête et le corps de la requête
-sont séparés par une ligne vide.
-
-Vous pouvez le tester comme précédement avec la commande `telnet`.
-
-### Avantages et inconvénients des 2 méthodes
-
-* La méthode GET se prête bien à un site en développement car on peut facilement
-contrôler les valeurs et noms de variables du formulaire.  
-  Il est facile de créer un lien `<a>` vers une page traitant un formulaire en
-  méthode GET et d'y envoyer des données via le *query string.*
-
-* La méthode POST est plus propre car les valeurs ne sont plus affichées dans la barre d'adresse du navigateur. Attention, ces informations ne sont pas vraiment cachées pour autant.
-
-<!--
-Note sur ù met-on le dollar 
-
-$objet->attribut
-$tableau[$index]
-Classe::$attribut_static
-
--->
-
-## Tableau associatifs
-
-Vous connaissez déjà les tableaux classiques, ceux qui sont indexés par
-`0,1,2,...`. Les tableaux en PHP peuvent aussi s'indexer par des
-chaînes de caractères.
-
-Une syntaxe pratique pour créer un tableau est la suivante
-
-```php?start_inline=1
-$tab = array("texte" => 1, 3 => "blabla"); 
-```
-
-Deux particularités du PHP sont la syntaxe pour rajouter une valeur en fin de
-tableau
-
-```php?start_inline=1
-$tab[] = $valeur
-```
-
-et l'existence des boucles
-[`foreach`](http://php.net/manual/fr/control-structures.foreach.php).
-
-## `echo`, les chaînes de caractères et l'imbrication de PHP dans le HTML
-
-### Les chaînes de caractères
-
-* Les chaînes de caractères avec *double quote* `"` peuvent contenir des
-  variables(qui seront remplacées), des sautes de lignes, des caractères
-  spéciaux (tabulation `\t`, saut de ligne `\n`). Les caractères protégés sont
-  `"`, `$` et `\` qui doivent être échappés comme ceci `\"`, `\$` et `\\`;
-   
-   Exemple :
-
-  ```php?start_inline=1
-  $prenom="Helmut";
-  echo "Bonjour $prenom,\n çà farte ?";
-  ```
-  
-  donne
-   
-  ```text
-  Bonjour Helmut,
-  çà farte ?
-  ```
-  
-  **Astuce :** En cas de problèmes, rajoutez des accolades autour de la variable
-    à remplacer. Cela marche aussi bien pour les tableaux `"{$tab[0]}"`, les
-    attributs `"{$objet->attribut}"` et les fonctions `"{$objet->fonction()}"`.
-   
-* Les chaînes de caractères avec *simple quote* `'` sont conservées telles quelles
-(pas de remplacement, de caractères spéciaux ...). Les caractères protégés sont
-`'` et `\` qui doivent être échappés comme ceci `\` et `\\`;
-
-
-### Le `echo` *here document*
-
-Il existe un `echo` sur plusieurs ligne très pratique
-
-```php?start_inline=1
-echo <<< EOT
-  Texte à afficher
-  sur plusieurs lignes
-  avec caractères spéciaux \t \n
-  et remplacement de variables $prenom
-  les caractères suivants passent : " ' $ / \ ;
-EOT;
-```
-
-Cette syntaxe s'intitule le "here document" et permet d'afficher plusieurs
-lignes avec les mêmes caractéristiques que les chaînes entre *double quote*.
-Notez que la fin de la syntaxe doit apparaître sur une nouvelle ligne, avec
-uniquement un point-virgule, et pas d'espace de plus !
-
-### Short tag `echo`
-
-`<?= $var_name ?>`  est équivalent à `<?php echo $var_name ?>`.
-
-### Imbrication de PHP dans le HTML
-
-Les deux fichiers suivants sont équivalents. En effet, ce qui est en dehors des
-balises PHP est écrit tel quel dans la page Web générée.
-
-
-```php
-<!DOCTYPE html>
-<html>
-    <head>
-        <title> Mon premier php </title>
-    </head>
-    <body>
-      <?php echo "Bonjour" ?>
-    </body>
-</html>
-```
-
-```php
-<?php
-  echo "<!DOCTYPE html>";
-  echo "<html>
-      <head>
-          <title> Mon premier php </title>
-      </head>
-      <body>";
-  echo "Bonjour";
-  echo "</body></html>";
-?>
-```
-
-## Require
-
-* `require` : fait un copier-coller d'un fichier externe
-
-* `require_once` : fait de même mais au plus une fois dans le fichier
-  courant. Cela évite de définir plusieurs fois la même classe dans le même
-  fichier à cause de plusieurs `require`.
-
-La bonne pratique veut que vous mettiez dans chaque fichier les `require_once` de
-toutes les classes que vous allez utiliser.
-
-<!-- Faire le lien avec ?import? de Java  -->
-
-Source : https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/introduction-a-php
+Faites de même avec la requête POST précédente.
