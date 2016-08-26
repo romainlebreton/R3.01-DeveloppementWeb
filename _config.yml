@@ -2,7 +2,7 @@ baseurl: /ProgWeb-CoteServeur
 permalink: /:categories/:title
 
 markdown: kramdown
-highlighter: rouge
+# highlighter: rouge
 
 kramdown:
   input: GFM

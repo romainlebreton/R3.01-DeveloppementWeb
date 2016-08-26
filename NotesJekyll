@@ -1,0 +1,7 @@
+Update Jekyll 3.0 :
+- Layout metedata moved to variable layout instead of merging in page
+  https://jekyllrb.com/docs/upgrading/2-to-3/
+
+- create rouge css
+  In CSS folder :
+  rougify style [monokai/github/...] > highlight_stylesheet.css
