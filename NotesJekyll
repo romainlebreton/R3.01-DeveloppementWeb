@@ -5,3 +5,9 @@ Update Jekyll 3.0 :
 - create rouge css
   In CSS folder :
   rougify style [monokai/github/...] > highlight_stylesheet.css
+
+
+Highlight PHP without opening tags
+```php?start_inline=1
+...
+```
