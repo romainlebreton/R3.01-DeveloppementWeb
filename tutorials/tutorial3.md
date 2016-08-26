@@ -25,15 +25,14 @@ Intervention sur les injections SQL avec un exemple simple
 Imaginez que nous avons une fonction `getVoitureByImmat($immatriculation)` codée comme
 suit
 
-~~~
+```php?start_inline=1
 function getVoitureByImmat($immat) {
     $sql = "SELECT * from voiture WHERE immatriculation='$immat'"; 
     $rep = Model::$pdo->query($sql);
     $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
     return $rep->fetch();
 }
-~~~
-{:.php}
+```
 
 Cette fonction marche mais pose un gros problèmes de sécurité ; elle est
 vulnérable à ce que l'on appelle les *injections SQL*. 
@@ -49,7 +48,7 @@ comment elles fonctionnent :
 * La requête préparée attend alors des valeurs et d'être exécutée
 * On peut alors récupérer les résultats comme précédemment
 
-~~~
+```php?start_inline=1
 function getVoitureByImmat($immat) {
   $sql = "SELECT * from voiture WHERE immatriculation=:nom_var";
   // Préparation de la requête
@@ -68,8 +67,7 @@ function getVoitureByImmat($immat) {
   // Attention, si il n'y a pas de résultats, fetch renvoie FALSE
   // Pour voir si il y a des résultat : ($req_prep->rowCount() != 0)
 }
-~~~
-{:.php}
+```
 
 **Remarque :** Il existe une autre solution pour associer une à une les valeurs
 aux variables d'une requête préparée avec la fonction
@@ -83,10 +81,9 @@ un tableau `execute($values)`.
 2. Créez une fonction `save()` dans la classe `Voiture` qui insère la voiture
 courante (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
 
-   ~~~
+   ```sql
    INSERT INTO table_name (column1, column2, ...) VALUES (value1, value2, ...)
-   ~~~
-   {:.sql}
+   ```
 
    **Attention :** La requête `INSERT INTO` ne renvoie pas de résultats ; il ne faut donc pas faire de `fetch()` sous peine d'avoir une `SQLSTATE[HY000]: General error`.
 
@@ -354,7 +351,7 @@ messages d'erreurs.
 
    Dans la classe `Conf`, ajouter un attribut  statique `debug` et son getter publique. 
 
-   ~~~
+   ```php
    <?php
      class Conf{
       ...
@@ -367,12 +364,11 @@ messages d'erreurs.
        }
    }
    ?>
-   ~~~
-   {:.php}
+   ```
    
    Ainsi on peut modifier les messages d'erreurs dans les `catch`.
    
-   ~~~
+   ```php?start_inline=1
    try {
      ...
    } catch (PDOException $e) {
@@ -383,6 +379,5 @@ messages d'erreurs.
      }
      die();
    }
-   ~~~
-   {:.php}
+   ```
 

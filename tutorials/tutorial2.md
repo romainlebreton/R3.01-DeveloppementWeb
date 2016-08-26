@@ -67,7 +67,7 @@ informations du serveur directement dans le code.
    * Qu'est-ce qu'un attribut ou une méthode **statique** ? (Cours de Programmation
    Orientée Objet de l'an dernier)
 
-   ~~~
+   ```php
    <?php
    class Conf {
    
@@ -93,8 +93,7 @@ informations du serveur directement dans le code.
    
    }
    ?>
-   ~~~
-   {:.php}
+   ```
 
 2. Pour tester notre classe `Conf`, créons un fichier `testConf.php` que l'on
 ouvrira dans le navigateur.
@@ -102,15 +101,14 @@ ouvrira dans le navigateur.
    **Souvenez-vous le TD dernier :** Quelle est la bonne et la mauvaise URL
    pour ouvrir une page PHP ? 
    
-   ~~~
+   ```php
    <?php
      require 'Conf.php';     //equivalent du import en Java
 
      // On affiche le login de la base de donnees
      echo Conf::getLogin();
    ?>
-   ~~~
-   {:.php}
+   ```
 
 3. Complétez `Conf.php` avec des méthodes statiques `getHostname()`,
    `getDatabase()` et `getPassword()`. Testez ces méthodes dans `testConf.php`.
@@ -148,10 +146,9 @@ de donnée.
    2. Pour créer la connexion à notre base de donnée, il faut utiliser le
    constructeur de **PDO** de la façon suivante
    
-      ~~~
+      ```php?start_inline=1
       new PDO("mysql:host=$host;dbname=$dbname",$login,$pass);
-      ~~~
-      {:.php}
+      ```
    
       Stockez ce nouvel objet **PDO** dans la variable statique `self::$pdo`.  
       **Note :** Comme la variable est statique, elle s'accède par une syntaxe
@@ -168,15 +165,14 @@ de donnée.
 place, il lève une exception qu'il faut donc récupérer et traiter. Placez donc
 votre `new PDO(...)` au sein d'un try - catch :
 
-   ~~~
+   ```php?start_inline=1
    try{
      ... 
    } catch(PDOException $e) {
      echo $e->getMessage(); // affiche un message d'erreur
      die();
    }
-   ~~~
-   {:.php}
+   ```
    
    Vous remarquerez que la syntaxe des exceptions en PHP est très semblable à celle
    de Java.
@@ -185,17 +181,17 @@ votre `new PDO(...)` au sein d'un try - catch :
    suivant. Vérifiez que vous obtenez bien le message lorsque vous ouvrez ce
    fichier dans le navigateur.
 
-   ~~~
+   ```php
    <?php
    require_once "Model.php";
    echo "Connexion réussie !" ;
    ?>
-   ~~~
+   ```
 
 4. Pour avoir plus de messages d'erreur de PDO et qu'il gère mieux l'UTF-8,
   **mettez à jour** la connexion dans `Model` avec
 
-   ~~~
+   ```php?start_inline=1
    // Connexion à la base de données            
    // Le dernier argument sert à ce que toutes les chaines de caractères 
    // en entrée et sortie de MySql soit dans le codage UTF-8
@@ -204,8 +200,7 @@ votre `new PDO(...)` au sein d'un try - catch :
    
    // On active le mode d'affichage des erreurs, et le lancement d'exception en cas d'erreur
    self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-   ~~~
-   {:.php}
+   ```
 
 **Remarque :** Dans cet exemple, la gestion est très brutale: En effet,
 l'instruction `die();` équivaut à un système `System.exit(-1);` en Java.  
@@ -227,10 +222,9 @@ Voyons maintenant comment les objets **PDO** servent à effectuer des requêtes 
 Commençons par la requête SQL la plus simple, celle qui lit tous les éléments
 d'une table (`voiture` dans notre exemple) :
 
-~~~
+```sql
 SELECT * FROM voiture
-~~~
-{:.sql}
+```
 
 
 1. Créez un fichier `lireVoiture.php` avec les éléments suivants
@@ -246,10 +240,9 @@ SELECT * FROM voiture
    
    iii. Pour lire les réponses à des requêtes SQL, vous pouvez utiliser
 
-   ~~~
+   ```php?start_inline=1
    $tab_obj = $rep->fetchAll(PDO::FETCH_OBJ)
-   ~~~
-   {:.php}
+   ```
 
    qui renvoie un tableau d'objets `tab_obj` ayant pour attributs les champs de
    la BDD.  Chacun des objets `$obj` de `$tab_obj` contient donc trois attributs
@@ -271,11 +264,10 @@ trois points suivants :
 
    1. Voici comment récupérer directement un objet de la classe `Voiture`.
 
-      ~~~
+      ```php?start_inline=1
       $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
       $tab_voit = $rep->fetchAll();
-      ~~~
-      {:.php}
+      ```
 
       **Note :** La variable `$tab_voit` contient un tableau de `Voiture`. Pour afficher les
      voitures, il faudra itérer sur le tableau avec une boucle
@@ -290,7 +282,7 @@ trois points suivants :
    **Adaptons donc l'ancien constructeur de `Voiture` pour qu'il accepte aucun
      argument et trois arguments.**
 
-      ~~~
+      ```php?start_inline=1
       public function __construct($m = NULL, $c = NULL, $i = NULL) {
         if (!is_null($m) && !is_null($c) && !is_null($i)) {
           $this->marque = $m;
@@ -299,8 +291,7 @@ trois points suivants :
         }
         $this->options = array();
       }
-      ~~~
-      {:.php}
+      ```
 
 
 
@@ -318,7 +309,7 @@ messages d'erreurs.
    Dans la classe `Conf`, ajouter un attribut statique `debug` et son getter
    publique.
 
-   ~~~
+   ```php
    <?php
      class Conf{
       ...
@@ -331,12 +322,11 @@ messages d'erreurs.
        }
    }
    ?>
-   ~~~
-   {:.php}
+   ```
    
    Ainsi on peut modifier les messages d'erreurs dans les `catch`.
    
-   ~~~
+   ```php?start_inline=1
    try {
      ...
    } catch (PDOException $e) {
@@ -347,8 +337,7 @@ messages d'erreurs.
      }
      die();
    }
-   ~~~
-   {:.php}
+   ```
 
 ### Site de covoiturage
 

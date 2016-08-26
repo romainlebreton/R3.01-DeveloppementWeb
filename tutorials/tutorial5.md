@@ -109,17 +109,15 @@ vers l'adresse inconnue `../config/Conf.php`.
    les machines de l'IUT (serveur infolimon) ou sur vos machines personnelles
    Linux
    
-   ~~~
+   ```php?start_inline=1
    $ROOT = "/home/ann2/lebreton/public_html/TD5";
-   ~~~
-   {:.php}
+   ```
 
    ou sur vos machines personnelles  Windows 
    
-   ~~~
+   ```php?start_inline=1
    $ROOT = "C:\\wamp\www\TD5";
-   ~~~
-   {:.php}
+   ```
 
 
 2. Modifiez tous les `require` de tous les fichiers pour qu'ils utilisent des
@@ -168,11 +166,10 @@ anti-slash `\` sur Windows, contrairement à Linux et Mac qui utilisent des slas
 3. Pour la rendre portable, nous allons récupérer à la volée le répertoire du
    site avec le code suivant dans `index.php`:
    
-   ~~~
+   ```php?start_inline=1
    // __DIR__ est une constante "magique" de PHP qui contient le chemin du dossier courant
    $ROOT = __DIR__;
-   ~~~
-   {:.php}
+   ```
    
    **Référence :**
      [Constantes magiques en PHP](http://php.net/manual/fr/language.constants.predefined.php)
@@ -183,11 +180,10 @@ anti-slash `\` sur Windows, contrairement à Linux et Mac qui utilisent des slas
 2. Définissez la constante suivante dans `index.php` qui permet d'utiliser le
 bon slash de séparation des chemins selon le système :
 
-   ~~~
+   ```php?start_inline=1
    // DS contient le slash des chemins de fichiers, c'est-à-dire '/' sur Linux et '\' sur Windows
    $DS = DIRECTORY_SEPARATOR;
-   ~~~
-   {:.php}
+   ```
    
    **Référence :**
      [Constantes prédéfinies en PHP](http://php.net/manual/fr/dir.constants.php)
@@ -198,10 +194,9 @@ bon slash de séparation des chemins selon le système :
      remplacement automatique de variables dans les chaînes entre double
      guillemets `"`. Essayez d'obtenir par exemple :
 
-   ~~~
+   ```php?start_inline=1
    require "{$ROOT}{$DS}config{$DS}Conf.php";
-   ~~~
-   {:.php}
+   ```
 
 </div>
 
@@ -392,7 +387,7 @@ Créer un fichier `TD5/view/header.php` avec au moins le code suivant.
 Cette en-tête de page sera commune à tout votre site.
 Vous pourrez la personnaliser plus tard avec, par exemple, une barre de menus renvoyant vers les principales pages du site.
 
-~~~
+```php
 <!DOCTYPE html>
 <html>
     <head>
@@ -400,8 +395,7 @@ Vous pourrez la personnaliser plus tard avec, par exemple, une barre de menus re
         <title><?php echo $pagetitle; ?></title>
     </head>
     <body>
-~~~
-{:.php}
+```
 
 </div>
 
@@ -410,11 +404,10 @@ Vous pourrez la personnaliser plus tard avec, par exemple, une barre de menus re
 Créer un fichier `TD5/view/footer.php` avec au moins le code suivant. 
 Ce pied de page sera commun à tout votre site. 
 Vous pourrez le personnaliser plus tard avec un pied de page comportant votre nom, la date de dernière modification de la page, un lien vers un formulaire de contact ou encore les logos certifiant que votre page HTML est conforme aux standards.
-~~~
+```php
     </body>
 </html>
-~~~
-{:.php}
+```
 
 </div>
 
@@ -473,10 +466,9 @@ Répétez la question précédente avec la fonction `delete()`.
 <div class="exercise">
 Passons à la fonction `update()`. Pour reconstituer la requête 
 
-~~~
+```sql
 UPDATE utilisateur SET nom=:nom,prenom=:prenom,email=:email,login=:login WHERE login=:login
-~~~
-{:.mysql}
+```
 
  il est nécessaire de pouvoir lister les champs de la table 'utilisateur'. 
 Ces champs sont les entrées du tableau `$data` et c'est ainsi que nous allons les récupérer.

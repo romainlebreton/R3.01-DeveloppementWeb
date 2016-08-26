@@ -12,7 +12,7 @@ L'objectif de ce TD est donc de réorganiser le code du TD3 pour finalement y
 rajouter plus facilement de nouvelles fonctionnalités. Nous allons vous
 expliquer le fonctionnement sur l'exemple de la page `lireVoiture.php` du TD2 :
 
-~~~
+```php
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,12 +28,11 @@ expliquer le fonctionnement sur l'exemple de la page `lireVoiture.php` du TD2 :
         ?>
     </body>
 </html>
-~~~
-{:.html}
+```
 
 Cette page se basait sur votre classe `Voiture` dans `Voiture.php` :
 
-~~~
+```php
 <?php
 require_once "Model.php";
 
@@ -53,8 +52,7 @@ class Voiture {
   public function save() { ... }
 }
 ?>
-~~~
-{:.php}
+```
 
 L'architecture MVC est une manière de découper le code en trois bouts M, V et C
 ayant des fonctions bien précises. Dans notre exemple, l'ancien fichier
@@ -96,12 +94,11 @@ et peut-être nom de vue plus simple genre view/voiture/List.php
 Dans notre cas, la nouvelle classe `ModelVoiture` gère la persistance au travers
 des méthodes:
 
-~~~
+```php?start_inline=1
  $mv->save();
  $mv2 = ModelVoiture::getVoitureByImmat($immatriculation);
  $arrayVoitures = ModelVoiture::getAllVoitures();
-~~~
-{:.php}
+```
 
 **N.B. :** Souvenez-vous que les deux dernières fonctions `getVoitureByImmat`
 et `getAllVoitures` sont `static`. Elles ne dépendent donc que de
@@ -131,7 +128,7 @@ des traitements effectués par le modèle et d'interagir avec l'utilisateur.
 Dans notre exemple, la vue serait le fichier `view/voiture/viewAllVoiture.php`
 suivant :
 
-~~~
+```php
 <!DOCTYPE html>
 <html>
     <head>
@@ -145,8 +142,7 @@ suivant :
         ?>
     </body>
 </html>
-~~~
-{:.html}
+```
 
 <div class="exercise">
 
@@ -167,7 +163,7 @@ existe une multitude d'implémentations du MVC:
 Nous choisissons ici la version intermédiaire. Voici le contrôleur
 `controller/controllerVoiture.php` sur notre exemple :
 
-~~~
+```php
 <?php
 require_once ('../model/modelVoiture.php'); // chargement du modèle
 $action = $_GET['action'];          // recupère l'action passée dans l'URL
@@ -179,8 +175,7 @@ switch ($action) {
         break;
 }
 ?>
-~~~
-{:.php}
+```
 
 Le contrôleur est fait pour gérer plusieurs *actions* (une action correspond à
 peu près à une page Web). En effet aujourd'hui notre contrôleur va devoir

@@ -113,7 +113,7 @@ style="vertical-align:top">
 
 Au niveau du HTML, le *header* correspond à la partie :
 
-~~~
+```html
 <!DOCTYPE html>
 <html>
     <head>
@@ -127,30 +127,27 @@ Au niveau du HTML, le *header* correspond à la partie :
                 <li>...</li>
             </ul>
         </nav>
-~~~
-{:.html}
+```
 
 le *body* à la partie :
 
-~~~
+```html?start_inline=1
         <div>
             <h1>Liste des trajets:</h1>
             <ol>
                 <li>...</li>
                 <li>...</li>
             </ol>
-			</div>
-~~~
-{:.html}
+		</div>
+```
 
 et le *footer* à la partie :
 
-~~~
+```html?start_inline=1
     <p>Copyleft Romain Lebreton</p>
   </body>
 </html>
-~~~
-{:.html}
+```
 
 
 
@@ -163,7 +160,7 @@ la page.
 de `view.php` est de charger une en-tête et un pied de page communs, ainsi que
 la bonne vue en fonction de la variable `$view`.
 
-~~~
+```php
 <!DOCTYPE html>
 <html>
     <head>
@@ -182,8 +179,7 @@ require "{$filepath}{$filename}";
 ?>
     </body>
 </html>
-~~~
-{:.php}
+```
    
    **Explication:** La fonction `ucfirst` (UpperCase FIRST letter) sert à mettre
    en majuscule la première lettre d'une chaîne de caractère.
@@ -226,12 +222,11 @@ avec trois liens:
 
 2. Modifier la vue `view.php` pour rajouter un footer minimaliste comme par exemple
 
-~~~
+```html
 <p style="border: 1px solid black;text-align:right;padding-right:1em;">
   Site de covoiturage de ...
 </p>
-~~~
-{:.html}
+```
 
 </div> 
 
@@ -345,10 +340,9 @@ Répétez la question précédente avec la fonction `delete()`.
 
 Passons à la fonction `update()`. Pour reconstituer la requête 
 
-~~~
+```sql
 UPDATE voiture SET marque=:marque,couleur=:couleur,immatriculation=:immatriculation WHERE id=:id
-~~~
-{:.mysql}
+```
 
    il est nécessaire de pouvoir lister les champs de la table 'voiture'.  Ces
    champs sont les entrées du tableau `$data` et c'est ainsi que nous allons les

@@ -47,7 +47,7 @@ Quelques consignes qui vous feront gagner beaucoup de temps en développement we
 Créez une page **index.html** avec le contenu suivant et enregistrez la dans
 le répertoire **public_html** de votre espace personnel.
 
-~~~
+```html
 <!DOCTYPE html>
 <html>
     <head>
@@ -59,9 +59,7 @@ le répertoire **public_html** de votre espace personnel.
         <!-- ceci est un commentaire -->
     </body>
 </html>
-~~~
-{:.html}
-
+```
 
 1. Ouvrez cette page dans le navigateur directement en double-cliquant dessus
    directement depuis votre gestionnaire de fichiers.
@@ -72,10 +70,9 @@ le répertoire **public_html** de votre espace personnel.
    Dans l'en-tête du fichier HTML vous devez rajouter la ligne qui spécifie
    l'encodage
    
-   ~~~
+   ```html
    <meta charset="utf-8" />
-   ~~~
-   {:.html}
+   ```
    Il faut que vos fichiers soient enregistrés avec le même encodage. UTF-8 est
    souvent l'encodage par défaut, mais les éditeurs de texte offrent généralement
    le choix de l'encodage lors du premier enregistrement du fichier.
@@ -117,7 +114,7 @@ deux manières différentes ?
    conseillons donc d'enregistrer `echo.php` dans
    `.../public_html/PHP/TD1.echo.php`.
 
-   ~~~
+   ```php
    <!DOCTYPE html>
    <html>
        <head>
@@ -144,9 +141,7 @@ deux manières différentes ?
            ?>
        </body>
    </html> 
-   ~~~
-   {:.html}
-
+   ```
 
 5. Ouvrez cette page dans le navigateur directement depuis votre gestionnaire de fichiers :  
    [file://chemin_de_mon_compte/public_html/PHP/TD1/echo.php](file://chemin_de_mon_compte/public_html/PHP/TD1/echo.php).
@@ -170,7 +165,7 @@ version 5.
 
 Créer un fichier **Voiture.php** :
 
-~~~
+```php
 <?php
 class Voiture {
 
@@ -201,8 +196,7 @@ class Voiture {
   }
 }
 ?>
-~~~
-{:.php}
+```
 
 
 ### Différences avec Java
@@ -218,7 +212,7 @@ class Voiture {
 
 Dans un fichier **testVoiture.php**, copiez le code suivant
 
-~~~
+```php
 <!DOCTYPE html>
 <html>
     <head>
@@ -239,8 +233,7 @@ Dans un fichier **testVoiture.php**, copiez le code suivant
     ?>
     </body>
 </html>
-~~~
-{:.php}
+```
 
 Testez cette page: 
 [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php)
@@ -258,30 +251,28 @@ fichier **PHP** est considéré comme un `main()`.
    à la fin du tableau d'options `options`.
 4. Modifier la méthode `afficher()` pour qu'elle permette de lister les options
 
-   ~~~
+   ```php?start_inline=1
    foreach ($this->options as $option) {
        echo $this->option; 
    }
-   ~~~
-   {:.php}
-
+   ```
+   
    **Remarque :** La boucle `foreach` est pratique pour parcourir les indices et
    valeurs d'un tableau. Il existe aussi bien sûr une boucle `for` classique
 
-   ~~~
+   ```php?start_inline=1
    for ($i = 0; $i < count($this->options); $i++) {
        echo $this->options[$i];
    }
-   ~~~
-   {:.php}
-
+   ```
+   
 
 ## Interaction avec un formulaire
 
 1. Créez un fichier **formulaireVoiture.html**, réutilisiez l'entête du fichier
    **index.html** et dans le body, insérez le formulaire suivant:
 
-   ~~~
+   ```html
    <form method="get" action="creerVoiture.php">
      <fieldset>
        <legend>Mon formulaire :</legend>
@@ -302,9 +293,8 @@ fichier **PHP** est considéré comme un `main()`.
        </p>
      </fieldset> 
    </form>
-   ~~~
-   {:.html}
-
+   ```
+   
    **Rappel :** L'attribut important des `<input type="text">` est `name="marque"`
    qui indique que ce que vous taperez dans ce champ texte sera associé au nom de variable `marque`.  
 	Quand l'attribut `for` de `<label>` contient l'identifiant d'un champ, un
@@ -319,33 +309,30 @@ fichier **PHP** est considéré comme un `main()`.
 3. Créer **creerVoiture.php** et dans le corps de cette page, vous pouvez
    récupérer la valeur du champ "marque" du formulaire à l'aide de :
 
-   ~~~
+   ```php
    <?php
      $marque = $_GET["marque"];
    ?>
-   ~~~
-   {:.php}
-
+   ```
+   
 4. Complétez cette page de sorte qu'elle récupère tous les champs de voiture,
    instancie la classe Voiture et appelle la méthode affiche().
 
 5. Afin d'éviter que les paramètres du formulaire n'apparaissent dans l'URL, modifiez 
    le formulaire pour qu'il appelle la méthode post:
 
-   ~~~
+   ```html
    <form method="post" action="creerVoiture.php">
-   ~~~
-   {:.html}
-
+   ```
+   
    et côté PHP, récupérez les paramètres avec
 
-   ~~~
+   ```php
    <?php
      $marque = $_POST["marque"];
    ?>
-   ~~~
-   {:.php}
-
+   ```
+   
 <!--
  Expliquer les requêtes HTTP POST, et qu'elles permettent d'avoir un corps de requête.
  En simuler une avec telnet ?

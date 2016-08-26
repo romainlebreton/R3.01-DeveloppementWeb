@@ -48,7 +48,7 @@ l'utilisateur.  Vérifier auparavant que les deux champs coïncident.
 Comme mentionné ci-dessus, on ne stocke jamais le mot de passe en clair dans la
 base, mais sa version cryptée:
 
-~~~
+```php
 <?php
 function chiffrer($texte_en_clair) {
   $texte_crypte = hash('sha256', $texte_en_clair);
@@ -60,8 +60,7 @@ $mot_passe_crypte = chiffrer($mot_passe_en_clair);
 echo $mot_passe_crypte;
 //affiche '3a7bd3e2360a3d29eea436fcfb7e44c735d117c42d1c1835420b6b9942dd4f1b'
 ?>
-~~~
-{:.php}
+```
 
 <div class="exercise">
 
@@ -114,14 +113,13 @@ nos mots de passes en clair pour qu'aucun ne soit plus "classique".
 chaîne aléatoire dans une variable `static` qui sera accessible par la méthode
 statique `Security::getSeed()`.
 
-   ~~~
+   ```php?start_inline=1
    private static $seed = 'votre chaine aleatoire fixe';
 
    static public function getSeed() {
       return self::$seed;
    }
-   ~~~
-   {:.php}
+   ```
 
 1. Modifier la fonction `chiffrer` pour qu'elle concatène la graine aléatoire
 `$seed` au mot de passe avant de le hacher.
@@ -220,14 +218,13 @@ une fonction `is_user()`. Pour faire les choses proprement, on va créer un
 fichier `config/Session.php` contenant le code suivant que l'on inclura au
 moment de `session_start()`.
 
-~~~
+```php?start_inline=1
 class Session {
     public static function is_user($login) {
         return (!empty($_SESSION['login']) && ($_SESSION['login'] == $login));
     }
 }
-~~~
-{:.php}
+```
 
 </div>
 
@@ -256,10 +253,9 @@ Nous souhaitons pouvoir avoir des comptes administrateur sur notre site.
 1. Modifier l'action `connected` de `ControllerUtilisateur.php` pour enregistrer
 dans la session si l'utilisateur est un administrateur ou non avec
 
-   ~~~
+   ```php?start_inline=1
    $_SESSION['admin'] = true; // ou false
-   ~~~
-   {:.php}
+   ```
 
 1. Modifier l'action `update` de `ControllerUtilisateur.php` de sorte qu'un
 utilisateur de type admin ait tous les droits sur toutes les actions de tous les
@@ -268,12 +264,11 @@ utilisateurs.
    **Conseil :** Pour faciliter la lecture du code, nous vous conseillons de
      compléter le fichier `config/Session.php` avec la fonction `is_admin` :
    
-   ~~~
+   ```php?start_inline=1
    public static function is_admin() {
        return (!empty($_SESSION['admin']) && $_SESSION['admin']);
    }
-   ~~~
-   {:.php}
+   ```
 
 </div>
 
@@ -373,7 +368,7 @@ aléatoires à la création de l'utilisateur :
    * Copiez la fonction `generateRandomHex()` suivante dans `Security.php` qui
      permet de générer des chaînes de 32 caractères aléatoires
 
-     ~~~
+     ```php?start_inline=1
      function generateRandomHex() {
        // Generate a 32 digits hexadecimal number
        $numbytes = 16; // Because 32 digits hexadecimal = 16 bytes
@@ -381,8 +376,7 @@ aléatoires à la création de l'utilisateur :
        $hex   = bin2hex($bytes);
        return $hex;
      }
-     ~~~
-     {:.php}
+     ```
 
    <!--
    uniqid pas top car basé sur l'horloge donc prévisible

@@ -40,121 +40,6 @@ Les attributs statiques servent aussi à coder des comportements de classe. Par
 exemple, on peut attribuer un identifiant unique à chaque instance d'une classe
 en stockant dans une variable statique le nombre d'instances.
 
-## Tableau associatifs
-
-Vous connaissez déjà les tableaux classiques, ceux qui sont indexés par
-`0,1,2,...`. Les tableaux en PHP peuvent aussi s'indexer par des
-chaînes de caractères.
-
-Une syntaxe pratique pour créer un tableau est la suivante
-
-~~~
-$tab = array("texte" => 1, 3 => "blabla"); 
-~~~
-{:.php}
-
-Deux particularités du PHP sont la syntaxe pour rajouter une valeur en fin de
-tableau
-
-~~~
-$tab[] = $valeur
-~~~
-{:.php}
-
-et l'existence des boucles
-[`foreach`](http://php.net/manual/fr/control-structures.foreach.php).
-
-## `echo`, les chaînes de caractères et l'imbrication de PHP dans le HTML
-
-### Les chaînes de caractères
-
-* Les chaînes de caractères avec *double quote* `"` peuvent contenir des
-  variables(qui seront remplacées), des sautes de lignes, des caractères
-  spéciaux (tabulation `\t`, saut de ligne `\n`). Les caractères protégés sont
-  `"`, `$` et `\` qui doivent être échappés comme ceci `\"`, `\$` et `\\`;
-   
-   Exemple :
-
-  ~~~
-  $prenom="Helmut";
-  echo "Bonjour $prenom,\n çà farte ?";
-  ~~~
-  {:.php}
-   
-  donne
-   
-  ~~~
-  Bonjour Helmut,
-  çà farte ?
-  ~~~
-  {:.text}
-
-  **Astuce :** En cas de problèmes, rajoutez des accolades autour de la variable
-    à remplacer. Cela marche aussi bien pour les tableaux `"{$tab[0]}"`, les
-    attributs `"{$objet->attribut}"` et les fonctions `"{$objet->fonction()}"`.
-   
-* Les chaînes de caractères avec *simple quote* `'` sont conservées telles quelles
-(pas de remplacement, de caractères spéciaux ...). Les caractères protégés sont
-`'` et `\` qui doivent être échappés comme ceci `\` et `\\`;
-
-
-### Le `echo` *here document*
-
-Il existe un `echo` sur plusieurs ligne très pratique
-
-~~~
-echo <<< EOT
-  Texte à afficher
-  sur plusieurs lignes
-  avec caractères spéciaux \t \n
-  et remplacement de variables $prenom
-  les caractères suivants passent : " ' $ / \ ;
-EOT;
-~~~
-{:.php}
-
-Cette syntaxe s'intitule le "here document" et permet d'afficher plusieurs
-lignes avec les mêmes caractéristiques que les chaînes entre *double quote*.
-Notez que la fin de la syntaxe doit apparaître sur une nouvelle ligne, avec
-uniquement un point-virgule, et pas d'espace de plus !
-
-### Short tag `echo`
-
-`<?= $var_name ?>`  est équivalent à `<?php echo $var_name ?>`.
-
-### Imbrication de PHP dans le HTML
-
-Les deux fichiers suivants sont équivalents. En effet, ce qui est en dehors des
-balises PHP est écrit tel quel dans la page Web générée.
-
-
-~~~
-<!DOCTYPE html>
-<html>
-    <head>
-        <title> Mon premier php </title>
-    </head>
-    <body>
-      <?php echo "Bonjour" ?>
-    </body>
-</html>
-~~~
-{:.html}
-
-~~~
-<?php
-  echo "<!DOCTYPE html>";
-  echo "<html>
-      <head>
-          <title> Mon premier php </title>
-      </head>
-      <body>";
-  echo "Bonjour";
-  echo "</body></html>";
-?>
-~~~
-{:.php}
-
 
 ## Requêtes préparées
 
@@ -174,13 +59,12 @@ Source : [https://openclassrooms.com/courses/requete-preparee-1](https://opencla
 
 #### Syntaxe PDO
 
-~~~
+```php?start_inline=1
 $pdo = new PDO("mysql:host=$host;dbname=$dbname",$login,$pass);
 $sql = "SELECT * from voiture";
 $rep = $pdo->query($sql);
 $tab_obj = $rep->fetchAll(PDO::FETCH_OBJ);
-~~~
-{:.php}
+```
 
 La première ligne crée une connexion à la BDD. La deuxième écrit la requête
 SQL. La 3ème exécute la requête SQL et met les réponses dans `$rep`. Mais `$rep`
@@ -207,7 +91,7 @@ ligne 4 sert justement à transformer la réponse en un format PHP plus pratique
 
 #### Syntaxe PDO
 
-~~~
+```php?start_inline=1
 $pdo = new PDO("mysql:host=$host;dbname=$dbname",$login,$pass);
 $sql = "SELECT * from voiture WHERE couleur=:c";
 $req_prep = $pdo->prepare($sql);
@@ -216,8 +100,7 @@ $req_prep->bindParam(":c","bleu");
 $req_prep->execute();
 
 $req_prep->fetchAll(PDO::FETCH_OBJ);
-~~~
-{:.php}
+```
 
 La différence par rapport aux requête non préparées se situe dans les lignes 3
 puis 5 & 6. La ligne 3 prépare la requête. Il ne reste plus qu'à lui donner ses
@@ -238,10 +121,9 @@ Source : [https://fr.wikipedia.org/wiki/Injection_SQL](https://fr.wikipedia.org/
 On exécute la requête SQL suivante et on connecte l'utilisateur dès que la
 requête renvoie au moins une réponse.
 
-~~~
+```sql
 SELECT uid FROM Users WHERE name = '$nom' AND password = '$mot_de_passe';
-~~~
-{:.sql}
+```
 
 
 **Attaque de la requête :**
@@ -251,17 +133,15 @@ SELECT uid FROM Users WHERE name = '$nom' AND password = '$mot_de_passe';
 
 La requête devient :
 
-~~~
+```sql
 SELECT uid FROM Users WHERE name = 'Dupont'; -- ' AND password = 'mdp';
-~~~
-{:.sql}
+```
 
 ce qui est équivalent à
 
-~~~
+```sql
 SELECT uid FROM Users WHERE name = 'Dupont';
-~~~
-{:.sql}
+```
 
 L'attaquant peut alors se connecter sous l'utilisateur Dupont avec n'importe
 quel mot de passe.
@@ -274,14 +154,3 @@ Pour éviter les radars, il y a des petits malins.
  ![Requête HTTP]({{site.baseurl}}/assets/injection-sql-radar.jpg)
  </p>
  
-## Require
-
-* `require` : fait un copier-coller d'un fichier externe
-
-* `require_once` : fait de même mais au plus une fois dans le fichier
-  courant. Cela évite de définir plusieurs fois la même classe dans le même
-  fichier à cause de plusieurs `require`.
-
-La bonne pratique veut que vous mettiez dans chaque fichier les `require_once` de
-toutes les classes que vous allez utiliser.
-

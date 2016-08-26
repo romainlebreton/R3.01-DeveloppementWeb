@@ -43,7 +43,7 @@ host: infolimon.iutmontp.univ-montp2.fr
 
  La réponse est alors:
 
-~~~
+```http
 HTTP/1.1 200 OK
 Date: Tue, 08 Sep 2015 13:32:19 GMT
 Server: Apache/2.2.14 (Ubuntu)
@@ -53,8 +53,7 @@ Content-Length: 5781
 Content-Type: text/html
 
 <html><head>... (contenu de index.html)
-~~~
-{:.http}
+```
 
 <!-- Parler de réponse et découpage en en-tête et corps de la réponse -->
 
@@ -279,17 +278,16 @@ celui nous envoie sa réponse HTTP normalement.
 
 **Exemple :**  
 
-~~~
+```http
 > telnet infolimon.iutmontp.univ-montp2.fr 80
 GET /~rletud/ HTTP/1.1
 host: infolimon.iutmontp.univ-montp2.fr
 
-~~~
-{:.http}
+```
 
 nous répond
 
-~~~
+```http
 HTTP/1.1 200 OK
 Date: Tue, 08 Sep 2015 20:24:04 GMT
 Server: Apache/2.2.14 (Ubuntu)
@@ -310,8 +308,7 @@ Content-Type: text/html
     <!-- ceci est un commentaire -->
   </body>
 </html>
-~~~
-{:.http}
+```
 
 ## Note sur les URLs
 
@@ -395,10 +392,9 @@ permission --x).
 
 Dans le TD, nous vous avons indiqué la commande
 
-~~~
+```bash
 setfacl -m u:www-data:r-x nom_du_fichier ou nom_du_répertoire
-~~~
-{:.bash}
+```
 
 Cette commande donne les droits `r-x` à l'utilisateur `www-data`. Les ACL
 permettent d'avoir des droits spécifiques à plusieurs utilisateurs et à
@@ -442,12 +438,11 @@ demander une page Web.
 
 Lors du clic sur le bouton de soumission du formulaire, le navigateur (qui est un client HTTP) va envoyer la requête HTTP suivante
 
-~~~
+```http
 GET /~rletud/traitement.php?nom_var=valeur HTTP/1.1
 host: infolimon.iutmontp.univ-montp2.fr
 
-~~~
-{:.http}
+```
 
 Vous pouvez utiliser la commande `telnet infolimon.iutmontp.univ-montp2.fr 80` dans le terminal pour répéter vous-même l'expérience.
 
@@ -456,13 +451,12 @@ Vous pouvez utiliser la commande `telnet infolimon.iutmontp.univ-montp2.fr 80` d
 
 Considérons le même formulaire mais en `method="post"` :
 
-~~~
+```html
 <form method="post" action="traitementPost.php">
     <input type="text" name="nom_var" />
 	<input type="submit" />
 </form>
-~~~
-{:.html}
+```
 
 La fonctionnement va être similaire à trois différences près :
 
@@ -475,7 +469,7 @@ La fonctionnement va être similaire à trois différences près :
 
 Plus précisement, le navigateur va faire la requête HTTP suivante
 
-~~~
+```http
 POST /~rletud/traitementPost.php HTTP/1.1
 host: localhost
 Content-Length:14
@@ -483,7 +477,7 @@ Content-Type:application/x-www-form-urlencoded
 
 nom_var=valeur
 
-~~~
+```
 
 Nous voyons ici le deuxième type de requête HTTP le plus courant : les requêtes
 POST. Elles servent aussi à demander des pages Web. La principale différence est
@@ -519,18 +513,16 @@ chaînes de caractères.
 
 Une syntaxe pratique pour créer un tableau est la suivante
 
-~~~
+```php?start_inline=1
 $tab = array("texte" => 1, 3 => "blabla"); 
-~~~
-{:.php}
+```
 
 Deux particularités du PHP sont la syntaxe pour rajouter une valeur en fin de
 tableau
 
-~~~
+```php?start_inline=1
 $tab[] = $valeur
-~~~
-{:.php}
+```
 
 et l'existence des boucles
 [`foreach`](http://php.net/manual/fr/control-structures.foreach.php).
@@ -546,20 +538,18 @@ et l'existence des boucles
    
    Exemple :
 
-  ~~~
+  ```php?start_inline=1
   $prenom="Helmut";
   echo "Bonjour $prenom,\n çà farte ?";
-  ~~~
-  {:.php}
-   
+  ```
+  
   donne
    
-  ~~~
+  ```text
   Bonjour Helmut,
   çà farte ?
-  ~~~
-  {:.text}
-
+  ```
+  
   **Astuce :** En cas de problèmes, rajoutez des accolades autour de la variable
     à remplacer. Cela marche aussi bien pour les tableaux `"{$tab[0]}"`, les
     attributs `"{$objet->attribut}"` et les fonctions `"{$objet->fonction()}"`.
@@ -573,7 +563,7 @@ et l'existence des boucles
 
 Il existe un `echo` sur plusieurs ligne très pratique
 
-~~~
+```php?start_inline=1
 echo <<< EOT
   Texte à afficher
   sur plusieurs lignes
@@ -581,8 +571,7 @@ echo <<< EOT
   et remplacement de variables $prenom
   les caractères suivants passent : " ' $ / \ ;
 EOT;
-~~~
-{:.php}
+```
 
 Cette syntaxe s'intitule le "here document" et permet d'afficher plusieurs
 lignes avec les mêmes caractéristiques que les chaînes entre *double quote*.
@@ -599,7 +588,7 @@ Les deux fichiers suivants sont équivalents. En effet, ce qui est en dehors des
 balises PHP est écrit tel quel dans la page Web générée.
 
 
-~~~
+```php
 <!DOCTYPE html>
 <html>
     <head>
@@ -609,10 +598,9 @@ balises PHP est écrit tel quel dans la page Web générée.
       <?php echo "Bonjour" ?>
     </body>
 </html>
-~~~
-{:.html}
+```
 
-~~~
+```php
 <?php
   echo "<!DOCTYPE html>";
   echo "<html>
@@ -623,8 +611,7 @@ balises PHP est écrit tel quel dans la page Web générée.
   echo "Bonjour";
   echo "</body></html>";
 ?>
-~~~
-{:.php}
+```
 
 ## Require
 

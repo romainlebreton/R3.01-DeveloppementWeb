@@ -37,10 +37,9 @@ D'un point de vue pratique en PHP, on dépose un cookie à l'aide de la fonction
 ligne ci-dessous crée un cookie nommé `TestCookie` contenant la valeur `$value`
 et qui expire dans 1h.
 
-~~~
+```php?start_inline=1
 setcookie("TestCookie", $value, time()+3600);  /* expire dans 1 heure = 3600 secondes */
-~~~
-{:.php}
+```
 
 D'un point de vue technique, voici ce qui se passe au niveau du protocole HTTP
 (dont nous avons déjà parlé lors du TD1 dans
@@ -48,7 +47,7 @@ D'un point de vue technique, voici ce qui se passe au niveau du protocole HTTP
 stocker des informations dans un cookie chez le client, le serveur écrit une
 ligne `Set-Cookie` dans l'en-tête de sa réponse par cookie comme suit :
 
-~~~
+```http
 HTTP/1.1 200 OK
 Date:Thu, 22 Oct 2015 15:43:27 GMT
 Server: Apache/2.2.14 (Ubuntu)
@@ -59,8 +58,7 @@ Set-Cookie: TestCookie1=valeur1; expires=Thu, 22-Oct-2015 16:43:27 GMT; Max-Age=
 Set-Cookie: TestCookie2=valeur2; expires=Thu, 22-Oct-2015 16:43:27 GMT; Max-Age=3600
 
 <html><head>...
-~~~
-{:.http}
+```
 
 <!-- The Max-Age attribute defines the lifetime of the  cookie, in seconds. -->
 <!-- The Expires attribute indicates the maximum lifetime of the cookie, -->
@@ -85,10 +83,9 @@ D'un point de vue pratique, un cookie est récupéré du côté serveur à l'aid
 [`$_COOKIE`](http://php.net/manual/fr/reserved.variables.cookies.php) en PHP.
 Par exemple:
 
-~~~
+```php?start_inline=1
 echo $_COOKIE["TestCookie"];
-~~~
-{:.php}
+```
 
 D'un point de vue technique, voici ce qui se passe au niveau du protocole HTTP.
 Le client envoie les informations de ses cookies dans l'en-tête de ses
@@ -97,12 +94,11 @@ la variable `$_COOKIE` de la même manière de `$_GET` récupère l'information 
 l'URL et que `$_POST` récupère l'information dans le corps de la requête (*cf.*
 [les notes complémentaires du TD1]({{site.baseurl}}/assets/tut1-complement.html)).
 
-~~~
+```http
 GET /~rletud/index.html HTTP/1.1
 host: infolimon.iutmontp.univ-montp2.fr
 Cookie: TestCookie1=valeur1; TestCookie2=valeur2
-~~~
-{:.http}
+```
 
 Il y a une restriction sur les cookies auquel un site peut accéder : le client
 n'envoie que les cookies provenant du même nom de domaine que le serveur. Dit
@@ -120,10 +116,9 @@ le client.
 Enfin pour effacer un cookie, il suffit de le faire expirer (en lui mettant une
 date d'expiration inférieure à la date courante).
 
-~~~
+```php?start_inline=1
 setcookie ("TestCookie", "", time() - 1);
-~~~
-{:.php}
+```
 
 C'est alors le navigateur du client qui se charge (normalement) de supprimer les
 cookies périmés chez le client.
@@ -228,10 +223,9 @@ cookies).
 
 *  **Dans toute page qui manipule les sessions**
 
-   ~~~
+   ```php?start_inline=1
    session_start();
-   ~~~
-   {:.php}
+   ```
 
    <!-- session_name("chaineUniqueInventeParMoi");  // Optionnel : voir section 3.2 -->
 
@@ -248,34 +242,30 @@ cookies).
 
 *  **Mettre une variable en session**
 
-   ~~~
+   ```php?start_inline=1
    $_SESSION['login'] = 'remi';
-   ~~~
-   {:.php}
+   ```
 
    <!-- TODO : Est-ce que l'information s'efface si on l'écrit pas à chaque fois ? -->
 
 *  **Vérifier qu'une variable existe en session**
 
-   ~~~
+   ```php?start_inline=1
    if (!empty($_SESSION['login'])) {//do something}
-   ~~~
-   {:.php}
+   ```
    
 *  **Supprimer une variable de session**
 
-   ~~~
+   ```php?start_inline=1
    unset($_SESSION['login']);
-   ~~~
-   {:.php}   
+   ```
 
 *  **Destruction de toutes variables en session**
 
-   ~~~
+   ```php?start_inline=1
    session_unset();     // unset $_SESSION variable for the run-time 
    session_destroy();   // destroy session data in storage
-   ~~~
-   {:.php}
+   ```
    
    <!-- setcookie(session_name(),'',time()-1); -->
 
@@ -312,17 +302,16 @@ connaître ce chemin.
 
 **Exemple :** Si mon identifiant de session est `PHPSESSID=aapot` et si mon code PHP est le suivant
 
-~~~
+```php?start_inline=1
 $_SESSION['login'] = "rlebreton";
 $_SESSION['isAdmin'] = "1";
-~~~
-{:.php}
+```
 
 alors le fichier `/var/lib/php5/sessions/sess_aapot` contient
 
-~~~
+```
 login|s:9:"rlebreton";isAdmin|s:1:"1";
-~~~
+```
 
 ### Expiration des sessions
 
@@ -353,15 +342,14 @@ après le délai imparti.
 La seule manière sûre de bien gérer la durée de vie d'une session est de stocker
 la date de dernière activité dans la session :
 
-~~~
+```php?start_inline=1
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
     // last request was more than 30 minutes ago
     session_unset();     // unset $_SESSION variable for the run-time 
     session_destroy();   // destroy session data in storage
 }
 $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
-~~~
-{:.php}
+```
 
 Nous recommandons de mettre un délai d'expiration correspondant au
 `session.cookie_lifetime` (si celui-ci est non nul).
