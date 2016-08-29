@@ -471,10 +471,8 @@ Classe::$attribut_static
 
 -->
 
-Source : https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/introduction-a-php
 
-
-
+<!--
 %%%
 
 
@@ -523,6 +521,7 @@ echo
 
 if - for imbriqués html
 
+-->
 
 ## Émuler un client HTTP textuel
 
@@ -567,3 +566,9 @@ Content-Type: text/html
 ```
 
 Faites de même avec la requête POST précédente.
+
+## Sources
+
+**Source :**
+
+* https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/introduction-a-php
