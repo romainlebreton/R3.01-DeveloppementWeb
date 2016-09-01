@@ -1,6 +1,6 @@
 ---
-title: TD1 &ndash; Révisions et compléments
-subtitle: Et quelques révisions sur HTTP
+title: TD1 &ndash; Quelques compléments
+subtitle: 
 layout: tutorial
 ---
 
@@ -45,56 +45,6 @@ La bonne pratique veut que vous mettiez dans chaque fichier les `require_once` d
 toutes les classes que vous allez utiliser.
 
 <!-- Faire le lien avec ?import? de Java -->
-
-
-
-
-## Note sur les URLs
-
-## Les URL en `http://` et `https://`
-
-**Exemple :** http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html 
-
-Ici, la 1ère partie de l'URL `http://` correspond toujours au protocole de
-communication, qui est bien sûr le Hypertext Transfer Protocol dans notre cas.
-En 2ème partie, nous avons désormais l'hôte `infolimon.iutmontp.univ-montp2.fr`
-qui décrit la machine à qui s'adresser. Enfin la 3ème partie
-`/~rletud/index.html` correspond au chemin complet de la page Web pour le serveur.  
-**Référence :** [Les URL](https://fr.wikipedia.org/wiki/Uniform_Resource_Locator)
-
-<!--
-Pour les formulaires, il faut définir la query string
-
-Parler d'URL relative ? 
-
-En général 
-scheme:[//[user:password@]domain[:port]][/]path[?query][#fragment]
-Nous reviendrons plus tard en particulier sur la partie query et fragment.
--->
-
-## Les URL en `file://`
-
-**Exemple :** file:///home/lebreton/public_html/index.html
-
-L'URL (Uniform Ressource Locator "localisateur uniforme de ressource") est un
-format d'adresse qui permet de localiser des pages Web. La 1ère partie
-`file://` correspond au protocole de communication (ici un fichier sur votre
-disque dur). La 2ème partie est le chemin absolu du fichier Web
-`/home/lebreton/public_html/index.html`  
-**Référence :** [Schéma d'URI 'file'](https://en.wikipedia.org/wiki/File_URI_scheme)
-
-
-Pour nous, une adresse commençant par `file://` est à proscrire. En effet, une
-telle adresse signifie que nos pages PHP ne passent pas par le serveur HTTP
-(Apache). Et donc que le PHP n'est pas interprété.
-
-
-*Note culturelle (optionelle):* En fait, `file://` est un schéma d'URI (Uniform Ressource
-Identifier) qui est un schéma plus général et qui identifie pleins d'autres
-objets que des pages Web.
-Les schémas d'URI "http://" et "https:" correspondent à ce que l'on appelle
-les URL.
-
 
 
 ## Encodage des caractères
@@ -165,7 +115,57 @@ lignes avec les mêmes caractéristiques que les chaînes entre *double quote*.
 Notez que la fin de la syntaxe doit apparaître sur une nouvelle ligne, avec
 uniquement un point-virgule, et pas d'espace de plus !
 
+{% comment %}
 ## Short tag `echo`
 
 `<?= $var_name ?>`  est équivalent à `<?php echo $var_name ?>`.
+{% endcomment %}
+
+## Note sur les URLs
+
+### Les URL en `http://` et `https://`
+
+**Exemple :** http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html 
+
+Ici, la 1ère partie de l'URL `http://` correspond toujours au protocole de
+communication, qui est bien sûr le Hypertext Transfer Protocol dans notre cas.
+En 2ème partie, nous avons désormais l'hôte `infolimon.iutmontp.univ-montp2.fr`
+qui décrit la machine à qui s'adresser. Enfin la 3ème partie
+`/~rletud/index.html` correspond au chemin complet de la page Web pour le serveur.  
+**Référence :** [Les URL](https://fr.wikipedia.org/wiki/Uniform_Resource_Locator)
+
+<!--
+Pour les formulaires, il faut définir la query string
+
+Parler d'URL relative ? 
+
+En général 
+scheme:[//[user:password@]domain[:port]][/]path[?query][#fragment]
+Nous reviendrons plus tard en particulier sur la partie query et fragment.
+-->
+
+### Les URL en `file://`
+
+**Exemple :** file:///home/lebreton/public_html/index.html
+
+L'URL (Uniform Ressource Locator "localisateur uniforme de ressource") est un
+format d'adresse qui permet de localiser des pages Web. La 1ère partie
+`file://` correspond au protocole de communication (ici un fichier sur votre
+disque dur). La 2ème partie est le chemin absolu du fichier Web
+`/home/lebreton/public_html/index.html`  
+**Référence :** [Schéma d'URI 'file'](https://en.wikipedia.org/wiki/File_URI_scheme)
+
+
+Pour nous, une adresse commençant par `file://` est à proscrire. En effet, une
+telle adresse signifie que nos pages PHP ne passent pas par le serveur HTTP
+(Apache). Et donc que le PHP n'est pas interprété.
+
+
+*Note culturelle (optionelle):* En fait, `file://` est un schéma d'URI (Uniform Ressource
+Identifier) qui est un schéma plus général et qui identifie pleins d'autres
+objets que des pages Web.
+Les schémas d'URI "http://" et "https:" correspondent à ce que l'on appelle
+les URL.
+
+
 

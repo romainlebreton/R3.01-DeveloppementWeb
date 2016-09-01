@@ -26,6 +26,8 @@ var Dz = {
 	this.setupParams();
 	this.onhashchange();
 	this.setupTouchEvents();
+	// Hack to wait for JS to be finished before calling onresize !
+	// setTimeout(function () { this.onresize(); }, 0);
 	this.onresize();
 	this.setupView();
 	window.onkeydown = this.onkeydown.bind(this);
@@ -151,6 +153,7 @@ var Dz = {
 	var db = document.body;
 	var sx = db.clientWidth / window.innerWidth;
 	var sy = db.clientHeight / window.innerHeight;
+	// console.log("dbcw,dbch,wiw,wih : " + db.clientWidth + ", " + window.innerWidth + ", " + db.clientHeight + ", " + window.innerHeight);
 	var transform = "scale(" + (1/Math.max(sx, sy)) + ")";
 
 	db.style.MozTransform = transform;
@@ -380,4 +383,11 @@ var Dz = {
     }
 };
 
-window.addEventListener('load', function() { Dz.init(); }, false);
+window.addEventListener('load',
+			function() {
+			    Dz.init();
+			     // setTimeout(function() {
+			     // 	Dz.play();
+			     // 	setTimeout(function () { Dz.onresize(); }, 100);
+			     // }, 0);
+			}, false);

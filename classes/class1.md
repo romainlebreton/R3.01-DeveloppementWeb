@@ -4,9 +4,22 @@ subtitle : Le rôle du PHP
 layout : slideshow
 ---
 
-## Le fonctionnement du World Wide Web
+<section>
+## Présentation du cours
 
-### Client / Serveur
+<!--
+FAIRE UNE PRESENTATION GLOBALE DU MODULE, DE SON EVALUATION, EDT PREVISIONNEL, COEFFICIENT
+-->
+
+</section>
+<section>
+
+# Le fonctionnement du World Wide Web
+
+</section>
+<section>
+
+## Client / Serveur
 
 * Le *client* : C'est le visiteur d'un site Web. Il demande la page Web au
   serveur. En pratique, vous êtes des clients quand vous surfez sur le Web.  
@@ -16,13 +29,18 @@ layout : slideshow
 * Le *serveur* : Ce sont les ordinateurs qui délivrent les site Web aux
   internautes, c'est-à-dire aux clients.
 
+<br>
+
 <p style="text-align:center">
 ![Mécanisme client/serveur]({{site.baseurl}}/assets/ClientServeur.png)
 <br>
 Le client fait une *requête* que serveur, qui répond en donnant la page Web
 </p>
 
-### Comment communiquent le client et le serveur ?
+</section>
+<section>
+
+## Protocole de communication : HTTP
 
 **HTTP** (*HyperText Transfer Protocol*) est un protocole de communication
 entre un client et un serveur développé pour le Web. L'une de ses fonctions
@@ -57,20 +75,32 @@ Content-Type: text/html
 
 <!-- Parler de réponse et découpage en en-tête et corps de la réponse -->
 
-### Le navigateur comme client HTTP
+</section>
+<section>
+
+## Le navigateur comme client HTTP
 
 Quand on ouvre une URL en `http://`, le navigateur va agir comme un client
 HTTP. Il va donc envoyer une *requête HTTP*.
 <!-- à l'hôte indiqué dans l'URL. -->
+
 Le serveur HTTP renvoie une réponse HTTP qui contient la page Web
-demandée. Le navigateur interprète alors la page Web et l'affiche.
+demandée.
+
+Le navigateur interprète alors la page Web et l'affiche.
+
+<br>
+<br>
 
 <p style="text-align:center">
 ![Requête HTTP]({{site.baseurl}}/assets/RequeteHTTP.png)
 </p>
 
 
-### Écoutons le réseau
+</section>
+<section>
+
+## Écoutons le réseau
 
 <!-- Ouvrir http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html dans le
 navigateur en expliquant la requête et réponse -->
@@ -86,13 +116,18 @@ view source des Response Headers puis
 Response
 -->
 
-Nous verrons l'autre type courant (POST) de requêtes HTTP lors de l'envoi de
-formulaires en méthode POST. 
+<!-- Nous verrons l'autre type courant (POST) de requêtes HTTP lors de l'envoi de -->
+<!-- formulaires en méthode POST.  -->
 
-### Qu'est-ce qu'un serveur HTTP ? 
+</section>
+<section>
+
+## Qu'est-ce qu'un serveur HTTP ? 
 
 Un *serveur* **HTTP** est un logiciel qui répond à des requêtes HTTP. Il est souvent
 associé au port 80 de la machine hôte.
+
+<br>
 
 **Quelques exemples de serveurs HTTP ?**
 
@@ -101,13 +136,23 @@ associé au port 80 de la machine hôte.
 * IIS : Microsoft
 * Node.js : codé en JavaScript.
 
+<br>
+
 **En pratique** lors des TDs, nous utiliserons le serveur **HTTP** de l'IUT
   (`infolimon`) et nous vous ferons installer des serveurs HTTP sur vos
   ordinateurs portables.
 
 <!-- La pratique du serveur avec public_html, PB file://, installation chez eux -->
 
-## Pages Web statiques ou dynamiques
+</section>
+<section>
+
+# Pages Web statiques ou dynamiques
+
+</section>
+<section>
+
+## Différence entre page statique/dynamique
 
 * Les sites *statiques* :  
   sites réalisés uniquement à l'aide de HTML/CSS. Ils
@@ -132,9 +177,14 @@ associé au port 80 de la machine hôte.
 un espace membres, un forum, un compteur de visiteurs, des actualités, une
 newsletter
 
-### Mécanisme de génération des pages dynamiques
+</section>
+<section>
+
+## Mécanisme de génération des pages dynamiques 1/2
 
 <!-- Voir l'un puis l'autre -->
+
+**Rappel :**
 
 * Site statique :  
   1. le client demande au serveur à voir une page Web (requête HTTP) ;
@@ -146,6 +196,13 @@ newsletter
 ![Requête HTTP]({{site.baseurl}}/assets/RequeteHTTP.png)
 </p>
 
+</section>
+<section>
+
+## Mécanisme de génération des pages dynamiques 2/2
+
+<!-- Voir l'un puis l'autre -->
+
 * Site dynamique :  
   1. le client demande au serveur à voir une page Web (requête HTTP) ;
   2. le serveur crée la page spécialement pour le client (en suivant les instructions du PHP) ;
@@ -155,13 +212,19 @@ newsletter
 ![Génération PHP]({{site.baseurl}}/assets/RolePHP.png)
 </p>
 
-### Où intervient le PHP ?
+</section>
+<section>
 
-Un module PHP (mod_php5) est intégré au serveur HTTP Apache.  Quand le serveur
-Web reçoit une requête d'un fichier .php, il génère dynamiquement la page Web en
-exécutant le code PHP de la page. La page généré est ensuite renvoyée dans la
-réponse HTTP.  
-C'est ce que l'on appelle une page dynamique.
+## Où intervient le PHP ?
+
+Un module PHP (mod_php5) est intégré au serveur HTTP Apache.
+
+Quand le serveur Web reçoit une requête d'un fichier .php, il génère
+dynamiquement la page Web en exécutant le code PHP de la page.
+
+La page généré est ensuite renvoyée dans la réponse HTTP.
+
+**C'est ce que l'on appelle une page dynamique.**
 
 <!--
  La création du document advient au moment de la requête
@@ -171,25 +234,45 @@ C'est ce que l'on appelle une page dynamique.
  o Interroger des bases de données.
 -->
 
+<br>
+
  <p style="text-align:center">
  ![Rôle du PHP]({{site.baseurl}}/assets/RolePHP.png)
  </p>
 
 
+</section>
+<section>
 
-### Le langage de création de page Web : PHP
+## Le langage de création de page Web : PHP
 
-Le rôle de PHP est justement de générer du code HTML.  
-précédents. C'est un langage que seuls les serveurs comprennent et qui permet de
-rendre votre site dynamique.
+<div style="display:flex;align-items:center;">
+<div style="flex-grow:1">
+Le rôle de PHP est justement de générer du code HTML.
 
+C'est un langage que seuls les serveurs comprennent et qui permet de rendre
+votre site dynamique.
+</div>
+<div style="flex-grow:1">
 <p style="text-align:center">
 <img src="{{site.baseurl}}/assets/ElePHPant.svg" style="width:200px" alt="Mascotte PHP">  
 L'éléPHPant, la mascotte de PHP
 </p>
+</div>
+</div>
 
+<br>
+
+<div class="incremental">
+<div>
 **Attention :** Les clients sont incapables de comprendre le code PHP : ils ne
 connaissent que le HTML et le CSS.
+
+<p style="text-align:center;">
+<img src="{{site.baseurl}}/assets/OpenPHPInBrowser.jpg" alt="Quand on ouvre un .php directement dans le navigateur">
+</p>
+</div>
+</div>
 
 <!--
 Attention notamment si vous ouvrez demandez une page PHP avec le protocole
@@ -198,14 +281,16 @@ l'IUT), le fichier PHP est envoyé directement au navigateur qui ne sait pas le
 lire
 -->
 
-### Les concurrents de PHP
+</section>
+<section>
 
-* ASP .NET : conçu par Microsoft, il exploite le framework .NET bien connu des développeurs C#.
+## Les concurrents de PHP
+
+* ASP .NET : conçu par Microsoft, il exploite le framework .NET (C#).
 * Ruby on Rails : ce framework s'utilise avec le langage Ruby.
 * Django : il est similaire à Ruby on Rails, mais il s'utilise en langage
   Python.
-* Java et les JSP (Java Server Pages) : plus couramment appelé « JEE », il est
-  particulièrement utilisé dans le monde professionnel.
+* Java Server Pages : particulièrement utilisé dans le monde professionnel.
 
 **Lequel est le meilleur ?**
 Tout dépend de vos connaissances en programmation.
@@ -219,10 +304,17 @@ les professionnels (Wikipédia, Yahoo et Facebook).
 Popularité des langages côté serveur
 </p>
 
+</section>
+<section>
 
-## Un premier aperçu de PHP
+# Un premier aperçu de PHP
 
-### PHP comme langage de génération de pages Web
+</section>
+<section>
+
+## PHP comme langage de génération de pages Web
+
+<br>
 
 **PHP sert à créer des documents HTML :**
 
@@ -231,11 +323,16 @@ Popularité des langages côté serveur
 * Pour cela, il exécute les instructions PHP qui lui indique comment générer le
 document en sortie.
 
+<br>
+
 **Remarque :** PHP peut en générer tout type de document, pas nécessairement du
   HTML.
 
 
-### Votre premier fichier PHP
+</section>
+<section>
+
+## Votre premier fichier PHP
 
 Document PHP en entrée :
 
@@ -245,11 +342,15 @@ Document PHP en entrée :
 ?>
 ```
 
+<br>
+
 PHP s'exécute sur ce document et produit
 
 ```text
 Hello World
 ```
+
+<br>
 
 **Explications :**
 
@@ -258,7 +359,10 @@ Hello World
 
 <!-- Démo avec php_cli ou LAMP -->
 
-### Imbrication de PHP dans le HTML 1/2
+</section>
+<section>
+
+## Imbrication de PHP dans le HTML 1/2
 
 ```php
 <!DOCTYPE html>
@@ -286,7 +390,10 @@ produira
 </html>
 ```
 
-### Imbrication de PHP dans le HTML 2/2
+</section>
+<section>
+
+## Imbrication de PHP dans le HTML 2/2
 
 En fait, les deux fichiers suivants sont équivalents.  
 En effet, ce qui est en dehors des balises PHP est écrit tel quel dans la page
@@ -318,7 +425,10 @@ Web générée.
 ?>
 ```
 
-### Test de la page sur un serveur HTTP
+</section>
+<section>
+
+## Test de la page sur un serveur HTTP
 
 Enregistrons ce fichier PHP sur le serveur HTTP `infolimon` de l'IUT. Les
 fichiers PHP se mettent dans le dossier `public_html` de votre répertoire
@@ -340,7 +450,10 @@ en remplaçant `loginIUT` par votre login.
 </html>
 ```
 
-### Les tableaux associatifs
+</section>
+<section>
+
+## Les tableaux associatifs
 
 Vous connaissez déjà les tableaux classiques, ceux qui sont indexés par
 `0,1,2,...`. Les tableaux en PHP peuvent aussi s'indexer par des
@@ -362,11 +475,12 @@ $tab[] = $valeur
 et l'existence des boucles
 [`foreach`](http://php.net/manual/fr/control-structures.foreach.php).
 
+</section>
+<section>
 
+# Transmettre des données entre pages Web
 
-## Transmettre des données entre pages Web
-
-### Comment faire ?
+## Comment faire ?
 
 Les pages Web se transmettent des données entre elles. Par exemple, votre
 nom/prénom, le fait que vous soyez connectés, vos réponses aux formulaires
@@ -381,7 +495,10 @@ serait ramenés aux sites statiques.
 
 <!-- ICI HERE : expliquer d'abord les query string ? -->
 
-### Les *query strings* dans l'URL
+</section>
+<section>
+
+## Les *query strings* dans l'URL
 
 Une *URL* (Uniform Resource Locator) sert à représenter une adresse sur le Web.
 
@@ -433,7 +550,10 @@ http://mrcoles.com/blog/how-use-amersands-html-encode/
 https://www.w3.org/TR/xhtml1/guidelines.html#C_12
 -->
 
-### Récupérer des données GET en PHP
+</section>
+<section>
+
+## Récupérer des données GET en PHP
 
 
 PHP est capable de récupérer les données saisies dans les URLs.
@@ -451,7 +571,10 @@ $_GET["prenom"] = "Jean";
 
 puis il lance le script `bonjour.php`.
 
-### Exemple de transmission en GET
+</section>
+<section>
+
+## Exemple de transmission en GET
 
 Une 1ère page avec un lien contenant des informations dont son *query string*.
 
@@ -478,7 +601,10 @@ qui va s'exécuter pour créer la page Web
 <p>Bonjour Jean ! !</p>
 ```
 
-### Les formulaires
+</section>
+<section>
+
+## Les formulaires
 
 Les formulaires utilisent ce genre de méthode pour transmettre les informations
 qui ont été remplies.
@@ -488,8 +614,10 @@ On peut envoyer les données des formulaires :
 * soit avec la méthode GET
 * soit avec la méthode POST
 
+</section>
+<section>
 
-### Les formulaires GET
+## Les formulaires GET
 
 Le formulaire en méthode GET suivant envoie ses informations dans la *query
 string* de l'URL cible (attribut `action`).
@@ -531,7 +659,10 @@ récupérer les données.
 <!-- `$_GET["nom_var"] = "valeur"` -->
 <!-- juste avant d'exécuter la page PHP `traitement.php`. -->
 
-### Exemple de transmission avec formulaire en GET
+</section>
+<section>
+
+## Exemple de transmission avec formulaire en GET
 
 Supposons que la 1ère page contient un formulaire de méthode GET que l'on
 remplit avec `MaDonnee`.
@@ -565,7 +696,10 @@ qui va s'exécuter pour créer la page Web
 <p>La donnée envoyée sous le nom nom_var est MaDonnee !</p>
 ```
 
-### Pourquoi la méthode du formulaire s'appelle "GET" ?
+</section>
+<section>
+
+## Pourquoi la méthode du formulaire s'appelle "GET" ?
 
 Parce que en `method="get"`, le formulaire envoie en fait une requête HTTP de type
 GET. C'est de cette manière que l'on demande une page Web généralement.
@@ -583,7 +717,10 @@ host: infolimon.iutmontp.univ-montp2.fr
 PREVOIR UNE DEMO AVEC LES OUTILS RESEAUX
 -->
 
-### Les formulaires POST 1/3
+</section>
+<section>
+
+## Les formulaires POST 1/3
 
 Un formulaire en méthode POST envoie ses informations différemment ; elles ne
 seront plus encodées dans le *query string*.
@@ -620,7 +757,10 @@ qui va s'exécuter pour créer la page Web
 <p>La donnée envoyée sous le nom nom_var est MaDonnee !</p>
 ```
 
-### Les formulaires POST 2/3
+</section>
+<section>
+
+## Les formulaires POST 2/3
 
 Plus précisément, avec un formulaire en `method="post"` :
 
@@ -643,8 +783,10 @@ nom_var=valeur
 
 ```
 
+</section>
+<section>
 
-### Les requête HTTP de type POST
+## Les requête HTTP de type POST
 
 Nous voyons ici le deuxième type de requête HTTP le plus courant :
 
@@ -669,7 +811,10 @@ Elles servent aussi à demander des pages Web. Les principales différences sont
 2. L'en-tête et le corps de la requête sont séparés par une ligne vide.
 3. Le corps de la requête HTTP sert ici à envoyer les informations.
 
-### Avantages et inconvénients des 2 méthodes
+</section>
+<section>
+
+## Avantages et inconvénients des 2 méthodes
 
 * La méthode GET se prête bien à un site en développement car on peut facilement
 contrôler les valeurs et noms de variables du formulaire.  
@@ -739,7 +884,21 @@ if - for imbriqués html
 
 -->
 
-## Émuler un client HTTP textuel
+
+</section>
+<section>
+
+# Sources
+
+**Sources :**
+
+* [Open Classrooms - Concevez votre site web avec PHP et MySQL](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/introduction-a-php)
+* [Documentation officielle de PHP](http://php.net/manual/fr/)
+
+</section>
+<section>
+
+# Émuler un client HTTP textuel
 
 **Expérience amusante :**  
 Même si le client HTTP le plus connu est votre navigateur, il est facile de
@@ -783,9 +942,4 @@ Content-Type: text/html
 
 Faites de même avec la requête POST précédente.
 
-## Sources
-
-**Sources :**
-
-* [Open Classrooms - Concevez votre site web avec PHP et MySQL](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/introduction-a-php)
-* [Documentation officielle de PHP](http://php.net/manual/fr/)
+</section>

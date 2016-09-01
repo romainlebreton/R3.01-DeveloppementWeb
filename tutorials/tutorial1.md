@@ -5,6 +5,10 @@ layout: tutorial
 ---
 
 <!--
+FAIRE UNE PRESENTATION GLOBALE DU MODULE, DE SON EVALUATION, EDT PREVISIONNEL, COEFFICIENT
+-->
+
+<!--
 Dire un mot sur les chaînes de caractères et
 require ? (cf tut1-complement)
 
@@ -25,10 +29,20 @@ $liens = array("index","contact") et crée le menu
 OU
 
 Créer un lien de type GET
+
+Leur faire regarder l'onglet Réseau pour voir la requête GET
 -->
 
 <!--
 Parler de var_dump ou print_r
+-->
+
+<!--
+Reprendre le fil rouge de site de covoiturage
+-->
+
+<!--
+Plus d'indications sur l'installation
 -->
 
 ## Méthodologie
