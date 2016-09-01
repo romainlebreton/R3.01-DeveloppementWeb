@@ -169,26 +169,3 @@ uniquement un point-virgule, et pas d'espace de plus !
 
 `<?= $var_name ?>`  est équivalent à `<?php echo $var_name ?>`.
 
-
-## Tableau associatifs
-
-Vous connaissez déjà les tableaux classiques, ceux qui sont indexés par
-`0,1,2,...`. Les tableaux en PHP peuvent aussi s'indexer par des
-chaînes de caractères.
-
-Une syntaxe pratique pour créer un tableau est la suivante
-
-```php?start_inline=1
-$tab = array("texte" => 1, 3 => "blabla"); 
-```
-
-Deux particularités du PHP sont la syntaxe pour rajouter une valeur en fin de
-tableau
-
-```php?start_inline=1
-$tab[] = $valeur
-```
-
-et l'existence des boucles
-[`foreach`](http://php.net/manual/fr/control-structures.foreach.php).
-
