@@ -7,9 +7,56 @@ layout : slideshow
 <section>
 ## Présentation du cours
 
-<!--
-FAIRE UNE PRESENTATION GLOBALE DU MODULE, DE SON EVALUATION, EDT PREVISIONNEL, COEFFICIENT
--->
+**Objectif du cours:**
+
+Apprendre à faire des pages dynamiques avec PHP et MySQL
+en organisant son code avec l'architecture MVC
+
+**4 intervenants :**
+
+* Q1 - Mardi 15h45 - Romain Lebreton
+* Q2 - Mercredi 10h15 - Sébastien Gagné
+* Q3 - Vendredi 12h30 (horaire provisoire) - Auréline Quatrehomme
+* Q4 - Vendredi 09h15 - Romain Lebreton
+
+**Cours et TP en ligne :**
+
+* site Web : 
+  [http://romainlebreton.github.io/ProgWeb-CoteServeur](http://romainlebreton.github.io/ProgWeb-CoteServeur)
+
+**Évaluation :**
+
+* examen final : ~40%
+* projet PHP : ~60%
+* pas de partiel
+
+</section>
+<section>
+
+## Emploi du temps prévisionnel
+
+* 2 Septembre -- Cours Introductif
+
+**1er bloc de TPs -- Bases de PHP :**
+
+* 5  Septembre 2016 – TP 1 – Introduction aux objets en PHP
+* 12 Septembre 2016 – TP 2 – La persistance des données en PHP
+* 19 Septembre 2016 – TP 3 – Fin TP2 et association entre classes
+* 26 Septembre 2016 – TP 4 – Architecture MVC simple
+* 03 Octobre   2016 – TP 5 – Architecture MVC avancée 1/2
+* 10 Octobre   2016 – TP 6 – Architecture MVC avancée 2/2
+
+**2ème bloc de TPs -- Mise en application sur le projet + TPs complémentaires :**
+
+* 17 Octobre   2016 - Début projet
+* 26 Octobre   2016 - 3h projet (lundi -> mercredi) puis Congé IUT
+* 31 Octobre   2016 - Congé IUT puis 3h projet (jeudi -> vendredi)
+* 7  Novembre  2016 - Pas de TPs : Partiels IUT
+* 14 Novembre  2016 – TP 7 – Cookies & Sessions + 1h projet
+* 21 Novembre  2016 – TP 8 – Authentification & Validation par email + 1h projet
+* 28 Novembre  2016 - 3h projet
+* 5  Décembre  2016 - 3h projet
+* 12 Décembre  2016 - **soutenances du projet**
 
 <!-- Peut-être cours un peu plus long que 1h -->
 
@@ -126,8 +173,8 @@ Response
 
 ## Qu'est-ce qu'un serveur HTTP ? 
 
-Un *serveur* **HTTP** est un logiciel qui répond à des requêtes HTTP. Il est souvent
-associé au port 80 de la machine hôte.
+Un *serveur* **HTTP** est un logiciel qui répond à des requêtes HTTP.  
+Il est souvent associé au port 80 de la machine hôte.
 
 <br>
 
@@ -135,16 +182,24 @@ associé au port 80 de la machine hôte.
 
 * Apache HTTP Server : classique, celui que l'on utilisera
 * Apache TomCat : évolution pour Java (J2EE)
-* IIS : Microsoft
+* IIS (Internet Information Services) : Microsoft
 * Node.js : codé en JavaScript.
 
 <br>
 
-**En pratique** lors des TDs, nous utiliserons le serveur **HTTP** de l'IUT
-  (`infolimon`) et nous vous ferons installer des serveurs HTTP sur vos
+**En pratique** lors des TDs, nous utiliserons le serveur **HTTP** Apache de
+  l'IUT (`infolimon`) et nous vous ferons installer des serveurs HTTP sur vos
   ordinateurs portables.
 
 <!-- La pratique du serveur avec public_html, PB file://, installation chez eux -->
+
+<br>
+<br>
+
+**Résumé :**
+
+* Un serveur Web = un serveur **HTTP**
+
 
 </section>
 <section>
@@ -157,8 +212,8 @@ associé au port 80 de la machine hôte.
 ## Différence entre page statique/dynamique
 
 * Les sites *statiques* :  
-  sites réalisés uniquement à l'aide de HTML/CSS. Ils
-  fonctionnent très bien mais leur contenu ne change pas.  
+sites réalisés uniquement à l'aide de HTML/CSS.  
+  Ils fonctionnent très bien mais leur contenu ne change pas.  
   Les sites statiques sont donc bien adaptés pour réaliser des sites « vitrine»
   (e.g. projet HTML/CSS 1ère année).
 
@@ -203,7 +258,7 @@ newsletter
 
 ## Mécanisme de génération des pages dynamiques 2/2
 
-<!-- Voir l'un puis l'autre -->
+<!-- PHP : recette pour créer page HTML -->
 
 * Site dynamique :  
   1. le client demande au serveur à voir une page Web (requête HTTP) ;
@@ -252,7 +307,7 @@ La page généré est ensuite renvoyée dans la réponse HTTP.
 <div style="flex-grow:1">
 Le rôle de PHP est justement de générer du code HTML.
 
-C'est un langage que seuls les serveurs comprennent et qui permet de rendre
+C'est un langage que seuls les **serveurs** comprennent et qui permet de rendre
 votre site dynamique.
 </div>
 <div style="flex-grow:1">
@@ -267,7 +322,7 @@ L'éléPHPant, la mascotte de PHP
 
 <div class="incremental">
 <div>
-**Attention :** Les clients sont incapables de comprendre le code PHP : ils ne
+**Attention :** Les clients (navigateur) sont incapables de comprendre le code PHP : ils ne
 connaissent que le HTML et le CSS.
 
 <p style="text-align:center;">
@@ -320,7 +375,7 @@ Popularité des langages côté serveur
 
 **PHP sert à créer des documents HTML :**
 
-* Il prend donc en entrée un fichier .php qui contient de l'HTML et du PHP
+* Il prend donc en entrée un fichier `.php` qui contient de l'HTML et du PHP
 * Il ressort un document HTML pur.
 * Pour cela, il exécute les instructions PHP qui lui indique comment générer le
 document en sortie.
@@ -356,15 +411,22 @@ Hello World
 
 **Explications :**
 
-* Les balises ouvrantes `<?php` et fermantes `?>` doivent le code PHP
+* Les balises ouvrantes `<?php` et fermantes `?>` doivent entourer le code PHP
+
 * L'instruction `echo` a pour effet d'insérer du texte dans le document en sortie
 
-<!-- Démo avec php_cli ou LAMP -->
+<br>
+<br>
+
+**Démonstration avec la ligne de commande `php`**
+
 
 </section>
 <section>
 
 ## Imbrication de PHP dans le HTML 1/2
+
+Le document `PHP` suivant
 
 ```php
 <!DOCTYPE html>
@@ -495,6 +557,8 @@ Ce sont les **tableaux associatifs**
   $coordonnees['nom'] = 'Dupont';
   ```
 
+  **NB :** En `PHP` les variables commencent par `$`
+
 * Ou l'initialiser en une fois
 
   ```php?start_inline=1
@@ -520,20 +584,19 @@ Ce sont les **tableaux associatifs**
 
 # Transmettre des données entre pages Web
 
-## Comment faire ?
+<div class="incremental">
+<div>
+## Comment ça marche ?
 
-Les pages Web se transmettent des données entre elles. Par exemple, votre
-nom/prénom, le fait que vous soyez connectés, vos réponses aux formulaires
-d'inscription.
+Les pages Web se transmettent des données entre elles.  
+Par exemple, votre nom/prénom, le fait que vous soyez connectés, vos réponses
+aux formulaires d'inscription.
 
 Sans données supplémentaires, on n'aurait pas de pages personnalisées et on
 serait ramenés aux sites statiques.
 
-<p style="text-align:center">
-**Mais comment ça marche ?**
-</p>
-
-<!-- ICI HERE : expliquer d'abord les query string ? -->
+</div>
+</div>
 
 </section>
 <section>
@@ -639,7 +702,7 @@ Une 1ère page avec un lien contenant des informations dont son *query string*.
 ```
 </div>
 <div style="flex-grow:1;display:inline;text-align:center;">
-<a href="bonjour.php?nom=Dupont&prenom=Jean">Dis-moi bonjour !</a>
+<a href="http://infolimon.iutmontp.univ-montp2.fr/~rletud/bonjour2.php?nom=Dupont&prenom=Jean">Dis-moi bonjour !</a>
 </div>
 </div>
 
@@ -684,6 +747,7 @@ pour transmettre les informations qui ont été remplies.
 On va voir qu'il y a deux types de formulaires :
 
 * ceux dont les données sont envoyées avec la **méthode GET**
+
 * ceux dont les données sont envoyées avec la **méthode POST**
 
 </section>
@@ -703,7 +767,7 @@ Considérons le formulaire suivant et supposons que l'utilisateur a tapé `MaDon
 ```
 </div>
 <div style="flex-grow:1;text-align:center">
-<form method="get" action="traitement.php" style="display:inline">
+<form method="get" action="http://infolimon.iutmontp.univ-montp2.fr/~rletud/traitement.php" style="display:inline">
 <input type="text" name="nom_var" value="MaDonnee">
 <input type="submit">
 </form>
@@ -784,7 +848,7 @@ elles **ne sont plus** encodées dans le *query string*.
 ```
 </div>
 <div style="flex-grow:1;text-align:center">
-<form method="post" action="traitement.php" style="display:inline">
+<form method="post" action="http://infolimon.iutmontp.univ-montp2.fr/~rletud/traitePost.php" style="display:inline">
 <input type="text" name="nom_var" value="MaDonnee">
 <input type="submit">
 </form>
@@ -827,9 +891,14 @@ Plus précisément, avec un formulaire en `method="post"` :
 
 2. les données du formulaire sont envoyées dans le **corps** d'une requête **HTTP** de type **POST**  ;
 
-3. On récupère les données dans le tableau PHP `$_POST`. Dans notre exemple, PHP
-   fait l'affectation `$_POST["nom_var"] = "valeur"` juste avant d'exécuter la
-   page PHP `traitePost.php`.
+3. On récupère les données dans le tableau PHP `$_POST`.  
+   Dans notre exemple, PHP fait l'affectation
+
+   ```php?start_inline=1
+   $_POST["nom_var"] = "valeur"
+   ```
+   
+   juste avant d'exécuter la page PHP `traitePost.php`.
 
 </section>
 <section>
@@ -863,6 +932,20 @@ Elles servent aussi à demander des pages Web. Les principales différences sont
 2. L'en-tête et le corps de la requête sont séparés par une ligne vide.
 
 3. Le corps de la requête **HTTP** sert ici à envoyer les informations.
+
+<br>
+
+<div style="display:flex;align-items:center">
+<div style="flex-grow:1;">
+**Démonstration avec l'outil *Réseaux* :**
+</div>
+<div style="flex-grow:1;text-align:center">
+<form method="post" action="http://infolimon.iutmontp.univ-montp2.fr/~rletud/traitePost.php" style="display:inline">
+<input type="text" name="nom_var" value="MaDonnee">
+<input type="submit">
+</form>
+</div>
+</div>
 
 </section>
 <section>
