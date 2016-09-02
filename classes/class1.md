@@ -435,7 +435,7 @@ Le document `PHP` suivant
         <title> Mon premier php </title>
     </head>
     <body>
-      <?php echo "Bonjour" ?>
+      <?php echo "Bonjour"; ?>
     </body>
 </html>
 ```
@@ -468,7 +468,7 @@ En fait, les deux fichiers suivants sont équivalents.
         <title> Mon premier php </title>
     </head>
     <body>
-      <?php echo "Bonjour" ?>
+      <?php echo "Bonjour"; ?>
     </body>
 </html>
 ```
@@ -514,7 +514,7 @@ en remplaçant `loginIUT` par votre login.
           <title> Mon premier php </title>
       </head>
       <body>
-        <?php echo "Bonjour" ?>
+        <?php echo "Bonjour"; ?>
       </body>
   </html>
   ```
