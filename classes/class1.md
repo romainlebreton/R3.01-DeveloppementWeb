@@ -11,6 +11,8 @@ layout : slideshow
 FAIRE UNE PRESENTATION GLOBALE DU MODULE, DE SON EVALUATION, EDT PREVISIONNEL, COEFFICIENT
 -->
 
+<!-- Peut-être cours un peu plus long que 1h -->
+
 </section>
 <section>
 
@@ -396,9 +398,6 @@ produira
 ## Imbrication de PHP dans le HTML 2/2
 
 En fait, les deux fichiers suivants sont équivalents.  
-En effet, ce qui est en dehors des balises PHP est écrit tel quel dans la page
-Web générée.
-
 
 ```php
 <!DOCTYPE html>
@@ -421,59 +420,100 @@ Web générée.
       </head>
       <body>";
   echo "Bonjour";
-  echo "</body></html>";
-?>
+  echo "</body></html>"; ?>
 ```
+
+En effet, ce qui est en dehors des balises PHP est écrit tel quel dans la page
+Web générée (comme si on avait fait `echo`).
 
 </section>
 <section>
 
 ## Test de la page sur un serveur HTTP
 
-Enregistrons ce fichier PHP sur le serveur HTTP `infolimon` de l'IUT. Les
+* Enregistrons ce fichier PHP sur le serveur HTTP `infolimon` de l'IUT. Les
 fichiers PHP se mettent dans le dossier `public_html` de votre répertoire
 personnel.
 
-Vous pouvez alors y accéder à partir de l'URL
+* Vous pouvez alors y accéder à partir de l'URL
 [http://infolimon.iutmontp.univ-montp2.fr/~loginIUT/](http://infolimon.iutmontp.univ-montp2.fr/~loginIUT/)
 en remplaçant `loginIUT` par votre login.
 
-```php
-<!DOCTYPE html>
-<html>
-    <head>
-        <title> Mon premier php </title>
-    </head>
-    <body>
-      <?php echo "Bonjour" ?>
-    </body>
-</html>
-```
+<div class="incremental">
+<div>
+**Exemple :**
+
+* On écrit le fichier `bonjour.php` suivant dans notre dossier `public_html`
+
+  ```php
+  <!DOCTYPE html>
+  <html>
+      <head>
+          <title> Mon premier php </title>
+      </head>
+      <body>
+        <?php echo "Bonjour" ?>
+      </body>
+  </html>
+  ```
+
+* On ouvre
+  [http://infolimon/~loginIUT/bonjour.php](http://infolimon.iutmontp.univ-montp2.fr/~rletud/bonjour.php)
+  pour voir la page générée
+
+  ```text
+  Bonjour
+  ```
+
+  **Note :** Regardez les sources pour voir la page complète.
+
+</div>
+</div>
 
 </section>
 <section>
 
 ## Les tableaux associatifs
 
-Vous connaissez déjà les tableaux classiques, ceux qui sont indexés par
-`0,1,2,...`. Les tableaux en PHP peuvent aussi s'indexer par des
-chaînes de caractères.
+Vous connaissez déjà les *tableaux classiques*, ceux qui sont indexés par
+`0,1,2,...`.
 
-Une syntaxe pratique pour créer un tableau est la suivante
+<br>
 
-```php?start_inline=1
-$tab = array("texte" => 1, 3 => "blabla"); 
-```
+Les tableaux en PHP peuvent aussi s'indexer par des chaînes de caractères :
 
-Deux particularités du PHP sont la syntaxe pour rajouter une valeur en fin de
-tableau
+<p style="text-align:center;">
+Ce sont les **tableaux associatifs**
+</p>
 
-```php?start_inline=1
-$tab[] = $valeur
-```
+<br>
 
-et l'existence des boucles
-[`foreach`](http://php.net/manual/fr/control-structures.foreach.php).
+* On peut créer le tableau case par case :
+
+  ```php?start_inline=1
+  $coordonnees['prenom'] = 'François';
+  $coordonnees['nom'] = 'Dupont';
+  ```
+
+* Ou l'initialiser en une fois
+
+  ```php?start_inline=1
+  $coordonnees = array (
+    'prenom' => 'François',
+    'nom'    => 'Dupont'  );
+  ```
+
+
+* Notez l'existence des boucles
+  [`foreach`](http://php.net/manual/fr/control-structures.foreach.php) pour
+  parcourir ces tableaux :
+
+  ```php?start_inline=1
+  foreach (array_expression as $key => $value){
+      //commandes
+  }
+  ```
+{:.incremental}
 
 </section>
 <section>
@@ -486,11 +526,11 @@ Les pages Web se transmettent des données entre elles. Par exemple, votre
 nom/prénom, le fait que vous soyez connectés, vos réponses aux formulaires
 d'inscription.
 
-Sans données supplémentaires, on n'aurait pas de pages personnalisés et on
+Sans données supplémentaires, on n'aurait pas de pages personnalisées et on
 serait ramenés aux sites statiques.
 
 <p style="text-align:center">
-**Mais comment çà marche ?**
+**Mais comment ça marche ?**
 </p>
 
 <!-- ICI HERE : expliquer d'abord les query string ? -->
@@ -504,33 +544,33 @@ Une *URL* (Uniform Resource Locator) sert à représenter une adresse sur le Web
 
 <!-- ou plus généralement à identifier une ressource -->
 
-Une URL simple :
+* Une URL simple :
 
-<p style="text-align:center">
-<a href="http://romainlebreton.github.io/ProgWeb-CoteServeur/classes/class1.html#comment-faire-">
-![Exemple d'URL]({{site.baseurl}}/assets/URLSimple.png)
-</a>
-</p>
+  <p style="text-align:center">
+  <a href="http://romainlebreton.github.io/ProgWeb-CoteServeur/classes/class1.html#comment-faire-">
+  <img alt="Exemple d'URL" src="{{site.baseurl}}/assets/URLSimple.png" width="900px">
+  </a>
+  </p>
 
+  <!-- Protocole : ftp, http, file, ... -->
+  <!-- nom de domain (ou IP) avec ou sans port -->
+  <!-- chemin d'accès (relatif ou absolu) -->
+  <!-- ancre (/signet) optionnel -->
 
+* Une URL avec *query string* (chaîne de requête) :
 
-<!-- Protocole : ftp, http, file, ... -->
-<!-- nom de domain (ou IP) avec ou sans port -->
-<!-- chemin d'accès (relatif ou absolu) -->
-<!-- ancre (/signet) optionnel -->
+  <p style="text-align:center">
+  <img alt="Exemple d'URL" src="{{site.baseurl}}/assets/URLQueryString.png" width="900px">
+  </p>
 
-Une URL avec *query string* (chaîne de requête) :
-
-<p style="text-align:center">
-<img alt="Exemple d'URL" src="{{site.baseurl}}/assets/URLQueryString.png" width="1000px">
-</p>
-
-
-<!-- ? pour délimiter la query string (chaîne de requête) -->
-<!-- puis des couples nom_param=val_param séparés par des & -->
-
+  <!-- ? pour délimiter la query string (chaîne de requête) -->
+  <!-- puis des couples nom_param=val_param séparés par des & -->
+{:.incremental}
+  
+<p class="myfootnote">
 **Sources :** [Standard des URL](https://tools.ietf.org/html/rfc3986),
 [Wikipedia](https://fr.wikipedia.org/wiki/Uniform_Resource_Locator)
+</p>
 
 <!--
 Percent-Encoding : on encode sous la forme "%" HEXDIG HEXDIG les caractères
@@ -555,39 +595,56 @@ https://www.w3.org/TR/xhtml1/guidelines.html#C_12
 
 ## Récupérer des données GET en PHP
 
+<br>
 
 PHP est capable de récupérer les données saisies dans les URLs.
+
+<br>
 
 PHP va automatiquement remplir le tableau associatif `$_GET` avec les
 informations contenues dans le *query string*.
 
-**Exemple :** quand PHP reçoit le lien `bonjour.php?nom=Dupont&prenom=Jean`, il
-  va remplir le tableau `$_GET` avec
+<br>
 
-```php?start_inline=1
-$_GET["nom"] = "Dupont";
-$_GET["prenom"] = "Jean";
-```
+<br>
 
-puis il lance le script `bonjour.php`.
+**Exemple :**
+
+Quand PHP reçoit le lien `bonjour.php?nom=Dupont&prenom=Jean`, il va :
+
+* remplir le tableau `$_GET` avec
+
+  ```php?start_inline=1
+  $_GET["nom"] = "Dupont";
+  $_GET["prenom"] = "Jean";
+  ```
+
+* puis lancer le script `bonjour.php`.
 
 </section>
 <section>
 
 ## Exemple de transmission en GET
 
+<br>
+
 Une 1ère page avec un lien contenant des informations dont son *query string*.
 
-<div style="display:flex;">
+<div style="display:flex;align-items:center;">
 <div style="flex-grow:1">
 ```html,start_inline=1
-<a href="bonjour.php?nom=Dupont&prenom=Jean">Dis-moi bonjour !</a>
+<a href="bonjour.php?nom=Dupont&prenom=Jean">
+  Dis-moi bonjour !
+</a>
 ```
 </div>
 <div style="flex-grow:1;display:inline;text-align:center;">
 <a href="bonjour.php?nom=Dupont&prenom=Jean">Dis-moi bonjour !</a>
 </div>
 </div>
+
+<br>
+<br>
 
 Quand on clique sur ce lien, on est renvoyé sur la page `bonjour.php` suivante
 
@@ -598,29 +655,43 @@ Quand on clique sur ce lien, on est renvoyé sur la page `bonjour.php` suivante
 qui va s'exécuter pour créer la page Web
 
 ```html?start_inline=1
-<p>Bonjour Jean ! !</p>
+<p>Bonjour Jean !</p>
 ```
+
+<br>
+
+**En effet,** PHP aura remplit le tableau  `$_GET` avec
+
+```php?start_inline=1
+$_GET["nom"] = "Dupont";
+$_GET["prenom"] = "Jean";
+```
+
+avant de lancer le script `bonjour.php`.
 
 </section>
 <section>
 
 ## Les formulaires
 
-Les formulaires utilisent ce genre de méthode pour transmettre les informations
-qui ont été remplies.
+<br>
 
-On peut envoyer les données des formulaires :
+Les formulaires utilisent entre autre l'envoi de données dans le *query string*
+pour transmettre les informations qui ont été remplies.
 
-* soit avec la méthode GET
-* soit avec la méthode POST
+<br>
+
+On va voir qu'il y a deux types de formulaires :
+
+* ceux dont les données sont envoyées avec la **méthode GET**
+* ceux dont les données sont envoyées avec la **méthode POST**
 
 </section>
 <section>
 
 ## Les formulaires GET
 
-Le formulaire en méthode GET suivant envoie ses informations dans la *query
-string* de l'URL cible (attribut `action`).
+Considérons le formulaire suivant et supposons que l'utilisateur a tapé `MaDonnee`
 
 <div style="display:flex;align-items:center">
 <div style="flex-grow:1;">
@@ -639,79 +710,54 @@ string* de l'URL cible (attribut `action`).
 </div>
 </div>
 
+1. le clic sur le bouton `Valider` :
+  * charge la page `traitement.php` (champ `action` du formulaire)
+  * transmet ses informations dans le *query string*
+  
+2. donc le clic `Valider` sur charge l'URL `traitement.php?nom_var=MaDonnee`  
+  On reconnait le champ `name` du formulaire et ce qu'a rempli l'utilisateur
 
-Ayant écrit `MaDonnee` dans le formulaire, le clic sur le bouton `Valider`
-commande au navigateur de charger la page d'URL
-`traitement.php?nom_var=MaDonnee`.
+3. la page `traitement.php` suivante s'exécute avec le tableau
+   `$_GET['nom_var']="MaDonnee";`
 
-Le fichier `traitement.php` utilise le tableau `$_GET` comme précédemment pour
-récupérer les données.
+   ```php
+   <p>La donnée nom_var est <?php echo $_GET['nom_var']; ?> !</p>
+   ```
 
-<!-- Un clic sur le bouton de soumission `<input type="submit" />` du formulaire a -->
-<!-- pour effet de charger la page Web `traitement.php` avec des arguments.  Plus -->
-<!-- précisement, si l'utilisateur a tapé `valeur` dans le champ texte -->
-<!-- `<input type="text" name="nom_var" />`, -->
-<!-- le navigateur va demander la page Web `traitement.php?nom_var=valeur`. -->
+4. la page générée par `traitement.php` est 
 
-<!-- La partie `nom_var=valeur` de l'URL s'appelle la *query string*. PHP comprend la -->
-<!-- *query string* et s'en sert pour remplir le tableau `$_GET`. Dans notre -->
-<!-- exemple, PHP se charge de faire l'affectation -->
-<!-- `$_GET["nom_var"] = "valeur"` -->
-<!-- juste avant d'exécuter la page PHP `traitement.php`. -->
-
-</section>
-<section>
-
-## Exemple de transmission avec formulaire en GET
-
-Supposons que la 1ère page contient un formulaire de méthode GET que l'on
-remplit avec `MaDonnee`.
-
-<div style="display:flex;align-items:center">
-<div style="flex-grow:1;">
-```html
-<form method="get" action="traitement.php">
-    <input type="text" name="nom_var" />
-	<input type="submit" />
-</form>
-```
-</div>
-<div style="flex-grow:1;text-align:center">
-<form method="get" action="traitement.php" style="display:inline">
-<input type="text" name="nom_var" value="MaDonnee">
-<input type="submit">
-</form>
-</div>
-</div>
-
-Quand on clique sur `Valider`, on est renvoyé sur la page `traitement.php` suivante
-
-```php
-<p>La donnée envoyée sous le nom nom_var est <?php echo $_GET['nom_var']; ?> !</p>
-```
-
-qui va s'exécuter pour créer la page Web
-
-```html?start_inline=1
-<p>La donnée envoyée sous le nom nom_var est MaDonnee !</p>
-```
+   ```html?start_inline=1
+   <p>La donnée nom_var est MaDonnee !</p>
+   ```
+{:.incremental}
 
 </section>
 <section>
+
 
 ## Pourquoi la méthode du formulaire s'appelle "GET" ?
 
-Parce que en `method="get"`, le formulaire envoie en fait une requête HTTP de type
-GET. C'est de cette manière que l'on demande une page Web généralement.
+<br>
 
-En effet, lorsque l'on clique sur le bouton de soumission du formulaire, le
-navigateur (qui est un client HTTP) va envoyer la requête HTTP suivante
+Parce que en `method="get"`, le formulaire envoie une requête **HTTP** de
+type **GET**.
+
+<br>
+
+En effet lorsque l'on valide le formulaire, le navigateur (client HTTP) envoie
+la requête **HTTP** de type **GET** suivante
 
 ```http
 GET /~rletud/traitement.php?nom_var=valeur HTTP/1.1
 host: infolimon.iutmontp.univ-montp2.fr
 
 ```
+
+<br>
+
+C'est de cette manière que l'on demande une page Web généralement.
+
+
 
 <!--
 PREVOIR UNE DEMO AVEC LES OUTILS RESEAUX
@@ -722,13 +768,16 @@ PREVOIR UNE DEMO AVEC LES OUTILS RESEAUX
 
 ## Les formulaires POST 1/3
 
-Un formulaire en méthode POST envoie ses informations différemment ; elles ne
-seront plus encodées dans le *query string*.
+Un formulaire en méthode **POST** envoie ses informations différemment :
+
+<p style="text-align:center">
+elles **ne sont plus** encodées dans le *query string*.
+</p>
 
 <div style="display:flex;align-items:center">
 <div style="flex-grow:1;">
 ```html
-<form method="post" action="traitementPost.php">
+<form method="post" action="traitePost.php">
     <input type="text" name="nom_var" />
 	<input type="submit" />
 </form>
@@ -742,19 +791,26 @@ seront plus encodées dans le *query string*.
 </div>
 </div>
 
-Pour récupérer les informations dans la page cible `traitementPost.php`, nous
+<br>
+<br>
+
+Pour récupérer les informations dans la page cible `traitePost.php`, nous
 utiliserons alors la tableau associatif `$_POST` de PHP.
 
-**Exemple :** Quand on clique sur `Valider`, on est renvoyé sur la page `traitementPost.php` suivante
+<br>
+
+**Exemple :**
+
+Quand on clique sur `Valider`, on est renvoyé sur la page `traitePost.php` suivante
 
 ```php
-<p>La donnée envoyée sous le nom nom_var est <?php echo $_POST['nom_var']; ?> !</p>
+<p>La donnée nom_var est <?php echo $_POST['nom_var']; ?> !</p>
 ```
 
 qui va s'exécuter pour créer la page Web
 
 ```html?start_inline=1
-<p>La donnée envoyée sous le nom nom_var est MaDonnee !</p>
+<p>La donnée nom_var est MaDonnee !</p>
 ```
 
 </section>
@@ -762,31 +818,23 @@ qui va s'exécuter pour créer la page Web
 
 ## Les formulaires POST 2/3
 
+<br>
+<br>
+
 Plus précisément, avec un formulaire en `method="post"` :
 
-1. la page chargée va être `traitementPost.php` sans *query string* ;
-2. les données du formulaire sont envoyées avec dans le corps de la requête HTTP
-   (et non plus dans le *query string*) ;
+1. la page chargée va être `traitePost.php` **sans *query string* ;**
+
+2. les données du formulaire sont envoyées dans le **corps** d'une requête **HTTP** de type **POST**  ;
+
 3. On récupère les données dans le tableau PHP `$_POST`. Dans notre exemple, PHP
    fait l'affectation `$_POST["nom_var"] = "valeur"` juste avant d'exécuter la
-   page PHP `traitementPost.php`.
-
-En fait, le formulaire envoie une requête HTTP de méthode POST
-
-```http
-POST /~rletud/traitementPost.php HTTP/1.1
-host: localhost
-Content-Length:14
-Content-Type:application/x-www-form-urlencoded
-
-nom_var=valeur
-
-```
+   page PHP `traitePost.php`.
 
 </section>
 <section>
 
-## Les requête HTTP de type POST
+## Les requêtes HTTP de type POST
 
 Nous voyons ici le deuxième type de requête HTTP le plus courant :
 
@@ -794,8 +842,10 @@ Nous voyons ici le deuxième type de requête HTTP le plus courant :
 **les requêtes HTTP de type POST.**
 </p>
 
+<br>
+
 ```http
-POST /~rletud/traitementPost.php HTTP/1.1
+POST /~rletud/traitePost.php HTTP/1.1
 host: localhost
 Content-Length:14
 Content-Type:application/x-www-form-urlencoded
@@ -804,24 +854,39 @@ nom_var=valeur
 
 ```
 
+<br>
 
 Elles servent aussi à demander des pages Web. Les principales différences sont :
 
-1. la présence dans la requête HTTP d'un **corps de requête** en plus de l'en-tête.
+1. la présence dans la requête **HTTP** d'un **corps de requête** en plus de l'en-tête.
+
 2. L'en-tête et le corps de la requête sont séparés par une ligne vide.
-3. Le corps de la requête HTTP sert ici à envoyer les informations.
+
+3. Le corps de la requête **HTTP** sert ici à envoyer les informations.
 
 </section>
 <section>
 
-## Avantages et inconvénients des 2 méthodes
+## Avantages et inconvénients des deux méthodes
 
-* La méthode GET se prête bien à un site en développement car on peut facilement
-contrôler les valeurs et noms de variables du formulaire.  
-  Il est facile de créer un lien `<a>` vers une page traitant un formulaire en
+<br>
+
+* La méthode **GET** :
+
+  * se prête bien à un site en **développement** car on peut facilement
+  contrôler les valeurs et noms de variables du formulaire.
+  
+  * Il est facile de créer un lien `<a>` vers une page traitant un formulaire en
   méthode GET et d'y envoyer des données via le *query string.*
+ 
+  <br>
+ 
+* La méthode **POST** :
 
-* La méthode POST est plus propre car les valeurs ne sont plus affichées dans la barre d'adresse du navigateur. Attention, ces informations ne sont pas vraiment cachées pour autant.
+  * est plus propre car les valeurs ne sont plus affichées dans la barre d'adresse du navigateur
+
+  * **Attention :**  
+  ces informations **ne sont pas vraiment cachées** pour autant.
 
 <!--
 Note sur ù met-on le dollar 
@@ -898,7 +963,7 @@ if - for imbriqués html
 </section>
 <section>
 
-# Émuler un client HTTP textuel
+## Bonus : Émuler un client HTTP textuel
 
 **Expérience amusante :**  
 Même si le client HTTP le plus connu est votre navigateur, il est facile de
