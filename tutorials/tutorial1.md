@@ -55,7 +55,7 @@ Quelques consignes qui vous feront gagner beaucoup de temps en développement we
    avez déjà votre éditeur préféré).
 
    **Exceptionnellement** pour ce TD, utilisez un éditeur de base comme
-    *gedit*. Ainsi, nous n'aurons pas l'impression que la grosse machinerie
+    *gedit* ou *notepad++*. Ainsi, nous n'aurons pas l'impression que la grosse machinerie
     qu'est NetBeans nous cache trop de choses.
      
 2. Ne copiez **jamais** vos fichiers à plusieurs endroits.
@@ -63,53 +63,74 @@ Quelques consignes qui vous feront gagner beaucoup de temps en développement we
 
 ## Accédez à vos pages web
 
+Nous avons vu lors du [cours 1]({{site.baseurl}}/classes/class1.html) le
+[fonctionnement du WWW sur le modèle de client & serveur HTTP]({{site.baseurl}}/classes/class1.html#le-fonctionnement-du-world-wide-web). Mettons
+en pratique tout cela !
+
 ### Une page HTML de base
 
-Créez une page **index.html** avec le contenu suivant et enregistrez la dans
+1. Créez une page **page1.html** avec le contenu suivant et enregistrez la dans
 le répertoire **public_html** de votre espace personnel.
 
-```html
-<!DOCTYPE html>
-<html>
-    <head>
-        <title> Insérer le titrer ici </title>
-    </head>
-
-    <body>
-        Un problème avec les accents à é è ?
-        <!-- ceci est un commentaire -->
-    </body>
-</html>
-```
+   ```html
+   <!DOCTYPE html>
+   <html>
+       <head>
+           <title> Insérer le titrer ici </title>
+       </head>
+   
+       <body>
+           Un problème avec les accents à é è ?
+           <!-- ceci est un commentaire -->
+       </body>
+   </html>
+   ```
 
 1. Ouvrez cette page dans le navigateur directement en double-cliquant dessus
    directement depuis votre gestionnaire de fichiers.
    Notez l'URL du fichier :
-   [file://chemin_de_mon_compte/public_html/index.html](file://chemin_de_mon_compte/public_html/index.html).
+   [file://chemin_de_mon_compte/public_html/page1.html](file://chemin_de_mon_compte/public_html/page1.html).
+
+   **Que fait le gestionnaire de fichier quand on double-clique ?**  
+   **Que signifie le *file* au début de l'URL ?**  
+   **Est-ce que la page HTML s'affiche correctement ?**  
+   **Est-ce qu'il y a une communication entre un serveur et un client HTTP ?**
    
-   **Un problème avec les accents ?**
-   Dans l'en-tête du fichier HTML vous devez rajouter la ligne qui spécifie
-   l'encodage
+   * **Rappel : Un problème avec les accents ?**
+     Dans l'en-tête du fichier HTML vous devez rajouter la ligne qui spécifie
+     l'encodage
    
-   ```html
-   <meta charset="utf-8" />
-   ```
-   Il faut que vos fichiers soient enregistrés avec le même encodage. UTF-8 est
-   souvent l'encodage par défaut, mais les éditeurs de texte offrent généralement
-   le choix de l'encodage lors du premier enregistrement du fichier.
+     ```html
+     <meta charset="utf-8" />
+     ```
+     Il faut que vos fichiers soient enregistrés avec le même encodage. UTF-8 est
+     souvent l'encodage par défaut, mais les éditeurs de texte offrent généralement
+     le choix de l'encodage lors du premier enregistrement du fichier.
 
-2. **Vous souvenez-vous comment fait-on pour qu'une page Web soit servie par le serveur HTTP de l'IUT (sur [infolimon.iutmontp.univ-montp2.fr](infolimon.iutmontp.univ-montp2.fr)) ?**
+2. **[Vous souvenez-vous]({{site.baseurl}}/classes/class1.html#test-de-la-page-sur-un-serveur-http)
+   comment fait-on pour qu'une page Web soit servie par le serveur HTTP de l'IUT
+   (sur
+   [infolimon.iutmontp.univ-montp2.fr](http://infolimon.iutmontp.univ-montp2.fr))
+   ?**
 
-   Les pages Web écrites dans le dossier **public_html** de son répertoire
-   personnel seront servies sur [infolimon](infolimon.iutmontp.univ-montp2.fr).
-   Ouvrez donc `index.html` depuis le navigateur en tapant l'URL suivante dans
-   la barre d'adresse
-   [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/index.html](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/index.html)
+   * Les pages Web doivent être enregistrées dans le dossier **public_html** de
+   votre répertoire personnel.
 
-   **Un problème de droit ?**
+   * Le serveur HTTP de l'IUT servira vos pages Web à l'adresse suivante
+     [http://infolimon.iutmontp.univ-montp2.fr/~mon_login_IUT/page1.html](http://infolimon.iutmontp.univ-montp2.fr/~mon_login_IUT/page1.html)
+
+   **Ouvrez donc** `page1.html` depuis le navigateur en tapant l'URL dans la
+   barre d'adresse.
+   
+   **Est-ce que la page HTML s'affiche correctement ?**  
+   **Est-ce qu'il y a une communication entre un serveur et un client HTTP maintenant ?**
+
+   <br>
+
+   **Aide : Un problème de droit ?**  
    Pour pouvoir servir vos pages, le serveur HTTP (Apache) de l'IUT doit avoir
-   le droit de lecture des pages Web (permission `r--`) et le droit de
-   traverser les dossiers menant à la page Web (permission `--x`). À
+   le droit de lecture des pages Web (permission `r--`) et le droit de traverser
+   les dossiers menant à la page Web (permission `--x`). À
    l'IUT, la gestion des droits se fait par les ACL.  
    Pour donner les droits à l'utilisateur www-data (Apache), utilisez la commande
    `setfacl` dans un terminal sous Linux :
@@ -124,16 +145,13 @@ le répertoire **public_html** de votre espace personnel.
    à un utilisateur et un groupe. Pour lire les droits ACL d'un fichier ou
    dossier, on tape `getfacl nom_du_fichier`.
 
-3. Quelle(s) différence(s) observez-vous entre les deux `index.html` ouvert de
-deux manières différentes ?
-
 ### Notre première page PHP
 
 4. Créez une page `echo.php` avec le contenu suivant.  
-   Pour ne pas que votre **public_html** devienne un dépôt de pages Web à ciel
+   Pour ne pas que votre **public_html** devienne une décharge de pages Web à ciel
    ouvert, créez des répertoires pour les cours et les TDs. Nous vous
    conseillons donc d'enregistrer `echo.php` dans
-   `.../public_html/PHP/TD1.echo.php`.
+   `.../public_html/PHP/TD1/echo.php`.
 
    ```php
    <!DOCTYPE html>
@@ -152,10 +170,7 @@ deux manières différentes ?
            
              // On met la chaine de caractères "hello" dans la variable 'texte'
              // Les noms de variable commencent par $ en PHP
-             $texte="hello";
-
-             // Concatenation de 2 chaînes de caractères avec '.'
-             $texte=$texte . " world";
+             $texte = "hello world !";
 
              // On écrit le contenu de la variable 'texte' dans la page Web
              echo $texte;
@@ -164,134 +179,322 @@ deux manières différentes ?
    </html> 
    ```
 
-5. Ouvrez cette page dans le navigateur directement depuis votre gestionnaire de fichiers :  
-   [file://chemin_de_mon_compte/public_html/PHP/TD1/echo.php](file://chemin_de_mon_compte/public_html/PHP/TD1/echo.php).
+5. Ouvrez cette page dans le navigateur directement depuis votre gestionnaire de
+fichiers OU de façon équivalente avec une URL en `file://` comme :  
+[file://chemin_de_mon_compte/public_html/PHP/TD1/echo.php](file:///home/ann2/mon_login_IUT/public_html/PHP/TD1/echo.php).
 
-6. Ouvrez cette page dans le navigateur dans un second onglet en passant par le serveur web :   
+   **Que se passe-t-il quand on ouvre un fichier PHP directement dans le navigateur ?**  
+   **Pourquoi ?**  
+   *Ça vous rappelle le [cours 1]({{site.baseurl}}/classes/class1.html#le-langage-de-cration-de-page-web--php) j'espère ?* 
+
+6. Ouvrez cette page dans le navigateur dans un second onglet en passant par le
+   serveur HTTP de l'IUT :  
    [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/echo.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/echo.php)
 
-7. Quelle(s) différence(s) observez-vous dans l'affichage des deux pages Web ?
+   **Que se passe-t-il quand on demande un fichier PHP à un serveur HTTP ?**  
+   **Regardez les sources de la page Web (Clic droit, code source ou `Ctrl-U`)
+     pour voir ce qu'a vraiment généré PHP**.  
+   *N'hésitez pas à relire la partie du
+    [cours 1 concernée]({{site.baseurl}}/classes/class1.html#mcanisme-de-gnration-des-pages-dynamiques-22).*
 
-8. Quelle(s) différence(s) observez-vous dans le code source des deux pages Web ?  
-   (Clic droit, code source ou `Ctrl-U`)
+## Les bases de PHP
 
-**Remarque :** Comme vous l'avez sans doute intuité en regardant le code source de [http://infolimon...echo.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/echo.php), la page Web produite est composée des lignes en dehors du PHP, et de ce que le PHP écrit avec `echo`.
+### Différences avec Java
+
+2. Le code PHP doit être compris entre la balise ouvrante `<?php` et la balise fermante `?>`
+2. Les variables sont précédées d'un `$`
+1. Pas de typage des variables
+
+### Les chaînes de caractères
+
+1. Les chaînes de caractères avec ***double quote* `"`** peuvent contenir :
+   * des variables (qui seront remplacées par leur valeur),
+   * des sauts de lignes,
+   * des caractères spéciaux (tabulation `\t`, saut de ligne `\n`).
+   * Les caractères protégés sont `"`, `$` et `\` qui doivent être échappés avec
+   un anti-slash `\` comme ceci : `\"`, `\$` et `\\`;
+   
+   **Exemple :**
+
+   ```php?start_inline=1
+   $prenom="Helmut";
+   echo "Bonjour $prenom,\n çà farte ?";
+   ```
+  
+   donne
+   
+   ```text
+   Bonjour Helmut,
+   çà farte ?
+   ```
+  
+   **Astuce :** En cas de problèmes avec le remplacement de variables, rajoutez
+   des accolades autour de la variable à remplacer. Cela marche aussi bien pour
+   les tableaux `"{$tab[0]}"`, les attributs `"{$objet->attribut}"` et les
+   fonctions `"{$objet->fonction()}"`.
+   
+2. Les chaînes de caractères avec ***simple quote* `'`** sont conservées telles
+quelles (pas de remplacement, de caractères spéciaux ...). Les caractères
+protégés sont `'` et `\` qui doivent être échappés avec un anti-slash comme ceci
+`\'` et `\\`;
+
+   **Exemple :**
+
+   ```php?start_inline=1
+   echo 'Bonjour $prenom,\n çà farte ?';
+   ```
+  
+   donne
+   
+   ```text
+   Bonjour $prenom,\n çà farte ?
+   ```
+
+3. La concaténation de chaînes de caractères se fait avec l'opérateur point `.`  
+   **Exemple :**
+
+   ```php?start_inline=1
+   $texte = "hello" . 'World !';
+   ```
+
+**Documentation :**
+  [Les chaînes de caractères sur PHP.net](http://php.net/manual/fr/language.types.string.php)
+
+### Le `echo` *here document*
+
+Il existe un `echo` sur plusieurs ligne très pratique
+
+```php?start_inline=1
+$prenom="Helmut";
+echo <<< EOT
+Texte à afficher
+sur plusieurs lignes
+avec caractères spéciaux \t \n
+ et remplacement de variables $prenom
+les caractères suivants passent : " ' $ / \ ;
+EOT;
+```
+
+Cette syntaxe s'intitule le "here document" et permet d'afficher plusieurs
+lignes avec les mêmes caractéristiques que les chaînes entre *double quote*.
+Notez que la fin de la syntaxe doit apparaître sur une nouvelle ligne, avec
+uniquement un point-virgule, et pas d'espace de plus !
+
+Par exemple le code PHP précédent génère
+
+```text
+Texte à afficher
+sur plusieurs lignes
+avec caractères spéciaux 	 
+
+ et remplacement de variables Helmut
+les caractères suivants passent : " ' $ / \ ;
+```
+
+**Documentation :**
+  [Syntaxe Heredoc sur PHP.net](http://php.net/manual/fr/language.types.string.php#language.types.string.syntax.heredoc)
+
+### Affichage pour le débogage
+
+Les fonctions `print_r` et `var_dump` affichent les informations d'une variable
+et sont très utiles pour déboguer notamment les tableaux ou les objets.  
+La différence est que `print_r` est plus lisible car `var_dump` affiche plus de
+choses (les types).
+
+### Require
+
+PHP a plusieurs façons d'inclure un fichier :
+
+* `require` : inclut et exécute le fichier spécifié en argument. Renvoie une
+  erreur si le fichier n'existe pas.
+
+* `require_once` : fait de même que `require` mais la différence est que si le
+  code a déjà été inclus, il ne le sera pas une seconde fois.  
+  Ceci est particulièrement utile pour inclure une classe car cela assure qu'on
+  ne l'inclura pas deux fois.
+
+Notez qu'il existe `include` et `include_once` qui ont le même effet mais
+n'émettent qu'un warning si le fichier n'est pas trouvé (au lieu d'une erreur).
+
+
+### Les tableaux associatifs
+
+Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de caractères :
+
+* Pour créer un tableau vide, on utilise la syntaxe
+
+  ```php?start_inline=1
+  $mon_tableau = array();
+  ```
+
+* On peut créer le tableau case par case :
+
+  ```php?start_inline=1
+  $coordonnees['prenom'] = 'François';
+  $coordonnees['nom'] = 'Dupont';
+  ```
+
+  **NB :** En `PHP` les variables commencent par `$`
+
+* Ou l'initialiser en une fois
+
+  ```php?start_inline=1
+  $coordonnees = array (
+    'prenom' => 'François',
+    'nom'    => 'Dupont'  );
+  ```
+
+
+* Notez l'existence des boucles
+  [`foreach`](http://php.net/manual/fr/control-structures.foreach.php) pour
+  parcourir les paires clé/valeur des tableaux :
+
+  ```php?start_inline=1
+  foreach (array_expression as $cle => $valeur){
+      //commandes
+  }
+  ```
+
+  **Remarque :** La boucle `foreach` est pratique pour parcourir les indices et
+  valeurs d'un tableau. Il existe aussi bien sûr une boucle `for` classique si
+  le tableau est indexé uniquement par des entiers
+
+  ```php?start_inline=1
+  for ($i = 0; $i < count($this->options); $i++) {
+      echo $this->options[$i];
+  }
+  ```
+
+* On peut rajouter facilement un élément "à la fin" d'un tableau avec
+
+  ```php?start_inline=1
+  $mon_tableau[] = "Nouvelle valeur";
+  ```
+
+**Source :** [Les tableaux sur php.net](http://php.net/manual/fr/language.types.array.php)
+
+<!-- ### Les structures de contrôle -->
+
+<!-- Syntaxe alternative -->
+<!-- http://php.net/manual/fr/control-structures.alternative-syntax.php -->
+
+### Exercice d'application
+
+1. Dans votre fichier `echo.php`, créez trois variables `$marque`, `$couleur` et
+`$immatriculation` contenant des chaînes de caractères de votre choix ;
+
+2. Créez la commande PHP qui écrit dans votre fichier le code HTML suivant (en
+   remplaçant bien sûr la marque par le contenu de la variable `$marque` ...) :
+
+   ```html
+   <p> Voiture 256AB34 de marque Renault (couleur bleu) </p>"
+   ```
+
+3. Faisons maintenant la même chose mais avec un tableau associatif `voiture`:
+
+   * Créez un tableau `voiture` contenant trois clés `"marque"`, `"couleur"` et
+   `"immatriculation"` et les valeurs de votre choix ;
+
+   * Mettez à jour votre code PHP pour afficher le contenu du tableau
+
+4. Maintenant nous souhaitons afficher une liste de voitures :
+
+   * Créez une liste `$voitures` de quelques voitures
+
+   * Modifier votre code d'affichage pour écrire proprement en HTML un titre
+     "Liste des voitures :" puis une liste (`<ul>`) contenant les informations
+     des voitures.
+
+   * Rajoutez un cas par défaut qui affiche "Il n'y a aucune voiture." si la
+     liste est vide.  
+     (On vous laisse chercher sur internet la fonction qui teste si un tableau est vide)
+
+<!-- empty -->
+
 
 ## La programmation objet en PHP
 
 PHP était initialement conçu comme un langage de script, mais est passé Objet à partir de la
-version 5.
+version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitures.
 
 ### Un exemple de classe PHP
 
-Créer un fichier **Voiture.php** :
+1. Créer un fichier **Voiture.php** avec le contenu suivant
 
-```php
-<?php
-class Voiture {
-
-  private $marque;
-  private $couleur;
-  private $immatriculation;
+   ```php
+   <?php
+   class Voiture {
    
-  //un getter      
-  public function getMarque() {
-       return $this->marque;  
-  }
-  
-  //un setter 
-  public function setMarque($marque2) {
-       $this->marque = $marque2;
-  }
-   
-   //Un constructeur
-  public function __construct($m = NULL, $c = NULL, $i = NULL)  { //On spécifie les valeurs par défaut
-   if (!is_null($m) ) { $this->marque = $m; }
-   if (!is_null($c) ) { $this->couleur = $c; }
-   if (!is_null($i) ) { $this->immatriculation = $i; }   
-  } 
-        
-  // une methode d'affichage.
-  public function afficher() {
-    echo "<p> Voiture {$this->immatriculation} de marque {$this->marque} </p>" ;
-  }
-}
-?>
-```
-
-
-### Différences avec Java
-
-1. Pas de typage des variables
-2. Le code PHP doit être compris entre la balise ouvrante `<?php` et la balise fermante `?>`
-2. Les variables sont précédées d'un `$`
-3. Pour accéder à un attribut ou une fonction d'un objet, on utilise le `->` au lieu du `.`
-4. Le constructeur ne porte pas le nom de la classe, mais s'appelle `__construct()`. Et on a le droit à au plus un constructeur, qu'on pourra eventuellement appeler avec un sous-ensemble de paramètres. 
-
-
-### Utilisation de cette classe
-
-Dans un fichier **testVoiture.php**, copiez le code suivant
-
-```php
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <title> Mon premier php </title>
-    </head>
-   
-    <body>
-    <?php
-      // On importe 'Voiture.php', comme import en Java
-      require 'Voiture.php';   
-
-      $voiture1 = new Voiture('Renault','Bleu','256AB34'); 
-      $voiture2 = new Voiture('Peugeot','Vert','128AC30');
-
-      $voiture1->afficher();
-      $voiture2->afficher();
-    ?>
-    </body>
-</html>
-```
-
-Testez cette page: 
-[http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php)
-
-À la différence de Java, il n'y a pas de besoin d'une méthode `main()`. N'importe quelle
-fichier **PHP** est considéré comme un `main()`.
-
-
-### Gestion des listes
-
-1. Ajouter un attribut **options** à la classe voiture. 
-2. Initialiser cette liste dans le constructeur, à l'aide de `$this->options = array();`
-3. Ajouter une méthode à la classe `Voiture` qui permet d'ajouter une option à la liste,
-   à l'aide de `$this->options[] = $uneOption;` qui ajoute l'option `uneOption`
-   à la fin du tableau d'options `options`.
-4. Modifier la méthode `afficher()` pour qu'elle permette de lister les options
-
-   ```php?start_inline=1
-   foreach ($this->options as $option) {
-       echo $this->option; 
+     private $marque;
+     private $couleur;
+     private $immatriculation;
+      
+     // un getter      
+     public function getMarque() {
+          return $this->marque;  
+     }
+     
+     // un setter 
+     public function setMarque($marque2) {
+          $this->marque = $marque2;
+     }
+      
+     // un constructeur
+     public function __construct($m, $c, $i)  {
+      $this->marque = $m;
+      $this->couleur = $c;
+      $this->immatriculation = $i;
+     } 
+           
+     // une methode d'affichage.
+     public function afficher() {
+       // À compléter dans le prochain exercice
+     }
    }
+   ?>
    ```
-   
-   **Remarque :** La boucle `foreach` est pratique pour parcourir les indices et
-   valeurs d'un tableau. Il existe aussi bien sûr une boucle `for` classique
 
-   ```php?start_inline=1
-   for ($i = 0; $i < count($this->options); $i++) {
-       echo $this->options[$i];
-   }
-   ```
+2. Notes les **différences avec Java** :
+
+   * Pour accéder à un attribut ou une fonction d'un objet, on utilise le `->`
+     au lieu du `.`
+   * Le constructeur ne porte pas le nom de la classe, mais s'appelle
+     `__construct()`. Et on a le droit à au plus un constructeur, qu'on pourra
+     éventuellement appeler avec un sous-ensemble de paramètres.
+
+3. Créez des getter et des setter pour `$couleur` et `$immatriculation` ;
+
+4. Remplissez `afficher()` avec votre code d'affichage de l'exercice précédent
+mais en affichant la voiture courante ;
+
+5. Testez que votre classe est valide pour PHP : la page générée par le serveur
+   Web `infolimon` à partir de `Voiture.php` ne doit pas afficher d'erreur.  
+   **Demandez donc** votre page à `infolimon`
+   [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/Voiture.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/Voiture.php)
+
+### Utilisation de la classe `Voiture`
+
+1. Créez un fichier **testVoiture.php** contenant le squelette HTML classique (`<html>`,`<head>`,`<body>` ...)
+
+2. Dans la balise `<body>`, on va vouloir créer des objets `Voiture` et les afficher :
+
+   * Incluez `Voiture.php` à l'aide de `require_once` comme vu précédemment ;
+
+   * Initialisez une variable `$voiture1` de la classe `Voiture` avec la même
+     syntaxe qu'en Java ;
+
+   <!-- $voiture1 = new Voiture('Renault','Bleu','256AB34');  -->
+
+   * Affichez cette voiture à l'aide de sa méthode `afficher()` .
+
+3. Testez votre page sur `infolimon` :  
+   [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php)
    
 
 ## Interaction avec un formulaire
 
 1. Créez un fichier **formulaireVoiture.html**, réutilisiez l'entête du fichier
-   **index.html** et dans le body, insérez le formulaire suivant:
+   **echo.php** et dans le body, insérez le formulaire suivant:
 
    ```html
    <form method="get" action="creerVoiture.php">
@@ -302,62 +505,59 @@ fichier **PHP** est considéré comme un `main()`.
          <input type="text" placeholder="Ex : 256AB34" name="immatriculation" id="immat_id" required/>
        </p>
        <p>
-         <label for="marque_id">Marque</label> :
-         <input type="text" placeholder="Ex : Renault" name="marque" id="marque_id"  required/>
-       </p>
-       <p>
-         <label for="couleur_id">Couleur</label> :
-         <input type="text" placeholder="Ex : Bleu" name="couleur" id="couleur_id"  required/>
-       </p>
-       <p>
          <input type="submit" value="Envoyer" />
        </p>
      </fieldset> 
    </form>
    ```
+
+2. Souvenez-vous (ou relisez le
+   [cours 1](({{site.baseurl}}/classes/class1.html))) de la signification des
+   attributs `action` de `<form>` et `name` de `<input>`
+
+   <!-- L'attribut important des `<input type="text">` est `name="marque"` qui indique -->
+   <!-- que ce que vous taperez dans ce champ texte sera associé au nom de variable -->
+   <!-- `marque`. -->
+
+   **Rappels supplémentaires :**
+
+   * L'attribut `for` de `<label>` doit contenir l'identifiant d'un champ
+    `<input>` pour que un clic sur le texte du `<label>` vous amène directement
+    dans ce champ.
+
+   * l'attribut `placeholder` de `<input>` sert à écrire une valeur par défaut pour aider l'utilisateur.
+
+3. Créez des champs dans le formulaire pour pouvoir rentrer la marque et la couleur de la voiture.
+
+4. Souvenez-vous (ou relisez le
+   [cours 1](({{site.baseurl}}/classes/class1.html))) de ce que fait un clic sur le bouton **"Envoyer"**.  
+   Vérifiez en cliquant sur ce bouton.
    
-   **Rappel :** L'attribut important des `<input type="text">` est `name="marque"`
-   qui indique que ce que vous taperez dans ce champ texte sera associé au nom de variable `marque`.  
-	Quand l'attribut `for` de `<label>` contient l'identifiant d'un champ, un
-    clic sur le text du label vous amène directement dans ce champ.
-   
+   **Comment sont transmises les informations ?**  
+   **Comment s'appelle la partie de l'URL contenant les informations ?**
 
-2. Cliquez sur le bouton **"Envoyer"**. Vous voyez apparaître dans votre navigateur l'URL:
-   [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/creerVoiture.php?immatriculation=256AB34&marque=Renault&couleur=Bleu](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/creerVoiture.php?immatriculation=256AB34&marque=Renault&couleur=Bleu)
 
-   La page **creerVoiture.php** n'existe pas, vous devez donc avoir une erreur 404.
+5. Créez un fichier `creerVoiture.php` à partir du code de `testVoiture.php` qui
+   affiche les informations de la voiture envoyée par le formulaire.  
+   Aidez-vous du [cours 1]({{site.baseurl}}/classes/class1.html) pour savoir
+   comment récupérer l'information.  
+   Bien sûr, **testez votre page** en la demandant à `infolimon`.
 
-3. Créer **creerVoiture.php** et dans le corps de cette page, vous pouvez
-   récupérer la valeur du champ "marque" du formulaire à l'aide de :
-
-   ```php
-   <?php
-     $marque = $_GET["marque"];
-   ?>
-   ```
-   
-4. Complétez cette page de sorte qu'elle récupère tous les champs de voiture,
-   instancie la classe Voiture et appelle la méthode affiche().
-
-5. Afin d'éviter que les paramètres du formulaire n'apparaissent dans l'URL, modifiez 
-   le formulaire pour qu'il appelle la méthode post:
+6. Afin d'éviter que les paramètres du formulaire n'apparaissent dans l'URL, modifiez 
+   le formulaire pour qu'il appelle la méthode POST :
 
    ```html
    <form method="post" action="creerVoiture.php">
    ```
    
-   et côté PHP, récupérez les paramètres avec
+   et côté `creerVoiture.php`, mettez à jour la récupération des paramètres.
 
-   ```php
-   <?php
-     $marque = $_POST["marque"];
-   ?>
-   ```
-   
-<!--
- Expliquer les requêtes HTTP POST, et qu'elles permettent d'avoir un corps de requête.
- En simuler une avec telnet ?
--->
+7. Souvenez-vous (ou relisez le
+   [cours 1](({{site.baseurl}}/classes/class1.html))) de où passe l'information
+   envoyée par un formulaire de méthode POST.  
+   Essayez de [**retrouver l'information**]({{site.baseurl}}/classes/class1.html#coutons-le-rseau) avec les outils de développement
+   (Onglet Réseau).
+
    
 ## Les bases d'un site de covoiturage
 
@@ -372,16 +572,51 @@ minimaliste:
 prénom)` et peut proposer une liste d'annonces de trajets.
 
 
-## Chez vous
+## Installez un serveur Apache chez vous
 
-Vous pouvez installer Apache + PhP + MySql sur votre machine perso (WAMP sous
-windows, LAMP sous Linux, MAMP sous MacOs)
+Nous vous conseillons d'installer Apache + PhP + MySql + PhpMyAdmin sur votre machine perso,
+ce sera très utile pour la suite et notamment pour le projet.
 
-**Attention**, pensez à modifier le php.ini pour mettre `display_errors = On`, pour
-avoir les messages d'erreurs. Car par défaut, le serveur est configuré en mode
-production (`display_errors = Off`). Il faut redémarrer Apache pour que les
-modifications soient prises en compte.
+**Installation :**
+
+* sous Linux : Au choix
+
+  * XAMP  
+    [https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-ordinateur-2#r-911385](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-ordinateur-2#r-911385)
+    <!-- MariaDb (Open Source fork of MySQL) -->
+  * LAMP  
+    [https://doc.ubuntu-fr.org/lamp](https://doc.ubuntu-fr.org/lamp)  
+    Vérifiez que vous installez bien aussi `phpmyadmin` et que vous activez le
+    module Apache `userdir` pour pouvoir mettre vos pages Web dans `public_html`.
+  
+  <!-- Penser à activer PHP pour les userdir dans php*.conf -->
+  
+* sous Mac OS X (MAMP) :  
+  [https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-ordinateur-2#r-911335](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-ordinateur-2#r-911335)
+  
+* Sous Windows (WAMP) :  
+  [https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-ordinateur-2#r-911305](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-ordinateur-2#r-911305)
+  
+
+**Attention**, pensez à modifier le php.ini pour mettre `display_errors = On` et
+`error_reporting = E_ALL`, pour avoir les messages d'erreurs. Car par défaut, le
+serveur est configuré en mode production (`display_errors = Off`). Il faut
+redémarrer Apache pour que les modifications soient prises en compte.
+
+<!-- Si çà ne marche pas, c'est que l'on édite pas le bon php.ini . Afficher la
+configuration vec phpinfo() pour trouver le php.ini qui est utilisé -->
+
 
 <!--
-Référence utile : php.net
+Nombre d'arguments variable
+http://php.net/manual/fr/functions.arguments.php#functions.variable-arg-list
+
+... en PHP 5.6+
+
+utilisé dans la fonction comme un tableau
+function sum(...$numbers) { ...}
+
+à l'inverse, tableau vers liste d'arguments 
+add(...[1, 2])
+
 -->

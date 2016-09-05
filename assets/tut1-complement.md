@@ -1,51 +1,8 @@
 ---
-title: TD1 &ndash; Quelques compléments
+title: TD1 &ndash; Quelques compléments et rappels
 subtitle: 
 layout: tutorial
 ---
-
-## Les chaînes de caractères
-
-* Les chaînes de caractères avec *double quote* `"` peuvent contenir des
-  variables(qui seront remplacées), des sauts de lignes, des caractères
-  spéciaux (tabulation `\t`, saut de ligne `\n`). Les caractères protégés sont
-  `"`, `$` et `\` qui doivent être échappés comme ceci `\"`, `\$` et `\\`;
-   
-   Exemple :
-
-  ```php?start_inline=1
-  $prenom="Helmut";
-  echo "Bonjour $prenom,\n çà farte ?";
-  ```
-  
-  donne
-   
-  ```text
-  Bonjour Helmut,
-  çà farte ?
-  ```
-  
-  **Astuce :** En cas de problèmes, rajoutez des accolades autour de la variable
-    à remplacer. Cela marche aussi bien pour les tableaux `"{$tab[0]}"`, les
-    attributs `"{$objet->attribut}"` et les fonctions `"{$objet->fonction()}"`.
-   
-* Les chaînes de caractères avec *simple quote* `'` sont conservées telles quelles
-(pas de remplacement, de caractères spéciaux ...). Les caractères protégés sont
-`'` et `\` qui doivent être échappés comme ceci `\` et `\\`;
-
-### Require
-
-* `require` : fait un copier-coller d'un fichier externe
-
-* `require_once` : fait de même mais au plus une fois dans le fichier
-  courant. Cela évite de définir plusieurs fois la même classe dans le même
-  fichier à cause de plusieurs `require`.
-
-La bonne pratique veut que vous mettiez dans chaque fichier les `require_once` de
-toutes les classes que vous allez utiliser.
-
-<!-- Faire le lien avec ?import? de Java -->
-
 
 ## Encodage des caractères
 
@@ -71,7 +28,7 @@ La commande `iconv` est utile pour changer l'encodage des caractères d'un fichi
 % Tuto NetBeans
 -->
 
-<!--
+
 ## Comment faire pour qu'une page Web soit servie par le serveur HTTP sur infolimon ?
 
 On écrit une page Web dans le dossier **public_html** de son répertoire personnel et
@@ -94,26 +51,6 @@ groupe.
 Si on a activé le module Apache `mod_dir` qui permet de lister le
 contenu d'un dossier, il faut donner la permission de lecture sur les dossiers à
 Apache pour qu'il puisse lister leur contenu.
--->
-
-## Le `echo` *here document*
-
-Il existe un `echo` sur plusieurs ligne très pratique
-
-```php?start_inline=1
-echo <<< EOT
-  Texte à afficher
-  sur plusieurs lignes
-  avec caractères spéciaux \t \n
-  et remplacement de variables $prenom
-  les caractères suivants passent : " ' $ / \ ;
-EOT;
-```
-
-Cette syntaxe s'intitule le "here document" et permet d'afficher plusieurs
-lignes avec les mêmes caractéristiques que les chaînes entre *double quote*.
-Notez que la fin de la syntaxe doit apparaître sur une nouvelle ligne, avec
-uniquement un point-virgule, et pas d'espace de plus !
 
 {% comment %}
 ## Short tag `echo`

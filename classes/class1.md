@@ -49,7 +49,7 @@ en organisant son code avec l'architecture MVC
 **2ème bloc de TPs -- Mise en application sur le projet + TPs complémentaires :**
 
 * 17 Octobre   2016 - Début projet
-* 26 Octobre   2016 - 3h projet (lundi -> mercredi) puis Congé IUT
+* 24 Octobre   2016 - 3h projet (lundi -> mercredi) puis Congé IUT
 * 31 Octobre   2016 - Congé IUT puis 3h projet (jeudi -> vendredi)
 * 7  Novembre  2016 - Pas de TPs : Partiels IUT
 * 14 Novembre  2016 – TP 7 – Cookies & Sessions + 1h projet
@@ -994,17 +994,6 @@ Explication processus création page
 
 Dans une note séparées sur la page des TDs ?
 
-Installation Sous Windows WAMP : https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-ordinateur-2#r-911305
-
-Installation sous Mac OS X : MAMP : https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-ordinateur-2#r-911335
-
-Installation sous Linux :
-XAMP - https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-ordinateur-2#r-911385
-MariaDb (Open Source fork of MySQL)
-ou
-LAMP https://doc.ubuntu-fr.org/lamp
-+ phpmyadmin
-+ mod_user
 
 
 Serveur Web, diag client / serveur / php, file:/// http://
