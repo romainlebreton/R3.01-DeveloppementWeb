@@ -277,8 +277,8 @@ EOT;
 
 Cette syntaxe s'intitule le "here document" et permet d'afficher plusieurs
 lignes avec les mêmes caractéristiques que les chaînes entre *double quote*.
-Notez que la fin de la syntaxe doit apparaître sur une nouvelle ligne, avec
-uniquement un point-virgule, et pas d'espace de plus !
+Notez que la fin de la syntaxe doit apparaître **au début d'une nouvelle ligne** (pas d'espaces avant),
+avec uniquement un point-virgule, et **pas d'espace de plus à la fin** !
 
 Par exemple le code PHP précédent génère
 
