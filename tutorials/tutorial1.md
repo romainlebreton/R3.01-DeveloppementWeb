@@ -334,9 +334,13 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
   $coordonnees['nom'] = 'Dupont';
   ```
 
-  **NB :** En `PHP` les variables commencent par `$`
+  **Note :** Le tableau `$coordonnees` contient plusieurs associations. Par
+    exemple, il associe à la chaîne de caractères `'prenom'` la chaîne de
+    caractères `'François'`.  
+  Dans cette association, `'prenom'` s'appelle la **clé** (ou **index**) et
+`'François'` la **valeur**.
 
-* Ou l'initialiser en une fois
+* On peut aussi initialiser le tableau comme ceci
 
   ```php?start_inline=1
   $coordonnees = array (
@@ -347,7 +351,10 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
 
 * Notez l'existence des boucles
   [`foreach`](http://php.net/manual/fr/control-structures.foreach.php) pour
-  parcourir les paires clé/valeur des tableaux :
+  parcourir les paires clé/valeur des tableaux. La boucle `foreach` va boucler
+  sur les associations du tableau. Pour chaque association, `foreach` va mettre
+  la clé de l'association dans la variable `$cle` et la valeur dans `$valeur`
+  puis exécuter les commandes.
 
   ```php?start_inline=1
   foreach ($mon_tableau as $cle => $valeur){
@@ -355,9 +362,10 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
   }
   ```
 
-  **Remarque :** La boucle `foreach` est pratique pour parcourir les indices et
-  valeurs d'un tableau. Il existe aussi bien sûr une boucle `for` classique si
-  le tableau est indexé uniquement par des entiers
+  **Remarque :** La boucle `foreach` est indispensable pour parcourir les
+  indices et valeurs d'un tableau indexé par des chaînes de caractères.  
+  Il existe aussi bien sûr une boucle `for` classique si le tableau est indexé
+  uniquement par des entiers
 
   ```php?start_inline=1
   for ($i = 0; $i < count($mon_tableau); $i++) {
