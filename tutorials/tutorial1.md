@@ -350,7 +350,7 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
   parcourir les paires clé/valeur des tableaux :
 
   ```php?start_inline=1
-  foreach (array_expression as $cle => $valeur){
+  foreach ($mon_tableau as $cle => $valeur){
       //commandes
   }
   ```
@@ -360,8 +360,8 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
   le tableau est indexé uniquement par des entiers
 
   ```php?start_inline=1
-  for ($i = 0; $i < count($this->options); $i++) {
-      echo $this->options[$i];
+  for ($i = 0; $i < count($mon_tableau); $i++) {
+      echo $mon_tableau[$i];
   }
   ```
 
