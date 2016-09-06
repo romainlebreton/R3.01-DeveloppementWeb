@@ -399,7 +399,7 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
 
 4. Maintenant nous souhaitons afficher une liste de voitures :
 
-   * Créez une liste `$voitures` de quelques voitures
+   * Créez une liste (un tableau indexé par des entiers) `$voitures` de quelques voitures 
 
    * Modifier votre code d'affichage pour écrire proprement en HTML un titre
      "Liste des voitures :" puis une liste (`<ul>`) contenant les informations
