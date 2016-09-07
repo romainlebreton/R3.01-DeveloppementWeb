@@ -520,7 +520,7 @@ mais en affichant la voiture courante ;
    ```
 
 2. Souvenez-vous (ou relisez le
-   [cours 1](({{site.baseurl}}/classes/class1.html))) de la signification des
+   [cours 1]({{site.baseurl}}/classes/class1.html)) de la signification des
    attributs `action` de `<form>` et `name` de `<input>`
 
    <!-- L'attribut important des `<input type="text">` est `name="marque"` qui indique -->
@@ -538,7 +538,7 @@ mais en affichant la voiture courante ;
 3. Créez des champs dans le formulaire pour pouvoir rentrer la marque et la couleur de la voiture.
 
 4. Souvenez-vous (ou relisez le
-   [cours 1](({{site.baseurl}}/classes/class1.html))) de ce que fait un clic sur le bouton **"Envoyer"**.  
+   [cours 1]({{site.baseurl}}/classes/class1.html)) de ce que fait un clic sur le bouton **"Envoyer"**.  
    Vérifiez en cliquant sur ce bouton.
    
    **Comment sont transmises les informations ?**  
