@@ -218,14 +218,14 @@ fichiers OU de façon équivalente avec une URL en `file://` comme :
 
    ```php?start_inline=1
    $prenom="Helmut";
-   echo "Bonjour $prenom,\n çà farte ?";
+   echo "Bonjour $prenom,\n ça farte ?";
    ```
   
    donne
    
    ```text
    Bonjour Helmut,
-   çà farte ?
+   ça farte ?
    ```
   
    **Astuce :** En cas de problèmes avec le remplacement de variables, rajoutez
@@ -241,13 +241,13 @@ protégés sont `'` et `\` qui doivent être échappés avec un anti-slash comme
    **Exemple :**
 
    ```php?start_inline=1
-   echo 'Bonjour $prenom,\n çà farte ?';
+   echo 'Bonjour $prenom,\n ça farte ?';
    ```
   
    donne
    
    ```text
-   Bonjour $prenom,\n çà farte ?
+   Bonjour $prenom,\n ça farte ?
    ```
 
 3. La concaténation de chaînes de caractères se fait avec l'opérateur point `.`  
@@ -611,7 +611,7 @@ ce sera très utile pour la suite et notamment pour le projet.
 serveur est configuré en mode production (`display_errors = Off`). Il faut
 redémarrer Apache pour que les modifications soient prises en compte.
 
-<!-- Si çà ne marche pas, c'est que l'on édite pas le bon php.ini . Afficher la
+<!-- Si ça ne marche pas, c'est que l'on édite pas le bon php.ini . Afficher la
 configuration vec phpinfo() pour trouver le php.ini qui est utilisé -->
 
 
