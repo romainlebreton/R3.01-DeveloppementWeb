@@ -395,7 +395,7 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
    remplaçant bien sûr la marque par le contenu de la variable `$marque` ...) :
 
    ```html
-   <p> Voiture 256AB34 de marque Renault (couleur bleu) </p>"
+   <p> Voiture 256AB34 de marque Renault (couleur bleu) </p>
    ```
 
 3. Faisons maintenant la même chose mais avec un tableau associatif `voiture`:
