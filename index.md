@@ -40,3 +40,9 @@ Cours à l'IUT de Montpellier - 2ème année
 <!-- ## Instructions du projet -->
 
 <!-- [Instructions du projet](projet.html) -->
+
+## Chat
+
+Le chat
+[gitter.im/romainlebreton/ProgWeb-CoteServeur ![Join the chat at https://gitter.im/romainlebreton/ProgWeb-CoteServeur](https://badges.gitter.im/romainlebreton/ProgWeb-CoteServeur.svg)](https://gitter.im/romainlebreton/ProgWeb-CoteServeur)
+vous permet de discuter au sujet de ce cours à tout moment (nécessite un compte GitHub ou Twitter).
