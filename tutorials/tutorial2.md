@@ -7,6 +7,8 @@ layout: tutorial
 
 <!-- Attention, j'ai enlevé le constructeur par défaut __construct(); -->
 
+<!-- Rajouter quelques question au début du TD pour vérifier la compréhension -->
+
 
 Dans le TD1 vous avez appris à créer des classes et à instancier des objets de
 ces classes.  Mais, comme vous l'avez constaté, la durée de vie des objets ainsi
@@ -23,6 +25,9 @@ régulièrement chaque nouvelle partie de code.
 
 ## Connexion à la base de données
 
+### Les bases de PHPMyAdmin
+
+<div class="exercise">
 1. Connectez vous à votre base de données MySQL, à l'aide de l'interface
 PhpMyAdmin
 [http://infolimon.iutmontp.univ-montp2.fr/my](http://infolimon.iutmontp.univ-montp2.fr/my)
@@ -30,10 +35,20 @@ Le login est votre login IUT et votre mot de passe initial votre numéro  INE.
 (Si vous êtes sur votre machine, allez sur votre phpmyadmin à l'adresse
 [http://localhost/phpmyadmin](http://localhost/phpmyadmin)).
 
-2. Changez votre mot de passe en quelque chose de simple et pas secret. En
-   effet, vous devrez bientôt écrire ce mot de passe en clair dans un fichier.
-   Si vous n'arrivez pas à vous logger après avoir changé le mot de passe,
-   essayer avec un autre navigateur ou bien videz le cache du navigateur.
+2. Changez votre mot de passe et reloguez-vous. Si vous n'arrivez pas à vous
+   logger après avoir changé le mot de passe, essayer avec un autre navigateur
+   ou bien videz le cache du navigateur (`Ctrl+F5`).
+
+
+   **Attention :** N'utilisez pas un de vos mots de passe usuels car
+   nous allons bientôt écrire ce mot de passe dans un fichier qui sera sans
+   doute vu par le professeur ou votre voisin.  
+   Donc vous avez deux possibilités :
+
+   * (**recommandé**). Créez un mot de passe aléatoire à l'aide de
+     [https://www.random.org/passwords/](https://www.random.org/passwords/) par
+     exemple. Écrivez dès maintenant ce mot de passe dans un fichier.
+   * Ou choisissez quelque chose de simple et de pas secret.
 
 2. Créez une table `voiture` possédant 3 champs :
 
@@ -51,12 +66,25 @@ Le login est votre login IUT et votre mot de passe initial votre numéro  INE.
 4. Dans la suite du TD, pensez à systématiquement tester vos requêtes SQL dans
    PhpMyAdmin avant de les inclure dans vos pages PHP.
 
-### Configuration
+</div>
 
-Pour avoir un code portable, il est préférable de ne pas utiliser les
-informations du serveur directement dans le code.
+### Fichier de configuration en PHP
 
-1. Commencez par créer un fichier `Conf.php`. Ce fichier contiendra une classe
+Pour avoir un code portable, il est préférable de séparer les informations du
+serveur du reste du code PHP.
+
+<div class="exercise">
+
+1. Commençons par configurer notre éditeur de pages Web. Vous avez le choix :
+
+   * soit vous utilisez **NetBeans**. Configurer votre premier projet en suivant
+     les indications 
+     [dans les compléments du TD2.]({{site.baseurl}}/assets/tut2-complement.html#crer-un-projet-avec-netbeans)
+   * soit vous avez déjà un éditeur de pages Web préféré mais il **faut**
+     * qu'il prenne en charge la coloration syntaxique
+     * qu'il sache indenter automatiquement votre code
+
+1. Créez un fichier `Conf.php`. Ce fichier contiendra une classe
    `Conf` possédant un  attribut statique `$databases` comme suit.
    
    <!-- Sont-ils à l'aise avec les attributs statiques ? -->
@@ -64,9 +92,6 @@ informations du serveur directement dans le code.
    **Notes :**
 
    * Où doit-on enregistrer un page Web ? (Souvenez-vous du TD précédent)
-   * À moins que vous n'ayez déjà un éditeur de pages Web (qui gère au moins
-   l'indentation), utilisez NetBeans. Vous trouverez les indications de bases
-   sur NetBeans [dans cette note.]({{site.baseurl}}/assets/TutoNetBeans.html)
    * Qu'est-ce qu'un attribut ou une méthode **statique** ? (Cours de Programmation
    Orientée Objet de l'an dernier)
 
@@ -106,7 +131,9 @@ ouvrira dans le navigateur.
    
    ```php
    <?php
-     require 'Conf.php';     //equivalent du import en Java
+     // On inclut les fichiers de classe PHP avec require_once
+     // pour éviter qu'ils soient inclus plusieurs fois
+     require_once 'Conf.php';
 
      // On affiche le login de la base de donnees
      echo Conf::getLogin();
@@ -122,17 +149,20 @@ la classe comme en Java, mais en utilisant `::` au lieu du `.` en
 Java. Souvenez-vous que les méthodes classiques (c'est-à-dire pas `static`)
 s'appellent avec `->` en PHP.
 
+</div>
 
-### L'objet **PDO**
+### Initialiser un objet **PDO**
 
-En PHP pour se connecter à une base de données on utilise une classe fournie
+Pour se connecter à une base de données en PHP on utilise une classe fournie
 avec PHP qui s'appelle **PDO**
 ([Php Data Object](http://php.net/manual/fr/book.pdo.php)). Cette classe va nous
 fournir de nombreuses méthodes très utiles pour manipuler n'importe quelle base
 de donnée.
 
+<div class="exercise">
+
 1. Commençons par établir une connexion à la BDD. Créez un fichier `Model.php`
-   contenant une classe `Model`. Ce modèle possédera 
+   déclarant une classe `Model`. Cette classe possédera 
    * un attribut `public static $pdo` <!-- protected -->
    * une fonction `public static function Init()`.
 
@@ -142,31 +172,52 @@ de donnée.
 2. Dans la fonction `Init`, nous allons initialiser l'attribut `$pdo` en lui
    assignant un objet **PDO**. Procédons en 3 étapes :
    
-   1. Mettez dans les variables `$host`, `$dbname`, `$login` et `$pass` les chaînes
+   1. Mettez dans les variables `$hostname`, `$database_name`, `$login` et `$password` les chaînes
    de caractères correspondant à l'hôte, au nom, au login et au mot de passe de
    notre BDD. Récupérez ces informations à l'aide des fonctions de la classe `Conf`.
 
    2. Pour créer la connexion à notre base de donnée, il faut utiliser le
-   constructeur de **PDO** de la façon suivante
+   [constructeur de **PDO**](http://php.net/manual/fr/pdo.construct.php) de la
+   façon suivante
    
       ```php?start_inline=1
-      new PDO("mysql:host=$host;dbname=$dbname",$login,$pass);
+      new PDO("mysql:host=$hostname;dbname=$database_name",$login,$password);
       ```
    
       Stockez ce nouvel objet **PDO** dans la variable statique `self::$pdo`.  
-      **Note :** Comme la variable est statique, elle s'accède par une syntaxe
+      **Explication :** Comme la variable est statique, elle s'accède par une syntaxe
    `Type::$nom_var` comme indiqué précédemment. Le type de l'objet courant
    s'obtient avec le mot clé `self`.
 
    4. Comme notre classe `Model` dépend de `Conf.php`, ajoutez un `require_once
-   'Conf.php'` au début du fichier.  
-   Enfin, on souhaite que `Model` soit initialisée juste après sa
+   'Conf.php'` au début du fichier.
+
+   5. Enfin, on souhaite que `Model` soit initialisée juste après sa
    déclaration. Appelez donc l'initialisation statique `Model::Init()` à la fin
    du fichier.
+   
+   6. Testons dès à présent notre nouvelle classe. Créez le fichier
+   `testModel.php` suivant. Vérifiez que l'exécution de `testModel.php` ne donne
+   pas de messages d'erreur.
 
-2. Lorsqu'une erreur se produit, PDO n'affiche pas de message d'erreur. À la
-place, il lève une exception qu'il faut donc récupérer et traiter. Placez donc
-votre `new PDO(...)` au sein d'un try - catch :
+   ```php
+   <?php
+   require_once "Model.php";
+   echo "Connexion réussie !" ;
+   ?>
+   ```
+
+
+</div>
+<br>
+Nous allons maintenant améliorer la gestion des erreurs de PDO.
+
+
+<div class="exercise">
+
+2. Lorsqu'une erreur se produit, PDO lève une exception qu'il faut donc
+récupérer et traiter. Placez donc votre `new PDO(...)` au sein d'un try - catch
+:
 
    ```php?start_inline=1
    try{
@@ -180,17 +231,6 @@ votre `new PDO(...)` au sein d'un try - catch :
    Vous remarquerez que la syntaxe des exceptions en PHP est très semblable à celle
    de Java.
 
-3. Testons dès à présent notre nouvelle classe. Créez le fichier `testModel.php`
-   suivant. Vérifiez que vous obtenez bien le message lorsque vous ouvrez ce
-   fichier dans le navigateur.
-
-   ```php
-   <?php
-   require_once "Model.php";
-   echo "Connexion réussie !" ;
-   ?>
-   ```
-
 4. Pour avoir plus de messages d'erreur de PDO et qu'il gère mieux l'UTF-8,
   **mettez à jour** la connexion dans `Model` avec
 
@@ -198,7 +238,7 @@ votre `new PDO(...)` au sein d'un try - catch :
    // Connexion à la base de données            
    // Le dernier argument sert à ce que toutes les chaines de caractères 
    // en entrée et sortie de MySql soit dans le codage UTF-8
-   self::$pdo = new PDO("mysql:host=$host;dbname=$dbname", $login, $pass,
+   self::$pdo = new PDO("mysql:host=$hostname;dbname=$database_name", $login, $password,
                         array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
    
    // On active le mode d'affichage des erreurs, et le lancement d'exception en cas d'erreur
@@ -216,11 +256,55 @@ Il est important que tout bout de codes utilisant PDO soit dans un `try` -
 **Question :** Avez-vous compris pourquoi on souhaite que la connexion à la BDD
   (stockée dans `Model::$pdo`) soit un attribut statique ?
 
+<!-- Réponse : Pour s'assurer de ne créer la connexion à la BDD qu'une fois. En
+effet, un attribut statique est associé à la classe, donc il ne peut y avoir
+qu'un Model::$pdo -->
+
+</div>
+
 ## Opérations sur la base de données
 
-Voyons maintenant comment les objets **PDO** servent à effectuer des requêtes SQL.
+Voyons maintenant comment les objets **PDO** servent à effectuer des requêtes
+SQL. Nous allons nous servir de deux méthodes fournies par PDO :
 
-### Consulter la base de données
+1. La [méthode `query($SQL_request)`](http://php.net/manual/fr/pdo.query.php) de
+la classe **PDO** `Model::$pdo`
+   * prend en entrée une requête SQL (chaîne de
+   caractères)
+   * et renvoie la réponse de la requête dans une représentation interne pas
+     immédiatement lisible
+     ([un objet `PDOStatement`](http://php.net/manual/fr/class.pdostatement.php)).
+
+2. La
+   [méthode `fetchAll($fetch_style)`](http://php.net/manual/fr/pdostatement.fetchall.php)
+   s'appelle sur les réponses de requêtes (classe `PDOStatement`) et renvoie la
+   réponse de la requête dans un format lisible par PHP.  
+   Le choix du format se fait avec la
+   [variable `$fetch_style`](http://php.net/manual/fr/pdostatement.fetch.php#refsect1-pdostatement.fetch-parameters). Les
+   plus communes sont :
+
+   * `PDO::FETCH_ASSOC` : retourne un tableau indexé par le nom de la colonne comme
+     retourné dans le jeu de résultats ;
+
+   * `PDO::FETCH_OBJ` : retourne un objet anonyme avec les noms de propriétés qui
+     correspondent aux noms des colonnes retournés dans le jeu de résultats ;
+
+   * `PDO::FETCH_CLASS` : retourne une nouvelle instance de la classe demandée,
+     liant les colonnes du jeu de résultats aux noms des propriétés de la
+     classe.  
+     Dans ce cas, il faut avoir au préalable déclaré le nom de la classe à créer
+     avec la commmande suivante :
+
+     ```php?start_inline=1
+     $pdo_stmt->setFetchMode( PDO::FETCH_CLASS, 'class_name');
+     ```
+
+     **Note :** Plus précisément, PDO va dans l'ordre créer une instance de la
+       classe demandée, écrire les attributs correspondants au champs de la BDD
+       **puis** appeler le constructeur *sans arguments*.
+
+
+### Faire une requête SQL sans paramètres
 
 Commençons par la requête SQL la plus simple, celle qui lit tous les éléments
 d'une table (`voiture` dans notre exemple) :
@@ -229,118 +313,134 @@ d'une table (`voiture` dans notre exemple) :
 SELECT * FROM voiture
 ```
 
+<div class="exercise">
 
-1. Créez un fichier `lireVoiture.php` avec les éléments suivants
+1. Créez un fichier `lireVoiture.php`
 
-   i. Récupérons la connexion à la BDD de Model.php. Il faut donc faire un
-   `require_once "Model.php"`.
+2. Incluez le fichier contenant la classe `Model` pour pouvoir se connecter à la
+   BDD.
+   <!-- require_once "Model.php"; -->
    
-   ii. La [fonction `query`](http://php.net/manual/fr/pdo.query.php) de l'objet
-   **PDO** `Model::$pdo` prend en entrée un chaîne de caractères représentant
-   une requête SQL et renvoie la réponse de la requête (sous la forme
-   [d'un objet PDOStatement](http://php.net/manual/fr/class.pdostatement.php)).   
-   Appelez cette fonction et stockez sa réponse dans une variable `$rep`.
-   
-   iii. Pour lire les réponses à des requêtes SQL, vous pouvez utiliser
+3. Appelez la fonction `query` de l'objet **PDO** `Model::$pdo` en lui donnant
+   la requête SQL. Stockez sa réponse dans une variable `$rep`.
+
+4. Comme expliqué précédemment, pour lire les réponses à des requêtes SQL, vous
+   pouvez utiliser
 
    ```php?start_inline=1
    $tab_obj = $rep->fetchAll(PDO::FETCH_OBJ)
    ```
 
    qui renvoie un tableau d'objets `tab_obj` ayant pour attributs les champs de
-   la BDD.  Chacun des objets `$obj` de `$tab_obj` contient donc trois attributs
-   `immatriculation`, `couleur` et `marque` (les champs de la BDD) qui sont
-   accessibles classiquement par `$obj->immatriculation`, .... Utilisez une
-   boucle [`foreach`](http://php.net/manual/fr/control-structures.foreach.php)
-   comme au TD précédent pour itérer sur le tableau `$tab_obj`.
+la BDD.  Chacun des objets `$obj` de `$tab_obj` contient donc trois attributs
+`immatriculation`, `couleur` et `marque` (les champs de la BDD) qui sont
+accessibles classiquement par `$obj->immatriculation`, ....
 
-Utilisez cette fonction pour écrire une boucle qui affiche tous les champs de
-   toutes les entrées de la table voiture.
+   **Utilisez la fonction `fetchAll`** pour afficher toutes les
+voitures. Servez-vous d'une boucle
+[`foreach`](http://php.net/manual/fr/control-structures.foreach.php) comme au TD
+précédent pour itérer sur le tableau `$tab_obj`.
 
-2. Ce code fonctionne mais ne crée pas d'objets de la classe `Voiture` sur
-lesquelles l'on pourrait appeler des méthodes (par exemple `afficher`).  Mettez
-à jour le code de `lireVoiture.php` pour utiliser le code précédent et faire
-l'affichage à l'aide de la fonction `afficher()` de `Voiture` en lisant bien les
-trois points suivants :
+</div>
+<br>
+Ce code fonctionne mais ne crée pas d'objets de la classe `Voiture` sur
+lesquelles l'on pourrait appeler des méthodes (par exemple `afficher`).
 
+<div class="exercise">
 
+Nous allons mettre à jour le code de `lireVoiture.php` pour
+faire l'affichage à l'aide de la fonction `afficher()` de `Voiture`.
 
-   1. Voici comment récupérer directement un objet de la classe `Voiture`.
+Comme expliqué précédemment, vous pouvez récupérer directement un objet de la
+classe `Voiture` avec
 
-      ```php?start_inline=1
-      $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
-      $tab_voit = $rep->fetchAll();
-      ```
-
-      **Note :** La variable `$tab_voit` contient un tableau de `Voiture`. Pour afficher les
-     voitures, il faudra itérer sur le tableau avec une boucle
-     [`foreach`](http://php.net/manual/fr/control-structures.foreach.php).
-
-   2. Pensez à importer la classe `Voiture` à l'aide de l'appel `require_once
-      'Voiture.php';`
-
-   3. Avec l'option <code id="majconst">PDO::FETCH_CLASS</code>, PDO va créer une instance de la
-   classe `Voiture`, écrire les attributs correspondants au champs de la BDD
-   **puis** appeler le constructeur sans arguments.  
-   **Adaptons donc l'ancien constructeur de `Voiture` pour qu'il accepte aucun
-     argument et trois arguments.**
-
-      ```php?start_inline=1
-      public function __construct($m = NULL, $c = NULL, $i = NULL) {
-        if (!is_null($m) && !is_null($c) && !is_null($i)) {
-          $this->marque = $m;
-          $this->couleur = $c;
-          $this->immatriculation = $i;
-        }
-        $this->options = array();
-      }
-      ```
+```php?start_inline=1
+$rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
+$tab_voit = $rep->fetchAll();
+```
 
 
+2. Incluez le fichier de la classe `Voiture` pour pouvoir l'utiliser ;
 
-3. Nous allons réorganiser ce code. Créez une fonction statique
+3. Avec l'option <code id="majconst">PDO::FETCH_CLASS</code>, PDO va créer une instance de la
+classe `Voiture`, écrire les attributs correspondants au champs de la BDD
+**puis** appeler le constructeur sans arguments.  
+**Adaptons donc l'ancien constructeur de `Voiture` pour qu'il accepte aussi un
+  appel sans arguments (en plus d'un appel avec trois arguments).**
+
+   ```php?start_inline=1
+   public function __construct($m = NULL, $c = NULL, $i = NULL) {
+     if (!is_null($m) && !is_null($c) && !is_null($i)) {
+       $this->marque = $m;
+       $this->couleur = $c;
+       $this->immatriculation = $i;
+     }
+   }
+   ```
+
+3. Vous pouvez maintenant appeler `fetchAll` dans `lireVoiture.php` et faire
+   l'affichage à l'aide de la méthode `afficher()`.
+
+   **Note :** La variable `$tab_voit` contient un tableau d'objets de classe
+   `Voiture`. Pour afficher les voitures, il faudra itérer sur le tableau avec une
+   boucle [`foreach`](http://php.net/manual/fr/control-structures.foreach.php).
+
+</div>
+<div class="exercise">
+
+Nous allons maintenant isoler le code qui retourne toutes les voitures et en faire une méthode de `Voiture`.
+
+1. Créez une fonction statique
    `getAllVoitures()` dans la classe `Voiture` qui ne prend pas d'arguments et
-   renvoie le tableau des voitures de la BDD. Mettez à jour `lireVoiture.php`.
+   renvoie le tableau des voitures de la BDD.
+
+2. Mettez à jour `lireVoiture.php` pour appeler directement cette nouvelle fonction.
+
+</div>
 
 ### Gestion des erreurs
 
-2. Dans un site en production, pour des raisons de sécurité et de confort
+Dans un site en production, pour des raisons de sécurité et de confort
 d'utilisation, il est déconseillé d'afficher directement un message d'erreur. Pour
 cela on va créer une variable pour activer ou désactiver l'affichage des
 messages d'erreurs.
 
-   Dans la classe `Conf`, ajouter un attribut statique `debug` et son getter
-   publique.
+<div class="exercise">
 
-   ```php
-   <?php
-     class Conf{
-      ...
-      
-       // la variable debug est un boolean
-       static private $debug = True; 
-       
-       static public function getDebug() {
-       	return self::$debug;
-       }
-   }
-   ?>
-   ```
+Dans la classe `Conf`, ajouter un attribut statique `debug` et son getter
+publique.
+
+```php
+<?php
+  class Conf{
+   ...
    
-   Ainsi on peut modifier les messages d'erreurs dans les `catch`.
+    // la variable debug est un boolean
+    static private $debug = True; 
+    
+    static public function getDebug() {
+    	return self::$debug;
+    }
+}
+?>
+```
    
-   ```php?start_inline=1
-   try {
-     ...
-   } catch (PDOException $e) {
-     if (Conf::getDebug()) {
-       echo $e->getMessage(); // affiche un message d'erreur
-     } else {
-       echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
-     }
-     die();
-   }
-   ```
+Ainsi on peut modifier les messages d'erreurs dans les `catch`.
+   
+```php?start_inline=1
+try {
+  ...
+} catch (PDOException $e) {
+  if (Conf::getDebug()) {
+    echo $e->getMessage(); // affiche un message d'erreur
+  } else {
+    echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
+  }
+  die();
+}
+```
+   
+</div>
 
 ### Site de covoiturage
 
