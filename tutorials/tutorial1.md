@@ -5,44 +5,12 @@ layout: tutorial
 ---
 
 <!--
-FAIRE UNE PRESENTATION GLOBALE DU MODULE, DE SON EVALUATION, EDT PREVISIONNEL, COEFFICIENT
--->
-
-<!--
-Dire un mot sur les chaînes de caractères et
-require ? (cf tut1-complement)
-
-CORRIGER LES LIENS VERS tut1-complement ...
--->
-
-<!--
-
-Rajouter un exercice qui fait écrire un lien HTML en PHP avec une partie variable.
-Genre:
-
-Un formulaire où on rentre le nom et l'adresse d'un lien et qui crée le lien
-
-OU
-
-$liens = array("index","contact") et crée le menu
-
-OU
-
-Créer un lien de type GET
-
-Leur faire regarder l'onglet Réseau pour voir la requête GET
--->
-
-<!--
-Parler de var_dump ou print_r
--->
-
-<!--
 Reprendre le fil rouge de site de covoiturage
 -->
 
 <!--
-Plus d'indications sur l'installation
+Présentez les getter et setter génériques à l'aide de $objet->$attr_name
+http://php.net/manual/en/language.oop5.php
 -->
 
 ## Méthodologie
@@ -400,14 +368,25 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
 
 3. Faisons maintenant la même chose mais avec un tableau associatif `voiture`:
 
-   * Créez un tableau `voiture` contenant trois clés `"marque"`, `"couleur"` et
+   * Créez un tableau `$voiture` contenant trois clés `"marque"`, `"couleur"` et
    `"immatriculation"` et les valeurs de votre choix ;
 
-   * Mettez à jour votre code PHP pour afficher le contenu du tableau
+   * Utilisez l'un des affichages de débogage (*e.g.* `var_dump`) pour vérifier
+     que vous avez bien rempli votre tableau ;
+
+   * Affichez le contenu de la "voiture-tableau" au même format HTML 
+
+   ```html
+   <p> Voiture 256AB34 de marque Renault (couleur bleu) </p>
+   ```
 
 4. Maintenant nous souhaitons afficher une liste de voitures :
 
-   * Créez une liste (un tableau indexé par des entiers) `$voitures` de quelques voitures 
+   * Créez une liste (un tableau indexé par des entiers) `$voitures` de quelques
+     "voitures-tableaux" ;
+
+   * Utilisez l'un des affichages de débogage (*e.g.* `var_dump`) pour vérifier
+     que vous avez bien rempli  `$voitures` ;
 
    * Modifier votre code d'affichage pour écrire proprement en HTML un titre
      "Liste des voitures :" puis une liste (`<ul>`) contenant les informations
@@ -545,11 +524,15 @@ mais en affichant la voiture courante ;
    **Comment s'appelle la partie de l'URL contenant les informations ?**
 
 
-5. Créez un fichier `creerVoiture.php` à partir du code de `testVoiture.php` qui
-   affiche les informations de la voiture envoyée par le formulaire.  
-   Aidez-vous du [cours 1]({{site.baseurl}}/classes/class1.html) pour savoir
-   comment récupérer l'information.  
-   Bien sûr, **testez votre page** en la demandant à `infolimon`.
+5. Créez un fichier `creerVoiture.php` :
+
+   1. Aidez-vous si nécessaire du [cours 1]({{site.baseurl}}/classes/class1.html)
+   pour savoir comment récupérer l'information envoyée par le formulaire.
+   1. Vérifiez que `creerVoiture.php` reçoit bien des informations dans le *query
+   string*. Pour cela, vérifiez que le tableau `$_GET` n'est pas vide.
+   1. En reprenant du code de `testVoiture.php`, faites que `creerVoiture.php`
+   affiche les informations de la voiture envoyée par le formulaire.
+   1. Bien sûr, **testez votre page** en la demandant à `infolimon`.
 
 6. Afin d'éviter que les paramètres du formulaire n'apparaissent dans l'URL, modifiez 
    le formulaire pour qu'il appelle la méthode POST :
@@ -560,11 +543,13 @@ mais en affichant la voiture courante ;
    
    et côté `creerVoiture.php`, mettez à jour la récupération des paramètres.
 
-7. Souvenez-vous (ou relisez le
-   [cours 1](({{site.baseurl}}/classes/class1.html))) de où passe l'information
-   envoyée par un formulaire de méthode POST.  
-   Essayez de [**retrouver l'information**]({{site.baseurl}}/classes/class1.html#coutons-le-rseau) avec les outils de développement
-   (Onglet Réseau).
+7. 1. Souvenez-vous (ou relisez le
+   [cours 1](({{site.baseurl}}/classes/class1.html))) de par où passe
+   l'information envoyée par un formulaire de méthode POST ;
+   1. Changez `creerVoiture.php` pour récupérer l'information envoyée par le formulaire ;
+   1. Essayez de
+   [**retrouver l'information envoyée par le formulaire**]({{site.baseurl}}/classes/class1.html#coutons-le-rseau)
+   avec les outils de développement (Onglet Réseau).
 
    
 ## Les bases d'un site de covoiturage
