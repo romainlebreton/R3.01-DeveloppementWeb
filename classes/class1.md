@@ -16,7 +16,7 @@ en organisant son code avec l'architecture MVC
 
 * Q1 - Mardi 15h45 - Romain Lebreton
 * Q2 - Mercredi 10h15 - Sébastien Gagné
-* Q3 - Vendredi 12h30 (horaire provisoire) - Auréline Quatrehomme
+* Q3 - Vendredi 12h30 - Auréline Quatrehomme
 * Q4 - Vendredi 09h15 - Romain Lebreton
 
 **Cours et TP en ligne :**
