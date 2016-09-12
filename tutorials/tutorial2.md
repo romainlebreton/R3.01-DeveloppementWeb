@@ -31,7 +31,7 @@ régulièrement chaque nouvelle partie de code.
 1. Connectez vous à votre base de données MySQL, à l'aide de l'interface
 PhpMyAdmin
 [http://infolimon.iutmontp.univ-montp2.fr/my](http://infolimon.iutmontp.univ-montp2.fr/my)
-Le login est votre login IUT et votre mot de passe initial votre numéro  INE.  
+Le login est votre login IUT et votre mot de passe initial votre numéro INE.  
 (Si vous êtes sur votre machine, allez sur votre phpmyadmin à l'adresse
 [http://localhost/phpmyadmin](http://localhost/phpmyadmin)).
 
@@ -91,7 +91,7 @@ serveur du reste du code PHP.
 
    **Notes :**
 
-   * Où doit-on enregistrer un page Web ? (Souvenez-vous du TD précédent)
+   * Où doit-on enregistrer une page Web ? (Souvenez-vous du TD précédent)
    * Qu'est-ce qu'un attribut ou une méthode **statique** ? (Cours de Programmation
    Orientée Objet de l'an dernier)
 
