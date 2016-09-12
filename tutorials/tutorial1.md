@@ -451,8 +451,7 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
 
 3. Créez des getter et des setter pour `$couleur` et `$immatriculation` ;
 
-4. Remplissez `afficher()` avec votre code d'affichage de l'exercice précédent
-mais en affichant la voiture courante ;
+4. Remplissez `afficher()` qui permet d'afficher les informations de la voiture courante (regardez le code du constructeur de la classe Voiture : comme en Java, on peut utiliser le mot-clé `this` mais suivi de `->`) ;
 
 5. Testez que votre classe est valide pour PHP : la page générée par le serveur
    Web `infolimon` à partir de `Voiture.php` ne doit pas afficher d'erreur.  
