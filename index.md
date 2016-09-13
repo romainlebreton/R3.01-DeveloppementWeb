@@ -33,9 +33,10 @@ Cours à l'IUT de Montpellier - 2ème année
 
 ### Notes complémentaires
 
-1. [HTTP, rôle du PHP, URL et formulaires]({{site.baseurl}}/assets/tut1-complement.html)
-2. [Requête préparée, injection SQL et require]({{site.baseurl}}/assets/tut2-complement.html)
-<!-- 3. [Upload de fichiers]({{site.baseurl}}/assets/tut3-complement.html) -->
+1. [Encodage des caractères, serveur HTTP de l'IUT et note sur les URLs]({{site.baseurl}}/assets/tut1-complement.html)
+2. [NetBeans, attributs et méthodes statiques]({{site.baseurl}}/assets/tut2-complement.html)
+<!-- 3. [Requête préparée, injection SQL]({{site.baseurl}}/assets/tut3-complement.html) -->
+<!-- 4. [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html) -->
 
 <!-- ## Instructions du projet -->
 

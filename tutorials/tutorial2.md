@@ -53,7 +53,7 @@ Le login est votre login IUT et votre mot de passe initial votre numéro INE.
 2. Créez une table `voiture` possédant 3 champs :
 
    * `immatriculation` de type `VARCHAR` et de longueur maximale 8, défini comme la
-     clé primaire
+     clé primaire (Index : `Primary`)
    * `marque` de type `VARCHAR` est de longueur maximale 25.
    * `couleur` de type `VARCHAR` est de longueur maximale 12.
    
@@ -85,7 +85,8 @@ serveur du reste du code PHP.
      * qu'il sache indenter automatiquement votre code
 
 1. Créez un fichier `Conf.php`. Ce fichier contiendra une classe
-   `Conf` possédant un  attribut statique `$databases` comme suit.
+   `Conf` possédant un attribut statique `$databases` comme suit
+   (changez bien sûr les `a_remplir`).
    
    <!-- Sont-ils à l'aise avec les attributs statiques ? -->
 
@@ -172,10 +173,6 @@ de donnée.
 2. Dans la fonction `Init`, nous allons initialiser l'attribut `$pdo` en lui
    assignant un objet **PDO**. Procédons en 3 étapes :
    
-   1. Mettez dans les variables `$hostname`, `$database_name`, `$login` et `$password` les chaînes
-   de caractères correspondant à l'hôte, au nom, au login et au mot de passe de
-   notre BDD. Récupérez ces informations à l'aide des fonctions de la classe `Conf`.
-
    2. Pour créer la connexion à notre base de donnée, il faut utiliser le
    [constructeur de **PDO**](http://php.net/manual/fr/pdo.construct.php) de la
    façon suivante
@@ -189,6 +186,13 @@ de donnée.
    `Type::$nom_var` comme indiqué précédemment. Le type de l'objet courant
    s'obtient avec le mot clé `self`.
 
+   1. Le code précédent a besoin que les variables `$hostname`,
+   `$database_name`, `$login` et `$password` contiennent les chaînes
+   de caractères correspondant à l'hôte, au nom, au login et au mot de
+   passe de notre BDD. Créez donc ces variables avant le `new PDO` en
+   récupérant les informations à l'aide des fonctions de la classe
+   `Conf`.
+   
    4. Comme notre classe `Model` dépend de `Conf.php`, ajoutez un `require_once
    'Conf.php'` au début du fichier.
 
