@@ -1,16 +1,16 @@
 ---
-title: TD3 &ndash; Fin TD2 et association de classes
+title: TD3 &ndash; Requêtes préparées et association de classes
 subtitle: SQL JOIN
 layout: tutorial
 ---
 
-Dans ce TD, nous allons reprendre et finir le TD précédent sur l'enregistrement
-des données dans une BDD en utilisant la classe `PDO` de PHP. Nous reprenons à
-partir du concept très important de requêtes préparées. Puis nous coderons des
-associations entre plusieurs tables de la BDD.
+Ce TD3 est le prolongement du TD2 sur l'enregistrement des données dans une BDD
+en utilisant la classe `PDO` de PHP. Nous poursuivons par le concept très
+important de requêtes préparées. Puis nous coderons des associations entre
+plusieurs tables de la BDD.
 
 **Attention :** Il est nécessaire d'avoir fini
-  [la section 2.1 du TD précédent](tutorial2.html#consulter-la-base-de-donnes),
+  [la section 2.1 du TD précédent](tutorial2.html#faire-une-requte-sql-sans-paramtres),
   qui vous faisait coder votre première requête `SELECT * FROM voiture`, pour
   attaquer ce TD.
 
@@ -43,29 +43,45 @@ L'utilisateur pourrait rentrer dans `$immatriculation` quelque chose d'autre
 Pour éviter ceci, PDO fonctionne uniquement par des requêtes préparées. Voici
 comment elles fonctionnent :
 
-* On met un *tag* `:nom_var` en lieu de la valeur à remplacer
-* On doit préparer la requête
-* La requête préparée attend alors des valeurs et d'être exécutée
-* On peut alors récupérer les résultats comme précédemment
+1. On met un *tag* `:nom_tag` en lieu de la valeur à remplacer dans la requête
+SQL
+
+1. On doit "préparer" la requête avec la commande `prepare($requete_sql)`
+
+1. Puis utiliser un tableau pour associer des valeurs aux noms des tags des
+   variables à remplacer :
+
+   ```php?start_inline=1
+   $values = array("nom_tag" => "une valeur");
+   ```
+
+1. Et exécuter la requête préparée avec `execute($values)`
+
+1. On peut alors récupérer les résultats comme précédemment (e.g. avec
+   `fetchAll()`)
+
+Voici toutes ces étapes regroupées dans une fonction :
 
 ```php?start_inline=1
 function getVoitureByImmat($immat) {
-  $sql = "SELECT * from voiture WHERE immatriculation=:nom_var";
-  // Préparation de la requête
-  $req_prep = Model::$pdo->prepare($sql);
-  
-  $values = array(
-     //nomdutag => valeur,
-     "nom_var" => $immat,
-   );
-  // On donne les valeurs et on exécute la requête	 
-  $req_prep->execute($values);
+    $sql = "SELECT * from voiture WHERE immatriculation=:nom_tag";
+    // Préparation de la requête
+    $req_prep = Model::$pdo->prepare($sql);
 
-  // On récupère les résultats comme précédemment
-  $req_prep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
-  return $req_prep->fetch();
-  // Attention, si il n'y a pas de résultats, fetch renvoie FALSE
-  // Pour voir si il y a des résultat : ($req_prep->rowCount() != 0)
+    $values = array(
+        "nom_tag" => $immat,
+        //nomdutag => valeur, ...
+    );
+    // On donne les valeurs et on exécute la requête	 
+    $req_prep->execute($values);
+
+    // On récupère les résultats comme précédemment
+    $req_prep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
+    $tab_voit = $req_prep->fetchAll();
+    // Attention, si il n'y a pas de résultats, on renvoie false
+    if (empty($tab_voit))
+        return false;
+    return $tab_voit[0];
 }
 ```
 
@@ -76,8 +92,17 @@ PDO. Cependant nous vous conseillons d'utiliser systématiquement la syntaxe ave
 un tableau `execute($values)`.
 
 <div class="exercise">
-1. Copiez la fonction précédente dans `Voiture.php` et testez-là dans
-`lireVoiture.php`.
+1. Copiez/collez dans un nouveau dossier TD3 les fichiers `Conf.php`,
+   `Model.php`, `Voiture.php` et `lireVoiture.php`.
+
+1. Copiez la fonction précédente dans la classe `Voiture` en la déclarant
+   publique et statique.
+
+1. Testez la fonction `getVoitureByImmat` dans `lireVoiture.php`.
+
+</div>
+<div class="exercise">
+
 2. Créez une fonction `save()` dans la classe `Voiture` qui insère la voiture
 courante (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
 
@@ -87,9 +112,20 @@ courante (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion 
 
    **Attention :** La requête `INSERT INTO` ne renvoie pas de résultats ; il ne faut donc pas faire de `fetch()` sous peine d'avoir une `SQLSTATE[HY000]: General error`.
 
-3. Modifier la page  `creerVoiture.php` du TD précédent de sorte qu'elle sauvegarde
-l'objet `Voiture` créé.
-4. Testez l'insertion grâce au formulaire `formulaireVoiture.html` du TD n°1. 
+3. Testez cette fonction dans `lireVoiture.php` en créant un objet de classe
+   `Voiture` et en l'enregistrant.
+
+</div>
+<div class="exercise">
+
+Branchons maintenant notre enregistrement de voiture dans la BDD au formulaire
+de création de voiture du TD1 :
+
+2. Copiez dans le dossier TD3 les fichiers `creerVoiture.php` et
+   `formulaireVoiture.html` du TD1.
+3. Modifier la page `creerVoiture.php` de sorte qu'elle sauvegarde
+   l'objet `Voiture` reçu (en GET ou POST, au choix).
+4. Testez l'insertion grâce au formulaire `formulaireVoiture.html`. 
 5. Vérifiez dans PhpMyAdmin que les voitures sont bien sauvegardées.
 
 **N'oubliez-pas** de protéger tout votre code contenant du PDO
@@ -113,7 +149,7 @@ src="../assets/DiagClasse.png" style="margin-left:auto;margin-right:auto;display
 **Question :** Comment implémenteriez-vous l'association *conducteur* entre
 utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
 
-**Notre solution.** Comme il n'y a qu'un conducteur par trajet, nous allons
+**Notre solution :** Comme il n'y a qu'un conducteur par trajet, nous allons
   rajouter un champ `conducteur_login` à la table `trajet`.
 
 
@@ -125,9 +161,11 @@ utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
 
    **Important :** Pour faciliter la suite du TD, mettez à la création de toutes
      vos tables `InnoDB` comme moteur de stockage, et `utf8_general_ci` comme
-     interclassement (explications plus loin).
+     interclassement (c’est l’encodage des données, et donc des accents,
+     caractères spéciaux...).
 
 1. Insérez quelques utilisateurs.
+
 2. Créez une table `trajet` avec les champs suivants :
    * `id` : INT, clé primaire, qui s'auto-incrémente (voir en dessous)
    * `depart` : VARCHAR 32
@@ -177,12 +215,12 @@ Voici les étapes pour faire ce lien :
 2. Rajoutez la contrainte de **clé étrangère** entre `trajet.conducteur_login` et
    `utilisateur.login`. Pour ceci, allez dans l'onglet `Structure` de la table
    `trajet` et cliquez sur `Gestion des relations` pour accéder à la
-   gestion des clés étrangères.  
+   gestion des clés étrangères (ou `Vue relationnelle` pour les PHPMyAdmin plus récents).  
 
-   Nous allons utiliser le comportement `ON DELETE CASCADE` pour qu'une association
-   soit supprimé si la clé étrangère est supprimée, et le comportement `ON UPDATE
-   CASCADE` pour qu'une association soit mise à jour si la clé étrangère est mise à
-   jour.
+   Nous allons utiliser le comportement `ON DELETE CASCADE` pour qu'une
+   association soit supprimé si la clé étrangère est supprimée, et le
+   comportement `ON UPDATE CASCADE` pour qu'une association soit mise à jour si
+   la clé étrangère est mise à jour.
 
    **Attention :** Pour supporter les clés étrangères, il faut que le moteur de
    stockage de toutes vos tables impliqués soit `InnoDB`. Vous pouvez choisir ce
@@ -229,8 +267,6 @@ correspondante dans la table `passager` avec leur `utilisateur_login` et leur
 
 <div class="exercise"> 
 1. Créer la table `passager` en utilisant l'interface de PhpMyAdmin.
-L'interclassement général de vos table sera toujours `utf8_general_ci` (c'est
-l'encodage des données, et donc des accents, caractères spéciaux ...).
 
    **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
 
@@ -253,8 +289,8 @@ la table `passager` ne soit pas vide.
 #### Liste des utilisateurs d'un trajet et inversement
 
 Nous allons maintenant pouvoir compléter le code PHP de notre site pour gérer
-l'association. Commençons par rajouter des fonctions à nos modèles 'Utilisateur'
-et 'Trajet'.
+l'association. Commençons par rajouter des fonctions à nos classes `Utilisateur`
+et `Trajet`.
 
 Avant toute chose, vous souvenez-vous comment faire une jointure en SQL ? Si
 vous n'êtes pas tout à fait au point sur les différents `JOIN` de SQL, vous
@@ -266,10 +302,10 @@ pouvez vous rafraîchir la mémoire en lisant
 
 1. Créer une `public static function findPassagers($id)` dans `Trajet.php` qui
    prendra en entrée un identifiant de trajet. Cette fonction devra retourner un
-   tableau d'objets `Utilisateur` correspondant aux utilisateurs inscrits au
-   trajet d'identifiant `$id` en faisant la requête adéquate.
+   tableau d'objets de classe `Utilisateur` correspondant aux utilisateurs
+   inscrits au trajet d'identifiant `$id` en faisant la requête adéquate.
    
-   <!-- Pourquoi prendre $data et pas $trajet_id en paramètre ? -->
+   <!-- Si on avait codé getTrajetById avant, on pourrait coder $t->findPassagers() ? -->
    
    **Indices :**
    
@@ -282,6 +318,7 @@ pouvez vous rafraîchir la mémoire en lisant
    [on l'a fait pour `Voiture`](tutorial2.html#majconst).
 
 2. Testons votre fonction. Créez une page `testFindUtil.php` qui
+
    1. charge les classes nécessaires,
    3. appelle la fonction `findPassagers($id)` avec un identifiant de trajet
       existant,
@@ -302,34 +339,36 @@ dans `Utilisateur.php` qui prendra en entrée un login d'utilisateur `$login` et
 retourne les trajets auxquels il est inscrit en tant que passager.
 
 2.  De la même manière, créez une page de test `testFindTraj.php` et un
-formulaire `testFindTraj.php`.
+formulaire `formFindTraj.php`.
 
 </div>
 
 #### Désinscrire un utilisateur d'un trajet et inversement
 
-Rajoutons une dernière fonctionnalité : dans la vue qui liste les trajets d'un
-utilisateur, nous voudrions avoir un lien 'Désinscrire' qui enlèverait
-l'utilisateur courant du trajet sélectionné.
+Rajoutons une dernière fonctionnalité : dans une future vue qui listera les
+trajets d'un utilisateur, nous voudrions avoir un lien 'Désinscrire' qui
+enlèverait l'utilisateur courant du trajet sélectionné.
 
 <div class="exercise">
 
-1. Créer une `public static function deleteUtilisateur($data)` dans `Trajet.php`
+1. Créer une `public static function deletePassager($data)` dans `Trajet.php`
 qui prendra en entrée un tableau associatif `$data` avec deux champs
 `$data['trajet_id']` et `$data['utilisateur_login']`. Cette fonction devra
 désinscrire l'utilisateur `utilisateur_login` du trajet `trajet_id`.
 
-2. Créez une page de test `testDelUtil.php` et un formulaire `formDelUtil.php`
-   de sorte que l'on puisse rentrer un identifiant de trajet et un login
-   d'utilisateur dans le formulaire, et que l'envoi du formulaire redirige sur
-   `testDelUtil.php` qui supprimera le passager dans la BDD.
+2. Créez une page de test `testDelPassager.php` et un formulaire
+   `formDelPassager.php` de sorte que l'on puisse rentrer un identifiant de
+   trajet et un login d'utilisateur dans le formulaire, et que l'envoi du
+   formulaire redirige sur `testDelPassager.php` qui supprimera le passager dans
+   la BDD.
 
 </div>
 
-<!--
-### Et si le temps le permet
 
-Voici une liste d'idée pour compléter notre site :
+### (Optionnel) Et si le temps le permet
+
+Si vous êtes en avance sur les TDs, voici une liste d'idées pour compléter notre
+site :
 
 1. Notre liste des trajets d'un utilisateur est incomplète : il manque les
    trajets dont il est conducteur (et non passager). La page qui liste les
@@ -340,4 +379,24 @@ Voici une liste d'idée pour compléter notre site :
 1. Vous pouvez aussi éventuellement mettre en place des `trigger` dans votre SQL
    pour gérer le nombre de passager par véhicule, le fait qu'un passager ne soit
    pas inscrit deux fois à un trajet ...
--->
+
+## (Optionnel) Créez une injection SQL
+
+Si vous êtes en avance sur les TDs, nous vous proposons de créer un exemple
+d'injection SQL.
+
+1. Commencez par lire
+[les notes complémentaires à ce sujet]({{site.baseurl}}/assets/tut3-complement.html#exemple-dinjection-sql).
+
+1. On va maintenant attaquer la fonction `getVoitureByImmat` sans requêtes
+   préparées :
+   * Reprenez la fonction `getVoitureByImmat` au tout début du TD ;
+   * Créez un formulaire qui demande de rentrer une immatriculation pour
+   connaître la voiture correspondante ;
+   * Créez la page de traitement du formulaire qui affiche la voiture
+   correspondant à l'immatriculation envoyé ;
+   * Trouvez ce qu'il faut taper dans le formulaire pour que `getVoitureByImmat`
+   vide la table `Voiture` (SQL Truncate).
+
+<!-- Si qq a fini en avance alors il peut coder insert avec query et une
+injection SQL-->
