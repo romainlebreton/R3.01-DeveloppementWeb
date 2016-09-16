@@ -446,12 +446,10 @@ try {
    
 </div>
 
-### Site de covoiturage
+## Site de covoiturage
 
-Reprendre les classes du TP précédent sur le covoiturage et y ajouter
-la gestion de la persistance.
+Appliquez ce que l'on a fait pendant ce TD aux classes `Trajet` et `Utilisateur`
+du TP précédent (exercice sur le covoiturage) :
 
-
-
-<!-- Si qq a fini en avance alors il peut coder insert avec query et une
-injection SQL-->
+* Créez des tables `trajet` et `utilisateur` ;
+* Créez les fonctions qui listent tous les trajets / utilisateurs.
