@@ -110,7 +110,9 @@ courante (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion 
    INSERT INTO table_name (column1, column2, ...) VALUES (value1, value2, ...)
    ```
 
-   **Attention :** La requête `INSERT INTO` ne renvoie pas de résultats ; il ne faut donc pas faire de `fetch()` sous peine d'avoir une `SQLSTATE[HY000]: General error`.
+   **Attention :** La requête `INSERT INTO` ne renvoie pas de résultats ; il ne
+     faut donc pas faire de `fetch()` sous peine d'avoir une erreur
+     `SQLSTATE[HY000]: General error`.
 
 3. Testez cette fonction dans `lireVoiture.php` en créant un objet de classe
    `Voiture` et en l'enregistrant.
@@ -128,7 +130,7 @@ de création de voiture du TD1 :
 4. Testez l'insertion grâce au formulaire `formulaireVoiture.html`. 
 5. Vérifiez dans PhpMyAdmin que les voitures sont bien sauvegardées.
 
-**N'oubliez-pas** de protéger tout votre code contenant du PDO
+**N'oubliez pas** de protéger tout votre code contenant du PDO
   (`getAllVoitures`, ...)  avec des try - catch comme dans `Model`. En effet,
   chaque ligne de code liée à PDO est susceptible de lancer une exception,
   qu'il nous faut capturer et traiter (rôle du `catch`).
@@ -140,7 +142,7 @@ de création de voiture du TD1 :
 Reprenons les classes du TD précédent sur le covoiturage pour y ajouter la
 gestion de la persistance. Vous avez couvert dans le cours "Analyse, Conception
 et Développements d'Applications" les diagrammes de classes. Ce type de
-diagramme est utile pour penser la base de donnée d'une application web. Voici
+diagramme est utile pour penser la base de donnée d'une application Web. Voici
 le notre :
 
 <img alt="Diagramme entité association"
@@ -154,6 +156,8 @@ utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
 
 
 <div class="exercise">
+Si vous ne l'avez pas déjà fait, créez des tables `utilisateur` et `trajet` comme suit :
+
 1. Dans votre PhpMyAdmin, créez une table `utilisateur` avec les champs suivants :
    * `login` : VARCHAR 32, clé primaire
    * `nom` : VARCHAR 32
@@ -184,6 +188,8 @@ utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
 2. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
    que l'auto-incrément marche) et en mettant dans `conducteur_login` des login
    d'utilisateurs valides (pour éviter des problèmes par la suite).
+
+</div>
 
 ## Premier lien entre `utilisateur` et `trajet`
 
@@ -292,6 +298,11 @@ Nous allons maintenant pouvoir compléter le code PHP de notre site pour gérer
 l'association. Commençons par rajouter des fonctions à nos classes `Utilisateur`
 et `Trajet`.
 
+**Note :** Si vos fichier `Utilisateur.php` et `Trajet.php` ne sont pas
+complets, vous pouvez repartir des fichiers suivants :
+[`Utilisateur.php`]({{site.baseurl}}/assets/TD3/Utilisateur.php),
+[`Trajet.php`]({{site.baseurl}}/assets/TD3/Trajet.php).
+
 Avant toute chose, vous souvenez-vous comment faire une jointure en SQL ? Si
 vous n'êtes pas tout à fait au point sur les différents `JOIN` de SQL, vous
 pouvez vous rafraîchir la mémoire en lisant
@@ -331,19 +342,73 @@ récupère l'identifiant envoyé par le formulaire.
 
 </div>
 
+## Créez une injection SQL
+
+Si vous êtes en avance sur les TDs, nous vous proposons de créer un exemple
+d'injection SQL.
+
+1. Commencez par lire
+[les notes complémentaires au sujet des injections SQL]({{site.baseurl}}/assets/tut3-complement.html#exemple-dinjection-sql).
+
+1. Mettons en place nos attaques SQL :
+
+   1. Pour ne pas supprimer une table importante, créons un table `voiture2` qui ne craint rien :
+
+      * allez dans PHPMyAdmin et cliquez sur votre base de donnée (celle dont le
+        nom est votre login à l'IUT)
+      * Dans l'onglet SQL `Importer`, donnez le fichier
+        [`voiture2.sql`]({{site.baseurl}}/assets/TD3/voiture2.sql) qui créera une table
+        `voiture2` avec quelques voitures
+
+   1. Nous vous fournissons le fichier PHP que nous allons attaquer :
+   [`formGetImmatSQL.php`]({{site.baseurl}}/assets/TD3/formGetImmatSQL.php)  
+   Ce fichier contient un formulaire qui affiche les informations d'une voiture
+   étant donnée son immatriculation.  
+   **Testez** ce fichier en donnant une immatriculation existante.  
+   **Lisez** le code pour être sûr de bien comprendre le fonctionnement de cette
+     page (et demandez au professeur si vous ne comprennez pas tout !).
+
+1. Le point clé de ce fichier est que la fonction `getVoitureByImmat` a été
+   codée sans requête préparée et est vulnérable aux injections SQL.
+   
+   ```php?start_inline=1
+   function getVoitureByImmat($immat) {
+       $sql = "SELECT * from voiture WHERE immatriculation='$immat'"; 
+       $rep = Model::$pdo->query($sql);
+       $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
+       return $rep->fetch();
+   }
+   ```
+
+   * Trouvez ce qu'il faut taper dans le formulaire pour que `getVoitureByImmat`
+     vide la table `voiture2` (SQL Truncate).
+
+<!--
+'; TRUNCATE voiture2; --
+-->
+
+## Et si le temps le permet...
+
+Si vous êtes en avance sur les TDs, voici une liste d'idées pour compléter notre
+site.
+
+### Liste des trajets d'un utilisateur
+
+De la même manière que dans l'exercice sur `findPassager()`, utilisons un
+jointure SQL pour trouver tous les trajets d'un utilisateur.
 
 <div class="exercise">
 
-1. De la même manière, créer une `public static function findTrajets($login)`
+1. Créez une `public static function findTrajets($login)`
 dans `Utilisateur.php` qui prendra en entrée un login d'utilisateur `$login` et
 retourne les trajets auxquels il est inscrit en tant que passager.
 
-2.  De la même manière, créez une page de test `testFindTraj.php` et un
+2. Créez une page de test `testFindTraj.php` et un
 formulaire `formFindTraj.php`.
 
 </div>
 
-#### Désinscrire un utilisateur d'un trajet et inversement
+### Désinscrire un utilisateur d'un trajet et inversement
 
 Rajoutons une dernière fonctionnalité : dans une future vue qui listera les
 trajets d'un utilisateur, nous voudrions avoir un lien 'Désinscrire' qui
@@ -365,7 +430,7 @@ désinscrire l'utilisateur `utilisateur_login` du trajet `trajet_id`.
 </div>
 
 
-### (Optionnel) Et si le temps le permet
+### (Optionnel) Quelques idées complémentaires
 
 Si vous êtes en avance sur les TDs, voici une liste d'idées pour compléter notre
 site :
@@ -380,23 +445,3 @@ site :
    pour gérer le nombre de passager par véhicule, le fait qu'un passager ne soit
    pas inscrit deux fois à un trajet ...
 
-## (Optionnel) Créez une injection SQL
-
-Si vous êtes en avance sur les TDs, nous vous proposons de créer un exemple
-d'injection SQL.
-
-1. Commencez par lire
-[les notes complémentaires à ce sujet]({{site.baseurl}}/assets/tut3-complement.html#exemple-dinjection-sql).
-
-1. On va maintenant attaquer la fonction `getVoitureByImmat` sans requêtes
-   préparées :
-   * Reprenez la fonction `getVoitureByImmat` au tout début du TD ;
-   * Créez un formulaire qui demande de rentrer une immatriculation pour
-   connaître la voiture correspondante ;
-   * Créez la page de traitement du formulaire qui affiche la voiture
-   correspondant à l'immatriculation envoyé ;
-   * Trouvez ce qu'il faut taper dans le formulaire pour que `getVoitureByImmat`
-   vide la table `Voiture` (SQL Truncate).
-
-<!-- Si qq a fini en avance alors il peut coder insert avec query et une
-injection SQL-->

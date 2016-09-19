@@ -556,13 +556,30 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
 Vous allez programmer les classes d'un site de covoiturage, dont voici la description d'une version
 minimaliste:
 
-* **Trajet :** Une annonce de trajet comprend un identifiant unique `id`, les
-  détails d'un trajet (un point de départ `depart` et un point d’arrivée
-  `arrivee`) et des détails spécifiques à l’annonce comme une date de départ
-  `date`, un nombre de places disponibles `nbplaces` et un prix `prix`.
 * **Utilisateur :** Un utilisateur possède des champs propres `(login, nom,
-prénom)` et peut proposer une liste d'annonces de trajets.
+prénom)`
+* **Trajet :** Une annonce de trajet comprend :
+1. un identifiant unique `id`,
+1. les détails d'un trajet (un point de départ `depart` et un point d’arrivée
+`arrivee`),
+1. des détails spécifiques à l’annonce comme une date de départ `date`,
+1. un nombre de places disponibles `nbplaces`,
+1. un prix `prix`,
+1. et le login du conducteur `conducteur_login`,
 
+**Astuce :** Pour éviter de taper 7 *getters*, 7 *setters* et un constructeur
+  avec 7 arguments pour `Trajet`, nous allons coder :
+
+1. des *getters* génériques `get($nom_attribut)` qui renvoient l'attribut de nom
+`$nom_attribut`. Utilisez la syntaxe suivante pour accéder à l'attribut de nom
+`$nom_attribut` de l'objet `$objet` :
+
+   ```php?start_inline=1
+   $objet->$nom_attribut
+   ```
+1. des *setters* génériques `set($nom_attribut, $valeur)` ;
+1. un constructeur `__construct($data)` qui prend un tableau dont les index
+   correspondent aux attributs de la classe.
 
 ## Installez un serveur Apache chez vous
 

@@ -4,11 +4,7 @@ subtitle: BDD, PDO
 layout: tutorial
 ---
 
-
-<!-- Attention, j'ai enlevé le constructeur par défaut __construct(); -->
-
 <!-- Rajouter quelques question au début du TD pour vérifier la compréhension -->
-
 
 Dans le TD1 vous avez appris à créer des classes et à instancier des objets de
 ces classes.  Mais, comme vous l'avez constaté, la durée de vie des objets ainsi
@@ -45,7 +41,7 @@ Le login est votre login IUT et votre mot de passe initial votre numéro INE.
    doute vu par le professeur ou votre voisin.  
    Donc vous avez deux possibilités :
 
-   * (**recommandé**). Créez un mot de passe aléatoire à l'aide de
+   * (**recommandé**) Créez un mot de passe aléatoire à l'aide de
      [https://www.random.org/passwords/](https://www.random.org/passwords/) par
      exemple. Écrivez dès maintenant ce mot de passe dans un fichier.
    * Ou choisissez quelque chose de simple et de pas secret.
@@ -56,7 +52,12 @@ Le login est votre login IUT et votre mot de passe initial votre numéro INE.
      clé primaire (Index : `Primary`)
    * `marque` de type `VARCHAR` est de longueur maximale 25.
    * `couleur` de type `VARCHAR` est de longueur maximale 12.
-   
+
+   **Important :** Pour faciliter la suite du TD, mettez à la création de toutes
+     vos tables `InnoDB` comme moteur de stockage, et `utf8_general_ci` comme
+     interclassement (c’est l’encodage des données, et donc des accents,
+     caractères spéciaux...).
+
    **Attention** : Les noms des champs sont comme des noms de variables, ils ne
    doivent pas contenir d'accents. Par ailleurs, et contrairement à Oracle,
    MySQL est sensible à la casse (minuscules/majuscules).
@@ -451,5 +452,34 @@ try {
 Appliquez ce que l'on a fait pendant ce TD aux classes `Trajet` et `Utilisateur`
 du TP précédent (exercice sur le covoiturage) :
 
-* Créez des tables `trajet` et `utilisateur` ;
-* Créez les fonctions qui listent tous les trajets / utilisateurs.
+1. Modifiez les constructeurs pour accepter aussi zéro paramètre ;
+
+1. Dans votre PhpMyAdmin, créez une table `utilisateur` avec les champs suivants :
+   * `login` : VARCHAR 32, clé primaire
+   * `nom` : VARCHAR 32
+   * `prenom` : VARCHAR 32
+
+   **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
+
+1. Insérez quelques utilisateurs.
+
+2. Créez une table `trajet` avec les champs suivants :
+   * `id` : INT, clé primaire, qui s'auto-incrémente (voir en dessous)
+   * `depart` : VARCHAR 32
+   * `arrivee` : VARCHAR 32
+   * `date` : DATE
+   * `nbplaces` : INT
+   * `prix` : INT
+   * `conducteur_login` : VARCHAR 32
+   
+   **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque nouvelle
+   insertion dans la table.  Pour ce faire, sélectionnez pour le champ `id` la
+   valeur par défaut `NULL` et cochez la case `A_I` (auto-increment).
+
+
+2. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
+   que l'auto-incrément marche) et en mettant dans `conducteur_login` des login
+   d'utilisateurs valides (pour éviter des problèmes par la suite).
+
+1. Créez les fonctions statiques `getAllTrajets()` et `getAllUtilisateurs()` qui listent
+   tous les trajets / utilisateurs.
