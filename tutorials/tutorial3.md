@@ -180,8 +180,7 @@ Si vous ne l'avez pas déjà fait, créez des tables `utilisateur` et `trajet` c
    * `conducteur_login` : VARCHAR 32
    
    **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque nouvelle
-   insertion dans la table.  Pour ce faire, sélectionnez pour le champ `id` la
-   valeur par défaut `NULL` et cochez la case `A_I` (auto-increment).
+   insertion dans la table.  Pour ce faire, cochez la case `A_I` (auto-increment) pour le champ `id`.
 
    **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
 
