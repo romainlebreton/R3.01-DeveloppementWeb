@@ -8,6 +8,8 @@ layout: tutorial
 htmlspecialchars quand on écrit dans du HTML et URLencode quand on écrit dans
 une URL -->
 
+<!-- XSS et protection de l'écriture html -->
+
 <!--
 Rajouter dispatcher
 -->

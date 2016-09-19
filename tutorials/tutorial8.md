@@ -4,6 +4,9 @@ subtitle: Cryptage des mots de passe
 layout: tutorial
 ---
 
+<!-- Parler des nouvelles fonctions de PHP pour les mots de passe ?
+http://php.net/manual/fr/book.password.php -->
+
 <!-- Prévoir d'ajouter une note sur l'upload de fichiers par formulaire comme une -->
 <!-- image de profil par exemple le 23 Nov ? -->
 
