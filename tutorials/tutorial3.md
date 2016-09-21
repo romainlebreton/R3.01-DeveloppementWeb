@@ -322,7 +322,7 @@ pouvez vous rafraîchir la mémoire en lisant
    * Utiliser une requête à base d'`INNER JOIN`. Une bonne stratégie
    pour développer la bonne requête est d'essayer des requêtes dans l'onglet SQL de
    PhpMyAdmin jusqu'à tenir la bonne.
-   * Il faut peut-être mettre à jour la classe `Utilisateur` pour qu'elle ait le
+   * Il faut peut-être mettre à jour la classe `Utilisateur` pour qu'elle ait les
    mêmes attributs que la table `utilisateur` de la BDD. Il faut aussi mettre à
    jour le constructeur comme
    [on l'a fait pour `Voiture`](tutorial2.html#majconst).
