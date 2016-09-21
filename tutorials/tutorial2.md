@@ -6,6 +6,8 @@ layout: tutorial
 
 <!-- Rajouter quelques question au début du TD pour vérifier la compréhension -->
 
+<!-- Rajouter option pour constructeur en premier avec fetch_class ? -->
+
 Dans le TD1 vous avez appris à créer des classes et à instancier des objets de
 ces classes.  Mais, comme vous l'avez constaté, la durée de vie des objets ainsi
 créés ne dépassait pas la durée de l'exécution du programme (soit quelques *ms*).

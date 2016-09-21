@@ -1,6 +1,6 @@
 ---
 title:  TD3 &ndash; Compléments
-subtitle: Requête préparée et injection SQL
+subtitle: Requête préparée
 layout: tutorial
 ---
 
@@ -79,44 +79,4 @@ justifier l'utilisation d'une requête préparée :
 * éviter les injections SQL : cela concerne la sécurité et évite que les
   informations rentrées par un client (à travers un formulaire par exemple)
   soient interprétées.
-
-## Exemple d'injection SQL
-
-Source : [https://fr.wikipedia.org/wiki/Injection_SQL](https://fr.wikipedia.org/wiki/Injection_SQL)
-
-On exécute la requête SQL suivante et on connecte l'utilisateur dès que la
-requête renvoie au moins une réponse.
-
-```sql
-SELECT uid FROM Users WHERE name = '$nom' AND password = '$mot_de_passe';
-```
-
-
-**Attaque de la requête :**
-
-* Utilisateur : `Dupont';--`
-* Mot de passe : n'importe lequel
-
-La requête devient :
-
-```sql
-SELECT uid FROM Users WHERE name = 'Dupont'; -- ' AND password = 'mdp';
-```
-
-ce qui est équivalent à
-
-```sql
-SELECT uid FROM Users WHERE name = 'Dupont';
-```
-
-L'attaquant peut alors se connecter sous l'utilisateur Dupont avec n'importe
-quel mot de passe.
-
-### Un cas concret
-
-Pour éviter les radars, il y a des petits malins.
-
- <p style="text-align:center">
- ![Requête HTTP]({{site.baseurl}}/assets/injection-sql-radar.jpg)
- </p>
  

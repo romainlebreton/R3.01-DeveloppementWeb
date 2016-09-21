@@ -4,6 +4,8 @@ subtitle: SQL JOIN
 layout: tutorial
 ---
 
+<!-- Expliquer comment les requêtes préparées empêchent les injections SQL -->
+
 Ce TD3 est le prolongement du TD2 sur l'enregistrement des données dans une BDD
 en utilisant la classe `PDO` de PHP. Nous poursuivons par le concept très
 important de requêtes préparées. Puis nous coderons des associations entre
@@ -14,16 +16,47 @@ plusieurs tables de la BDD.
   qui vous faisait coder votre première requête `SELECT * FROM voiture`, pour
   attaquer ce TD.
 
-## Requêtes préparées
 
-<!--et insertion d'éléments dans la base-->
+## Les injections SQL
 
-<!--
-Intervention sur les injections SQL avec un exemple simple
--->
+### Exemple d'injection SQL
 
-Imaginez que nous avons une fonction `getVoitureByImmat($immatriculation)` codée comme
-suit
+Imaginez un site Web qui, pour connecter un utilisateur, exécute la requête SQL
+suivante et accepte la connexion dès que la requête renvoie au moins une
+réponse.
+
+```sql
+SELECT uid FROM Users WHERE name = '$nom' AND password = '$mot_de_passe';
+```
+
+Un utilisateur malveillant pourrait taper les renseignements suivants :
+
+* Utilisateur : `Dupont';--`
+* Mot de passe : n'importe lequel
+
+La requête devient :
+
+```sql
+SELECT uid FROM Users WHERE name = 'Dupont'; -- ' AND password = 'mdp';
+```
+
+ce qui est équivalent à
+
+```sql
+SELECT uid FROM Users WHERE name = 'Dupont';
+```
+
+L'attaquant peut alors se connecter sous l'utilisateur Dupont avec n'importe
+quel mot de passe. Cette attaque du site Web s'appelle une **injection SQL**.
+
+Vous aurez à la fin du TD un exercice pour simuler une injection SQL.
+
+*Source :* [https://fr.wikipedia.org/wiki/Injection_SQL](https://fr.wikipedia.org/wiki/Injection_SQL)
+
+## Les requêtes préparées
+
+Imaginez que nous ayons codé une fonction `getVoitureByImmat($immatriculation)`
+comme suit
 
 ```php?start_inline=1
 function getVoitureByImmat($immat) {
@@ -34,14 +67,14 @@ function getVoitureByImmat($immat) {
 }
 ```
 
-Cette fonction marche mais pose un gros problèmes de sécurité ; elle est
-vulnérable à ce que l'on appelle les *injections SQL*. 
-<!--
-Faire une démo d'injection SQL
-L'utilisateur pourrait rentrer dans `$immatriculation` quelque chose d'autre
--->
-Pour éviter ceci, PDO fonctionne uniquement par des requêtes préparées. Voici
-comment elles fonctionnent :
+Cette fonction marche mais pose un gros problème de sécurité ; elle est
+vulnérable aux **injections SQL** et un utilisateur pourrait faire comme dans
+l'exemple précédent pour exécuter le code SQL qu'il souhaite.
+
+
+Pour empécher les **injections SQL**, nous allons utiliser une fonctionnalité
+qui s'appelle les **requêtes préparées** et qui est fournie par PDO. Voici
+comment les requêtes préparées fonctionnent :
 
 1. On met un *tag* `:nom_tag` en lieu de la valeur à remplacer dans la requête
 SQL
@@ -344,47 +377,49 @@ récupère l'identifiant envoyé par le formulaire.
 ## Créez une injection SQL
 
 Si vous êtes en avance sur les TDs, nous vous proposons de créer un exemple
-d'injection SQL.
+d'injection SQL. Mettons en place notre attaque SQL :
 
-1. Commencez par lire
-[les notes complémentaires au sujet des injections SQL]({{site.baseurl}}/assets/tut3-complement.html#exemple-dinjection-sql).
-
-1. Mettons en place nos attaques SQL :
-
-   1. Pour ne pas supprimer une table importante, créons un table `voiture2` qui ne craint rien :
-
-      * allez dans PHPMyAdmin et cliquez sur votre base de donnée (celle dont le
-        nom est votre login à l'IUT)
-      * Dans l'onglet SQL `Importer`, donnez le fichier
-        [`voiture2.sql`]({{site.baseurl}}/assets/TD3/voiture2.sql) qui créera une table
-        `voiture2` avec quelques voitures
-
-   1. Nous vous fournissons le fichier PHP que nous allons attaquer :
-   [`formGetImmatSQL.php`]({{site.baseurl}}/assets/TD3/formGetImmatSQL.php)  
-   Ce fichier contient un formulaire qui affiche les informations d'une voiture
-   étant donnée son immatriculation.  
-   **Testez** ce fichier en donnant une immatriculation existante.  
-   **Lisez** le code pour être sûr de bien comprendre le fonctionnement de cette
-     page (et demandez au professeur si vous ne comprennez pas tout !).
+1. Pour ne pas supprimer une table importante, créons un table `voiture2` qui ne craint rien :
+    * allez dans PHPMyAdmin et cliquez sur votre base de donnée (celle dont le
+     nom est votre login à l'IUT)
+   * Dans l'onglet SQL `Importer`, donnez le fichier
+     [`voiture2.sql`]({{site.baseurl}}/assets/TD3/voiture2.sql) qui créera une table
+     `voiture2` avec quelques voitures
+ 1. Nous vous fournissons le fichier PHP que nous allons attaquer :
+[`formGetImmatSQL.php`]({{site.baseurl}}/assets/TD3/formGetImmatSQL.php)  
+Ce fichier contient un formulaire qui affiche les informations d'une voiture
+étant donnée son immatriculation.  
+**Testez** ce fichier en donnant une immatriculation existante.  
+**Lisez** le code pour être sûr de bien comprendre le fonctionnement de cette
+  page (et demandez au professeur si vous ne comprennez pas tout !).
 
 1. Le point clé de ce fichier est que la fonction `getVoitureByImmat` a été
    codée sans requête préparée et est vulnérable aux injections SQL.
    
    ```php?start_inline=1
    function getVoitureByImmat($immat) {
-       $sql = "SELECT * from voiture WHERE immatriculation='$immat'"; 
+       $sql = "SELECT * from voiture2 WHERE immatriculation='$immat'"; 
        $rep = Model::$pdo->query($sql);
        $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
        return $rep->fetch();
    }
    ```
 
-   * Trouvez ce qu'il faut taper dans le formulaire pour que `getVoitureByImmat`
-     vide la table `voiture2` (SQL Truncate).
+   **Trouvez** ce qu'il faut taper dans le formulaire pour que
+     `getVoitureByImmat` vide la table `voiture2` (SQL Truncate).
 
 <!--
 '; TRUNCATE voiture2; --
 -->
+
+### Un cas concret
+
+Pour éviter les radars, il y a des petits malins.
+
+ <p style="text-align:center">
+ ![Requête HTTP]({{site.baseurl}}/assets/injection-sql-radar.jpg)
+ </p>
+
 
 ## Et si le temps le permet...
 
