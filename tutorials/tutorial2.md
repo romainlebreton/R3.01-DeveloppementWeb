@@ -7,6 +7,7 @@ layout: tutorial
 <!-- Rajouter quelques question au début du TD pour vérifier la compréhension -->
 
 <!-- Rajouter option pour constructeur en premier avec fetch_class ? -->
+<!-- Faire un constructeur à nombre d'arguments variable ...args PHP 5.6 ? -->
 
 Dans le TD1 vous avez appris à créer des classes et à instancier des objets de
 ces classes.  Mais, comme vous l'avez constaté, la durée de vie des objets ainsi
@@ -474,9 +475,9 @@ du TP précédent (exercice sur le covoiturage) :
    * `prix` : INT
    * `conducteur_login` : VARCHAR 32
    
-   **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque nouvelle
-   insertion dans la table.  Pour ce faire, sélectionnez pour le champ `id` la
-   valeur par défaut `NULL` et cochez la case `A_I` (auto-increment).
+   **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque
+   nouvelle insertion dans la table.  Pour ce faire, sélectionnez cochez la case
+   `A_I` (auto-increment) pour le champ `id`.
 
 
 2. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
