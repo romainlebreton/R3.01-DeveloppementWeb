@@ -131,6 +131,9 @@ un tableau `execute($values)`.
 1. Copiez la fonction précédente dans la classe `Voiture` en la déclarant
    publique et statique.
 
+   **Rappel :** Utilisez **NetBeans** comme éditeur de pages Web
+     ([tutoriel NetBeans]({{site.baseurl}}/assets/tut2-complement.html#crer-un-projet-avec-netbeans)).
+
 1. Testez la fonction `getVoitureByImmat` dans `lireVoiture.php`.
 
 </div>
@@ -160,8 +163,6 @@ de création de voiture du TD1 :
    `formulaireVoiture.html` du TD1.
 3. Modifier la page `creerVoiture.php` de sorte qu'elle sauvegarde
    l'objet `Voiture` reçu (en GET ou POST, au choix).
-
-   **Rappel :** Utilisez **NetBeans** comme éditeur de pages Web ([tutoriel NetBeans]({{site.baseurl}}/assets/tut2-complement.html#crer-un-projet-avec-netbeans)).
    
 4. Testez l'insertion grâce au formulaire `formulaireVoiture.html`. 
 5. Vérifiez dans PhpMyAdmin que les voitures sont bien sauvegardées.
