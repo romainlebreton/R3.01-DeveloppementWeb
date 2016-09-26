@@ -49,6 +49,8 @@ existing sources**
 
 ## Les attributs et méthodes `static`
 
+<!-- Compléter avec autre source de definition -->
+
 ### Attributs statiques
 
 Un attribut d'une classe est *statique* si il ne dépend pas des instances d'une
@@ -81,4 +83,9 @@ variable globale à la classe `Math`.
 Les attributs statiques servent aussi à coder des comportements de classe. Par
 exemple, on peut attribuer un identifiant unique à chaque instance d'une classe
 en stockant dans une variable statique le nombre d'instances.
+
+<!-- Choses à faire: -->
+<!-- --------------- -->
+<!-- - préparer squelette class avec fonction/attribut statique/non statique  -->
+<!-- -> Comment appelle-t-on la fonction/attribut dedans/dehors la classe -->
 

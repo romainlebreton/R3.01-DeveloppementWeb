@@ -6,6 +6,10 @@ layout: tutorial
 
 <!-- Expliquer comment les requêtes préparées empêchent les injections SQL -->
 
+<!-- Dire Pb = requête SQL avec remplacement de variables qui peuvent venir de l'util -->
+
+<!-- Changer interclass, moteur BDD : onglet Opérations -->
+
 Ce TD3 est le prolongement du TD2 sur l'enregistrement des données dans une BDD
 en utilisant la classe `PDO` de PHP. Nous poursuivons par le concept très
 important de requêtes préparées. Puis nous coderons des associations entre
@@ -121,8 +125,8 @@ function getVoitureByImmat($immat) {
 **Remarque :** Il existe une autre solution pour associer une à une les valeurs
 aux variables d'une requête préparée avec la fonction
 [`bindParam`](http://php.net/manual/fr/pdostatement.bindparam.php) de la classe
-PDO. Cependant nous vous conseillons d'utiliser systématiquement la syntaxe avec
-un tableau `execute($values)`.
+PDO (qui permet de donner le type de la valeur). Cependant nous vous conseillons
+d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 
 <div class="exercise">
 1. Copiez/collez dans un nouveau dossier TD3 les fichiers `Conf.php`,
@@ -324,8 +328,13 @@ est mise à jour.
 3. À l'aide de l'interface de PhpMyAdmin, insérer quelques associations pour que
 la table `passager` ne soit pas vide.
 
-4. Vous allez maintenant vous assurer de la bonne gestion des clés étrangères en testant le comportement "ON DELETE CASCADE".
-Pour cela, créez un trajet correspondant à un certain conducteur, puis inscrivez des passagers pour ce trajet. Supprimez ensuite le conducteur en question de la table "utilisateur" et vérifiez que les lignes de la table "passager" précédemment insérées ont bien été supprimées elles aussi.
+4. Vous allez maintenant vous assurer de la bonne gestion des clés étrangères en
+testant le comportement `ON DELETE CASCADE`.  Pour cela :
+   1. créez un trajet correspondant à un certain conducteur,
+   1. puis inscrivez des passagers pour ce trajet
+   1. supprimez ensuite le conducteur en question de la table `utilisateur` et
+      vérifiez que les lignes de la table `passager` précédemment insérées ont
+      bien été supprimées elles aussi.
 
 </div>
 

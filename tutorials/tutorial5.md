@@ -4,6 +4,8 @@ subtitle: index.php, chemins absolus, CRUD
 layout: tutorial
 ---
 
+<!-- faille XSS dans la vue : Echapper texte dans HTML -->
+
 <!-- Prévoir une explication écrite de la différence entre chemin de fichier et
 URL.  Notament pour ceux qui mettent du ROOT dans les URL -->
 
@@ -342,7 +344,7 @@ Nous souhaitons rajouter l'action `update` aux voitures. Pour cela :
    champ du formulaire.  Notez aussi que l'attribut `readonly` de `<input>`
    permet d'afficher l'immatriculation sans que l'internaute puisse le changer.
 
-   **Attention au mélange de `POST` et `GET` :** Vous souhaitez envoyez
+   **Rappel -- Attention au mélange de `POST` et `GET` :** Vous souhaitez envoyez
      l'information `action=updated` en plus des informations saisies lors de
      l'envoi du formulaire. Il y a deux possibilités :
 

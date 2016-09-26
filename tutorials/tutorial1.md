@@ -449,7 +449,12 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
      `__construct()`. Et on a le droit à au plus un constructeur, qu'on pourra
      éventuellement appeler avec un sous-ensemble de paramètres.
 
-3. Créez des getter et des setter pour `$couleur` et `$immatriculation` ;
+3. Créez des *getter* et des *setter* pour `$couleur` et `$immatriculation` ;
+
+3. L'intérêt des *setter* est notamment de vérifier ce qui va être écrit dans
+   l'attribut. Limitez par exemple les immatriculations à 8 caractères en
+   modifiant le *setter* correspondant
+   ([Documentation PHP : strlen](http://php.net/manual/fr/function.strlen.php)).
 
 4. Remplissez `afficher()` qui permet d'afficher les informations de la voiture courante (regardez le code du constructeur de la classe Voiture : comme en Java, on peut utiliser le mot-clé `this` mais suivi de `->`) ;
 
