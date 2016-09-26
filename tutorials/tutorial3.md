@@ -324,6 +324,9 @@ est mise à jour.
 3. À l'aide de l'interface de PhpMyAdmin, insérer quelques associations pour que
 la table `passager` ne soit pas vide.
 
+4. Vous allez maintenant vous assurer de la bonne gestion des clés étrangères en testant le comportement "ON DELETE CASCADE".
+Pour cela, créez un trajet correspondant à un certain conducteur, puis inscrivez des passagers pour ce trajet. Supprimez ensuite le conducteur en question de la table "utilisateur" et vérifiez que les lignes de la table "passager" précédemment insérées ont bien été supprimées elles aussi.
+
 </div>
 
 ### Au niveau du PHP
