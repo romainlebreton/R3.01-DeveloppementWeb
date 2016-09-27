@@ -284,6 +284,24 @@ Pour tester si un paramètre `action` est donné dans l'URL, utilisez la fonctio
 
 </div>
 
+<!-- ### Amélioration du routeur -->
+
+<div class="exercise">
+
+On souhaite que le routeur vérifier que `$action` est le nom d'une méthode de
+'ControllerVoiture.php' avant d'appeler cette méthode, et renvoyer vers une page
+d'erreur le cas échéant.
+
+**Modifiez** le code du routeur pour implémenter cette fonction.
+
+**Note :** Vous pouvez récupérer le tableau des méthodes d'une classe avec
+[la fonction `get_class_methods()`](http://php.net/manual/fr/function.get-class-methods.php)
+et tester si une valeur appartient à un tableau avec
+[la fonction `in_array`](http://php.net/manual/fr/function.in-array.php).
+
+
+</div>
+
 Désormais, la page
 [http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/index.php](http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/index.php)
 doit marcher sans paramètre. Notez que vous pouvez aussi y accéder avec
