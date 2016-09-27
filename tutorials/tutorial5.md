@@ -4,6 +4,13 @@ subtitle: index.php, chemins absolus, CRUD
 layout: tutorial
 ---
 
+<!-- viewAllVoiture.php => list.php -->
+<!-- viewCreateVoiture.php => create.php -->
+<!-- viewErrorVoiture.php => error.php -->
+<!-- viewVoiture.php => detail.php -->
+
+<!-- modelVoiture.php => ModelVoiture.php -->
+
 <!-- faille XSS dans la vue : Echapper texte dans HTML -->
 
 <!-- Prévoir une explication écrite de la différence entre chemin de fichier et
@@ -284,8 +291,6 @@ Pour tester si un paramètre `action` est donné dans l'URL, utilisez la fonctio
 
 </div>
 
-<!-- ### Amélioration du routeur -->
-
 <div class="exercise">
 
 On souhaite que le routeur vérifie que `$action` est le nom d'une méthode de
@@ -393,133 +398,4 @@ Nous souhaitons rajouter l'action `update` aux voitures. Pour cela :
 <!--
 Question complémentaire pour ceux en avance :
 Refaites tout ce que vous avez fait sur Utilisateur (et Trajets).
--->
-
-<!--
-## Vues modulaires
-
-En l'état, certains bouts de code de nos vues se retrouvent dupliqués à de multiples endroits. Par exemple, l'affichage de la liste qui se trouve dans `viewListUtilisateur.php` se retrouve en partie dans `viewCreatedUtilisateur.php`, `viewDeletedUtilisateur.php`, `viewUpdatedUtilisateur.php`, ....
-
-Réorganisons le code pour éviter les redondances :
-
-<div class="exercise"> 
-Créer un fichier `TD5/view/header.php` avec au moins le code suivant. 
-Cette en-tête de page sera commune à tout votre site.
-Vous pourrez la personnaliser plus tard avec, par exemple, une barre de menus renvoyant vers les principales pages du site.
-
-```php
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title><?php echo $pagetitle; ?></title>
-    </head>
-    <body>
-```
-
-</div>
-
-<div class="exercise">
-
-Créer un fichier `TD5/view/footer.php` avec au moins le code suivant. 
-Ce pied de page sera commun à tout votre site. 
-Vous pourrez le personnaliser plus tard avec un pied de page comportant votre nom, la date de dernière modification de la page, un lien vers un formulaire de contact ou encore les logos certifiant que votre page HTML est conforme aux standards.
-```php
-    </body>
-</html>
-```
-
-</div>
-
-<div class="exercise"> 
-Raccourcir toutes les vues en utilisant `require (ROOT . DS . 'view' . DS . 'header.php')` en début de fichier et  `require (ROOT . DS . 'view' . DS . 'footer.php')` en fin de fichier. Initialiser la variable `$pagetitle` en début de vue.
-</div> 
-
-<div class="exercise"> 
-Mettre le corps de `viewListUtilisateur.php` dans un fichier séparé `partViewListUtilisateur.php`. Réutiliser ce fichier dans `viewCreatedUtilisateur.php`, `viewDeletedUtilisateur.php`, `viewUpdatedUtilisateur.php`, ....
-</div>
-
-<div class="exercise"> 
-Fusionner `viewCreateUtilisateur.php` et `viewUpdateUtilisateur.php` en une unique page. Mettre à jour le contrôleur en conséquence.
-
-**Indice :** `<input ... placeholder='Exemple' value='$val'>` affichera 'Exemple' en grisé si `$val` est la chaîne de caractère vide, et pré-remplira avec la valeur de  `$val` autrement.
-</div> 
-
-## CRUD pour les trajets
-
-L'implémentation du CRUD pour les trajets est un code très similaire à celui pour les utilisateurs. Nous pourrions donc copier/coller le code des utilisateurs et changer les quelques endroits nécessaires. 
-
-Pour éviter de perdre un temps conséquent à développer le CRUD pour chaque nouvel objet, nous allons le créer automatiquement autant que faire se peut.
-
-### Création d'un modèle générique
-
-<div class="exercise">
-Commençons par la fonction `selectAll()`. Dans cette fonction, seul le nom de la table présent dans la requête SQL varie. 
-
-1. Déplacez la fonction `selectAll()` de `ModelUtilisateur.php` vers `Model.php`.
-1. Faites que la classe `ModelUtilisateur` hérite de `Model` avec le mot clé `extends`.
-1. Créez dans `ModelUtilisateur.php` une variable `$table` qui est `protected` (accessible uniquement dans la classe courante et ses classes filles) et `static` (qui ne dépend que de la classe, pas des objets).
-1. Utilisez cette variable dans la fonction `selectAll()` de `Model.php` pour faire la requête sur la bonne table.
-Pour cela, accéder à la variable `$table` avec `static::$table` dans `Model.php`.
-
-<!-- Dernier problème, la nom de la classe dans setFetchMode doit être récupérer. C'est faisable sans attribut à l'aide de la fonction get_called_class() -->
-
-**Plus d'explications:** La syntaxe `static::$table` est quelque peu subtile. Dans notre cas, elle permet que lorsque l'on appelle `ModelUtilisateur::selectAll()`, qui est héritée de `Model::selectAll()`, la variable `static::$table` aille chercher `ModelUtilisateur::$table` et non pas `Model::$table`.
-1. Testez que votre site marche toujours.
-
-</div>
-
-<div class="exercise">
-Passons à la fonction `select()`. Dans cette fonction, le nom de la table et la condition `WHERE` varie. 
-
-1. Déplacez la fonction `select()` de `ModelUtilisateur.php` vers `Model.php`.
-1. Utilisez la variable statique `$table` de `ModelUtilisateur.php` pour remplacer le nom de la table.
-1. Créez une variable statique `$primary` dans `ModelUtilisateur.php` qui contiendra le nom du champ de la clé primaire.
-Utilisez cette variable pour remplacer le nom de la clé primaire dans `select()`.
-
-</div>
-
-<div class="exercise">
-Répétez la question précédente avec la fonction `delete()`.
-</div>
-
-<div class="exercise">
-Passons à la fonction `update()`. Pour reconstituer la requête 
-
-```sql
-UPDATE utilisateur SET nom=:nom,prenom=:prenom,email=:email,login=:login WHERE login=:login
-```
-
- il est nécessaire de pouvoir lister les champs de la table 'utilisateur'. 
-Ces champs sont les entrées du tableau `$data` et c'est ainsi que nous allons les récupérer.
-
-1. Déplacez la fonction `update()` de `ModelUtilisateur.php` vers `Model.php`.
-1. Remplacer la table et le nom de la clé primaire par les variables adéquates.
-1. Nous allons générer la partie `SET` à partir des clés du tableau associatif `$data`. Autrement dit, si `$data['un_champ']` existe, nous voulons rajouter la condition `un_champ = :un_champ` à `SET`.
-
-**Indice:** Utilisez la boucle `foreach ($tableau as $cle => $valeur)` pour récupérer les clés du tableau. Googler aussi la fonction `rtrim` de PHP qui pourra vous être utile pour enlever la virgule de trop à votre requête.
-
-</div>
-
-<div class="exercise">
-Répétez la question précédente avec la fonction `insert()`.
-</div>
-
-### Adaptation du contrôleur
-
-<div class="exercise">
-
-Couper l'adaptation du contrôleur en petit bouts testables. Il faut aussi adapter les vues au fur et à mesure. Finalement, il faut faire quelques remplacements dans VIEW_PATH, ModelUtilisateur et les vues (comme  viewErrorUtilisateur) pour simplifier la tâche.
-</div>
-
-<!-- 
-%%%%%%%%%%%%%%%%%%% Idées année dernière %%%%%%%%%%
-
-<div class="exercise">
-Factoriser le contrôleur en utilisant l'introspection ** ?? get_name
-</div>
-
-<div class="exercise">
-Adapter les vues
-</div>
 -->

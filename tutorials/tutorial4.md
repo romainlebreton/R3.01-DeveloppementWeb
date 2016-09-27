@@ -69,7 +69,7 @@ L'architecture **MVC** est une manière de découper le code en trois bouts M, V
 ayant des fonctions bien précises. Dans notre exemple, l'ancien fichier
 `lireVoiture.php` va être réparti entre le contrôleur
 `controller/controllerVoiture.php`, le modèle `model/ModelVoiture.php` et la vue
-`view/voiture/viewAllVoiture.php`.
+`view/voiture/list.php`.
 
 Voici un aperçu de tous les fichiers que nous allons créer dans ce TDs.
 
@@ -126,7 +126,7 @@ contiennent quasiment exclusivement que du code HTML, à l'exception de quelques
 boucle `for` est toutefois autorisée pour les vues qui affichent une liste
 d'éléments. **La vue n'effectue pas de traitement, de calculs**.
 
-Dans notre exemple, la vue serait le fichier `view/voiture/viewAllVoiture.php`
+Dans notre exemple, la vue serait le fichier `view/voiture/list.php`
 suivant. Le code de ce fichier permet d'afficher une page Web contenant toutes
 les voitures contenues dans la variable `tab_v`.
 
@@ -148,7 +148,7 @@ les voitures contenues dans la variable `tab_v`.
 
 <div class="exercise">
 
-Créez la vue `view/voiture/viewAllVoiture.php` avec le code précédent.
+Créez la vue `view/voiture/list.php` avec le code précédent.
 
 </div>
 
@@ -174,7 +174,7 @@ contrôleur pour `ModelVoiture`. Voici le contrôleur
 <?php
 require_once ('../model/ModelVoiture.php'); // chargement du modèle
 $tab_v = ModelVoiture::getAllVoitures();     //appel au modèle pour gerer la BD
-require ('../view/voiture/viewAllVoiture.php');  //redirige vers la vue
+require ('../view/voiture/list.php');  //redirige vers la vue
 ?>
 ```
 
@@ -185,7 +185,7 @@ Notre contrôleur se décompose donc en plusieurs parties :
 3. on se sert du modèle pour récupérer le tableau de toutes les voitures avec  
 `$tab_v = Voiture::getAllVoitures();`
 4. on appelle alors la vue qui va nous générer la page Web avec  
-`require ('../view/voiture/viewAllVoiture.php');`
+`require ('../view/voiture/list.php');`
 
 **Notes :**
 
@@ -229,7 +229,7 @@ require_once ('../model/ModelVoiture.php'); // chargement du modèle
 class ControllerVoiture {
     public static function readAll() {
         $tab_v = ModelVoiture::getAllVoitures();     //appel au modèle pour gerer la BD
-        require ('../view/voiture/viewAllVoiture.php');  //"redirige" vers la vue
+        require ('../view/voiture/list.php');  //"redirige" vers la vue
     }
     public static function read() {
         // Future action à compléter
@@ -289,7 +289,7 @@ de connaître l'immatriculation de la voiture visée ; on utilisera encore le
 
 <div class="exercise"> 
 
-1. Créez une vue `./view/voiture/viewVoiture.php` qui doit afficher tous les
+1. Créez une vue `./view/voiture/detail.php` qui doit afficher tous les
    détails de la voiture stockée dans `$v` de la même manière que l'ancienne
    fonction `afficher()` (encore commentée dans `ModelVoiture`).  
    **Note :** La variable `$v` sera initialisée dans le contrôleur plus tard,
@@ -306,7 +306,7 @@ l'URL.
 3. Rajoutez des liens cliquables `<a>` sur les immatriculations de la vue `viewAllVoiture`
    qui renvoient sur la vue de détail de la voiture concernée.
 
-4. Remplissez la vue `./view/voiture/viewErrorVoiture.php` pour gérer les
+4. Remplissez la vue `./view/voiture/error.php` pour gérer les
 immatriculations non reconnues.  
    (Regardez ce que renvoie `getVoitureByImmat()` dans ce cas là)
 
@@ -321,7 +321,7 @@ dans la BDD.
 <div class="exercise">
 
 1. Commençons par l'action `create` qui affichera le formulaire :
-   1. Créez la vue `./view/voiture/viewCreateVoiture.php` qui reprend le code de
+   1. Créez la vue `./view/voiture/create.php` qui reprend le code de
       `formulaireVoiture.html` faire dans le TD1.  
       La page de traitement de ce formulaire devra être l'action `created` du
       routeur `routeur.php`.
@@ -329,8 +329,7 @@ dans la BDD.
       vue.
 1. Testez votre page en appelant l'action `create` de `routeur.php`.
 
-1. Créez l'action `created` et sa vue associée
-`./view/voiture/viewCreatedVoiture.php`. L'action dans le contrôleur devra
+1. Créez l'action `created` dans le contrôleur qui devra
 
    1. récupérer les donnés de la voiture à partir de la *query string*,
    1. créer une instance de `ModelVoiture` avec les données reçues,
@@ -347,7 +346,7 @@ dans la BDD.
 
    **Attention à l'envoi de `action=created` :** Vous souhaitez envoyer
    l'information `action=created` en plus des informations saisies lors de
-   l'envoi du formulaire `viewCreatedVoiture.php`. Il y a deux possibilités :
+   l'envoi du formulaire `create.php`. Il y a deux possibilités :
 
    1. Vous pouvez rajouter l'information dans l'URL avec
 
@@ -392,6 +391,6 @@ produit quand on veut sauvegarder une voiture déjà existante :
 
 Rajouter une fonctionnalité *"Supprimer une voiture"* à votre site (action
 `delete`). Ajouter un lien cliquable pour supprimer chaque voiture dans la liste
-des voitures (dans la vue `view/voiture/viewAllVoiture.php`).
+des voitures (dans la vue `view/voiture/list.php`).
 
 </div>
