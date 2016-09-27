@@ -303,7 +303,7 @@ de connaître l'immatriculation de la voiture visée ; on utilisera encore le
 2. Testez cette vue en appelant la page du routeur avec les bons paramètres dans
 l'URL.
 
-3. Rajoutez des liens cliquables `<a>` sur les immatriculations de la vue `viewAllVoiture`
+3. Rajoutez des liens cliquables `<a>` sur les immatriculations de la vue `list.php`
    qui renvoient sur la vue de détail de la voiture concernée.
 
 4. Remplissez la vue `./view/voiture/error.php` pour gérer les
