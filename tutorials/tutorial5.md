@@ -288,8 +288,8 @@ Pour tester si un paramètre `action` est donné dans l'URL, utilisez la fonctio
 
 <div class="exercise">
 
-On souhaite que le routeur vérifier que `$action` est le nom d'une méthode de
-'ControllerVoiture.php' avant d'appeler cette méthode, et renvoyer vers une page
+On souhaite que le routeur vérifie que `$action` est le nom d'une méthode de
+`ControllerVoiture.php` avant d'appeler cette méthode, et renvoyer vers une page
 d'erreur le cas échéant.
 
 **Modifiez** le code du routeur pour implémenter cette fonction.

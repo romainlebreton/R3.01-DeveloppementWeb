@@ -4,8 +4,6 @@ subtitle: Modèle, Vue, Contrôleur
 layout: tutorial
 ---
 
-<!-- modelVoiture.php => ModelVoiture.php -->
-
 Au fur et à mesure que votre site Web grandit, vous allez rencontrer des
 difficultés à organiser votre code. Les prochains TDs visent à vous montrer une
 bonne façon de concevoir votre site web. On appelle *design pattern* (patron de
@@ -86,7 +84,6 @@ la base de données. C'est, par exemple, la classe `Voiture` que vous avez cré�
 lors des TDs précédents (sauf la fonction `afficher()`).
 
 <!--
-L'année prochaine : nommer les fichiers comme les classes ModelVoiture.php
 et peut-être nom de vue plus simple genre view/voiture/List.php
 -->
 
@@ -129,17 +126,6 @@ contiennent quasiment exclusivement que du code HTML, à l'exception de quelques
 boucle `for` est toutefois autorisée pour les vues qui affichent une liste
 d'éléments. **La vue n'effectue pas de traitement, de calculs**.
 
-
-<!--
-Ce avec quoi l'utilisateur interagit se nomme précisément la vue.  Sa première
-tâche est d'afficher la page Web à l'utilisateur. La vue reçoit aussi toute les
-actions de l'utilisateur (remplissage de formulaire dans notre cas) et les
-envoient au contrôleur.
-
-La vue n'effectue pas de traitement, elle se contente d'afficher les résultats
-des traitements effectués par le modèle et d'interagir avec l'utilisateur.  
--->
-
 Dans notre exemple, la vue serait le fichier `view/voiture/viewAllVoiture.php`
 suivant. Le code de ce fichier permet d'afficher une page Web contenant toutes
 les voitures contenues dans la variable `tab_v`.
@@ -173,8 +159,6 @@ sorte l'intermédiaire entre le modèle et la vue : le contrôleur va demander a
 modèle les données, les analyser, prendre des décisions et appelle la vue
 adéquate en lui donnant le texte à afficher à la vue. Le contrôleur contient
 exclusivement du PHP.
-
-<!-- il reçoit les *actions* de l'utilisateur -->
 
 Il existe une multitude d'implémentations du **MVC**:
 
@@ -227,20 +211,6 @@ la vue ne fait que lire cette variable pour générer la page Web.
 
 ### Le routeur : un autre composant du contrôleur
 
-<!-- ```php -->
-<!-- <?php -->
-<!-- require_once ('../model/ModelVoiture.php'); // chargement du modèle -->
-<!-- $action = $_GET['action'];          // recupère l'action passée dans l'URL -->
-
-<!-- switch ($action) { -->
-<!--     case "readAll": -->
-<!--         $tab_v = ModelVoiture::getAllVoitures();     //appel au modèle pour gerer la BD -->
-<!--         require ('../view/voiture/viewAllVoiture.php');  //"redirige" vers la vue -->
-<!--         break; -->
-<!-- } -->
-<!-- ?> -->
-<!-- ``` -->
-
 Le contrôleur est fait pour gérer plusieurs *actions* (une action correspond à
 peu près à une page Web). En effet notre contrôleur va devoir savoir:
 
@@ -268,8 +238,8 @@ class ControllerVoiture {
 ?>
 ```
 
-Le *routeur* est la partie du contrôleur qui s'occupe d'appeler le bon code en
-fonction de l'action. Voici le fichier `controller/routeur.php` :
+Le *routeur* est la partie du contrôleur qui reçoit les actions et qui s'occupe
+d'appeler le code correspondant. Voici le fichier `controller/routeur.php` :
 
 ```php
 <?php
@@ -332,8 +302,6 @@ de connaître l'immatriculation de la voiture visée ; on utilisera encore le
 
 2. Testez cette vue en appelant la page du routeur avec les bons paramètres dans
 l'URL.
-<!-- (Souvenez-vous comment les formulaires utilisant la méthode **GET** écrivent les
-paramètres dans l'URL) -->
 
 3. Rajoutez des liens cliquables `<a>` sur les immatriculations de la vue `viewAllVoiture`
    qui renvoient sur la vue de détail de la voiture concernée.
@@ -399,23 +367,6 @@ dans la BDD.
 
 </div> 
 
-<!--
-### Factorisation du code des vues
-
-<div class="exercise">
-Créer dans le répertoire `view` deux fichiers `header.php`
-et `footer.php`. Le header correspond à l'en-tête de votre site qui ne varie pas
-selon la page. Vous pouvez par exemple le remplir avec une liste de lien vers
-les différentes actions (liste, ajout, recherche) sur vos voitures. Le footer
-pourrait être un simple bandeau avec votre nom, un copyright et un lien pour
-vous écrire.
-
-Charger ces fichiers respectivement au début et à la fin du `<body>` de toutes vos vues.
-
-**NB :** Attention aux chemins relatifs lors de l'inclusion des header et footer dans vos vues. 
-</div> 
--->
-
 ## Et si le temps le permet...
 
 <div class="exercise">
@@ -444,69 +395,3 @@ Rajouter une fonctionnalité *"Supprimer une voiture"* à votre site (action
 des voitures (dans la vue `view/voiture/viewAllVoiture.php`).
 
 </div>
-
-<!-- ### Factorisation du code des vues -->
-
-<!-- <div class="exercise"> -->
-<!-- Créer dans le répertoire `view` deux fichiers `header.php` -->
-<!-- et `footer.php`. Le header correspond à l'en-tête de votre site qui ne varie pas -->
-<!-- selon la page. Vous pouvez par exemple le remplir avec une liste de lien vers -->
-<!-- les différentes actions (liste, ajout, recherche) sur vos voitures. Le footer -->
-<!-- pourrait être un simple bandeau avec votre nom, un copyright et un lien pour -->
-<!-- vous écrire. -->
-
-<!-- Charger ces fichiers respectivement au début et à la fin du `<body>` de toutes vos vues. -->
-
-<!-- **NB :** Attention aux chemins relatifs lors de l'inclusion des header et footer dans vos vues.  -->
-<!-- </div>  -->
-
-
-<!-- <div class="exercise">  -->
-
-<!-- Rajoutons des comportements par défaut : -->
-
-<!-- 1. Nous voudrions qu'un utilisateur qui navigue à la racine du site arrive -->
-<!-- automatiquement sur la page du contrôleur. Créer pour cela un `index.php` à la -->
-<!-- racine qui charge seulement la page `./controller/controllerVoiture.php` à l'aide  -->
-<!-- d'un `require`.   -->
-<!-- **Remarque :** Tous les chemins que vous écrivez sont relatifs à la page -->
-<!--   demandée. Comme on change la page de `controller/controllerVoiture.php` vers -->
-<!--   `index.php`, tous vos `require` sont décalés. On peut évitera ce problème dans -->
-<!--   un prochaine TD en utilisant des chemins absolus. -->
-
-<!-- 2. Nous voudrions aussi que le contrôleur exécute l'action `"readAll"` si aucune -->
-<!-- action n'est spécifiée dans les paramètres de l'URL. -->
-
-<!--    **Aide :** Utiliser la fonction `isset($_GET['action'])` pour déterminer si -->
-<!-- une action a été donnée. Vous aurez aussi besoin du 'case' `default` de switch - -->
-<!-- case -->
-<!-- ([http://php.net/manual/fr/control-structures.switch.php](http://php.net/manual/fr/control-structures.switch.php)). -->
-<!-- </div> -->
-
-
-<!-- <div class="exercise"> -->
-<!-- Gérer les options des voitures :  -->
-<!-- Reprendre la méthodologie du TD précédent pour l'association `passager` entre les Trajets et les Utilisateurs.  -->
-
-<!-- Créer une table options dans votre base de données avec deux champs de type VARCHAR, `immatriculation` et `option`, qui constitueront la clé primaire. -->
-
-<!-- Mettre à jour les fonctions `save()`, `getVoitureByImmat($im)` et `getAllVoitures()` -->
-<!-- pour qu'elles prennent en charge les options.  Mettre aussi à jour la vue de -->
-<!-- détail pour qu'elle affiche les options. -->
-<!-- </div> -->
-
-
-
-<!--
-
- - Attention guillemets inversés ` optionnel pour nom de table / colonne dans MySQL
-
- Pouvant être rajouté au TD
- --------------------------
- - Rajouter header & footer & titre aux vues
- - header : liste + chercher + ajout
- - Gérer page par défaut : liste
- - Gérer racine renvoie vers controleur
- - Gérer ajout de voiture existante !
- - Action / Vue "del" = supprimer avec lien dans la liste des voitures
--->
