@@ -76,7 +76,7 @@ ayant des fonctions bien précises. Dans notre exemple, l'ancien fichier
 Voici un aperçu de tous les fichiers que nous allons créer dans ce TDs.
 
 <img alt="Structure de nos fichiers"
-src="../assets/RepStructure.png" style="margin-left:auto;margin-right:auto;display:block;">
+src="../assets/RepStructure.png" style="margin-left:auto;margin-right:auto;display:block;width:12em;">
 
 
 ### M: Le modèle
