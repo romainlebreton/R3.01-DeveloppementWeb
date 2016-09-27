@@ -13,6 +13,10 @@ Présentez les getter et setter génériques à l'aide de $objet->$attr_name
 http://php.net/manual/en/language.oop5.php
 -->
 
+<!--
+Need to URL decode $_GET ??
+-->
+
 ## Méthodologie
 
 Quelques consignes qui vous feront gagner beaucoup de temps en développement web:

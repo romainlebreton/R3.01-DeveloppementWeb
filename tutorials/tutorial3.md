@@ -10,6 +10,16 @@ layout: tutorial
 
 <!-- Changer interclass, moteur BDD : onglet Opérations -->
 
+<!--
+http://defeo.lu/aws-2014/classes/class5
+Échappement SQL
+Fonctions d’échappement:
+
+PHP : mysqli::real_escape_string,
+PDO/Doctrine : PDO::quote, Doctrine::quote,
+Échappement automatique : requêtes préparées.
+-->
+
 Ce TD3 est le prolongement du TD2 sur l'enregistrement des données dans une BDD
 en utilisant la classe `PDO` de PHP. Nous poursuivons par le concept très
 important de requêtes préparées. Puis nous coderons des associations entre
