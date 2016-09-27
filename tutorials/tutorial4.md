@@ -90,8 +90,8 @@ et peut-être nom de vue plus simple genre view/voiture/List.php
 <div class="exercise">
 1. Créez les répertoires `config`, `controller`, `model`, `view` et `view/voiture`.
 1. Renommez le fichier `Voiture.php` en `ModelVoiture.php`.  
-   Renommez la classe en `ModelVoiture`. Commentez la fonction
-   `afficher()`.  
+   Renommez la classe en `ModelVoiture`. Mettez en commentaire la fonction
+   `afficher()` pour la désactiver.  
    Pensez à corriger la classe appelée dans vos `setFetchMode()` pour créer des
    objets de `ModelVoiture`.
 1. Déplacez vos fichiers `ModelVoiture.php` et `Model.php` dans le répertoire `model/`.
@@ -367,6 +367,14 @@ dans la BDD.
 </div> 
 
 ## Et si le temps le permet...
+
+<div class="exercise">
+
+Dessinez sur un bout de papier un schéma qui explique comment le contrôleur (le
+routeur et la partie Voiture), le modèle et la vue interagissent pour créer la
+page qui correspond par exemple à l'action `read`.
+
+</div>
 
 <div class="exercise">
 
