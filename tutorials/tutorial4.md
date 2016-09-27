@@ -357,7 +357,7 @@ dans la BDD.
    2. Ou (**conseillé**) vous rajoutez un champ caché à votre formulaire :
 
       ```html?start_inline=1
-      <input type='hidden' name='action' value='updated'>
+      <input type='hidden' name='action' value='created'>
       ```
 
       Si vous ne connaissez pas les `<input type='hidden'>`, allez lire
