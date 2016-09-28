@@ -4,6 +4,8 @@ subtitle: index.php, chemins absolus, CRUD
 layout: tutorial
 ---
 
+<!-- Corriger le schéma MVC -->
+
 <!-- viewAllVoiture.php => list.php -->
 <!-- viewCreateVoiture.php => create.php -->
 <!-- viewErrorVoiture.php => error.php -->
