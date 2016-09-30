@@ -68,7 +68,7 @@ class Voiture {
 L'architecture **MVC** est une manière de découper le code en trois bouts M, V et C
 ayant des fonctions bien précises. Dans notre exemple, l'ancien fichier
 `lireVoiture.php` va être réparti entre le contrôleur
-`controller/controllerVoiture.php`, le modèle `model/ModelVoiture.php` et la vue
+`controller/ControllerVoiture.php`, le modèle `model/ModelVoiture.php` et la vue
 `view/voiture/list.php`.
 
 Voici un aperçu de tous les fichiers que nous allons créer dans ce TDs.
@@ -168,7 +168,7 @@ Il existe une multitude d'implémentations du **MVC**:
 
 Nous choisissons ici la version intermédiaire et commençons à créer un
 contrôleur pour `ModelVoiture`. Voici le contrôleur
-`controller/controllerVoiture.php` sur notre exemple :
+`controller/ControllerVoiture.php` sur notre exemple :
 
 ```php
 <?php
@@ -190,15 +190,15 @@ Notre contrôleur se décompose donc en plusieurs parties :
 **Notes :**
 
 * **Pourquoi `../` ?** Les adresses sont relatives au fichier courant qui est
-`controller/controllerVoiture.php` dans notre cas.
+`controller/ControllerVoiture.php` dans notre cas.
 * Notez bien que c'est le contrôleur qui initialise la variable `$tab_v` et que
 la vue ne fait que lire cette variable pour générer la page Web.
 
 <div class="exercise">
 
-1. Créez le contrôleur `controller/controllerVoiture.php` avec le code précédent.
+1. Créez le contrôleur `controller/ControllerVoiture.php` avec le code précédent.
 2. Testez votre page en appelant l'URL
-[.../controller/controllerVoiture.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD4/controller/controllerVoiture.php)
+[.../controller/ControllerVoiture.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD4/controller/ControllerVoiture.php)
 3. Prenez le temps de comprendre le **MVC** sur cet exemple.  
    Avez-vous compris l'ordre dans lequel PHP exécute votre code ?  
    Est-ce que ce code vous semble similaire à l'ancien fichier
@@ -325,7 +325,7 @@ dans la BDD.
       `formulaireVoiture.html` faire dans le TD1.  
       La page de traitement de ce formulaire devra être l'action `created` du
       routeur `routeur.php`.
-   1. Rajoutez une action `create` à `controllerVoiture.php` qui affiche cette
+   1. Rajoutez une action `create` à `ControllerVoiture.php` qui affiche cette
       vue.
 1. Testez votre page en appelant l'action `create` de `routeur.php`.
 
