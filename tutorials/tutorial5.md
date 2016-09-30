@@ -10,7 +10,7 @@ layout: tutorial
 <!-- viewCreateVoiture.php => create.php -->
 <!-- viewErrorVoiture.php => error.php -->
 <!-- viewVoiture.php => detail.php -->
-
+<!-- controllerVoiture.php => ControllerVoiture.php -->
 <!-- modelVoiture.php => ModelVoiture.php -->
 
 <!-- faille XSS dans la vue : Echapper texte dans HTML -->
