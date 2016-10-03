@@ -53,7 +53,7 @@ contrôleur qui s'en servira comme d'un outil pour générer la page Web ;
       demande de la page et d'appeler le bon code du contrôleur correspondant.
 
    1. la partie `Voiture` du contrôleur (*e.g.* `controller/ControllerVoiture.php`)
-      contient le code source des actions. C'est donc ici qu'est présent la logique
+      contient le code source des actions. C'est donc ici qu'est présente la logique
       du site Web : on y appelle le modèle pour récupérer/enregistrer des données,
       on traite ces données, on appelle les vues pour écrire la page Web...
 
@@ -61,7 +61,7 @@ contrôleur qui s'en servira comme d'un outil pour générer la page Web ;
 
 Comme nous venons de le rappeler, l'utilisateur doit se connecter au routeur
 `controller/routeur.php` pour accéder au site. Or l'organisation interne du site
-Web ne doit pas être visible au client pour des raisons de clareté et pour que
+Web ne doit pas être visible du client pour des raisons de clarté et pour que
 l'URL reste propre. Nous allons déplacer la page d'entrée de notre site vers
 `index.php`.
 
