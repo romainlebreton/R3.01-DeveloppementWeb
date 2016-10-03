@@ -99,7 +99,7 @@ mettre facilement deux vues bout à bout.
 
 Par exemple, notre vue de création (action `created`) de *voiture* affichait
 *"Votre voiture a bien été créée"* puis la liste des voitures. Il semblerait
-donc naturel que la vue correspondante écrive le message puis appelle la vue
+donc naturel que la vue correspondante écrire le message puis appelle la vue
 `viewAllVoiture.php`. Mais comme cette dernière vue écrivait la page HTML du
 début à la fin, on ne pouvait rien y rajouter au milieu !
 
