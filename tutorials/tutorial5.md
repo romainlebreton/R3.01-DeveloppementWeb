@@ -35,7 +35,7 @@ c'est-à-dire que vous avez codé les actions `create` et `created`.
 
 ## Remise en route
 
-La semaine dernière, nous avons commencer à utiliser l'architecture
+La semaine dernière, nous avons commencé à utiliser l'architecture
 MVC. Le code était découpé en trois parties :
 
 3. Le modèle (*e.g.* `model/ModelVoiture.php`) est une bibliothèque des
