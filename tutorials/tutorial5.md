@@ -4,17 +4,6 @@ subtitle: index.php, chemins absolus, CRUD
 layout: tutorial
 ---
 
-<!-- Corriger le schéma MVC -->
-
-<!-- viewAllVoiture.php => list.php -->
-<!-- viewCreateVoiture.php => create.php -->
-<!-- error.php => error.php -->
-<!-- detail.php => detail.php -->
-<!-- ControllerVoiture.php => ControllerVoiture.php -->
-<!-- ModelVoiture.php => ModelVoiture.php -->
-
-<!-- faille XSS dans la vue : Echapper texte dans HTML -->
-
 <!-- Prévoir une explication écrite de la différence entre chemin de fichier et
 URL.  Notament pour ceux qui mettent du ROOT dans les URL -->
 
@@ -24,10 +13,10 @@ Aujourd'hui nous allons développer notre site-école de covoiturage. Au fur et 
 mesure que le projet grandit, nous allons bénéficier du modèle MVC qui va nous
 faciliter la tâche de conception.
 
-<!--Le but de ce TD est donc d'avoir un site qui propose une gestion minimale des
-utilisateurs et des trajets proposés en covoiturage. En attendant de pouvoir
-gérer les sessions d'utilisateur, nous allons développer l'interface
-"administrateur" du site.-->
+Le but des TDs 5 & 6 est donc d'avoir un site qui propose une gestion minimale
+des voitures, utilisateurs et trajets proposés en covoiturage. En attendant de
+pouvoir gérer les sessions d'utilisateur, nous allons développer l'interface
+"administrateur" du site.
 
 Ce TD présuppose que vous avez au moins fait les
 [exercices 1 à 6 du TD précédent](tutorial4.html#vue-ajout-dune-voiture),
@@ -48,14 +37,27 @@ contrôleur qui s'en servira comme d'un outil pour générer la page Web ;
    composé de deux parties :
 
    1. le routeur (*e.g.* `controller/routeur.php`) est la page que l'utilisateur
-      demande pour se connecter au site. C'est donc le script PHP de cette page qui
-      est **exécuté**. Cette page est chargée de récupérer l'action envoyée avec la
-      demande de la page et d'appeler le bon code du contrôleur correspondant.
+      demande pour se connecter au site. C'est donc le script PHP de cette page
+      qui est **exécuté**. Cette page est chargée de récupérer l'action envoyée
+      avec la demande de la page et d'appeler le bon code du contrôleur
+      correspondant.
 
-   1. la partie `Voiture` du contrôleur (*e.g.* `controller/ControllerVoiture.php`)
-      contient le code source des actions. C'est donc ici qu'est présente la logique
-      du site Web : on y appelle le modèle pour récupérer/enregistrer des données,
-      on traite ces données, on appelle les vues pour écrire la page Web...
+   1. la partie `Voiture` du contrôleur (*e.g.*
+      `controller/ControllerVoiture.php`) contient le code source des
+      actions. C'est donc ici qu'est présente la logique du site Web : on y
+      appelle le modèle pour récupérer/enregistrer des données, on traite ces
+      données, on appelle les vues pour écrire la page Web...
+
+<div class="exercise">
+
+La semaine dernière, vous aviez dessiné le schéma qui explique comment le
+contrôleur (le routeur et la partie Voiture), le modèle et la vue interagissent
+pour créer la page qui correspond par exemple à l’action read.
+
+Remémorez-vous ce schéma pour pouvoir l'expliquer à votre chargé de TD quand il
+passera le corriger.
+
+</div>
 
 ## Changement de la page d'accueil du site
 
@@ -106,46 +108,66 @@ car il n'y a pas de chemin mais require `./Model.php` ne marche pas.
 
 -->
 
+#### Une première solution
+
+Pour remédier au problème précédent, nous allons utiliser des chemins
+absolus. Nous allons écrire le chemin absolu de fichier menant à votre site Web
+dans une variable `$ROOT_FOLDER` (sans slash à la fin). Par exemple, sur les machines de l'IUT
+(serveur infolimon)
+   
+```php?start_inline=1
+$ROOT_FOLDER = "/home/ann2/votre_login/public_html/TD5";
+```
+
+ou sur vos machines personnelles Windows 
+   
+```php?start_inline=1
+$ROOT_FOLDER = "C:\\wamp\www\TD5";
+```
+
+Nous allons se servir de cette variable pour créer des chemins de fichiers
+absolus en écrivant
+
+```php?start_inline=1
+require_once "{$ROOT_FOLDER}/config/Conf.php";
+```
+
+au lieu de chemins de fichiers relatifs
+
+```php?start_inline=1
+require_once "./config/Conf.php";
+```
+
 <div class="exercise">
 
-1. Pour remédier au problème précédent, nous allons utiliser des chemins
-   absolus. Créez une variable `$ROOT_FOLDER` dans votre routeur qui stockera le
-   chemin absolu menant à votre site Web (sans slash à la fin). Par exemple, sur
-   les machines de l'IUT (serveur infolimon)
-   <!-- ou sur vos machines personnelles Linux -->
-   
+Pour garder notre code propre, nous allons écrire une fonction `file_build_path`
+qui prend en entrée `array("config","Conf.php")` et renvoie
+`"{$ROOT_FOLDER}/config.Conf.php"`.
+
+1. Créez une classe PHP `File` dans un fichier `lib/File.php`.
+
+1. Créez la méthode statique `file_build_path` de la classe `File` suivante
+
    ```php?start_inline=1
-   $ROOT_FOLDER = "/home/ann2/votre_login/public_html/TD5";
+   public static function file_build_path($path_array) {
+       // $ROOT_FOLDER (sans slash à la fin) vaut
+       // "/home/ann2/votre_login/public_html/TD5" à l'IUT 
+       $ROOT_FOLDER = "Votre chemin de fichier menant au site Web";
+       return $ROOT_FOLDER. '/' . join('/', $path_array);
+   }
    ```
 
-   ou sur vos machines personnelles Windows 
+   **Note :** [Documentation de la fonction `join`](http://php.net/manual/fr/function.join.php).
    
-   ```php?start_inline=1
-   $ROOT_FOLDER = "C:\\wamp\www\TD5";
-   ```
-
-2. Modifiez tous les `require` de tous les fichiers pour qu'ils utilisent des
-chemins absolus à l'aide de la variable `$ROOT_FOLDER` précédente.  
-**Testez** que votre ancien site marche toujours bien en demandant la page
-`controller/routeur.php?action=readAll` dans votre navigateur.
+1. **Incluez** votre classe `File.php` dans le routeur `routeur.php`.  
+   **Modifiez** tous les `require` de tous les fichiers pour qu'ils utilisent des
+   chemins absolus en utilisant la méthode `file_build_path`.  
+   **Testez** que votre ancien site marche toujours bien en demandant la page
+   `controller/routeur.php?action=readAll` dans votre navigateur.
    
-   **Astuces :**
-
-   * Utilisez la fonction de recherche de votre éditeur de page PHP
-   pour trouver tous les `require`.
-   * Utilisez la syntaxe avec les chaînes de caractères avec *double quotes*
-     `"..."` qui permettent le remplacement de variables,
-     [*cf.* le TD1.]({{site.baseurl}}/tutorials/tutorial1.html#les-chanes-de-caractres)
-
-   <!-- **Erreurs classiques :** -->   
-   <!-- * Utiliser des *simple quotes* `'...'` dans l'adresse des fichiers : la variable -->
-   <!-- `$ROOT_FOLDER` n'est pas remplacée. -->
-   <!-- * Appeler la page `index.php` sans action dans Firefox ; il faut demander une -->
-   <!--   action comme par exemple `readAll` pour que le site marche (pour l'instant). -->
-
 3. On souhaite désormais que la page d'accueil soit `index.php`. Créez donc un
-   tel fichier à la racine de votre site. Déplacez la définition de
-   `$ROOT_FOLDER` du routeur vers le début de `index.php`, puis faites un
+   tel fichier à la racine de votre site. Déplacez le `require` de `File.php` du
+   routeur vers le début de `index.php`, puis faites un
    `require` du routeur `controller/routeur.php`.  
    **Testez** que votre site marche encore en demandant la page
    `index.php?action=readAll` dans le navigateur.
@@ -155,34 +177,53 @@ chemins absolus à l'aide de la variable `$ROOT_FOLDER` précédente.
 
 </div>
 
-On souhaiterait que notre site soit portable, c'est-à-dire que l'on puisse
-facilement le déplacer sur une autre machine, à un autre endroit ... On voit
-bien que la variable `$ROOT_FOLDER` dépend de l'installation. De plus ceux qui ont des
-machines Windows ont dû se rendre compte que les chemins était séparés par des
-anti-slash `\` sur Windows, contrairement à Linux et Mac qui utilisent des slash
-`/`.
+#### Une solution portable
 
-**Exemple :** `C:\\wamp\www` sur Windows et `/home/ann2/lebreton/public_html` sur Linux.
+On souhaite que notre site soit portable, c'est-à-dire que l'on puisse
+facilement le déplacer sur une autre machine, à un autre endroit ... On voit
+bien que la variable `$ROOT_FOLDER` dépend de l'installation. De plus ceux qui
+ont des machines Windows ont dû se rendre compte que les chemins était séparés
+par des anti-slash `\` sur Windows, contrairement à Linux et Mac qui utilisent
+des slash `/`.
+
+**Exemple :** `C:\\wamp\www` sur Windows et `/home/ann2/lebreton/public_html`
+sur Linux.
+
+Pour la rendre portable, nous allons récupérer à la volée le répertoire du site
+avec le code suivant:
+   
+```php?start_inline=1
+// __DIR__ est une constante "magique" de PHP qui contient le chemin du dossier courant
+$ROOT_FOLDER = __DIR__;
+```
+
+De même, nous utiliserons la constante PHP `DIRECTORY_SEPARATOR` qui permet
+d'utiliser le bon slash de séparation des chemins selon le système :
+
+```php?start_inline=1
+// DS contient le slash des chemins de fichiers, c'est-à-dire '/' sur Linux et '\' sur Windows
+$DS = DIRECTORY_SEPARATOR;
+```
 
 <div class="exercise">
 
-3. Pour la rendre portable, nous allons récupérer à la volée le répertoire du
-   site avec le code suivant dans `index.php`:
+1. Pour rendre le site Web portable, nous allons récupérer à la volée le
+   répertoire du site avec le code suivant :
    
    ```php?start_inline=1
    // __DIR__ est une constante "magique" de PHP qui contient le chemin du dossier courant
-   $ROOT_FOLDER = __DIR__;
+   // Comme File.php est dans le dossier lib, nous devons redescendre d'un dossier avec '/..'
+   $ROOT_FOLDER = __DIR__ . "/..";
    ```
    
    **Référence :**
      [Constantes magiques en PHP](http://php.net/manual/fr/language.constants.predefined.php)
 
 
-   <!--
-   An prochain : optionel ! Et vérifier si c'est vraiment nécessaire sous Windows ?
-   -->
+   <!-- An prochain : optionel ! Et vérifier si c'est vraiment nécessaire sous
+   Windows ?  -->
 
-2. Définissez la constante suivante dans `index.php` qui permet d'utiliser le
+2. Définissez aussi la constante suivante dans `index.php` qui permet d'utiliser le
 bon slash de séparation des chemins selon le système :
 
    ```php?start_inline=1
@@ -193,24 +234,10 @@ bon slash de séparation des chemins selon le système :
    **Référence :**
      [Constantes prédéfinies en PHP](http://php.net/manual/fr/dir.constants.php)
 
-3. Changez tous vos séparateurs de tous vos `require` par `$DS`.  
-**Astuce :**
+3. Il ne reste plus qu'à changer la fonction `file_build_path` pour qu'elle
+   utilise ces deux constantes.
 
-   * Ceci peut être fait en peu de temps en utilisant la fonction de
-     remplacement de votre éditeur (souvent obtenue avec `Ctrl+H`) et le
-     remplacement automatique de variables dans les chaînes entre double
-     guillemets `"`. Essayez d'obtenir par exemple :
-
-     ```php?start_inline=1
-     require "{$ROOT_FOLDER}{$DS}config{$DS}Conf.php";
-     ```
-
-   * (Optionel) Si vous voulez rendre votre code encore plus propre, vous pouvez
-     écrire une fonction `file_build_path` qui prend en entrée
-     `array("config","Conf.php")` et renvoie
-     `"{$ROOT_FOLDER}{$DS}config{$DS}Conf.php"`. Une solution peut être obtenue
-     à l'aide de la fonction PHP
-     [`join`](http://php.net/manual/fr/function.join.php).
+4. **Retestez** votre site Web.
 
 </div>
 
@@ -435,7 +462,8 @@ la page.
    pour -->
    <!-- appeler notre vue générique. -->
 
-4. **Testez** votre action `readAll`.
+4. **Testez** votre action `readAll`. Regardez le code source de la page Web
+   pour vérifier que le HTML généré est correct.
 
 5. Modifiez les autres actions et testez votre site.
 
@@ -476,41 +504,24 @@ Notre réorganisation nous permet aussi de résoudre le problème soulevé plus 
 
 <div class="exercise">
 
-Le script `viewAllVoiture.php` sert à écrire la liste des
-voitures. Plutôt que d'avoir une copie de ce script dans
-`viewCreatedVoiture.php`, `viewDeletedVoiture.php` et
-`viewUpdatedVoiture.php`, incluez-le avec un `require`.
+Nous souhaitons créer une vue `created.php` qui affiche le message
 
-**Remarque :** Le fichier `viewDeletedVoiture.php` ne doit plus faire que
-deux lignes maintenant.
+```html
+<p>La voiture a bien été créée !</p>
+```
+
+avant de faire un require de `list.php` puisque cette vue sert à écrire la liste
+des voitures.
+
+1. Créez la vue `created.php` comme expliqué ci-dessus.  
+   **Remarque :** La vue `created.php` ne doit plus faire que deux lignes
+   maintenant.
+
+2. Changez l'action `created` du contrôleur pour appeler cette vue.  
+   **Attention :** Il faut initialiser la variable `$tab_v` contenant le tableau
+   de toutes les voitures afin qu'elle puisse être affichée dans la vue.
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## CRUD pour les voitures
 
@@ -526,33 +537,17 @@ Web) :
 3. créer une voiture dans la BDD : action `created`
 
 
-<!--
-Le site squelette se navigue à partir de la page principale `TD5/index.php` en
-passant des paramètres dans l'URL comme par exemple
-`TD5/index.php?controller=utilisateur\&action=readAll`. La page principale
-`TD5/index.php` contient principalement le code du dispatcher, dont la fonction
-est de charger le bon contrôleur en fonction des paramètres reçus dans
-l'URL. Dans notre exemple, nous avons passé en paramètres
-`controller=utilisateur`, donc le dispatcher chargera le contrôleur
-`ControllerUtilisateur.php`.  Le dispatcher fait lui-même partie du contrôleur
-dans le modèle MVC car il n'affiche ni page HTML (rôle des vues), ni ne manipule
-les données (rôle des modèles).
 
 
-À son tour, le contrôleur chargé va, en fonction de l'action donnée en paramètre dans l'URL, traiter la requête, agir avec le modèle correspondant puis afficher la vue adéquate.
-Dans notre exemple, l'action est 'readAll' et le contrôleur va donc :
 
-* demander au modèle `ModelUtilisateur.php` de lire tous les utilisateurs de la base de donnée ;
-* initialiser une variable `$tab_util` ;
-* charger la vue `utilisateur/list.php` dont la tâche est d'afficher une belle page HTML avec le contenu de `$tab_util`.
 
-Pour l'instant, notre site ne sait que traiter les actions 'read' (recherche), 'readAll' (liste) et 'insert' (création) pour les utilisateurs.
 
-<div class="exercise">
-Prendre le temps de vérifier que l'on comprend bien le site squelette donné et son organisation. En cas de doute, relire le TD précédent, Googler la partie du code mystérieuse ou demander à votre professeur.
-</div>
 
--->
+
+
+
+
+
 
 On veut rajouter un comportement par défaut pour la page d'accueil ; nous allons
 faire en sorte qu'un utilisateur qui arrive sur `index.php` voit la même page
