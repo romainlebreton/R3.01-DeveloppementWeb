@@ -1,6 +1,6 @@
 ---
 title: TD5 &ndash; Architecture MVC avancée 1/2
-subtitle: index.php, chemins absolus, CRUD
+subtitle: index.php, échappement du HTML, vues modulaires, CRUD
 layout: tutorial
 ---
 
@@ -142,7 +142,7 @@ require_once "./config/Conf.php";
 
 Pour garder notre code propre, nous allons écrire une fonction `build_path`
 qui prend en entrée `array("config","Conf.php")` et renvoie
-`"{$ROOT_FOLDER}/config.Conf.php"`.
+`"{$ROOT_FOLDER}/config/Conf.php"`.
 
 1. Créez une classe PHP `File` dans un fichier `lib/File.php`.
 
