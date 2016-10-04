@@ -255,7 +255,7 @@ $path = file_build_path(array("config","Conf.php"));
 
 ## Sécurité des vues 
 
-Nous allons apprendre pourquoi nous devons faire attention lorsque lorque nous
+Nous allons apprendre pourquoi nous devons faire attention lorsque nous
 remplaçons une variable PHP par sa valeur dans l'écriture de la page HTML. Vous
 allez voir que les raisons sont assez similaires au problème derrière les
 injections SQL.
