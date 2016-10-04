@@ -164,7 +164,11 @@ qui prend en entrée `array("config","Conf.php")` et renvoie
    chemins absolus en utilisant la méthode `file_build_path`.  
    **Testez** que votre ancien site marche toujours bien en demandant la page
    `controller/routeur.php?action=readAll` dans votre navigateur.
-   
+
+   **Remarque :** Contrairement au `require` du routeur, le `require` de
+     `File.php` ne peut pas se faire avec `file_build_path` puisqu'il n'a pas
+     encore été déclaré. Il faut donc le faire "à la main".
+
 3. On souhaite désormais que la page d'accueil soit `index.php`. Créez donc un
    tel fichier à la racine de votre site. Déplacez le `require` de `File.php` du
    routeur vers le début de `index.php`, puis faites un
