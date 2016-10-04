@@ -140,16 +140,16 @@ require_once "./config/Conf.php";
 
 <div class="exercise">
 
-Pour garder notre code propre, nous allons écrire une fonction `file_build_path`
+Pour garder notre code propre, nous allons écrire une fonction `build_path`
 qui prend en entrée `array("config","Conf.php")` et renvoie
 `"{$ROOT_FOLDER}/config.Conf.php"`.
 
 1. Créez une classe PHP `File` dans un fichier `lib/File.php`.
 
-1. Créez la méthode statique `file_build_path` de la classe `File` suivante
+1. Créez la méthode statique `build_path` de la classe `File` suivante
 
    ```php?start_inline=1
-   public static function file_build_path($path_array) {
+   public static function build_path($path_array) {
        // $ROOT_FOLDER (sans slash à la fin) vaut
        // "/home/ann2/votre_login/public_html/TD5" à l'IUT 
        $ROOT_FOLDER = "Votre chemin de fichier menant au site Web";
@@ -161,12 +161,12 @@ qui prend en entrée `array("config","Conf.php")` et renvoie
    
 1. **Incluez** votre classe `File.php` dans le routeur `routeur.php`.  
    **Modifiez** tous les `require` de tous les fichiers pour qu'ils utilisent des
-   chemins absolus en utilisant la méthode `file_build_path`.  
+   chemins absolus en utilisant la méthode `build_path`.  
    **Testez** que votre ancien site marche toujours bien en demandant la page
    `controller/routeur.php?action=readAll` dans votre navigateur.
 
    **Remarque :** Contrairement au `require` du routeur, le `require` de
-     `File.php` ne peut pas se faire avec `file_build_path` puisqu'il n'a pas
+     `File.php` ne peut pas se faire avec `build_path` puisqu'il n'a pas
      encore été déclaré. Il faut donc le faire "à la main".
 
 3. On souhaite désormais que la page d'accueil soit `index.php`. Créez donc un
@@ -238,7 +238,7 @@ bon slash de séparation des chemins selon le système :
    **Référence :**
      [Constantes prédéfinies en PHP](http://php.net/manual/fr/dir.constants.php)
 
-3. Il ne reste plus qu'à changer la fonction `file_build_path` pour qu'elle
+3. Il ne reste plus qu'à changer la fonction `build_path` pour qu'elle
    utilise ces deux constantes.
 
 4. **Retestez** votre site Web.
@@ -246,11 +246,11 @@ bon slash de séparation des chemins selon le système :
 </div>
 
 <!--
-function file_build_path($segments) {
+function build_path($segments) {
     return __DIR__. DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, $segments);
 }
 
-$path = file_build_path(array("config","Conf.php"));
+$path = build_path(array("config","Conf.php"));
 -->
 
 ## Sécurité des vues 
