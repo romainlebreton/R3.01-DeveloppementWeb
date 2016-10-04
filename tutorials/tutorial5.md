@@ -347,7 +347,7 @@ Pour information, la liste des caractères réservés des URLs sont
    <!-- On change la signification de l'URL et on dit que l'immat est h au lieu
    de &immat=h -->
 
-1. Changer la vue `detail.php` pour qu'elle encode à l'aide de `rawurlencode` la
+1. Changer la vue `list.php` pour qu'elle encode à l'aide de `rawurlencode` la
    variable PHP correspondant à l'immatriculation.  
    **Attention :** Il ne faut pas encoder l'immatriculation déjà échappée pour
    le HTML. Il faut créer deux variables : une immatriculation pour le HTML et
@@ -430,7 +430,7 @@ la page.
 
 <div class="exercise">
 
-1. Créer une vue générique `TD6/view/view.php` avec le code suivant. La fonction
+1. Créer une vue générique `TD5/view/view.php` avec le code suivant. La fonction
    de `view.php` est de charger une en-tête et un pied de page communs, ainsi
    que la vue dont le nom est stocké dans la variable `$view` (et le titre de
    page contenu dans `$pagetitle`).
