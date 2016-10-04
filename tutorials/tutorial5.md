@@ -209,39 +209,31 @@ d'utiliser le bon slash de séparation des chemins selon le système :
 $DS = DIRECTORY_SEPARATOR;
 ```
 
+**Références :**
+
+* [Constantes magiques en PHP](http://php.net/manual/fr/language.constants.predefined.php)
+* [Constantes prédéfinies en PHP](http://php.net/manual/fr/dir.constants.php)
+
+
+
 <div class="exercise">
 
-1. Pour rendre le site Web portable, nous allons récupérer à la volée le
-   répertoire du site avec le code suivant :
-   
+Changeons notre site pour utiliser ces deux constantes. Il faut remplacer le
+code à deux endroits :
+
+1. Utilisez aussi ces deux constantes dans le `require` de `File.php` qui est
+   fait dans `index.php`.
+
+1. Changez la fonction `build_path` pour qu'elle utilise ces deux constantes.
+
+   **Attention :** Comme `File.php` est dans le dossier `lib`, nous devons
+     redescendre d'un dossier avec `"/.."`. Faites donc
+
    ```php?start_inline=1
-   // __DIR__ est une constante "magique" de PHP qui contient le chemin du dossier courant
-   // Comme File.php est dans le dossier lib, nous devons redescendre d'un dossier avec '/..'
    $ROOT_FOLDER = __DIR__ . "/..";
    ```
-   
-   **Référence :**
-     [Constantes magiques en PHP](http://php.net/manual/fr/language.constants.predefined.php)
 
-
-   <!-- An prochain : optionel ! Et vérifier si c'est vraiment nécessaire sous
-   Windows ?  -->
-
-2. Définissez aussi la constante suivante dans `index.php` qui permet d'utiliser le
-bon slash de séparation des chemins selon le système :
-
-   ```php?start_inline=1
-   // DS contient le slash des chemins de fichiers, c'est-à-dire '/' sur Linux et '\' sur Windows
-   $DS = DIRECTORY_SEPARATOR;
-   ```
-   
-   **Référence :**
-     [Constantes prédéfinies en PHP](http://php.net/manual/fr/dir.constants.php)
-
-3. Il ne reste plus qu'à changer la fonction `build_path` pour qu'elle
-   utilise ces deux constantes.
-
-4. **Retestez** votre site Web.
+**Retestez** votre site Web.
 
 </div>
 
@@ -298,7 +290,7 @@ Ces caractères spéciaux doivent être échappés dans les vues pour que le tex
 s'affiche bien mais ne risque pas de changer la structure du document
 HTML. Voici comment échapper ces caractères :
 
-| `&lt;` | `&gt;` | `&amp;` | `&quot;` | `&apos;` |
+| `&lt;` | `&gt;` | `&amp;` | `&quot;` | `&#039;` |
 |  `<`   |  `>`   |   `&`   |   `"`    |   `'`    |
 {: #entities .centered }
 
@@ -308,7 +300,20 @@ HTML. Voici comment échapper ces caractères :
 </style>
 
 **Bonne nouvelle :** PHP fait ceci pour nous avec la fonction
-  [`htmlspecialchars`](http://php.net/manual/fr/function.htmlspecialchars.php).
+[`htmlspecialchars`](http://php.net/manual/fr/function.htmlspecialchars.php). Par
+exemple, le code
+
+```php?start_inline=1
+echo htmlspecialchars("<a href='test'>Test</a>");
+```
+
+renvoie
+
+```text
+&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;
+```
+
+Le remplacement des caractères spéciaux a bien eu lieu.
 
 <div class="exercise">
 
@@ -446,7 +451,7 @@ la page.
    <?php
    // Si $controleur='voiture' et $view='list',
    // alors $filepath="/chemin_du_site/view/voiture/list.php"
-   $filepath = "{$ROOT_FOLDER}{$DS}view{$DS}{$controller}{$DS}{$view}.php";
+   $filepath = File::build_path(array("view", $controller, "$view.php"));
    require $filepath;
    ?>
        </body>
