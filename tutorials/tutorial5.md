@@ -600,7 +600,7 @@ Nous souhaitons rajouter l'action `delete` aux voitures. Pour cela :
 1. Complétez l'action `delete` du contrôleur de voiture pour qu'il supprime
    la voiture dont l'immatriculation est passée en paramètre dans l'URL, initialise les
    variables `$immat` et `$tab_v`, puis qu'il affiche la vue
-   `voiture/deleted.php` que l'on va créer dans la question suivante.
+   `view/voiture/deleted.php` que l'on va créer dans la question suivante.
 1. Créez une vue `view/voiture/deleted.php` pour qu'elle affiche un message
    indiquant que la voiture d'immatriculation `$immat` a bien été
    supprimée. Affichez en dessous de ce message la liste des voitures en
@@ -623,25 +623,12 @@ chemin dans le serveur (?)
 
 -->
 
-#### Action `update`
+#### Action `update` et `updated`
 
 <div class="exercise">
 
-Nous souhaitons rajouter l'action `update` aux voitures. Pour cela :
-
-1. Complétez dans le modèle de voiture la fonction `update($data)`. L'entrée
-   `$data` sera un tableau associatif associant aux champs de la table
-   `voiture` les valeurs correspondantes à la voiture courante. La fonction
-   doit mettre à jour tous les champs de la voiture  dont l'immatriculation  est
-   `$data['immat']`.
-
-   **Rappel :**
-   
-   1. Ce type d'objet `$data` est celui qui est pris en entrée par la
-      méthode `execute` de `PDO`,
-      [*cf.* le TD3]({{site.baseurl}}/tutorials/tutorial3.html#les-requtes-prpares).   
-   2. La bonne façon de développer est de d'abord développer sa requête SQL et de
-      la tester dans PHPMyAdmin puis de créer la fonction correspondante.
+Nous souhaitons rajouter l'action `update` aux voitures qui affiche le
+formulaire de mise à jour. Pour cela :
 
 1. Complétez la vue `view/voiture/update.php` pour qu'elle affiche un
    formulaire identique à celui de `create.php`, mais qui sera
@@ -665,19 +652,41 @@ Nous souhaitons rajouter l'action `update` aux voitures. Pour cela :
 1. Complétez l'action `update` du contrôleur de voiture pour qu'il affiche le
    formulaire pré-rempli. **Testez** votre action.
 
-1. Complétez la vue `voiture/updated.php` pour qu'elle affiche un message
+1. Enrichissez la vue de détail `detail.php` pour ajouter un lien HTML qui
+   permet de mettre à jour la voiture dont on affiche les détails. Ce lien
+   pointe donc vers le formulaire de mis-à-jour prérempli.
+
+</div>
+
+<div class="exercise">
+
+Nous souhaitons rajouter l'action `updated` aux voitures qui effectue la mise à
+jour dans la BDD. Pour cela :
+
+1. Complétez dans le modèle de voiture la fonction `update($data)`. L'entrée
+   `$data` sera un tableau associatif associant aux champs de la table
+   `voiture` les valeurs correspondantes à la voiture courante. La fonction
+   doit mettre à jour tous les champs de la voiture  dont l'immatriculation  est
+   `$data['immat']`.
+
+   **Rappel :**
+   
+   1. Ce type d'objet `$data` est celui qui est pris en entrée par la
+      méthode `execute` de `PDO`,
+      [*cf.* le TD3]({{site.baseurl}}/tutorials/tutorial3.html#les-requtes-prpares).   
+   2. La bonne façon de développer est de d'abord développer sa requête SQL et de
+      la tester dans PHPMyAdmin puis de créer la fonction correspondante.
+
+1. Complétez la vue `view/voiture/updated.php` pour qu'elle affiche un message
    indiquant que la voiture d'immatriculation `$immat` a bien été mis à
    jour. Affichez en dessous de ce message la liste des voitures mise à jour (à
    la manière de `deleted.php` et `created.php`).
    
 1. Complétez l'action `updated` du contrôleur de voiture pour qu'il mette à
    jour la voiture dont l'immatriculation passée en paramètre dans l'URL, puis
-   qu'il affiche la vue `voiture/updated.php` après l'avoir correctement
+   qu'il affiche la vue `view/voiture/updated.php` après l'avoir correctement
    initialisée.
    
-1. Enrichissez la vue de détail `detail.php` pour ajouter un lien
-   HTML qui permet de mettre à jour la voiture dont on affiche les détails.
-
 1. Testez le tout. Quand la fonctionnalité marche, appréciez de nouveau
    l'instant.
 
