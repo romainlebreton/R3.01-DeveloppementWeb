@@ -172,7 +172,7 @@ qui prend en entrée `array("config","Conf.php")` et renvoie
    **Testez** que votre site marche encore en demandant la page
    `index.php?action=readAll` dans le navigateur.
 
-4. Changer toutes les URLs que vous avez écris dans les vues pour qu'elles
+4. Changer toutes les URLs que vous avez écrites dans les vues pour qu'elles
    pointent sur `index.php` à la place de `controller/routeur.php`.
 
 </div>
@@ -536,36 +536,37 @@ Web) :
 3. afficher le formulaire de création d'une voiture : action `create`
 3. créer une voiture dans la BDD : action `created`
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 On veut rajouter un comportement par défaut pour la page d'accueil ; nous allons
 faire en sorte qu'un utilisateur qui arrive sur `index.php` voit la même page
 que s'il était arrivé sur `index.php?action=readAll`.
 
+#### Action par défaut
+
 <div class="exercise">
 
-Si aucun paramètre n'est donné dans l'URL, initialisons la variable `$action`
-avec la chaîne de caractères `readAll`.  Ainsi le `switch($action)` chargera
-bien la bonne partie du code.  
+1. Si aucun paramètre n'est donné dans l'URL, initialisons la variable `$action`
+avec la chaîne de caractères `readAll` dans `routeur.php`.  
 Pour tester si un paramètre `action` est donné dans l'URL, utilisez la fonction
 `isset($_GET['action'])` qui teste si une variable a été initialisée.
+
+1. Testez votre site en appelant `index.php` sans action.
 
 **Note :** De manière générale, il ne faut jamais lire un `$_GET['action']`
   avant d'avoir vérifié si il était bien défini avec un `isset(...)` sous peine
   d'avoir des erreurs `Undefined index : action ...`.
 
 </div>
+
+Désormais, la page
+[http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/index.php](http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/index.php)
+doit marcher sans paramètre.
+
+Notez que vous pouvez aussi y accéder avec l'adresse
+[http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/](http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/) :
+Apache ouvre directement les pages `index.html` ou `index.php` d'un répertoire
+si elles existent.
+
+#### Vérification de l'action
 
 <div class="exercise">
 
@@ -583,33 +584,23 @@ et tester si une valeur appartient à un tableau avec
 
 </div>
 
-Désormais, la page
-[http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/index.php](http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/index.php)
-doit marcher sans paramètre. Notez que vous pouvez aussi y accéder avec
-l'adresse
-[http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/](http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/) :
-Apache ouvre directement les pages `index.html` ou `index.php` d'un répertoire
-si elles existent.
+#### Action `delete`
 
 <div class="exercise">
 
 Nous souhaitons rajouter l'action `delete` aux voitures. Pour cela :
 
-1. Écrivez dans le modèle de voiture la fonction `delete($immat)` qui prend
+1. Écrivez dans le modèle de voiture la fonction `deleteByImmat($immat)` qui prend
    en entrée l'immatriculation à supprimer. Utilisez pour cela les requêtes préparées de
    PDO.
 1. Complétez l'action `delete` du contrôleur de voiture pour qu'il supprime
    la voiture dont l'immatriculation est passée en paramètre dans l'URL, initialise les
    variables `$immat` et `$tab_v`, puis qu'il affiche la vue
    `voiture/deleted.php` que l'on va créer dans la question suivante.
-1. Complétez la vue `voiture/deleted.php` pour qu'elle affiche un message
-   indiquant que la voiture d'immatriculation  `$immat` a bien été supprimée. Affichez
-   en dessous de ce message la liste des voitures contenue dans `$tab_v`
-   comme dans la page d'accueil.  
-   **Note :** Comme vous l'avez remarqué, le code de cette vue est très
-     similaire à celle de l'action `readAll`. Nous améliorerons le système de
-     vue dans le prochain TD pour éviter d'avoir deux fois le même code à deux
-     endroits différents.
+1. Créez une vue `view/voiture/deleted.php` pour qu'elle affiche un message
+   indiquant que la voiture d'immatriculation `$immat` a bien été
+   supprimée. Affichez en dessous de ce message la liste des voitures en
+   appelant la vue `list.php` (de la même manière que `created.php`).
 1. Enrichissez la vue de détail `detail.php` pour ajouter un lien
 HTML qui permet de supprimer la voiture dont on affiche les détails.  
    **Aide :** Procédez par étape. Écrivez d'abord un lien 'fixe' dans votre vue.
@@ -628,6 +619,8 @@ chemin dans le serveur (?)
 
 -->
 
+#### Action `update`
+
 <div class="exercise">
 
 Nous souhaitons rajouter l'action `update` aux voitures. Pour cela :
@@ -638,11 +631,15 @@ Nous souhaitons rajouter l'action `update` aux voitures. Pour cela :
    doit mettre à jour tous les champs de la voiture  dont l'immatriculation  est
    `$data['immat']`.
 
-   **Rappel :** Ce type d'objet `$data` est celui qui est pris en entrée par la
-   méthode `execute` de `PDO`,
-   [*cf.* le TD3](/tutorials/tutorial3.html#requtes-prpares).
+   **Rappel :**
+   
+   1. Ce type d'objet `$data` est celui qui est pris en entrée par la
+      méthode `execute` de `PDO`,
+      [*cf.* le TD3]({{site.baseurl}}/tutorials/tutorial3.html#les-requtes-prpares).   
+   2. La bonne façon de développer est de d'abord développer sa requête SQL et de
+      la tester dans PHPMyAdmin puis de créer la fonction correspondante.
 
-1. Complétez la vue `voiture/update.php` pour qu'elle affiche un
+1. Complétez la vue `view/voiture/update.php` pour qu'elle affiche un
    formulaire identique à celui de `create.php`, mais qui sera
    pré-rempli par les données de la voiture courante. Toutes les informations
    nécessaires seront une fois de plus passées *via* l'URL.
@@ -665,15 +662,18 @@ Nous souhaitons rajouter l'action `update` aux voitures. Pour cela :
    formulaire pré-rempli. **Testez** votre action.
 
 1. Complétez la vue `voiture/updated.php` pour qu'elle affiche un message
-   indiquant que la voiture d'immatriculation `$immat` a bien été mis à jour. Affichez
-   en dessous de ce message la liste des voitures mise à jour contenue dans
-   `$tab_v` comme dans la page d'accueil.
+   indiquant que la voiture d'immatriculation `$immat` a bien été mis à
+   jour. Affichez en dessous de ce message la liste des voitures mise à jour (à
+   la manière de `deleted.php` et `created.php`).
+   
 1. Complétez l'action `updated` du contrôleur de voiture pour qu'il mette à
    jour la voiture dont l'immatriculation passée en paramètre dans l'URL, puis
    qu'il affiche la vue `voiture/updated.php` après l'avoir correctement
    initialisée.
+   
 1. Enrichissez la vue de détail `detail.php` pour ajouter un lien
    HTML qui permet de mettre à jour la voiture dont on affiche les détails.
+
 1. Testez le tout. Quand la fonctionnalité marche, appréciez de nouveau
    l'instant.
 
