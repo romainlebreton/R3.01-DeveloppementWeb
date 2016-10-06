@@ -463,7 +463,7 @@ la page.
 
 3. Reprendre l'action `readAll` du contrôleur pour qu'à la place d'un `require`
    de `list.php`, on utilise `require` de `view.php` en initialisant les
-   variables `$controller='voiture'` `$view='list'` et `$pagetitle='Liste des voitures'`.
+   variables `$controller='voiture'`, `$view='list'` et `$pagetitle='Liste des voitures'`.
 
    <!-- 3. Redéfinir le `VIEW_PATH` en début de fichier par `define('VIEW_PATH', ROOT -->
    <!--    . DS . 'view' . DS);` -->
