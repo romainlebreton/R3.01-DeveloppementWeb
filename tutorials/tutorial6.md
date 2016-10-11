@@ -451,17 +451,71 @@ rajouter les liens pour supprimer dans `list.php`.
 
 ### Action `create` et `update`
 
+Les vues `create.php` et `update.php` sont quasiment identiques : elles
+affichent le même formulaire, et le ré-remplissent ou non. Nous allons donc
+fusionner `create.php` et `update.php` en une unique page.
+
 <div class="exercise">
 
-Passons à la fonction `update()`. Pour reconstituer la requête 
+1. Supprimez la vue `create.php` et modifiez le contrôleur de sorte que
+   l'action `create` appelle la vue `update.php`.
+
+   **Attention :** quand on arrive sur la vue `update.php` depuis l'action
+   `create`, les variables d'immatriculation, de couleur et de marque ne sont
+   pas renseignées. Penser à les initialiser à chaîne vide dans le contrôleur.
+
+1. le champ `immatriculation` du formulaire doit être :
+
+   * `required` si l'action est `create` ou
+   * `readonly` si l'action est `update` (on ne peut pas modifier la clé
+      primaire d'un tuple).
+
+   Utilisez une variable dans le contrôleur pour permettre l'adaptation de la
+   vue à ces deux actions.
+
+1. enfin, le champ `action` du formulaire doit être `save` si l'action est
+   `create` ou `updated` si l'action est `update`.  Là aussi, utiliser une
+   variable spécifique.
+
+
+   <!-- Mettre à jour le contrôleur en conséquence.\\ -->
+   <!-- **Indice :** `<input ... placeholder='Exemple' value='$val'>` affichera
+   'Exemple' en grisé si `val` est la chaîne de caractère vide, et pré-remplira
+   avec la valeur de `val` autrement. -->
+
+1. Testez que votre nouvelle vue fusionnée marche
+
+1. Rajoutez un champ `controller` dans le formulaire en prévision de la
+   suite. Vous pouvez soit écrire en dur que le contrôleur est `voiture`, soit
+   le récupérer avec l'attribut `static::$object` du contrôleur.
+
+</div>
+
+<div class="exercise">
+
+Nous vous laisson adapter les actions `create` et `update` de
+`ControllerUtilisateur`, leur vue associée `update.php` et à rajouter les liens
+pour mettre à jour un utilisateur dans `detail.php`.
+
+</div>
+
+### Action `created` et `updated`
+
+Pour ces dernières actions, il faut un peu plus travailler pour créer la
+fonction correspondante dans le modèle générique.
+
+<div class="exercise">
+
+Créons une fonction générique pour remplacer `update($data)` de
+`ModelVoiture.php`. Pour reconstituer la requête
 
 ```sql
 UPDATE voiture SET marque=:marque,couleur=:couleur,immatriculation=:immatriculation WHERE id=:id
 ```
 
-   il est nécessaire de pouvoir lister les champs de la table `voiture`.  Ces
-   champs sont les entrées du tableau `data` et c'est ainsi que nous allons les
-   récupérer.
+il est nécessaire de pouvoir lister les champs de la table `voiture`.  Ces
+champs sont les entrées du tableau `data` et c'est ainsi que nous allons les
+récupérer.
 
 1. Déplacez la fonction `update()` de `ModelVoiture.php` vers `Model.php`.
 1. Remplacer la table et le nom de la clé primaire par les variables adéquates.
@@ -478,112 +532,17 @@ UPDATE voiture SET marque=:marque,couleur=:couleur,immatriculation=:immatriculat
 
 <div class="exercise">
 
-Répétez la question précédente avec la fonction `insert()`.
+Répétez la question précédente avec la fonction `save()` des différents modèles.
 
 </div>
 
-### Adaptation du contrôleur
+## Contrôleur trajet
 
-Pour mémoire, dans la variante du MVC que nous avons choisi d'implémenter, il y
-a un contrôleur par classe.  Dans cette partie, nous allons nous donc créer un
-contrôleur pour la classe `Trajet`.
+Adaptez chacune des actions de `ControllerTrajet.php` et les tester une à
+une. Nous vous conseillons de faire dans l'ordre les actions `read`, `delete`,
+`create`, `update`, `save` et `updated`.
 
-**Attention :** NE PAS copier/coller bêtement `ControllerVoiture.php` en
-`ControllerTrajet.php`.  Adaptez chacune des actions de `ControllerTrajet.php`
-et les tester une à une.
-<!-- Couper l'adaptation du contrôleur en petit bouts testables. -->
+Vous pouvez aussi rajouter des actions pour afficher la liste des passagers pour
+un trajet, et inversement la liste des trajets pour un passager (table de
+jointure `passager`, cf fin TD3).
 
-<div class="exercise"> 
-
-Créer une vue `viewListTrajets`, et gérer l'action `readAll` de
-`ControllerTrajet.php`.
-
-</div>
-
-<div class="exercise">
-
-Faire de même pour les autres actions. Nous vous conseillons de faire dans
-l'ordre les actions `read`, `delete`, `create`, `update`, `save` et `updated`.
-
-</div>
-
-<!-- Il faut aussi adapter les vues au fur et à mesure. Finalement, il faut
-faire quelques remplacements dans VIEW_PATH, ModelVoiture et les vues (comme
-viewErrorVoiture) pour simplifier la tâche.  -->
-<!-- Modifier le header pour afficher un menu vers les pages d'accueils pour les
-voitures et les trajets. -->
-
-## Vues modulaires
-
-### Un seul formulaire pour la création et la mise à jour
-
-<div class="exercise">
-
-Les vues `create.php` et `viewUpdateVoiture.php` sont quasiment
-identiques : elles affichent le même formulaire, et le ré-remplissent ou
-non. Nous allons donc fusionner `create.php` et
-`viewUpdateVoiture.php` en une unique page.  En pratique,
-
-* on supprime la vue `create.php` et on modifie le contrôleur de
-sorte que l'action `create` appelle la vue `viewUpdateVoiture.php`.
-
-* **Attention :** quand on arrive sur la vue `viewUpdateVoiture.php` depuis
-l'action `create`, les variables `n`, `p`, ... ne sont pas renseignées. Penser
-à les initialiser à chaîne vide dans le contrôleur.
-
-* le champ `immatriculation` du formulaire doit être `required` si l'action est
-`create` ou `readonly` si l'action est `update` (on ne peut pas modifier la clé
-primaire
-d'un tuple).  
-   Utiliser une variable dans le contrôleur pour permettre l'adaptation de la
-vue à ces deux actions.
-
-* enfin, le champ `action` du formulaire doit être `save` si l'action est
-`create` ou `updated` si l'action est `update`.  Là aussi, utiliser une variable
-spécifique.
-
-
-<!-- Mettre à jour le contrôleur en conséquence.\\ -->
-<!-- **Indice :** `<input ... placeholder='Exemple' value='$val'>` affichera
-'Exemple' en grisé si `val` est la chaîne de caractère vide, et pré-remplira
-avec la valeur de `val` autrement. -->
-
-</div> 
-
-<!--
-
-<div class="exercise">
-
-Factoriser le modèle dans `Model.php`. Reste le nom de la table que l'on peut
-avoir dans un premier temps comme variable. Dans un deuxième temps, le récupérer
-automatiquement à base d'introspection.
-
-</div>
-
-<div class="exercise">
-
-Factoriser le contrôleur en utilisant l'introspection ** ?? get_name
-
-</div>
-
-<div class="exercise">
-
-Adapter les vues
-
-</div>
-
-## Association d'utilisateur et de trajets
-
-<div class="exercise">
-Créer table 'passager' ...
-</div>
-
-<div class="exercise">
-Affiche liste des passagers pour un trajet
-</div>
-
-<div class="exercise">
-Affiche liste des trajets pour un passager
-</div>
-
--->
