@@ -242,7 +242,7 @@ string*. Par exemple, l'ancienne page `index.php?action=readAll` du contrôleur
 valeur à partir de l'URL, et en mettant le contrôleur *voiture* par défaut.
 
    **Aide :** Ce bout de code est similaire à celui concernant `action` dans
-  `ControllerVoiture.php`.
+  `routeur.php`.
 
 2. On souhaite créer le nom de la classe à partir de `controller`. Par exemple,
    quand `$controller="voiture"`, nous souhaitons créer une variable
@@ -521,7 +521,7 @@ récupérer.
 1. Remplacer la table et le nom de la clé primaire par les variables adéquates.
 1. Nous allons générer la partie `SET` à partir des clés du tableau associatif
    `data`. Autrement dit, si `$data['un_champ']` existe, nous voulons rajouter
-   la condition `un_champ = :un_champ'` à `SET`.
+   la condition `un_champ=:un_champ` à `SET`.
 
    **Indice:** Utilisez la boucle `foreach ($tableau as $cle => $valeur)` pour
   récupérer les clés du tableau. Googler aussi la fonction `rtrim` de PHP qui
