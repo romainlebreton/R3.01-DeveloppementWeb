@@ -154,16 +154,21 @@ formulaire de mise à jour. Pour cela :
 1. Complétez la vue `view/voiture/update.php` pour qu'elle affiche un formulaire
    identique à celui de `create.php`, mais qui sera pré-rempli par les données
    de la voiture courante. Nous ne passerons que l'immatriculation de la voiture
-   *via* l'URL ; les autres informations seront récupérées dans la BDD.
+   *via* l'URL ; les autres informations seront récupérées dans la BDD. Voici
+   quelques points à prendre en compte avant de se lancer :
 
-   **Indice :** L'attribut `value` de la balise `<input>` permet de pré-remplir un
+   1. L'attribut `value` de la balise `<input>` permet de pré-remplir un
    champ du formulaire.  Notez aussi que l'attribut `readonly` de `<input>`
    permet d'afficher l'immatriculation sans que l'internaute puisse le changer.
 
-   **Attention :** Avez-vous bien échappé vos variables PHP avant de les écrire
-     dans l'HTML et dans les URLs ?
+   1. On pourra se servir dans le contrôleur de `select` pour récupérer l'objet
+      voiture de la bonne immatriculation. La vue devra alors compléter le
+      formulaire avec les attributs de cet objet.
 
-   **Rappel -- Attention au mélange de `POST` et `GET` :** Vous souhaitez envoyez
+   1. Pensez bien à échapper vos variables PHP avant de les écrire dans l'HTML
+     et dans les URLs.
+
+   1. **Rappel -- Attention au mélange de `POST` et `GET` :** Vous souhaitez envoyez
      l'information `action=updated` en plus des informations saisies lors de
      l'envoi du formulaire. Il y a deux possibilités :
 
