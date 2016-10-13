@@ -151,17 +151,17 @@ chemin dans le serveur (?)
 Nous souhaitons rajouter l'action `update` aux voitures qui affiche le
 formulaire de mise à jour. Pour cela :
 
-1. Complétez la vue `view/voiture/update.php` pour qu'elle affiche un
-   formulaire identique à celui de `create.php`, mais qui sera
-   pré-rempli par les données de la voiture courante. Toutes les informations
-   nécessaires seront une fois de plus passées *via* l'URL.
+1. Complétez la vue `view/voiture/update.php` pour qu'elle affiche un formulaire
+   identique à celui de `create.php`, mais qui sera pré-rempli par les données
+   de la voiture courante. Nous ne passerons que l'immatriculation de la voiture
+   *via* l'URL ; les autres informations seront récupérées dans la BDD.
 
    **Indice :** L'attribut `value` de la balise `<input>` permet de pré-remplir un
    champ du formulaire.  Notez aussi que l'attribut `readonly` de `<input>`
    permet d'afficher l'immatriculation sans que l'internaute puisse le changer.
 
    **Attention :** Avez-vous bien échappé vos variables PHP avant de les écrire
-     dans l'HTML et des les URLs ?
+     dans l'HTML et dans les URLs ?
 
    **Rappel -- Attention au mélange de `POST` et `GET` :** Vous souhaitez envoyez
      l'information `action=updated` en plus des informations saisies lors de
@@ -366,7 +366,7 @@ en sortie. Voici donc comment nous allons faire pour avoir un code générique :
       type d'objet dans `selectAll()`.
 
 
-1. Il ne reste plus qu'à appeler `ModelUtilisateur::selectAll()` au lieu de
+1. Il ne reste plus qu'à appeler `ModelVoiture::selectAll()` au lieu de
    `getAllVoitures()` et pareil pour les utilisateurs.
 
 1. Testez que votre site marche toujours.
@@ -378,21 +378,24 @@ en sortie. Voici donc comment nous allons faire pour avoir un code générique :
 Voici ce que nous proposons comme factorisation de code pour faciliter les
 actions `read` des différents contrôleurs :
 
-* nous allons créer un fonction `select()` générique dans `Model.php`. La
-  nouveauté est que cette fonction a besoin de connaître le nom de la clé
-  primaire de la table donc nous la stokerons dans un attribut `primary` de nos
-  classes `ModelVoiture` et `ModelUtilisateur`.
+* nous allons créer une fonction `select($primary_value)` générique dans
+  `Model.php` qui permet de faire une recherche par clé primaire dans une
+  table. La nouveauté est que cette fonction a besoin de connaître le nom de la
+  clé primaire de la table donc nous la stokerons dans un attribut `primary` de
+  nos classes `ModelVoiture` et `ModelUtilisateur`. Le paramètre
+  `$primary_value` permet de donner la valeur de la clé primaire pour la
+  recherche.
 
 * nous allons remplacer tous les `$controller='voiture'` qui servent dans la vue
   générique par un attribut `object` de `ControllerVoiture.php`.
 
 <div class="exercise">
 
-Commençons par la fonction `select()`. Dans cette fonction, le nom de la table et la
+Commençons par la fonction `select($primary_value)`. Dans cette fonction, le nom de la table et la
 condition `WHERE` varie.
 
 1. Déplacez la fonction `getVoitureByImmat($immat)` de `ModelVoiture.php` vers
-   `Model.php` en la renommant `select($primary)`.
+   `Model.php` en la renommant `select($primary_value)`.
 
 1. Créez dans `ModelVoiture.php` une variable
 
@@ -402,17 +405,17 @@ condition `WHERE` varie.
 
    et faites de même dans `ModelUtilisateur.php`.
 
-1. Écrivons maintenant le code de `select()` :
+1. Écrivons maintenant le code de `select($primary_value)` :
 
    1. créez des variables `table_name` et `class_name` comme précédemment.
    
    1. créez une variable `primary_key` qui récupère la clé primaire `static::$primary`
    
    1. Servez-vous de ces trois variables pour appeler les bonnes table, clé
-      primaire et type d'objet dans `select()`.
+      primaire et type d'objet dans `select($primary_value)`.
 
-
-1. Il ne reste plus qu'à appeler `ModelVoiture::select()`.
+1. Il ne reste plus qu'à appeler dans l'action `read()` de `ControllerVoiture`
+   la nouvelle méthode `ModelVoiture::select($immat)`.
 
 1. Testez que votre site marche toujours.
 
@@ -440,7 +443,7 @@ Pas de nouveautés.
 
 <div class="exercise">
 
-Nous vous laisson adapter la fonction `delete($primary)` de `Model.php`,
+Nous vous laissons adapter la fonction `delete($primary)` de `Model.php`,
 l'action `delete` de `ControllerUtilisateur`, sa vue associée `delete.php` et à
 rajouter les liens pour supprimer dans `list.php`.
 
