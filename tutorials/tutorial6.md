@@ -155,13 +155,17 @@ formulaire de mise à jour. Pour cela :
    formulaire identique à celui de `create.php`, mais qui sera
    pré-rempli par les données de la voiture courante. Toutes les informations
    nécessaires seront une fois de plus passées *via* l'URL.
+<!--
+Pourquoi ne pas seulement transmettre l'immatriculation et pré-remplir les champs en fonction de l'immat passée en query ?
+Cela permettrait aussi de vérifier l'exactitude des champs pré-remplis ?
+-->
 
    **Indice :** L'attribut `value` de la balise `<input>` permet de pré-remplir un
    champ du formulaire.  Notez aussi que l'attribut `readonly` de `<input>`
    permet d'afficher l'immatriculation sans que l'internaute puisse le changer.
 
    **Attention :** Avez-vous bien échappé vos variables PHP avant de les écrire
-     dans l'HTML et des les URLs ?
+     dans l'HTML et dans les URLs ?
 
    **Rappel -- Attention au mélange de `POST` et `GET` :** Vous souhaitez envoyez
      l'information `action=updated` en plus des informations saisies lors de
@@ -366,7 +370,7 @@ en sortie. Voici donc comment nous allons faire pour avoir un code générique :
       type d'objet dans `selectAll()`.
 
 
-1. Il ne reste plus qu'à appeler `ModelUtilisateur::selectAll()` au lieu de
+1. Il ne reste plus qu'à appeler `ModelVoiture::selectAll()` au lieu de
    `getAllVoitures()` et pareil pour les utilisateurs.
 
 1. Testez que votre site marche toujours.
@@ -392,7 +396,7 @@ Commençons par la fonction `select()`. Dans cette fonction, le nom de la table 
 condition `WHERE` varie.
 
 1. Déplacez la fonction `getVoitureByImmat($immat)` de `ModelVoiture.php` vers
-   `Model.php` en la renommant `select($primary)`.
+   `Model.php` en la renommant `select($value)`.
 
 1. Créez dans `ModelVoiture.php` une variable
 
@@ -402,17 +406,16 @@ condition `WHERE` varie.
 
    et faites de même dans `ModelUtilisateur.php`.
 
-1. Écrivons maintenant le code de `select()` :
+1. Écrivons maintenant le code de `select($value)` :
 
    1. créez des variables `table_name` et `class_name` comme précédemment.
    
    1. créez une variable `primary_key` qui récupère la clé primaire `static::$primary`
    
    1. Servez-vous de ces trois variables pour appeler les bonnes table, clé
-      primaire et type d'objet dans `select()`.
+      primaire et type d'objet dans `select($value)`.
 
-
-1. Il ne reste plus qu'à appeler `ModelVoiture::select()`.
+1. Il ne reste plus qu'à appeler dans l'action `read()` de `ControllerVoiture` la nouvelle méthode `ModelVoiture::select($immat)`.
 
 1. Testez que votre site marche toujours.
 
@@ -440,7 +443,7 @@ Pas de nouveautés.
 
 <div class="exercise">
 
-Nous vous laisson adapter la fonction `delete($primary)` de `Model.php`,
+Nous vous laissons adapter la fonction `delete($primary)` de `Model.php`,
 l'action `delete` de `ControllerUtilisateur`, sa vue associée `delete.php` et à
 rajouter les liens pour supprimer dans `list.php`.
 
