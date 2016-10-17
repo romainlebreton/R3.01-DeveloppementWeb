@@ -1,5 +1,5 @@
 ---
-title:  Démarage du projet Web
+title:  Démarrage du projet Web
 subtitle: Planning et cahier des charges 
 layout: tutorial
 ---
@@ -10,25 +10,25 @@ layout: tutorial
 ## Sujet
 
 Vous devrez réaliser un site de e-commerce. Les produits que vous devez vendre
-sont laissés à votre entière apréciation (y compris humoristique). Il n'y a pas
+sont laissés à votre entière appréciation (y compris humoristique). Il n'y a pas
 de restriction particulière.  Pensez néanmoins que ce projet Web fait partie de
 vos réalisations qui pourraient être mises en avant lors d'un entretien pour un
 stage, par exemple.
 
 A la fin de cette séance vous devrez donner à votre encadrant la liste des
 membres de votre groupe ainsi que le thème de votre site (quels produits votre
-site vend il ? ).
+site vend-il ? ).
 
 ## Modalités
 
 Le projet est dimensionné pour des groupes de 3 étudiants.  Ponctuellement les
-groupes de 2 sont autorisés (mais ne bénéficieront pas d'un bonus pour effectif
-réduit).  Les groupes de 4 sont aussi ponctuellement autorisés, mais seront
-évalués de manière plus stricte.
+groupes de 2 sont autorisés (mais ils seront notés comme un groupe de 3).  Les
+groupes de 4 sont aussi ponctuellement autorisés, mais seront évalués de manière
+plus stricte et l'on attendra 1/3 de boulot en plus.
 
-Le projet commence la semaine du 19 Octobre.
+Le projet commence la semaine du 17 Octobre.
 
-Les soutenances de projet auront lieu la semaine du 14 Décembre.  La note de ce
+Les soutenances de projet auront lieu la semaine du 12 Décembre.  La note de ce
 projet Web interviendra pour moitié dans la note de l'UE 'Programmation Web côté
 serveur'. L'autre moitié sera donnée par l'examen final sur papier (pas de code
 à écrire, questions de compréhension).
@@ -39,34 +39,17 @@ l'un de vos comptes. Les sources du site devront être accessible dans un fichie
 
 **Emploi du temps prévisionnel :**
 
-1. 19 Oct - Début projet
-1. 26 Oct - Pas de TDs : Congé IUT
-1. 2  Nov - 3h projet
-1. 9  Nov - Pas de TDs : Partiels IUT
-1. 16 Nov - Cookie & session + 1h projet + 1h projet
-1. 23 Nov - Authentification & validation par email + 1h projet
-1. 30 Nov - 3h projet
-1. 7  Déc - 3h projet
-1. 14 Déc - soutenances
+1. Semaine du 17 Octobre 2016 -- Début projet
+1. Semaine du 24 Octobre 2016 -- 3h projet (lundi &rarr; mercredi) puis Congé IUT
+1. Semaine du 31 Octobre 2016 -- Congé IUT puis 3h projet (jeudi &rarr; vendredi)
+1. Semaine du 7 Novembre 2016 -- À voir : soit projet soit pas de TPs si partiels IUT
+1. Semaine du 16 Novembre 2016 --  TD 7 -- Cookies & Sessions
+1. Semaine du 21 Novembre 2016 --  TD 8 -- Authentification & Validation par email
+1. Semaine du 28 Novembre 2016 -- 3h projet
+1. Semaine du 5 Décembre 2016 -- 3h projet
+1. Semaine du 12 Décembre 2016 -- soutenances du projet
 
-
-## Ce que ce projet n'est pas :
-
-* Un site vitrine joli avec beaucoup d'images par exemple. 
-* Un site réaliste qui implémente `X` fois la même fonctionnalité.  Le but est
-de réaliser correctement un maximum de fonctionnalités différentes.
-
-## Que garder pour plus tard ?
-
-Dans la suite de ce cours, plusieurs séances seront consacrées à: 
-
-* la gestion des utilisateurs,
-* la gestion des paniers, 
-* la sécurisation de votre site web
-
-En conséquence, ne pas attaquer ces parties pour le moment. 
-
-## How to start ?
+## Par où commencer ?
 
 1. Définir les produits que vous souhaitez vendre.  
 Vous devez éventuellement prévoir des extensions, par exemple des accessoires
@@ -79,12 +62,28 @@ format de stockage InnoDB. Se reporter au
 [TD 3](http://romainlebreton.github.io/ProgWeb-CoteServeur/tutorials/tutorial3.html)
 pour plus de détails.
 
-3. Cette première séance est consacrée à implémenter le Modèle, le Controleur et
+3. Cette première séance est consacrée à implémenter le Modèle, le Contrôleur et
    les premières vues spécifiques à vos produits.
+
+### Ce que ce projet n'est pas :
+
+* Un site vitrine joli avec beaucoup d'images par exemple. 
+* Un site réaliste qui implémente `X` fois la même fonctionnalité.  Le but est
+de réaliser correctement un maximum de fonctionnalités différentes.
+
+### Que garder pour plus tard ?
+
+Dans la suite de ce cours, plusieurs séances seront consacrées à: 
+
+* la gestion des utilisateurs,
+* la gestion des paniers, 
+* la sécurisation de votre site Web
+
+En conséquence, ne pas attaquer ces parties pour le moment. 
 
 ### Ou héberger ce site? comment partager un répertoire ?
 
-Le site à rendre sera à héberger dans le repertoire de l'un des membres de votre groupe. 
+Le site à rendre sera à héberger dans le répertoire de l'un des membres de votre groupe. 
 Par exemple [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/eCommerce/](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/eCommerce/)
 
 L'étudiant 1 doit donc créer le répertoire `eCommerce` dans son dossier `public_html`
@@ -109,14 +108,21 @@ défaut : les nouveaux fichiers créés prendront ces droits)
 
 ## Critères de notation
 
-La liste ci-dessous n'est pas définitive et sera mise à jour début Novembre. Il
-n'y a **pas** de rapport à écrire, ni de présentation à préparer. Vous devrez
-juste répondre à une série de questions sur votre code qui nous permettra
-d'évaluer ce qui a été implémenté.
+La
+[**grille d'évaluation**](https://docs.google.com/spreadsheets/d/1CSC5-27rFoJRAlEbQCamBMf3vY6FASgEtcxIKipgwxk/edit#gid=0)
+n'est pas définitive et est susceptible d'être mise à jour. Il n'y a **pas** de
+rapport à écrire, ni de présentation à préparer. Vous devrez juste répondre à
+une série de questions sur votre code qui nous permettra d'évaluer ce qui a été
+implémenté.
 
-[Grille évaluation Projet Prog Web 2015](https://docs.google.com/spreadsheets/d/1CSC5-27rFoJRAlEbQCamBMf3vY6FASgEtcxIKipgwxk/edit#gid=0)
 
-[Planning des soutenances](https://docs.google.com/spreadsheets/d/1XTz2e8liq8Gzs_ZJTGaZiFozNHHhjwY547SLj12NZiU/edit?usp=sharing)
+
+<!-- [Planning des soutenances]() -->
+
+
+
+
+
 
 <!--
 ### Front-Office 
