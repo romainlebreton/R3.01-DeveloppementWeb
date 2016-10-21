@@ -161,9 +161,9 @@ formulaire de mise à jour. Pour cela :
    champ du formulaire.  Notez aussi que l'attribut `readonly` de `<input>`
    permet d'afficher l'immatriculation sans que l'internaute puisse le changer.
 
-   1. On pourra se servir dans le contrôleur de `select` pour récupérer l'objet
-      voiture de la bonne immatriculation. La vue devra alors compléter le
-      formulaire avec les attributs de cet objet.
+   1. On pourra se servir dans le contrôleur de `getVoitureByImmat` pour
+      récupérer l'objet voiture de la bonne immatriculation. La vue devra alors
+      compléter le formulaire avec les attributs de cet objet.
 
    1. Pensez bien à échapper vos variables PHP avant de les écrire dans l'HTML
      et dans les URLs.
