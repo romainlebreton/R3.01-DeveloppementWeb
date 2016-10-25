@@ -42,7 +42,7 @@ l'un de vos comptes. Les sources du site devront être accessible dans un fichie
 1. Semaine du 17 Octobre 2016 -- Début projet
 1. Semaine du 24 Octobre 2016 -- 3h projet (lundi &rarr; mercredi) puis Congé IUT
 1. Semaine du 31 Octobre 2016 -- Congé IUT puis 3h projet (jeudi &rarr; vendredi)
-1. Semaine du 7 Novembre 2016 -- À voir : soit projet soit pas de TPs si partiels IUT
+1. Semaine du 7 Novembre 2016 -- 3h projet
 1. Semaine du 16 Novembre 2016 --  TD 7 -- Cookies & Sessions
 1. Semaine du 21 Novembre 2016 --  TD 8 -- Authentification & Validation par email
 1. Semaine du 28 Novembre 2016 -- 3h projet
