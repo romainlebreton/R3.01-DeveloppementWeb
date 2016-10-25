@@ -17,7 +17,7 @@ stockées à la vue de tous chez le client !
 Les utilisations les plus classiques visent à maintenir une information liée à
 l'utilisateur/visiteur entre ses différentes visites sur le site:
    
-* stockage de son panier courant, 
+* stockage de son panier courant,
 * personnalisation de l'interface,
 * mécanisme de session (voir la section suivante) ...
 
