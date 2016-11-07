@@ -1,6 +1,6 @@
 ---
 title: TD8 &ndash; Authentification & validation par email
-subtitle: Cryptage des mots de passe
+subtitle: Chiffrement des mots de passe
 layout: tutorial
 ---
 
@@ -31,8 +31,8 @@ semaine, nous allons :
 colonne `VARCHAR(64) mdp` stockant son mot de passe.
 
    **Plus d'explications :** Étant donné que nous allons utiliser une fonction de
-   cryptage pour stocker ce mot de passe, vous devez prévoir une taille de champ
-   correspondant à la taille du mot de passe crypté (64 caractères pour SHA-256) et
+   chiffrement pour stocker ce mot de passe, vous devez prévoir une taille de champ
+   correspondant à la taille du mot de passe chiffré (64 caractères pour SHA-256) et
    non de la taille du mot de passe lui-même.
 
 1. Modifier la vue `viewCreateUtilisateur.php` pour ajouter deux champs de mot de
@@ -46,21 +46,21 @@ l'utilisateur.  Vérifier auparavant que les deux champs coïncident.
 
 </div>
 
-### Premier cryptage
+### Premier chiffrement
 
 Comme mentionné ci-dessus, on ne stocke jamais le mot de passe en clair dans la
-base, mais sa version cryptée:
+base, mais sa version chiffrée:
 
 ```php
 <?php
 function chiffrer($texte_en_clair) {
-  $texte_crypte = hash('sha256', $texte_en_clair);
-  return $texte_crypte;
+  $texte_chiffre = hash('sha256', $texte_en_clair);
+  return $texte_chiffre;
 }
 
 $mot_passe_en_clair = 'apple';
-$mot_passe_crypte = chiffrer($mot_passe_en_clair);
-echo $mot_passe_crypte;
+$mot_passe_chiffre = chiffrer($mot_passe_en_clair);
+echo $mot_passe_chiffre;
 //affiche '3a7bd3e2360a3d29eea436fcfb7e44c735d117c42d1c1835420b6b9942dd4f1b'
 ?>
 ```
@@ -72,7 +72,7 @@ echo $mot_passe_crypte;
   fonction.
 2. Modifier les actions `save` puis `updated` du contrôleur
 `ControlleurUtilisateur.php` pour sauver dans la BDD le mot de passe
-crypté. N'oubliez pas de faire un `require` de `Security.php` pour pouvoir
+chiffré. N'oubliez pas de faire un `require` de `Security.php` pour pouvoir
 appeler la fonction.
 
 </div>
@@ -83,7 +83,7 @@ modification car le mot de passe n'a pas vocation à être affiché.
 ### Plus de sécurité
 
 Pour éviter les attaques de type dictionnaire, qui permettent de retrouver le
-mot de passe original à partir de la chaîne de caractères cryptée, on va
+mot de passe original à partir de la chaîne de caractères chiffrée, on va
 concaténer une chaîne de caractères aléatoire fixe à la fin de notre mot de
 passe.
 
@@ -94,7 +94,7 @@ son fonctionnement.
 
 1. Créez un utilisateur bidon dont [le mot de passe est l'un des plus courant en
    2014](https://www.google.fr/search?q=most+used+password), par exemple `password`.
-2. Allez lire dans la base de donnée le crypté du mot de passe de cet
+2. Allez lire dans la base de donnée le chiffré du mot de passe de cet
 utilisateur.
 3. Utilisez un site comme [md5decrypt](http://md5decrypt.net/Sha256/) pour
    retrouver le mot de passe originel.
@@ -158,8 +158,8 @@ Procédons en plusieurs étapes :
 1. Enfin il faut vérifier le login/mot de passe de l'utilisateur et le connecter le cas échéant :
 
    1. Créez une fonction
-      `ModelUtilisateur::checkPassword($login,$mot_de_passe_crypte)` qui cherche
-      dans la BDD les couples (login / mot de passe crypté) correspondant. Cette
+      `ModelUtilisateur::checkPassword($login,$mot_de_passe_chiffre)` qui cherche
+      dans la BDD les couples (login / mot de passe chiffré) correspondant. Cette
       fonction doit renvoyer `true` si il n'y a qu'un tel couple, et `false`
       sinon.
 
@@ -456,20 +456,20 @@ en clair. Vous pouvez par exemple les voir dans l'onglet réseau des outils de
 développement (raccourci `F12`) dans la section paramètres sous Firefox (ou Form
 data sous Chrome).
 
-Le fait de crypter les mots de passe (ou les numéros de carte de crédit) dans la
+Le fait de chiffrer les mots de passe (ou les numéros de carte de crédit) dans la
 base de données évite qu'un accès en lecture à la base (suite à une faille de
 sécurité) ne permette à l'attaquant de récupérer toutes les données de tous
 les utilisateurs.
 
-On pourrait aussi crypter le mot de passe côté client, et n'envoyer que le mot
-de passe crypté au serveur. Dans le cas d'une attaque de l'homme du milieu (où
+On pourrait aussi chiffrer le mot de passe côté client, et n'envoyer que le mot
+de passe chiffré au serveur. Dans le cas d'une attaque de l'homme du milieu (où
 quelqu'un écoute vos communications avec le serveur), l'attaquant n'obtiendra
-que le mot de passe crypté et pas le mot de passe en clair. Mais cela ne
+que le mot de passe chiffré et pas le mot de passe en clair. Mais cela ne
 l'empêchera pas de pouvoir s'authentifier puisque l'authentification repose sur
-le mot passe crypté qu'il a récupéré.
+le mot passe chiffré qu'il a récupéré.
 
 La seule façon fiable de sécuriser une application web est le recours au
-cryptage de l'ensemble des communications entre le client (browser) et le
+chiffrement de l'ensemble des communications entre le client (browser) et le
 serveur, via l'utilisation du protocole `TLS` sur `http`, à savoir
 `https`. Cependant, la mise en place de cet infrastructure était jusqu'à présent
 compliqué. Même si

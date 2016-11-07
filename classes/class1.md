@@ -51,9 +51,9 @@ en organisant son code avec l'architecture MVC
 * 17 Octobre   2016 - Début projet
 * 24 Octobre   2016 - 3h projet (lundi -> mercredi) puis Congé IUT
 * 31 Octobre   2016 - Congé IUT puis 3h projet (jeudi -> vendredi)
-* 7  Novembre  2016 - Pas de TPs : Partiels IUT
-* 14 Novembre  2016 – TP 7 – Cookies & Sessions + 1h projet
-* 21 Novembre  2016 – TP 8 – Authentification & Validation par email + 1h projet
+* 7  Novembre  2016 - TP 7 – Cookies & Sessions + 1h projet
+* 14 Novembre  2016 – TP 8 – Authentification & Validation par email + 1h projet
+* 21 Novembre  2016 – 3h projet
 * 28 Novembre  2016 - 3h projet
 * 5  Décembre  2016 - 3h projet
 * 12 Décembre  2016 - **soutenances du projet**
@@ -104,7 +104,7 @@ la page Web
 
 ```http
 GET /~rletud/index.html HTTP/1.1
-host: infolimon.iutmontp.univ-montp2.fr
+Host: infolimon.iutmontp.univ-montp2.fr
 
 ```
 
@@ -813,7 +813,7 @@ la requête **HTTP** de type **GET** suivante
 
 ```http
 GET /~rletud/traitement.php?nom_var=valeur HTTP/1.1
-host: infolimon.iutmontp.univ-montp2.fr
+Host: infolimon.iutmontp.univ-montp2.fr
 
 ```
 
@@ -915,7 +915,7 @@ Nous voyons ici le deuxième type de requête HTTP le plus courant :
 
 ```http
 POST /~rletud/traitePost.php HTTP/1.1
-host: localhost
+Host: localhost
 Content-Length:14
 Content-Type:application/x-www-form-urlencoded
 
@@ -1048,7 +1048,7 @@ celui nous envoie sa réponse HTTP normalement.
 ```http
 > telnet infolimon.iutmontp.univ-montp2.fr 80
 GET /~rletud/ HTTP/1.1
-host: infolimon.iutmontp.univ-montp2.fr
+Host: infolimon.iutmontp.univ-montp2.fr
 
 ```
 

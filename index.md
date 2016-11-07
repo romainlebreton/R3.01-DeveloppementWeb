@@ -22,9 +22,12 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaine du 10 Octobre 2016 --  [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html)
 1. Semaine du 17 Octobre 2016 -- [Début projet](projet.html)
 1. Semaines du 24 et 31 Octobre 2016 -- 3h projet
-<!-- 1. Semaine du 7 Novembre 2016 -- 3h projet -->
-<!-- 1. Semaine du 16 Novembre 2016 --  [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) -->
-<!-- 1. Semaine du 21 Novembre 2016 --  [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html) -->
+1. Semaine du 7 Novembre 2016 --
+   [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) puis projet
+<!-- 1. Semaine du 16 Novembre 2016 -- -->
+<!--    [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html) -->
+<!--    puis projet -->
+<!-- 1. Semaine du 21 Novembre 2016 --  3h projet -->
 <!-- 1. Semaine du 28 Novembre 2016 -- 3h projet -->
 <!-- 1. Semaine du 5 Décembre 2016 -- 3h projet -->
 <!-- 1. Semaine du 12 Décembre 2016 -- soutenances du projet -->
