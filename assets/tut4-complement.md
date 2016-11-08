@@ -53,6 +53,10 @@ if (!move_uploaded_file($_FILES['nom-du-fichier']['tmp_name'], $pic_path)) {
 }
 ```
 
+**Attention :** il faut donner les droits en écriture à Apache (utilisateur
+`www-data`) sur le dossier où vous souhaitez déplacer vos images.
+
+
 On peut aussi restreindre les extensions autorisés pour le fichier avec la
 fonction
 [is_uploaded_file()](http://php.net/manual/en/function.is-uploaded-file.php)
@@ -63,3 +67,4 @@ if (!in_array(end(explode('.',$_FILES['nom-du-fichier']['name'])), $allowed_ext)
   echo "Mauvais type de fichier !";
 }
 ```
+
