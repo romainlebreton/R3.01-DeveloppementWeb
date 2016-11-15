@@ -24,9 +24,9 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaines du 24 et 31 Octobre 2016 -- 3h projet
 1. Semaine du 7 Novembre 2016 --
    [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) puis projet
-<!-- 1. Semaine du 16 Novembre 2016 -- -->
-<!--    [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html) -->
-<!--    puis projet -->
+1. Semaine du 14 Novembre 2016 --
+   [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html)
+   puis projet
 <!-- 1. Semaine du 21 Novembre 2016 --  3h projet -->
 <!-- 1. Semaine du 28 Novembre 2016 -- 3h projet -->
 <!-- 1. Semaine du 5 Décembre 2016 -- 3h projet -->

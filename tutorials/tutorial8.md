@@ -35,13 +35,13 @@ colonne `VARCHAR(64) mdp` stockant son mot de passe.
    correspondant à la taille du mot de passe chiffré (64 caractères pour SHA-256) et
    non de la taille du mot de passe lui-même.
 
-1. Modifier la vue `viewCreateUtilisateur.php` pour ajouter deux champs de mot de
+1. Modifier la vue `create.php` pour ajouter deux champs de mot de
 passe au formulaire.  Le deuxième champ mot de passe sert à valider le premier.
 
    <!-- Erreur commune : oubli input type=''password'' laisse value='$m' -->
 
-1. Modifier les actions `save` puis `updated` du contrôleur
-`ControlleurUtilisateur.php` pour sauver dans la base le mot de passe de
+1. Modifier les actions `create` puis `updated` du contrôleur
+`ControllerUtilisateur.php` pour sauver dans la base le mot de passe de
 l'utilisateur.  Vérifier auparavant que les deux champs coïncident.
 
 </div>
@@ -67,12 +67,12 @@ echo $mot_passe_chiffre;
 
 <div class="exercise">
 
-1. Copier la fonction `chiffrer` ci-dessus dans un fichier `Security.php`. Pour
-  faire les choses plus proprement, créez une classe `Security` englobant la
-  fonction.
-2. Modifier les actions `save` puis `updated` du contrôleur
-`ControlleurUtilisateur.php` pour sauver dans la BDD le mot de passe
-chiffré. N'oubliez pas de faire un `require` de `Security.php` pour pouvoir
+1. Copier la fonction `chiffrer` ci-dessus dans un fichier
+  `lib/Security.php`. Pour faire les choses plus proprement, créez une classe
+  `Security` englobant la fonction.
+2. Modifier les actions `create` puis `updated` du contrôleur
+`ControllerUtilisateur.php` pour sauver dans la BDD le mot de passe
+chiffré. N'oubliez pas de faire un `require_once` de `Security.php` pour pouvoir
 appeler la fonction.
 
 </div>
@@ -124,8 +124,16 @@ statique `Security::getSeed()`.
    }
    ```
 
+1. Changez votre graine `seed` par une chaîne aléatoire, obtenue par exemple
+   grâce au site [https://www.random.org/](https://www.random.org/).
+
 1. Modifier la fonction `chiffrer` pour qu'elle concatène la graine aléatoire
 `$seed` au mot de passe avant de le hacher.
+
+**Explication :** Grâce au salage par une `seed` aléatoire, les mots de passe
+  concaténées sont moins communs et résistent à une attaque par
+  dictionnaire. Attention tout de même que si votre `seed` est dévoilée, alors
+  l'attaque par dictionnaire redevient efficace contre votre site.
 
 </div>
 
@@ -147,26 +155,26 @@ Procédons en plusieurs étapes :
 
 1. Créons une vue pour afficher un formulaire de connexion :
 
-   1. Créer une vue `viewConnectUtilisateur.php` qui comprend un formulaire avec deux
+   1. Créer une vue `connect.php` qui comprend un formulaire avec deux
    champs, l'un pour le login, l'autre pour le mot de passe. Ce formulaire appelle
    l'action `connected` du contrôleur de Utilisateur.
    1. Ajouter une action `connect` qui affiche ce formulaire dans
-   `ControlleurUtilisateur.php`.
+   `ControllerUtilisateur.php`.
 
 1. Si ce n'est déjà fait lors du TD précédent, démarrez la session au début de `index.php`.
 
 1. Enfin il faut vérifier le login/mot de passe de l'utilisateur et le connecter le cas échéant :
 
    1. Créez une fonction
-      `ModelUtilisateur::checkPassword($login,$mot_de_passe_chiffre)` qui cherche
-      dans la BDD les couples (login / mot de passe chiffré) correspondant. Cette
-      fonction doit renvoyer `true` si il n'y a qu'un tel couple, et `false`
-      sinon.
+      `ModelUtilisateur::checkPassword($login,$mot_de_passe_chiffre)` qui
+      cherche dans la BDD les couples (login / mot de passe chiffré)
+      correspondants. Cette fonction doit renvoyer `true` si il n'y a qu'un tel
+      couple, et `false` sinon.
 
-   1. Ajouter une action `connected` dans le contrôleur de Utilisateur, qui
-   vérifie que le couple (login / mot de passe) donné est valide et qui, le cas
-   échéant, met le login de l'utilisateur en session. Puis affichez la vue de
-   détail de l'utilisateur qui vient de se connecter.
+   1. Ajouter une action `connected` dans `controllerUtilisateur`, qui vérifie
+   que le couple (login / mot de passe) donné est valide et qui, le cas échéant,
+   met le login de l'utilisateur en session. Puis affichez la vue de détail de
+   l'utilisateur qui vient de se connecter.
 
    **Aide :** 
   
@@ -177,15 +185,15 @@ Procédons en plusieurs étapes :
    <!-- 1. Notez que `ModelUtilisateur::selectWhere($data)` renvoie un **tableau -->
    <!--   d'utilisateurs**. Il faudra donc tester si le tableau est vide avec -->
    <!--   `count()`. De plus, -->
-   1. La vue `find` a besoin que l'on initialise une variable d'utilisateur `$u`
-     contenant l'utilisateur.
+   1. La vue `detail` a besoin que l'on initialise une variable d'utilisateur
+     `$u` contenant l'utilisateur.
    1. N'oubliez pas de hacher le mot de passe convenablement.
 
 </div>
 
 <div class="exercise">
 
-Ajouter une action `deconnect` dans le contrôleur de Utilisateur, qui détruit la
+Ajouter une action `deconnect` dans `controllerUtilisateur`, qui détruit la
 session en cours.  Une fois déconnecté, on renvoie l'utilisateur sur la page
 d'accueil du site.
 
@@ -201,7 +209,7 @@ vous n'ayez créé un `header.php`) de sorte à ajouter:
    * un message de bienvenu, quand l'utilisateur est connecté, et un lien vers
      l'action de déconnexion.
 
-1. Tester la connexion/déconnexion avec un couple login/passwd correct et un
+1. Tester la connexion/déconnexion avec un couple login/password correct et un
 incorrect.
 
 </div>
@@ -214,11 +222,12 @@ l'utilisateur actuellement authentifié.
 <div class="exercise">
 
 Modifier la vue de détail pour qu'elle n'affiche les liens vers la mise à jour
-ou la suppression que si le login concorde avec celui stocké en session.
+ou la suppression que pour l'utilisateur dont le login concorde avec celui
+stocké en session.
 
 **Conseil :** Pour faciliter la lecture du code, nous vous conseillons de créer
 une fonction `is_user()`. Pour faire les choses proprement, on va créer un
-fichier `config/Session.php` contenant le code suivant que l'on inclura au
+fichier `lib/Session.php` contenant le code suivant que l'on inclura au
 moment de `session_start()`.
 
 ```php?start_inline=1
@@ -231,9 +240,9 @@ class Session {
 
 </div>
 
-Cette modification n'est pas suffisante car un petit malin pourrait accéder à la
-suppression d'un utilisateur quelconque en rentrant l'action `delete` dans
-l'URL.
+**Attention :** Cette modification n'est pas suffisante car un petit malin
+pourrait accéder à la suppression d'un utilisateur quelconque en rentrant
+manuellement l'action `delete` dans l'URL.
 
 <div class="exercise">
 
@@ -265,7 +274,7 @@ utilisateur de type admin ait tous les droits sur toutes les actions de tous les
 utilisateurs.
 
    **Conseil :** Pour faciliter la lecture du code, nous vous conseillons de
-     compléter le fichier `config/Session.php` avec la fonction `is_admin` :
+     compléter le fichier `lib/Session.php` avec la fonction `is_admin` :
    
    ```php?start_inline=1
    public static function is_admin() {
@@ -284,8 +293,8 @@ promouvoir un autre utilisateur en tant qu'administrateur.
    `checkbox` "Administrateur ?". Ce bouton ne doit être présent que si
    l'utilisateur authentifié est un administrateur.  
    À vous de modifier l'action `update` du contrôleur `Utilisateur` et la vue
-   `viewUpdateUtilisateur.php`. **N'oubliez pas** que les vues ne doivent pas
-   faire de calculs (donc pas de `if`).
+   `update.php`. **N'oubliez pas** que les vues ne doivent pas faire de calculs
+   (donc pas de `if`).
 
 1. Modifiez l'action `updated` pour prendre en compte un bouton
 `checkbox` "Administrateur ?" et mettre à jour le champ `admin` de la table `utilisateur`.
@@ -317,7 +326,8 @@ vérification de l'adresse email.
 
 <div class="exercise">
 1. Dans votre formulaire de création d'un utilisateur, vérifiez le format de
-l'adresse email côté client, avec par exemple [le champ `type="email" du HTML5](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input).
+l'adresse email côté client, avec par exemple
+[le champ `type="email"` du HTML5](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input).
 
 1. Une fois de plus, un contrôle côté client n'est pas suffisant.  
 **Hackez** votre propre site de sorte à vous inscrire avec une adresse mail non valide.
@@ -402,14 +412,15 @@ contenant avec un lien qui enverra le nonce au site :
    1. Envoyez ce mail en utilisant
       [la fonction `mail()`](http://php.net/manual/en/function.mail.php) de PHP.
 
-     **Abuser de cette fonction serait considéré comme une violation de la
-     charte d'utilisation des ressources informatiques de l'IUT et vous
-     exposerait à des sanctions !**
+      **Abuser de cette fonction serait considéré comme une violation de la
+      charte d'utilisation des ressources informatiques de l'IUT et vous
+      exposerait à des sanctions !**
       
-     Pour éviter d'être blacklistés des serveurs de mail, nous allons envoyer
-     uniquement des emails dans le domaine `yopmail.com`, dont le fonctionnement
-     est le suivant : un mail envoyé à `bob@yopmail.com` est immédiatement
-     lisible sur [http://bob.yopmail.com](http://bob.yopmail.com).
+      Pour éviter d'être blacklistés des serveurs de mail, nous allons envoyer
+      uniquement des emails dans le domaine `yopmail.com`, dont le
+      fonctionnement est le suivant : un mail envoyé à `bob@yopmail.com` est
+      immédiatement lisible sur
+      [http://bob.yopmail.com](http://bob.yopmail.com).
 
 </div>
 
@@ -443,7 +454,7 @@ Remplacer les tests du type `isset($_GET['login'])` par `!is_null(myGet('login')
 
    **Aide :** Utiliser la fonction de remplacement `Ctrl+H` de NetBeans pour vous aider.
 
-1. Passez le formulaire de `viewCreateUtilisateur.php` en méthode POST si
+1. Passez le formulaire de `create.php` en méthode POST si
    `Conf::getDebug()` est `false` ou en méthode GET sinon. Faites de même avec
    les autres formulaires que vous souhaitez changer.
 

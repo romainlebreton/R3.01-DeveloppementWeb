@@ -6,6 +6,46 @@ layout: tutorial
 
 <!--
 Rajouter schéma sur les cookies et les sessions ?
+
+Si ils n'en sont pas à la question quSi ils n'en sont pas à la question qui implémente plusieurs contrôleurs dans le TD6 alors faire juste
+Exo 1
+ecrire cookie
+lire cookie
+lire cookie avec dev tools
+supprimer cookier
+
+Exo 2
+Ecrire un tableau dans un cookie
+lire cookie avec dev tools
+Lire le tableau stocké dans le cookie
+
+Exo 3
+Démarrer une session
+écrire une variable de session
+lire une variable de session
+Supprimer complètement une session (déconnecter)
+Je leur ai fait un schéma au tableau pour réexpliquer les cookies (cf photo en pièce jointe)
+Parmi les questions que j'ai essayé de soulever :
+
+    est-ce que $_COOKIE se met à jour juste après un setcookie => non
+    car $_COOKIE contient toujours le cookie déposé la fois d'avant
+    En particulier, la première fois qu'on dépose un cookie, on y a pas accès dans $_COOKIE
+    $_COOKIE peut contenir plusieurs champsi implémente plusieurs contrôleurs dans le TD6 alors faire juste
+
+Rq :
+
+Ecrire sur $_COOKIE n'a aucun effet
+
+Les cookies restent d'un appel de page à l'autre car ils restent
+stockés chez le client 
+En particulier, ils ne sont pas réécrit à chaque fois.
+L'action de setcookie est précisément de générer le SetCookie de
+l'en-tête de la réponse.
+
+Dire que les  deux actions sont séparées
+envoi du cookie utilisateur par cookie dans GET et récupération
+enregistrement/màj d'un cookie par SetCookie et setcookie
+
 -->
 
 ## Les cookies
