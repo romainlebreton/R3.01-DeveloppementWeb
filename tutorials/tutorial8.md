@@ -35,8 +35,9 @@ colonne `VARCHAR(64) mdp` stockant son mot de passe.
    correspondant à la taille du mot de passe chiffré (64 caractères pour SHA-256) et
    non de la taille du mot de passe lui-même.
 
-1. Modifier la vue `create.php` pour ajouter deux champs de mot de
-passe au formulaire.  Le deuxième champ mot de passe sert à valider le premier.
+1. Modifier la vue `create.php` (ou `update.php` si vous aviez fusionné les deux
+vues dans le TD6) pour ajouter deux champs de mot de passe au formulaire.  Le
+deuxième champ mot de passe sert à valider le premier.
 
    <!-- Erreur commune : oubli input type=''password'' laisse value='$m' -->
 
@@ -454,7 +455,7 @@ Remplacer les tests du type `isset($_GET['login'])` par `!is_null(myGet('login')
 
    **Aide :** Utiliser la fonction de remplacement `Ctrl+H` de NetBeans pour vous aider.
 
-1. Passez le formulaire de `create.php` en méthode POST si
+1. Passez le formulaire de `create.php` (ou `update.php`) en méthode POST si
    `Conf::getDebug()` est `false` ou en méthode GET sinon. Faites de même avec
    les autres formulaires que vous souhaitez changer.
 
