@@ -4,6 +4,11 @@ subtitle: SQL JOIN
 layout: tutorial
 ---
 
+<!-- Afficher après la requête préparée la requête qui a vraiment été faite pour
+voir l'échappement des caractères spéciaux dans SQL
+Voir aussi si on arrive à enregitrer des noms comme D'alembert-ignac dans la BDD
+-->
+
 <!-- Expliquer comment les requêtes préparées empêchent les injections SQL -->
 
 <!-- Dire Pb = requête SQL avec remplacement de variables qui peuvent venir de l'util -->
