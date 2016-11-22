@@ -5,9 +5,38 @@ layout: tutorial
 ---
 
 <!--
+2ème explication :
+stockage client et serveur (session non perm ou BDD)
+
+schéma avec ce que fait le PHP avant d'exécuter le fichier
+
+
+techniques : 2 actions lire et écrire/màj/supprimer (sans garantie)
+
+scénarios:
+- 1ère écriture cookie, pas dans $_COOKIE
+- màj cookie, pas màj dans $_COOKIE
+
+
+Rq: 
+- décalage dans le temps
+- peut stocker plusieurs cookies
+- écrire sur $_COOKIE n'a aucun effet
+- stocker tableau
+- Si je ne refait pas de setcookie, est-ce que le cookie reste chez l'utilisateur ?
+  Oui, car pas de setcookie = pas d'action sur le cookie (sauf si expiration)
+
+---------------
+
+Remarque : $_SESSION est écrit dans le fichier de session par du code PHP après
+l'exécution de notre fichier
+
+
 Rajouter schéma sur les cookies et les sessions ?
 
-Si ils n'en sont pas à la question quSi ils n'en sont pas à la question qui implémente plusieurs contrôleurs dans le TD6 alors faire juste
+Si ils n'en sont pas à la question qui implémente plusieurs contrôleurs dans le
+TD6 alors faire juste
+
 Exo 1
 ecrire cookie
 lire cookie
@@ -266,7 +295,7 @@ Dans votre site de projet, utilisez les cookies pour stocker le panier actuel du
 visiteur.
 
 **Aide :** Si vous ne savez pas stocker un tableau dans un cookie, c'est que
-  vous avez lui trop rapidement la partie "Notes techniques".
+  vous avez lu trop rapidement la partie "Notes techniques".
 
 </div>
 
