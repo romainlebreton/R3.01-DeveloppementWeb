@@ -5,6 +5,11 @@ layout: tutorial
 ---
 
 <!--
+Mettre à jour le TD: En 2016-2017, il n'étaient pas assez avancé ni sur le TD ni
+sur le projet pour faire les exercices correspondants
+-->
+
+<!--
 2ème explication :
 stockage client et serveur (session non perm ou BDD)
 

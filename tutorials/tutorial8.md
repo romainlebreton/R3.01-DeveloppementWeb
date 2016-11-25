@@ -10,6 +10,8 @@ http://php.net/manual/fr/book.password.php -->
 <!-- Prévoir d'ajouter une note sur l'upload de fichiers par formulaire comme une -->
 <!-- image de profil par exemple le 23 Nov ? -->
 
+<!-- Màj le TD pour le fait d'être connecté pour valider le mail -->
+
 Ce TD vient à la suite du
 [TD7 -- cookies & sessions]({{site.baseurl}}/tutorials/tutorial7.html) et
 prendra donc comme acquis l'utilisation de cookies et des sessions. Cette
@@ -333,9 +335,9 @@ l'adresse email côté client, avec par exemple
 1. Une fois de plus, un contrôle côté client n'est pas suffisant.  
 **Hackez** votre propre site de sorte à vous inscrire avec une adresse mail non valide.
 
-Vous devriez en conclure que les contrôles côté client (navigateur) offrent un
-confort d'affichage mais ne constituent en aucun cas une sécurisation de votre
-site !
+   **Remarque :** Vous devriez en conclure que les contrôles côté client (navigateur) offrent
+   un confort d'affichage mais ne constituent en aucun cas une sécurisation de
+   votre site !
 
 1. Dans l'action `create` du contrôleur `Utilisateur`, vérifiez le format de
 l'adresse email de l'utilisateur. Pour cela, vous pouvez par exemple utiliser la
@@ -362,6 +364,17 @@ l'utilisateur une chaîne de caractères aléatoires
 connaissance de ce nonce sert de preuve que l'adresse email existe ; le client
 renverra donc le nonce au site qui validera donc l'adresse email (en mettant la
 valeur du nonce à `NULL` dans notre cas).
+
+<!--
+Si l'utilisateur fait une faute de frappe dans l'email, le nonce sera envoyé à
+la mauvaise adresse et donc il ne faut pas qu'un autre utilisateur puisse
+valider le mail avec le nonce. En pratique, nous demanderons donc à
+l'utilisateur d'être connecté pour pouvoir valider une adresse email grâce au
+nonce.
+
+Donc il faut un champ email_validated dans la session qui fait que quand on est
+connecté sans avoir validé, alors on ne peut que valider son email.
+-->
 
 Mettons en place ce procédé :
 
