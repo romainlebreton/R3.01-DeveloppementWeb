@@ -82,6 +82,34 @@ enregistrement/màj d'un cookie par SetCookie et setcookie
 
 -->
 
+<!--
+Explication sur les sessions
+
+session 
+stocke où ?
+à quoi sert le cookie
+commande PHP 
+- session_start()
+  Si cookie PHPSESSID=xxx reçu alors lance la session pour cet id
+  Sinon crée un cookie PHPSESSID=xxx (setcookie) et lance le mécanisme de session
+- $_SESSION en lecture et écriture
+  au moment du session_start charge $_SESSION avec le fichier sess_xxx
+  Derrière les rideaux, après vos fichiers PHP, écris le contenu de $_SESSION dans le ficher sess_xxx
+
+sécurité: donnée modifiable que par le serveur
+pas de limite de taille
+
+On peut se faire passer pour quelqu'un si on connait son PHPSESSID
+=> HTTPS et paramétrisation des cookies par nom de domaine et chemin
+
+Durée de vie par défaut des sessions
+
+Suppression des sessions en 3 étapes. Attention: session_destroy() casse le
+mécanisme de session. Pour accéder à nouveau aux variables de session, la
+fonction session_start() doit être appelée de nouveau.
+
+-->
+
 ## Les cookies
 
 Un cookie est utilisé pour stocker une information spécifique à un utilisateur
@@ -397,6 +425,7 @@ cookies).
    ```php?start_inline=1
    session_unset();     // unset $_SESSION variable for the run-time 
    session_destroy();   // destroy session data in storage
+   // Il faut réappeler session_start() pour accéder de nouveau aux variables de session
    setcookie(session_name(),'',time()-1); // deletes the session cookie containing the session ID
    ```
 
