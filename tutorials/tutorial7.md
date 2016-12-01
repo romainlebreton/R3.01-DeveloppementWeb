@@ -379,7 +379,7 @@ cookies).
 *  **Vérifier qu'une variable existe en session**
 
    ```php?start_inline=1
-   if (!empty($_SESSION['login'])) { /*do something*/ }
+   if (isset($_SESSION['login'])) { /*do something*/ }
    ```
    
 *  **Supprimer une variable de session**
