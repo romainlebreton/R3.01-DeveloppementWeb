@@ -80,3 +80,18 @@ justifier l'utilisation d'une requête préparée :
   informations rentrées par un client (à travers un formulaire par exemple)
   soient interprétées.
  
+<!--
+Récupérer l'auto incrément d'une table
+La base : PDO last insert id
+
+2 solutions plus satisfaisantes (tjrs sur http://php.net/manual/fr/pdo.lastinsertid.php)
+
+Requête SQL INSERT INTO qui renvoie son identifiant
+OUTPUT INSERTED.product_id VALUES (?)
+
+OU
+
+transaction pour coupler la requête d'insertion et le last_insert_id
+OUTPUT INSERTED.product_id VALUES (?)
+
+-->

@@ -10,6 +10,12 @@ sur le projet pour faire les exercices correspondants
 -->
 
 <!--
+Attention, si tout le monde fait session_start à l'IUT
+alors tout le monde écrit le cookie PHPSESSID
+et il peut poser des conflits entre les différents sites
+-->
+
+<!--
 2ème explication :
 stockage client et serveur (session non perm ou BDD)
 

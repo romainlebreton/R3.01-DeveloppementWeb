@@ -7,6 +7,11 @@ layout: tutorial
 <!-- Prévoir une explication écrite de la différence entre chemin de fichier et
 URL.  Notament pour ceux qui mettent du ROOT dans les URL -->
 
+<!--
+URL absolue en récupérant nom de domaine et chemin de l'URL avec
+http://{$_SERVER['HTTP_HOST']}{$_SERVER['PHP_SELF']}
+-->
+
 <!-- require d'un chemin de fichier **et pas de query string** -->
 
 Aujourd'hui nous allons développer notre site-école de covoiturage. Au fur et à
