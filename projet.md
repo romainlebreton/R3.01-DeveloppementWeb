@@ -39,15 +39,15 @@ l'un de vos comptes. Les sources du site devront être accessible dans un fichie
 
 **Emploi du temps prévisionnel :**
 
-1. Semaine du 17 Octobre 2016 -- Début projet
-1. Semaine du 24 Octobre 2016 -- 3h projet (lundi &rarr; mercredi) puis Congé IUT
-1. Semaine du 31 Octobre 2016 -- Congé IUT puis 3h projet (jeudi &rarr; vendredi)
-1. Semaine du 7 Novembre 2016 --  TD 7 -- Cookies & Sessions
-1. Semaine du 14 Novembre 2016 --  TD 8 -- Authentification & Validation par email
-1. Semaine du 21 Novembre 2016 -- 3h projet
-1. Semaine du 28 Novembre 2016 -- 3h projet
-1. Semaine du 5 Décembre 2016 -- 3h projet
-1. Semaine du 12 Décembre 2016 -- soutenances du projet
+1. Semaine du 16 Octobre 2017 -- Début projet
+1. Semaine du 23 Octobre 2017 -- 3h projet (lundi &rarr; mercredi) puis Congé IUT
+1. Semaine du 30 Octobre 2017 -- Congé IUT puis 3h projet (jeudi &rarr; vendredi)
+1. Semaine du 6 Novembre 2017 --  TD 7 -- Cookies & Sessions
+1. Semaine du 13 Novembre 2017 --  TD 8 -- Authentification & Validation par email
+1. Semaine du 20 Novembre 2017 -- 3h projet
+1. Semaine du 27 Novembre 2017 -- 3h projet
+1. Semaine du 4 Décembre 2017 -- 3h projet
+1. Semaine du 11 Décembre 2017 -- soutenances du projet
 
 ## Par où commencer ?
 
