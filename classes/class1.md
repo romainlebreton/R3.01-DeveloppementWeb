@@ -14,9 +14,9 @@ en organisant son code avec l'architecture MVC
 
 **4 intervenants :**
 
-* Q1 - Mardi 15h45 - Romain Lebreton
-* Q2 - Mercredi 10h15 - Sébastien Gagné
-* Q3 - Vendredi 12h30 - Auréline Quatrehomme
+* Q1 - Mardi 15h45 - Jean-Philippe Prost
+* Q2 - Mercredi 10h - Sébastien Gagné
+* Q3 - Vendredi 12h30 - Abdelkader Gouaïch
 * Q4 - Vendredi 09h15 - Romain Lebreton
 
 **Cours et TP en ligne :**
@@ -35,28 +35,28 @@ en organisant son code avec l'architecture MVC
 
 ## Emploi du temps prévisionnel
 
-* 2 Septembre -- Cours Introductif
+* 1 Septembre -- Cours Introductif
 
 **1er bloc de TPs -- Bases de PHP :**
 
-* 5  Septembre 2016 – TP 1 – Introduction aux objets en PHP
-* 12 Septembre 2016 – TP 2 – La persistance des données en PHP
-* 19 Septembre 2016 – TP 3 – Fin TP2 et association entre classes
-* 26 Septembre 2016 – TP 4 – Architecture MVC simple
-* 03 Octobre   2016 – TP 5 – Architecture MVC avancée 1/2
-* 10 Octobre   2016 – TP 6 – Architecture MVC avancée 2/2
+* 4  Septembre 2016 – TP 1 – Introduction aux objets en PHP
+* 11 Septembre 2016 – TP 2 – La persistance des données en PHP
+* 18 Septembre 2016 – TP 3 – Fin TP2 et association entre classes
+* 25 Septembre 2016 – TP 4 – Architecture MVC simple
+* 2 Octobre   2016 – TP 5 – Architecture MVC avancée 1/2
+* 9 Octobre   2016 – TP 6 – Architecture MVC avancée 2/2
 
 **2ème bloc de TPs -- Mise en application sur le projet + TPs complémentaires :**
 
-* 17 Octobre   2016 - Début projet
-* 24 Octobre   2016 - 3h projet (lundi -> mercredi) puis Congé IUT
-* 31 Octobre   2016 - Congé IUT puis 3h projet (jeudi -> vendredi)
-* 7  Novembre  2016 - TP 7 – Cookies & Sessions + 1h projet
-* 14 Novembre  2016 – TP 8 – Authentification & Validation par email + 1h projet
-* 21 Novembre  2016 – 3h projet
-* 28 Novembre  2016 - 3h projet
-* 5  Décembre  2016 - 3h projet
-* 12 Décembre  2016 - **soutenances du projet**
+* 16 Octobre   2016 - **Début projet**
+* 23 Octobre   2016 - 3h projet
+* 30 Octobre   2016 - **Congé IUT**
+* 6  Novembre  2016 - TP 7 – Cookies & Sessions + 1h projet
+* 13 Novembre  2016 – TP 8 – Authentification & Validation par email + 1h projet
+* 20 Novembre  2016 – 3h projet
+* 27 Novembre  2016 - 3h projet
+* 4  Décembre  2016 - 3h projet
+* 11 Décembre  2016 - **soutenances du projet**
 
 <!-- Peut-être cours un peu plus long que 1h -->
 
@@ -360,6 +360,8 @@ les professionnels (Wikipédia, Yahoo et Facebook).
 <img src="{{site.baseurl}}/assets/ServerSideProgLang.png" alt="Popularité des langages côté serveur">  
 Popularité des langages côté serveur
 </p>
+
+<!-- https://w3techs.com/technologies/overview/programming_language/all -->
 
 </section>
 <section>
