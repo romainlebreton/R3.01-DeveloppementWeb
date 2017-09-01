@@ -29,7 +29,7 @@ La commande `iconv` est utile pour changer l'encodage des caractères d'un fichi
 -->
 
 
-## Comment faire pour qu'une page Web soit servie par le serveur HTTP sur infolimon ?
+## Comment faire pour qu'une page Web soit servie par le serveur HTTP sur webinfo ?
 
 On écrit une page Web dans le dossier **public_html** de son répertoire personnel et
 on donne les droits au serveur HTTP Apache (utilisateur www-data) de lire les
@@ -62,11 +62,11 @@ Apache pour qu'il puisse lister leur contenu.
 
 ### Les URL en `http://` et `https://`
 
-**Exemple :** http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html 
+**Exemple :** http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html 
 
 Ici, la 1ère partie de l'URL `http://` correspond toujours au protocole de
 communication, qui est bien sûr le Hypertext Transfer Protocol dans notre cas.
-En 2ème partie, nous avons désormais l'hôte `infolimon.iutmontp.univ-montp2.fr`
+En 2ème partie, nous avons désormais l'hôte `webinfo.iutmontp.univ-montp2.fr`
 qui décrit la machine à qui s'adresser. Enfin la 3ème partie
 `/~rletud/index.html` correspond au chemin complet de la page Web pour le serveur.  
 **Référence :** [Les URL](https://fr.wikipedia.org/wiki/Uniform_Resource_Locator)

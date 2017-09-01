@@ -9,15 +9,15 @@ layout : slideshow
 
 **Objectif du cours:**
 
-Apprendre à faire des pages dynamiques avec PHP et MySQL
-en organisant son code avec l'architecture MVC
+* Apprendre à faire des pages dynamiques avec PHP et MySQL
+* Organiser son code avec l'architecture MVC
 
 **4 intervenants :**
 
-* Q1 - Mardi 15h45 - Jean-Philippe Prost
-* Q2 - Mercredi 10h - Sébastien Gagné
-* Q3 - Vendredi 12h30 - Abdelkader Gouaïch
-* Q4 - Vendredi 09h15 - Romain Lebreton
+* Q1 - Mardi 15h45-18h45 - Jean-Philippe Prost
+* Q2 - Mercredi 10h-13h - Sébastien Gagné
+* Q3 - Vendredi 12h30-15h30 - Abdelkader Gouaïch
+* Q4 - Vendredi 09h15-12h15 - Romain Lebreton
 
 **Cours et TP en ligne :**
 
@@ -99,12 +99,12 @@ principales est ainsi de récupérer des pages Web.
 
 La requête HTTP la plus courante est la requête GET. Par exemple pour demander
 la page Web
-[http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html](http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html)
+[http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html](http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html)
 :
 
 ```http
 GET /~rletud/index.html HTTP/1.1
-Host: infolimon.iutmontp.univ-montp2.fr
+Host: webinfo.iutmontp.univ-montp2.fr
 
 ```
 
@@ -151,11 +151,11 @@ Le navigateur interprète alors la page Web et l'affiche.
 
 ## Écoutons le réseau
 
-<!-- Ouvrir http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html dans le
+<!-- Ouvrir http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html dans le
 navigateur en expliquant la requête et réponse -->
 
 Ouvrons
-[http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html](http://infolimon.iutmontp.univ-montp2.fr/~rletud/index.html)
+[http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html](http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html)
 en écoutant le réseau à l'aide des outils de développement (`F12` ou Menu Outils/Outils de développement puis onglet Réseau).
 
 <!--
@@ -188,7 +188,7 @@ Il est souvent associé au port 80 de la machine hôte.
 <br>
 
 **En pratique** lors des TDs, nous utiliserons le serveur **HTTP** Apache de
-  l'IUT (`infolimon`) et nous vous ferons installer des serveurs HTTP sur vos
+  l'IUT (`webinfo`) et nous vous ferons installer des serveurs HTTP sur vos
   ordinateurs portables.
 
 <!-- La pratique du serveur avec public_html, PB file://, installation chez eux -->
@@ -495,12 +495,12 @@ Web générée (comme si on avait fait `echo`).
 
 ## Test de la page sur un serveur HTTP
 
-* Enregistrons ce fichier PHP sur le serveur HTTP `infolimon` de l'IUT. Les
+* Enregistrons ce fichier PHP sur le serveur HTTP `webinfo` de l'IUT. Les
 fichiers PHP se mettent dans le dossier `public_html` de votre répertoire
 personnel.
 
 * Vous pouvez alors y accéder à partir de l'URL
-[http://infolimon.iutmontp.univ-montp2.fr/~loginIUT/](http://infolimon.iutmontp.univ-montp2.fr/~loginIUT/)
+[http://webinfo.iutmontp.univ-montp2.fr/~loginIUT/](http://webinfo.iutmontp.univ-montp2.fr/~loginIUT/)
 en remplaçant `loginIUT` par votre login.
 
 <div class="incremental">
@@ -522,7 +522,7 @@ en remplaçant `loginIUT` par votre login.
   ```
 
 * On ouvre
-  [http://infolimon/~loginIUT/bonjour.php](http://infolimon.iutmontp.univ-montp2.fr/~rletud/bonjour.php)
+  [http://webinfo/~loginIUT/bonjour.php](http://webinfo.iutmontp.univ-montp2.fr/~rletud/bonjour.php)
   pour voir la page générée
 
   ```text
@@ -704,7 +704,7 @@ Une 1ère page avec un lien contenant des informations dont son *query string*.
 ```
 </div>
 <div style="flex-grow:1;display:inline;text-align:center;">
-<a href="http://infolimon.iutmontp.univ-montp2.fr/~rletud/bonjour2.php?nom=Dupont&prenom=Jean">Dis-moi bonjour !</a>
+<a href="http://webinfo.iutmontp.univ-montp2.fr/~rletud/bonjour2.php?nom=Dupont&prenom=Jean">Dis-moi bonjour !</a>
 </div>
 </div>
 
@@ -769,7 +769,7 @@ Considérons le formulaire suivant et supposons que l'utilisateur a tapé `MaDon
 ```
 </div>
 <div style="flex-grow:1;text-align:center">
-<form method="get" action="http://infolimon.iutmontp.univ-montp2.fr/~rletud/traitement.php" style="display:inline">
+<form method="get" action="http://webinfo.iutmontp.univ-montp2.fr/~rletud/traitement.php" style="display:inline">
 <input type="text" name="nom_var" value="MaDonnee">
 <input type="submit">
 </form>
@@ -815,7 +815,7 @@ la requête **HTTP** de type **GET** suivante
 
 ```http
 GET /~rletud/traitement.php?nom_var=valeur HTTP/1.1
-Host: infolimon.iutmontp.univ-montp2.fr
+Host: webinfo.iutmontp.univ-montp2.fr
 
 ```
 
@@ -850,7 +850,7 @@ elles **ne sont plus** encodées dans le *query string*.
 ```
 </div>
 <div style="flex-grow:1;text-align:center">
-<form method="post" action="http://infolimon.iutmontp.univ-montp2.fr/~rletud/traitePost.php" style="display:inline">
+<form method="post" action="http://webinfo.iutmontp.univ-montp2.fr/~rletud/traitePost.php" style="display:inline">
 <input type="text" name="nom_var" value="MaDonnee">
 <input type="submit">
 </form>
@@ -942,7 +942,7 @@ Elles servent aussi à demander des pages Web. Les principales différences sont
 **Démonstration avec l'outil *Réseaux* :**
 </div>
 <div style="flex-grow:1;text-align:center">
-<form method="post" action="http://infolimon.iutmontp.univ-montp2.fr/~rletud/traitePost.php" style="display:inline">
+<form method="post" action="http://webinfo.iutmontp.univ-montp2.fr/~rletud/traitePost.php" style="display:inline">
 <input type="text" name="nom_var" value="MaDonnee">
 <input type="submit">
 </form>
@@ -1048,9 +1048,9 @@ celui nous envoie sa réponse HTTP normalement.
 **Exemple :**  
 
 ```http
-> telnet infolimon.iutmontp.univ-montp2.fr 80
+> telnet webinfo.iutmontp.univ-montp2.fr 80
 GET /~rletud/ HTTP/1.1
-Host: infolimon.iutmontp.univ-montp2.fr
+Host: webinfo.iutmontp.univ-montp2.fr
 
 ```
 

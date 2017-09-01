@@ -198,7 +198,7 @@ la vue ne fait que lire cette variable pour générer la page Web.
 
 1. Créez le contrôleur `controller/ControllerVoiture.php` avec le code précédent.
 2. Testez votre page en appelant l'URL
-[.../controller/ControllerVoiture.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD4/controller/ControllerVoiture.php)
+[.../controller/ControllerVoiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD4/controller/ControllerVoiture.php)
 3. Prenez le temps de comprendre le **MVC** sur cet exemple.  
    Avez-vous compris l'ordre dans lequel PHP exécute votre code ?  
    Est-ce que ce code vous semble similaire à l'ancien fichier
@@ -254,7 +254,7 @@ L'action est passée au *routeur* dans l'URL au format
 exemple, pour afficher toutes les voitures :
 
 1. nous devrons demander l'URL
-[.../controller/routeur.php?action=readAll](http://infolimon/~mon_login/PHP/TD4/controller/routeur.php?action=readAll).  
+[.../controller/routeur.php?action=readAll](http://webinfo/~mon_login/PHP/TD4/controller/routeur.php?action=readAll).  
 [**Rappel** sur query string dans le cours 1.]({{site.baseurl}}/classes/class1.html#les-query-strings-dans-lurl)
 1. le routeur récupère l'action donnée par l'utilisateur dans l'URL avec
    `$action = $_GET['action'];` (donc `$action="readAll"`)
@@ -267,7 +267,7 @@ exemple, pour afficher toutes les voitures :
 1. Modifiez le code de `ControllerVoiture.php` et créez le fichier
    `controller/routeur.php` pour correspondre au code ci-dessus ;
 1. Testez la nouvelle architecture en appelant
-[.../controller/routeur.php?action=readAll](http://infolimon/~mon_login/PHP/TD4/controller/routeur.php?action=readAll).
+[.../controller/routeur.php?action=readAll](http://webinfo/~mon_login/PHP/TD4/controller/routeur.php?action=readAll).
 3. Prenez le temps de comprendre le **MVC** sur cet exemple.  
    Avez-vous compris l'ordre dans lequel PHP exécute votre code ?  
    Est-ce que ce code vous semble similaire à l'ancien fichier
@@ -285,7 +285,7 @@ toutes les informations, nous souhaitons créer une page de détail dont le rôl
 sera d'afficher toutes les informations de la voiture. Cette action aura besoin
 de connaître l'immatriculation de la voiture visée ; on utilisera encore le
 *query string* pour passer l'information dans l'URL en même temps que l'action :  
-[.../routeur.php?action=read&immat=AAA111BB](http://infolimon/~mon_login/PHP/TD4/controller/routeur.php?action=read&immat=AAA11BB)
+[.../routeur.php?action=read&immat=AAA111BB](http://webinfo/~mon_login/PHP/TD4/controller/routeur.php?action=read&immat=AAA11BB)
 
 <div class="exercise"> 
 

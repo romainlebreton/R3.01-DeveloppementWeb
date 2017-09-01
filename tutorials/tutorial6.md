@@ -73,11 +73,11 @@ que s'il était arrivé sur `index.php?action=readAll`.
 </div>
 
 Désormais, la page
-[http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/index.php](http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/index.php)
+[http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD5/index.php](http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD5/index.php)
 doit marcher sans paramètre.
 
 **Note :** que vous pouvez aussi y accéder avec l'adresse
-[http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/](http://infolimon.iutmontp.univ-montp2.fr/~votre_login/TD5/) :
+[http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD5/](http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD5/) :
 Apache ouvre directement les pages `index.html` ou `index.php` d'un répertoire
 si elles existent.
 

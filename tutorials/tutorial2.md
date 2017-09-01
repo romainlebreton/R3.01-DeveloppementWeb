@@ -29,7 +29,7 @@ régulièrement chaque nouvelle partie de code.
 <div class="exercise">
 1. Connectez vous à votre base de données MySQL, à l'aide de l'interface
 PhpMyAdmin
-[http://infolimon.iutmontp.univ-montp2.fr/my](http://infolimon.iutmontp.univ-montp2.fr/my)
+[http://webinfo.iutmontp.univ-montp2.fr/my](http://webinfo.iutmontp.univ-montp2.fr/my)
 Le login est votre login IUT et votre mot de passe initial votre numéro INE.  
 (Si vous êtes sur votre machine, allez sur votre phpmyadmin à l'adresse
 [http://localhost/phpmyadmin](http://localhost/phpmyadmin)).
@@ -105,7 +105,7 @@ serveur du reste du code PHP.
    class Conf {
    
      static private $databases = array(
-       // Le nom d'hote est infolimon a l'IUT
+       // Le nom d'hote est webinfo a l'IUT
        // ou localhost sur votre machine
        'hostname' => 'a_remplir',
        // A l'IUT, vous avez une BDD nommee comme votre login

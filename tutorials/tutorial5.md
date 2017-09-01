@@ -118,7 +118,7 @@ car il n'y a pas de chemin mais require `./Model.php` ne marche pas.
 Pour remédier au problème précédent, nous allons utiliser des chemins
 absolus. Nous allons écrire le chemin absolu de fichier menant à votre site Web
 dans une variable `$ROOT_FOLDER` (sans slash à la fin). Par exemple, sur les machines de l'IUT
-(serveur infolimon)
+(serveur webinfo)
    
 ```php?start_inline=1
 $ROOT_FOLDER = "/home/ann2/votre_login/public_html/TD5";

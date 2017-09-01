@@ -4,7 +4,7 @@ subtitle: Planning et cahier des charges
 layout: tutorial
 ---
 
-<!-- Dire modalités évaluation sans dossier ni présentation, déposer le site sur infolimon -->
+<!-- Dire modalités évaluation sans dossier ni présentation, déposer le site sur webinfo -->
 <!-- J'ai fait 60% projet & 40% examen cette année (50/50 l'an dernier) -->
 
 ## Sujet
@@ -33,7 +33,7 @@ projet Web interviendra pour moitié dans la note de l'UE 'Programmation Web cô
 serveur'. L'autre moitié sera donnée par l'examen final sur papier (pas de code
 à écrire, questions de compréhension).
 
-Le jour de la soutenance, **le site devra être déployé sur `infolimon`** sous
+Le jour de la soutenance, **le site devra être déployé sur `webinfo`** sous
 l'un de vos comptes. Les sources du site devront être accessible dans un fichier
 `sources.zip` à la racine de votre site.
 
@@ -84,7 +84,7 @@ En conséquence, ne pas attaquer ces parties pour le moment.
 ### Ou héberger ce site? comment partager un répertoire ?
 
 Le site à rendre sera à héberger dans le répertoire de l'un des membres de votre groupe. 
-Par exemple [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/eCommerce/](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/eCommerce/)
+Par exemple [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/eCommerce/](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/eCommerce/)
 
 L'étudiant 1 doit donc créer le répertoire `eCommerce` dans son dossier `public_html`
 puis donner les droits aux autres étudiants de son groupe sur ce répertoire:

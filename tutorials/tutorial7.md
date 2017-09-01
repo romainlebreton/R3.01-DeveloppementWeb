@@ -206,7 +206,7 @@ requêtes.
 
 ```http
 GET /~rletud/index.html HTTP/1.1
-Host: infolimon.iutmontp.univ-montp2.fr
+Host: webinfo.iutmontp.univ-montp2.fr
 Cookie: TestCookie1=valeur1; TestCookie2=valeur2
 ```
 
@@ -235,7 +235,7 @@ d'envoyer tous les cookies provenant des sous-domaines du domaine de la page Web
 qu'il demande.
 
 Par exemple, un cookie enregistré à l'initiative d'un site hébergé sur
-`infolimon.iutmontp.univ-montp2.fr` sera disponible à tous les sites ayant ce
+`webinfo.iutmontp.univ-montp2.fr` sera disponible à tous les sites ayant ce
 nom de domaine, et aussi aux sites de domaine `iutmontp.univ-montp2.fr` ou
 `univ-montp2.fr`, mais pas aux autres domaines tels que `google.fr`.
 
@@ -448,15 +448,15 @@ cookies).
 
 <!-- Dans le cas d'un hébergement mutualisé, (comme à l'IUT) deux répertoires -->
 <!-- différents par exemple -->
-<!-- [http://infolimon.iutmontp.univ-montp2.fr/~mon_login](http://infolimon.iutmontp.univ-montp2.fr/~mon_login) -->
+<!-- [http://webinfo.iutmontp.univ-montp2.fr/~mon_login](http://webinfo.iutmontp.univ-montp2.fr/~mon_login) -->
 <!-- et -->
-<!-- [http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin](http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin) -->
+<!-- [http://webinfo.iutmontp.univ-montp2.fr/~le_login_du_voisin](http://webinfo.iutmontp.univ-montp2.fr/~le_login_du_voisin) -->
 <!-- sont vus comme un seul site web, alors qu'il s'agit en réalité de deux sites web -->
 <!-- différents.  De ce fait, si vous utilisez exactement le même nom de variable de -->
 <!-- session, il est possible que s'authentifier sur -->
-<!-- [http://infolimon.iutmontp.univ-montp2.fr/~mon_login](http://infolimon.iutmontp.univ-montp2.fr/~mon_login) -->
+<!-- [http://webinfo.iutmontp.univ-montp2.fr/~mon_login](http://webinfo.iutmontp.univ-montp2.fr/~mon_login) -->
 <!-- vous permette de contourner l'authentification de -->
-<!-- [http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin](http://infolimon.iutmontp.univ-montp2.fr/~le_login_du_voisin). -->
+<!-- [http://webinfo.iutmontp.univ-montp2.fr/~le_login_du_voisin](http://webinfo.iutmontp.univ-montp2.fr/~le_login_du_voisin). -->
 
 <!-- Afin d'éviter ces désagréments, il suffit d'utiliser un nom de variable de -->
 <!-- session qu'on ne puisse deviner avec l'instruction -->

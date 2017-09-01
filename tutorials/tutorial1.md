@@ -82,14 +82,14 @@ le répertoire **public_html** de votre espace personnel.
 2. **[Vous souvenez-vous]({{site.baseurl}}/classes/class1.html#test-de-la-page-sur-un-serveur-http)
    comment fait-on pour qu'une page Web soit servie par le serveur HTTP de l'IUT
    (sur
-   [infolimon.iutmontp.univ-montp2.fr](http://infolimon.iutmontp.univ-montp2.fr))
+   [webinfo.iutmontp.univ-montp2.fr](http://webinfo.iutmontp.univ-montp2.fr))
    ?**
 
    * Les pages Web doivent être enregistrées dans le dossier **public_html** de
    votre répertoire personnel.
 
    * Le serveur HTTP de l'IUT servira vos pages Web à l'adresse suivante
-     [http://infolimon.iutmontp.univ-montp2.fr/~mon_login_IUT/page1.html](http://infolimon.iutmontp.univ-montp2.fr/~mon_login_IUT/page1.html)
+     [http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/page1.html](http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/page1.html)
 
    **Ouvrez donc** `page1.html` depuis le navigateur en tapant l'URL dans la
    barre d'adresse.
@@ -161,7 +161,7 @@ fichiers OU de façon équivalente avec une URL en `file://` comme :
 
 6. Ouvrez cette page dans le navigateur dans un second onglet en passant par le
    serveur HTTP de l'IUT :  
-   [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/echo.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/echo.php)
+   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/echo.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/echo.php)
 
    **Que se passe-t-il quand on demande un fichier PHP à un serveur HTTP ?**  
    **Regardez les sources de la page Web (Clic droit, code source ou `Ctrl-U`)
@@ -463,9 +463,9 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
 4. Remplissez `afficher()` qui permet d'afficher les informations de la voiture courante (regardez le code du constructeur de la classe Voiture : comme en Java, on peut utiliser le mot-clé `this` mais suivi de `->`) ;
 
 5. Testez que votre classe est valide pour PHP : la page générée par le serveur
-   Web `infolimon` à partir de `Voiture.php` ne doit pas afficher d'erreur.  
-   **Demandez donc** votre page à `infolimon`
-   [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/Voiture.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/Voiture.php)
+   Web `webinfo` à partir de `Voiture.php` ne doit pas afficher d'erreur.  
+   **Demandez donc** votre page à `webinfo`
+   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/Voiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/Voiture.php)
 
 ### Utilisation de la classe `Voiture`
 
@@ -482,8 +482,8 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
 
    * Affichez cette voiture à l'aide de sa méthode `afficher()` .
 
-3. Testez votre page sur `infolimon` :  
-   [http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php](http://infolimon.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php)
+3. Testez votre page sur `webinfo` :  
+   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php)
    
 
 ## Interaction avec un formulaire
@@ -540,7 +540,7 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    string*. Pour cela, vérifiez que le tableau `$_GET` n'est pas vide.
    1. En reprenant du code de `testVoiture.php`, faites que `creerVoiture.php`
    affiche les informations de la voiture envoyée par le formulaire.
-   1. Bien sûr, **testez votre page** en la demandant à `infolimon`.
+   1. Bien sûr, **testez votre page** en la demandant à `webinfo`.
 
 6. Afin d'éviter que les paramètres du formulaire n'apparaissent dans l'URL, modifiez 
    le formulaire pour qu'il appelle la méthode POST :

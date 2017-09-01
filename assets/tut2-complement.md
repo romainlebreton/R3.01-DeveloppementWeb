@@ -28,8 +28,8 @@ layout: tutorial
 
 4. * Exécuter comme "Site Web local",
 
-   * URL du projet : l'adresse de votre page Web sur `infolimon`, par exemple
-   [http://infolimon/~votre_login/PHP/TD2/](http://infolimon/~votre_login/PHP/TD2/)
+   * URL du projet : l'adresse de votre page Web sur `webinfo`, par exemple
+   [http://webinfo/~votre_login/PHP/TD2/](http://webinfo/~votre_login/PHP/TD2/)
 
 5. Appuyez sur Finish
 
