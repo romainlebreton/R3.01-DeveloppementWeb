@@ -39,24 +39,24 @@ layout : slideshow
 
 **1er bloc de TPs -- Bases de PHP :**
 
-* 4  Septembre 2016 – TP 1 – Introduction aux objets en PHP
-* 11 Septembre 2016 – TP 2 – La persistance des données en PHP
-* 18 Septembre 2016 – TP 3 – Fin TP2 et association entre classes
-* 25 Septembre 2016 – TP 4 – Architecture MVC simple
-* 2 Octobre   2016 – TP 5 – Architecture MVC avancée 1/2
-* 9 Octobre   2016 – TP 6 – Architecture MVC avancée 2/2
+* 4  Septembre 2017 – TP 1 – Introduction aux objets en PHP
+* 11 Septembre 2017 – TP 2 – La persistance des données en PHP
+* 18 Septembre 2017 – TP 3 – Fin TP2 et association entre classes
+* 25 Septembre 2017 – TP 4 – Architecture MVC simple
+* 2 Octobre   2017 – TP 5 – Architecture MVC avancée 1/2
+* 9 Octobre   2017 – TP 6 – Architecture MVC avancée 2/2
 
 **2ème bloc de TPs -- Mise en application sur le projet + TPs complémentaires :**
 
-* 16 Octobre   2016 - **Début projet**
-* 23 Octobre   2016 - 3h projet
-* 30 Octobre   2016 - **Congé IUT**
-* 6  Novembre  2016 - TP 7 – Cookies & Sessions + 1h projet
-* 13 Novembre  2016 – TP 8 – Authentification & Validation par email + 1h projet
-* 20 Novembre  2016 – 3h projet
-* 27 Novembre  2016 - 3h projet
-* 4  Décembre  2016 - 3h projet
-* 11 Décembre  2016 - **soutenances du projet**
+* 16 Octobre   2017 - **Début projet**
+* 23 Octobre   2017 - 3h projet
+* 30 Octobre   2017 - **Congé IUT**
+* 6  Novembre  2017 - TP 7 – Cookies & Sessions + 1h projet
+* 13 Novembre  2017 – TP 8 – Authentification & Validation par email + 1h projet
+* 20 Novembre  2017 – 3h projet
+* 27 Novembre  2017 - 3h projet
+* 4  Décembre  2017 - 3h projet
+* 11 Décembre  2017 - **soutenances du projet**
 
 <!-- Peut-être cours un peu plus long que 1h -->
 
@@ -145,6 +145,10 @@ Le navigateur interprète alors la page Web et l'affiche.
 ![Requête HTTP]({{site.baseurl}}/assets/RequeteHTTP.png)
 </p>
 
+<br>
+<br>
+**Remarque :**<br>
+Quand on clique sur un lien `<a>`, le navigateur envoie de même une requête HTTP.
 
 </section>
 <section>
@@ -584,12 +588,10 @@ Ce sont les **tableaux associatifs**
 </section>
 <section>
 
-# Transmettre des données entre pages Web
+# Transmettre des données à une page Web
 
 <div class="incremental">
 <div>
-## Comment ça marche ?
-
 Les pages Web se transmettent des données entre elles.  
 Par exemple, votre nom/prénom, le fait que vous soyez connectés, vos réponses
 aux formulaires d'inscription.
@@ -597,13 +599,29 @@ aux formulaires d'inscription.
 Sans données supplémentaires, on n'aurait pas de pages personnalisées et on
 serait ramenés aux sites statiques.
 
+## Comment ça marche ?
 </div>
 </div>
 
 </section>
 <section>
 
-## Les *query strings* dans l'URL
+## Deux moyens pour transmettre des données à une page Web
+
+<br>
+<br>
+<br>
+
+<!-- <div style="font-size:xx-large"> -->
+1. En les écrivant dans l'URL
+
+1. En utilisant le mécanisme des formulaires
+<!-- </div> -->
+
+</section>
+<section>
+
+## 1 - Les *query strings* dans l'URL
 
 Une *URL* (Uniform Resource Locator) sert à représenter une adresse sur le Web.
 
@@ -725,7 +743,7 @@ qui va s'exécuter pour créer la page Web
 
 <br>
 
-**En effet,** PHP aura remplit le tableau  `$_GET` avec
+**En effet,** PHP aura rempli le tableau  `$_GET` avec
 
 ```php?start_inline=1
 $_GET["nom"] = "Dupont";
@@ -737,12 +755,7 @@ avant de lancer le script `bonjour.php`.
 </section>
 <section>
 
-## Les formulaires
-
-<br>
-
-Les formulaires utilisent entre autre l'envoi de données dans le *query string*
-pour transmettre les informations qui ont été remplies.
+## 2 - Les formulaires
 
 <br>
 
@@ -823,7 +836,11 @@ Host: webinfo.iutmontp.univ-montp2.fr
 
 C'est de cette manière que l'on demande une page Web généralement.
 
+<br>
 
+**Remarque:**
+
+Les formulaires **GET** utilisent donc l'envoi de données dans le *query string*.
 
 <!--
 PREVOIR UNE DEMO AVEC LES OUTILS RESEAUX
@@ -851,8 +868,10 @@ elles **ne sont plus** encodées dans le *query string*.
 </div>
 <div style="flex-grow:1;text-align:center">
 <form method="post" action="http://webinfo.iutmontp.univ-montp2.fr/~rletud/traitePost.php" style="display:inline">
+<p style="margin:auto">
 <input type="text" name="nom_var" value="MaDonnee">
 <input type="submit">
+</p>
 </form>
 </div>
 </div>
@@ -861,7 +880,7 @@ elles **ne sont plus** encodées dans le *query string*.
 <br>
 
 Pour récupérer les informations dans la page cible `traitePost.php`, nous
-utiliserons alors la tableau associatif `$_POST` de PHP.
+utiliserons alors le tableau associatif `$_POST` de PHP.
 
 <br>
 
