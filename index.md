@@ -12,9 +12,9 @@ Cours à l'IUT de Montpellier - 2ème année
 
 1. Vendredi 2 Septembre 2017 -- [Cours 1 -- Introduction à PHP](classes/class1.html)
 
-<!-- ## TDs -->
+## TDs
 
-<!-- 1. Semaine du 5 Septembre 2017 -- [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html)  -->
+1. Semaine du 5 Septembre 2017 -- [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html)
 <!-- 1. Semaine du 12 Septembre 2017 -- [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html) -->
 <!-- 1. Semaine du 19 Septembre 2017 -- [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html) -->
 <!-- 1. Semaine du 26 Septembre 2017 --  [TD 4 -- Architecture MVC simple](tutorials/tutorial4.html) -->
