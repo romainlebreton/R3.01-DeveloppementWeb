@@ -61,7 +61,7 @@ le répertoire **public_html** de votre espace personnel.
 1. Ouvrez cette page dans le navigateur directement en double-cliquant dessus
    directement depuis votre gestionnaire de fichiers.
    Notez l'URL du fichier :
-   <!-- [file://chemin_de_mon_compte/public_html/page1.html](file://chemin_de_mon_compte/public_html/page1.html). -->
+   [file://chemin_de_mon_compte/public_html/page1.html](file://chemin_de_mon_compte/public_html/page1.html).
 
    **Que fait le gestionnaire de fichier quand on double-clique ?**  
    **Que signifie le *file* au début de l'URL ?**  
@@ -153,7 +153,7 @@ le répertoire **public_html** de votre espace personnel.
 
 5. Ouvrez cette page dans le navigateur directement depuis votre gestionnaire de
 fichiers OU de façon équivalente avec une URL en `file://` comme :  
-<!-- [file://chemin_de_mon_compte/public_html/PHP/TD1/echo.php](file:///home/ann2/mon_login_IUT/public_html/PHP/TD1/echo.php). -->
+[file://chemin_de_mon_compte/public_html/PHP/TD1/echo.php](file:///home/ann2/mon_login_IUT/public_html/PHP/TD1/echo.php).
 
    **Que se passe-t-il quand on ouvre un fichier PHP directement dans le navigateur ?**  
    **Pourquoi ?**  
@@ -600,7 +600,7 @@ ce sera très utile pour la suite et notamment pour le projet.
 * sous Linux : Au choix
 
   * XAMP  
-    [https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-ordinateur-2#r-911385](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-ordinateur-2#r-911385)
+    [https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-environnement-de-travail#/id/r-4443743](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-environnement-de-travail#/id/r-4443743)
     <!-- MariaDb (Open Source fork of MySQL) -->
   * LAMP  
     [https://doc.ubuntu-fr.org/lamp](https://doc.ubuntu-fr.org/lamp)  
@@ -610,10 +610,10 @@ ce sera très utile pour la suite et notamment pour le projet.
   <!-- Penser à activer PHP pour les userdir dans php*.conf -->
   
 * sous Mac OS X (MAMP) :  
-  [https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-ordinateur-2#r-911335](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-ordinateur-2#r-911335)
+  [https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-environnement-de-travail#/id/r-4443692](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-environnement-de-travail#/id/r-4443692)
   
 * Sous Windows (WAMP) :  
-  [https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-ordinateur-2#r-911305](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-ordinateur-2#r-911305)
+  [https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-environnement-de-travail#/id/r-4443661](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-environnement-de-travail#/id/r-4443661)
   
 
 **Attention**, pensez à modifier le php.ini pour mettre `display_errors = On` et
