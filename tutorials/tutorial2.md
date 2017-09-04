@@ -83,7 +83,7 @@ serveur du reste du code PHP.
 
    * soit vous utilisez **NetBeans**. Configurer votre premier projet en suivant
      les indications 
-     [dans les compléments du TD2.]({{site.baseurl}}/assets/tut2-complement.html#crer-un-projet-avec-netbeans)
+     [dans les compléments du TD2.]({{site.baseurl}}/assets/tut2-complement.html#créer-un-projet-avec-netbeans)
    * soit vous avez déjà un éditeur de pages Web préféré mais il **faut**
      * qu'il prenne en charge la coloration syntaxique
      * qu'il sache indenter automatiquement votre code

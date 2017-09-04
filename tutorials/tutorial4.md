@@ -383,7 +383,7 @@ produit quand on veut sauvegarder une voiture déjà existante :
 
 1. Créez une telle erreur
 1. Utilisez un
-   [affichage de débogage]({{site.baseurl}}/tutorials/tutorial1.html#affichage-pour-le-dbogage)
+   [affichage de débogage]({{site.baseurl}}/tutorials/tutorial1.html#affichage-pour-le-débogage)
    pour explorer le contenu de l'objet d'erreur `PDOException $e` dans `save()` ;
 1. Identifiez le code d'erreur MySql qui correspond à notre erreur. Utilisez si
    nécessaire la

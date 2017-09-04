@@ -31,7 +31,7 @@ important de requêtes préparées. Puis nous coderons des associations entre
 plusieurs tables de la BDD.
 
 **Attention :** Il est nécessaire d'avoir fini
-  [la section 2.1 du TD précédent](tutorial2.html#faire-une-requte-sql-sans-paramtres),
+  [la section 2.1 du TD précédent](tutorial2.html#faire-une-requête-sql-sans-paramètres),
   qui vous faisait coder votre première requête `SELECT * FROM voiture`, pour
   attaquer ce TD.
 
@@ -151,7 +151,7 @@ d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
    publique et statique.
 
    **Rappel :** Utilisez **NetBeans** comme éditeur de pages Web
-     ([tutoriel NetBeans]({{site.baseurl}}/assets/tut2-complement.html#crer-un-projet-avec-netbeans)).
+     ([tutoriel NetBeans]({{site.baseurl}}/assets/tut2-complement.html#créer-un-projet-avec-netbeans)).
 
 1. Testez la fonction `getVoitureByImmat` dans `lireVoiture.php`.
 
@@ -369,7 +369,7 @@ complets, vous pouvez repartir des fichiers suivants :
 Avant toute chose, vous souvenez-vous comment faire une jointure en SQL ? Si
 vous n'êtes pas tout à fait au point sur les différents `JOIN` de SQL, vous
 pouvez vous rafraîchir la mémoire en lisant
-[http://www.w3schools.com/sql/sql_join.asp](http://www.w3schools.com/sql/sql_join.asp).
+[https://www.w3schools.com/sql/sql_join.asp](https://www.w3schools.com/sql/sql_join.asp).
 
 
 <div class="exercise">

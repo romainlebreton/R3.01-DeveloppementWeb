@@ -189,7 +189,7 @@ réponse. Et le corps de la réponse HTTP, c'est-à-dire la page HTML, doit êtr
 envoyée après son en-tête. Or PHP écrit et envoie la page HTML dans le corps de la
 réponse HTTP au fur et à mesure.
 
-Référence : [La RFC des cookies](http://tools.ietf.org/html/rfc6265)
+Référence : [La RFC des cookies](https://tools.ietf.org/html/rfc6265)
 
 ### Récupérer un cookie
 
@@ -268,7 +268,7 @@ sur le comportement du client.
    stocker dans le cookie. Il faudra donc appliquer l'opération inverse
    `unserialize` lorsque l'on récupère le cookie.
 
-   <!-- http://stackoverflow.com/questions/1969232/allowed-characters-in-cookies -->
+   <!-- https://stackoverflow.com/questions/1969232/allowed-characters-in-cookies -->
    <!-- Quels caractères peuvent contenir les cookies ? alphanumérique ? ASCII ? -->
 
 1. Pour voir les cookies déposés sur votre navigateur, voici comment faire :

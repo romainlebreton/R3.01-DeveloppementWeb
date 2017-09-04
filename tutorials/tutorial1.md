@@ -61,7 +61,7 @@ le répertoire **public_html** de votre espace personnel.
 1. Ouvrez cette page dans le navigateur directement en double-cliquant dessus
    directement depuis votre gestionnaire de fichiers.
    Notez l'URL du fichier :
-   [file://chemin_de_mon_compte/public_html/page1.html](file://chemin_de_mon_compte/public_html/page1.html).
+   <!-- [file://chemin_de_mon_compte/public_html/page1.html](file://chemin_de_mon_compte/public_html/page1.html). -->
 
    **Que fait le gestionnaire de fichier quand on double-clique ?**  
    **Que signifie le *file* au début de l'URL ?**  
@@ -153,7 +153,7 @@ le répertoire **public_html** de votre espace personnel.
 
 5. Ouvrez cette page dans le navigateur directement depuis votre gestionnaire de
 fichiers OU de façon équivalente avec une URL en `file://` comme :  
-[file://chemin_de_mon_compte/public_html/PHP/TD1/echo.php](file:///home/ann2/mon_login_IUT/public_html/PHP/TD1/echo.php).
+<!-- [file://chemin_de_mon_compte/public_html/PHP/TD1/echo.php](file:///home/ann2/mon_login_IUT/public_html/PHP/TD1/echo.php). -->
 
    **Que se passe-t-il quand on ouvre un fichier PHP directement dans le navigateur ?**  
    **Pourquoi ?**  

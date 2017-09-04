@@ -202,7 +202,7 @@ jour dans la BDD. Pour cela :
    
    1. Ce type d'objet `data` est celui qui est pris en entrée par la
       méthode `execute` de `PDO`,
-      [*cf.* le TD3]({{site.baseurl}}/tutorials/tutorial3.html#les-requtes-prpares).   
+      [*cf.* le TD3]({{site.baseurl}}/tutorials/tutorial3.html#les-requêtes-préparées).   
    2. Une bonne pratique consiste à d'abord développer sa requête SQL puis de la
       tester dans PHPMyAdmin avant de créer la fonction correspondante.
 
