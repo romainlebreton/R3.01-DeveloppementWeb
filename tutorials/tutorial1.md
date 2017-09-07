@@ -41,6 +41,8 @@ en pratique tout cela !
 
 ### Une page HTML de base
 
+<div class="exercise">
+
 1. Créez une page **page1.html** avec le contenu suivant et enregistrez la dans
 le répertoire **public_html** de votre espace personnel.
 
@@ -117,7 +119,11 @@ le répertoire **public_html** de votre espace personnel.
    à un utilisateur et un groupe. Pour lire les droits ACL d'un fichier ou
    dossier, on tape `getfacl nom_du_fichier`.
 
+</div>
+
 ### Notre première page PHP
+
+<div class="exercise">
 
 4. Créez une page `echo.php` avec le contenu suivant.  
    Pour ne pas que votre **public_html** devienne une décharge de pages Web à ciel
@@ -169,6 +175,8 @@ fichiers OU de façon équivalente avec une URL en `file://` comme :
    *N'hésitez pas à relire la partie du
     [cours 1 concernée]({{site.baseurl}}/classes/class1.html#mcanisme-de-gnration-des-pages-dynamiques-22).*
 
+</div>
+
 ## Les bases de PHP
 
 ### Différences avec Java
@@ -179,7 +187,10 @@ fichiers OU de façon équivalente avec une URL en `file://` comme :
 
 ### Les chaînes de caractères
 
-1. Les chaînes de caractères avec ***double quote* `"`** peuvent contenir :
+Différentes syntaxes existent en PHP ; selon les délimiteurs que l'on utilise,
+le comportement est différent :
+
+1. Les chaînes de caractères avec ***double quotes* `"`** peuvent contenir :
    * des variables (qui seront remplacées par leur valeur),
    * des sauts de lignes,
    * des caractères spéciaux (tabulation `\t`, saut de ligne `\n`).
@@ -247,7 +258,7 @@ les caractères suivants passent : " ' $ / \ ;
 EOT;
 ```
 
-Cette syntaxe s'intitule le "here document" et permet d'afficher plusieurs
+Cette syntaxe s'intitule le `heredoc` et permet d'afficher plusieurs
 lignes avec les mêmes caractéristiques que les chaînes entre *double quote*.
 Notez que la fin de la syntaxe doit apparaître **au début d'une nouvelle ligne** (pas d'espaces avant),
 avec uniquement un point-virgule, et **pas d'espace de plus à la fin** !
@@ -323,10 +334,7 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
 
 * Notez l'existence des boucles
   [`foreach`](http://php.net/manual/fr/control-structures.foreach.php) pour
-  parcourir les paires clé/valeur des tableaux. La boucle `foreach` va boucler
-  sur les associations du tableau. Pour chaque association, `foreach` va mettre
-  la clé de l'association dans la variable `$cle` et la valeur dans `$valeur`
-  puis exécuter les commandes.
+  parcourir les paires clé/valeur des tableaux. 
 
   ```php?start_inline=1
   foreach ($mon_tableau as $cle => $valeur){
@@ -334,6 +342,9 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
   }
   ```
 
+  La boucle `foreach` va boucler sur les associations du tableau. Pour chaque
+  association, `foreach` va mettre la clé de l'association dans la variable
+  `$cle` et la valeur dans `$valeur` puis exécuter les commandes.  
   **Remarque :** La boucle `foreach` est indispensable pour parcourir les
   indices et valeurs d'un tableau indexé par des chaînes de caractères.  
   Il existe aussi bien sûr une boucle `for` classique si le tableau est indexé
@@ -358,7 +369,9 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
 <!-- Syntaxe alternative -->
 <!-- http://php.net/manual/fr/control-structures.alternative-syntax.php -->
 
-### Exercice d'application
+### Exercices d'application
+
+<div class="exercise">
 
 1. Dans votre fichier `echo.php`, créez trois variables `$marque`, `$couleur` et
 `$immatriculation` contenant des chaînes de caractères de votre choix ;
@@ -402,6 +415,7 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
 
 <!-- empty -->
 
+</div>
 
 ## La programmation objet en PHP
 
@@ -409,6 +423,8 @@ PHP était initialement conçu comme un langage de script, mais est passé Objet
 version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitures.
 
 ### Un exemple de classe PHP
+
+<div class="exercise">
 
 1. Créer un fichier **Voiture.php** avec le contenu suivant
 
@@ -456,7 +472,8 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
 3. Créez des *getter* et des *setter* pour `$couleur` et `$immatriculation` ;
 
 3. L'intérêt des *setter* est notamment de vérifier ce qui va être écrit dans
-   l'attribut. Limitez par exemple les immatriculations à 8 caractères en
+   l'attribut.  
+   **Limitez** les immatriculations à 8 caractères en
    modifiant le *setter* correspondant
    ([Documentation PHP : strlen](http://php.net/manual/fr/function.strlen.php)).
 
@@ -467,7 +484,11 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    **Demandez donc** votre page à `webinfo`
    [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/Voiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/Voiture.php)
 
+</div>
+
 ### Utilisation de la classe `Voiture`
+
+<div class="exercise">
 
 1. Créez un fichier **testVoiture.php** contenant le squelette HTML classique (`<html>`,`<head>`,`<body>` ...)
 
@@ -485,8 +506,11 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
 3. Testez votre page sur `webinfo` :  
    [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php)
    
+</div>
 
 ## Interaction avec un formulaire
+
+<div class="exercise">
 
 1. Créez un fichier **formulaireVoiture.html**, réutilisiez l'entête du fichier
    **echo.php** et dans le body, insérez le formulaire suivant:
@@ -531,6 +555,8 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    **Comment sont transmises les informations ?**  
    **Comment s'appelle la partie de l'URL contenant les informations ?**
 
+</div>
+<div class="exercise">
 
 5. Créez un fichier `creerVoiture.php` :
 
@@ -542,7 +568,7 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    affiche les informations de la voiture envoyée par le formulaire.
    1. Bien sûr, **testez votre page** en la demandant à `webinfo`.
 
-6. Afin d'éviter que les paramètres du formulaire n'apparaissent dans l'URL, modifiez 
+6. Afin d'éviter que les données du formulaire n'apparaissent dans l'URL, modifiez 
    le formulaire pour qu'il appelle la méthode POST :
 
    ```html
@@ -559,14 +585,17 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    [**retrouver l'information envoyée par le formulaire**]({{site.baseurl}}/classes/class1.html#coutons-le-rseau)
    avec les outils de développement (Onglet Réseau).
 
+</div>
    
 ## Les bases d'un site de covoiturage
 
-Vous allez programmer les classes d'un site de covoiturage, dont voici la description d'une version
-minimaliste:
+<div class="exercise">
+
+Vous allez programmer les classes d'un site de covoiturage, dont voici la
+description d'une version minimaliste:
 
 * **Utilisateur :** Un utilisateur possède des champs propres `(login, nom,
-prénom)`
+prenom)`
 * **Trajet :** Une annonce de trajet comprend :
 1. un identifiant unique `id`,
 1. les détails d'un trajet (un point de départ `depart` et un point d’arrivée
@@ -589,6 +618,8 @@ prénom)`
 1. des *setters* génériques `set($nom_attribut, $valeur)` ;
 1. un constructeur `__construct($data)` qui prend un tableau dont les index
    correspondent aux attributs de la classe.
+
+</div>
 
 ## Installez un serveur Apache chez vous
 
@@ -616,9 +647,9 @@ ce sera très utile pour la suite et notamment pour le projet.
   [https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-environnement-de-travail#/id/r-4443661](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-environnement-de-travail#/id/r-4443661)
   
 
-**Attention**, pensez à modifier le php.ini pour mettre `display_errors = On` et
-`error_reporting = E_ALL`, pour avoir les messages d'erreurs. Car par défaut, le
-serveur est configuré en mode production (`display_errors = Off`). Il faut
+**Attention**, pensez à modifier le `php.ini` pour mettre `display_errors = On`
+et `error_reporting = E_ALL`, pour avoir les messages d'erreurs. Car par défaut,
+le serveur est configuré en mode production (`display_errors = Off`). Il faut
 redémarrer Apache pour que les modifications soient prises en compte.
 
 <!-- Si ça ne marche pas, c'est que l'on édite pas le bon php.ini . Afficher la

@@ -6,6 +6,7 @@
 
 // Constants
 $exercise: "Exercice";
+$exercise-en: "Exercise";
 
 /* Page Structure */
 html, input, textarea, select {
@@ -60,17 +61,20 @@ h4:before{
     content: counter(subsubsection,lower-roman) ". ";
     font-style: italic;
 }
-.exercise {
+.exercise, .exercise-en {
     margin-left: 1em;
 }
-.exercise:before {
+.exercise:before, .exercise-en:before {
     margin-left: -1em;
     counter-increment: exercise;
     content: $exercise " " counter(exercise);
     font-weight: bold;
     font-size: 110%;
 }
-.exercise p:first-of-type {
+.exercise-en:before {
+    content: $exercise-en " " counter(exercise);
+}
+.exercise p:first-of-type, .exercise-en p:first-of-type {
     margin-top: 0.5em
 }
 
