@@ -169,7 +169,7 @@ in `.../public_html/PHP/TD1/echo.php`.
 
 2. All PHP code must be between an opening tag `<?php` and a closing tag `?>`
 2. Variables are preceded by a `$`
-1. Not typing of variables (no `int a;`)
+1. No typing of variables (no `int a;`)
 
 ### Strings
 
@@ -210,7 +210,7 @@ on the delimiters you use :
 
    ```php?start_inline=1
    $prenom="Helmut";
-   echo "Hi $prenom,\n how's it going ?";
+   echo 'Hi $prenom,\n how\'s it going ?';
    ```
   
    gives
