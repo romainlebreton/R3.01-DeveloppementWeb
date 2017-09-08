@@ -210,7 +210,7 @@ on the delimiters you use :
 
    ```php?start_inline=1
    $prenom="Helmut";
-   echo "Hi $prenom,\n how's it going ?";
+   echo 'Hi $prenom,\n how's it going ?';
    ```
   
    gives
