@@ -555,7 +555,7 @@ using version 7). Rather than using an array, let's create a class for our cars.
    and, in `creerVoiture.php`, update the recovery of the form data.
 
 7. 1. Remember (or reread
-   [course 1](({{site.baseurl}}/classes/class1.html))) 
+   [course 1]({{site.baseurl}}/classes/class1.html))
    where the information is sent by a form using the POST method;
    1. Change `creerVoiture.php` to retrieve the information sent by the form;
    1. Try to
