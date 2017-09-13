@@ -98,7 +98,7 @@ serveur du reste du code PHP.
 
    * Où doit-on enregistrer une page Web ? (Souvenez-vous du TD précédent)
    * Qu'est-ce qu'un attribut ou une méthode **statique** ? (Cours de Programmation
-   Orientée Objet de l'an dernier)
+   Orientée Objet de l'an dernier ; voir aussi [les compléments]({{site.baseurl}}/assets/tut2-complement.html#les-attributs-et-méthodes-static))
 
    ```php
    <?php
@@ -156,10 +156,10 @@ s'appellent avec `->` en PHP.
 
 </div>
 
-### Initialiser un objet **PDO**
+### Initialiser un objet `PDO`
 
 Pour se connecter à une base de données en PHP on utilise une classe fournie
-avec PHP qui s'appelle **PDO**
+avec PHP qui s'appelle `PDO`
 ([Php Data Object](http://php.net/manual/fr/book.pdo.php)). Cette classe va nous
 fournir de nombreuses méthodes très utiles pour manipuler n'importe quelle base
 de donnée.
@@ -175,17 +175,17 @@ de donnée.
    Programmation Orientée Objet de l'an dernier)-->
 
 2. Dans la fonction `Init`, nous allons initialiser l'attribut `$pdo` en lui
-   assignant un objet **PDO**. Procédons en 3 étapes :
+   assignant un objet `PDO`. Procédons en 3 étapes :
    
    2. Pour créer la connexion à notre base de donnée, il faut utiliser le
-   [constructeur de **PDO**](http://php.net/manual/fr/pdo.construct.php) de la
+   [constructeur de `PDO`](http://php.net/manual/fr/pdo.construct.php) de la
    façon suivante
    
       ```php?start_inline=1
       new PDO("mysql:host=$hostname;dbname=$database_name",$login,$password);
       ```
    
-      Stockez ce nouvel objet **PDO** dans la variable statique `self::$pdo`.  
+      Stockez ce nouvel objet `PDO` dans la variable statique `self::$pdo`.  
       **Explication :** Comme la variable est statique, elle s'accède par une syntaxe
    `Type::$nom_var` comme indiqué précédemment. Le type de l'objet courant
    s'obtient avec le mot clé `self`.
@@ -218,12 +218,12 @@ de donnée.
 
 </div>
 <br>
-Nous allons maintenant améliorer la gestion des erreurs de PDO.
+Nous allons maintenant améliorer la gestion des erreurs de `PDO`.
 
 
 <div class="exercise">
 
-2. Lorsqu'une erreur se produit, PDO lève une exception qu'il faut donc
+2. Lorsqu'une erreur se produit, `PDO` lève une exception qu'il faut donc
 récupérer et traiter. Placez donc votre `new PDO(...)` au sein d'un try - catch
 :
 
@@ -238,8 +238,16 @@ récupérer et traiter. Placez donc votre `new PDO(...)` au sein d'un try - catc
    
    Vous remarquerez que la syntaxe des exceptions en PHP est très semblable à celle
    de Java.
+   
+   **Remarque :** Dans cet exemple, la gestion est très brutale: En effet,
+   l'instruction `die();` équivaut à un système `System.exit(1);` en Java.  
+   Dans un vrai site web "en production" il faudrait indiquer à l'utilisateur
+   qu'il a fait une erreur de saisie ou que le site est actuellement
+   indisponible, ceci en fonction du détail de l'exception qui est levée.  
+   Il est important que toutes lignes de codes utilisant `PDO` soit dans un `try` -
+   `catch` afin de capturer les exceptions.
 
-4. Pour avoir plus de messages d'erreur de PDO et qu'il gère mieux l'UTF-8,
+4. Pour avoir plus de messages d'erreur de `PDO` et qu'il gère mieux l'UTF-8,
   **mettez à jour** la connexion dans `Model` avec
 
    ```php?start_inline=1
@@ -253,15 +261,7 @@ récupérer et traiter. Placez donc votre `new PDO(...)` au sein d'un try - catc
    self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
    ```
 
-**Remarque :** Dans cet exemple, la gestion est très brutale: En effet,
-l'instruction `die();` équivaut à un système `System.exit(-1);` en Java.  
-Dans un vrai site web "en production" il faudrait indiquer à l'utilisateur qu'il
-a fait une erreur de saisie ou que le site est actuellement indisponible, ceci
-en fonction du détail de l'exception qui est levée.  
-Il est important que tout bout de codes utilisant PDO soit dans un `try` -
-`catch` afin de capturer les exceptions.
-
-**Question :** Avez-vous compris pourquoi on souhaite que la connexion à la BDD
+**Question :** Avez-vous compris pourquoi il est préférable que la connexion à la BDD
   (stockée dans `Model::$pdo`) soit un attribut statique ?
 
 <!-- Réponse : Pour s'assurer de ne créer la connexion à la BDD qu'une fois. En
@@ -272,11 +272,11 @@ qu'un Model::$pdo -->
 
 ## Opérations sur la base de données
 
-Voyons maintenant comment les objets **PDO** servent à effectuer des requêtes
-SQL. Nous allons nous servir de deux méthodes fournies par PDO :
+Voyons maintenant comment les objets `PDO` servent à effectuer des requêtes
+SQL. Nous allons nous servir de deux méthodes fournies par `PDO` :
 
 1. La [méthode `query($SQL_request)`](http://php.net/manual/fr/pdo.query.php) de
-la classe **PDO** `Model::$pdo`
+la classe `PDO`
    * prend en entrée une requête SQL (chaîne de
    caractères)
    * et renvoie la réponse de la requête dans une représentation interne pas
@@ -284,30 +284,32 @@ la classe **PDO** `Model::$pdo`
      ([un objet `PDOStatement`](http://php.net/manual/fr/class.pdostatement.php)).
 
 2. La
-   [méthode `fetchAll($fetch_style)`](http://php.net/manual/fr/pdostatement.fetchall.php)
-   s'appelle sur les réponses de requêtes (classe `PDOStatement`) et renvoie la
-   réponse de la requête dans un format lisible par PHP.  
+   [méthode `fetchAll($fetch_style)`](http://php.net/manual/fr/pdostatement.fetchall.php)   
+   de la classe `PDOStatement` s'appelle sur les réponses de requêtes et renvoie
+   la réponse de la requête dans un format lisible par PHP. Plus précisément,
+   elle renvoie un tableau d'entrée SQL, chaque entrée étant formattée comme un
+   tableau ou un objet.  
+   
    Le choix du format se fait avec la
-   [variable `$fetch_style`](http://php.net/manual/fr/pdostatement.fetch.php#refsect1-pdostatement.fetch-parameters). Les
-   plus communes sont :
+   [variable `$fetch_style`](http://php.net/manual/fr/pdostatement.fetch.php#refsect1-pdostatement.fetch-parameters). Les formats les plus communs sont :
 
-   * `PDO::FETCH_ASSOC` : retourne un tableau indexé par le nom de la colonne comme
-     retourné dans le jeu de résultats ;
+   * `PDO::FETCH_ASSOC` : Chaque entrée SQL est un tableau indexé par les noms
+     des champs de la table de la BDD ;
 
-   * `PDO::FETCH_OBJ` : retourne un objet anonyme avec les noms de propriétés qui
-     correspondent aux noms des colonnes retournés dans le jeu de résultats ;
+   * `PDO::FETCH_OBJ` : Chaque entrée SQL est un objet dont les noms d'attributs
+     sont les noms des champs de la table de la BDD ;
 
-   * `PDO::FETCH_CLASS` : retourne une nouvelle instance de la classe demandée,
-     liant les colonnes du jeu de résultats aux noms des propriétés de la
-     classe.  
-     Dans ce cas, il faut avoir au préalable déclaré le nom de la classe à créer
-     avec la commmande suivante :
+   * `PDO::FETCH_CLASS` : De même que `PDO::FETCH_OBJ`, chaque entrée SQL est un
+     objet dont les noms d'attributs sont les noms des champs de la table de la
+     BDD. Cependant, on peut dans ce cas spécifier le nom de la classe des
+     objets. Pour ce faire, il faut avoir au préalable déclaré le nom de la
+     classe avec la commmande suivante :
 
      ```php?start_inline=1
      $pdo_stmt->setFetchMode( PDO::FETCH_CLASS, 'class_name');
      ```
 
-     **Note :** Plus précisément, PDO va dans l'ordre créer une instance de la
+     **Note :** Plus précisément, `PDO` va dans l'ordre créer une instance de la
        classe demandée, écrire les attributs correspondants au champs de la BDD
        **puis** appeler le constructeur *sans arguments*.
 
@@ -329,7 +331,7 @@ SELECT * FROM voiture
    BDD.
    <!-- require_once "Model.php"; -->
    
-3. Appelez la fonction `query` de l'objet **PDO** `Model::$pdo` en lui donnant
+3. Appelez la fonction `query` de l'objet `PDO` `Model::$pdo` en lui donnant
    la requête SQL. Stockez sa réponse dans une variable `$rep`.
 
 4. Comme expliqué précédemment, pour lire les réponses à des requêtes SQL, vous
@@ -370,15 +372,21 @@ $tab_voit = $rep->fetchAll();
 
 2. Incluez le fichier de la classe `Voiture` pour pouvoir l'utiliser ;
 
-3. Avec l'option <code id="majconst">PDO::FETCH_CLASS</code>, PDO va créer une instance de la
+3. Avec l'option `PDO::FETCH_CLASS`{: #majconst}, `PDO` va créer une instance de la
 classe `Voiture`, écrire les attributs correspondants au champs de la BDD
 **puis** appeler le constructeur sans arguments.  
 **Adaptons donc l'ancien constructeur de `Voiture` pour qu'il accepte aussi un
   appel sans arguments (en plus d'un appel avec trois arguments).**
 
    ```php?start_inline=1
+   // La syntaxe ... = NULL signifie que l'argument est optionel
+   // Si un argument optionnel n'est pas fourni,
+   //   alors il prend la valeur par défaut, NULL dans notre cas
    public function __construct($m = NULL, $c = NULL, $i = NULL) {
      if (!is_null($m) && !is_null($c) && !is_null($i)) {
+	   // Si aucun de $m, $c et $i sont nuls,
+	   // c'est forcement qu'on les a fournis
+	   // donc on retombe sur le constructeur à 3 arguments
        $this->marque = $m;
        $this->couleur = $c;
        $this->immatriculation = $i;
@@ -406,7 +414,7 @@ Nous allons maintenant isoler le code qui retourne toutes les voitures et en fai
 
 </div>
 
-### Gestion des erreurs
+### Gestion des erreurs (suite)
 
 Dans un site en production, pour des raisons de sécurité et de confort
 d'utilisation, il est déconseillé d'afficher directement un message d'erreur. Pour
