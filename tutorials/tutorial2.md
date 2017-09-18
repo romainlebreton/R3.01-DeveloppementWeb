@@ -9,6 +9,8 @@ layout: tutorial
 <!-- Rajouter option pour constructeur en premier avec fetch_class ? -->
 <!-- Faire un constructeur à nombre d'arguments variable ...args PHP 5.6 ? -->
 
+<!-- fetchAll(..._CLASS, "nom de la classe") -->
+
 Dans le TD1 vous avez appris à créer des classes et à instancier des objets de
 ces classes.  Mais, comme vous l'avez constaté, la durée de vie des objets ainsi
 créés ne dépassait pas la durée de l'exécution du programme (soit quelques *ms*).
