@@ -41,7 +41,7 @@ class Trajet {
     }
     // une methode d'affichage.
     public function afficher() {
-        echo "<p> Ce trajet du {$this->date} partira de {$this->depart} pour aller à {$this->arrivee}. </p>";
+        echo "Ce trajet du {$this->date} partira de {$this->depart} pour aller à {$this->arrivee}.";
     }
 
     public static function getAllTrajets() {

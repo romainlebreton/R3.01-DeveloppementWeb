@@ -195,21 +195,8 @@ de création de voiture du TD1 :
 
 ## Création des tables de notre site de covoiturage
 
-Reprenons les classes du TD précédent sur le covoiturage pour y ajouter la
-gestion de la persistance. Vous avez couvert dans le cours "Analyse, Conception
-et Développements d'Applications" les diagrammes de classes. Ce type de
-diagramme est utile pour penser la base de donnée d'une application Web. Voici
-le notre :
-
-<img alt="Diagramme entité association"
-src="../assets/DiagClasse.png" style="margin-left:auto;margin-right:auto;display:block;">
-
-**Question :** Comment implémenteriez-vous l'association *conducteur* entre
-utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
-
-**Notre solution :** Comme il n'y a qu'un conducteur par trajet, nous allons
-  rajouter un champ `conducteur_login` à la table `trajet`.
-
+Reprenons les classes du TD précédent sur le covoiturage afin d'y ajouter la
+gestion de la persistance. 
 
 <div class="exercise">
 Si vous ne l'avez pas déjà fait, créez des tables `utilisateur` et `trajet` comme suit :
@@ -247,6 +234,21 @@ Si vous ne l'avez pas déjà fait, créez des tables `utilisateur` et `trajet` c
 </div>
 
 ## Premier lien entre `utilisateur` et `trajet`
+
+Vous avez couvert dans le cours "Analyse, Conception et Développements
+d'Applications" les diagrammes de classes. Ce type de diagramme est utile pour
+penser la base de donnée d'une application Web. Voici le notre :
+
+<img alt="Diagramme entité association"
+src="../assets/DiagClasse.png" style="margin-left:auto;margin-right:auto;display:block;">
+
+**Question :** Comment implémenteriez-vous l'association *conducteur* entre
+utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
+
+**Notre solution :** Comme il n'y a qu'un conducteur par trajet, nous allons
+  rajouter un champ `conducteur_login` à la table `trajet`.
+
+
 
 On souhaite que le champ `trajet.conducteur_login` corresponde à tout moment à un
 login de conducteur `utilisateur.login`. Vous souvenez-vous quelle est la

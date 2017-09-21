@@ -136,6 +136,11 @@ ouvrira dans le navigateur.
    **Souvenez-vous le TD dernier :** Quelle est la bonne et la mauvaise URL
    pour ouvrir une page PHP ? 
    
+   <!-- 
+   file:// versus http://
+   Toujours passer par le serveur HTTP
+   -->
+   
    ```php
    <?php
      // On inclut les fichiers de classe PHP avec require_once
