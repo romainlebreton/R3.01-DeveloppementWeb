@@ -383,7 +383,7 @@ We now regroup  the code that returns all the cars into a new method of `Voiture
 1. Create a static function `getAllVoitures()` of Class `Voiture` that takes no
 arguments and returns the array of cars in the database.
 
-2. Update `lireVoiture.php` for directly call this new function.
+2. Update `lireVoiture.php` to directly call this new function.
 
 </div>
 
