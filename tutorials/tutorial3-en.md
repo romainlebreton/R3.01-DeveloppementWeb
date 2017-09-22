@@ -9,7 +9,7 @@ PHP. We continue with the central concept of prepared statements. Then we will
 code the association between database tables.
 
 **Attention:** You must have completed the previous tutorial 
-  [until Section 2.1 included](tutorial2.html#faire-une-requête-sql-sans-paramètres) 
+  [until Section 2.1 included](tutorial2-en.html#make-a-sql-query-without-parameters)
   before starting this tutorial.
 
 
