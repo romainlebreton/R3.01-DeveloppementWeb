@@ -4,6 +4,12 @@ subtitle: Modèle, Vue, Contrôleur
 layout: tutorial
 ---
 
+<!-- 
+Simplifier les noms : 
+controller/Voiture.php qui définit ControllerVoiture.php
+et model/Voiture.php qui définit ModelVoiture.php
+-->
+
 Au fur et à mesure que votre site Web grandit, vous allez rencontrer des
 difficultés à organiser votre code. Les prochains TDs visent à vous montrer une
 bonne façon de concevoir votre site web. On appelle *design pattern* (patron de
@@ -278,8 +284,8 @@ correspondante du contrôleur.
 
 1. Quelle URL faut-il écrire pour demander la page du routeur en lui envoyant
    l'information que `action` est égal à `readAll` ?
-1. Comment récupère-t-on en PHP la valeur qui a été assignée à `action` dans l'URL ?
-   
+1. Comment récupère-t-on en PHP la valeur qui a été assignée à `action` dans l'URL ?  
+   [**Rappel** sur query string dans le cours 1]({{site.baseurl}}/classes/class1.html#les-query-strings-dans-lurl)
 </div>
 
 Pour appeler la méthode statique de `ControllerVoiture` dont le nom se trouve
@@ -313,7 +319,7 @@ ControllerVoiture::$action();
 
 Voici le déroulé de l'exécution du routeur pour l'action `readAll`:
 
-1. Nous devrons demander l'URL
+1. Le client demande l'URL
 [.../controller/routeur.php?action=readAll](http://webinfo/~mon_login/PHP/TD4/controller/routeur.php?action=readAll).
 1. Le routeur récupère l'action donnée par l'utilisateur dans l'URL avec
    `$action = $_GET['action'];` (donc `$action="readAll"`)
@@ -352,9 +358,10 @@ l'URL.
 3. Rajoutez des liens cliquables `<a>` sur les immatriculations de la vue `list.php`
    qui renvoient sur la vue de détail de la voiture concernée.
 
-4. Remplissez la vue `./view/voiture/error.php` pour gérer les
-immatriculations non reconnues.  
-   (Regardez ce que renvoie `getVoitureByImmat()` dans ce cas là)
+4. On souhaite gérer les immatriculations non reconnues: Créez un vue
+   `./view/voiture/error.php` qui affiche un message d'erreur et renvoyez vers
+   cette vue si `getVoitureByImmat()` ne trouve pas de voiture qui correspond à
+   cette immatriculation.
 
 </div>
 
@@ -368,7 +375,7 @@ dans la BDD.
 
 1. Commençons par l'action `create` qui affichera le formulaire :
    1. Créez la vue `./view/voiture/create.php` qui reprend le code de
-      `formulaireVoiture.html` faire dans le TD1.  
+      `formulaireVoiture.html` fait dans le TD1.  
       La page de traitement de ce formulaire devra être l'action `created` du
       routeur `routeur.php`.
    1. Rajoutez une action `create` à `ControllerVoiture.php` qui affiche cette
@@ -392,7 +399,7 @@ dans la BDD.
 
    **Attention à l'envoi de `action=created` :** Vous souhaitez envoyer
    l'information `action=created` en plus des informations saisies lors de
-   l'envoi du formulaire `create.php`. Il y a deux possibilités :
+   l'envoi du formulaire. Il y a deux possibilités :
 
    1. Vous pouvez rajouter l'information dans l'URL avec
 
