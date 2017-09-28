@@ -83,10 +83,6 @@ Le modèle est chargé de la gestion des données, notamment des interactions av
 la base de données. C'est, par exemple, la classe `Voiture` que vous avez créé
 lors des TDs précédents (sauf la fonction `afficher()`).
 
-<!--
-et peut-être nom de vue plus simple genre view/voiture/List.php
--->
-
 <div class="exercise">
 1. Créez les répertoires `config`, `controller`, `model`, `view` et `view/voiture`.
 1. Renommez le fichier `Voiture.php` en `ModelVoiture.php`.  
@@ -211,17 +207,14 @@ la vue ne fait que lire cette variable pour générer la page Web.
 
 ### Le routeur : un autre composant du contrôleur
 
-Le contrôleur est fait pour gérer plusieurs *actions* (une action correspond à
-peu près à une page Web). En effet notre contrôleur va devoir savoir:
+Un contrôleur doit en fait gérer plusieurs pages. Dans notre exemple, il doit
+gérer toutes les pages liées au modèle `ModelVoiture`. Du coup, on regroupe le
+code de chaque page Web dans une fonction, et on met le tout dans une classe
+contrôleur. 
 
-1. afficher toutes les voitures : action `readAll`
-2. afficher les détails d'une voiture : action `read`
-3. afficher le formulaire de création d'une voiture : action `create`
-3. créer une voiture dans la BDD : action `created`
-4. supprimer une voiture : action `delete`
-
-Nous allons donc d'abord mettre les actions de `ControllerVoiture.php` dans des
-fonctions dans le but de permettre d'autres actions :
+Voici à quoi va ressembler notre contrôleur `ControllerVoiture.php`. On
+reconnaît dans la fonction `readAll` le code précédent qui affiche toutes les
+voitures.
 
 ```php
 <?php
@@ -231,43 +224,82 @@ class ControllerVoiture {
         $tab_v = ModelVoiture::getAllVoitures();     //appel au modèle pour gerer la BD
         require ('../view/voiture/list.php');  //"redirige" vers la vue
     }
-    public static function read() {
-        // Future action à compléter
-    }
 }
 ?>
 ```
 
-Le *routeur* est la partie du contrôleur qui reçoit les actions et qui s'occupe
-d'appeler le code correspondant. Voici le fichier `controller/routeur.php` :
+
+On appelle *action* une fonction du contrôleur ; une action correspond
+généralement à une page Web. Dans notre exemple du contrôleur
+`ControllerVoiture`, nous allons bientôt rajouter les actions qui correspondent
+aux pages suivantes :
+
+1. afficher toutes les voitures : action `readAll`
+2. afficher les détails d'une voiture : action `read`
+3. afficher le formulaire de création d'une voiture : action `create`
+3. créer une voiture dans la BDD et afficher un message de confirmation : action `created`
+4. supprimer une voiture et afficher un message de confirmation : action `delete`
+
+Pour recréer la page précédente, il manque encore un bout de code qui appelle la
+méthode `ControllerVoiture::readAll()`. Le *routeur* est la partie du contrôleur
+qui s'occupe d'appeler l'action du contrôleur. Un routeur simpliste serait le
+fichier suivant `controller/routeur.php` :
 
 ```php
 <?php
 require_once 'ControllerVoiture.php';
-$action = $_GET['action'];    // recupère l'action passée dans l'URL
-ControllerVoiture::$action(); // Appel de la méthode statique $action de ControllerVoiture
+ControllerVoiture::readAll(); // Appel de la méthode statique $action de ControllerVoiture
 ?>
 ```
 
-L'action est passée au *routeur* dans l'URL au format
-*query string* (comme les données des formulaires en méthode `GET`). Par
-exemple, pour afficher toutes les voitures :
+<div class="exercise">
+1. Modifiez le code de `ControllerVoiture.php` et créez le fichier
+   `controller/routeur.php` pour correspondre au code ci-dessus ;   
+2. Testez la nouvelle architecture en appelant la page
+[.../controller/routeur.php](http://webinfo/~mon_login/PHP/TD4/controller/routeur.php).
+3. Prenez le temps de comprendre le **MVC** sur cet exemple.  
+   Avez-vous compris l'ordre dans lequel PHP exécute votre code ?
+</div>
 
-1. nous devrons demander l'URL
-[.../controller/routeur.php?action=readAll](http://webinfo/~mon_login/PHP/TD4/controller/routeur.php?action=readAll).  
-[**Rappel** sur query string dans le cours 1.]({{site.baseurl}}/classes/class1.html#les-query-strings-dans-lurl)
-1. le routeur récupère l'action donnée par l'utilisateur dans l'URL avec
-   `$action = $_GET['action'];` (donc `$action="readAll"`)
-2. le routeur appelle la méthode statique `readAll` de `ControllerVoiture.php`
-3. `ControllerVoiture.php` se sert du modèle pour récupérer le tableau de toutes les voitures ;
-4. `ControllerVoiture.php` appelle alors la vue qui va nous générer la page Web.
+#### Maintenant un vrai routeur
+
+Sauf que le client doit pouvoir choisir quelle action est-ce qu'il veut
+effectuer. Du coup il va faire une requête pour la page `routeur.php` mais en
+envoyant l'information qu'il veut que `action` soit égal à `readAll`. Pour
+transmettre ces données à la page du routeur, nous allons les écrire dans l'URL
+avec la syntaxe du *query string*. (cf.  [**rappel** sur query string dans le
+cours 1]({{site.baseurl}}/classes/class1.html#les-query-strings-dans-lurl)).
+
+De son côté le routeur doit récupérer l'action envoyée et appeler la méthode
+correspondante du contrôleur.
 
 <div class="exercise">
 
-1. Modifiez le code de `ControllerVoiture.php` et créez le fichier
-   `controller/routeur.php` pour correspondre au code ci-dessus ;
-1. Testez la nouvelle architecture en appelant
-[.../controller/routeur.php?action=readAll](http://webinfo/~mon_login/PHP/TD4/controller/routeur.php?action=readAll).
+1. Quelle URL faut-il écrire pour demander la page du routeur en lui envoyant
+   l'information que `action` est égal à `readAll` ?
+1. Comment récupère-t-on en PHP la valeur qui a été assignée à `action` dans l'URL ?
+   
+</div>
+
+Pour appeler la méthode statique de `ControllerVoiture` dont le nom se trouve
+dans la variable `$action`, le PHP peut faire comme suit. Voici le fichier
+`controller/routeur.php` mis à jour :
+
+```php
+<?php
+require_once 'ControllerVoiture.php';
+// On recupère l'action passée dans l'URL
+$action = ...; // À remplir, voir Exercice 5.2
+// Appel de la méthode statique $action de ControllerVoiture
+ControllerVoiture::$action(); 
+?>
+```
+
+<div class="exercise">
+
+1. Modifiez le code `controller/routeur.php` pour correspondre au code ci-dessus en remplissant vous-même la ligne 4 ;
+1. Testez la nouvelle architecture en appelant la page
+[.../controller/routeur.php](http://webinfo/~mon_login/PHP/TD4/controller/routeur.php) en rajoutant l'information que `action` est égal à `readAll` comme vu à l'exercice 5.1.
 3. Prenez le temps de comprendre le **MVC** sur cet exemple.  
    Avez-vous compris l'ordre dans lequel PHP exécute votre code ?  
    Est-ce que ce code vous semble similaire à l'ancien fichier
@@ -275,6 +307,19 @@ exemple, pour afficher toutes les voitures :
    N'hésitez à parler de votre compréhension avec votre chargé de TD.
 
 </div>
+
+#### Solutions
+
+Voici le déroulé de l'exécution du routeur pour l'action `readAll`:
+
+1. Nous devrons demander l'URL
+[.../controller/routeur.php?action=readAll](http://webinfo/~mon_login/PHP/TD4/controller/routeur.php?action=readAll).
+1. Le routeur récupère l'action donnée par l'utilisateur dans l'URL avec
+   `$action = $_GET['action'];` (donc `$action="readAll"`)
+2. le routeur appelle la méthode statique `readAll` de `ControllerVoiture.php`
+3. `ControllerVoiture.php` se sert du modèle pour récupérer le tableau de toutes les voitures ;
+4. `ControllerVoiture.php` appelle alors la vue qui va nous générer la page Web.
+
 
 ## À vous de jouer
 
