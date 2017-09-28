@@ -263,14 +263,15 @@ ControllerVoiture::readAll(); // Appel de la méthode statique $action de Contro
 
 #### Maintenant un vrai routeur
 
-Sauf que le client doit pouvoir choisir quelle action est-ce qu'il veut
-effectuer. Du coup il va faire une requête pour la page `routeur.php` mais en
-envoyant l'information qu'il veut que `action` soit égal à `readAll`. Pour
-transmettre ces données à la page du routeur, nous allons les écrire dans l'URL
-avec la syntaxe du *query string*. (cf.  [**rappel** sur query string dans le
-cours 1]({{site.baseurl}}/classes/class1.html#les-query-strings-dans-lurl)).
+Le code précédent marche sauf que le client doit pouvoir choisir quelle action
+est-ce qu'il veut effectuer. Du coup, il va faire une requête pour la page
+`routeur.php` mais en envoyant l'information qu'il veut que `action` soit égal à
+`readAll`. Pour transmettre ces données à la page du routeur, nous allons les
+écrire dans l'URL avec la syntaxe du *query string* (cf.  [**rappel** sur query
+string dans le cours
+1]({{site.baseurl}}/classes/class1.html#les-query-strings-dans-lurl)).
 
-De son côté le routeur doit récupérer l'action envoyée et appeler la méthode
+De son côté, le routeur doit récupérer l'action envoyée et appeler la méthode
 correspondante du contrôleur.
 
 <div class="exercise">
