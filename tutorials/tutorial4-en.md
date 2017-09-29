@@ -4,7 +4,7 @@ subtitle: Model, View, Controller
 layout: tutorial
 ---
 
-The bigger your website gets, the more difficult it gets to organize your
+The bigger your website gets, the more difficult it is to organize your
 code. The upcoming tutorials will teach you one of the best practices. We call
 *architectural design pattern* (patron de conception d'architecture) a set of
 best practices to build a nice architecture (organization) for your code.
@@ -82,10 +82,10 @@ src="../assets/RepStructure.png" style="margin-left:auto;margin-right:auto;displ
 
 ### M: The model
 
-The model regroups all the code related to data management, in particular, all
-interactions with the database. For example, almost all the `Voiture` class that
-you created in previous tutorials contained code related to database queries
-(except the function `afficher()`).
+The model regroups all the code related to data management, which includes all
+interactions with the database. For example, almost all of the `Voiture` class
+that you created in previous tutorials contained code related to database
+queries (except the function `afficher()`).
 
 <div class="exercise-en">
 1. Create directories `config`, `controller`, `model`, `view` and `view/voiture`.
