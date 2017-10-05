@@ -18,7 +18,7 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaine du 11 Septembre 2017 -- [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html) ([English version](tutorials/tutorial2-en.html))
 1. Semaine du 18 Septembre 2017 -- [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html) ([English version](tutorials/tutorial3-en.html))
 1. Semaine du 25 Septembre 2017 --  [TD 4 -- Architecture MVC simple](tutorials/tutorial4.html) ([English version](tutorials/tutorial4-en.html))
-1. Semaine du 02 Octobre 2017 --  [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html)
+1. Semaine du 02 Octobre 2017 --  [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html) ([English version](tutorials/tutorial5-en.html))
 <!-- 1. Semaine du 09 Octobre 2017 --  [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html) -->
 <!-- 1. Semaine du 16 Octobre 2017 -- [Début projet](projet.html) -->
 <!-- 1. Semaines du 23 Octobre 2017 -- 3h projet -->
