@@ -24,7 +24,7 @@ pouvoir gérer les sessions d'utilisateur, nous allons développer l'interface
 "administrateur" du site.
 
 Ce TD présuppose que vous avez au moins fait les
-[exercices 1 à 6 du TD précédent](tutorial4.html#vue-ajout-dune-voiture),
+[exercices 1 à 8 du TD précédent](tutorial4.html#vue-ajout-dune-voiture),
 c'est-à-dire que vous avez codé les actions `create` et `created`.
 
 ## Remise en route
@@ -151,7 +151,8 @@ qui prend en entrée `array("config","Conf.php")` et renvoie
 
 1. Créez une classe PHP `File` dans un fichier `lib/File.php`.
 
-1. Créez la méthode statique `build_path` de la classe `File` suivante
+1. Copiez la méthode statique `build_path` dans la classe `File`. Vérifiez que
+   vous comprenez bien cette fonction en expérimentant avec.
 
    ```php?start_inline=1
    public static function build_path($path_array) {
@@ -226,16 +227,18 @@ $DS = DIRECTORY_SEPARATOR;
 Changeons notre site pour utiliser ces deux constantes. Il faut remplacer le
 code à deux endroits :
 
-1. Utilisez aussi ces deux constantes dans le `require` de `File.php` qui est
+1. Utilisez ces deux constantes dans le `require` de `File.php` qui est
    fait dans `index.php`.
 
 1. Changez la fonction `build_path` pour qu'elle utilise ces deux constantes.
 
-   **Attention :** Comme `File.php` est dans le dossier `lib`, nous devons
-     redescendre d'un dossier avec `"/.."`. Faites donc
+   **Attention :** Si `__DIR__` est utilisé dans une inclusion, le dossier du
+     fichier inclus sera retourné.  Comme `File.php` est dans le dossier `lib`,
+     nous devons redescendre d'un dossier avec `"/.."`. Faites donc
 
    ```php?start_inline=1
-   $ROOT_FOLDER = __DIR__ . "/..";
+   $DS = DIRECTORY_SEPARATOR;
+   $ROOT_FOLDER = __DIR__ . $DS . "..";
    ```
 
 **Retestez** votre site Web.
@@ -257,7 +260,7 @@ remplaçons une variable PHP par sa valeur dans l'écriture de la page HTML. Vou
 allez voir que les raisons sont assez similaires au problème derrière les
 injections SQL.
 
-Prenons l'exemple de notre vue `detail.php` qui écrit en autre
+Prenons l'exemple de notre vue `detail.php` qui écrit entre autre
 
 ```php?start_inline=1
 echo "<p> Voiture $v->getImmatriculation() </p>";
@@ -269,7 +272,8 @@ immatricutation ?
 <div class="exercise">
 
 Créez une voiture d'immatriculation `<h1>Hack` et regardez comment elle
-s'affiche.
+s'affiche. Inspectez le code source HTML correspondant pour comprendre ce qu'il
+s'est passé.
 
 </div>
 
@@ -280,6 +284,8 @@ l'utilisateur se met à écrire du JavaScript.
 <!-- XSS et aussi que ça marche bien pour Math O'reilly (! ') -->
 
 #### Échappement dans du HTML
+
+<!-- https://dev.w3.org/html5/html-author/charref -->
 
 Pour éviter cela, il faut faire **attention aux caractères protégés** du
 HTML. Voici la liste des caractères qui font la différence entre du texte pur et
@@ -295,7 +301,7 @@ Ces caractères spéciaux doivent être échappés dans les vues pour que le tex
 s'affiche bien mais ne risque pas de changer la structure du document
 HTML. Voici comment échapper ces caractères :
 
-| `&lt;` | `&gt;` | `&amp;` | `&quot;` | `&#039;` |
+| `&lt;` | `&gt;` | `&amp;` | `&quot;` | `&apos;` |
 |  `<`   |  `>`   |   `&`   |   `"`    |   `'`    |
 {: #entities .centered }
 
@@ -309,13 +315,13 @@ HTML. Voici comment échapper ces caractères :
 exemple, le code
 
 ```php?start_inline=1
-echo htmlspecialchars("<a href='test'>Test</a>");
+echo htmlspecialchars('<a href="test">Test</a>');
 ```
 
 renvoie
 
 ```text
-&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;
+&lt;a href=&quot;test&quot;&gt;
 ```
 
 Le remplacement des caractères spéciaux a bien eu lieu.
@@ -436,7 +442,8 @@ et le *footer* à la partie :
 ```
 
 Nous allons donc changer nos vues pour qu'elles n'écrivent plus que le corps de
-la page.
+la page. Enfin une vue spéciale, appelée vue générique, chargera l'une de ces
+vues "corps" en l'incluant dans l'en-tête et le pied de page communs.
 
 <div class="exercise">
 
@@ -512,6 +519,8 @@ avec trois liens:
    ```
 
 </div> 
+
+### Concaténer des vues
 
 Notre réorganisation nous permet aussi de résoudre le problème soulevé plus tôt
 à propos de la vue de création d'une voiture.
