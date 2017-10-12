@@ -168,7 +168,7 @@ formulaire de mise à jour. Pour cela :
    1. Pensez bien à échapper vos variables PHP avant de les écrire dans l'HTML
      et dans les URLs.
 
-   1. **Rappel -- Attention au mélange de `POST` et `GET` :** Vous souhaitez envoyez
+   1. **Rappel -- Attention au mélange de `POST` et `GET` :** Vous souhaitez envoyer
      l'information `action=updated` en plus des informations saisies lors de
      l'envoi du formulaire. Il y a deux possibilités :
 
@@ -436,7 +436,7 @@ variable `controller` dans la vue générique par un appel à `object`.
 <div class="exercise">
 
 Il ne vous reste plus qu'à créer l'action `read()` de `ControllerUtilisateur`,
-sa vue associée `view.php` et à rajouter les liens vers la vue de détail dans
+sa vue associée `detail.php` et à rajouter les liens vers la vue de détail dans
 `list.php`.
 
 </div>
@@ -501,7 +501,7 @@ fusionner `create.php` et `update.php` en une unique page.
 
 <div class="exercise">
 
-Nous vous laisson adapter les actions `create` et `update` de
+Nous vous laissons adapter les actions `create` et `update` de
 `ControllerUtilisateur`, leur vue associée `update.php` et à rajouter les liens
 pour mettre à jour un utilisateur dans `detail.php`.
 
