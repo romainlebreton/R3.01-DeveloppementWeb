@@ -15,7 +15,7 @@ de restriction particulière.  Pensez néanmoins que ce projet Web fait partie d
 vos réalisations qui pourraient être mises en avant lors d'un entretien pour un
 stage, par exemple.
 
-A la fin de cette séance vous devrez donner à votre encadrant la liste des
+À la fin de cette séance vous devrez donner à votre encadrant la liste des
 membres de votre groupe ainsi que le thème de votre site (quels produits votre
 site vend-il ? ).
 
@@ -26,7 +26,7 @@ groupes de 2 sont autorisés (mais ils seront notés comme un groupe de 3).  Les
 groupes de 4 sont aussi ponctuellement autorisés, mais seront évalués de manière
 plus stricte et l'on attendra 1/3 de boulot en plus.
 
-Le projet commence la semaine du 17 Octobre.
+Le projet commence la semaine du 16 Octobre.
 
 Les soutenances de projet auront lieu la semaine du 12 Décembre.  La note de ce
 projet Web interviendra pour moitié dans la note de l'UE 'Programmation Web côté
@@ -40,11 +40,13 @@ l'un de vos comptes. Les sources du site devront être accessible dans un fichie
 **Emploi du temps prévisionnel :**
 
 1. Semaine du 16 Octobre 2017 -- Début projet
-1. Semaine du 23 Octobre 2017 -- 3h projet (lundi &rarr; mercredi) puis Congé IUT
-1. Semaine du 30 Octobre 2017 -- Congé IUT puis 3h projet (jeudi &rarr; vendredi)
-1. Semaine du 6 Novembre 2017 --  TD 7 -- Cookies & Sessions
-1. Semaine du 13 Novembre 2017 --  TD 8 -- Authentification & Validation par email
-1. Semaine du 20 Novembre 2017 -- 3h projet
+1. Semaines du 23 Octobre 2017 -- 3h projet
+1. Semaine du 6 Novembre 2017 --
+   TD 7 -- Cookies & Sessions puis projet
+1. Semaine du 13 Novembre 2017 --
+   TD 8 -- Authentification & Validation par emailxs
+   puis projet
+1. Semaine du 20 Novembre 2017 --  3h projet
 1. Semaine du 27 Novembre 2017 -- 3h projet
 1. Semaine du 4 Décembre 2017 -- 3h projet
 1. Semaine du 11 Décembre 2017 -- soutenances du projet
@@ -67,9 +69,11 @@ pour plus de détails.
 
 ### Ce que ce projet n'est pas :
 
-* Un site vitrine joli avec beaucoup d'images par exemple. 
-* Un site réaliste qui implémente `X` fois la même fonctionnalité.  Le but est
-de réaliser correctement un maximum de fonctionnalités différentes.
+* Un site vitrine joli avec beaucoup d'images par exemple. Vous n'aurez pas de
+  point sur cet aspect. Par contre, vous êtes autorisés à repartir de votre
+  projet de HTML/CSS de l'an dernier.
+* Un site réaliste qui implémente `X` fois la même fonctionnalité. Le but est
+  de réaliser correctement un maximum de fonctionnalités différentes.
 
 ### Que garder pour plus tard ?
 
@@ -81,7 +85,7 @@ Dans la suite de ce cours, plusieurs séances seront consacrées à:
 
 En conséquence, ne pas attaquer ces parties pour le moment. 
 
-### Ou héberger ce site? comment partager un répertoire ?
+### Où héberger ce site? Comment partager un répertoire ?
 
 Le site à rendre sera à héberger dans le répertoire de l'un des membres de votre groupe. 
 Par exemple [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/eCommerce/](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/eCommerce/)
