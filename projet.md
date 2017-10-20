@@ -28,14 +28,16 @@ plus stricte et l'on attendra 1/3 de boulot en plus.
 
 Le projet commence la semaine du 16 Octobre.
 
-Les soutenances de projet auront lieu la semaine du 12 Décembre.  La note de ce
+Les soutenances de projet auront lieu la semaine du 11 Décembre.  La note de ce
 projet Web interviendra pour moitié dans la note de l'UE 'Programmation Web côté
 serveur'. L'autre moitié sera donnée par l'examen final sur papier (pas de code
 à écrire, questions de compréhension).
 
-Le jour de la soutenance, **le site devra être déployé sur `webinfo`** sous
-l'un de vos comptes. Les sources du site devront être accessible dans un fichier
-`sources.zip` à la racine de votre site.
+Le jour de la soutenance, **le site devra être déployé sur `webinfo`** sous l'un
+de vos comptes. Les sources du site devront être accessible dans un fichier
+`sources.zip` à la racine de votre site. Il n'y a pas de date de rendu : votre
+site Web et ses sources devront juste être disponibles au moment de la
+soutenance.
 
 **Emploi du temps prévisionnel :**
 
