@@ -39,9 +39,9 @@ Cours à l'IUT de Montpellier - 2ème année
 3. [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
 4. [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html)
 
-<!-- ## Instructions du projet -->
+## Instructions du projet
 
-<!-- [Instructions du projet](projet.html) -->
+[Instructions du projet](projet.html)
 
 
 <!-- ## Chat -->
