@@ -44,23 +44,17 @@ Je leur ai fait un schéma au tableau pour réexpliquer les cookies (cf photo en
 Parmi les questions que j'ai essayé de soulever :
 
     est-ce que $_COOKIE se met à jour juste après un setcookie => non
+	
     car $_COOKIE contient toujours le cookie déposé la fois d'avant
     En particulier, la première fois qu'on dépose un cookie, on y a pas accès dans $_COOKIE
-    $_COOKIE peut contenir plusieurs champsi implémente plusieurs contrôleurs dans le TD6 alors faire juste
-
+	
 Rq :
-
-Ecrire sur $_COOKIE n'a aucun effet
 
 Les cookies restent d'un appel de page à l'autre car ils restent
 stockés chez le client 
 En particulier, ils ne sont pas réécrit à chaque fois.
 L'action de setcookie est précisément de générer le SetCookie de
 l'en-tête de la réponse.
-
-Dire que les  deux actions sont séparées
-envoi du cookie utilisateur par cookie dans GET et récupération
-enregistrement/màj d'un cookie par SetCookie et setcookie
 
 -->
 
@@ -388,33 +382,6 @@ Présentons maintenant les opérations fondamentales sur les sessions :
    * `session_destroy()` supprime le fichier de données associées à la session
    courante qui étaient enregistrées sur le disque dur du serveur,
    * `setcookie` demande au client de supprimer son cookie de session (sans garantie).
-   
-<!--  Que font vraiment session_start, ... ? -->
-
-<!-- ### Le cas particulier des sessions en hébergement mutualisé -->
-
-<!-- Dans le cas d'un hébergement mutualisé, (comme à l'IUT) deux répertoires -->
-<!-- différents par exemple -->
-<!-- [http://webinfo.iutmontp.univ-montp2.fr/~mon_login](http://webinfo.iutmontp.univ-montp2.fr/~mon_login) -->
-<!-- et -->
-<!-- [http://webinfo.iutmontp.univ-montp2.fr/~le_login_du_voisin](http://webinfo.iutmontp.univ-montp2.fr/~le_login_du_voisin) -->
-<!-- sont vus comme un seul site web, alors qu'il s'agit en réalité de deux sites web -->
-<!-- différents.  De ce fait, si vous utilisez exactement le même nom de variable de -->
-<!-- session, il est possible que s'authentifier sur -->
-<!-- [http://webinfo.iutmontp.univ-montp2.fr/~mon_login](http://webinfo.iutmontp.univ-montp2.fr/~mon_login) -->
-<!-- vous permette de contourner l'authentification de -->
-<!-- [http://webinfo.iutmontp.univ-montp2.fr/~le_login_du_voisin](http://webinfo.iutmontp.univ-montp2.fr/~le_login_du_voisin). -->
-
-<!-- Afin d'éviter ces désagréments, il suffit d'utiliser un nom de variable de -->
-<!-- session qu'on ne puisse deviner avec l'instruction -->
-<!-- `session_name("chaineUniqueInventeParMoi");` que vous appellerez de manière -->
-<!-- systématique, avant chaque appel à `session_start();`. Cela a pour effet de -->
-<!-- remplacer le nom de la variable unique `PHPSESSID` en -->
-<!-- `chaineUniqueInventeParMoi`. -->
-
-<!-- TODO : tester que cela sépare bien les fichiers de session ! -->
-<!-- DIRE que l'on peut faire des sessions sans cookie - mais pas pratique ? -->
-
 
 ### Notes techniques
 
