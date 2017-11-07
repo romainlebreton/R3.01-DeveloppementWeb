@@ -5,24 +5,14 @@ layout: tutorial
 ---
 
 <!--
-Attention, si tout le monde fait session_start à l'IUT
-alors tout le monde écrit le cookie PHPSESSID
-et il peut poser des conflits entre les différents sites
--->
-
-<!--
-2ème explication :
-stockage client et serveur (session non perm ou BDD)
-
+Explication au tableau :
 schéma avec ce que fait le PHP avant d'exécuter le fichier
-
 
 techniques : 2 actions lire et écrire/màj/supprimer (sans garantie)
 
 scénarios:
 - 1ère écriture cookie, pas dans $_COOKIE
 - màj cookie, pas màj dans $_COOKIE
-
 
 Rq: 
 - décalage dans le temps
@@ -31,47 +21,9 @@ Rq:
 - stocker tableau
 - Si je ne refait pas de setcookie, est-ce que le cookie reste chez l'utilisateur ?
   Oui, car pas de setcookie = pas d'action sur le cookie (sauf si expiration)
-
----------------
-
-Remarque : $_SESSION est écrit dans le fichier de session par du code PHP après
-l'exécution de notre fichier
-
-
-Rajouter schéma sur les cookies et les sessions ?
-
-Je leur ai fait un schéma au tableau pour réexpliquer les cookies (cf photo en pièce jointe)
-Parmi les questions que j'ai essayé de soulever :
-
-    est-ce que $_COOKIE se met à jour juste après un setcookie => non
-	
-    car $_COOKIE contient toujours le cookie déposé la fois d'avant
-    En particulier, la première fois qu'on dépose un cookie, on y a pas accès dans $_COOKIE
-	
-Rq :
-
-Les cookies restent d'un appel de page à l'autre car ils restent
-stockés chez le client 
-En particulier, ils ne sont pas réécrit à chaque fois.
-L'action de setcookie est précisément de générer le SetCookie de
-l'en-tête de la réponse.
-
 -->
 
 <!--
-Explication sur les sessions
-
-session 
-stocke où ?
-à quoi sert le cookie
-commande PHP 
-- session_start()
-  Si cookie PHPSESSID=xxx reçu alors lance la session pour cet id
-  Sinon crée un cookie PHPSESSID=xxx (setcookie) et lance le mécanisme de session
-- $_SESSION en lecture et écriture
-  au moment du session_start charge $_SESSION avec le fichier sess_xxx
-  Derrière les rideaux, après vos fichiers PHP, écris le contenu de $_SESSION dans le ficher sess_xxx
-
 On peut se faire passer pour quelqu'un si on connait son PHPSESSID
 => HTTPS et paramétrisation des cookies par nom de domaine et chemin
 => Fixation de session si session_id par query string ou faille XSS
