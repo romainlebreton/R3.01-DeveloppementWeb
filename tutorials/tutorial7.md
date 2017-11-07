@@ -64,6 +64,7 @@ Démarrer une session
 écrire une variable de session
 lire une variable de session
 Supprimer complètement une session (déconnecter)
+
 Je leur ai fait un schéma au tableau pour réexpliquer les cookies (cf photo en pièce jointe)
 Parmi les questions que j'ai essayé de soulever :
 
@@ -118,15 +119,16 @@ fonction session_start() doit être appelée de nouveau.
 
 ## Les cookies
 
-Un cookie est utilisé pour stocker une information spécifique à un utilisateur
-comme :
+Un cookie est utilisé pour stocker quelques informations spécifiques à un
+utilisateur comme :
 
 * ses préférences sur un site (personnalisation de l'interface, ...),
 * le contenu de son panier d'achat électronique,
 * son identifiant de session (voir prochain TD sur les sessions).
 
-Le cookie est un fichier qui est stocké directement sur la machine de
-l'utilisateur (client HTTP) : il s'agit d'une table d'associations
+Les informations sont envoyées par le site (serveur HTTP) en même que la page
+Web. Le client stocke ces informations sur sa machine dans un fichier appelé
+*cookie* : il s'agit d'une table d'associations
 nom/valeur.  
 **Attention** : il ne faut pas stocker de données critiques dans les cookies car
 elles sont stockées à la vue de tous chez le client !
@@ -137,14 +139,25 @@ elles sont stockées à la vue de tous chez le client !
 Les cookies sont des informations stockées sur l'ordinateur du client à
 l'initiative du serveur.
 
+#### Comment déposer un cookie en PHP ?
+
+D'un point de vue pratique en PHP, on dépose un cookie à l'aide de la fonction
+[`setcookie`](http://php.net/manual/fr/function.setcookie.php). Par exemple, la
+ligne ci-dessous crée un cookie nommé `TestCookie` contenant la valeur `"OK"`
+et qui expire dans 1h.
+
+```php?start_inline=1
+setcookie("TestCookie", "OK", time()+3600);  /* expire dans 1 heure = 3600 secondes */
+```
+
+
 #### Comment fait le serveur pour demander au client d'enregistrer un cookie ?
 
 D'un point de vue technique, voici ce qui se passe au niveau du protocole HTTP
-(dont nous avons notamment parlé lors
-[du cours 1]({{site.baseurl}}/classes/class1.html#protocole-de-communication--http)). Pour
-stocker des informations dans un cookie chez le client, le serveur écrit dans
-l'en-tête de sa réponse HTTP ; il écrit une ligne `Set-Cookie` par paire
-nom/valeur comme suit :
+(dont nous avons notamment parlé lors 
+[du cours 1]({{site.baseurl}}/classes/class1.html#protocole-de-communication--http)).
+Pour stocker des informations dans un cookie chez le client, le serveur écrit
+des lignes `Set-Cookie` dans l'en-tête de sa réponse HTTP
 
 ```http
 HTTP/1.1 200 OK
@@ -159,37 +172,27 @@ Set-Cookie: TestCookie2=valeur2; expires=Thu, 22-Oct-2015 16:43:27 GMT; Max-Age=
 <html><head>...
 ```
 
+Remarquons que le serveur écrit une ligne `Set-Cookie` par paire nom/valeur. Ici
+nous avons un cookie `"TestCookie1"` de valeur `"valeur1"` et un cookie
+`"TestCookie2"` de valeur `"valeur2"`.
+
+
+**Attention :** la fonction setcookie() doit être appelée avant tout écriture de
+la page HTML. Le protocole HTTP impose cette restriction.  
+**Pourquoi ?** *(Optionnel)* Le Set-Cookie est une information envoyé dans
+l'en-tête de la réponse. Et le corps de la réponse HTTP, c'est-à-dire la page
+HTML, doit être envoyée après son en-tête. Or PHP écrit et envoie la page HTML
+dans le corps de la réponse HTTP au fur et à mesure.
+
 C'est le navigateur qui stocke (ou pas) le cookie sur l'ordinateur du client. De
 manière générale, le serveur n'a aucune garantie sur le comportement du client :
 le cookie pourrait ne pas être enregistré (cookie désactivé chez l'utilisateur),
 ou être altéré (valeur modifiée, date d'expiration changée ...).
 
-
-#### Comment déposer un cookie en PHP ?
-
-D'un point de vue pratique en PHP, on dépose un cookie à l'aide de la fonction
-[`setcookie`](http://php.net/manual/fr/function.setcookie.php) qui se chargera
-d'écrire la partie correspondante de l'en-tête de la réponse. Par exemple, la
-ligne ci-dessous crée un cookie nommé `TestCookie` contenant la valeur `$value`
-et qui expire dans 1h.
-
-```php?start_inline=1
-setcookie("TestCookie", $value, time()+3600);  /* expire dans 1 heure = 3600 secondes */
-```
-
-
 <!-- The Max-Age attribute defines the lifetime of the  cookie, in seconds. -->
 <!-- The Expires attribute indicates the maximum lifetime of the cookie, -->
 <!-- represented as the date and time at which the cookie expires. -->
-
-**Attention :** la fonction setcookie() doit être appelée avant tout écriture de
-la page HTML. Le protocole HTTP impose cette restriction.  
-**Pourquoi ?** *(Optionnel)* Le Set-Cookie est une information envoyé dans l'en-tête de la
-réponse. Et le corps de la réponse HTTP, c'est-à-dire la page HTML, doit être
-envoyée après son en-tête. Or PHP écrit et envoie la page HTML dans le corps de la
-réponse HTTP au fur et à mesure.
-
-Référence : [La RFC des cookies](https://tools.ietf.org/html/rfc6265)
+**Référence :** [La RFC des cookies](https://tools.ietf.org/html/rfc6265)
 
 ### Récupérer un cookie
 
@@ -212,31 +215,34 @@ Cookie: TestCookie1=valeur1; TestCookie2=valeur2
 
 #### Comment le serveur peut-il lire en PHP les cookies envoyés par le client ?
 
-Le PHP traite juste l'information reçue pour la rendre disponible dans la
-variable `$_COOKIE` de la même manière de `$_GET` récupère l'information dans
-l'URL et que `$_POST` récupère l'information dans le corps de la requête (*cf.*
-[le cours 1]({{site.baseurl}}/classes/class1.html#protocole-de-communication--http)).
+Le PHP traite juste l'information reçue pour la rendre
+disponible dans la variable
+[`$_COOKIE`](http://php.net/manual/fr/reserved.variables.cookies.php) de la même
+manière de `$_GET` récupère l'information dans l'URL et que `$_POST` récupère
+l'information dans le corps de la requête (*cf.* [le cours
+1]({{site.baseurl}}/classes/class1.html#protocole-de-communication--http)).
 
-D'un point de vue pratique, un cookie est donc récupéré du côté serveur à l'aide de
-[`$_COOKIE`](http://php.net/manual/fr/reserved.variables.cookies.php) en PHP.
-
-Par exemple:
+Par exemple,
 
 ```php?start_inline=1
-echo $_COOKIE["TestCookie"];
+echo $_COOKIE["TestCookie1"];
 ```
+
+devrait afficher `valeur1`.
 
 #### Les cookies sont associés à des noms de domaines
 
-Le navigateur n'envoie pas tous ses cookies à tous les sites. Déjà, le nom de
-domaine est enregistré en même temps que les cookies chez le client pour se
-souvenir de leur provenance. Le comportement normal d'un navigateur est
-d'envoyer tous les cookies provenant des sous-domaines du domaine de la page Web
-qu'il demande.
+Nous avons précédemment dit que le client envoie ses cookies à chaque requête
+HTTP. Mais heureusement le navigateur n'envoie pas tous ses cookies à tous les
+sites. Déjà, le nom de domaine du site est enregistré en même temps que les
+cookies pour se souvenir de leur provenance. Le comportement
+normal d'un navigateur est d'envoyer tous les cookies provenant des
+sous-domaines du domaine de la page Web qu'il demande.
 
 Par exemple, un cookie enregistré à l'initiative d'un site hébergé sur
-`webinfo.iutmontp.univ-montp2.fr` sera disponible à tous les sites ayant ce
-nom de domaine, et aussi aux sites de domaine `iutmontp.univ-montp2.fr` ou
+`webinfo.iutmontp.univ-montp2.fr` (nom de domaine `univ-montp2.fr`) sera
+disponible à tous les sites ayant ce nom de domaine, donc en particulier aux
+pages de `webinfo.iutmontp.univ-montp2.fr`, `iutmontp.univ-montp2.fr` ou
 `univ-montp2.fr`, mais pas aux autres domaines tels que `google.fr`.
 
 Il est possible de préciser ce comportement en donnant plus de paramètres (nom
@@ -273,65 +279,29 @@ sur le comportement du client.
 
 1. Pour voir les cookies déposés sur votre navigateur, voici comment faire :
 
-   * sous Firefox, allez dans Préférences &#8594; Vie Privé &#8594; Historique
-   &#8594; Supprimer des cookies spécifiques.
+   * sous Firefox, allez dans Préférences &#8594; Vie privée et sécurité &#8594;
+   Historique &#8594; Supprimer des cookies spécifiques.
    * sous Chrome, l'accès est plus simple ; allez dans les outils développeurs
-   (avec `F12`) &#8594; Onglet Ressources &#8594; Cookies.
+   (avec `F12`) &#8594; Onglet Ressources (ou Application) &#8594; Cookies.
 
 1. Si vous ne spécifiez pas le temps d'expiration d'un cookie (3ème paramètre de
    `setcookie`) ou que vous le mettez à `0` alors le cookie sera supprimé à la
    fermeture du navigateur.
 
-### Exercices sur l'utilisation des cookies
-
-Dans le site de covoiturage, vous avez mis en place une redirection dans la page
-`index.php` vers l'action `viewAll` du contrôleur `voiture`. Dans cet exercice,
-nous allons permettre à chaque visiteur du site de configurer sur quelle page
-il souhaite arriver par défaut lorsqu'il visite le site web.
-
-<div class="exercise">
-
-1. Créer un formulaire `preference.html` avec un champ `preference` de type
-   *bouton radio* permettant de choisir `voiture`, `trajet` ou `utilisateur` comme
-   page d'accueil et qui appelle le script `personalisation.php`.
-
-4. Écrire le script `personalisation.php` qui récupère la valeur `preference` du
-   formulaire et dépose sa valeur dans un cookie en utilisant le même nom de
-   variable.
-
-5. Verifier que ce cookie a bien été déposé (*cf.* les outils de développement
-   expliqués dans la section "Notes techniques").
-
-2. Dans votre menu, qui doit se trouver dans l'en-tête commune de chaque page,
-   ajouter un lien qui pointe vers le formulaire `preference.html`.
-
-3. Dans `routeur.php`, la valeur par défaut actuelle du contrôleur est
-   `voiture`. Changeons cela pour tenir compte de l'information stockée dans le
-   cookie :
-
-   1. créez avant le choix du contrôleur une variable `$controller_default`
-      initialisée à `voiture`,
-   1. changez la valeur par défaut du contrôleur de `voiture` vers
-      `$controller_default`,
-   1. Au niveau de l'initialisation de `$controller_default`, vérifiez
-      l'existence d'un cookie, et la présence dans ce cookie de la variable
-      `preference`. Si elle est renseignée, modifiez le contenu de la variable
-      `$controller_default` avec cette valeur.
-
-5. Testez le bon fonctionnement de cette personalisation de la page d'acceuil en
-choisissant autre chose que `voiture` dans le formulaire.
-
-**Note :** Bien sûr, nous aurions dû intégrer les pages `preference.html` et
-  `personalisation.php` dans notre MVC pour avoir un site propre. Elles feraient
-  partie du MVC `Utilisateur` (que nous créerons dans le prochain TD).
-
-</div>
+### Exercice sur l'utilisation des cookies
 
 
 <div class="exercise">
 
-Dans votre site de projet, utilisez les cookies pour stocker le panier actuel du
-visiteur.
+Créez un nouveau fichier PHP et vérifiez votre compréhension en implémentant les
+fonctionnalités suivantes :
+
+1. Écrivez un cookie,
+1. Vérifiez que le cookie a bien été écrit à l'aide des outils de développement
+   du navigateur,
+1. Lisez le cookie en PHP,
+1. Supprimez le cookie en PHP.
+1. Stockez un tableau dans un cookie et récupérez-le.
 
 **Aide :** Si vous ne savez pas stocker un tableau dans un cookie, c'est que
   vous avez lu trop rapidement la partie "Notes techniques".
@@ -342,36 +312,32 @@ visiteur.
 
 Les sessions sont un mécanisme basé sur les cookies qui permet de stocker des
 informations non plus du côté du client mais sur le serveur.  Le principe des
-sessions est que la seule information stockée chez le client dans les cookies
-est un identifiant unique (par défaut dans la variable nommée
-`PHPSESSID`).
+sessions est d'identifier les clients pour que le serveur puisse stocker des
+informations liées à chacun d'entre eux.
 
+Pour faire ceci, la seule information stockée chez le client dans les cookies
+est un identifiant unique (par défaut dans la variable nommée `PHPSESSID`).
 Lorsqu'il demande une page, le client envoie son cookie contenant son
-identifiant (dans sa requête HTTP). Le serveur a stocké de son côté des
-informations liées à cet identifiant, et il peut donc les retrouver à partir de
-l'identifiant envoyé par le client.
+identifiant (dans sa requête HTTP).
+
+Le serveur stocke de son côté des informations liées à chaque client. En
+utilisant le cookie contenant l'identifiant, le serveur peut reconnaître quel
+client est en train de demander une page Web et ainsi récupérer les informations
+propre à ce client.
 
 <div class="centered">
 <img alt="Schéma des sessions" src="{{site.baseurl}}/assets/session.png" width="60%">
 </div>
 
-Cela offre plusieurs avantages. Il n'y a plus de limite de taille sur les
-données stockées côté client. Mais surtout, l'utilisateur ne peut plus tricher
-en éditant lui même le contenu du cookie. Imaginons par exemple que l'on note si
-l'utilisateur est administrateur dans la variable `isAdmin` d'un cookie. Alors
-rien n'empêche l'utilisateur de modifier son cookie en passant le champ
-`isAdmin` à la valeur `true`. Cependant, avec le mécanisme de sessions,
-l'utilisateur n'a pas accès aux données qui lui sont associées.
-
 ### Opérations sur les sessions
 
-Le maniement des valeurs de sessions est assez simple en PHP, on peut stocker
-presque tout dans une variable de session : un chiffre, un texte, voir un objet
-(il faut utiliser `serialize($o)` lors de la mise en session de l'objet `$o`,
-puis `unserialize($o)` quand on le récupère de la session comme avec les
-cookies).
+On peut stocker presque tout dans une variable de session : un chiffre, un
+texte, voir un tableau ou un objet. Contrairement aux cookies, il n'est même pas
+nécessaire d'utiliser `serialize()` pour convertir tous les types en texte.
 
-*  **Dans toute page qui manipule les sessions**
+Présentons maintenant les opérations fondamentales sur les sessions :
+
+*  **Initialiser les sessions**
 
    ```php?start_inline=1
    session_start();
@@ -443,6 +409,8 @@ cookies).
    * `session_destroy()` supprime le fichier de données associées à la session
    courante qui étaient enregistrées sur le disque dur du serveur,
    * `setcookie` demande au client de supprimer son cookie de session (sans garantie).
+   
+<!--  Que font vraiment session_start, ... ? -->
 
 <!-- ### Le cas particulier des sessions en hébergement mutualisé -->
 
@@ -468,79 +436,174 @@ cookies).
 <!-- TODO : tester que cela sépare bien les fichiers de session ! -->
 <!-- DIRE que l'on peut faire des sessions sans cookie - mais pas pratique ? -->
 
-### Où sont stockées les sessions ?
 
-Les sessions sont stockées sur le disque dur du serveur web, par exemple avec
-LAMP dans le dossier `/var/lib/php5/sessions` (il faut être `root` pour y
-accéder). Reportez-vous à la partie `session` de la fonction `phpinfo()` pour
-connaître ce chemin.
+### Notes techniques
 
-**Exemple :** Si mon identifiant de session est `PHPSESSID=aapot` et si mon code PHP est le suivant
+#### Avantages des sessions
 
-```php?start_inline=1
-$_SESSION['login'] = "rlebreton";
-$_SESSION['isAdmin'] = "1";
-```
+Par rapport aux cookies, les sessions offrent plusieurs avantages. Il n'y a plus
+de limite de taille sur les données stockées côté client. 
 
-alors le fichier `/var/lib/php5/sessions/sess_aapot` contient
+Mais surtout, l'utilisateur ne peut plus tricher en éditant lui même le contenu
+du cookie. Imaginons par exemple que l'on note si l'utilisateur est
+administrateur dans la variable `isAdmin` d'un cookie. Alors rien n'empêche
+l'utilisateur de modifier son cookie en passant le champ `isAdmin` à la valeur
+`true`. Cependant, avec le mécanisme de sessions, l'utilisateur n'a pas accès
+aux données qui lui sont associées.
 
-```
-login|s:9:"rlebreton";isAdmin|s:1:"1";
-```
 
-### Expiration des sessions
+#### Expiration des sessions
 
-#### Durée de vie d'une session
+1. **Durée de vie d'une session :**
 
-Par défaut, une session est supprimée à la fermeture du navigateur. Ceci est dû
-au délai d'expiration du cookie de l'identifiant unique `PHPSESSID` qui est par
-défaut `0`. Or nous avons vu dans la section sur les cookies que cela entraîne
-l'expiration du cookie à la fermeture du navigateur.
+   Par défaut, une session est supprimée à la fermeture du navigateur. Ceci est dû
+   au délai d'expiration du cookie de l'identifiant unique `PHPSESSID` qui est par
+   défaut `0`. Or nous avons vu dans la section sur les cookies que cela entraîne
+   l'expiration du cookie à la fermeture du navigateur.
 
-Vous pouvez changer cela en modifiant la variable de configuration
-`session.cookie_lifetime` qui gère le délai d'expiration du cookie. La fonction
-[`session_set_cookie_params()`](http://php.net/manual/en/function.session-set-cookie-params.php)
-permet de régler facilement cette variable.
+	Vous pouvez changer cela en modifiant la variable de configuration
+	`session.cookie_lifetime` qui gère le délai d'expiration du cookie. La
+	fonction
+	[`session_set_cookie_params()`](http://php.net/manual/en/function.session-set-cookie-params.php)
+	permet de régler facilement cette variable.
 
-Ceci peut être utile si vous souhaitez que votre panier stocké avec des sessions
-soit conservé disons 30 minutes, même en cas de fermeture du navigateur.
+	Ceci peut être utile si vous souhaitez que votre panier stocké avec des
+	sessions soit conservé disons 30 minutes, même en cas de fermeture du
+	navigateur.
 
-#### Comment rajouter un timeout sur les sessions
+1. **Comment rajouter un timeout sur les sessions :**
 
-La durée de vie d'une session est liée à deux paramètres. D'une part, le délai
-d'expiration du cookie permet d'effacer l'identifiant unique côté client (sans
-garantie). D'autre part, une variable de PHP permet de définir un délai
-d'expiration aux fichiers de session (`session.gc_maxlifetime`) qui dira que le
-fichier **peut** être supprimé à partir d'un certain délai. Cependant, aucune de
-ces techniques n'offre de réelle garantie de suppression de la session après le
-délai imparti.
+	La durée de vie d'une session est liée à deux paramètres. D'une part, le
+	délai d'expiration du cookie permet d'effacer l'identifiant unique côté
+	client (sans garantie). D'autre part, une variable de PHP permet de définir
+	un délai d'expiration aux fichiers de session (`session.gc_maxlifetime`) qui
+	dira que le fichier **peut** être supprimé à partir d'un certain
+	délai. Cependant, aucune de ces techniques n'offre de réelle garantie de
+	suppression de la session après le délai imparti.
 
-La seule manière sûre de bien gérer la durée de vie d'une session est de stocker
-la date de dernière activité dans la session :
+	La seule manière sûre de bien gérer la durée de vie d'une session est de
+	stocker la date de dernière activité dans la session :
+	
+    ```php?start_inline=1
+    if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > (30*60))) {
+        // if last request was more than 30 minutes ago
+        session_unset();     // unset $_SESSION variable for the run-time 
+        session_destroy();   // destroy session data in storage
+    } else {
+        $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+    }
+    ```
 
-```php?start_inline=1
-if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > (30*60))) {
-    // last request was more than 30 minutes ago
-    session_unset();     // unset $_SESSION variable for the run-time 
-    session_destroy();   // destroy session data in storage
-}
-$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
-```
-
-Nous recommandons de mettre un délai d'expiration correspondant au
-`session.cookie_lifetime` (si celui-ci est non nul).
-
-Référence : [Stackoverflow](http://stackoverflow.com/questions/520237/how-do-i-expire-a-php-session-after-30-minutes)
+	Nous recommandons de mettre un délai d'expiration correspondant au
+    `session.cookie_lifetime` (si celui-ci est non nul).
+    
+    **Référence :** [Stackoverflow](http://stackoverflow.com/questions/520237/how-do-i-expire-a-php-session-after-30-minutes)
 
 <!--
 Note technique :
 
 Si les cookies ne sont pas utilisés, le PHPSESSID peut être passé en GET (et en
 POST ?)
-Alors il y a un risque de "session fixation"
+Alors il y a un risque plus important de "session fixation"
+cf http://defeo.lu/aws/lessons/session-fixation
 -->
 
+#### Où sont stockées les sessions ?
+
+Les sessions sont stockées sur le disque dur du serveur web, par exemple avec
+LAMP dans le dossier `/var/lib/php/sessions` (il faut être `root` pour y
+accéder). Reportez-vous à la partie `session` de la fonction `phpinfo()` pour
+connaître ce chemin.
+
+**Exemple :** Si mon identifiant de session est `PHPSESSID=aapot` et si mon code
+PHP est le suivant
+
+```php?start_inline=1
+session_start();
+$_SESSION['login'] = "rlebreton";
+$_SESSION['isAdmin'] = "1";
+```
+
+alors le fichier `/var/lib/php/sessions/sess_aapot` contient
+
+```
+login|s:9:"rlebreton";isAdmin|s:1:"1";
+```
+
+
 ### Exercice sur les sessions
+
+<div class="exercise">
+
+Créez un nouveau fichier PHP et vérifiez votre compréhension en implémentant les
+fonctionnalités suivantes :
+
+1. Démarrer une session,
+1. Écrire des variables de session de différents types (chaînes de caractères,
+   tableaux, objets, ...),
+1. Lire une variable de session,
+1. Supprimer une variable de session,
+1. Supprimer complètement une session
+
+</div>
+
+## Mise en application sur le site de covoiturage
+
+Dans le site de covoiturage, vous avez mis en place une redirection dans la page
+`index.php` vers l'action `viewAll` du contrôleur `voiture`. Dans cet exercice,
+nous allons permettre à chaque visiteur du site de configurer sur quelle page
+il souhaite arriver par défaut lorsqu'il visite le site web.
+
+**Note importante :** Cet exercice nécessite d'avoir codé plusieurs contrôleurs
+au TD précédent. Si ce n'est pas le cas, changez l'exercice pour personnaliser
+la vue par défaut `readAll` plutôt que le contrôleur.
+
+<div class="exercise">
+
+1. Créer un formulaire `preference.html` avec un champ `preference` de type
+   *bouton radio* permettant de choisir `voiture`, `trajet` ou `utilisateur` comme
+   page d'accueil et qui appelle le script `personalisation.php`.
+
+4. Écrire le script `personalisation.php` qui récupère la valeur `preference` du
+   formulaire et dépose sa valeur dans un cookie en utilisant le même nom de
+   variable.
+
+5. Verifier que ce cookie a bien été déposé (*cf.* les outils de développement
+   expliqués dans la section "Notes techniques").
+
+2. Dans votre menu, qui doit se trouver dans l'en-tête commune de chaque page,
+   ajouter un lien qui pointe vers le formulaire `preference.html`.
+
+3. Dans `routeur.php`, la valeur par défaut actuelle du contrôleur est
+   `voiture`. Changeons cela pour tenir compte de l'information stockée dans le
+   cookie :
+
+   1. créez avant le choix du contrôleur une variable `$controller_default`
+      initialisée à `voiture`,
+   1. changez la valeur par défaut du contrôleur de `voiture` vers
+      `$controller_default`,
+   1. Au niveau de l'initialisation de `$controller_default`, vérifiez
+      l'existence d'un cookie, et la présence dans ce cookie de la variable
+      `preference`. Si elle est renseignée, modifiez le contenu de la variable
+      `$controller_default` avec cette valeur.
+
+5. Testez le bon fonctionnement de cette personalisation de la page d'acceuil en
+choisissant autre chose que `voiture` dans le formulaire.
+
+**Note :** Bien sûr, nous aurions dû intégrer les pages `preference.html` et
+  `personalisation.php` dans notre MVC pour avoir un site propre. Elles feraient
+  partie du MVC `Utilisateur` (que nous créerons dans le prochain TD).
+
+</div>
+
+
+<div class="exercise">
+
+Dans votre site de projet, utilisez les cookies pour stocker le panier actuel du
+visiteur.
+
+</div>
+
 
 <div class="exercise">
 
@@ -559,7 +622,7 @@ la stocker avec des sessions.
    session.
 
 1. Faites en sorte que le panier s'efface de lui-même après un temps donné. Ce
-   délai sera d'abord de 1 minute à des fins de test puis passez-le à 10 minutes
+   délai sera d'abord de 10 secondes à des fins de test puis passez-le à 10 minutes
    quand cela marche.
 
 </div>
