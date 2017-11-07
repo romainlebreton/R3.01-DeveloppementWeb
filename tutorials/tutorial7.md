@@ -5,11 +5,6 @@ layout: tutorial
 ---
 
 <!--
-Mettre à jour le TD: En 2016-2017, il n'étaient pas assez avancé ni sur le TD ni
-sur le projet pour faire les exercices correspondants
--->
-
-<!--
 Attention, si tout le monde fait session_start à l'IUT
 alors tout le monde écrit le cookie PHPSESSID
 et il peut poser des conflits entre les différents sites
@@ -44,26 +39,6 @@ l'exécution de notre fichier
 
 
 Rajouter schéma sur les cookies et les sessions ?
-
-Si ils n'en sont pas à la question qui implémente plusieurs contrôleurs dans le
-TD6 alors faire juste
-
-Exo 1
-ecrire cookie
-lire cookie
-lire cookie avec dev tools
-supprimer cookier
-
-Exo 2
-Ecrire un tableau dans un cookie
-lire cookie avec dev tools
-Lire le tableau stocké dans le cookie
-
-Exo 3
-Démarrer une session
-écrire une variable de session
-lire une variable de session
-Supprimer complètement une session (déconnecter)
 
 Je leur ai fait un schéma au tableau pour réexpliquer les cookies (cf photo en pièce jointe)
 Parmi les questions que j'ai essayé de soulever :
@@ -103,19 +78,23 @@ commande PHP
   au moment du session_start charge $_SESSION avec le fichier sess_xxx
   Derrière les rideaux, après vos fichiers PHP, écris le contenu de $_SESSION dans le ficher sess_xxx
 
-sécurité: donnée modifiable que par le serveur
-pas de limite de taille
-
 On peut se faire passer pour quelqu'un si on connait son PHPSESSID
 => HTTPS et paramétrisation des cookies par nom de domaine et chemin
-
-Durée de vie par défaut des sessions
-
-Suppression des sessions en 3 étapes. Attention: session_destroy() casse le
-mécanisme de session. Pour accéder à nouveau aux variables de session, la
-fonction session_start() doit être appelée de nouveau.
+=> Fixation de session si session_id par query string ou faille XSS
 
 -->
+
+HTTP est un protocole de communication avec lequel chaque paire requête-réponse
+est indépendant l'une de l'autre. Du coup, le serveur n'a pas de moyen de
+différencier les clients entre eux, et n'a pas de moyen d'enregistrer
+d'informations liées à un client spécifique.
+
+Pour remédier à cela, HTTP prévoit le mécanisme des cookies qui permet
+d'enregistrer d'informations liées à un client spécifique sur l'ordinateur du
+client. En plus de ça, en utilisant des cookies pour identifier ses clients, les
+serveurs PHP implémentent un mécanisme de session qui permettent de stocker côté
+serveur des informations spécifiques à un client : c'est le mécanisme des
+sessions.
 
 ## Les cookies
 

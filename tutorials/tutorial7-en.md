@@ -4,6 +4,15 @@ subtitle: Cart and preferences
 layout: tutorial
 ---
 
+HTTP is a communication protocol in which every pair request-response is
+independent. As a consequence, the server has no means to tell the clients
+apart, and no way to store data related to a specific client.
+
+To remedy that, HTTP has a cookie mechanism which allows to store client
+specific data on the client's computer. On top of that, using cookies to
+identify its clients, PHP servers can store client specific data on the server:
+this is the session mechanism.
+
 ## Cookies
 
 An HTTP cookie (or simply cookie) is used to store a small piece of data, for
