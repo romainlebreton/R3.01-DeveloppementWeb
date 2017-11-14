@@ -24,13 +24,13 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaines du 23 Octobre 2017 -- 3h projet
 1. Semaine du 6 Novembre 2017 --
    [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) ([English version](tutorials/tutorial7-en.html)) puis projet
-<!-- 1. Semaine du 13 Novembre 2017 -- -->
-<!--    [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html) -->
-<!--    puis projet -->
-<!-- 1. Semaine du 20 Novembre 2017 --  3h projet -->
-<!-- 1. Semaine du 27 Novembre 2017 -- 3h projet -->
-<!-- 1. Semaine du 4 Décembre 2017 -- 3h projet -->
-<!-- 1. Semaine du 11 Décembre 2017 -- soutenances du projet -->
+1. Semaine du 13 Novembre 2017 --
+   [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html)
+   puis projet
+1. Semaine du 20 Novembre 2017 --  3h projet
+1. Semaine du 27 Novembre 2017 -- 3h projet
+1. Semaine du 4 Décembre 2017 -- 3h projet
+1. Semaine du 11 Décembre 2017 -- soutenances du projet
 
 ### Notes complémentaires
 

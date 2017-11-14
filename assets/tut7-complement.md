@@ -118,7 +118,7 @@ fixation*. Une parade consiste à renouveller régulièrement l'identifiant de
 session des clients et à toujours vérifier l'identité du client (en redemandant
 le mot de passe) avant toute opération sensible.
 
-**Reference:** [Cours "Applications web et sécurité" de Luca De Feo](http://defeo.lu/aws/lessons/session-fixation)
+**Référence :** [Cours "Applications web et sécurité" de Luca De Feo](http://defeo.lu/aws/lessons/session-fixation)
 
 <!-- Explication sur les sessions
 
