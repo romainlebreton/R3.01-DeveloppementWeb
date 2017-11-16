@@ -7,9 +7,6 @@ layout: tutorial
 <!-- Parler des nouvelles fonctions de PHP pour les mots de passe ?
 http://php.net/manual/fr/book.password.php -->
 
-<!-- Prévoir d'ajouter une note sur l'upload de fichiers par formulaire comme une -->
-<!-- image de profil par exemple le 23 Nov ? -->
-
 <!-- Màj le TD pour le fait d'être connecté pour valider le mail -->
 
 Ce TD vient à la suite du
@@ -32,14 +29,15 @@ semaine, nous allons :
 1. Nous allons commencer par modifier la table utilisateur en lui ajoutant une
 colonne `VARCHAR(64) mdp` stockant son mot de passe.
 
-   **Plus d'explications :** Étant donné que nous allons utiliser une fonction de
-   chiffrement pour stocker ce mot de passe, vous devez prévoir une taille de champ
-   correspondant à la taille du mot de passe chiffré (64 caractères pour SHA-256) et
-   non de la taille du mot de passe lui-même.
+   **Plus d'explications :** Étant donné que nous allons utiliser une fonction
+   de chiffrement pour stocker ce mot de passe, vous devez prévoir une taille de
+   champ correspondant à la taille du mot de passe chiffré (64 caractères pour
+   SHA-256 car `64 char = 64 octets = 256 bits`) et non de la taille du mot de
+   passe lui-même.
 
 1. Modifier la vue `create.php` (ou `update.php` si vous aviez fusionné les deux
-vues dans le TD6) pour ajouter deux champs de mot de passe au formulaire.  Le
-deuxième champ mot de passe sert à valider le premier.
+vues dans le TD6) pour ajouter deux champs `<input type="password">` au
+formulaire.  Le deuxième champ mot de passe sert à valider le premier.
 
    <!-- Erreur commune : oubli input type=''password'' laisse value='$m' -->
 
@@ -78,6 +76,11 @@ echo $mot_passe_chiffre;
 chiffré. N'oubliez pas de faire un `require_once` de `Security.php` pour pouvoir
 appeler la fonction.
 
+**Note :** On dit que SHA-256 est une fonction de hachage. Les fonctions de
+hachage servent à chiffrer, mais ne donnent pas de moyen de déchiffrer. Tandis
+que les fonctions de chiffrement permettent de chiffrer, mais aussi de
+déchiffrer si on connaît la clé.
+
 </div>
 
 Les autres vues et actions du contrôleur ne sont pas impactées par la
@@ -85,35 +88,45 @@ modification car le mot de passe n'a pas vocation à être affiché.
 
 ### Plus de sécurité
 
-Pour éviter les attaques de type dictionnaire, qui permettent de retrouver le
-mot de passe original à partir de la chaîne de caractères chiffrée, on va
-concaténer une chaîne de caractères aléatoire fixe à la fin de notre mot de
-passe.
+Si le mot de passe n'est pas très original, il existe une attaque appelée
+*attaque par dictionnaire* qui permet de retrouver un mot de passe à partir de
+son chiffré.
 
 <div class="exercise">
 
-Cette exercice propose de simuler une attaque par dictionnaire pour comprendre
-son fonctionnement.
+Expérimentons un peu *l'attaque par dictionnaire* pour comprendre son
+fonctionnement.
 
 1. Créez un utilisateur bidon dont [le mot de passe est l'un des plus courant en
-   2014](https://www.google.fr/search?q=most+used+password), par exemple `password`.
+   2017](https://www.google.fr/search?q=most+used+password), par exemple `password`.
 2. Allez lire dans la base de donnée le chiffré du mot de passe de cet
-utilisateur.
+   utilisateur.
 3. Utilisez un site comme [md5decrypt](http://md5decrypt.net/Sha256/) pour
    retrouver le mot de passe originel.
    <!-- http://reverse-hash-lookup.online-domain-tools.com/ -->
 
-**Explication :** Ce site stocke le haché de millions de mots courants et si
-  votre mot de passe est trop classique, alors son haché sera connu et
-  permettra de remonter vers le mot de passe en clair.
+**Explication :** Ce site stocke le haché de `3 771 961 285 ≃ 4*10^9` mots de
+passe communs. Si votre mot de passe est l'un de ceux là, sa sécurité est
+compromise.  
+Heureusement il existe beaucoup plus de mot de passe possible ! Par exemple,
+rien qu'en utilisant des mots de passes de longueur 16 écrits à partir des 16
+caractères `0,1,...,9,A,B,C,D,E,F`, vous avez `2^64 ≃ 10^18` possibilités (code
+hexadécimal à `16` chiffres).
 
 </div>
 
-
-<div class="exercise">
+Donc pour éviter les attaques par dictionnaire, nous devons utiliser des mots de
+passes originaux, par exemple aléatoire. Pour ceci, nous allons concaténer une
+chaîne aléatoire au début de chaque mot de passe. Ainsi, même si l'utilisateur
+utilise un mot de passe très commun comme `apple`, nous allons chiffrer par
+exemple `DhuRXYdEkJapple` ce qui est nettement moins commun.
 
 Pour remédier à ce problème, nous allons rajouter une chaîne aléatoire fixe à
 nos mots de passes en clair pour qu'aucun ne soit plus "classique".
+
+
+
+<div class="exercise">
 
 1. Recopier le code suivant dans la classe `Security`. Ce code stocke votre
 chaîne aléatoire dans une variable `static` qui sera accessible par la méthode
@@ -128,12 +141,13 @@ statique `Security::getSeed()`.
    ```
 
 1. Changez votre graine `seed` par une chaîne aléatoire, obtenue par exemple
-   grâce au site [https://www.random.org/](https://www.random.org/).
+   grâce au site [https://www.random.org/strings/](https://www.random.org/strings/).
 
 1. Modifier la fonction `chiffrer` pour qu'elle concatène la graine aléatoire
 `$seed` au mot de passe avant de le hacher.
 
-**Explication :** Grâce au salage par une `seed` aléatoire, les mots de passe
+**Explication :** Concaténer une graine (`seed` en anglais) au début d'un mot de
+  passage s'appelle *saler le mot de passe*. Grâce au salage, les mots de passe
   concaténées sont moins communs et résistent à une attaque par
   dictionnaire. Attention tout de même que si votre `seed` est dévoilée, alors
   l'attaque par dictionnaire redevient efficace contre votre site.
@@ -243,19 +257,48 @@ class Session {
 
 </div>
 
-**Attention :** Cette modification n'est pas suffisante car un petit malin
-pourrait accéder à la suppression d'un utilisateur quelconque en rentrant
-manuellement l'action `delete` dans l'URL.
+<div class="exercise">
+
+**Attention :** Supprimer le lien n'est pas suffisant car un petit malin
+pourrait accéder à la page de mise à jour d'un utilisateur quelconque en
+rentrant manuellement l'action `update` dans l'URL.
+
+1. "Hacker" votre site en accédant à la page de mise à jour d'un utilisateur
+   quelconque.
+
+1. Modifier l'action `update` du contrôleur `Utilisateur` de sorte que si le
+   login pour lequel une modification est demandé ne concorde pas avec celui
+   stocké en session, on redirige l'utilisateur sur la page de connexion.
+
+</div>
 
 <div class="exercise">
 
-1. Modifier les actions `update` et `updated` du contrôleur `Utilisateur` de sorte
-que si le login pour lequel une modification est demandé ne concorde pas avec
-celui stocké en session, on redirige l'utilisateur sur la page de connexion.
+**Attention :** Restreindre l'accès à la page de mise à jour n'est pas suffisant
+car un petit malin pourrait exécuter une mise à jour en demandant manuellement
+l'action `updated`.
+
+1. "Hacker" votre site en effectuant une mise à jour d'un utilisateur
+   quelconque sans changer de code PHP[^nbp].  
+   **Note :** Ce "hack" sera bien plus simple à réaliser si le formulaire de
+   mise à jour est en méthode `GET`, et pareil pour sa page de
+   traitement. Passez temporairement votre formulaire en cette méthode si
+   nécessaire.
+
+1. Modifier l'action `updated` du contrôleur `Utilisateur` de sorte que si le
+   login pour lequel une modification est demandé ne concorde pas avec celui
+   stocké en session, on redirige l'utilisateur sur la page de connexion.
 
 1. Sécuriser l'accès à l'action `delete` d'un utilisateur. 
 
 </div>
+
+**Note générale importante :** Les seules pages qu'il est vital de sécuriser
+sont celles dont le script effectue vraiment l'action de mise à jour ou de
+suppression, *c-à-d* les actions `updated` et `delete`. Les autres sécurisations
+sont surtout pour améliorer l'ergonomie du site.  
+De manière générale, il ne faut **jamais faire confiance au client** ; seule une
+vérification côté serveur est sûre.
 
 ### Super administrateur
 
@@ -299,23 +342,13 @@ promouvoir un autre utilisateur en tant qu'administrateur.
    `update.php`. **N'oubliez pas** que les vues ne doivent pas faire de calculs
    (donc pas de `if`).
 
-1. Modifiez l'action `updated` pour prendre en compte un bouton
-`checkbox` "Administrateur ?" et mettre à jour le champ `admin` de la table `utilisateur`.
+1. Modifiez l'action `updated` pour prendre en compte un bouton `checkbox`
+   "Administrateur ?" et mettre à jour le champ `admin` de la table
+   `utilisateur`.
 
-1. **Attention :** Il ne suffit pas de contrôler que l'utilisateur est un administrateur
-dans les vues. Un petit malin pourrait quand même accéder au actions du
-contrôleur et faire des dégâts :
-
-   1. Sans toucher le code PHP[^nbp], hacker votre propre site en permettant à un
-utilisateur non admin de se passer lui même en admin.
-   1. Corriger cette faille de sécurité et rajoutant une vérification dans
-   l'action `updated` du contrôleur.
-
-   **De manière générale**, il ne faut jamais faire confiance au client ; seule
-     une vérification côté serveur est sûre.
-
-[^nbp]: vous avez donc le droit à modifier le code HTML, ce qui peut se faire côté client !
-
+   **Attention :** N'oubliez pas que la page la plus importante à vérifier est
+   l'action `updated` car c'est elle qui effectue vraiment la mise à jour.
+   
 </div>
 
 
