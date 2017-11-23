@@ -491,11 +491,11 @@ avons donc besoin d'être capable de récupérer les variables automatiquement d
 
 <div class="exercise">
 
-1. Créer dans le dispatcher une fonction `myGet($nomvar)` qui retournera
+1. Créer dans le routeur une fonction `myGet($nomvar)` qui retournera
    `$_GET[$nomvar]` s'il est défini, ou `$_POST[$nomvar]` s'il est défini, ou
    sinon `NULL`.
 
-1. Remplacer tous les `$_GET` de `dispatcher.php`, `ControllerUtilisateur.php`
+1. Remplacer tous les `$_GET` de `routeur.php`, `ControllerUtilisateur.php`
 et `ControllerTrajet.php` par des appels à `myGet`.  
 Remplacer les tests du type `isset($_GET['login'])` par `!is_null(myGet('login'))`.
 
