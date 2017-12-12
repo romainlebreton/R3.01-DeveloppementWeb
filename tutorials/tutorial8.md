@@ -293,6 +293,10 @@ l'action `updated`.
 
 </div>
 
+[^nbp]: Mais vous pouvez changer le code HTML avec les outils de développement
+    car cette manipulation se fait du côté client.
+
+
 **Note générale importante :** Les seules pages qu'il est vital de sécuriser
 sont celles dont le script effectue vraiment l'action de mise à jour ou de
 suppression, *c-à-d* les actions `updated` et `delete`. Les autres sécurisations
