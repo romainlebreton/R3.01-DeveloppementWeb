@@ -51,7 +51,7 @@ utilisateur comme :
 * le contenu de son panier d'achat électronique,
 * son identifiant de session (voir prochain TD sur les sessions).
 
-Les informations sont envoyées par le site (serveur HTTP) en même que la page
+Les informations sont envoyées par le site (serveur HTTP) en même temps que la page
 Web. Le client stocke ces informations sur sa machine dans un fichier appelé
 *cookie* : il s'agit d'une table d'associations
 nom/valeur.  
@@ -121,7 +121,7 @@ ou être altéré (valeur modifiée, date d'expiration changée ...).
 
 ### Récupérer un cookie
 
-Après qu'un cookie ait été déposé chez un client par le serveur par l'opération
+Après qu'un cookie a été déposé chez un client par le serveur par l'opération
 précédente, le navigateur du client envoie les informations du cookie à chaque
 demande de page.
 
