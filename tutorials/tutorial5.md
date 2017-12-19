@@ -295,7 +295,7 @@ du code HTML :
 2. les guillements simples `'` ou doubles `"` car ils délimitent les valeurs des
    attributs ;
 3. L'esperluette `&` car elle sert à échapper les caractères. Par exemple, le
-   code HTML `&quot;` sert à afficher une esperluette `&`.
+   code HTML `&amp;` sert à afficher une esperluette `&`.
 
 Ces caractères spéciaux doivent être échappés dans les vues pour que le texte
 s'affiche bien mais ne risque pas de changer la structure du document
