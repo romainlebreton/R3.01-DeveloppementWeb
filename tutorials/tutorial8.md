@@ -90,7 +90,7 @@ modification car le mot de passe n'a pas vocation à être affiché.
 
 Si le mot de passe n'est pas très original, il existe une attaque appelée
 *attaque par dictionnaire* qui permet de retrouver un mot de passe à partir de
-son chiffré.
+son haché.
 
 <div class="exercise">
 
@@ -109,7 +109,7 @@ fonctionnement.
 passe communs. Si votre mot de passe est l'un de ceux là, sa sécurité est
 compromise.  
 Heureusement il existe beaucoup plus de mot de passe possible ! Par exemple,
-rien qu'en utilisant des mots de passes de longueur 16 écrits à partir des 16
+rien qu'en utilisant des mots de passe de longueur 16 écrits à partir des 16
 caractères `0,1,...,9,A,B,C,D,E,F`, vous avez `2^64 ≃ 10^18` possibilités (code
 hexadécimal à `16` chiffres).
 
@@ -148,7 +148,7 @@ statique `Security::getSeed()`.
 
 **Explication :** Concaténer une graine (`seed` en anglais) au début d'un mot de
   passage s'appelle *saler le mot de passe*. Grâce au salage, les mots de passe
-  concaténées sont moins communs et résistent à une attaque par
+  concaténés sont moins communs et résistent à une attaque par
   dictionnaire. Attention tout de même que si votre `seed` est dévoilée, alors
   l'attaque par dictionnaire redevient efficace contre votre site.
 
@@ -263,7 +263,7 @@ class Session {
 pourrait accéder à la page de mise à jour d'un utilisateur quelconque en
 rentrant manuellement l'action `update` dans l'URL.
 
-1. "Hacker" votre site en accédant à la page de mise à jour d'un utilisateur
+1. « Hacker » votre site en accédant à la page de mise à jour d'un utilisateur
    quelconque.
 
 1. Modifier l'action `update` du contrôleur `Utilisateur` de sorte que si le
@@ -278,9 +278,9 @@ rentrant manuellement l'action `update` dans l'URL.
 car un petit malin pourrait exécuter une mise à jour en demandant manuellement
 l'action `updated`.
 
-1. "Hacker" votre site en effectuant une mise à jour d'un utilisateur
+1. « Hacker » votre site en effectuant une mise à jour d'un utilisateur
    quelconque sans changer de code PHP[^nbp].  
-   **Note :** Ce "hack" sera bien plus simple à réaliser si le formulaire de
+   **Note :** Ce « hack » sera bien plus simple à réaliser si le formulaire de
    mise à jour est en méthode `GET`, et pareil pour sa page de
    traitement. Passez temporairement votre formulaire en cette méthode si
    nécessaire.
