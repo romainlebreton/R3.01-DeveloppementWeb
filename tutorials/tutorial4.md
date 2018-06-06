@@ -23,7 +23,7 @@ Contrôleur) : c'est celui que nous allons découvrir dans ce TD.
 Le pattern **MVC** permet de bien organiser son code source. Jusqu'à présent,
 nous avons programmé de manière monolithique : nos pages Web mélangent
 traitement (PHP), accès aux données (SQL) et présentation (balises HTML). Nous
-allons maintenant séparer toutes ces parties pour plus de clareté.
+allons maintenant séparer toutes ces parties pour plus de clarté.
 
 L'objectif de ce TD est donc de réorganiser le code du TD3 pour finalement y
 rajouter plus facilement de nouvelles fonctionnalités. Nous allons vous
