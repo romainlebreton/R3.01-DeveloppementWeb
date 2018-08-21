@@ -62,10 +62,13 @@ h4:before{
     font-style: italic;
 }
 .exercise, .exercise-en {
-    margin-left: 1em;
+    /* margin-left: 1em; */
+    box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 hsla(0, 0%, 0%, 0.19);
+    padding: 0.5em 1em;
+    margin-bottom: 26px;
 }
 .exercise:before, .exercise-en:before {
-    margin-left: -1em;
+    /* margin-left: -1em; */
     counter-increment: exercise;
     content: $exercise " " counter(exercise);
     font-weight: bold;
