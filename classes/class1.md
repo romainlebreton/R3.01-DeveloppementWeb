@@ -4,6 +4,11 @@ subtitle : Le rôle du PHP
 layout : slideshow
 ---
 
+<!-- 
+Mettre à jour intervenants et heures 
+Voir quand intégrer la séance Git
+-->
+
 <section>
 ## Présentation du cours
 

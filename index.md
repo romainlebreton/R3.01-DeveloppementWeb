@@ -3,6 +3,11 @@ title: Programmation Web - Côté Serveur
 layout: main
 ---
 
+<!-- 
+Voir quand intégrer la séance Git
+-->
+
+
 # Programmation Web - Côté Serveur
 Cours à l'IUT de Montpellier - 2ème année
 

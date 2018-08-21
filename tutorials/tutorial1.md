@@ -649,8 +649,10 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
 
 4. Avez-vous pensé à enregistrer vos modifications sous Git ? Faites le
    notamment en fin de TD pour retrouver plus facilement où vous en êtes la
-   prochaine fois.
-
+   prochaine fois.  
+   **Note :** Vous pouvez faire `git diff` à tout moment pour voir les
+   modifications que vous avez faites depuis la dernière validation (`commit`).
+   <!-- On voit toutes les modifications sauf celles en cours d'enregistrement avec `git add` -->
 </div>
    
 ## Les bases d'un site de covoiturage
