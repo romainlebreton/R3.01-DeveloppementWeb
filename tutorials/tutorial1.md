@@ -83,15 +83,15 @@ le répertoire **public_html** de votre espace personnel.
 
 2. **[Vous souvenez-vous]({{site.baseurl}}/classes/class1.html#test-de-la-page-sur-un-serveur-http)
    comment fait-on pour qu'une page Web soit servie par le serveur HTTP de l'IUT
-   (sur
-   [webinfo.iutmontp.univ-montp2.fr](http://webinfo.iutmontp.univ-montp2.fr))
+   (à l'URL
+   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/page1.html](http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/page1.html))
    ?**
 
-   * Les pages Web doivent être enregistrées dans le dossier **public_html** de
+   **Réponse :**
+   <span style="color:#FCFCFC">
+   Les pages Web doivent être enregistrées dans le dossier **public_html** de
    votre répertoire personnel.
-
-   * Le serveur HTTP de l'IUT servira vos pages Web à l'adresse suivante
-     [http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/page1.html](http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/page1.html)
+   </span>
 
    **Ouvrez donc** `page1.html` depuis le navigateur en tapant l'URL dans la
    barre d'adresse.
@@ -174,6 +174,54 @@ fichiers OU de façon équivalente avec une URL en `file://` comme :
      pour voir ce qu'a vraiment généré PHP**.  
    *N'hésitez pas à relire la partie du
     [cours 1 concernée]({{site.baseurl}}/classes/class1.html#mcanisme-de-gnration-des-pages-dynamiques-22).*
+
+</div>
+
+### Notre premier dépôt Git
+
+Comme nous vous l'avons déjà dit, ce cours de PHP va être l'occasion d'apprendre
+le gestionnaire de version Git. Nous allons débuter en récupérant un *dépôt
+Git*, c'est-à-dire un dossier dans lequel la chronologie de toutes modifications
+pourront être enregistrées.
+
+<div class="exercise">
+
+1. Pour transformer une fois pour toute notre répertoire PHP en dépôt Git,
+   **exécutez** la commande `git init` dans le terminal en étant dans le dossier `PHP`.
+   
+1. Pour en savoir plus sur l'état de Git, **exécutez** la commande `git status`
+   connaître l'état de Git. 
+   
+   La partie qui nous intéresse tout de suite est la suivante
+
+   ```
+   Fichiers non suivis:
+     (utilisez "git add <fichier>..." pour inclure dans ce qui sera validé)
+   
+     TD1/
+   ```
+
+   Elle nous dit que le suivi des modifications n'est pas activé pour le dossier `TD1`.
+
+1. **Exécutez** la commande `git add TD1` pour suivre les modifications de tous
+   les fichiers dans le répertoire `TD1`.
+   
+    **Ré-exécutez** la commande `git status` pour voir le changement :
+   
+   ```
+   Modifications qui seront validées :
+     (utilisez "git rm --cached <fichier>..." pour désindexer)
+   
+   	nouveau fichier : TD1/echo.php
+   ```
+
+1. Git a vu des modifications dans le fichier `TD1/echo.php` mais il reste
+   encore à les enregistrer. Pour ceci, **exécutez** la commande `git commit` et
+   écrivez un petit message de validation pour s'y retrouver plus tard (avant
+   les lignes commentées avec `#`), puis fermez l'éditeur.
+   
+1. Une dernière exécution de `git status` nous renseigne que nous avons bien
+   tout validé.
 
 </div>
 
@@ -413,7 +461,15 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
      liste est vide.  
      (On vous laisse chercher sur internet la fonction qui teste si un tableau est vide)
 
-<!-- empty -->
+5. Enregistrez votre travail dans Git :
+
+   1. Faites `git status` pour connaître l'état du dépôt Git.
+   1. Faites `git add TD1/echo.php` pour lui dire d'enregistrer les
+   modifications dans `echo.php`.
+   1. Faites `git commit` pour valider l'enregistrement des modifications et
+      écrivez un petit message de validation (comme e.g. *"TD1 Exo4 Affichage de
+      variables"*).
+   1. Finissez par `git status` pour voir que tout s'est bien passé.
 
 </div>
 
@@ -466,8 +522,7 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    * Pour accéder à un attribut ou une fonction d'un objet, on utilise le `->`
      au lieu du `.`
    * Le constructeur ne porte pas le nom de la classe, mais s'appelle
-     `__construct()`. Et on a le droit à au plus un constructeur, qu'on pourra
-     éventuellement appeler avec un sous-ensemble de paramètres.
+     `__construct()`, et il ne peut y avoir au maximum qu'un constructeur.
 
 3. Créez des *getter* et des *setter* pour `$couleur` et `$immatriculation` ;
 
@@ -483,6 +538,9 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    Web `webinfo` à partir de `Voiture.php` ne doit pas afficher d'erreur.  
    **Demandez donc** votre page à `webinfo`
    [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/Voiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/Voiture.php)
+
+6. Enregistrez votre travail à l'aide de `git add` et `git commit`. Aidez-vous toujours
+   de `git status` pour savoir où vous en êtes.
 
 </div>
 
@@ -555,6 +613,10 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    **Comment sont transmises les informations ?**  
    **Comment s'appelle la partie de l'URL contenant les informations ?**
 
+5. Prenez l'habitude d'enregistrer régulièrement votre travail sous Git. Vous
+   pouvez utiliser la commande `git log` pour voir l'ensemble de vos
+   enregistrements passés.
+
 </div>
 <div class="exercise">
 
@@ -584,6 +646,10 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    1. Essayez de
    [**retrouver l'information envoyée par le formulaire**]({{site.baseurl}}/classes/class1.html#coutons-le-rseau)
    avec les outils de développement (Onglet Réseau).
+
+4. Avez-vous pensé à enregistrer vos modifications sous Git ? Faites le
+   notamment en fin de TD pour retrouver plus facilement où vous en êtes la
+   prochaine fois.
 
 </div>
    
