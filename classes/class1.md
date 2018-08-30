@@ -775,7 +775,7 @@ On va voir qu'il y a deux types de formulaires :
 
 ## Les formulaires GET
 
-Considérons le formulaire suivant et supposons que l'utilisateur a tapé `MaDonnee`
+Considérons le formulaire suivant et supposons que l'utilisateur ai tapé `MaDonnee`
 
 <div style="display:flex;align-items:center">
 <div style="flex-grow:1;">
@@ -1055,7 +1055,7 @@ if - for imbriqués html
 
 **Sources :**
 
-* [Open Classrooms - Concevez votre site web avec PHP et MySQL](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/introduction-a-php)
+* [Open Classrooms - Concevez votre site web avec PHP et MySQL](https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql)
 * [Documentation officielle de PHP](http://php.net/manual/fr/)
 
 </section>
