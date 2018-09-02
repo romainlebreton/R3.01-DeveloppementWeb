@@ -16,13 +16,14 @@ Voir quand intégrer la séance Git
 
 * Apprendre à faire des pages dynamiques avec PHP et MySQL
 * Organiser son code avec l'architecture MVC
+* Introduction au gestionnaire de version Git
 
-**4 intervenants :**
+<!-- **4 intervenants :** -->
 
-* Q1 - Mardi 15h45-18h45 - Jean-Philippe Prost
-* Q2 - Mercredi 10h-13h - Sébastien Gagné
-* Q3 - Vendredi 12h30-15h30 - Abdelkader Gouaïch
-* Q4 - Vendredi 09h15-12h15 - Romain Lebreton
+<!-- * Q1 - Mardi 15h45-18h45 - Jean-Philippe Prost -->
+<!-- * Q2 - Mercredi 10h-13h - Sébastien Gagné -->
+<!-- * Q3 - Vendredi 12h30-15h30 - Abdelkader Gouaïch -->
+<!-- * Q4 - Vendredi 09h15-12h15 - Romain Lebreton -->
 
 **Cours et TP en ligne :**
 
@@ -44,26 +45,29 @@ Voir quand intégrer la séance Git
 
 **1er bloc de TPs -- Bases de PHP :**
 
-* 4  Septembre 2017 – TP 1 – Introduction aux objets en PHP
-* 11 Septembre 2017 – TP 2 – La persistance des données en PHP
-* 18 Septembre 2017 – TP 3 – Fin TP2 et association entre classes
-* 25 Septembre 2017 – TP 4 – Architecture MVC simple
-* 2 Octobre   2017 – TP 5 – Architecture MVC avancée 1/2
-* 9 Octobre   2017 – TP 6 – Architecture MVC avancée 2/2
+* 3  Septembre 2018 – TP 1 – Introduction aux objets en PHP
+* 10 Septembre 2018 – TP 2 – La persistance des données en PHP
+* 17 Septembre 2018 – TP 3 – Fin TP2 et association entre classes
+* 24 Septembre 2018 -   ?  – Introduction à Git
+* 1 Octobre   2018 – TP 4 – Architecture MVC simple
+* 8 Octobre   2018 – TP 5 – Architecture MVC avancée 1/2
+* 15 Octobre   2018 – TP 6 – Architecture MVC avancée 2/2
 
 **2ème bloc de TPs -- Mise en application sur le projet + TPs complémentaires :**
 
-* 16 Octobre   2017 - **Début projet**
-* 23 Octobre   2017 - 3h projet
-* 30 Octobre   2017 - **Congé IUT**
-* 6  Novembre  2017 - TP 7 – Cookies & Sessions + 1h projet
-* 13 Novembre  2017 – TP 8 – Authentification & Validation par email + 1h projet
-* 20 Novembre  2017 – 3h projet
-* 27 Novembre  2017 - 3h projet
-* 4  Décembre  2017 - 3h projet
-* 11 Décembre  2017 - **soutenances du projet**
+* 22 Octobre   2018 - **Début projet**
+* 29 Octobre   2018 - **Congé IUT**
+* 5  Novembre  2018 - 3h projet
+* 12 Novembre  2018 – TP 7 – Cookies & Sessions + 1h projet
+* 19 Novembre  2018 – TP 8 – Authentification & Validation par email + 1h projet
+* 26 Novembre  2018 - 3h projet
+* 3  Décembre  2018 - 3h projet
+* 10 Décembre  2018 - **soutenances du projet**
 
 <!-- Peut-être cours un peu plus long que 1h -->
+
+<!-- Introduction à Git/GitLab utile pour le travail collaboratif  -->
+<!-- pour vos projets (PHP, S3, ...). -->
 
 </section>
 <section>
@@ -782,7 +786,7 @@ Considérons le formulaire suivant et supposons que l'utilisateur ai tapé `MaDo
 ```html
 <form method="get" action="traitement.php">
     <input type="text" name="nom_var" />
-	<input type="submit" />
+  <input type="submit" />
 </form>
 ```
 </div>
@@ -867,7 +871,7 @@ elles **ne sont plus** encodées dans le *query string*.
 ```html
 <form method="post" action="traitePost.php">
     <input type="text" name="nom_var" />
-	<input type="submit" />
+  <input type="submit" />
 </form>
 ```
 </div>
