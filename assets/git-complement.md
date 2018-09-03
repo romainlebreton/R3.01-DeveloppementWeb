@@ -14,6 +14,10 @@ Savoir où on en est, revenir en arrière, travailler collaborativement, mainten
 plusieurs versions d'un logiciel, écrire du code expérimental et l'intégrer (ou
 non) dans le logiciel final. Indispensable en entreprise.
 
+## Git-it
+
+Pour les exercices mais lié à GitHub. Bien mais pas indspensable
+
 ## Git
 
 ### Commandes de base
@@ -66,6 +70,25 @@ else
 fi
 unset color_prompt force_color_prompt
 ```
+
+**
+Ou plutôt selon Petru
+
+```
+parse_git_dirty (){
+  [[ $(git status 2> /dev/null | tail -n1) != "rien à valider, la copie de travail est propre" ]] && echo "*"
+}
+
+parse_git_branch () {
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/^..\(.*\)/(\1$(parse_git_dirty))/"
+}
+
+# Prompt simple pour afficher la branche git courante
+PS1="\[\033[01;34m\]\w\[\033[00m\]" 
+PS1="$PS1 \[\033[01;31m\]\$(parse_git_branch)\[\033[00m\]"
+PS1="$PS1\$ "
+```
+
 
 <img alt="Capture d'écran de GitG"
 src="{{site.baseurl}}/assets/Gitg-example.png" style="float:right;width:20em;">

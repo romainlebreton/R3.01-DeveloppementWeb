@@ -4,6 +4,8 @@ subtitle: BDD, PDO
 layout: tutorial
 ---
 
+<!-- Rappeler les commandes courants git add/commit/status/log -->
+
 <!-- Rajouter quelques question au début du TD pour vérifier la compréhension -->
 
 <!-- Rajouter option pour constructeur en premier avec fetch_class ? -->

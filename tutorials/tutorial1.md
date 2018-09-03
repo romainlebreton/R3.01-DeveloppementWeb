@@ -27,7 +27,7 @@ Quelques consignes qui vous feront gagner beaucoup de temps en développement we
    avez déjà votre éditeur préféré).
 
    **Exceptionnellement** pour ce TD, utilisez un éditeur de base comme
-    *gedit* ou *notepad++*. Ainsi, nous n'aurons pas l'impression que la grosse machinerie
+   *gedit* ou *notepad++*. Ainsi, nous n'aurons pas l'impression que la grosse machinerie
     qu'est NetBeans nous cache trop de choses.
      
 2. Ne copiez **jamais** vos fichiers à plusieurs endroits.
@@ -189,8 +189,7 @@ pourront être enregistrées.
 1. Pour transformer une fois pour toute notre répertoire PHP en dépôt Git,
    **exécutez** la commande `git init` dans le terminal en étant dans le dossier `PHP`.
    
-1. Pour en savoir plus sur l'état de Git, **exécutez** la commande `git status`
-   connaître l'état de Git. 
+1. Pour en savoir plus sur l'état de Git, **exécutez** la commande `git status`.
    
    La partie qui nous intéresse tout de suite est la suivante
 
