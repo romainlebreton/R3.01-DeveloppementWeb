@@ -310,6 +310,7 @@ Cette syntaxe s'intitule le `heredoc` et permet d'afficher plusieurs
 lignes avec les mêmes caractéristiques que les chaînes entre *double quote*.
 Notez que la fin de la syntaxe doit apparaître **au début d'une nouvelle ligne** (pas d'espaces avant),
 avec uniquement un point-virgule, et **pas d'espace de plus à la fin** !
+Vous constaterez l'effet produit en observant le code source de la page. Par contre, les **\n** ou les **\t** n'ont pas d'effet visible dans le navigateur.
 
 Par exemple le code PHP précédent génère
 
