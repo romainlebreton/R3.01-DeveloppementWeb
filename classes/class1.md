@@ -41,7 +41,7 @@ Voir quand intégrer la séance Git
 
 ## Emploi du temps prévisionnel
 
-* 1 Septembre -- Cours Introductif
+* 3 Septembre -- Cours Introductif
 
 **1er bloc de TPs -- Bases de PHP :**
 
