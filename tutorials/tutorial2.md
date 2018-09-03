@@ -401,6 +401,10 @@ classe `Voiture`, écrire les attributs correspondants au champs de la BDD
    }
    ```
 
+   **Note :** Il peut être plus propre et concis de faire un constructeur
+   `__construct($data)` comme 
+   [dans le TD1.]({{site.baseurl}}/tutorials/tutorial1#les-bases-dun-site-de-covoiturage)
+
 3. Vous pouvez maintenant appeler `fetchAll` dans `lireVoiture.php` et faire
    l'affichage à l'aide de la méthode `afficher()`.
 
