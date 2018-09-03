@@ -662,15 +662,19 @@ serait ramenés aux sites statiques.
 <br>
 
 <!-- <div style="font-size:xx-large"> -->
-1. En les écrivant dans l'URL
+1. Le mécanisme **GET** que l'on retrouve
 
-1. En utilisant le mécanisme **POST** des formulaires
+   1. dans les URLs, et notamment dans les liens `<a>`, via le *query string*
+   
+   1. dans les formulaires de méthodes **GET**
+
+1. Le mécanisme **POST** dans les formulaires de méthode **POST**
 <!-- </div> -->
 
 </section>
 <section>
 
-## 1 - Les *query strings* dans l'URL
+## Les *query strings* dans l'URL
 
 Une *URL* (Uniform Resource Locator) sert à représenter une adresse sur le Web.
 
@@ -802,19 +806,19 @@ $_GET["prenom"] = "Marc";
 avant de lancer le script `bonjour.php`.
 
 </section>
-<section>
+<!-- <section> -->
 
-## 2 - Les formulaires
+<!-- ## 2 - Les formulaires -->
 
-<br>
+<!-- <br> -->
 
-On va voir qu'il y a deux types de formulaires :
+<!-- On va voir qu'il y a deux types de formulaires : -->
 
-* ceux dont les données sont envoyées avec la **méthode GET**
+<!-- * ceux dont les données sont envoyées avec la **méthode GET** -->
 
-* ceux dont les données sont envoyées avec la **méthode POST**
+<!-- * ceux dont les données sont envoyées avec la **méthode POST** -->
 
-</section>
+<!-- </section> -->
 <section>
 
 ## Les formulaires GET
