@@ -16,7 +16,7 @@ Voir quand intégrer la séance Git
 
 * Apprendre à faire des pages dynamiques avec PHP et MySQL
 * Organiser son code avec l'architecture MVC
-* Introduction au gestionnaire de version Git
+* Introduction au gestionnaire de version Git & au gestionnaire GitLab
 
 <!-- **4 intervenants :** -->
 
@@ -68,6 +68,15 @@ Voir quand intégrer la séance Git
 
 <!-- Introduction à Git/GitLab utile pour le travail collaboratif  -->
 <!-- pour vos projets (PHP, S3, ...). -->
+
+</section>
+<section>
+
+## Plan du cours
+
+1. Le fonctionnement du World Wide Web
+2. Pages Web dynamiques avec PHP
+3. Transmettre des données à une page Web
 
 </section>
 <section>
@@ -138,6 +147,8 @@ Content-Type: text/html
 
 ## Le navigateur comme client HTTP
 
+<!-- Double rôle du navigateur qui fait client et interprète la page Web -->
+
 Quand on ouvre une URL en `http://`, le navigateur va agir comme un client
 HTTP. Il va donc envoyer une *requête HTTP*.
 <!-- à l'hôte indiqué dans l'URL. -->
@@ -156,8 +167,16 @@ Le navigateur interprète alors la page Web et l'affiche.
 
 <br>
 <br>
-**Remarque :**<br>
-Quand on clique sur un lien `<a>`, le navigateur envoie de même une requête HTTP.
+<!-- Je vous ai montré ce qui se passe quand je demande une page Web -->
+<!-- en tapant une URL dans la barre d'adresse -->
+**Que se passe-t-il quand on clique sur un lien hypertexte `<a>` ?**
+<div class="incremental">
+<div>
+Cliquer sur un lien fait pareil que demander une page Web par la barre
+d'adresse, cela envoie une requête HTTP.
+
+</div>
+</div>
 
 </section>
 <section>
@@ -217,6 +236,28 @@ Il est souvent associé au port 80 de la machine hôte.
 </section>
 <section>
 
+## Comment déposer une page Web sur le serveur HTTP de l'IUT ?
+
+<br>
+
+Il suffit de déposer vos fichiers HTML/CSS/PHP dans le dossier `public_html`
+de votre répertoire personnel.
+
+<br>
+<br>
+
+**Comment ça marche ?**
+
+Quand vous demandez la page
+[http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html](http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html),
+le serveur HTTP (Apache) de l'IUT va rechercher la page `index.html` dans le
+dossier `public_html` du répertoire personnel de `rletud`.
+
+<!-- **Attention aux droits:** -->
+
+</section>
+<section>
+
 # Pages Web statiques ou dynamiques
 
 </section>
@@ -225,8 +266,8 @@ Il est souvent associé au port 80 de la machine hôte.
 ## Différence entre page statique/dynamique
 
 * Les sites *statiques* :  
-sites réalisés uniquement à l'aide de HTML/CSS.  
-  Ils fonctionnent très bien mais leur contenu ne change pas.  
+  Sites réalisés uniquement à l'aide de HTML/CSS.  
+  Ils fonctionnent très bien mais leur contenu ne change pas en fonction du client.  
   Les sites statiques sont donc bien adaptés pour réaliser des sites « vitrine»
   (e.g. projet HTML/CSS 1ère année).
 
@@ -237,11 +278,10 @@ sites réalisés uniquement à l'aide de HTML/CSS.
   <!-- il faut que le propriétaire du site (le webmaster) modifie le code source pour y ajouter des nouveautés. -->
 
 * Les sites *dynamiques* :  
-  ils utilisent d'autres langages tels que PHP pour générer du HTML et CSS. La
-  plupart des sites Web que vous visitez sont dynamiques.
-
-
-<!-- Bonjour *untel*, vos informations, votre mot de passe ... -->
+  Leur contenu change en fonction du client. **Des exemples ?**  
+  <!-- Bonjour *untel*, vos informations, votre mot de passe ... -->
+  Ils utilisent d'autres langages tels que PHP pour générer du HTML et CSS.  
+  La plupart des sites Web que vous visitez sont dynamiques.
 
 **Fonctionnalités typiques de sites dynamiques :**  
 un espace membres, un forum, un compteur de visiteurs, des actualités, une
@@ -276,25 +316,25 @@ newsletter
 * Site dynamique :  
   1. le client demande au serveur à voir une page Web (requête HTTP) ;
   2. le serveur crée la page spécialement pour le client (en suivant les instructions du PHP) ;
-  3. le serveur lui répond en lui envoyant la page qu'il vient de générer (réponse HTTP).
+  3. le serveur répond au client en lui envoyant la page qu'il vient de générer (réponse HTTP).
 
 <p style="text-align:center">
 ![Génération PHP]({{site.baseurl}}/assets/RolePHP.png)
 </p>
 
 </section>
-<section>
+<!-- <section> -->
 
-## Où intervient le PHP ?
+<!-- ## Où intervient le PHP ? -->
 
-Un module PHP (mod_php5) est intégré au serveur HTTP Apache.
+<!-- Un module PHP (mod_php5) est intégré au serveur HTTP Apache. -->
 
-Quand le serveur Web reçoit une requête d'un fichier .php, il génère
-dynamiquement la page Web en exécutant le code PHP de la page.
+<!-- Quand le serveur Web reçoit une requête d'un fichier .php, il génère -->
+<!-- dynamiquement la page Web en exécutant le code PHP de la page. -->
 
-La page généré est ensuite renvoyée dans la réponse HTTP.
+<!-- La page généré est ensuite renvoyée dans la réponse HTTP. -->
 
-**C'est ce que l'on appelle une page dynamique.**
+<!-- **C'est ce que l'on appelle une page dynamique.** -->
 
 <!--
  La création du document advient au moment de la requête
@@ -304,14 +344,14 @@ La page généré est ensuite renvoyée dans la réponse HTTP.
  o Interroger des bases de données.
 -->
 
-<br>
+<!-- <br> -->
 
- <p style="text-align:center">
- ![Rôle du PHP]({{site.baseurl}}/assets/RolePHP.png)
- </p>
+<!--  <p style="text-align:center"> -->
+<!--  ![Rôle du PHP]({{site.baseurl}}/assets/RolePHP.png) -->
+<!--  </p> -->
 
 
-</section>
+<!-- </section> -->
 <section>
 
 ## Le langage de création de page Web : PHP
@@ -568,8 +608,8 @@ Ce sont les **tableaux associatifs**
 * On peut créer le tableau case par case :
 
   ```php?start_inline=1
-  $coordonnees['prenom'] = 'François';
-  $coordonnees['nom'] = 'Dupont';
+  $coordonnees['prenom'] = 'Marc';
+  $coordonnees['nom'] = 'Assin';
   ```
 
   **NB :** En `PHP` les variables commencent par `$`
@@ -578,8 +618,8 @@ Ce sont les **tableaux associatifs**
 
   ```php?start_inline=1
   $coordonnees = array (
-    'prenom' => 'François',
-    'nom'    => 'Dupont'  );
+    'prenom' => 'Marc',
+    'nom'    => 'Assin'  );
   ```
 
 
@@ -588,7 +628,7 @@ Ce sont les **tableaux associatifs**
   parcourir ces tableaux :
 
   ```php?start_inline=1
-  foreach (array_expression as $key => $value){
+  foreach ($variable_tableau as $key => $value){
       //commandes
   }
   ```
@@ -624,7 +664,7 @@ serait ramenés aux sites statiques.
 <!-- <div style="font-size:xx-large"> -->
 1. En les écrivant dans l'URL
 
-1. En utilisant le mécanisme des formulaires
+1. En utilisant le mécanisme **POST** des formulaires
 <!-- </div> -->
 
 </section>
@@ -702,16 +742,16 @@ informations contenues dans le *query string*.
 
 **Exemple :**
 
-Quand PHP reçoit le lien `bonjour.php?nom=Dupont&prenom=Jean`, il va :
+Quand un client demande `bonjour.php?nom=Assin&prenom=Marc` :
 
-* remplir le tableau `$_GET` avec
+* PHP remplit le tableau `$_GET` avec
 
   ```php?start_inline=1
-  $_GET["nom"] = "Dupont";
-  $_GET["prenom"] = "Jean";
+  $_GET["nom"] = "Assin";
+  $_GET["prenom"] = "Marc";
   ```
 
-* puis lancer le script `bonjour.php`.
+* puis PHP exécute le script `bonjour.php`.
 
 </section>
 <section>
@@ -720,18 +760,18 @@ Quand PHP reçoit le lien `bonjour.php?nom=Dupont&prenom=Jean`, il va :
 
 <br>
 
-Une 1ère page avec un lien contenant des informations dont son *query string*.
+Une 1ère page avec un lien contenant des informations dans son *query string*.
 
 <div style="display:flex;align-items:center;">
 <div style="flex-grow:1">
-```html,start_inline=1
-<a href="bonjour.php?nom=Dupont&prenom=Jean">
+```html
+<a href="bonjour.php?nom=Assin&prenom=Marc">
   Dis-moi bonjour !
 </a>
 ```
 </div>
 <div style="flex-grow:1;display:inline;text-align:center;">
-<a href="http://webinfo.iutmontp.univ-montp2.fr/~rletud/bonjour2.php?nom=Dupont&prenom=Jean">Dis-moi bonjour !</a>
+<a href="http://webinfo.iutmontp.univ-montp2.fr/~rletud/bonjour2.php?nom=Assin&prenom=Marc">Dis-moi bonjour !</a>
 </div>
 </div>
 
@@ -747,7 +787,7 @@ Quand on clique sur ce lien, on est renvoyé sur la page `bonjour.php` suivante
 qui va s'exécuter pour créer la page Web
 
 ```html?start_inline=1
-<p>Bonjour Jean !</p>
+<p>Bonjour Marc !</p>
 ```
 
 <br>
@@ -755,8 +795,8 @@ qui va s'exécuter pour créer la page Web
 **En effet,** PHP aura rempli le tableau  `$_GET` avec
 
 ```php?start_inline=1
-$_GET["nom"] = "Dupont";
-$_GET["prenom"] = "Jean";
+$_GET["nom"] = "Assin";
+$_GET["prenom"] = "Marc";
 ```
 
 avant de lancer le script `bonjour.php`.
@@ -802,8 +842,8 @@ Considérons le formulaire suivant et supposons que l'utilisateur ai tapé `MaDo
   * charge la page `traitement.php` (champ `action` du formulaire)
   * transmet ses informations dans le *query string*
   
-2. donc le clic `Valider` sur charge l'URL `traitement.php?nom_var=MaDonnee`  
-  On reconnait le champ `name` du formulaire et ce qu'a rempli l'utilisateur
+2. donc le clic sur `Valider` charge l'URL `traitement.php?nom_var=MaDonnee`  
+  On reconnaît le champ `name` du formulaire et ce qu'a rempli l'utilisateur
 
 3. la page `traitement.php` suivante s'exécute avec le tableau
    `$_GET['nom_var']="MaDonnee";`
@@ -858,13 +898,13 @@ PREVOIR UNE DEMO AVEC LES OUTILS RESEAUX
 </section>
 <section>
 
-## Les formulaires POST 1/3
+## Les formulaires POST
 
-Un formulaire en méthode **POST** envoie ses informations différemment :
+<!-- Un formulaire en méthode **POST** envoie ses informations différemment : -->
 
-<p style="text-align:center">
-elles **ne sont plus** encodées dans le *query string*.
-</p>
+<!-- <p style="text-align:center"> -->
+<!-- elles **ne sont plus** encodées dans le *query string*. -->
+<!-- </p> -->
 
 <div style="display:flex;align-items:center">
 <div style="flex-grow:1;">
@@ -885,52 +925,59 @@ elles **ne sont plus** encodées dans le *query string*.
 </div>
 </div>
 
-<br>
-<br>
+**Différences :**
 
-Pour récupérer les informations dans la page cible `traitePost.php`, nous
-utiliserons alors le tableau associatif `$_POST` de PHP.
-
-<br>
-
-**Exemple :**
-
-Quand on clique sur `Valider`, on est renvoyé sur la page `traitePost.php` suivante
-
-```php
-<p>La donnée nom_var est <?php echo $_POST['nom_var']; ?> !</p>
-```
-
-qui va s'exécuter pour créer la page Web
-
-```html?start_inline=1
-<p>La donnée nom_var est MaDonnee !</p>
-```
-
-</section>
-<section>
-
-## Les formulaires POST 2/3
-
-<br>
-<br>
-
-Plus précisément, avec un formulaire en `method="post"` :
-
+1. `method="post"`
 1. la page chargée va être `traitePost.php` **sans *query string* ;**
+2. les données du formulaire sont envoyées dans le **corps** d'une requête
+   **HTTP** de type **POST** (*cf.* prochain slide) ;
+3. On récupère les données dans le tableau PHP `$_POST`. 
 
-2. les données du formulaire sont envoyées dans le **corps** d'une requête **HTTP** de type **POST**  ;
+   **Exemple :**
 
-3. On récupère les données dans le tableau PHP `$_POST`.  
-   Dans notre exemple, PHP fait l'affectation
+   Quand on clique sur `Valider`,  PHP fait
 
    ```php?start_inline=1
    $_POST["nom_var"] = "valeur"
    ```
-   
-   juste avant d'exécuter la page PHP `traitePost.php`.
+
+   juste avant d'exécuter la page PHP `traitePost.php` suivante
+
+   ```php
+   <p>La donnée nom_var est <?php echo $_POST['nom_var']; ?> !</p>
+   ```
+
+   qui va s'exécuter pour créer la page Web
+
+   ```html?start_inline=1
+   <p>La donnée nom_var est MaDonnee !</p>
+   ```
 
 </section>
+<!-- <section> -->
+
+<!-- ## Les formulaires POST 2/3 -->
+
+<!-- <br> -->
+<!-- <br> -->
+
+<!-- Plus précisément, avec un formulaire en `method="post"` : -->
+
+<!-- 1. la page chargée va être `traitePost.php` **sans *query string* ;** -->
+
+<!-- 2. les données du formulaire sont envoyées dans le **corps** d'une requête -->
+<!--    **HTTP** de type **POST** (*cf.* prochain slide) ; -->
+
+<!-- 3. On récupère les données dans le tableau PHP `$_POST`.   -->
+<!--    Dans notre exemple, PHP fait l'affectation -->
+
+<!--    ```php?start_inline=1 -->
+<!--    $_POST["nom_var"] = "valeur" -->
+<!--    ``` -->
+   
+<!--    juste avant d'exécuter la page PHP `traitePost.php`. -->
+
+<!-- </section> -->
 <section>
 
 ## Les requêtes HTTP de type POST
