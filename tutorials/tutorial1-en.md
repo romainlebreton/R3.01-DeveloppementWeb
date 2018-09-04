@@ -75,7 +75,7 @@ Let us put all this into practice!
    [http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/page1.html](http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/page1.html))
    ?**
 
-   **Asnwer:**
+   **Answer:**
    <span style="color:#FCFCFC">
    Webpages must be stored in the folder **public_html** of your  personal
    directory.
