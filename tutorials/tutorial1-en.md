@@ -81,7 +81,7 @@ Let us put all this into practice!
    directory.
    </span>
 
-   **Let's open** `mypage.html` using the browser by typing the URL in the
+   **Let's open** `page1.html` using the browser by typing the URL in the
    address bar.
 
    **Is this HTML webpage displayed correctly?**  
