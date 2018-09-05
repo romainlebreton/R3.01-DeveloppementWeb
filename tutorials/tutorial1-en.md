@@ -452,6 +452,15 @@ The arrays in PHP can be indexed by integers but also by strings:
 	  
    1. Finish with a `git status` to check that everything is alright.
 
+**Note:** Want to change the text editor that opens when you write commit
+messages ? To use SublimeText, run the following command:
+
+
+```shell
+git config --global core.editor "subl -n -w"
+```
+
+
 </div>
 
 ## Object-oriented programming in PHP

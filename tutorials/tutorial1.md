@@ -470,6 +470,14 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
       écrivez un petit message de validation (comme e.g. *"TD1 Exo4 Affichage de
       variables"*).
    1. Finissez par `git status` pour voir que tout s'est bien passé.
+   
+**Note :** Vous voulez changer l'éditeur qui s'ouvre pour écrire vos fichiers de
+commit ?  Pour utiliser SublimeText, exécutez la commande suivante :
+
+
+```shell
+git config --global core.editor "subl -n -w"
+```
 
 </div>
 
