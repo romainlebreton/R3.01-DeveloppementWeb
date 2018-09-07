@@ -76,7 +76,8 @@ server information from the rest of the PHP code.
    * either you use **NetBeans**. Configure your first project following the
    indications 
    [found in the supplements of the TD2.]({{site.baseurl}}/assets/tut2-complement.html#créer-un-projet-avec-netbeans)
-   * either you already have your favorite webpage editor but it **must**
+   * either you already have your favorite webpage editor, like *Sublime Text*,
+     but it **must**
      * support syntax highlighting
      * be able to automatically indent your code
 
@@ -145,6 +146,57 @@ server information from the rest of the PHP code.
    in PHP.
 
 </div>
+
+<div class="exercise-en">
+
+Let's continue with the best practice of saving regularly your work with
+Git. Last week, we saw
+
+```shell
+# Pour savoir l'état de Git, c-à-d ce qui est enregistré ou non
+git status
+# Pour sélectionner des fichiers à enregistrer
+git add nom_du_fichier
+# Pour effectuer l'enregistrement
+git commit
+```
+
+1. If you didn't do it last week, configure Git and tell it your full name and email.
+   
+   ```shell
+   git config --global user.name "Votre Prénom et Nom"
+   git config --global user.email "votre@email"
+   ```
+
+   Likely, you can change your default Git text editor with
+   
+   ```shell
+   git config --global core.editor "subl -n -w"
+   ```
+
+1. To see the history of your commits, **run**
+
+   ```shell
+   git log
+   ```
+   
+   You will see a series of commits, each displayed like this
+   
+   ```
+commit a0cf8dba8cfe5ffb08500cb3a77ec6889a34b37f (HEAD -> master)
+Author: Romain Lebreton <romain.lebreton@lirmm.fr>
+Date:   Fri Sep 7 17:56:42 2018 +0200
+
+    Mon message de commit
+   ```
+
+   The number `a0cf8db...` is the unique identifier of your commit.
+   
+1. Save your work with `git add` and `git commit`. From now on, we rely on you to 
+   regularly save your work on Git.
+
+</div>
+
 
 ### Initialize a `PDO`  object
 
@@ -326,6 +378,8 @@ SELECT * FROM voiture
    [`foreach` loop](http://php.net/manual/fr/control-structures.foreach.php) 
    to iterate on the table `$tab_obj`.
 
+1. Did you think about saving regularly your work on Git ?
+
 </div>
 <br>
 This code works but does not create objects of the class `Voiture` on
@@ -426,6 +480,8 @@ try {
   die();
 }
 ```
+   
+Don't forget to save your work on Git, especially at the end of a tutorial.
    
 </div>
 

@@ -14,9 +14,9 @@ A few instructions which will save you a lot of time in Web development:
    therefore code in PHP using NetBeans starting from TD2 (except if you already
    have your favorite editor).
 
-   **Exceptionally** for this TD, use a basic text editor as *gedit* or
-   *notepad++*. In doing so, we will not have the impression that a big machinery
-   such as NetBeans is hiding too many things.
+   **Exceptionally** for this TD, use a basic text editor: we recommend
+   *Sublime Text*. In doing so, we will not have the impression that a big
+   machinery such as NetBeans is hiding too many things.
 
 2. **Never** copy your files in several places.
 3. Please **do not** print this TD.
@@ -88,10 +88,11 @@ Let us put all this into practice!
    **Is there any HTTP communication between a server and a client?**
 
    <br>
-   **Help: a problem of permissions?**  
-   To be able to serve your pages, the HTTP server (Apache) of the IUT must have
-   the permission to read the Web pages (`r--`) and to enter the folders leading
-   to the Web page (`--x`). During this course, we will use the [ACL permission
+   **Help: your webpage does not open ?**  
+   If your webpage does not open, it might be a problem of permissions.  To be
+   able to serve your pages, the HTTP server (Apache) of the IUT must have the
+   permission to read the Web pages (`r--`) and to enter the folders leading to
+   the Web page (`--x`). During this course, we will use the [ACL permission
    mechanism](https://wiki.archlinux.org/index.php/Access_Control_Lists) which
    is more flexible than the traditional UNIX file permissions system. To give
    permissions to the `www-data` user (Apache), use the command `setfacl` in a
@@ -174,6 +175,20 @@ where the chronology of your modifications is stored.
 1. To transform your PHP folder into a Git repo once and for all, **run the
    shell command** `git init` in your PHP folder.
    
+1. Let's configure Git and tell it what is your name and your email:
+
+   ```bash
+   git config --global user.name "Votre Prénom et Nom"
+   git config --global user.email "votre@email"
+   ```
+   
+   Please also run the following command to change the default text editor
+   opened by Git:
+   
+   ```shell
+   git config --global core.editor "subl -n -w"
+   ```
+
 1. Everytime you want to learn more about the status of your Git repo, you
    should run `git status`. **Do it now**.
    
@@ -452,13 +467,13 @@ The arrays in PHP can be indexed by integers but also by strings:
 	  
    1. Finish with a `git status` to check that everything is alright.
 
-**Note:** Want to change the text editor that opens when you write commit
-messages ? To use SublimeText, run the following command:
+<!-- **Note:** Want to change the text editor that opens when you write commit -->
+<!-- messages ? To use SublimeText, run the following command: -->
 
 
-```shell
-git config --global core.editor "subl -n -w"
-```
+<!-- ```shell -->
+<!-- git config --global core.editor "subl -n -w" -->
+<!-- ``` -->
 
 
 </div>

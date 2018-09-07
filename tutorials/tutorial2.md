@@ -4,8 +4,6 @@ subtitle: BDD, PDO
 layout: tutorial
 ---
 
-<!-- Rappeler les commandes courants git add/commit/status/log -->
-
 <!-- Rajouter quelques question au début du TD pour vérifier la compréhension -->
 
 <!-- Rajouter option pour constructeur en premier avec fetch_class ? -->
@@ -88,7 +86,8 @@ serveur du reste du code PHP.
    * soit vous utilisez **NetBeans**. Configurer votre premier projet en suivant
      les indications 
      [dans les compléments du TD2.]({{site.baseurl}}/assets/tut2-complement.html#créer-un-projet-avec-netbeans)
-   * soit vous avez déjà un éditeur de pages Web préféré mais il **faut**
+   * soit vous avez déjà un éditeur de pages Web préféré, comme *SublimeText*,
+     mais il **faut**
      * qu'il prenne en charge la coloration syntaxique
      * qu'il sache indenter automatiquement votre code
 
@@ -162,6 +161,57 @@ ouvrira dans le navigateur.
 la classe comme en Java, mais en utilisant `::` au lieu du `.` en
 Java. Souvenez-vous que les méthodes classiques (c'est-à-dire pas `static`)
 s'appellent avec `->` en PHP.
+
+</div>
+
+<div class="exercise">
+
+Continuons à prendre la bonne habitude d'enregistrer régulièrement notre travail
+avec Git. La semaine dernière nous avons appris les commandes suivantes
+
+```shell
+# Pour savoir l'état de Git, c-à-d ce qui est enregistré ou non
+git status
+# Pour sélectionner des fichiers à enregistrer
+git add nom_du_fichier
+# Pour effectuer l'enregistrement
+git commit
+```
+
+1. Si vous ne l'avez pas fait la semaine dernière, configurez Git pour qu’il
+   connaisse votre nom et votre adresse email
+   
+   ```shell
+   git config --global user.name "Votre Prénom et Nom"
+   git config --global user.email "votre@email"
+   ```
+
+   De même, si vous voulez changer l'éditeur de texte qu'ouvre Git par défaut
+   
+   ```shell
+   git config --global core.editor "subl -n -w"
+   ```
+
+1. Pour voir l'historique de vos commits, **exécutez**
+
+   ```shell
+   git log
+   ```
+   
+   Vous verrez une suite de commit affichés comme ceci
+   
+   ```
+commit a0cf8dba8cfe5ffb08500cb3a77ec6889a34b37f (HEAD -> master)
+Author: Romain Lebreton <romain.lebreton@lirmm.fr>
+Date:   Fri Sep 7 17:56:42 2018 +0200
+
+    Mon message de commit
+   ```
+
+   Le numéro `a0cf8db...` est l'identifiant unique de votre commit.
+   
+1. Enregistrez votre travail à l'aide de `git add` et `git commit`. Nous
+   comptons sur vous pour penser à faire cet enregistrement régulièrement.
 
 </div>
 
@@ -360,6 +410,8 @@ voitures. Servez-vous d'une boucle
 [`foreach`](http://php.net/manual/fr/control-structures.foreach.php) comme au TD
 précédent pour itérer sur le tableau `$tab_obj`.
 
+1. Avez-vous pensé à enregistrer régulièrement votre travail sous Git ?
+
 </div>
 <br>
 Ce code fonctionne mais ne crée pas d'objets de la classe `Voiture` sur
@@ -469,6 +521,8 @@ try {
 }
 ```
    
+N'oubliez pas d'enregistrer votre travail sous Git, surtout en fin de séance.
+
 </div>
 
 ## Site de covoiturage

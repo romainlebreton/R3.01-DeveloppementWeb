@@ -26,9 +26,9 @@ Quelques consignes qui vous feront gagner beaucoup de temps en développement we
    PHP. Nous coderons donc notre PHP sous NetBeans à partir du TD2 (sauf si vous
    avez déjà votre éditeur préféré).
 
-   **Exceptionnellement** pour ce TD, utilisez un éditeur de base comme
-   *gedit* ou *notepad++*. Ainsi, nous n'aurons pas l'impression que la grosse machinerie
-    qu'est NetBeans nous cache trop de choses.
+   **Exceptionnellement** pour ce TD, utilisez un éditeur de base ; nous vous
+    recommandons *Sublime Text*. Ainsi, nous n'aurons pas l'impression que la
+    grosse machinerie qu'est NetBeans nous cache trop de choses.
      
 2. Ne copiez **jamais** vos fichiers à plusieurs endroits.
 3. Merci de **ne pas** imprimer ce TP.
@@ -190,6 +190,22 @@ pourront être enregistrées.
 1. Pour transformer une fois pour toute notre répertoire PHP en dépôt Git,
    **exécutez** la commande `git init` dans le terminal en étant dans le dossier `PHP`.
    
+1. Nous allons configurer Git pour qu'il connaisse votre nom et votre adresse
+   email, ce qui sera utile quand vous travaillerez en groupe pour savoir qui a
+   enregistré quelle modification :
+
+   ```bash
+   git config --global user.name "Votre Prénom et Nom"
+   git config --global user.email "votre@email"
+   ```
+   
+   Aussi pour nous simplifier la vie plus tard, veuillez exécuter la commande
+   suivante. Cela change l'éditeur de texte qu'ouvre Git par défaut.
+   
+   ```shell
+   git config --global core.editor "subl -n -w"
+   ```
+   
 1. Pour en savoir plus sur l'état de Git, **exécutez** la commande `git status`.
    
    La partie qui nous intéresse tout de suite est la suivante
@@ -220,13 +236,13 @@ pourront être enregistrées.
    écrivez un petit message de validation pour s'y retrouver plus tard (avant
    les lignes commentées avec `#`), puis fermez l'éditeur.
    
-   **Note :** Vous voulez changer l'éditeur qui s'ouvre pour écrire vos fichiers de
-   commit ?  Pour utiliser SublimeText, exécutez la commande suivante :
+   <!-- **Note :** Vous voulez changer l'éditeur qui s'ouvre pour écrire vos fichiers de -->
+   <!-- commit ?  Pour utiliser SublimeText, exécutez la commande suivante : -->
 
 
-   ```shell
-   git config --global core.editor "subl -n -w"
-   ```
+   <!-- ```shell -->
+   <!-- git config --global core.editor "subl -n -w" -->
+   <!-- ``` -->
    
 1. Une dernière exécution de `git status` nous renseigne que nous avons bien
    tout validé.
