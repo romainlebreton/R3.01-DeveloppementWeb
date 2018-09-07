@@ -101,9 +101,10 @@ le répertoire **public_html** de votre espace personnel.
 
    <br>
 
-   **Aide : Un problème de droit ?**  
-   Pour pouvoir servir vos pages, le serveur HTTP (Apache) de l'IUT doit avoir
-   le droit de lecture des pages Web (permission `r--`) et le droit de traverser
+   **Aide : Votre page ne s'affiche pas ?**  
+   Si votre page ne s'affiche pas, c'est peut-être un problème de droit.  Pour
+   pouvoir servir vos pages, le serveur HTTP (Apache) de l'IUT doit avoir le
+   droit de lecture des pages Web (permission `r--`) et le droit de traverser
    les dossiers menant à la page Web (permission `--x`). À
    l'IUT, la gestion des droits se fait par les ACL.  
    Pour donner les droits à l'utilisateur www-data (Apache), utilisez la commande
@@ -218,6 +219,14 @@ pourront être enregistrées.
    encore à les enregistrer. Pour ceci, **exécutez** la commande `git commit` et
    écrivez un petit message de validation pour s'y retrouver plus tard (avant
    les lignes commentées avec `#`), puis fermez l'éditeur.
+   
+   **Note :** Vous voulez changer l'éditeur qui s'ouvre pour écrire vos fichiers de
+   commit ?  Pour utiliser SublimeText, exécutez la commande suivante :
+
+
+   ```shell
+   git config --global core.editor "subl -n -w"
+   ```
    
 1. Une dernière exécution de `git status` nous renseigne que nous avons bien
    tout validé.
@@ -471,14 +480,6 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
       variables"*).
    1. Finissez par `git status` pour voir que tout s'est bien passé.
    
-**Note :** Vous voulez changer l'éditeur qui s'ouvre pour écrire vos fichiers de
-commit ?  Pour utiliser SublimeText, exécutez la commande suivante :
-
-
-```shell
-git config --global core.editor "subl -n -w"
-```
-
 </div>
 
 ## La programmation objet en PHP
