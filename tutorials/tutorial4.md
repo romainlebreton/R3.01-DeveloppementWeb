@@ -5,6 +5,15 @@ layout: tutorial
 ---
 
 <!-- 
+Martine Horny : Exo 9
+
+> Personnellement il me manquait « throw new Exception() » pour que les erreurs
+> soient captées sans avoir le message FatatError
+
+À tester
+-->
+
+<!-- 
 Simplifier les noms : 
 controller/Voiture.php qui définit ControllerVoiture.php
 et model/Voiture.php qui définit ModelVoiture.php
@@ -278,25 +287,15 @@ string dans le cours
 1]({{site.baseurl}}/classes/class1.html#les-query-strings-dans-lurl)).
 
 De son côté, le routeur doit récupérer l'action envoyée et appeler la méthode
-correspondante du contrôleur.
-
-<div class="exercise">
-
-1. Quelle URL faut-il écrire pour demander la page du routeur en lui envoyant
-   l'information que `action` est égal à `readAll` ?
-1. Comment récupère-t-on en PHP la valeur qui a été assignée à `action` dans l'URL ?  
-   [**Rappel** sur query string dans le cours 1]({{site.baseurl}}/classes/class1.html#les-query-strings-dans-lurl)
-</div>
-
-Pour appeler la méthode statique de `ControllerVoiture` dont le nom se trouve
-dans la variable `$action`, le PHP peut faire comme suit. Voici le fichier
-`controller/routeur.php` mis à jour :
+correspondante du contrôleur. Pour appeler la méthode statique de
+`ControllerVoiture` dont le nom se trouve dans la variable `$action`, le PHP
+peut faire comme suit. Voici le fichier `controller/routeur.php` mis à jour :
 
 ```php
 <?php
 require_once 'ControllerVoiture.php';
 // On recupère l'action passée dans l'URL
-$action = ...; // À remplir, voir Exercice 5.2
+$action = ...;
 // Appel de la méthode statique $action de ControllerVoiture
 ControllerVoiture::$action(); 
 ?>
@@ -304,9 +303,15 @@ ControllerVoiture::$action();
 
 <div class="exercise">
 
-1. Modifiez le code `controller/routeur.php` pour correspondre au code ci-dessus en remplissant vous-même la ligne 4 ;
+1. Modifiez le code `controller/routeur.php` pour correspondre au code ci-dessus
+   en remplissant vous-même la ligne 4. Si vous ne vous souvenez plus comment
+   extraire un paramètre d'une URL, 
+   [relisez la partie sur le query string dans le cours
+   1.]({{site.baseurl}}/classes/class1.html#les-query-strings-dans-lurl)
 1. Testez la nouvelle architecture en appelant la page
-[.../controller/routeur.php](http://webinfo/~mon_login/PHP/TD4/controller/routeur.php) en rajoutant l'information que `action` est égal à `readAll` comme vu à l'exercice 5.1.
+   [.../controller/routeur.php](http://webinfo/~mon_login/PHP/TD4/controller/routeur.php)
+   en rajoutant l'information que `action` est égal à `readAll` dans l'URL au
+   format *query string*.
 3. Prenez le temps de comprendre le **MVC** sur cet exemple.  
    Avez-vous compris l'ordre dans lequel PHP exécute votre code ?  
    Est-ce que ce code vous semble similaire à l'ancien fichier
