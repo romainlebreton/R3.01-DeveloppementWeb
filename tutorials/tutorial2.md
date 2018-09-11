@@ -234,7 +234,7 @@ de donnée.
    Programmation Orientée Objet de l'an dernier)-->
 
 2. Dans la fonction `Init`, nous allons initialiser l'attribut `$pdo` en lui
-   assignant un objet `PDO`. Procédons en 3 étapes :
+   assignant un objet `PDO`. Procédons par étapes :
    
    2. Pour créer la connexion à notre base de donnée, il faut utiliser le
    [constructeur de `PDO`](http://php.net/manual/fr/pdo.construct.php) de la
@@ -267,12 +267,12 @@ de donnée.
    `testModel.php` suivant. Vérifiez que l'exécution de `testModel.php` ne donne
    pas de messages d'erreur.
 
-   ```php
-   <?php
-   require_once "Model.php";
-   echo "Connexion réussie !" ;
-   ?>
-   ```
+      ```php
+      <?php
+      require_once "Model.php";
+      echo "Connexion réussie !" ;
+      ?>
+      ```
 
 
 </div>

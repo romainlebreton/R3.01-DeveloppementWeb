@@ -213,44 +213,44 @@ This class provides many useful methods to deal with databases.
    * a method `public static function Init()`.
 
 2. In the `Init` function, we will initialize the `$pdo` attribute and assign it
-   a `PDO` object. Let's proceed in 3 steps:
+   a `PDO` object. Let's proceed step by step:
    
-   2. To create the connection to our database, you must use the
-   [constructor of `PDO`](http://php.net/manual/fr/pdo.construct.php) in the
-   following way
+   2. To create the connection to our database, you must use the 
+      [constructor of `PDO`](http://php.net/manual/fr/pdo.construct.php) in the
+      following way
    
       ```php?start_inline=1
       new PDO("mysql:host=$hostname;dbname=$database_name",$login,$password);
       ```
    
-   Store this new `PDO` object in the static attribute `self::$pdo`.  
-   **Explanation:** Since the variable is static, it is accessed by a syntax
-   `ClassName::$var_name` as previously told. The type of the current object is
-   obtained with the keyword `self`.
+      Store this new `PDO` object in the static attribute `self::$pdo`.  
+      **Explanation:** Since the variable is static, it is accessed by a syntax
+      `ClassName::$var_name` as previously told. The type of the current object is
+      obtained with the keyword `self`.
 
-1. The previous code requires that the variables `$hostname`, `$database_name`,
-   `$login` and `$password` contain the strings corresponding to the host name,
-   database name, login and password of your database. Please create these
-   variables before the `new PDO` by retrieving the information written in
-   `Conf.php ` with the help of the methods of the class `Conf`.
+   1. The previous code requires that the variables `$hostname`, `$database_name`,
+      `$login` and `$password` contain the strings corresponding to the host name,
+      database name, login and password of your database. Please create these
+      variables before the `new PDO` by retrieving the information written in
+      `Conf.php ` with the help of the methods of the class `Conf`.
+   
+   4. As our class `Model` depends on `Conf.php`, add a `require_once
+      'Conf.php'` at the beginning of the file.
+   
+   5. Finally, we want `Model` to be initialized just after its
+      declaration. Therefore call the static initialization method `Model::Init()`
+      at the end of the file.
+   
+   6. Let's test our new class. Create the file `testModel.php` with the following
+      content. Verify that the execution of `testModel.php` does not display any error
+      message.
 
-4. As our class `Model` depends on `Conf.php`, add a `require_once
-   'Conf.php'` at the beginning of the file.
-
-5. Finally, we want `Model` to be initialized just after its
-   declaration. Therefore call the static initialization method `Model::Init()`
-   at the end of the file.
-
-6. Let's test our new class. Create the file `testModel.php` with the following
-   content. Verify that the execution of `testModel.php` does not display any error
-   message.
-
-   ```php
-   <?php
-   require_once "Model.php";
-   echo "Connexion réussie !" ;
-   ?>
-   ```
+      ```php
+      <?php
+      require_once "Model.php";
+      echo "Connexion réussie !" ;
+      ?>
+      ```
 
 </div>
 <br>
@@ -273,7 +273,7 @@ We are now going to improve the error management of `PDO`.
    You will notice that the try - catch syntax of exceptions in PHP is very
    similar to the one of Java.
    
-   **Note:** In this example, the error management is very abrupt: indeed,  
+   **Note:** In this example, the error management is very abrupt: indeed,
    `die();` is equivalent to `System.exit(1);` in Java.  
    In a real-world  web site, we should indicate to the user that the site 
    is currently unavailable or something like this.  
@@ -281,8 +281,8 @@ We are now going to improve the error management of `PDO`.
    a `try` - `catch` in order to capture the exceptions.
 
 
-4. For more error messages of `PDO` and that he manages better UTF-8,
-**UPDATE** the connection in `Model` with
+4. For more error messages of `PDO` and so that it handles better UTF-8,
+   **UPDATE** the connection in `Model` with
 
    ```php?start_inline=1
    // Connection to the database
@@ -368,7 +368,7 @@ SELECT * FROM voiture
    $tab_obj = $rep->fetchAll(PDO::FETCH_OBJ)
    ```
 
-   Which returns an array of objects `tab_obj` whose attribute names are the
+   which returns an array of objects `tab_obj` whose attribute names are the
    field names from the database. Each of the objects `$obj` of `$tab_obj`
    therefore contains three attributes named `immatriculation`, `couleur` and
    `marque` (fields of the database) which are accessible classically by
@@ -421,6 +421,10 @@ $tab_voit = $rep->fetchAll();
      }
    }
    ```
+
+   **Note:** It may be shorter and cleaner to use a constructor
+   `__construct($data)` as in 
+   [tutorial 1]({{site.baseurl}}/tutorials/tutorial1-en#the-foundations-of-a-carpool-website).
 
 3. You can now call `fetchAll` in `lireVoiture.php` and make
 the display using the method `display()`.
