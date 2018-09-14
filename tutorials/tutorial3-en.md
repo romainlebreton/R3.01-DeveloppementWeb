@@ -12,6 +12,8 @@ code the association between database tables.
   [until Section 2.1 included](tutorial2-en.html#make-a-sql-query-without-parameters)
   before starting this tutorial.
 
+As before, we invite you to use the `git` commands `status/log/add/commit` to
+save your work and know where you were before.
 
 ## SQL injections
 

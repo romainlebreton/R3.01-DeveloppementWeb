@@ -35,6 +35,9 @@ plusieurs tables de la BDD.
   qui vous faisait coder votre première requête `SELECT * FROM voiture`, pour
   attaquer ce TD.
 
+Nous vous invitons toujours à utiliser les différentes commandes
+`status/log/add/commit` de `git` pour savoir où vous en êtes et enregistrer vos
+modifications.
 
 ## Les injections SQL
 
