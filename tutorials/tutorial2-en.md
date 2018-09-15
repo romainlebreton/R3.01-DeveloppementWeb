@@ -190,7 +190,8 @@ Date:   Fri Sep 7 17:56:42 2018 +0200
     Mon message de commit
    ```
 
-   The number `a0cf8db...` is the unique identifier of your commit.
+   The number `a0cf8db...` is the unique identifier of your commit. You can ask
+   exit `git log` by typing `q` or ask for help with `h`.
    
 1. Save your work with `git add` and `git commit`. From now on, we rely on you to 
    regularly save your work on Git.

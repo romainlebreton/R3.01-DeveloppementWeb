@@ -208,7 +208,9 @@ Date:   Fri Sep 7 17:56:42 2018 +0200
     Mon message de commit
    ```
 
-   Le numéro `a0cf8db...` est l'identifiant unique de votre commit.
+   Le numéro `a0cf8db...` est l'identifiant unique de votre commit.  Vous pouvez
+   avoir de l'aide sur les commandes de `git log` en tapant `h` ou quitter en
+   tapant `q`.
    
 1. Enregistrez votre travail à l'aide de `git add` et `git commit`. Nous
    comptons sur vous pour penser à faire cet enregistrement régulièrement.
