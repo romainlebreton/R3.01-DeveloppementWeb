@@ -47,9 +47,9 @@ Voir quand intégrer la séance Git
 
 * 3  Septembre 2018 – TP 1 – Introduction aux objets en PHP
 * 10 Septembre 2018 – TP 2 – La persistance des données en PHP
-* 17 Septembre 2018 – TP 3 – Fin TP2 et association entre classes
-* 24 Septembre 2018 -   ?  – Introduction à Git
-* 1 Octobre   2018 – TP 4 – Architecture MVC simple
+* 17 Septembre 2018 – TP 3 – Requêtes préparées et association de classes
+* 24 Septembre 2018 – TP 4 – Architecture MVC simple
+* 1 Octobre   2018 –   ?  – Introduction à Git
 * 8 Octobre   2018 – TP 5 – Architecture MVC avancée 1/2
 * 15 Octobre   2018 – TP 6 – Architecture MVC avancée 2/2
 
