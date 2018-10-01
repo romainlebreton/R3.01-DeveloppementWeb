@@ -532,6 +532,7 @@ N'oubliez pas d'enregistrer votre travail sous Git, surtout en fin de séance.
 Appliquez ce que l'on a fait pendant ce TD aux classes `Trajet` et `Utilisateur`
 du TP précédent (exercice sur le covoiturage) :
 
+<div class="exercise">
 1. Modifiez les constructeurs pour accepter aussi zéro paramètre ;
 
 1. Dans votre PhpMyAdmin, créez une table `utilisateur` avec les champs suivants :
@@ -563,3 +564,4 @@ du TP précédent (exercice sur le covoiturage) :
 
 1. Créez les fonctions statiques `getAllTrajets()` et `getAllUtilisateurs()` qui listent
    tous les trajets / utilisateurs.
+</div>
