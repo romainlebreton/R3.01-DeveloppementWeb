@@ -4,9 +4,6 @@ subtitle: Planning et cahier des charges
 layout: tutorial
 ---
 
-<!-- Dire modalités évaluation sans dossier ni présentation, déposer le site sur webinfo -->
-<!-- J'ai fait 60% projet & 40% examen cette année (50/50 l'an dernier) -->
-
 ## Sujet
 
 Vous devrez réaliser un site de e-commerce. Les produits que vous devez vendre
@@ -26,12 +23,9 @@ groupes de 2 sont autorisés (mais ils seront notés comme un groupe de 3).  Les
 groupes de 4 sont aussi ponctuellement autorisés, mais seront évalués de manière
 plus stricte et l'on attendra 1/3 de boulot en plus.
 
-Le projet commence la semaine du 16 Octobre.
-
-Les soutenances de projet auront lieu la semaine du 11 Décembre.  La note de ce
-projet Web interviendra pour moitié dans la note de l'UE 'Programmation Web côté
-serveur'. L'autre moitié sera donnée par l'examen final sur papier (pas de code
-à écrire, questions de compréhension).
+Les soutenances de projet auront lieu la semaine du 10 Décembre.  La note de ce
+projet Web interviendra pour moitié, l'autre moitié sera donnée par l'examen
+final sur papier (pas de code à écrire, questions de compréhension).
 
 Le jour de la soutenance, **le site devra être déployé sur `webinfo`** sous l'un
 de vos comptes. Les sources du site devront être accessible dans un fichier
@@ -41,17 +35,14 @@ soutenance.
 
 **Emploi du temps prévisionnel :**
 
-1. Semaine du 16 Octobre 2017 -- Début projet
-1. Semaines du 23 Octobre 2017 -- 3h projet
-1. Semaine du 6 Novembre 2017 --
-   TD 7 -- Cookies & Sessions puis projet
-1. Semaine du 13 Novembre 2017 --
-   TD 8 -- Authentification & Validation par emailxs
-   puis projet
-1. Semaine du 20 Novembre 2017 --  3h projet
-1. Semaine du 27 Novembre 2017 -- 3h projet
-1. Semaine du 4 Décembre 2017 -- 3h projet
-1. Semaine du 11 Décembre 2017 -- soutenances du projet
+* 22 Octobre   2018 - **Début projet**
+* 29 Octobre   2018 - **Congé IUT**
+* 5  Novembre  2018 - 3h projet
+* 12 Novembre  2018 – TP 7 – Cookies & Sessions + 1h projet
+* 19 Novembre  2018 – TP 8 – Authentification & Validation par email + 1h projet
+* 26 Novembre  2018 - 3h projet
+* 3  Décembre  2018 - 3h projet
+* 10 Décembre  2018 - **soutenances du projet**
 
 ## Par où commencer ?
 
@@ -114,21 +105,15 @@ défaut : les nouveaux fichiers créés prendront ces droits)
 
 ## Critères de notation
 
-La
-[**grille d'évaluation**](https://docs.google.com/spreadsheets/d/1CSC5-27rFoJRAlEbQCamBMf3vY6FASgEtcxIKipgwxk/edit#gid=0)
-n'est pas définitive et est susceptible d'être mise à jour. Il n'y a **pas** de
-rapport à écrire, ni de présentation à préparer. Vous devrez juste répondre à
-une série de questions sur votre code qui nous permettra d'évaluer ce qui a été
-implémenté.
+Le but pédagogique de ce projet est de mettre en application toutes les
+techniques que vous avez apprises lors des TDs. Voici donc [les critères sur
+lesquels vous serez notés](https://docs.google.com/spreadsheets/d/1oUd7fe0K8WZhI2TPRRvgZ2xPZf5H22CUvlpcXEMD3Ao/edit#gid=0).
 
-
+Il n'y a **pas** de rapport à écrire, ni de présentation à préparer. Vous devrez
+juste répondre à une série de questions sur votre code qui nous permettra
+d'évaluer ce qui a été implémenté.
 
 <!-- [Planning des soutenances]() -->
-
-
-
-
-
 
 <!--
 ### Front-Office 

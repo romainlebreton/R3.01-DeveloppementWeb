@@ -48,7 +48,7 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaine du 01 Octobre 2018 -- [TD sur Git & GitLab](assets/initiation GIT_IUT_TP.pdf) (si le TD est après le cours)
 1. Semaine du 08 Octobre 2018 --  [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html) ([English version](tutorials/tutorial5-en.html))
 1. Semaine du 15 Octobre 2018 --  [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html) ([English version](tutorials/tutorial6-en.html))
-<!-- 1. Semaine du 22 Octobre 2018 -- [Début projet](projet.html) -->
+1. Semaine du 22 Octobre 2018 -- [Début projet](projet.html)
 <!-- 1. Semaines du 5 Novembre 2018 -- 3h projet -->
 <!-- 1. Semaine du 12 Novembre 2018 -- -->
 <!--    [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) ([English version](tutorials/tutorial7-en.html)) puis projet -->
@@ -61,7 +61,6 @@ Cours à l'IUT de Montpellier - 2ème année
 
 ### Notes complémentaires
 
-<!-- 1. [Introduction au gestionnaire de version Git]({{site.baseurl}}/assets/git-complement.html) -->
 1. [Encodage des caractères, serveur HTTP de l'IUT et note sur les URLs]({{site.baseurl}}/assets/tut1-complement.html)
 2. [NetBeans, attributs et méthodes statiques]({{site.baseurl}}/assets/tut2-complement.html)
 3. [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
@@ -69,9 +68,9 @@ Cours à l'IUT de Montpellier - 2ème année
 <!-- 5. [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html) -->
 
 
-<!-- ## Instructions du projet -->
+## Instructions du projet
 
-<!-- [Instructions du projet](projet.html) -->
+[Instructions du projet](projet.html)
 
 
 <!-- ## Chat -->
