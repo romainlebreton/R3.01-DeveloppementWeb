@@ -49,7 +49,7 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaine du 08 Octobre 2018 --  [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html) ([English version](tutorials/tutorial5-en.html))
 1. Semaine du 15 Octobre 2018 --  [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html) ([English version](tutorials/tutorial6-en.html))
 1. Semaine du 22 Octobre 2018 -- [Début projet](projet.html)
-<!-- 1. Semaines du 5 Novembre 2018 -- 3h projet -->
+1. Semaines du 5 Novembre 2018 -- [Projet](projet.html)
 <!-- 1. Semaine du 12 Novembre 2018 -- -->
 <!--    [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) ([English version](tutorials/tutorial7-en.html)) puis projet -->
 <!-- 1. Semaine du 19 Novembre 2018 -- -->
