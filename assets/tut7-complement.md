@@ -65,7 +65,7 @@ Soyons plus précis sur le mécanisme de sessions :
    
 1. Quand est-ce que le contenu de `$_SESSION` est écrit le fichier local
    `sess_xyz` ?  
-   Si le mécanisme de session est toujours active (pas de `session_destroy()`),
+   Si le mécanisme de session est toujours actif (pas de `session_destroy()`),
    alors après la fin de votre script, PHP recopie le contenu de `$_SESSION`
    dans le fichier local `sess_xyz`.
    

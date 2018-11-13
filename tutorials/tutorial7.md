@@ -30,15 +30,18 @@ On peut se faire passer pour quelqu'un si on connait son PHPSESSID
 
 -->
 
-HTTP est un protocole de communication avec lequel chaque paire requête-réponse
-est indépendant l'une de l'autre. Du coup, le serveur n'a pas de moyen de
-différencier les clients entre eux, et n'a pas de moyen d'enregistrer
-d'informations liées à un client spécifique.
+HTTP est un protocole de communication avec lequel chaque requête-réponse est
+indépendante l'une de l'autre. Du coup, le serveur n'a pas de moyen de
+reconnaître un client particulier, et donc n'a pas de moyen d'enregistrer
+d'informations liées à un client spécifique. Par exemple, avec le HTTP de base,
+si vous allez plusieurs fois sur Facebook, et bien le réseau social ne sait pas
+reconnaître quelles requêtes viennent de vous parmi toutes les requêtes qu'il
+reçoit, et donc il ne peut pas vous connecter, vous afficher votre page
+personnelle...
 
 Pour remédier à cela, HTTP prévoit le mécanisme des cookies qui permet
-d'enregistrer d'informations liées à un client spécifique sur l'ordinateur du
-client. En plus de ça, en utilisant des cookies pour identifier ses clients, les
-serveurs PHP implémentent un mécanisme de session qui permettent de stocker côté
+d'enregistrer des informations sur l'ordinateur du client. De plus, en utilisant
+des cookies pour identifier ses clients, les serveurs PHP peuvent stocker côté
 serveur des informations spécifiques à un client : c'est le mécanisme des
 sessions.
 
@@ -76,7 +79,7 @@ setcookie("TestCookie", "OK", time()+3600);  /* expire dans 1 heure = 3600 secon
 ```
 
 
-#### Comment fait le serveur pour demander au client d'enregistrer un cookie ?
+#### Que fait `setcookie` ? Comment fait le serveur pour demander au client d'enregistrer un cookie ?
 
 D'un point de vue technique, voici ce qui se passe au niveau du protocole HTTP
 (dont nous avons notamment parlé lors 
@@ -102,10 +105,10 @@ nous avons un cookie `"TestCookie1"` de valeur `"valeur1"` et un cookie
 `"TestCookie2"` de valeur `"valeur2"`.
 
 
-**Attention :** la fonction setcookie() doit être appelée avant tout écriture de
-la page HTML. Le protocole HTTP impose cette restriction.  
+**Attention :** la fonction `setcookie()` doit être appelée avant tout écriture
+de la page HTML. Le protocole HTTP impose cette restriction.  
 **Pourquoi ?** *(Optionnel)* Le Set-Cookie est une information envoyé dans
-l'en-tête de la réponse. Et le corps de la réponse HTTP, c'est-à-dire la page
+l'en-tête de la réponse. Le corps de la réponse HTTP, c'est-à-dire la page
 HTML, doit être envoyée après son en-tête. Or PHP écrit et envoie la page HTML
 dans le corps de la réponse HTTP au fur et à mesure.
 
@@ -123,7 +126,7 @@ ou être altéré (valeur modifiée, date d'expiration changée ...).
 
 Après qu'un cookie a été déposé chez un client par le serveur par l'opération
 précédente, le navigateur du client envoie les informations du cookie à chaque
-demande de page.
+requête HTTP.
 
 #### Comment le client transmet-il les informations de ses cookies ?
 
@@ -524,3 +527,7 @@ la stocker avec des sessions.
    quand cela marche.
 
 </div>
+
+Pour approfondir votre compréhension des cookies et des sessions, vous avez
+aussi accès aux [notes complémentaires à ce
+sujet]({{site.baseurl}}/assets/tut7-complement).
