@@ -207,10 +207,10 @@ sur le comportement du client.
 
 1. Pour voir les cookies déposés sur votre navigateur, voici comment faire :
 
-   * sous Firefox, allez dans Préférences &#8594; Vie privée et sécurité &#8594;
-   Historique &#8594; Supprimer des cookies spécifiques.
-   * sous Chrome, l'accès est plus simple ; allez dans les outils développeurs
-   (avec `F12`) &#8594; Onglet Ressources (ou Application) &#8594; Cookies.
+   * sous Firefox, allez dans les outils développeurs (avec `F12`) &#8594; Onglet
+     Stockage (ou Application) &#8594; Cookies.
+   * sous Chrome, allez dans les outils développeurs (avec `F12`) &#8594; Onglet
+     Ressources (ou Application) &#8594; puis Storage et Cookies.
 
 1. Si vous ne spécifiez pas le temps d'expiration d'un cookie (3ème paramètre de
    `setcookie`) ou que vous le mettez à `0` alors le cookie sera supprimé à la
