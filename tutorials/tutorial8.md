@@ -77,9 +77,16 @@ chiffré. N'oubliez pas de faire un `require_once` de `Security.php` pour pouvoi
 appeler la fonction.
 
 **Note :** On dit que SHA-256 est une fonction de hachage. Les fonctions de
-hachage servent à chiffrer, mais ne donnent pas de moyen de déchiffrer. Tandis
-que les fonctions de chiffrement permettent de chiffrer, mais aussi de
-déchiffrer si on connaît la clé.
+hachage servent à chiffrer, mais ne donnent pas de moyen de déchiffrer. Il
+existe aussi des fonctions de chiffrement qui permettent de chiffrer, mais aussi
+de déchiffrer si on connaît la clé.  
+Pour un site Web, mieux vaut une fonction de hachage qu'une fonction de
+chiffrement. En effet,
+
+* les fonctions de hachage suffisent à nos besoins car pour tester si un mot de
+  passe est le bon, il suffit de comparer les hachés.
+* il est plus sage pour un site Web de ne pas pouvoir découvrir les mots de
+  passe de ses utilisateurs.
 
 </div>
 
@@ -121,10 +128,8 @@ chaîne aléatoire au début de chaque mot de passe. Ainsi, même si l'utilisate
 utilise un mot de passe très commun comme `apple`, nous allons chiffrer par
 exemple `DhuRXYdEkJapple` ce qui est nettement moins commun.
 
-Pour remédier à ce problème, nous allons rajouter une chaîne aléatoire fixe à
-nos mots de passes en clair pour qu'aucun ne soit plus "classique".
-
-
+Pour remédier à ce problème, nous allons rajouter une chaîne aléatoire fixe au
+début de nos mots de passes en clair pour qu'aucun ne soit plus "classique".
 
 <div class="exercise">
 
@@ -260,7 +265,7 @@ class Session {
 <div class="exercise">
 
 **Attention :** Supprimer le lien n'est pas suffisant car un petit malin
-pourrait accéder à la page de mise à jour d'un utilisateur quelconque en
+pourrait accéder au formulaire de mise à jour d'un utilisateur quelconque en
 rentrant manuellement l'action `update` dans l'URL.
 
 1. « Hacker » votre site en accédant à la page de mise à jour d'un utilisateur
@@ -274,7 +279,7 @@ rentrant manuellement l'action `update` dans l'URL.
 
 <div class="exercise">
 
-**Attention :** Restreindre l'accès à la page de mise à jour n'est pas suffisant
+**Attention :** Restreindre l'accès au formulaire de mise à jour n'est pas suffisant
 car un petit malin pourrait exécuter une mise à jour en demandant manuellement
 l'action `updated`.
 
