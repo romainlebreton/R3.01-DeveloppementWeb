@@ -348,8 +348,9 @@ promouvoir un autre utilisateur en tant qu'administrateur.
    `checkbox` "Administrateur ?". Ce bouton ne doit être présent que si
    l'utilisateur authentifié est un administrateur.  
    À vous de modifier l'action `update` du contrôleur `Utilisateur` et la vue
-   `update.php`. **N'oubliez pas** que les vues ne doivent pas faire de calculs
-   (donc pas de `if`).
+   `update.php`. 
+   <!-- **N'oubliez pas** que les vues ne doivent pas faire de calculs -->
+   <!-- (donc pas de `if`). -->
 
 1. Modifiez l'action `updated` pour prendre en compte un bouton `checkbox`
    "Administrateur ?" et mettre à jour le champ `admin` de la table
