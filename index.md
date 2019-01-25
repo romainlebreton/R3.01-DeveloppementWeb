@@ -34,9 +34,9 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaine du 19 Novembre 2018 --
    [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html) ([English version](tutorials/tutorial8-en.html))
    puis projet
-<!-- 1. Semaine du 26 Novembre 2018 -- 3h projet -->
-<!-- 1. Semaine du 3 Décembre 2018 -- 3h projet -->
-<!-- 1. Semaine du 10 Décembre 2018 -- soutenances du projet -->
+1. Semaine du 26 Novembre 2018 -- 3h projet
+1. Semaine du 3 Décembre 2018 -- 3h projet
+1. Semaine du 10 Décembre 2018 -- soutenances du projet
 
 ### Notes complémentaires
 
