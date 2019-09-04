@@ -26,10 +26,9 @@ var Dz = {
 	this.setupParams();
 	this.onhashchange();
 	this.setupTouchEvents();
-	// Hack to wait for JS to be finished before calling onresize !
-	// setTimeout(function () { this.onresize(); }, 0);
-	this.onresize();
 	this.setupView();
+	// Hack to wait for JS to be finished before calling onresize !
+	setTimeout(function () { this.onresize(); }, 10);
 	window.onkeydown = this.onkeydown.bind(this);
 	window.onresize = this.onresize.bind(this);
 	window.onhashchange = this.onhashchange.bind(this);

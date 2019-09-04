@@ -36,9 +36,7 @@
       <li><a href="{{ site.github.zip_url | replace: 'zipball', 'edit' }}/{{ page.path }}">Quick edit</a></li>
       <li><a href="javascript:window.print()">Print</a></li>
       {% if layout.plugins contains 'slideshow' %}
-      <li><a href="javascript:Dz.play()">Start slideshow</a>
-	<script src="{{ site.baseurl }}/js/dz-slides.js"></script>
-      </li>
+      <li><a href="javascript:Dz.play()">Start slideshow</a></li>
       {% endif %}
     </ul>
 
@@ -53,7 +51,7 @@
 		href="https://creativecommons.org/licenses/by-sa/4.0/">
 	      <img alt="Creative Commons Licence" style="border-width:0"
 		   src="{{ site.baseurl }}/assets/80x15.png"/></a>
-	    <a href="https://github.com/romainlebreton">Romain Lebreton</a>, Sébastien Gagné et Abdelkader Gouaïch
+	    <a href="https://github.com/romainlebreton">Romain Lebreton</a>, Sébastien Gagné et Joris Tremoulet
 	    {{ site.time | date:"%Y" }}, licensed
 	    under <a rel="license" class="print-link"
 		     href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA
@@ -68,6 +66,10 @@
 	</div>
       </footer>
     </div>
+
+    {% if layout.plugins contains 'slideshow' %}
+    <script src="{{ site.baseurl }}/js/dz-slides.js"></script>
+    {% endif %}
 
     {% if layout.plugins contains 'mathjax' %}
     <script type="text/x-mathjax-config">
