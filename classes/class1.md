@@ -18,13 +18,6 @@ Voir quand intégrer la séance Git
 * Organiser son code avec l'architecture MVC
 * Introduction au gestionnaire de version Git & au gestionnaire GitLab
 
-<!-- **4 intervenants :** -->
-
-<!-- * Q1 - Mardi 15h45-18h45 - Jean-Philippe Prost -->
-<!-- * Q2 - Mercredi 10h-13h - Sébastien Gagné -->
-<!-- * Q3 - Vendredi 12h30-15h30 - Abdelkader Gouaïch -->
-<!-- * Q4 - Vendredi 09h15-12h15 - Romain Lebreton -->
-
 **Cours et TP en ligne :**
 
 * site Web : 
@@ -41,28 +34,28 @@ Voir quand intégrer la séance Git
 
 ## Emploi du temps prévisionnel
 
-* 3 Septembre -- Cours Introductif
+* 4 Septembre -- Cours Introductif
 
 **1er bloc de TPs -- Bases de PHP :**
 
-* 3  Septembre 2018 – TP 1 – Introduction aux objets en PHP
-* 10 Septembre 2018 – TP 2 – La persistance des données en PHP
-* 17 Septembre 2018 – TP 3 – Requêtes préparées et association de classes
-* 24 Septembre 2018 – TP 4 – Architecture MVC simple
-* 1 Octobre   2018 –   ?  – Introduction à Git
-* 8 Octobre   2018 – TP 5 – Architecture MVC avancée 1/2
-* 15 Octobre   2018 – TP 6 – Architecture MVC avancée 2/2
+* 2  Septembre 2018 – TP 1 – Introduction aux objets en PHP
+* 09 Septembre 2018 – TP 2 – La persistance des données en PHP
+* 16 Septembre 2018 – TP 3 – Requêtes préparées et association de classes
+* 23 Septembre 2018 – TP 4 – Architecture MVC simple
+* 30 Septembre   2018 – TP 5 – Architecture MVC avancée 1/2
+* 7 Octobre   2018 – TP 6 – Architecture MVC avancée 2/2
+* 14 Octobre   2018 – **Début projet**
 
 **2ème bloc de TPs -- Mise en application sur le projet + TPs complémentaires :**
 
-* 22 Octobre   2018 - **Début projet**
-* 29 Octobre   2018 - **Congé IUT**
-* 5  Novembre  2018 - 3h projet
-* 12 Novembre  2018 – TP 7 – Cookies & Sessions + 1h projet
-* 19 Novembre  2018 – TP 8 – Authentification & Validation par email + 1h projet
-* 26 Novembre  2018 - 3h projet
-* 3  Décembre  2018 - 3h projet
-* 10 Décembre  2018 - **soutenances du projet**
+* 21 Octobre   2018 - 3h projet
+* 28 Octobre   2018 - **Congé IUT**
+* 4  Novembre  2018 - TP 7 – Cookies & Sessions + 1h projet
+* 11 Novembre  2018 – TP 8 – Authentification & Validation par email + 1h projet
+* 18 Novembre  2018 – 3h projet
+* 25 Novembre  2018 - 3h projet
+* 2  Décembre  2018 - 3h projet
+* 09 Décembre  2018 - **soutenances du projet**
 
 <!-- Peut-être cours un peu plus long que 1h -->
 
@@ -93,7 +86,7 @@ Voir quand intégrer la séance Git
   Plus précisément c'est votre *navigateur Web* (Firefox, Chrome, Safari, IE,
   Edge, ...) qui est le client car c'est lui qui demande la page Web.
 
-* Le *serveur* : Ce sont les ordinateurs qui délivrent les site Web aux
+* Le *serveur* : Ce sont les ordinateurs qui délivrent les sites Web aux
   internautes, c'est-à-dire aux clients.
 
 <br>
@@ -101,7 +94,7 @@ Voir quand intégrer la séance Git
 <p style="text-align:center">
 ![Mécanisme client/serveur]({{site.baseurl}}/assets/ClientServeur.png)
 <br>
-Le client fait une *requête* que serveur, qui répond en donnant la page Web
+Le client fait une *requête* au serveur, qui répond en donnant la page Web
 </p>
 
 </section>
@@ -137,7 +130,7 @@ Accept-Ranges: bytes
 Content-Length: 5781
 Content-Type: text/html
 
-<html><head>... (contenu de index.html)
+<html><head><meta charset="utf-8" />... (contenu de index.html)
 ```
 
 <!-- Parler de réponse et découpage en en-tête et corps de la réponse -->
@@ -153,7 +146,7 @@ Quand on ouvre une URL en `http://`, le navigateur va agir comme un client
 HTTP. Il va donc envoyer une *requête HTTP*.
 <!-- à l'hôte indiqué dans l'URL. -->
 
-Le serveur HTTP renvoie une réponse HTTP qui contient la page Web
+Le client HTTP reçoit la réponse du serveur HTTP qui contient la page Web
 demandée.
 
 Le navigateur interprète alors la page Web et l'affiche.
@@ -186,9 +179,14 @@ d'adresse, cela envoie une requête HTTP.
 <!-- Ouvrir http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html dans le
 navigateur en expliquant la requête et réponse -->
 
-Ouvrons
-[http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html](http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html)
-en écoutant le réseau à l'aide des outils de développement (`F12` ou Menu Outils/Outils de développement puis onglet Réseau).
+On peut observer le réseau à l'aide des outils de développement (`F12` ou Menu
+Outils/Outils de développement puis onglet Réseau).
+
+
+Regardons les communications HTTP quand :
+
+* on ouvre l'URL http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html
+* on clique sur le lien [http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html](http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html)
 
 <!--
 Ouvrir Réseau, recharger la page,
@@ -232,6 +230,7 @@ Il est souvent associé au port 80 de la machine hôte.
 
 * Un serveur Web = un serveur **HTTP**
 
+<!-- Note 03/09/2019 Remettre dessin et donner plus explications : serveur écoute le réseau, lit la requête, envoie le fichier -->
 
 </section>
 <section>
@@ -250,10 +249,15 @@ de votre répertoire personnel.
 
 Quand vous demandez la page
 [http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html](http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html),
-le serveur HTTP (Apache) de l'IUT va rechercher la page `index.html` dans le
-dossier `public_html` du répertoire personnel de `rletud`.
+le serveur HTTP (Apache) de l'IUT va rechercher le fichier
+`\home_de_rletud\public_html\index.html`.
+
+Idem la page http://webinfo.iutmontp.univ-montp2.fr/~rletud/image/topsecret.jpg 
+renvoie sur le fichier `\home_de_rletud\public_html\image\topsecret.jpg`.
 
 <!-- **Attention aux droits:** -->
+
+<!-- Note 03/09/2019 : comme avant mais envoie le fichier /home_rletud/public_html/index.html -->
 
 </section>
 <section>
@@ -286,6 +290,8 @@ dossier `public_html` du répertoire personnel de `rletud`.
 **Fonctionnalités typiques de sites dynamiques :**  
 un espace membres, un forum, un compteur de visiteurs, des actualités, une
 newsletter
+
+<!-- Note 03/09/2019 : statique : une url = un fichier, dynamique : une url = un script est exécuté et produit la page renvoyée -->
 
 </section>
 <section>
@@ -430,8 +436,8 @@ Popularité des langages côté serveur
 
 **PHP sert à créer des documents HTML :**
 
-* Il prend donc en entrée un fichier `.php` qui contient de l'HTML et du PHP
-* Il ressort un document HTML pur.
+* Il prend donc en entrée un fichier `.php` <!-- qui contient de l'HTML et du PHP -->
+* Il ressort un document HTML
 * Pour cela, il exécute les instructions PHP qui lui indique comment générer le
 document en sortie.
 
@@ -440,6 +446,9 @@ document en sortie.
 **Remarque :** PHP peut en générer tout type de document, pas nécessairement du
   HTML.
 
+<!-- Rq 04/09/2019 : Confus de dire contient de l'HTML et du PHP ?
+                     Sortie standard
+-->
 
 </section>
 <section>
@@ -475,6 +484,7 @@ Hello World
 
 **Démonstration avec la ligne de commande `php`**
 
+<!-- Rq 04/09/2019 : Dire que c'est juste une syntaxe raccourcie ? -->
 
 </section>
 <section>
@@ -683,9 +693,9 @@ Une *URL* (Uniform Resource Locator) sert à représenter une adresse sur le Web
 * Une URL simple :
 
   <p style="text-align:center">
-  <a href="http://romainlebreton.github.io/ProgWeb-CoteServeur/classes/class1.html#comment-faire-">
+  <!-- <a href="http://romainlebreton.github.io/ProgWeb-CoteServeur/classes/class1.html#comment-faire-"> -->
   <img alt="Exemple d'URL" src="{{site.baseurl}}/assets/URLSimple.png" width="900px">
-  </a>
+  <!-- </a> -->
   </p>
 
   <!-- Protocole : ftp, http, file, ... -->
@@ -829,7 +839,7 @@ Considérons le formulaire suivant et supposons que l'utilisateur ai tapé `MaDo
 <div style="flex-grow:1;">
 ```html
 <form method="get" action="traitement.php">
-    <input type="text" name="nom_var" />
+  <input type="text" name="nom_var" />
   <input type="submit" />
 </form>
 ```
@@ -847,7 +857,7 @@ Considérons le formulaire suivant et supposons que l'utilisateur ai tapé `MaDo
   * transmet ses informations dans le *query string*
   
 2. donc le clic sur `Valider` charge l'URL `traitement.php?nom_var=MaDonnee`  
-  On reconnaît le champ `name` du formulaire et ce qu'a rempli l'utilisateur
+  On reconnaît l'attribut `name="nom_var"` de `<input>` et la valeur remplie par l'utilisateur
 
 3. la page `traitement.php` suivante s'exécute avec le tableau
    `$_GET['nom_var']="MaDonnee";`
@@ -914,7 +924,7 @@ PREVOIR UNE DEMO AVEC LES OUTILS RESEAUX
 <div style="flex-grow:1;">
 ```html
 <form method="post" action="traitePost.php">
-    <input type="text" name="nom_var" />
+  <input type="text" name="nom_var" />
   <input type="submit" />
 </form>
 ```
