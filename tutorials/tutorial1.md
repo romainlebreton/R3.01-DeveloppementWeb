@@ -23,12 +23,12 @@ Quelques consignes qui vous feront gagner beaucoup de temps en développement we
 
 1. PHP est un langage de programmation donc utilisez un environnement de
    développement. Vous ne codez pas du Java avec BlocNotes, c'est pareil pour
-   PHP. Nous coderons donc notre PHP sous NetBeans à partir du TD2 (sauf si vous
+   PHP. Nous coderons donc notre PHP sous Sublime Text ou NetBeans (sauf si vous
    avez déjà votre éditeur préféré).
 
-   **Exceptionnellement** pour ce TD, utilisez un éditeur de base ; nous vous
-    recommandons *Sublime Text*. Ainsi, nous n'aurons pas l'impression que la
-    grosse machinerie qu'est NetBeans nous cache trop de choses.
+   Pour ce TD, nous vous recommandons *Sublime Text*. Ainsi, nous n'aurons pas
+   l'impression que la grosse machinerie qu'est NetBeans nous cache trop de
+   choses. Vous pourrez découvrir NetBeans à partir du TD2.
      
 2. Ne copiez **jamais** vos fichiers à plusieurs endroits.
 3. Merci de **ne pas** imprimer ce TP.
@@ -405,6 +405,12 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
   ```
 
 
+* On peut rajouter facilement un élément "à la fin" d'un tableau avec
+
+  ```php?start_inline=1
+  $mon_tableau[] = "Nouvelle valeur";
+  ```
+
 * Notez l'existence des boucles
   [`foreach`](http://php.net/manual/fr/control-structures.foreach.php) pour
   parcourir les paires clé/valeur des tableaux. 
@@ -417,7 +423,22 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
 
   La boucle `foreach` va boucler sur les associations du tableau. Pour chaque
   association, `foreach` va mettre la clé de l'association dans la variable
-  `$cle` et la valeur dans `$valeur` puis exécuter les commandes.  
+  `$cle` et la valeur dans `$valeur` puis exécuter les commandes.
+  Par exemple
+
+  ```php?start_inline=1
+  foreach ($coordonnees as $cle => $valeur){
+      echo "$cle : $valeur\n";
+  }
+  ```
+  
+  va afficher ceci (ou l'inverse car l'ordre des entrées n'est pas assuré)
+  
+  ```
+  prenom : François
+  nom : Dupont
+  ```
+  
   **Remarque :** La boucle `foreach` est indispensable pour parcourir les
   indices et valeurs d'un tableau indexé par des chaînes de caractères.  
   Il existe aussi bien sûr une boucle `for` classique si le tableau est indexé
@@ -429,11 +450,24 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
   }
   ```
 
-* On peut rajouter facilement un élément "à la fin" d'un tableau avec
+  Pour comprendre `foreach` autrement, le code suivant
 
   ```php?start_inline=1
-  $mon_tableau[] = "Nouvelle valeur";
+  foreach ($mon_tableau as $cle => $valeur){
+      //commandes
+  }
   ```
+
+  est équivalent à
+  
+    ```php?start_inline=1
+  for ($i = 0; $i < count($array_keys($mon_tableau)); $i++) {
+      $cle = $array_keys($mon_tableau)[$i];
+	  $valeur = $mon_tableau[$cle];
+      //commandes
+  }
+  ```
+
 
 **Source :** [Les tableaux sur php.net](http://php.net/manual/fr/language.types.array.php)
 
@@ -443,6 +477,23 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
 <!-- http://php.net/manual/fr/control-structures.alternative-syntax.php -->
 
 ### Exercices d'application
+
+<div class="exercise">
+Qu'écrivent chacun des `echo` suivants ?
+
+```php?start_inline=1
+$prenom = "Marc"
+
+echo "Bonjour " . $prenom;
+echo "Bonjour $prenom";
+echo 'Bonjour $prenom';
+
+echo $prenom;
+echo "$prenom";
+```
+
+Testez votre réponse en rajoutant ce code dans `echo.php`.
+</div>
 
 <div class="exercise">
 
