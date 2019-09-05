@@ -482,7 +482,7 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
 Qu'écrivent chacun des `echo` suivants ?
 
 ```php?start_inline=1
-$prenom = "Marc"
+$prenom = "Marc";
 
 echo "Bonjour " . $prenom;
 echo "Bonjour $prenom";
