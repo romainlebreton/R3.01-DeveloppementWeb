@@ -461,8 +461,8 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
   est équivalent à
   
     ```php?start_inline=1
-  for ($i = 0; $i < count($array_keys($mon_tableau)); $i++) {
-      $cle = $array_keys($mon_tableau)[$i];
+  for ($i = 0; $i < count(array_keys($mon_tableau)); $i++) {
+      $cle = array_keys($mon_tableau)[$i];
 	  $valeur = $mon_tableau[$cle];
       //commandes
   }
