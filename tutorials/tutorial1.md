@@ -269,14 +269,14 @@ le comportement est différent :
    * Les caractères protégés sont `"`, `$` et `\` qui doivent être échappés avec
    un anti-slash `\` comme ceci : `\"`, `\$` et `\\`;
    
-   **Exemple :**
+   **Exemple :** Le code PHP suivant
 
    ```php?start_inline=1
    $prenom="Helmut";
    echo "Bonjour $prenom,\n ça farte ?";
    ```
   
-   donne
+   produit le document suivant
    
    ```text
    Bonjour Helmut,
@@ -713,9 +713,9 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    <form method="post" action="creerVoiture.php">
    ```
    
-   et côté `creerVoiture.php`, mettez à jour la récupération des paramètres.
+   et côté `creerVoiture.php`, mettez à jour la récupération des paramètres :
 
-7. 1. Souvenez-vous (ou relisez le
+   1. Souvenez-vous (ou relisez le
    [cours 1](({{site.baseurl}}/classes/class1.html))) de par où passe
    l'information envoyée par un formulaire de méthode POST ;
    1. Changez `creerVoiture.php` pour récupérer l'information envoyée par le formulaire ;
