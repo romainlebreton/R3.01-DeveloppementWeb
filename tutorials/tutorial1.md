@@ -716,7 +716,7 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    et côté `creerVoiture.php`, mettez à jour la récupération des paramètres :
 
    1. Souvenez-vous (ou relisez le
-   [cours 1](({{site.baseurl}}/classes/class1.html))) de par où passe
+   [cours 1]({{site.baseurl}}/classes/class1.html)) de par où passe
    l'information envoyée par un formulaire de méthode POST ;
    1. Changez `creerVoiture.php` pour récupérer l'information envoyée par le formulaire ;
    1. Essayez de
