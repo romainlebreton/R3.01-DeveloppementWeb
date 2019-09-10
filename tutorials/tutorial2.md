@@ -214,7 +214,12 @@ Date:   Fri Sep 7 17:56:42 2018 +0200
    
 1. Enregistrez votre travail à l'aide de `git add` et `git commit`. Nous
    comptons sur vous pour penser à faire cet enregistrement régulièrement.
-
+   
+1. Pour pouvoir retrouver vos fichiers en dehors de l'IUT, vous allez lier votre
+   dépôt local à un dépôt Gitlab accessible depuis l'extérieur. Pour cela,
+   suivez les instructions données dans les 
+   [compléments du TD2]({{site.baseurl}}/assets/tut2-complement.html#tutoGitlab).
+   
 </div>
 
 ### Initialiser un objet `PDO`

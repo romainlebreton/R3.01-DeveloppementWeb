@@ -89,3 +89,65 @@ en stockant dans une variable statique le nombre d'instances.
 <!-- - préparer squelette class avec fonction/attribut statique/non statique  -->
 <!-- -> Comment appelle-t-on la fonction/attribut dedans/dehors la classe -->
 
+## Dépôt Git accessible depuis l'extérieur
+{: #tutoGitlab}
+
+Actuellement, vos fichiers PHP sont enregistrés dans un dépôt Git local. Nous
+allons le lier au Gitlab du département Informatique pour que vous puissiez y
+accéder depuis l'extérieur.
+
+Accédez à l'URL
+[https://gitlabinfo.iutmontp.univ-montp2.fr/](https://gitlabinfo.iutmontp.univ-montp2.fr/)
+et identifiez-vous avec vos login/mdp IUT. Dans l'onglet Projet, créez un
+nouveau projet. Une fois le projet créé, trois possibilités :
+
+  1. Vous avez déjà un dépôt à l'IUT avec des fichiers
+
+     Suivez les instructions du paragraphe "Push an existing Git repository" pour
+     lier votre dépôt local à celui du Gitlab :
+
+     ```bash
+     cd chemin_vers_votre_depot_local
+     # Rajoute gitlab comme depot distant (remplacer xxx & yyy)
+     git remote add origin git@gitlabinfo.iutmontp.univ-montp2.fr:xxx/yyy.git
+     # Pousse votre depot local sur Gitlab
+     # Plus precisement, pousse toutes les branches locales (--all)
+     # en y associant par défaut le depot distant origin (-u origin)
+     git push -u origin --all
+     ```
+
+  1. Vous avez déjà des fichiers à l'IUT mais pas dans un dépôt Git : Suivez les
+     instructions du paragraphe "Push an existing folder".
+
+  1. Vous n'avez pas encore de dépôt à l'IUT : Suivez les instructions du
+     paragraphe "Create a new repository".
+
+Vous pouvez accéder maintenant à ce dépôt depuis chez vous le clonant avec
+l'adresse donnée dans GitLab. Pensez bien à pousser vos modifications locales
+sur le dépôt distant Gitlab avant la fin de chaque séance avec la commande `git
+push`.
+
+
+### Configuration des clés SSH
+
+Vous en avez assez de devoir taper votre mot de passe à chaque `git push` ou
+`git pull` ? Mettez en place une identification sécurisée automatique à base de clé SSH.
+
+  1. Première étape : créez votre clé SSH sur les machines de l'IUT.
+
+     ```bash
+     # Creer un repertoire .ssh dans votre home si necessaire
+     mkdir ~/.ssh
+     cd ~/.ssh
+     # Creation d'une cle publique (id_rsa.pub) et privee (id_rsa)
+     # Nom du fichier ou enregistrer la clé -> Entrée pour garder le nom par defaut id_rsa
+     # Entrez deux fois un mot de passe
+     ssh-keygen
+     ```
+
+     <!-- Besoin de ssh-agent ? ssh-add ~/.ssh/id_rsa (id_rsa optionnel) ? -->
+
+  1. Deuxième étape : déposez votre clé SSH sur Gitlab.  
+     Sur [Gitlab Info](https://gitlabinfo.iutmontp.univ-montp2.fr/), allez dans les
+     paramètres utilisateurs puis dans l'onglet latéral SSH Keys. Recopiez le contenu
+     de `id_rsa.pub` (clé publique) dans le champ clé.
