@@ -122,6 +122,13 @@ nouveau projet. Une fois le projet créé, trois possibilités :
   1. Vous n'avez pas encore de dépôt à l'IUT : Suivez les instructions du
      paragraphe "Create a new repository".
 
+Pour anticiper une erreur due aux certificat de l'IUT (`server certificate
+verification failed`), exécutez aussi une fois pour toute la commande 
+
+```
+git config --global http.sslverify false
+```
+
 Vous pouvez accéder maintenant à ce dépôt depuis chez vous le clonant avec
 l'adresse donnée dans GitLab. Pensez bien à pousser vos modifications locales
 sur le dépôt distant Gitlab avant la fin de chaque séance avec la commande `git
