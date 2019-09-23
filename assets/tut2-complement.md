@@ -109,7 +109,10 @@ nouveau projet. Une fois le projet créé, trois possibilités :
      ```bash
      cd chemin_vers_votre_depot_local
      # Rajoute gitlab comme depot distant (remplacer xxx & yyy)
-     git remote add origin git@gitlabinfo.iutmontp.univ-montp2.fr:xxx/yyy.git
+     git remote add origin https://gitlabinfo.iutmontp.univ-montp2.fr/xxx/yyy.git
+	 # Pour anticiper une erreur due aux certificat de l'IUT
+	 #              "server certificate verification failed"
+	 git config --global http.sslverify false
      # Pousse votre depot local sur Gitlab
      # Plus precisement, pousse toutes les branches locales (--all)
      # en y associant par défaut le depot distant origin (-u origin)
@@ -122,13 +125,6 @@ nouveau projet. Une fois le projet créé, trois possibilités :
   1. Vous n'avez pas encore de dépôt à l'IUT : Suivez les instructions du
      paragraphe "Create a new repository".
 
-Pour anticiper une erreur due aux certificat de l'IUT (`server certificate
-verification failed`), exécutez aussi une fois pour toute la commande 
-
-```
-git config --global http.sslverify false
-```
-
 Vous pouvez accéder maintenant à ce dépôt depuis chez vous le clonant avec
 l'adresse donnée dans GitLab. Pensez bien à pousser vos modifications locales
 sur le dépôt distant Gitlab avant la fin de chaque séance avec la commande `git
@@ -140,7 +136,7 @@ push`.
 Vous en avez assez de devoir taper votre mot de passe à chaque `git push` ou
 `git pull` ? Mettez en place une identification sécurisée automatique à base de clé SSH.
 
-  1. Première étape : créez votre clé SSH sur les machines de l'IUT.
+  1. Créez votre clé SSH sur les machines de l'IUT.
 
      ```bash
      # Creer un repertoire .ssh dans votre home si necessaire
@@ -154,7 +150,19 @@ Vous en avez assez de devoir taper votre mot de passe à chaque `git push` ou
 
      <!-- Besoin de ssh-agent ? ssh-add ~/.ssh/id_rsa (id_rsa optionnel) ? -->
 
-  1. Deuxième étape : déposez votre clé SSH sur Gitlab.  
+  1. Déposez votre clé SSH sur Gitlab.  
      Sur [Gitlab Info](https://gitlabinfo.iutmontp.univ-montp2.fr/), allez dans les
      paramètres utilisateurs puis dans l'onglet latéral SSH Keys. Recopiez le contenu
      de `id_rsa.pub` (clé publique) dans le champ clé.
+
+  1. Il faut alors changer l'adresse du dépôt distant sur Github. En effet les
+     adresses commencant par `https` nécessitent une authentification alors que
+     celles commencant par `git@` correspondent à SSH :
+	 
+     ```bash
+     # Supprimer l'ancienne adresse du dépôt distant
+	 git remote remove origin
+	 # La recréer avec la bonne adresse en git@...
+	 git remote add origin git@gitlabinfo.iutmontp.univ-montp2.fr:xxx/yyy.git
+     ```
+	 
