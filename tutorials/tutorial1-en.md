@@ -186,7 +186,7 @@ where the chronology of your modifications is stored.
    opened by Git:
    
    ```shell
-   git config --global core.editor "subl -n -w"
+   git config --global core.editor "gedit --new-window -w"
    ```
 
 1. Everytime you want to learn more about the status of your Git repo, you
@@ -472,7 +472,7 @@ The arrays in PHP can be indexed by integers but also by strings:
 
 
 <!-- ```shell -->
-<!-- git config --global core.editor "subl -n -w" -->
+<!-- git config --global core.editor "gedit --new-window -w" -->
 <!-- ``` -->
 
 

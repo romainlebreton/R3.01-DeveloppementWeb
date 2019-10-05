@@ -203,7 +203,7 @@ pourront être enregistrées.
    suivante. Cela change l'éditeur de texte qu'ouvre Git par défaut.
    
    ```shell
-   git config --global core.editor "subl -n -w"
+   git config --global core.editor "gedit --new-window -w"
    ```
    
 1. Pour en savoir plus sur l'état de Git, **exécutez** la commande `git status`.
@@ -241,7 +241,7 @@ pourront être enregistrées.
 
 
    <!-- ```shell -->
-   <!-- git config --global core.editor "subl -n -w" -->
+   <!-- git config --global core.editor "gedit --new-window -w" -->
    <!-- ``` -->
    
 1. Une dernière exécution de `git status` nous renseigne que nous avons bien

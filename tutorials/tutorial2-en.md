@@ -171,7 +171,7 @@ git commit
    Likely, you can change your default Git text editor with
    
    ```shell
-   git config --global core.editor "subl -n -w"
+   git config --global core.editor "gedit --new-window -w"
    ```
 
 1. To see the history of your commits, **run**

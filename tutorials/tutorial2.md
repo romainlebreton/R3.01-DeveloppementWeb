@@ -189,7 +189,7 @@ git commit
    De même, si vous voulez changer l'éditeur de texte qu'ouvre Git par défaut
    
    ```shell
-   git config --global core.editor "subl -n -w"
+   git config --global core.editor "gedit --new-window -w"
    ```
 
 1. Pour voir l'historique de vos commits, **exécutez**
