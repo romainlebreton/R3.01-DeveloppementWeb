@@ -110,7 +110,7 @@ nouveau projet. Une fois le projet créé, trois possibilités :
      cd chemin_vers_votre_depot_local
      # Rajoute gitlab comme depot distant (remplacer xxx & yyy)
      git remote add origin https://gitlabinfo.iutmontp.univ-montp2.fr/xxx/yyy.git
-	 # Pour anticiper une erreur due aux certificat de l'IUT
+	 # Pour anticiper une erreur due aux certificats de l'IUT
 	 #              "server certificate verification failed"
 	 git config --global http.sslverify false
      # Pousse votre depot local sur Gitlab
