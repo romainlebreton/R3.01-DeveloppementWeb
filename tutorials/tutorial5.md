@@ -385,8 +385,11 @@ son debuggage.
 ### Mise en commun de l'en-tête et du pied de page
 
 Actuellement, les scripts de vues sont chargées d'écrire l'ensemble de la page
-Web, du `<!DOCTYPE HTML><html>...` jusqu'au `</body></html>`. C'est
-problématique car cela nous empêche de mettre facilement deux vues bout à
+Web, du
+<code><!DOCTYPE HTML><html>...</code>
+jusqu'au
+<code></body></html></code>
+. C'est problématique car cela nous empêche de mettre facilement deux vues bout à
 bout. Voyons cela sur un exemple.
 
 Supposez que l'on souhaite que notre vue de création (action `created`) de

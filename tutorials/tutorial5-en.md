@@ -304,8 +304,11 @@ problem since it impairs the maintenance of the website and its debugging.
 
 ### Share the header and the footer
 
-At the moment, the views are asked to write the whole webpage, from `<!DOCTYPE
-HTML><html>...` until `</body></html>`. This is an issue since this prevents us
+At the moment, the views are asked to write the whole webpage, from
+<code><!DOCTYPE HTML><html>...</code>
+until
+<code></body></html></code>
+. This is an issue since this prevents us
 from concatenating two views. More specifically, suppose that we want our
 creation view (action `created`) to display a message (e.g. "Your car has been
 saved.") followed by the list of all cars. We would like to reuse the view
