@@ -24,7 +24,7 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaine du 16 Septembre 2019 -- [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html) ([English version](tutorials/tutorial3-en.html))
 1. Semaine du 23 Septembre 2019 --  [TD 4 -- Architecture MVC simple](tutorials/tutorial4.html) ([English version](tutorials/tutorial4-en.html))
 1. Semaine du 30 Septembre 2019 -- [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html) ([English version](tutorials/tutorial5-en.html))
-<!-- 1. Semaine du 07 Octobre 2019 --  [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html) ([English version](tutorials/tutorial6-en.html)) -->
+1. Semaine du 07 Octobre 2019 --  [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html) ([English version](tutorials/tutorial6-en.html))
 <!-- 1. Semaine du 14 Octobre 2019 --  [Début projet](projet.html) -->
 <!-- 1. Semaine du 21 Octobre 2019 -- [Projet](projet.html) -->
 <!-- 1. Semaines du 4 Novembre 2019 --  -->
