@@ -481,7 +481,7 @@ fusionner `create.php` et `update.php` en une unique page.
    Utilisez une variable dans le contrôleur pour permettre l'adaptation de la
    vue à ces deux actions.
 
-1. enfin, le champ `action` du formulaire doit être `save` si l'action est
+1. enfin, le champ `action` du formulaire doit être `created` si l'action est
    `create` ou `updated` si l'action est `update`.  Là aussi, utiliser une
    variable spécifique.
 
