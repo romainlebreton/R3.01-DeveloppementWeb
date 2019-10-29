@@ -451,7 +451,7 @@ fonctionnalités suivantes :
 ## Mise en application sur le site de covoiturage
 
 Dans le site de covoiturage, vous avez mis en place une redirection dans la page
-`index.php` vers l'action `viewAll` du contrôleur `voiture`. Dans cet exercice,
+`index.php` vers l'action `readAll` du contrôleur `voiture`. Dans cet exercice,
 nous allons permettre à chaque visiteur du site de configurer sur quelle page
 il souhaite arriver par défaut lorsqu'il visite le site web.
 
