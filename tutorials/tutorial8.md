@@ -382,7 +382,7 @@ l'adresse email côté client, avec par exemple
    un confort d'affichage mais ne constituent en aucun cas une sécurisation de
    votre site !
 
-1. Dans l'action `create` du contrôleur `Utilisateur`, vérifiez le format de
+1. Dans l'action `created` du contrôleur `Utilisateur`, vérifiez le format de
 l'adresse email de l'utilisateur. Pour cela, vous pouvez par exemple utiliser la
 fonction [`filter_var()`](http://php.net/manual/en/function.filter-var.php) avec
 le filtre
