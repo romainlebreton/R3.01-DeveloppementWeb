@@ -38,7 +38,7 @@ Cours à l'IUT de Montpellier - 2ème année
 2. [NetBeans, attributs et méthodes statiques, Gitlab]({{site.baseurl}}/assets/tut2-complement.html)
 3. [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
 4. [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html)
-<!-- 5. [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html) -->
+5. [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html)
 
 
 ## Instructions du projet
