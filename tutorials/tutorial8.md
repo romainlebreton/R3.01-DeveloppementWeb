@@ -71,7 +71,7 @@ echo $mot_passe_chiffre;
 1. Copier la fonction `chiffrer` ci-dessus dans un fichier
   `lib/Security.php`. Pour faire les choses plus proprement, créez une classe
   `Security` englobant la fonction.
-2. Modifier les actions `create` puis `updated` du contrôleur
+2. Modifier les actions `created` puis `updated` du contrôleur
 `ControllerUtilisateur.php` pour sauver dans la BDD le mot de passe
 chiffré. N'oubliez pas de faire un `require_once` de `Security.php` pour pouvoir
 appeler la fonction.
@@ -453,7 +453,7 @@ aléatoires à la création de l'utilisateur :
    http://php.net/manual/fr/function.uniqid.php](http://php.net/manual/fr/function.uniqid.php
    -->
 
-   * Dans l'action `create` du contrôleur `Utilisateur`, générez un identifiant
+   * Dans l'action `created` du contrôleur `Utilisateur`, générez un identifiant
    unique avec la fonction `generateRandomHex()`  que vous stockerez
    dans le champ `nonce` de la table `utilisateur`.
 
