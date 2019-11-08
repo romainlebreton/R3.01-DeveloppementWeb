@@ -457,7 +457,7 @@ il souhaite arriver par défaut lorsqu'il visite le site web.
 
 **Note importante :** Cet exercice nécessite d'avoir codé plusieurs contrôleurs
 au TD précédent. Si ce n'est pas le cas, changez l'exercice pour personnaliser
-la vue par défaut `readAll` plutôt que le contrôleur.
+l'action par défaut `readAll` plutôt que le contrôleur.
 
 <div class="exercise">
 
