@@ -63,7 +63,8 @@ fonction
 
 ```php?start_inline=1
 $allowed_ext = array("jpg", "jpeg", "png");
-if (!in_array(end(explode('.',$_FILES['nom-du-fichier']['name'])), $allowed_ext)) {
+$explosion = explode('.',$_FILES['nom-du-fichier']['name']);
+if (!in_array(end($explosion), $allowed_ext)) {
   echo "Mauvais type de fichier !";
 }
 ```
