@@ -54,13 +54,15 @@ base, mais sa version chiffrée:
 
 ```php
 <?php
-function chiffrer($texte_en_clair) {
-  $texte_chiffre = hash('sha256', $texte_en_clair);
-  return $texte_chiffre;
+class Security {
+	function chiffrer($texte_en_clair) {
+		$texte_chiffre = hash('sha256', $texte_en_clair);
+		return $texte_chiffre;
+	}
 }
 
 $mot_passe_en_clair = 'apple';
-$mot_passe_chiffre = chiffrer($mot_passe_en_clair);
+$mot_passe_chiffre = Security::chiffrer($mot_passe_en_clair);
 echo $mot_passe_chiffre;
 //affiche '3a7bd3e2360a3d29eea436fcfb7e44c735d117c42d1c1835420b6b9942dd4f1b'
 ?>
@@ -133,16 +135,10 @@ début de nos mots de passes en clair pour qu'aucun ne soit plus "classique".
 
 <div class="exercise">
 
-1. Recopier le code suivant dans la classe `Security`. Ce code stocke votre
-chaîne aléatoire dans une variable `static` qui sera accessible par la méthode
-statique `Security::getSeed()`.
+1. Rajoutez un attribut statique `seed` dans la classe `Security` :
 
    ```php?start_inline=1
    private static $seed = 'votre chaine aleatoire fixe';
-
-   static public function getSeed() {
-      return self::$seed;
-   }
    ```
 
 1. Changez votre graine `seed` par une chaîne aléatoire, obtenue par exemple
