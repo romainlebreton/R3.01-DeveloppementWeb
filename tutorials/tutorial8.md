@@ -32,8 +32,9 @@ colonne `VARCHAR(64) mdp` stockant son mot de passe.
    **Plus d'explications :** Étant donné que nous allons utiliser une fonction
    de chiffrement pour stocker ce mot de passe, vous devez prévoir une taille de
    champ correspondant à la taille du mot de passe chiffré (64 caractères pour
-   SHA-256 car `64 char = 64 octets = 256 bits`) et non de la taille du mot de
-   passe lui-même.
+   SHA-256 et comme 1 octet se code en hexadécimal sur 2 caractères e.g. `1F`,
+   cela donne `32 octets = 256 bits`) et non de la taille du mot de passe
+   lui-même.
 
 1. Modifier la vue `create.php` (ou `update.php` si vous aviez fusionné les deux
 vues dans le TD6) pour ajouter deux champs `<input type="password">` au
