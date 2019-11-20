@@ -35,30 +35,17 @@ soutenance.
 
 **Emploi du temps prévisionnel :**
 
-* 22 Octobre   2018 - **Début projet**
-* 29 Octobre   2018 - **Congé IUT**
-* 5  Novembre  2018 - 3h projet
-* 12 Novembre  2018 – TP 7 – Cookies & Sessions + 1h projet
-* 19 Novembre  2018 – TP 8 – Authentification & Validation par email + 1h projet
-* 26 Novembre  2018 - 3h projet
-* 3  Décembre  2018 - 3h projet
-* 10 Décembre  2018 - **soutenances du projet**
+1. Semaine du 18 Novembre 2019 -- 3h projet
+1. Semaine du 25 Novembre 2019 -- 3h projet
+1. Semaine du 2 Décembre 2019 -- 3h projet
+1. Semaine du 9 Décembre 2019 -- soutenances du projet
 
 ## Par où commencer ?
 
-1. Définir les produits que vous souhaitez vendre.  
-Vous devez éventuellement prévoir des extensions, par exemple des accessoires
-pour vos produits.  S'agit-il d'une association "un vers plusieurs" ou
-"plusieurs vers plusieurs" ?
-
-2. Créer les 2-3 tables correspondantes en SQL. Si votre schéma de Base de
-Données contient des clés étrangères (ce qui est probable), pensez à utiliser le
-format de stockage InnoDB. Se reporter au
-[TD 3](http://romainlebreton.github.io/ProgWeb-CoteServeur/tutorials/tutorial3.html)
-pour plus de détails.
-
-3. Cette première séance est consacrée à implémenter le Modèle, le Contrôleur et
-   les premières vues spécifiques à vos produits.
+1. Définir les produits que vous souhaitez vendre.
+1. Créer la table SQL correspondante.
+1. La première séance doit vous permettre d'implémenter quelques actions du MVC
+   Produit.
 
 ### Ce que ce projet n'est pas :
 
@@ -112,65 +99,3 @@ lesquels vous serez notés](https://docs.google.com/spreadsheets/d/1oUd7fe0K8WZh
 Il n'y a **pas** de rapport à écrire, ni de présentation à préparer. Vous devrez
 juste répondre à une série de questions sur votre code qui nous permettra
 d'évaluer ce qui a été implémenté.
-
-<!-- [Planning des soutenances]() -->
-
-<!--
-### Front-Office 
-
-**Rappel:** le projet portant sur la programmation côté serveur, la partie de la note correspondante au design HTML/CSS est faible. 
-
-1. HTML / CSS valides et séparés
-3. Problème d’encodage: problème avec les accents dans les textes fixes ou issues de la BD.
-4. W3C (plus de 10 erreurs  / 1-2 erreurs / aucune erreur)
-5. Factorisation code (aucune / include header+footer / include content)
-
-Pourquoi les items suivants ?
-3. utilisation de `<div>` pour la mise en page
-2. CSS responsive
-
-
-### Gestion des formulaires Formulaire (de contacts ou autre)
-
-2. Vérification des données en HTML5 ou Javascript
-3. Vérification des données en PHP
-4. Re-Remplissage du formulaire en cas d'erreur de saisie.
-
-
-### Gestion des  utilisateurs
-
-1. mail confirmation pour l'inscription
-
-2. différents niveaux: admin/users
-
-### Gestion du panier 
-1. Cookie 
-
-### Back-office
-
-1. Utilisation des sessions: 
-2. Message bienvenue
-3. Sécurisation de quelques pages (manuellement)
-4. Sécurisation de toutes les pages (automatisé via le controleur)
-
-### CRUD
-
-Produits:
-Ajout / Suppression  / Modification
-
-Relations annexes nécesitant une jointure (genre accesoires):
-Ajout / Suppression  / Modification
-
-### MVC 
-
-1. Vues liste / liste paginée / détail 
-
-2. Critères visant à évaluer la qualité de votre MVC: (to be completed)
-
-Aucun code HTML hors des vues
-
-Aucun SQL hors du modèle 
-
-### Qualité de la démonstration 
-
--->
