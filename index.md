@@ -26,11 +26,11 @@ Cours à l'IUT de Montpellier - 2ème année
    [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) ([English version](tutorials/tutorial7-en.html)) puis projet
 1. Semaine du 11 Novembre 2019 --
    [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html) ([English version](tutorials/tutorial8-en.html))
-<!--    puis projet -->
-<!-- 1. Semaine du 18 Novembre 2019 -- 3h projet -->
-<!-- 1. Semaine du 25 Novembre 2019 -- 3h projet -->
-<!-- 1. Semaine du 2 Décembre 2019 -- 3h projet -->
-<!-- 1. Semaine du 09 Décembre 2019 -- soutenances du projet -->
+   puis projet
+1. Semaine du 18 Novembre 2019 -- 3h projet
+1. Semaine du 25 Novembre 2019 -- 3h projet
+1. Semaine du 2 Décembre 2019 -- 3h projet
+1. Semaine du 9 Décembre 2019 -- soutenances du projet
 
 ### Notes complémentaires
 
