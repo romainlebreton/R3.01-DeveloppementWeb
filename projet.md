@@ -52,8 +52,9 @@ soutenance.
 * Un site vitrine joli avec beaucoup d'images par exemple. Vous n'aurez pas de
   point sur cet aspect. Par contre, vous êtes autorisés à repartir de votre
   projet de HTML/CSS de l'an dernier.
-* Un site réaliste qui implémente `X` fois la même fonctionnalité. Le but est
-  de réaliser correctement un maximum de fonctionnalités différentes.
+* Un site réaliste qui implémente `X` fois la même fonctionnalité. Le but est de
+  réaliser correctement un maximum de fonctionnalités différentes des [critères
+  de notation](https://docs.google.com/spreadsheets/d/1oUd7fe0K8WZhI2TPRRvgZ2xPZf5H22CUvlpcXEMD3Ao/edit#gid=0) (cf. plus bas).
 
 ### Que garder pour plus tard ?
 
