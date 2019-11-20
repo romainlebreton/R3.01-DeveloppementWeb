@@ -278,7 +278,7 @@ l'action `readAll` de `Utilisateur`.
    des voitures avec uniquement l'action `readAll` et le `require` du modèle
    pour l'instant.
 
-   **Astuce :**Vous pouvez utiliser la fonction de remplacement (`Ctrl+H` sur
+   **Astuce :** Vous pouvez utiliser la fonction de remplacement (`Ctrl+H` sur
      Netbeans) pour remplacer toutes les `voiture` par `utilisateur`. En cochant
      `Préserver la casse` (`Preserve case`), vous pouvez faire en sorte de
      respecter les majuscules lors du remplacement.
