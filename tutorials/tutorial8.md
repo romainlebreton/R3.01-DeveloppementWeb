@@ -421,7 +421,7 @@ Mettons en place ce procédé :
 1. Ajoutez un champ `nonce` de type `VARCHAR[32]` ainsi qu'un champ `email` de
    type `VARCHAR[256]` à la table `utilisateur`.
 
-1. Modifiez l'action `connect` du contrôleur `Utilisateur` de sorte à accepter la
+1. Modifiez l'action `connected` du contrôleur `Utilisateur` de sorte à accepter la
 connexion uniquement si le champ `nonce` est `NULL`.
 
 1. Ajoutez une action `validate` au contrôleur `Utilisateur` qui récupère en GET
