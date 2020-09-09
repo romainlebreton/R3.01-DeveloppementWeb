@@ -27,7 +27,7 @@ Voir quand intégrer la séance Git
 
 * examen final : ~40%
 * projet PHP : ~60%
-* pas de partiel
+* Examen final écrit
 
 </section>
 <section>
@@ -38,24 +38,24 @@ Voir quand intégrer la séance Git
 
 **1er bloc de TPs -- Bases de PHP :**
 
-* 07  Septembre 2018 – TP 1 – Introduction aux objets en PHP
-* 14 Septembre 2018 – TP 2 – La persistance des données en PHP
-* 21 Septembre 2018 – TP 3 – Requêtes préparées et association de classes
-* 28 Septembre 2018 – TP 4 – Architecture MVC simple
-* 05 Octobre   2018 – TP 5 – Architecture MVC avancée 1/2
-* 12 Octobre   2018 – TP 6 – Architecture MVC avancée 2/2
-* 19 Octobre   2018 – **Début projet**
+* 07  Septembre 2020 – TP 1 – Introduction aux objets en PHP
+* 14 Septembre 2020 – TP 2 – La persistance des données en PHP
+* 21 Septembre 2020 – TP 3 – Requêtes préparées et association de classes
+* 28 Septembre 2020 – TP 4 – Architecture MVC simple
+* 05 Octobre   2020 – TP 5 – Architecture MVC avancée 1/2
+* 12 Octobre   2020 – TP 6 – Architecture MVC avancée 2/2
+* 19 Octobre   2020 – **Début projet**
 
 **2ème bloc de TPs -- Mise en application sur le projet + TPs complémentaires :**
 
-* 26 Octobre   2018 - **Congé IUT**
-* 02 Novembre   2018 - 3h projet
-* 09 Novembre  2018 - TP 7 – Cookies & Sessions + 1h projet
-* 16 Novembre  2018 – TP 8 – Authentification & Validation par email + 1h projet
-* 23 Novembre  2018 – 3h projet
-* 30 Novembre  2018 - 3h projet
-* 07  Décembre  2018 - 3h projet
-* 14 Décembre  2018 - **soutenances du projet et examen**
+* 26 Octobre   2020 - **Congé IUT**
+* 02 Novembre   2020 - 3h projet
+* 09 Novembre  2020 - TP 7 – Cookies & Sessions + 1h projet
+* 16 Novembre  2020 – TP 8 – Authentification & Validation par email + 1h projet
+* 23 Novembre  2020 – 3h projet
+* 30 Novembre  2020 - 3h projet
+* 07  Décembre  2020 - 3h projet
+* 14 Décembre  2020 - **soutenances du projet et examen**
 
 <!-- Peut-être cours un peu plus long que 1h -->
 
@@ -619,8 +619,8 @@ Ce sont les **tableaux associatifs**
 * On peut créer le tableau case par case :
 
   ```php?start_inline=1
-  $coordonnees['prenom'] = 'Marc';
   $coordonnees['nom'] = 'Assin';
+  $coordonnees['prenom'] = 'Marc';
   ```
 
   **NB :** En `PHP` les variables commencent par `$`
@@ -629,8 +629,8 @@ Ce sont les **tableaux associatifs**
 
   ```php?start_inline=1
   $coordonnees = array (
-    'prenom' => 'Marc',
-    'nom'    => 'Assin'  );
+    'nom'    => 'Assin',
+    'prenom' => 'Marc'   );
   ```
 
 
