@@ -16,7 +16,7 @@ Voir quand intégrer la séance Git
 
 * Apprendre à faire des pages dynamiques avec PHP et MySQL
 * Organiser son code avec l'architecture MVC
-* Introduction au gestionnaire de version Git & au gestionnaire GitLab
+<!-- * Introduction au gestionnaire de version Git & au gestionnaire GitLab -->
 
 **Cours et TP en ligne :**
 
@@ -34,28 +34,28 @@ Voir quand intégrer la séance Git
 
 ## Emploi du temps prévisionnel
 
-* 4 Septembre -- Cours Introductif
+* 09 Septembre -- Cours Introductif
 
 **1er bloc de TPs -- Bases de PHP :**
 
-* 2  Septembre 2018 – TP 1 – Introduction aux objets en PHP
-* 09 Septembre 2018 – TP 2 – La persistance des données en PHP
-* 16 Septembre 2018 – TP 3 – Requêtes préparées et association de classes
-* 23 Septembre 2018 – TP 4 – Architecture MVC simple
-* 30 Septembre   2018 – TP 5 – Architecture MVC avancée 1/2
-* 7 Octobre   2018 – TP 6 – Architecture MVC avancée 2/2
-* 14 Octobre   2018 – **Début projet**
+* 07  Septembre 2018 – TP 1 – Introduction aux objets en PHP
+* 14 Septembre 2018 – TP 2 – La persistance des données en PHP
+* 21 Septembre 2018 – TP 3 – Requêtes préparées et association de classes
+* 28 Septembre 2018 – TP 4 – Architecture MVC simple
+* 05 Octobre   2018 – TP 5 – Architecture MVC avancée 1/2
+* 12 Octobre   2018 – TP 6 – Architecture MVC avancée 2/2
+* 19 Octobre   2018 – **Début projet**
 
 **2ème bloc de TPs -- Mise en application sur le projet + TPs complémentaires :**
 
-* 21 Octobre   2018 - 3h projet
-* 28 Octobre   2018 - **Congé IUT**
-* 4  Novembre  2018 - TP 7 – Cookies & Sessions + 1h projet
-* 11 Novembre  2018 – TP 8 – Authentification & Validation par email + 1h projet
-* 18 Novembre  2018 – 3h projet
-* 25 Novembre  2018 - 3h projet
-* 2  Décembre  2018 - 3h projet
-* 09 Décembre  2018 - **soutenances du projet**
+* 26 Octobre   2018 - **Congé IUT**
+* 02 Novembre   2018 - 3h projet
+* 09 Novembre  2018 - TP 7 – Cookies & Sessions + 1h projet
+* 16 Novembre  2018 – TP 8 – Authentification & Validation par email + 1h projet
+* 23 Novembre  2018 – 3h projet
+* 30 Novembre  2018 - 3h projet
+* 07  Décembre  2018 - 3h projet
+* 14 Décembre  2018 - **soutenances du projet et examen**
 
 <!-- Peut-être cours un peu plus long que 1h -->
 
@@ -130,7 +130,8 @@ Accept-Ranges: bytes
 Content-Length: 5781
 Content-Type: text/html
 
-<html><head><meta charset="utf-8" />... (contenu de index.html)
+<html><head><meta charset="utf-8" />...</head>
+<body>...</body></html>(contenu de index.html)
 ```
 
 <!-- Parler de réponse et découpage en en-tête et corps de la réponse -->
