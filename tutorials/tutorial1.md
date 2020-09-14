@@ -180,16 +180,41 @@ fichiers OU de façon équivalente avec une URL en `file://` comme :
 
 ### Notre premier dépôt Git
 
-Comme nous vous l'avons déjà dit, ce cours de PHP va être l'occasion d'apprendre
-le gestionnaire de version Git. Nous allons débuter en récupérant un *dépôt
-Git*, c'est-à-dire un dossier dans lequel la chronologie de toutes modifications
-pourront être enregistrées.
+Ce cours de PHP est aussi l'occasion de manipuler le gestionnaire de version
+Git. Nous allons débuter en créant un *dépôt Git*, c'est-à-dire un dossier
+dans lequel la chronologie de toutes modifications pourront être enregistrées.
 
 <div class="exercise">
 
-1. Pour transformer une fois pour toute notre répertoire PHP en dépôt Git,
-   **exécutez** la commande `git init` dans le terminal en étant dans le dossier `PHP`.
+<!-- 1. Pour transformer une fois pour toute notre répertoire PHP en dépôt Git, -->
+<!--    **exécutez** la commande `git init` dans le terminal en étant dans le dossier `PHP`. -->
+
+1. Créons un dépôt Git sur GitLab (ou GitHub si vous y avez vos habitudes).
+
+   1. Allez sur le [GitLab de
+   l'IUT](https://gitlabinfo.iutmontp.univ-montp2.fr/) et créez un nouveau
+   projet `TD-PHP`. 
+   1. Récupérez l'adresse de votre projet dans le bouton `Clone`.
+
+   **Note :** Vous pouvez utiliser HTTPS ou SSH pour vous connecter. Nous vous
+   recommandons SSH pour ne pas avoir à taper votre login/mot de passe à chaque
+   `git push/pull`. Vous pouvez utiliser le [tutoriel de l'an
+   dernier](https://gitlabinfo.iutmontp.univ-montp2.fr/valicov/tutoGit1ereAnnee/blob/master/README.md)
+   pour recréer une clé SSH. Si vous utilisez HTTPS, vous aurez besoin
+   d'exécuter d'abord la commande suivante pour que `git clone` marche.
    
+     ```bash
+	 # Pour anticiper une erreur due aux certificats de l'IUT
+	 #              "server certificate verification failed"
+	 git config --global http.sslverify false
+     ```
+   
+   1. Dans le terminal, faites `git clone` suivi de l'adresse de votre
+   projet. 
+   1. Enfin déplacez le dossier `TD1` dans le répertoire `TD-PHP` créé par le `git
+   clone`.
+
+
 1. Nous allons configurer Git pour qu'il connaisse votre nom et votre adresse
    email, ce qui sera utile quand vous travaillerez en groupe pour savoir qui a
    enregistré quelle modification :
