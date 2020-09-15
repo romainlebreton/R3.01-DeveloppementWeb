@@ -17,7 +17,7 @@ Cours à l'IUT de Montpellier - 2ème année
 ## TDs
 
 1. Semaine du 07 Septembre 2020 -- [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html) ([English version](tutorials/tutorial1-en.html))
-<!-- 1. Semaine du 14 Septembre 2020 -- [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html) ([English version](tutorials/tutorial2-en.html)) -->
+1. Semaine du 14 Septembre 2020 -- [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html) ([English version](tutorials/tutorial2-en.html))
 <!-- 1. Semaine du 21 Septembre 2020 -- [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html) ([English version](tutorials/tutorial3-en.html)) -->
 <!-- 1. Semaine du 28 Septembre 2020 --  [TD 4 -- Architecture MVC simple](tutorials/tutorial4.html) ([English version](tutorials/tutorial4-en.html)) -->
 <!-- 1. Semaine du 05 Octobre 2020 -- [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html) ([English version](tutorials/tutorial5-en.html)) -->
