@@ -34,11 +34,11 @@ Cours à l'IUT de Montpellier - 2ème année
 <!-- 1. Semaine du 07 Décembre 2020 -- 3h projet -->
 <!-- 1. Semaine du 14 Décembre 2020 -- soutenances du projet et examen-->
 
-<!-- ### Notes complémentaires -->
+### Notes complémentaires
 
-<!-- 1. [Encodage des caractères, serveur HTTP de l'IUT et note sur les URLs]({{site.baseurl}}/assets/tut1-complement.html) -->
-<!-- 2. [NetBeans, attributs et méthodes statiques, Gitlab]({{site.baseurl}}/assets/tut2-complement.html) -->
-<!-- 3. [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html) -->
+1. [Encodage des caractères, serveur HTTP de l'IUT et note sur les URLs]({{site.baseurl}}/assets/tut1-complement.html)
+2. [NetBeans, attributs et méthodes statiques, Gitlab]({{site.baseurl}}/assets/tut2-complement.html)
+3. [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
 <!-- 4. [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html) -->
 <!-- 5. [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html) -->
 
