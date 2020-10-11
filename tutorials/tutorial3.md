@@ -159,6 +159,11 @@ d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 1. Testez la fonction `getVoitureByImmat` dans `lireVoiture.php`.
 
 </div>
+
+**Désormais**, toutes les requêtes SQL doivent être codées en utilisant des
+requêtes préparées, sauf éventuellement des requêtes SQL sans variable comme
+`SELECT * FROM voiture`.
+
 <div class="exercise">
 
 2. Créez une fonction `save()` dans la classe `Voiture` qui insère la voiture
@@ -188,6 +193,10 @@ de création de voiture du TD1 :
    
 4. Testez l'insertion grâce au formulaire `formulaireVoiture.html`. 
 5. Vérifiez dans PhpMyAdmin que les voitures sont bien sauvegardées.
+6. Essayez de rajouter une voiture dont un champ contient un guillemet simple
+   `'`, par exemple une marque `"Roll's Royce"`. Est-ce qu'elle a bien été
+   sauvegardée ? Si ce n'est pas le cas, c'est sûrement que vous n'avez pas
+   utilisé les requêtes préparées.
 
 **N'oubliez pas** de protéger tout votre code contenant du PDO
   (`getAllVoitures`, ...)  avec des try - catch comme dans `Model`. En effet,
@@ -407,6 +416,8 @@ pouvez vous rafraîchir la mémoire en lisant
 où l'on rentrera l'identifiant d'un trajet. La page de traitement de ce
 formulaire sera `testFindUtil.php`. Modifiez `testFindUtil.php` pour qu'il
 récupère l'identifiant envoyé par le formulaire.
+
+**Avez-vous** bien utilisé une requête préparée dans `findPassagers` ?
 
 </div>
 

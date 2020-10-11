@@ -145,9 +145,8 @@ require_once "./config/Conf.php";
 
 <div class="exercise">
 
-Pour garder notre code propre, nous allons écrire une fonction `build_path`
-qui prend en entrée `array("config","Conf.php")` et renvoie
-`"{$ROOT_FOLDER}/config/Conf.php"`.
+Pour garder notre code propre, nous allons écrire une fonction `build_path`. Le
+rôle de cette fonction est de créer un chemin de fichier absolu.
 
 1. Créez une classe PHP `File` dans un fichier `lib/File.php`.
 
@@ -163,6 +162,11 @@ qui prend en entrée `array("config","Conf.php")` et renvoie
    }
    ```
 
+   Voici comment la fonction marche sur un exemple : on appelle
+  `build_path(array("config","Conf.php"))` et elle nous renvoie un chemin de
+  fichier absolu comme par exemple
+  `"/home/ann2/votre_login/public_html/TD5/config/Conf.php"`.
+
    **Note :** [Documentation de la fonction `join`](http://php.net/manual/fr/function.join.php).
    
 1. **Incluez** votre classe `File.php` dans le routeur `routeur.php`.  
@@ -171,9 +175,14 @@ qui prend en entrée `array("config","Conf.php")` et renvoie
    **Testez** que votre ancien site marche toujours bien en demandant la page
    `controller/routeur.php?action=readAll` dans votre navigateur.
 
-   **Remarque :** Contrairement au `require` du routeur, le `require` de
-     `File.php` ne peut pas se faire avec `build_path` puisqu'il n'a pas
-     encore été déclaré. Il faut donc le faire "à la main".
+   **Remarques :** 
+   
+   * Contrairement au `require` du routeur, le `require` de `File.php` ne peut
+     pas se faire avec `build_path` puisqu'il n'a pas encore été déclaré. Il
+     faut donc le faire "à la main".
+   * Votre éditeur de texte peut sûrement rechercher tous les `require` dans tous
+     les fichiers ouverts pour être sûr de ne pas en oublier un. Par exemple,
+     Sublime Text a un menu `Find > Find in Files`.
 
 3. On souhaite désormais que la page d'accueil soit `index.php`. Créez donc un
    tel fichier à la racine de votre site. Déplacez le `require` de `File.php` du
