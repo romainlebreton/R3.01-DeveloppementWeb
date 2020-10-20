@@ -28,7 +28,7 @@ Cours à l'IUT de Montpellier - 2ème année
 <!-- ([English version](tutorials/tutorial5-en.html)) -->
 1. Semaine du 12 Octobre 2020 --  [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html) 
 <!-- ([English version](tutorials/tutorial6-en.html)) -->
-<!-- 1. Semaine du 19 Octobre 2020 --  [Début projet](projet.html) -->
+1. Semaine du 19 Octobre 2020 --  [Début projet](projet.html)
 <!-- 1. Semaine du 02 Novembre 2020 -- [Projet](projet.html) -->
 <!-- 1. Semaines du 09 Novembre 2020 -- -->
 <!--    [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) ([English version](tutorials/tutorial7-en.html)) puis projet -->
@@ -49,9 +49,9 @@ Cours à l'IUT de Montpellier - 2ème année
 <!-- 5. [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html) -->
 
 
-<!-- ## Instructions du projet -->
+## Instructions du projet
 
-<!-- [Instructions du projet](projet.html) -->
+[Instructions du projet](projet.html)
 
 
 <!-- ## Chat -->
