@@ -85,7 +85,14 @@ Dans la suite de ce cours, plusieurs séances seront consacrées à:
 
 En conséquence, ne pas attaquer ces parties pour le moment. 
 
-### Où héberger ce site? Comment partager votre code PHP ?
+### Où héberger ce site? Comment partager votre code PHP ? Comment travailler à distance de l'IUT ?
+
+Pour travailler à distance, vous pouvez soit installer un serveur Web sur votre
+ordinateur (cf. [la fin du
+TD1](http://127.0.0.1:4000/ProgWeb-CoteServeur/tutorials/tutorial1.html#installez-un-serveur-apache-chez-vous))
+ou envoyer vos fichiers à l'IUT en FTP avec FileZilla par exemple
+(cf. [instructions sur l'intranet Côté Technique > Accès au Réseau > Depuis chez
+vous](https://iutdepinfo.iutmontp.univ-montp2.fr/index.php/cote-technique/acces-au-reseau/depuis-chez-vous)).
 
 Lors de la soutenance, le site devra être hébergé dans le répertoire de l'un des
 membres de votre groupe.  Par exemple
@@ -104,7 +111,6 @@ d'informations sur Git, la création d'une clé SSH, les commandes `git
 pull/add/commit/push` et autres `git log/status`, la gestion des conflits, je
 vous renvoie sur le [tutoriel d'introdution à
 Git](https://gitlabinfo.iutmontp.univ-montp2.fr/valicov/tutoGit1ereAnnee/blob/master/README.md).
-
 
 #### Répertoire partagé à l'IUT
 

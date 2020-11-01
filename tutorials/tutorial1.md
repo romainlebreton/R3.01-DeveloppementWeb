@@ -809,12 +809,8 @@ ce sera très utile pour la suite et notamment pour le projet.
   
   <!-- Penser à activer PHP pour les userdir dans php*.conf -->
   
-* sous Mac OS X (MAMP) :  
-  [https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-environnement-de-travail#/id/r-4443692](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-environnement-de-travail#/id/r-4443692)
-  
-* Sous Windows (WAMP) :  
-  [https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-environnement-de-travail#/id/r-4443661](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-environnement-de-travail#/id/r-4443661)
-  
+* sous Mac OS X & Windows (MAMP) :  
+  [https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-4443661](https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-4443661)  
 
 **Attention**, pensez à modifier le `php.ini` pour mettre `display_errors = On`
 et `error_reporting = E_ALL`, pour avoir les messages d'erreurs. Car par défaut,
