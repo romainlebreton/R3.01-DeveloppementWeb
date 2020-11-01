@@ -93,7 +93,7 @@ membres de votre groupe.  Par exemple
 
 En attendant, vous avez 2 solutions pour partager votre code PHP :
 
-### Git (recommandé)
+#### Git (recommandé)
 
 Créez un projet Git commun sur le [Gitlab de
 l'IUT](https://gitlabinfo.iutmontp.univ-montp2.fr) (ou sur Github). Puis chacun
@@ -106,7 +106,7 @@ vous renvoie sur le [tutoriel d'introdution à
 Git](https://gitlabinfo.iutmontp.univ-montp2.fr/valicov/tutoGit1ereAnnee/blob/master/README.md).
 
 
-### Répertoire partagé à l'IUT
+#### Répertoire partagé à l'IUT
 
 L'étudiant 1 doit donc créer le répertoire `eCommerce` dans son dossier `public_html`
 puis donner les droits aux autres étudiants de son groupe sur ce répertoire:
