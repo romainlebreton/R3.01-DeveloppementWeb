@@ -460,7 +460,7 @@ rajouter les liens pour supprimer dans `list.php`.
 ### Action `create` et `update`
 
 Les vues `create.php` et `update.php` sont quasiment identiques : elles
-affichent le même formulaire, et le ré-remplissent ou non. Nous allons donc
+affichent le même formulaire, et le pré-remplissent ou non. Nous allons donc
 fusionner `create.php` et `update.php` en une unique page.
 
 <div class="exercise">
