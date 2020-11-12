@@ -18,6 +18,7 @@ input, textarea, select { font-size: 80% }
 code, .code {
     font-family: 'Oxygen Mono', mono;
     font-size: 0.9em ;
+    overflow-wrap:break-word;
 }
 footer {
     border-top: solid thin black;
@@ -126,6 +127,7 @@ pre, div.codeexample {
     padding-left: 2ex;
     /* Text will wrap when necessary, and on line breaks */
     white-space: pre-wrap;
+    overflow-wrap:break-word;
 }
 :not(pre)>code {
     color: #d00;
