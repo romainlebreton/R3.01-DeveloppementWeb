@@ -32,13 +32,13 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaine du 02 Novembre 2020 -- [Projet](projet.html)
 1. Semaines du 09 Novembre 2020 --
    [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) ([English version](tutorials/tutorial7-en.html)) puis projet
-<!-- 1. Semaine du 16 Novembre 2020 -- -->
-<!--    [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html) ([English version](tutorials/tutorial8-en.html)) -->
-<!--    puis projet -->
-<!-- 1. Semaine du 23 Novembre 2020 -- 3h projet -->
-<!-- 1. Semaine du 30 Novembre 2020 -- 3h projet -->
-<!-- 1. Semaine du 07 Décembre 2020 -- soutenances du projet-->
-<!-- 1. 17 ou 18 décembre -- examen -->
+1. Semaine du 16 Novembre 2020 --
+   [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html) ([English version](tutorials/tutorial8-en.html))
+   puis projet
+1. Semaine du 23 Novembre 2020 -- 3h projet
+1. Semaine du 30 Novembre 2020 -- 3h projet
+1. Semaine du 07 Décembre 2020 -- soutenances du projet
+1. 17 ou 18 décembre -- examen
 
 ### Notes complémentaires
 
