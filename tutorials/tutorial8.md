@@ -42,9 +42,9 @@ formulaire.  Le deuxième champ mot de passe sert à valider le premier.
 
    <!-- Erreur commune : oubli input type=''password'' laisse value='$m' -->
 
-1. Modifier les actions `created` puis `updated` du contrôleur
-`ControllerUtilisateur.php` pour sauver dans la base le mot de passe de
-l'utilisateur.  Vérifier auparavant que les deux champs coïncident.
+1. Après avoir vérifié que les deux champs coïncident, modifier les actions
+created puis updated du contrôleur ControllerUtilisateur.php pour sauver dans la
+base le mot de passe de l’utilisateur.
 
 </div>
 
