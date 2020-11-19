@@ -1,6 +1,6 @@
 ---
 title: TD8 &ndash; Authentification & validation par email
-subtitle: Chiffrement des mots de passe
+subtitle: Sécurité des mots de passe
 layout: tutorial
 ---
 
@@ -30,8 +30,8 @@ semaine, nous allons :
 colonne `VARCHAR(64) mdp` stockant son mot de passe.
 
    **Plus d'explications :** Étant donné que nous allons utiliser une fonction
-   de chiffrement pour stocker ce mot de passe, vous devez prévoir une taille de
-   champ correspondant à la taille du mot de passe chiffré (64 caractères pour
+   de hachage pour stocker ce mot de passe, vous devez prévoir une taille de
+   champ correspondant à la taille du mot de passe haché (64 caractères pour
    SHA-256 et comme 1 octet se code en hexadécimal sur 2 caractères e.g. `1F`,
    cela donne `32 octets = 256 bits`) et non de la taille du mot de passe
    lui-même.
@@ -48,41 +48,41 @@ l'utilisateur.  Vérifier auparavant que les deux champs coïncident.
 
 </div>
 
-### Premier chiffrement
+### Premier hachage
 
 Comme mentionné ci-dessus, on ne stocke jamais le mot de passe en clair dans la
-base, mais sa version chiffrée:
+base, mais sa version hachée:
 
 ```php
 <?php
 class Security {
-	public static function chiffrer($texte_en_clair) {
-		$texte_chiffre = hash('sha256', $texte_en_clair);
-		return $texte_chiffre;
+	public static function hacher($texte_en_clair) {
+		$texte_hache = hash('sha256', $texte_en_clair);
+		return $texte_hache;
 	}
 }
 
 $mot_passe_en_clair = 'apple';
-$mot_passe_chiffre = Security::chiffrer($mot_passe_en_clair);
-echo $mot_passe_chiffre;
+$mot_passe_hache = Security::hacher($mot_passe_en_clair);
+echo $mot_passe_hache;
 //affiche '3a7bd3e2360a3d29eea436fcfb7e44c735d117c42d1c1835420b6b9942dd4f1b'
 ?>
 ```
 
 <div class="exercise">
 
-1. Copier la fonction `chiffrer` ci-dessus dans un fichier
+1. Copier la fonction `hacher` ci-dessus dans un fichier
   `lib/Security.php`. Pour faire les choses plus proprement, créez une classe
   `Security` englobant la fonction.
 2. Modifier les actions `created` puis `updated` du contrôleur
 `ControllerUtilisateur.php` pour sauver dans la BDD le mot de passe
-chiffré. N'oubliez pas de faire un `require_once` de `Security.php` pour pouvoir
+haché. N'oubliez pas de faire un `require_once` de `Security.php` pour pouvoir
 appeler la fonction.
 
 **Note :** On dit que SHA-256 est une fonction de hachage. Les fonctions de
-hachage servent à chiffrer, mais ne donnent pas de moyen de déchiffrer. Il
-existe aussi des fonctions de chiffrement qui permettent de chiffrer, mais aussi
-de déchiffrer si on connaît la clé.  
+hachage cryptographiques ont la particularité qu'on ne peut pas retrouver le mot
+de passe à partir de son haché.Il existe aussi des fonctions de chiffrement qui
+permettent de chiffrer, mais aussi de déchiffrer si on connaît la clé.  
 Pour un site Web, mieux vaut une fonction de hachage qu'une fonction de
 chiffrement. En effet,
 
@@ -109,7 +109,7 @@ fonctionnement.
 
 1. Créez un utilisateur bidon dont [le mot de passe est l'un des plus courant en
    2017](https://www.google.fr/search?q=most+used+password), par exemple `password`.
-2. Allez lire dans la base de donnée le chiffré du mot de passe de cet
+2. Allez lire dans la base de donnée le haché du mot de passe de cet
    utilisateur.
 3. Utilisez un site comme [md5decrypt](http://md5decrypt.net/Sha256/) pour
    retrouver le mot de passe originel.
@@ -128,7 +128,7 @@ hexadécimal à `16` chiffres).
 Donc pour éviter les attaques par dictionnaire, nous devons utiliser des mots de
 passes originaux, par exemple aléatoire. Pour ceci, nous allons concaténer une
 chaîne aléatoire au début de chaque mot de passe. Ainsi, même si l'utilisateur
-utilise un mot de passe très commun comme `apple`, nous allons chiffrer par
+utilise un mot de passe très commun comme `apple`, nous allons hacher par
 exemple `DhuRXYdEkJapple` ce qui est nettement moins commun.
 
 Pour remédier à ce problème, nous allons rajouter une chaîne aléatoire fixe au
@@ -145,7 +145,7 @@ début de nos mots de passes en clair pour qu'aucun ne soit plus "classique".
 1. Changez votre graine `seed` par une chaîne aléatoire, obtenue par exemple
    grâce au site [https://www.random.org/strings/](https://www.random.org/strings/).
 
-1. Modifier la fonction `chiffrer` pour qu'elle concatène la graine aléatoire
+1. Modifier la fonction `hacher` pour qu'elle concatène la graine aléatoire
 `$seed` au mot de passe avant de le hacher.
 
 **Explication :** Concaténer une graine (`seed` en anglais) au début d'un mot de
@@ -185,8 +185,8 @@ Procédons en plusieurs étapes :
 1. Enfin il faut vérifier le login/mot de passe de l'utilisateur et le connecter le cas échéant :
 
    1. Créez une fonction
-      `ModelUtilisateur::checkPassword($login,$mot_de_passe_chiffre)` qui
-      cherche dans la BDD les couples (login / mot de passe chiffré)
+      `ModelUtilisateur::checkPassword($login,$mot_de_passe_hache)` qui
+      cherche dans la BDD les couples (login / mot de passe haché)
       correspondants. Cette fonction doit renvoyer `true` si il n'y a qu'un tel
       couple, et `false` sinon.
 
@@ -521,17 +521,17 @@ en clair. Vous pouvez par exemple les voir dans l'onglet réseau des outils de
 développement (raccourci `F12`) dans la section paramètres sous Firefox (ou Form
 data sous Chrome).
 
-Le fait de chiffrer les mots de passe (ou les numéros de carte de crédit) dans la
+Le fait de hacher les mots de passe (ou les numéros de carte de crédit) dans la
 base de données évite qu'un accès en lecture à la base (suite à une faille de
 sécurité) ne permette à l'attaquant de récupérer toutes les données de tous
 les utilisateurs.
 
-On pourrait aussi chiffrer le mot de passe côté client, et n'envoyer que le mot
-de passe chiffré au serveur. Dans le cas d'une attaque de l'homme du milieu (où
+On pourrait aussi hacher le mot de passe côté client, et n'envoyer que le mot
+de passe haché au serveur. Dans le cas d'une attaque de l'homme du milieu (où
 quelqu'un écoute vos communications avec le serveur), l'attaquant n'obtiendra
-que le mot de passe chiffré et pas le mot de passe en clair. Mais cela ne
+que le mot de passe haché et pas le mot de passe en clair. Mais cela ne
 l'empêchera pas de pouvoir s'authentifier puisque l'authentification repose sur
-le mot passe chiffré qu'il a récupéré.
+le mot passe haché qu'il a récupéré.
 
 La seule façon fiable de sécuriser une application web est le recours au
 chiffrement de l'ensemble des communications entre le client (browser) et le
