@@ -73,11 +73,11 @@ d'évaluer ce qui a été implémenté.
   projet de HTML/CSS de l'an dernier.
 * Un site réaliste qui implémente `X` fois la même fonctionnalité. Le but est de
   réaliser correctement un maximum de fonctionnalités différentes des [critères
-  de notation](https://docs.google.com/spreadsheets/d/1oUd7fe0K8WZhI2TPRRvgZ2xPZf5H22CUvlpcXEMD3Ao/edit#gid=0) (cf. plus bas).
+  de notation](https://docs.google.com/spreadsheets/d/1oUd7fe0K8WZhI2TPRRvgZ2xPZf5H22CUvlpcXEMD3Ao/edit#gid=0) (cf. plus haut).
 
 ### Que garder pour plus tard ?
 
-Dans la suite de ce cours, plusieurs séances seront consacrées à: 
+Dans la suite de ce cours, plusieures séances seront consacrées à: 
 
 * la gestion des utilisateurs,
 * la gestion des paniers, 
