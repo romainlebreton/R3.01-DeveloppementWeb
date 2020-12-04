@@ -465,6 +465,11 @@ contenant avec un lien qui enverra le nonce au site :
 
    1. Envoyez ce mail en utilisant
       [la fonction `mail()`](http://php.net/manual/en/function.mail.php) de PHP.
+	  
+	  **Attention :** La fonction `mail()` n'est disponible que sur le serveur
+      `webinfo` Web de l'IUT. Si vous avez installé un serveur Web local sur
+      votre machine avec LAMP/MAMP/WAMP, `mail()` n'est pas configuré par
+      défaut.
 
       **Abuser de cette fonction serait considéré comme une violation de la
       charte d'utilisation des ressources informatiques de l'IUT et vous
