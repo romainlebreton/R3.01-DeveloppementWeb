@@ -425,7 +425,7 @@ aider. C'est un langage facile à utiliser, idéal pour les débutants comme pou
 les professionnels (Wikipédia, Tumblr et Facebook).
 
 <p style="text-align:center">
-<img src="{{site.baseurl}}/assets/php_concur.png" alt="Popularité des langages côté serveur">  
+<img src="{{site.baseurl}}/assets/php_concu.png" alt="Popularité des langages côté serveur">  
 Popularité des langages côté serveur
 </p>
 
@@ -447,7 +447,7 @@ Popularité des langages côté serveur
 
 * Il prend donc en entrée un fichier `.php` <!-- qui contient de l'HTML et du PHP -->
 * Il ressort un document HTML
-* Pour cela, il exécute les instructions PHP qui lui indique comment générer le
+* Pour cela, il exécute les instructions PHP qui lui indiquent comment générer le
 document en sortie.
 
 <br>
