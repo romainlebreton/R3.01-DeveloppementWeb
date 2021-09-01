@@ -110,12 +110,12 @@ principales est ainsi de récupérer des pages Web.
 
 La requête HTTP la plus courante est la requête GET. Par exemple pour demander
 la page Web
-[http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html](http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html)
+[http://www.lirmm.fr/~laguillaum/test.html](http://www.lirmm.fr/~laguillaum/test.html)
 :
 
 ```http
-GET /~rletud/index.html HTTP/1.1
-Host: webinfo.iutmontp.univ-montp2.fr
+GET /~laguillaum/test.html HTTP/1.1
+Host: www.lirmm.fr
 
 ```
 
@@ -123,15 +123,25 @@ Host: webinfo.iutmontp.univ-montp2.fr
 
 ```http
 HTTP/1.1 200 OK
-Date: Tue, 08 Sep 2015 13:32:19 GMT
-Server: Apache/2.2.14 (Ubuntu)
-Last-Modified: Tue, 08 Sep 2015 13:06:07 GMT
+Date: Wed, 01 Sep 2021 10:33:39 GMT
+Server: Apache
+Last-Modified: Wed, 01 Sep 2021 09:41:41 GMT
+ETag: "115cb3-ab-5caebdf9b1298"
 Accept-Ranges: bytes
-Content-Length: 5781
+Content-Length: 171
 Content-Type: text/html
+Via: 1.1 www.lirmm.fr
 
-<html><head><meta charset="utf-8" />...</head>
-<body>...</body></html>(contenu de index.html)
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <title>Fichier test</title>
+  </head>
+    <body>
+        <h1>Hello world</h1>
+    </body>
+</html>
 ```
 
 <!-- Parler de réponse et découpage en en-tête et corps de la réponse -->
