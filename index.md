@@ -38,7 +38,7 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaine du 22 Novembre 2020 -- 3h projet
 1. Semaine du 29 Novembre 2020 -- 3h projet
 1. Semaine du 06 Décembre 2020 -- soutenances du projet
-1. 17 ou 18 décembre -- examen
+1. Semaine du 13 Décembre -- examen
 
 ### Notes complémentaires
 
