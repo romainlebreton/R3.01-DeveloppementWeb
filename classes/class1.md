@@ -369,11 +369,11 @@ newsletter
 <!-- </section> -->
 <section>
 
-## Le langage de création de page Web : PHP
+## Le langage de création de pages Web : PHP
 
 <div style="display:flex;align-items:center;">
 <div style="flex-grow:1">
-Le rôle de PHP est justement de générer du code HTML.
+Le rôle de PHP ("PHP: Hypertext Preprocessor") est justement de générer du code HTML.
 
 C'est un langage que seuls les **serveurs** comprennent et qui permet de rendre
 votre site dynamique.
@@ -390,7 +390,7 @@ L'éléPHPant, la mascotte de PHP
 
 <div class="incremental">
 <div>
-**Attention :** Les clients (navigateur) sont incapables de comprendre le code PHP : ils ne
+**Attention :** Les clients (navigateurs) sont incapables de comprendre le code PHP : ils ne
 connaissent que le HTML et le CSS.
 
 <p style="text-align:center;">
