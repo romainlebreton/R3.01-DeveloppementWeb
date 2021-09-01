@@ -38,24 +38,24 @@ Voir quand intégrer la séance Git
 
 **1er bloc de TPs -- Bases de PHP :**
 
-* 07  Septembre 2020 – TP 1 – Introduction aux objets en PHP
-* 14 Septembre 2020 – TP 2 – La persistance des données en PHP
-* 21 Septembre 2020 – TP 3 – Requêtes préparées et association de classes
-* 28 Septembre 2020 – TP 4 – Architecture MVC simple
-* 05 Octobre   2020 – TP 5 – Architecture MVC avancée 1/2
-* 12 Octobre   2020 – TP 6 – Architecture MVC avancée 2/2
-* 19 Octobre   2020 – **Début projet**
+* Semaine du 06 Septembre 2021  – TP 1 – Introduction aux objets en PHP
+* Semaine du 13 Septembre 2021 – TP 2 – La persistance des données en PHP
+* Semaine du 20 Septembre 2021 – TP 3 – Requêtes préparées et association de classes
+* Semaine du 27 Septembre 2021 – TP 4 – Architecture MVC simple
+* Semaine du 04 Octobre 2021 – TP 5 – Architecture MVC avancée 1/2
+* Semaine du 11 Octobre 2021 – TP 6 – Architecture MVC avancée 2/2
+* Semaine du 18 Octobre 2021   2020 – **Début projet**
 
 **2ème bloc de TPs -- Mise en application sur le projet + TPs complémentaires :**
 
-* 26 Octobre   2020 - **Congé IUT**
-* 02 Novembre   2020 - 3h projet
-* 09 Novembre  2020 - TP 7 – Cookies & Sessions + 1h projet
-* 16 Novembre  2020 – TP 8 – Authentification & Validation par email + 1h projet
-* 23 Novembre  2020 – 3h projet
-* 30 Novembre  2020 - 3h projet
-* 07  Décembre  2020 - 3h projet
-* 14 Décembre  2020 - **soutenances du projet et examen**
+* Semaine du 25 Octobre 2021 - Projet
+* Semaine du 01 Novembre   2020 - **Congés IUT**
+* Semaine du 08 Novembre 2021 - TP 7 – Cookies & Sessions + 1h projet
+* Semaine du 15 Novembre 2021 – TP 8 – Authentification & Validation par email + 1h projet
+* Semaine du 22 Novembre 2021 -- 3h projet
+* Semaine du 29 Novembre 2021 -- 3h projet
+* Semaine du 06 et du Décembre 2021 -- **soutenances du projet et examen**
+
 
 <!-- Peut-être cours un peu plus long que 1h -->
 
