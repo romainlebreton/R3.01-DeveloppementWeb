@@ -394,7 +394,7 @@ L'éléPHPant, la mascotte de PHP
 connaissent que le HTML et le CSS.
 
 <p style="text-align:center;">
-<img src="{{site.baseurl}}/assets/openingphp.png" style="width:250px" alt="Quand on ouvre un .php directement dans le navigateur">
+<img src="{{site.baseurl}}/assets/openingphp.png" style="width:300px" alt="Quand on ouvre un .php directement dans le navigateur">
 </p>
 </div>
 </div>
@@ -415,14 +415,14 @@ lire
 * Ruby on Rails : ce framework s'utilise avec le langage Ruby.
 * Django : il est similaire à Ruby on Rails, mais il s'utilise en langage
   Python.
-* Java Server Pages : particulièrement utilisé dans le monde professionnel.
+* Jakarta Server Pages (anciennement Java Server Pages) : particulièrement utilisé dans le monde professionnel.
 
 **Lequel est le meilleur ?**
 Tout dépend de vos connaissances en programmation.
 
 PHP se démarque de ses concurrents par une importante communauté qui peut vous
 aider. C'est un langage facile à utiliser, idéal pour les débutants comme pour
-les professionnels (Wikipédia, Yahoo et Facebook).
+les professionnels (Wikipédia, Tumblr et Facebook).
 
 <p style="text-align:center">
 <img src="{{site.baseurl}}/assets/ServerSideProgLang.png" alt="Popularité des langages côté serveur">  
