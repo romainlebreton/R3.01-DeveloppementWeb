@@ -425,7 +425,7 @@ aider. C'est un langage facile à utiliser, idéal pour les débutants comme pou
 les professionnels (Wikipédia, Tumblr et Facebook).
 
 <p style="text-align:center">
-<img src="{{site.baseurl}}/assets/ServerSideProgLang.png" alt="Popularité des langages côté serveur">  
+<img src="{{site.baseurl}}/assets/php_concur.png" alt="Popularité des langages côté serveur">  
 Popularité des langages côté serveur
 </p>
 
