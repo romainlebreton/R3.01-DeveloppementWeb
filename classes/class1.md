@@ -257,12 +257,12 @@ de votre répertoire personnel.
 **Comment ça marche ?**
 
 Quand vous demandez la page
-[http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html](http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html),
+[https://webinfo.iutmontp.univ-montp2.fr/~etulaguillaumie/test.html](https://webinfo.iutmontp.univ-montp2.fr/~etulaguillaumie/test.html),
 le serveur HTTP (Apache) de l'IUT va rechercher le fichier
-`\home_de_rletud\public_html\index.html`.
+`home_de_etulaguillaumie/public_html/test.html`.
 
-Idem la page http://webinfo.iutmontp.univ-montp2.fr/~rletud/image/topsecret.jpg 
-renvoie sur le fichier `\home_de_rletud\public_html\image\topsecret.jpg`.
+Idem la page http://webinfo.iutmontp.univ-montp2.fr/~etulaguillaumie/image/topsecret.jpg 
+renvoie sur le fichier `home_de_etulaguillaumie/public_html/image/topsecret.jpg`.
 
 <!-- **Attention aux droits:** -->
 
