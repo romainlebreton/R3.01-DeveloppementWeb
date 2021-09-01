@@ -34,7 +34,7 @@ Voir quand intégrer la séance Git
 
 ## Emploi du temps prévisionnel
 
-* 09 Septembre -- Cours Introductif
+* 06 Septembre -- Cours Introductif
 
 **1er bloc de TPs -- Bases de PHP :**
 
@@ -54,7 +54,7 @@ Voir quand intégrer la séance Git
 * Semaine du 15 Novembre 2021 – TP 8 – Authentification & Validation par email + 1h projet
 * Semaine du 22 Novembre 2021 -- 3h projet
 * Semaine du 29 Novembre 2021 -- 3h projet
-* Semaine du 06 et du Décembre 2021 -- **soutenances du projet et examen**
+* Semaine du 06 et du Décembre 2021 -- **Soutenances du projet et examen**
 
 
 <!-- Peut-être cours un peu plus long que 1h -->
