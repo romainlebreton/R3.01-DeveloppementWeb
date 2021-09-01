@@ -126,11 +126,9 @@ HTTP/1.1 200 OK
 Date: Wed, 01 Sep 2021 10:33:39 GMT
 Server: Apache
 Last-Modified: Wed, 01 Sep 2021 09:41:41 GMT
-ETag: "115cb3-ab-5caebdf9b1298"
 Accept-Ranges: bytes
 Content-Length: 171
 Content-Type: text/html
-Via: 1.1 www.lirmm.fr
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -196,8 +194,8 @@ Outils/Outils de développement puis onglet Réseau).
 
 Regardons les communications HTTP quand :
 
-* on ouvre l'URL http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html
-* on clique sur le lien [http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html](http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html)
+* on ouvre l'URL http://www.lirmm.fr/~laguillaum/test.html
+* on clique sur le lien [http://www.lirmm.fr/~laguillaum/test.html](http://www.lirmm.fr/~laguillaum/test.html)
 
 <!--
 Ouvrir Réseau, recharger la page,
