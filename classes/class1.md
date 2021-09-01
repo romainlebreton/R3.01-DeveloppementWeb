@@ -394,7 +394,7 @@ L'éléPHPant, la mascotte de PHP
 connaissent que le HTML et le CSS.
 
 <p style="text-align:center;">
-<img src="{{site.baseurl}}/assets/openingphp.png" alt="Quand on ouvre un .php directement dans le navigateur">
+<img src="{{site.baseurl}}/assets/openingphp.png" style="width:200px alt="Quand on ouvre un .php directement dans le navigateur">
 </p>
 </div>
 </div>
