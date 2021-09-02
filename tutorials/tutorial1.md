@@ -342,7 +342,7 @@ protégés sont `'` et `\` qui doivent être échappés avec un anti-slash comme
 
 ### Le `echo` *here document*
 
-Il existe un `echo` sur plusieurs ligne très pratique
+Il existe un `echo` sur plusieurs lignes très pratique
 
 ```php?start_inline=1
 $prenom="Helmut";
@@ -386,10 +386,12 @@ choses (les types).
 
 PHP a plusieurs façons d'inclure un fichier :
 
-* `require` : inclut et exécute le fichier spécifié en argument. Renvoie une
-  erreur si le fichier n'existe pas.
+* `require "dossier/fichier.php"` : inclut et exécute le fichier spécifié en
+   argument, ici `"dossier/fichier.php"`. Autrement dit, tout se passe comme si
+   le contenu de `fichier.php` avait copié/collé à la place du `require`.  
+   Renvoie une erreur si le fichier n'existe pas.
 
-* `require_once` : fait de même que `require` mais la différence est que si le
+* `require_once "dossier/fichier.php"` : fait de même que `require` mais la différence est que si le
   code a déjà été inclus, il ne le sera pas une seconde fois.  
   Ceci est particulièrement utile pour inclure une classe car cela assure qu'on
   ne l'inclura pas deux fois.
@@ -587,33 +589,34 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
 
    ```php
    <?php
+   
    class Voiture {
    
-     private $marque;
-     private $couleur;
-     private $immatriculation;
-      
-     // un getter      
-     public function getMarque() {
-          return $this->marque;  
-     }
-     
-     // un setter 
-     public function setMarque($marque2) {
-          $this->marque = $marque2;
-     }
-      
-     // un constructeur
-     public function __construct($m, $c, $i)  {
-      $this->marque = $m;
-      $this->couleur = $c;
-      $this->immatriculation = $i;
-     } 
-           
-     // une methode d'affichage.
-     public function afficher() {
-       // À compléter dans le prochain exercice
-     }
+       private $marque;
+       private $couleur;
+       private $immatriculation;
+   
+       // un getter      
+       public function getMarque() {
+           return $this->marque;
+       }
+   
+       // un setter 
+       public function setMarque($m) {
+           $this->marque = $m;
+       }
+   
+       // un constructeur
+       public function __construct($m, $c, $i) {
+           $this->marque = $m;
+           $this->couleur = $c;
+           $this->immatriculation = $i;
+       } 
+              
+       // une methode d'affichage.
+       public function afficher() {
+         // À compléter dans le prochain exercice
+       }
    }
    ?>
    ```
@@ -623,17 +626,22 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    * Pour accéder à un attribut ou une fonction d'un objet, on utilise le `->`
      au lieu du `.`
    * Le constructeur ne porte pas le nom de la classe, mais s'appelle
-     `__construct()`, et il ne peut y avoir au maximum qu'un constructeur.
+     `__construct()`.
+   * En PHP, on ne peut pas avoir deux fonctions avec le même nom, même si elles
+     ont un nombre d'arguments différent. En particulier, il ne peut y avoir au
+     maximum qu'un constructeur.
 
 3. Créez des *getter* et des *setter* pour `$couleur` et `$immatriculation` ;
 
 3. L'intérêt des *setter* est notamment de vérifier ce qui va être écrit dans
    l'attribut.  
-   **Limitez** les immatriculations à 8 caractères en
-   modifiant le *setter* correspondant
+   Vérifiez que l'immatriculation a  &le; 8 caractères dans le *setter*
+   correspondant (sinon ne faites rien).  
    ([Documentation PHP : strlen](http://php.net/manual/fr/function.strlen.php)).
 
-4. Remplissez `afficher()` qui permet d'afficher les informations de la voiture courante (regardez le code du constructeur de la classe Voiture : comme en Java, on peut utiliser le mot-clé `this` mais suivi de `->`) ;
+4. Remplissez `afficher()` qui permet d'afficher les informations de la voiture
+   courante (Regardez le code du constructeur de la classe Voiture : comme en
+   Java, on peut utiliser le mot-clé `this` mais suivi de `->`) ;
 
 5. Testez que votre classe est valide pour PHP : la page générée par le serveur
    Web `webinfo` à partir de `Voiture.php` ne doit pas afficher d'erreur.  
@@ -680,7 +688,7 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
        <legend>Mon formulaire :</legend>
        <p>
          <label for="immat_id">Immatriculation</label> :
-         <input type="text" placeholder="Ex : 256AB34" name="immatriculation" id="immat_id" required/>
+         <input type="text" placeholder="256AB34" name="immatriculation" id="immat_id" required/>
        </p>
        <p>
          <input type="submit" value="Envoyer" />
