@@ -54,7 +54,7 @@ Voir quand intégrer la séance Git
 * Semaine du 15 Novembre 2021 – TP 8 – Authentification & Validation par email + 1h projet
 * Semaine du 22 Novembre 2021 -- 3h projet
 * Semaine du 29 Novembre 2021 -- 3h projet
-* Semaine du 06 et du Décembre 2021 -- **Soutenances du projet et examen**
+* Semaine du 06 et 13 du Décembre 2021 -- **Soutenances du projet et examen**
 
 
 <!-- Peut-être cours un peu plus long que 1h -->
@@ -425,7 +425,7 @@ aider. C'est un langage facile à utiliser, idéal pour les débutants comme pou
 les professionnels (Wikipédia, Tumblr et Facebook).
 
 <p style="text-align:center">
-<img src="{{site.baseurl}}/assets/php_concu.jpg" style="width:250px" alt="Popularité des langages côté serveur">  
+<img src="{{site.baseurl}}/assets/php_concu.jpg" style="width:500px" alt="Popularité des langages côté serveur">  
 Popularité des langages côté serveur
 </p>
 
@@ -939,9 +939,9 @@ PREVOIR UNE DEMO AVEC LES OUTILS RESEAUX
 ```
 </div>
 <div style="flex-grow:1;text-align:center">
-<form method="post" action="http://webinfo.iutmontp.univ-montp2.fr/~rletud/traitePost.php" style="display:inline">
+<form method="post" action="https://webinfo.iutmontp.univ-montp2.fr/~etulaguillaumie/traitePost.php" style="display:inline">
 <p style="margin:auto">
-<input type="text" name="nom_var" value="MaDonnee">
+<input type="text" name="nom_var">
 <input type="submit">
 </p>
 </form>
@@ -1040,7 +1040,7 @@ Elles servent aussi à demander des pages Web. Les principales différences sont
 **Démonstration avec l'outil *Réseaux* :**
 </div>
 <div style="flex-grow:1;text-align:center">
-<form method="post" action="http://webinfo.iutmontp.univ-montp2.fr/~rletud/traitePost.php" style="display:inline">
+<form method="post" action="https://webinfo.iutmontp.univ-montp2.fr/~etulaguillaumie/traitePost.php" style="display:inline">
 <input type="text" name="nom_var" value="MaDonnee">
 <input type="submit">
 </form>
