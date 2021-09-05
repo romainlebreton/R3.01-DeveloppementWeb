@@ -126,9 +126,7 @@ HTTP/1.1 200 OK
 Date: Wed, 01 Sep 2021 10:33:39 GMT
 Server: Apache
 Last-Modified: Wed, 01 Sep 2021 09:41:41 GMT
-Accept-Ranges: bytes
-Content-Length: 171
-Content-Type: text/html
+[...]
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -141,6 +139,11 @@ Content-Type: text/html
     </body>
 </html>
 ```
+
+<!-- Accept-Ranges: bytes -->
+<!-- Content-Length: 171 -->
+<!-- Content-Type: text/html -->
+
 
 <!-- Parler de réponse et découpage en en-tête et corps de la réponse -->
 
@@ -373,7 +376,7 @@ newsletter
 
 <div style="display:flex;align-items:center;">
 <div style="flex-grow:1">
-Le rôle de PHP ("PHP: Hypertext Preprocessor") est justement de générer du code HTML.
+Le rôle de PHP ("**P**HP: **H**ypertext **P**reprocessor") est justement de générer du code HTML.
 
 C'est un langage que seuls les **serveurs** comprennent et qui permet de rendre
 votre site dynamique.
