@@ -23,12 +23,11 @@ Quelques consignes qui vous feront gagner beaucoup de temps en développement we
 
 1. PHP est un langage de programmation donc utilisez un environnement de
    développement. Vous ne codez pas du Java avec BlocNotes, c'est pareil pour
-   PHP. Nous coderons donc notre PHP sous Sublime Text ou NetBeans (sauf si vous
-   avez déjà votre éditeur préféré).
+   PHP. Nous coderons donc notre PHP sous Sublime Text ou Atom (sauf si vous
+   avez déjà votre éditeur préféré). A terme, pour des projets importants, un IDE comme PhpStorm pourra être plus pertinent.
 
-   Pour ce TD, nous vous recommandons *Sublime Text*. Ainsi, nous n'aurons pas
-   l'impression que la grosse machinerie qu'est NetBeans nous cache trop de
-   choses. Vous pourrez découvrir NetBeans à partir du TD2.
+   Pour ce TD, nous vous recommandons un éditeur simple, comme Sublime Text ou Atom. Ainsi, nous n'aurons pas    l'impression que la grosse machinerie qu'est PhpStorm (ou Netbeans) nous cache trop de
+   choses. 
      
 2. Ne copiez **jamais** vos fichiers à plusieurs endroits.
 3. Merci de **ne pas** imprimer ce TP.
@@ -216,12 +215,12 @@ dans lequel la chronologie de toutes modifications pourront être enregistrées.
 
 
 1. Nous allons configurer Git pour qu'il connaisse votre nom et votre adresse
-   email, ce qui sera utile quand vous travaillerez en groupe pour savoir qui a
+   email (**étudiante**), ce qui sera utile quand vous travaillerez en groupe pour savoir qui a
    enregistré quelle modification :
 
    ```bash
    git config --global user.name "Votre Prénom et Nom"
-   git config --global user.email "votre@email"
+   git config --global user.email "votreemail@umontpellier.fr"
    ```
    
    Aussi pour nous simplifier la vie plus tard, veuillez exécuter la commande
