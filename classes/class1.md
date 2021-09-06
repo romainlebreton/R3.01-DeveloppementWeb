@@ -25,9 +25,8 @@ Voir quand intégrer la séance Git
 
 **Évaluation :**
 
-* examen final : ~40%
+* examen final écrit : ~40%
 * projet PHP : ~60%
-* Examen final écrit
 
 </section>
 <section>
@@ -857,7 +856,7 @@ Considérons le formulaire suivant et supposons que l'utilisateur ai tapé `MaDo
 ```
 </div>
 <div style="flex-grow:1;text-align:center">
-<form method="get" action="http://webinfo.iutmontp.univ-montp2.fr/~rletud/traitement.php" style="display:inline">
+<form method="get" action="http://webinfo.iutmontp.univ-montp2.fr/~etulaguillaumie/traitement.php" style="display:inline">
 <input type="text" name="nom_var" value="MaDonnee">
 <input type="submit">
 </form>
