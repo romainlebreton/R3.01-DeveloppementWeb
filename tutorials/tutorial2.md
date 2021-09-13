@@ -81,15 +81,15 @@ serveur du reste du code PHP.
 
 <div class="exercise">
 
-1. Commençons par configurer notre éditeur de pages Web. Vous avez le choix :
+<!-- 1. Commençons par configurer notre éditeur de pages Web. Vous avez le choix : -->
 
-   * soit vous utilisez **NetBeans**. Configurer votre premier projet en suivant
-     les indications 
-     [dans les compléments du TD2.]({{site.baseurl}}/assets/tut2-complement.html#créer-un-projet-avec-netbeans)
-   * soit vous avez déjà un éditeur de pages Web préféré, comme *SublimeText*,
-     mais il **faut**
-     * qu'il prenne en charge la coloration syntaxique
-     * qu'il sache indenter automatiquement votre code
+<!--    * soit vous utilisez **NetBeans**. Configurer votre premier projet en suivant -->
+<!--      les indications  -->
+<!--      [dans les compléments du TD2.]({{site.baseurl}}/assets/tut2-complement.html#créer-un-projet-avec-netbeans) -->
+<!--    * soit vous avez déjà un éditeur de pages Web préféré, comme *SublimeText*, -->
+<!--      mais il **faut** -->
+<!--      * qu'il prenne en charge la coloration syntaxique -->
+<!--      * qu'il sache indenter automatiquement votre code -->
 
 1. Créez un fichier `Conf.php`. Ce fichier contiendra une classe
    `Conf` possédant un attribut statique `$databases` comme suit
