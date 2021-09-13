@@ -234,13 +234,14 @@ de donnée.
 
 1. Commençons par établir une connexion à la BDD. Créez un fichier `Model.php`
    déclarant une classe `Model`. Cette classe possédera 
-   * un attribut `public static $pdo` <!-- protected -->
-   * une fonction `public static function Init()`.
+   * un attribut `private static $pdo = NULL` qui a comme valeur par défaut `NULL`;
+   * une fonction `public static function init()`;
+   * un accesseur (getter) `public static function getPDO()`.
 
    <!--**Souvenez-vous :** Qu'est-ce qu'un attribut `protected` ? (Cours de
    Programmation Orientée Objet de l'an dernier)-->
 
-2. Dans la fonction `Init`, nous allons initialiser l'attribut `$pdo` en lui
+2. Dans la fonction `init()`, nous allons initialiser l'attribut `$pdo` en lui
    assignant un objet `PDO`. Procédons par étapes :
    
    2. Pour créer la connexion à notre base de donnée, il faut utiliser le
@@ -265,11 +266,13 @@ de donnée.
    
    4. Comme notre classe `Model` dépend de `Conf.php`, ajoutez un `require_once
    'Conf.php'` au début du fichier.
-
-   5. Enfin, on souhaite que `Model` soit initialisée juste après sa
-   déclaration. Appelez donc l'initialisation statique `Model::Init()` à la fin
-   du fichier.
    
+   5. Codez l'accesseur `getPDO()` pour
+      * qu'il initialise l'attribut `self::$pdo` si il ne contient pas encore de
+        connexion vers la BDD.  
+        **Aide :** Si il n'a pas été initialisé, alors `$pdo` est égal à sa valeur par défaut (utilisez [`is_null()`](https://www.php.net/manual/en/function.is-null)).
+      * qu'il renvoie l'attribut `self::$pdo`.
+
    6. Testons dès à présent notre nouvelle classe. Créez le fichier
    `testModel.php` suivant. Vérifiez que l'exécution de `testModel.php` ne donne
    pas de messages d'erreur.
@@ -277,7 +280,14 @@ de donnée.
       ```php
       <?php
       require_once "Model.php";
-      echo "Connexion réussie !" ;
+
+      // On affiche un attribut de PDO pour vérifier  que la connexion est bien établie.
+      // Cela renvoie par ex. "webinfo.iutmontp.univ-montp2.fr via TCP/IP"
+      // mais surtout pas de message d'erreur
+      // SQLSTATE[HY000] [1045] Access denied for user ... (mauvais mot de passe)
+      // ou
+      // SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed (mauvais hostname)
+      echo Model::getPDO()->getAttribute(PDO::ATTR_CONNECTION_STATUS);
       ?>
       ```
 
@@ -328,7 +338,7 @@ récupérer et traiter. Placez donc votre `new PDO(...)` au sein d'un try - catc
    ```
 
 **Question :** Avez-vous compris pourquoi il est préférable que la connexion à la BDD
-  (stockée dans `Model::$pdo`) soit un attribut statique ?
+  (stockée dans l'attribut privé `Model::$pdo`) soit un attribut statique ?
 
 <!-- Réponse : Pour s'assurer de ne créer la connexion à la BDD qu'une fois. En
 effet, un attribut statique est associé à la classe, donc il ne peut y avoir
@@ -397,7 +407,7 @@ SELECT * FROM voiture
    BDD.
    <!-- require_once "Model.php"; -->
    
-3. Appelez la fonction `query` de l'objet `PDO` `Model::$pdo` en lui donnant
+3. Appelez la fonction `query` de l'objet `PDO` `Model::getPDO()` en lui donnant
    la requête SQL. Stockez sa réponse dans une variable `$rep`.
 
 4. Comme expliqué précédemment, pour lire les réponses à des requêtes SQL, vous
@@ -452,9 +462,9 @@ classe `Voiture`, écrire les attributs correspondants au champs de la BDD
    //   alors il prend la valeur par défaut, NULL dans notre cas
    public function __construct($m = NULL, $c = NULL, $i = NULL) {
      if (!is_null($m) && !is_null($c) && !is_null($i)) {
-	   // Si aucun de $m, $c et $i sont nuls,
-	   // c'est forcement qu'on les a fournis
-	   // donc on retombe sur le constructeur à 3 arguments
+       // Si aucun de $m, $c et $i sont nuls,
+       // c'est forcement qu'on les a fournis
+       // donc on retombe sur le constructeur à 3 arguments
        $this->marque = $m;
        $this->couleur = $c;
        $this->immatriculation = $i;
@@ -507,7 +517,7 @@ publique.
     static private $debug = True; 
     
     static public function getDebug() {
-    	return self::$debug;
+        return self::$debug;
     }
 }
 ?>
