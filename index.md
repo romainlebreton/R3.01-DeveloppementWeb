@@ -18,7 +18,7 @@ Cours à l'IUT de Montpellier - 2ème année
 
 1. Semaine du 06 Septembre 2021 -- [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html) 
 <!-- ([English version](tutorials/tutorial1-en.html)) -->
-<!-- 1. Semaine du 13 Septembre 2021 -- [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html) --> 
+1. Semaine du 13 Septembre 2021 -- [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html) 
 <!-- ([English version](tutorials/tutorial2-en.html)) -->
 <!-- 1. Semaine du 20 Septembre 2021 -- [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html)  -->
 <!-- <\!-- ([English version](tutorials/tutorial3-en.html)) -\-> -->
