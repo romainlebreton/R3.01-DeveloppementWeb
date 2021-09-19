@@ -83,7 +83,7 @@ comme suit
 ```php?start_inline=1
 function getVoitureByImmat($immat) {
     $sql = "SELECT * from voiture WHERE immatriculation='$immat'"; 
-    $rep = Model::$pdo->query($sql);
+    $rep = Model::getPDO()->query($sql);
     $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
     return $rep->fetch();
 }
@@ -121,7 +121,7 @@ Voici toutes ces étapes regroupées dans une fonction :
 function getVoitureByImmat($immat) {
     $sql = "SELECT * from voiture WHERE immatriculation=:nom_tag";
     // Préparation de la requête
-    $req_prep = Model::$pdo->prepare($sql);
+    $req_prep = Model::getPDO()->prepare($sql);
 
     $values = array(
         "nom_tag" => $immat,
@@ -153,8 +153,8 @@ d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 1. Copiez la fonction précédente dans la classe `Voiture` en la déclarant
    publique et statique.
 
-   **Rappel :** Utilisez **NetBeans** comme éditeur de pages Web
-     ([tutoriel NetBeans]({{site.baseurl}}/assets/tut2-complement.html#créer-un-projet-avec-netbeans)).
+<!--  **Rappel :** Utilisez **NetBeans** comme éditeur de pages Web
+     ([tutoriel NetBeans]({{site.baseurl}}/assets/tut2-complement.html#créer-un-projet-avec-netbeans)). -->
 
 1. Testez la fonction `getVoitureByImmat` dans `lireVoiture.php`.
 
@@ -446,7 +446,7 @@ Ce fichier contient un formulaire qui affiche les informations d'une voiture
    ```php?start_inline=1
    function getVoitureByImmat($immat) {
        $sql = "SELECT * from voiture2 WHERE immatriculation='$immat'"; 
-       $rep = Model::$pdo->query($sql);
+       $rep = Model::getPDO()->query($sql);
        $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
        return $rep->fetch();
    }
