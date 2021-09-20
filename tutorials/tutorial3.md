@@ -153,9 +153,6 @@ d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 1. Copiez la fonction précédente dans la classe `Voiture` en la déclarant
    publique et statique.
 
-<!--  **Rappel :** Utilisez **NetBeans** comme éditeur de pages Web
-     ([tutoriel NetBeans]({{site.baseurl}}/assets/tut2-complement.html#créer-un-projet-avec-netbeans)). -->
-
 1. Testez la fonction `getVoitureByImmat` dans `lireVoiture.php`.
 
 </div>
@@ -404,6 +401,12 @@ pouvez vous rafraîchir la mémoire en lisant
    mêmes attributs que la table `utilisateur` de la BDD. Il faut aussi mettre à
    jour le constructeur comme
    [on l'a fait pour `Voiture`](tutorial2.html#majconst).
+   * Comme vous demandez à `fetch` de créer des objets de la classe
+     `Utilisateur`, il faut inclure le fichier de classe. De manière générale,
+     la bonne pratique est que chaque fichier PHP inclus les fichiers dont il a
+     besoin. C'est plus sûr que de compter sur les autres fichiers. Et le `once`
+     du `require_once` vous mets à l'abri d'une inclusion multiple du même
+     fichier de déclaration de classe.
 
 2. Testons votre fonction. Créez une page `testFindUtil.php` qui
 
@@ -523,6 +526,5 @@ site :
 1. Similairement, nous avons oublié le conducteur de la liste des passagers d'un
    trajet. Le rajouter avec un statut à part.
 1. Vous pouvez aussi éventuellement mettre en place des `trigger` dans votre SQL
-   pour gérer le nombre de passager par véhicule, le fait qu'un passager ne soit
-   pas inscrit deux fois à un trajet ...
+   pour gérer le nombre de passager par véhicule ...
 
