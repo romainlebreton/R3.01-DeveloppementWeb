@@ -22,7 +22,7 @@ Cours à l'IUT de Montpellier - 2ème année
 <!-- ([English version](tutorials/tutorial2-en.html)) -->
  1. Semaine du 20 Septembre 2021 -- [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html)
 <!-- <\!-- ([English version](tutorials/tutorial3-en.html)) -\-> -->
-<!-- 1. Semaine du 27 Septembre 2021 --  [TD 4 -- Architecture MVC simple](tutorials/tutorial4.html)  -->
+1. Semaine du 27 Septembre 2021 --  [TD 4 -- Architecture MVC simple](tutorials/tutorial4.html)
 <!-- <\!-- ([English version](tutorials/tutorial4-en.html)) -\-> -->
 <!-- 1. Semaine du 04 Octobre 2021 -- [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html)  -->
 <!-- <\!-- ([English version](tutorials/tutorial5-en.html)) -\-> -->
