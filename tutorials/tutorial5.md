@@ -287,7 +287,7 @@ s'est passé.
 </div>
 
 L'immatriculation est comprise comme du code HTML et est donc interprétée. Ce
-comportement est non désiré et peut carrément être dangeureux, notamment si
+comportement est non désiré et peut carrément être dangereux, notamment si
 l'utilisateur se met à écrire du JavaScript. 
 
 <!-- XSS et aussi que ça marche bien pour Math O'reilly (! ') -->
