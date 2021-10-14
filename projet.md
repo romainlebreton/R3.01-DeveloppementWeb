@@ -36,15 +36,15 @@ soutenance.
 
 **Emploi du temps prévisionnel :**
 
-1. Semaine du 19 Octobre 2020 --  Début projet
-1. Semaine du 02 Novembre 2020 -- Projet
-1. Semaines du 09 Novembre 2020 --  TD 7 -- Cookies & Sessions
-1. Semaine du 16 Novembre 2020 -- TD 8 -- Authentification & Validation par email
+1. Semaine du 18 Octobre 2020 --  Début projet
+1. Semaine du 25 Octobre 2020 -- Projet
+1. Semaines du 08 Novembre 2020 --  TD 7 -- Cookies & Sessions
+1. Semaine du 15 Novembre 2020 -- TD 8 -- Authentification & Validation par email
    puis projet
-1. Semaine du 23 Novembre 2020 -- 3h projet
-1. Semaine du 30 Novembre 2020 -- 3h projet
-1. Semaine du 07 Décembre 2020 -- soutenances du projet
-1. 17 ou 18 décembre -- examen
+1. Semaine du 22 Novembre 2020 -- 3h projet
+1. Semaine du 29 Novembre 2020 -- 3h projet
+1. Semaine du 06 et 13 Décembre 2020 -- Soutenances du projet et examen
+
 
 ### Critères de notation
 
