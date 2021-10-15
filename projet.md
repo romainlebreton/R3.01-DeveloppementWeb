@@ -23,7 +23,7 @@ groupes de 2 sont autorisés (mais ils seront notés comme un groupe de 3).  Les
 groupes de 4 sont aussi ponctuellement autorisés, mais seront évalués de manière
 plus stricte et l'on attendra 1/3 de boulot en plus.
 
-Les soutenances de projet auront lieu entre le jeudi 10 et le mercredi 16
+Les soutenances de projet auront lieu entre le jeudi 9 et le mercredi 15
 Décembre, à votre créneau de TD habituel.  La note de ce projet Web interviendra
 pour moitié, l'autre moitié sera donnée par l'examen final sur papier (pas de
 code à écrire, questions de compréhension).
@@ -36,14 +36,14 @@ soutenance.
 
 **Emploi du temps prévisionnel :**
 
-1. Semaine du 18 Octobre 2020 --  Début projet
-1. Semaine du 25 Octobre 2020 -- Projet
-1. Semaines du 08 Novembre 2020 --  TD 7 -- Cookies & Sessions
-1. Semaine du 15 Novembre 2020 -- TD 8 -- Authentification & Validation par email
+1. Semaine du 18 Octobre 2021 --  Début projet
+1. Semaine du 25 Octobre 2021 -- Projet
+1. Semaines du 08 Novembre 2021 --  TD 7 -- Cookies & Sessions
+1. Semaine du 15 Novembre 2021 -- TD 8 -- Authentification & Validation par email
    puis projet
-1. Semaine du 22 Novembre 2020 -- 3h projet
-1. Semaine du 29 Novembre 2020 -- 3h projet
-1. Semaine du 06 et 13 Décembre 2020 -- Soutenances du projet et examen
+1. Semaine du 22 Novembre 2021 -- 3h projet
+1. Semaine du 29 Novembre 2021 -- 3h projet
+1. Semaine du 06 et 13 Décembre 2021 -- Soutenances du projet et examen
 
 
 ### Critères de notation
