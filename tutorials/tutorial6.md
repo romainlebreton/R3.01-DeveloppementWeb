@@ -32,9 +32,7 @@ sessions d'utilisateur, nous allons développer l'interface "administrateur" du
 site.
 
 Le but des TDs 5 & 6 est donc d'avoir un site qui propose une gestion minimale
-des voitures, utilisateurs et trajets proposés en covoiturage. En attendant de
-pouvoir gérer les sessions d'utilisateur, nous allons développer l'interface
-"administrateur" du site.
+des voitures, utilisateurs et trajets proposés en covoiturage.
 
 Ce TD présuppose que vous avez fini [le TD précédent](tutorial5.html).
 
