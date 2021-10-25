@@ -29,7 +29,7 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaine du 11 Octobre 2021 --  [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html)
 <!-- <\!-- ([English version](tutorials/tutorial6-en.html)) -\-> -->
 1. Semaine du 18 Octobre 2021 --  [Début projet](projet.html) 
-<!-- 1. Semaine du 25 Octobre 2021 -- [Projet](projet.html) -->
+1. Semaine du 25 Octobre 2021 -- [Projet](projet.html)
 <!-- 1. Semaine du 08 Novembre 2021 -- -->
 <!--    [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) ([English version](tutorials/tutorial7-en.html)) puis projet -->
 <!-- 1. Semaine du 15 Novembre 2021 -- -->
