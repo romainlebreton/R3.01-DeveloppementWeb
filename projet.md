@@ -132,4 +132,4 @@ défaut : les nouveaux fichiers créés prendront ces droits)
    fichier ou dossier, on tape `getfacl nom_du_fichier`.
 
 **Référence :**
-  [La page Côté Technique > Site Web > Partager public_html de intradepinfo](https://iutdepinfo.iutmontp.univ-montp2.fr/index.php/cote-technique/site-web/partager-publichtml)
+  [La page Côté Technique > Site Web > Partager public_html de intradepinfo](https://iutdepinfo.iutmontp.univ-montp2.fr/intranet/partager-public_html/)
