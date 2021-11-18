@@ -481,7 +481,7 @@ l'action par défaut `readAll` plutôt que le contrôleur.
 
    1. créez avant le choix du contrôleur une variable `$controller_default`
       initialisée à `voiture`,
-   1. changez la valeur par défaut du contrôleur de `voiture` vers
+   1. changez la valeur par défaut du contrôleur : de `voiture` vers
       `$controller_default`,
    1. Au niveau de l'initialisation de `$controller_default`, vérifiez
       l'existence d'un cookie, et la présence dans ce cookie de la variable
