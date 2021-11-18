@@ -446,7 +446,7 @@ Pas de nouveautés.
 
 <div class="exercise">
 
-Nous vous laissons adapter la fonction `delete($primary)` de `Model.php`,
+Nous vous laissons adapter la fonction `delete($primary_value)` de `Model.php`,
 l'action `delete` de `ControllerUtilisateur`, sa vue associée `delete.php` et à
 rajouter les liens pour supprimer dans `list.php`.
 
