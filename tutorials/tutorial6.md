@@ -426,7 +426,7 @@ condition `WHERE` varie.
 
 <div class="exercise">
 
-Créez un attribut `protected static $object` dans vos contrôleur et remplacez la
+Créez un attribut `protected static $object` dans vos contrôleurs et remplacez la
 variable `controller` dans la vue générique par un appel à `object`.
 
 </div>
