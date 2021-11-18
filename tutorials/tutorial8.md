@@ -81,7 +81,7 @@ appeler la fonction.
 
 **Note :** On dit que SHA-256 est une fonction de hachage. Les fonctions de
 hachage cryptographiques ont la particularité qu'on ne peut pas retrouver le mot
-de passe à partir de son haché.Il existe aussi des fonctions de chiffrement qui
+de passe à partir de son haché. Il existe aussi des fonctions de chiffrement qui
 permettent de chiffrer, mais aussi de déchiffrer si on connaît la clé.  
 Pour un site Web, mieux vaut une fonction de hachage qu'une fonction de
 chiffrement. En effet,
@@ -108,7 +108,7 @@ Expérimentons un peu *l'attaque par dictionnaire* pour comprendre son
 fonctionnement.
 
 1. Créez un utilisateur bidon dont [le mot de passe est l'un des plus courant en
-   2017](https://www.google.fr/search?q=most+used+password), par exemple `password`.
+   2019](https://www.google.fr/search?q=most+used+password), par exemple `password`.
 2. Allez lire dans la base de donnée le haché du mot de passe de cet
    utilisateur.
 3. Utilisez un site comme [md5decrypt](http://md5decrypt.net/Sha256/) pour
