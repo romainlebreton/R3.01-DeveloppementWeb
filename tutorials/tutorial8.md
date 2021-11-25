@@ -190,7 +190,7 @@ Procédons en plusieurs étapes :
       correspondants. Cette fonction doit renvoyer `true` si il n'y a qu'un tel
       couple, et `false` sinon.
 
-   1. Ajouter une action `connected` dans `controllerUtilisateur`, qui vérifie
+   1. Ajouter une action `connected` dans `ControllerUtilisateur`, qui vérifie
    que le couple (login / mot de passe) donné est valide et qui, le cas échéant,
    met le login de l'utilisateur en session. Puis affichez la vue de détail de
    l'utilisateur qui vient de se connecter.
@@ -341,8 +341,7 @@ promouvoir un autre utilisateur en tant qu'administrateur.
 
 <div class="exercise">
 
-1. On souhaite ajouter au formulaire de mise à jour d'un utilisateur un bouton
-   `checkbox` "Administrateur ?". Ce bouton ne doit être présent que si
+1. On souhaite ajouter un bouton `checkbox` "Administrateur ?" au formulaire de mise à jour d'un utilisateur. Ce bouton ne doit être présent que si
    l'utilisateur authentifié est un administrateur.  
    À vous de modifier l'action `update` du contrôleur `Utilisateur` et la vue
    `update.php`. 
