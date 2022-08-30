@@ -89,7 +89,7 @@ En conséquence, ne pas attaquer ces parties pour le moment.
 
 Pour travailler à distance, vous pouvez soit installer un serveur Web sur votre
 ordinateur (cf. [la fin du
-TD1](http://127.0.0.1:4000/ProgWeb-CoteServeur/tutorials/tutorial1.html#installez-un-serveur-apache-chez-vous))
+TD1](http://romainlebreton.github.io/R3.01-DeveloppementWeb/tutorials/tutorial1.html#installez-un-serveur-apache-chez-vous))
 ou envoyer vos fichiers à l'IUT en FTP avec FileZilla par exemple
 (cf. [instructions sur l'intranet Côté Technique > Accès au Réseau > Depuis chez
 vous](https://iutdepinfo.iutmontp.univ-montp2.fr/index.php/cote-technique/acces-au-reseau/depuis-chez-vous)).

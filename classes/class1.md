@@ -21,7 +21,7 @@ Voir quand intégrer la séance Git
 **Cours et TP en ligne :**
 
 * site Web : 
-  [http://romainlebreton.github.io/ProgWeb-CoteServeur](http://romainlebreton.github.io/ProgWeb-CoteServeur)
+  [http://romainlebreton.github.io/R3.01-DeveloppementWeb](http://romainlebreton.github.io/R3.01-DeveloppementWeb)
 
 **Évaluation :**
 
@@ -704,7 +704,7 @@ Une *URL* (Uniform Resource Locator) sert à représenter une adresse sur le Web
 * Une URL simple :
 
   <p style="text-align:center">
-  <!-- <a href="http://romainlebreton.github.io/ProgWeb-CoteServeur/classes/class1.html#comment-faire-"> -->
+  <!-- <a href="http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html#comment-faire-"> -->
   <img alt="Exemple d'URL" src="{{site.baseurl}}/assets/URLSimple.png" width="900px">
   <!-- </a> -->
   </p>

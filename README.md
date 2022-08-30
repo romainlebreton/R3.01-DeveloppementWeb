@@ -7,4 +7,4 @@ Des corrections éventuelles ?
 Proposez un pull-request !
 
 Des remarques ? des questions ?  
-Laissez un message sur le chat : [![Join the chat at https://gitter.im/romainlebreton/ProgWeb-CoteServeur](https://badges.gitter.im/romainlebreton/ProgWeb-CoteServeur.svg)](https://gitter.im/romainlebreton/ProgWeb-CoteServeur?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+Laissez un message sur le chat : [![Join the chat at https://gitter.im/romainlebreton/R3.01-DeveloppementWeb](https://badges.gitter.im/romainlebreton/R3.01-DeveloppementWeb.svg)](https://gitter.im/romainlebreton/R3.01-DeveloppementWeb?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
