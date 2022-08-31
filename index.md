@@ -3,14 +3,14 @@ title: R3.01 - Développement web
 layout: main
 ---
 
-# Développement web
+# R3.01 -- Développement web
 Cours à l'IUT de Montpellier - 2ème année
 
 **Mots clés :** PHP, MVC, MySQL
 
 ## Cours
 
-1. Lundi 5 Septembre 2020 -- [Cours 1 -- Introduction à PHP](classes/class1.html)  
+1. Mardi 6 Septembre 2022 -- [Cours 1 -- Introduction à PHP](classes/class1.html)  
    <!-- Accéder à l'[amphi à distance via Moodle](https://moodle.umontpellier.fr/mod/bigbluebuttonbn/view.php?id=291203) -->
    <!-- et à son enregistrement -->
 

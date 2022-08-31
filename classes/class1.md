@@ -16,7 +16,6 @@ Voir quand intégrer la séance Git
 
 * Apprendre à faire des pages dynamiques avec PHP et MySQL
 * Organiser son code avec l'architecture MVC
-<!-- * Introduction au gestionnaire de version Git & au gestionnaire GitLab -->
 
 **Cours et TP en ligne :**
 
@@ -25,41 +24,38 @@ Voir quand intégrer la séance Git
 
 **Évaluation :**
 
-* examen final écrit : ~40%
-* projet PHP : ~60%
-
+* Partiel : 20%
+* Examen écrit final : 30%
+* Projet PHP : 50%
+  * Parcours A : Le projet PHP sera celui de votre SAÉ
+  * Parcours B & D : Le projet PHP sera celui de ce cours
 </section>
 <section>
 
 ## Emploi du temps prévisionnel
 
-* 06 Septembre -- Cours Introductif
+1. Mardi 6 Septembre 2022 -- Cours d'introduction à PHP
 
 **1er bloc de TPs -- Bases de PHP :**
 
-* Semaine du 06 Septembre 2021  – TP 1 – Introduction aux objets en PHP
-* Semaine du 13 Septembre 2021 – TP 2 – La persistance des données en PHP
-* Semaine du 20 Septembre 2021 – TP 3 – Requêtes préparées et association de classes
-* Semaine du 27 Septembre 2021 – TP 4 – Architecture MVC simple
-* Semaine du 04 Octobre 2021 – TP 5 – Architecture MVC avancée 1/2
-* Semaine du 11 Octobre 2021 – TP 6 – Architecture MVC avancée 2/2
-* Semaine du 18 Octobre 2021   2020 – **Début projet**
+1. Semaine du lund 6 septembre 2022 -- TP 1 -- Introduction aux objets en PHP
+1. Semaine du lundi 12 septembre 2022 -- TP 2 -- La persistance des données en PHP
+1. Semaine du lundi 19 septembre 2022 -- TP 3 -- Requêtes préparées et association de classes
+1. Semaine du lundi 26 septembre 2022 -- TP 4 -- Architecture MVC simple
+1. Semaine du lundi 3 octobre 2022 -- TP 5 -- Architecture MVC avancée 1/2
+1. Semaine du lundi 10 octobre 2022 -- TP 6 -- Architecture MVC avancée 2/2
 
 **2ème bloc de TPs -- Mise en application sur le projet + TPs complémentaires :**
 
-* Semaine du 25 Octobre 2021 - Projet
-* Semaine du 01 Novembre   2020 - **Congés IUT**
-* Semaine du 08 Novembre 2021 - TP 7 – Cookies & Sessions + 1h projet
-* Semaine du 15 Novembre 2021 – TP 8 – Authentification & Validation par email + 1h projet
-* Semaine du 22 Novembre 2021 -- 3h projet
-* Semaine du 29 Novembre 2021 -- 3h projet
-* Semaine du 06 et 13 du Décembre 2021 -- **Soutenances du projet et examen**
+1. Semaine du lundi 17 octobre 2022 -- Projet : SAÉ (Parcours A) ou projet spécifique à ce cours (Parcours B & D)
+1. Semaine du lundi 24 octobre 2022 --  TD 7 -- Cookies & Sessions
+1. Semaine du lundi 7 novembre 2022 -- TD 8 -- Authentification & Validation par email
+1. Semaine du lundi 14 novembre 2022 -- SAÉ ou Projet
 
+**Évaluation**
 
-<!-- Peut-être cours un peu plus long que 1h -->
-
-<!-- Introduction à Git/GitLab utile pour le travail collaboratif  -->
-<!-- pour vos projets (PHP, S3, ...). -->
+1. Semaine du lundi 2 janvier 2023 -- Évaluation SAÉ ou Projet
+1. Semaine du lundi 9 janvier 2023 -- Examen final écrit
 
 </section>
 <section>
@@ -105,44 +101,54 @@ Le client fait une *requête* au serveur, qui répond en donnant la page Web
 entre un client et un serveur développé pour le Web. L'une de ses fonctions
 principales est ainsi de récupérer des pages Web.
 
+Le client envoie une requête HTTP.  
+Le serveur retourne une réponse HTTP.
+
+<br>
+<br>
+
 **À quoi ressemble une requête HTTP ?**
+
+<!-- Premier problème : plus de serveur Web en HTTP. Ils ont migrés sur HTTPS ! -->
 
 La requête HTTP la plus courante est la requête GET. Par exemple pour demander
 la page Web
-[http://www.lirmm.fr/~laguillaum/test.html](http://www.lirmm.fr/~laguillaum/test.html)
+[http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html](http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html)
 :
 
 ```http
-GET /~laguillaum/test.html HTTP/1.1
-Host: www.lirmm.fr
+GET /R3.01-DeveloppementWeb/classes/class1.html HTTP/1.1
+Host: romainlebreton.github.io
 
 ```
 
- La réponse est alors:
+</section>
+<section>
+
+## Protocole de communication : Réponse HTTP
 
 ```http
 HTTP/1.1 200 OK
-Date: Wed, 01 Sep 2021 10:33:39 GMT
-Server: Apache
-Last-Modified: Wed, 01 Sep 2021 09:41:41 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 13231
 [...]
 
 <!DOCTYPE html>
-<html lang="fr">
-  <head>
+<html>
+  <head lang="en">
     <meta charset="utf-8">
-    <title>Fichier test</title>
+    <title>Cours 1  Introduction au Web dynamique</title>
   </head>
-    <body>
-        <h1>Hello world</h1>
-    </body>
+  <body>
+    <ul class="menu" id="top-menu">...</ul>
+    <div class="main">...
+      <h1>Cours 1 -- Introduction au Web dynamique 
+        <span class="subtitle">Le rôle du PHP</span>
+      </h1>    
+    </div>
+  </body>
 </html>
 ```
-
-<!-- Accept-Ranges: bytes -->
-<!-- Content-Length: 171 -->
-<!-- Content-Type: text/html -->
-
 
 <!-- Parler de réponse et découpage en en-tête et corps de la réponse -->
 
@@ -196,8 +202,8 @@ Outils/Outils de développement puis onglet Réseau).
 
 Regardons les communications HTTP quand :
 
-* on ouvre l'URL http://www.lirmm.fr/~laguillaum/test.html
-* on clique sur le lien [http://www.lirmm.fr/~laguillaum/test.html](http://www.lirmm.fr/~laguillaum/test.html)
+* on ouvre l'URL http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html
+* on clique sur le lien [http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html](http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html)
 
 <!--
 Ouvrir Réseau, recharger la page,
@@ -259,12 +265,12 @@ de votre répertoire personnel.
 **Comment ça marche ?**
 
 Quand vous demandez la page
-[https://webinfo.iutmontp.univ-montp2.fr/~etulaguillaumie/test.html](https://webinfo.iutmontp.univ-montp2.fr/~etulaguillaumie/test.html),
+[https://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html](https://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html),
 le serveur HTTP (Apache) de l'IUT va rechercher le fichier
-`home_de_etulaguillaumie/public_html/test.html`.
+`home_de_rletud/public_html/index.html`.
 
-Idem la page http://webinfo.iutmontp.univ-montp2.fr/~etulaguillaumie/image/topsecret.jpg 
-renvoie sur le fichier `home_de_etulaguillaumie/public_html/image/topsecret.jpg`.
+Idem la page http://webinfo.iutmontp.univ-montp2.fr/~rletud/image/topsecret.jpg 
+renvoie sur le fichier `home_de_rletud/public_html/image/topsecret.jpg`.
 
 <!-- **Attention aux droits:** -->
 
@@ -856,7 +862,7 @@ Considérons le formulaire suivant et supposons que l'utilisateur ai tapé `MaDo
 ```
 </div>
 <div style="flex-grow:1;text-align:center">
-<form method="get" action="http://webinfo.iutmontp.univ-montp2.fr/~etulaguillaumie/traitement.php" style="display:inline">
+<form method="get" action="http://webinfo.iutmontp.univ-montp2.fr/~rletud/traitement.php" style="display:inline">
 <input type="text" name="nom_var" value="MaDonnee">
 <input type="submit">
 </form>
@@ -941,7 +947,7 @@ PREVOIR UNE DEMO AVEC LES OUTILS RESEAUX
 ```
 </div>
 <div style="flex-grow:1;text-align:center">
-<form method="post" action="https://webinfo.iutmontp.univ-montp2.fr/~etulaguillaumie/traitePost.php" style="display:inline">
+<form method="post" action="https://webinfo.iutmontp.univ-montp2.fr/~rletud/traitePost.php" style="display:inline">
 <p style="margin:auto">
 <input type="text" name="nom_var">
 <input type="submit">
@@ -1042,7 +1048,7 @@ Elles servent aussi à demander des pages Web. Les principales différences sont
 **Démonstration avec l'outil *Réseaux* :**
 </div>
 <div style="flex-grow:1;text-align:center">
-<form method="post" action="https://webinfo.iutmontp.univ-montp2.fr/~etulaguillaumie/traitePost.php" style="display:inline">
+<form method="post" action="https://webinfo.iutmontp.univ-montp2.fr/~rletud/traitePost.php" style="display:inline">
 <input type="text" name="nom_var" value="MaDonnee">
 <input type="submit">
 </form>
