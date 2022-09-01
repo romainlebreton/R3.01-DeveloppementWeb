@@ -2,6 +2,7 @@
 title : Cours 1 <br> Introduction au Web dynamique
 subtitle : Le rôle du PHP
 layout : slideshow
+lang: fr
 ---
 
 <!-- 
@@ -12,7 +13,7 @@ Voir quand intégrer la séance Git
 <section>
 ## Présentation du cours
 
-**Objectif du cours:**
+**Objectif du cours :**
 
 * Apprendre à faire des pages dynamiques avec PHP et MySQL
 * Organiser son code avec l'architecture MVC
@@ -34,11 +35,11 @@ Voir quand intégrer la séance Git
 
 ## Emploi du temps prévisionnel
 
-1. Mardi 6 Septembre 2022 -- Cours d'introduction à PHP
+1. Mardi 6 septembre 2022 -- Cours d'introduction à PHP
 
 **1er bloc de TPs -- Bases de PHP :**
 
-1. Semaine du lund 6 septembre 2022 -- TP 1 -- Introduction aux objets en PHP
+1. Semaine du lundi 6 septembre 2022 -- TP 1 -- Introduction aux objets en PHP
 1. Semaine du lundi 12 septembre 2022 -- TP 2 -- La persistance des données en PHP
 1. Semaine du lundi 19 septembre 2022 -- TP 3 -- Requêtes préparées et association de classes
 1. Semaine du lundi 26 septembre 2022 -- TP 4 -- Architecture MVC simple
@@ -48,8 +49,8 @@ Voir quand intégrer la séance Git
 **2ème bloc de TPs -- Mise en application sur le projet + TPs complémentaires :**
 
 1. Semaine du lundi 17 octobre 2022 -- Projet : SAÉ (Parcours A) ou projet spécifique à ce cours (Parcours B & D)
-1. Semaine du lundi 24 octobre 2022 --  TD 7 -- Cookies & Sessions
-1. Semaine du lundi 7 novembre 2022 -- TD 8 -- Authentification & Validation par email
+1. Semaine du lundi 24 octobre 2022 -- TD 7 -- Cookies et Sessions
+1. Semaine du lundi 7 novembre 2022 -- TD 8 -- Authentification et Validation par email
 1. Semaine du lundi 14 novembre 2022 -- SAÉ ou Projet
 
 **Évaluation**
@@ -78,8 +79,8 @@ Voir quand intégrer la séance Git
 
 * Le *client* : C'est le visiteur d'un site Web. Il demande la page Web au
   serveur. En pratique, vous êtes des clients quand vous surfez sur le Web.  
-  Plus précisément c'est votre *navigateur Web* (Firefox, Chrome, Safari, IE,
-  Edge, ...) qui est le client car c'est lui qui demande la page Web.
+  Plus précisément, c'est votre *navigateur Web* (Firefox, Chrome, Safari, IE,
+  Edge, ...) qui est le client, car c'est lui qui demande la page Web.
 
 * Le *serveur* : Ce sont les ordinateurs qui délivrent les sites Web aux
   internautes, c'est-à-dire aux clients.
@@ -111,7 +112,7 @@ Le serveur retourne une réponse HTTP.
 
 <!-- Premier problème : plus de serveur Web en HTTP. Ils ont migrés sur HTTPS ! -->
 
-La requête HTTP la plus courante est la requête GET. Par exemple pour demander
+La requête HTTP la plus courante est la requête de méthode GET. Par exemple pour demander
 la page Web
 [http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html](http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html)
 :
@@ -202,8 +203,10 @@ Outils/Outils de développement puis onglet Réseau).
 
 Regardons les communications HTTP quand :
 
-* on ouvre l'URL http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html
-* on clique sur le lien [http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html](http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html)
+* on ouvre l'URL  
+  http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html
+* on clique sur le lien  
+  [http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html](http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html)
 
 <!--
 Ouvrir Réseau, recharger la page,
@@ -264,13 +267,15 @@ de votre répertoire personnel.
 
 **Comment ça marche ?**
 
-Quand vous demandez la page
-[https://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html](https://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html),
-le serveur HTTP (Apache) de l'IUT va rechercher le fichier
-`home_de_rletud/public_html/index.html`.
+Quand vous demandez la page  
+[https://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html](https://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html),  
+le serveur HTTP (Apache) de l'IUT va rechercher le fichier  
+`/home/ann2/rltetud/public_html/index.html`.
 
-Idem la page http://webinfo.iutmontp.univ-montp2.fr/~rletud/image/topsecret.jpg 
-renvoie sur le fichier `home_de_rletud/public_html/image/topsecret.jpg`.
+Idem la page  
+[http://webinfo.iutmontp.univ-montp2.fr/~rletud/image/topsecret.jpg](http://webinfo.iutmontp.univ-montp2.fr/~rletud/image/topsecret.jpg)  
+renvoie sur le fichier  
+`/home/ann2/rltetud/public_html/image/topsecret.jpg`.
 
 <!-- **Attention aux droits:** -->
 
@@ -288,7 +293,7 @@ renvoie sur le fichier `home_de_rletud/public_html/image/topsecret.jpg`.
 
 * Les sites *statiques* :  
   Sites réalisés uniquement à l'aide de HTML/CSS.  
-  Ils fonctionnent très bien mais leur contenu ne change pas en fonction du client.  
+  Ils fonctionnent très bien, mais leur contenu ne change pas en fonction du client.  
   Les sites statiques sont donc bien adaptés pour réaliser des sites « vitrine»
   (e.g. projet HTML/CSS 1ère année).
 
@@ -338,7 +343,8 @@ newsletter
 
 * Site dynamique :  
   1. le client demande au serveur à voir une page Web (requête HTTP) ;
-  2. le serveur crée la page spécialement pour le client (en suivant les instructions du PHP) ;
+  2. le serveur crée la page spécialement pour le client.  
+     Dans notre cas, le serveur va exécuter un script PHP ;
   3. le serveur répond au client en lui envoyant la page qu'il vient de générer (réponse HTTP).
 
 <p style="text-align:center">
@@ -428,14 +434,13 @@ lire
 **Lequel est le meilleur ?**
 Tout dépend de vos connaissances en programmation.
 
+<img src="{{site.baseurl}}/assets/php_concu.jpg" style="width:650px; float:right;" alt="Popularité des langages côté serveur">  
 PHP se démarque de ses concurrents par une importante communauté qui peut vous
-aider. C'est un langage facile à utiliser, idéal pour les débutants comme pour
+aider. 
+
+C'est un langage facile à utiliser, idéal pour les débutants comme pour
 les professionnels (Wikipédia, Tumblr et Facebook).
 
-<p style="text-align:center">
-<img src="{{site.baseurl}}/assets/php_concu.jpg" style="width:500px" alt="Popularité des langages côté serveur">  
-Popularité des langages côté serveur
-</p>
 
 <!-- https://w3techs.com/technologies/overview/programming_language/all -->
 
@@ -451,17 +456,19 @@ Popularité des langages côté serveur
 
 <br>
 
-**PHP sert à créer des documents HTML :**
+**PHP va nous servir à créer des documents HTML :**
 
 * Il prend donc en entrée un fichier `.php` <!-- qui contient de l'HTML et du PHP -->
-* Il ressort un document HTML
-* Pour cela, il exécute les instructions PHP qui lui indiquent comment générer le
-document en sortie.
+* Il exécute les instructions PHP sans étape compilation nécessaire (langage interprété)
+* Il affiche en sortie un document HTML  
+  (comme un programme C écrirait dans sa sortie standard).
 
 <br>
 
-**Remarque :** PHP peut en générer tout type de document, pas nécessairement du
-  HTML.
+**Remarques :** 
+* PHP est un langage de programmation au même titre que Java, Python, C...
+* N'importe quel langage peut écrire une page HTML en sortie
+* PHP est juste pratique pour écrire des pages Web de par sa syntaxe, les fonctions qu'il propose...
 
 <!-- Rq 04/09/2019 : Confus de dire contient de l'HTML et du PHP ?
                      Sortie standard
@@ -472,20 +479,19 @@ document en sortie.
 
 ## Votre premier fichier PHP
 
-Document PHP en entrée :
+L'exécution du document `helloWorld.php` suivant
 
 ```php
 <?php
-  echo "Hello World!";
+  $message = "Hello World!\n";
+  echo $message;
 ?>
 ```
 
-<br>
-
-PHP s'exécute sur ce document et produit
+affiche en sortie le texte 
 
 ```text
-Hello World
+Hello World↵
 ```
 
 <br>
@@ -494,12 +500,18 @@ Hello World
 
 * Les balises ouvrantes `<?php` et fermantes `?>` doivent entourer le code PHP
 
-* L'instruction `echo` a pour effet d'insérer du texte dans le document en sortie
+* Les noms de variables commencent par un `$` en PHP
 
-<br>
+* L'instruction `echo` a pour effet d'insérer du texte dans le document en sortie  
+  (autrement dit, d'écrire dans la sortie standard)
+
 <br>
 
 **Démonstration avec la ligne de commande `php`**
+```bash
+$ php helloWorld.php 
+Hello World!
+```
 
 <!-- Rq 04/09/2019 : Dire que c'est juste une syntaxe raccourcie ? -->
 
@@ -508,7 +520,7 @@ Hello World
 
 ## Imbrication de PHP dans le HTML 1/2
 
-Le document `PHP` suivant
+L'exécution du script `script.php` suivant
 
 ```php
 <!DOCTYPE html>
@@ -570,24 +582,28 @@ En fait, les deux fichiers suivants sont équivalents.
 En effet, ce qui est en dehors des balises PHP est écrit tel quel dans la page
 Web générée (comme si on avait fait `echo`).
 
+<!-- Syntaxe raccourcie pratique en PHP -->
+
 </section>
 <section>
 
-## Test de la page sur un serveur HTTP
+## Un script PHP sur un serveur HTTP 1/2
 
-* Enregistrons ce fichier PHP sur le serveur HTTP `webinfo` de l'IUT. Les
-fichiers PHP se mettent dans le dossier `public_html` de votre répertoire
-personnel.
+Deux principales façons d'exécuter un script PHP:
+* soit dans le terminal avec la commande `php`;
+* soit le serveur Web appelle lui-même l'interpréteur PHP 
+  * pour exécuter le script
+  * et renvoyer la sortie du script en tant que réponse HTTP.
 
-* Vous pouvez alors y accéder à partir de l'URL
-[http://webinfo.iutmontp.univ-montp2.fr/~loginIUT/](http://webinfo.iutmontp.univ-montp2.fr/~loginIUT/)
-en remplaçant `loginIUT` par votre login.
 
-<div class="incremental">
-<div>
-**Exemple :**
+</section>
+<section>
 
-* On écrit le fichier `bonjour.php` suivant dans notre dossier `public_html`
+## Un script PHP sur un serveur HTTP 2/2
+
+En pratique sur un exemple :
+
+* On écrit le fichier `/home/ann2/public_html/bonjour.php` :
 
   ```php
   <!DOCTYPE html>
@@ -609,10 +625,9 @@ en remplaçant `loginIUT` par votre login.
   Bonjour
   ```
 
-  **Note :** Regardez les sources pour voir la page complète.
+<br>
 
-</div>
-</div>
+**Note :** Affichez le code source de la page HTML pour retrouver la sortie complète du script `<!DOCTYPE html><html>...`
 
 </section>
 <section>
@@ -630,34 +645,32 @@ Les tableaux en PHP peuvent aussi s'indexer par des chaînes de caractères :
 Ce sont les **tableaux associatifs**
 </p>
 
-<br>
-
-* On peut créer le tableau case par case :
-
-  ```php?start_inline=1
-  $coordonnees['nom'] = 'Assin';
-  $coordonnees['prenom'] = 'Marc';
-  ```
-
-  **NB :** En `PHP` les variables commencent par `$`
-
-* Ou l'initialiser en une fois
+* Pour initialiser un tableau :
 
   ```php?start_inline=1
   $coordonnees = array (
     'nom'    => 'Assin',
-    'prenom' => 'Marc'   );
+    'prenom' => 'Marc'   
+  );
   ```
 
+  ou de façon plus courte et équivalente
+
+  ```php?start_inline=1
+  $coordonnees = [
+    'nom'    => 'Assin',
+    'prenom' => 'Marc'   
+  ];
+  ```
 
 * Notez l'existence des boucles
   [`foreach`](http://php.net/manual/fr/control-structures.foreach.php) pour
   parcourir ces tableaux :
 
   ```php?start_inline=1
-  foreach ($variable_tableau as $key => $value){
-      //commandes
-  }
+  foreach ($coordonnees as $key => $value){
+      echo $key . " : " . $value . "\n"; 
+  } // Affiche "nom : Assin↵prenom : Marc"
   ```
 {:.incremental}
 
@@ -689,13 +702,14 @@ serait ramenés aux sites statiques.
 <br>
 
 <!-- <div style="font-size:xx-large"> -->
-1. Le mécanisme **GET** que l'on retrouve
+1. Dans une requête HTTP de méthode **GET**, que l'on obtient
 
-   1. dans les URLs, et notamment dans les liens `<a>`, via le *query string*
+   1. en cliquant sur une URL, et notamment dans les liens `<a>`
    
-   1. dans les formulaires de méthodes **GET**
+   1. en validant un formulaire de méthode **GET**
 
-1. Le mécanisme **POST** dans les formulaires de méthode **POST**
+1. Dans une requête HTTP de méthode **POST**, que l'on obtient
+   1. en validant un formulaire de méthode **POST**
 <!-- </div> -->
 
 </section>
@@ -778,8 +792,10 @@ Quand un client demande `bonjour.php?nom=Assin&prenom=Marc` :
 * PHP remplit le tableau `$_GET` avec
 
   ```php?start_inline=1
-  $_GET["nom"] = "Assin";
-  $_GET["prenom"] = "Marc";
+  $_GET = [
+    "nom" => "Assin",
+    "prenom" => "Marc"
+  ];
   ```
 
 * puis PHP exécute le script `bonjour.php`.
@@ -787,7 +803,7 @@ Quand un client demande `bonjour.php?nom=Assin&prenom=Marc` :
 </section>
 <section>
 
-## Exemple de transmission en GET
+## Exemple de transmission avec la méthode GET
 
 <br>
 
@@ -823,11 +839,10 @@ qui va s'exécuter pour créer la page Web
 
 <br>
 
-**En effet,** PHP aura rempli le tableau  `$_GET` avec
+**En effet,** PHP aura rempli le tableau `$_GET` avec
 
 ```php?start_inline=1
-$_GET["nom"] = "Assin";
-$_GET["prenom"] = "Marc";
+  $_GET = ["nom" => "Assin", "prenom" => "Marc"];
 ```
 
 avant de lancer le script `bonjour.php`.
@@ -848,9 +863,9 @@ avant de lancer le script `bonjour.php`.
 <!-- </section> -->
 <section>
 
-## Les formulaires GET
+## Les formulaires de méthode GET
 
-Considérons le formulaire suivant et supposons que l'utilisateur ai tapé `MaDonnee`
+Considérons le formulaire suivant et supposons que l'utilisateur a tapé `MaDonnee`
 
 <div style="display:flex;align-items:center">
 <div style="flex-grow:1;">
@@ -874,10 +889,10 @@ Considérons le formulaire suivant et supposons que l'utilisateur ai tapé `MaDo
   * transmet ses informations dans le *query string*
   
 2. donc le clic sur `Valider` charge l'URL `traitement.php?nom_var=MaDonnee`  
-  On reconnaît l'attribut `name="nom_var"` de `<input>` et la valeur remplie par l'utilisateur
+  On reconnaît l'attribut `name="nom_var"` de `<input>` et la valeur remplie par l'utilisateur.
 
-3. la page `traitement.php` suivante s'exécute avec le tableau
-   `$_GET['nom_var']="MaDonnee";`
+3. la page `traitement.php` suivante s'exécute avec le tableau  
+   `$_GET = ["nom_var" => "MaDonnee"];`
 
    ```php
    <p>La donnée nom_var est <?php echo $_GET['nom_var']; ?> !</p>
@@ -893,17 +908,16 @@ Considérons le formulaire suivant et supposons que l'utilisateur ai tapé `MaDo
 </section>
 <section>
 
-
 ## Pourquoi la méthode du formulaire s'appelle "GET" ?
 
 <br>
 
 Parce que en `method="get"`, le formulaire envoie une requête **HTTP** de
-type **GET**.
+méthode **GET**.
 
 <br>
 
-En effet lorsque l'on valide le formulaire, le navigateur (client HTTP) envoie
+En effet, lorsque l'on valide le formulaire, le navigateur (client HTTP) envoie
 la requête **HTTP** de type **GET** suivante
 
 ```http
@@ -918,13 +932,20 @@ C'est de cette manière que l'on demande une page Web généralement.
 
 <br>
 
-**Remarque:**
+**Remarque :**
 
 Les formulaires **GET** utilisent donc l'envoi de données dans le *query string*.
 
 <!--
 PREVOIR UNE DEMO AVEC LES OUTILS RESEAUX
 -->
+
+</section>
+<section>
+
+# Envoi de données *via* la méthode POST
+
+<!-- On l'obtient en utilisant des formulaires de méthode POST. -->
 
 </section>
 <section>
@@ -958,31 +979,30 @@ PREVOIR UNE DEMO AVEC LES OUTILS RESEAUX
 
 **Différences :**
 
-1. `method="post"`
-1. la page chargée va être `traitePost.php` **sans *query string* ;**
-2. les données du formulaire sont envoyées dans le **corps** d'une requête
-   **HTTP** de type **POST** (*cf.* prochain slide) ;
+1. La méthode du formulaire devient `method="post"`
 3. On récupère les données dans le tableau PHP `$_POST`. 
 
-   **Exemple :**
+<br>
 
-   Quand on clique sur `Valider`,  PHP fait
+**Exemple :**
 
-   ```php?start_inline=1
-   $_POST["nom_var"] = "valeur"
-   ```
+Quand on clique sur `Valider`,  PHP fait
 
-   juste avant d'exécuter la page PHP `traitePost.php` suivante
+```php?start_inline=1
+$_POST = ["nom_var" => "valeur"];
+```
 
-   ```php
-   <p>La donnée nom_var est <?php echo $_POST['nom_var']; ?> !</p>
-   ```
+juste avant d'exécuter la page PHP `traitePost.php` suivante
 
-   qui va s'exécuter pour créer la page Web
+```php
+<p>La donnée nom_var est <?php echo $_POST['nom_var']; ?> !</p>
+```
 
-   ```html?start_inline=1
-   <p>La donnée nom_var est MaDonnee !</p>
-   ```
+qui va s'exécuter pour créer la page Web
+
+```html?start_inline=1
+<p>La donnée nom_var est MaDonnee !</p>
+```
 
 </section>
 <!-- <section> -->
@@ -1039,7 +1059,8 @@ Elles servent aussi à demander des pages Web. Les principales différences sont
 
 2. L'en-tête et le corps de la requête sont séparés par une ligne vide.
 
-3. Le corps de la requête **HTTP** sert ici à envoyer les informations.
+3. Le corps de la requête **HTTP** sert ici à envoyer les informations.  
+   Il n'y a donc plus de *query string* dans l'URL.
 
 <br>
 
@@ -1074,7 +1095,7 @@ Elles servent aussi à demander des pages Web. Les principales différences sont
  
 * La méthode **POST** :
 
-  * est plus propre car les valeurs ne sont plus affichées dans la barre d'adresse du navigateur
+  * est plus propre, car les valeurs ne sont plus affichées dans la barre d'adresse du navigateur
 
   * **Attention :**  
   ces informations **ne sont pas vraiment cachées** pour autant.
@@ -1155,8 +1176,8 @@ celui nous envoie sa réponse HTTP normalement.
 
 ```http
 > telnet webinfo.iutmontp.univ-montp2.fr 80
-GET /~rletud/ HTTP/1.1
-Host: webinfo.iutmontp.univ-montp2.fr
+GET /R3.01-DeveloppementWeb/assets/Cours1/HelloWorld.html HTTP/1.1
+Host: romainlebreton.github.io
 
 ```
 
@@ -1164,24 +1185,20 @@ nous répond
 
 ```http
 HTTP/1.1 200 OK
-Date: Tue, 08 Sep 2015 20:24:04 GMT
-Server: Apache/2.2.14 (Ubuntu)
-Last-Modified: Tue, 08 Sep 2015 20:05:38 GMT
-Accept-Ranges: bytes
-Content-Length: 225
-Content-Type: text/html
+Server: GitHub.com
+Content-Type: text/html; charset=utf-8
+Content-Length: 170
+[...]
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
-    <meta charset="utf-8" />
-    <title> Insérer le titrer ici </title>
+    <meta charset="utf-8">
+    <title>Fichier test</title>
   </head>
-
-  <body>
-    Un problème avec les accents à é è ?
-    <!-- ceci est un commentaire -->
-  </body>
+    <body>
+        <h1>Hello world</h1>
+    </body>
 </html>
 ```
 

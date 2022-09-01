@@ -16,7 +16,7 @@ Cours à l'IUT de Montpellier - 2ème année
 
 ## TDs
 
-1. Semaine du lundi 5 septembre 2022- - [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html) 
+1. Semaine du lundi 5 septembre 2022 -- [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html) 
 1. Semaine du lundi 12 septembre 2022 -- [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html)
 1. Semaine du lundi 19 septembre 2022 -- [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html)
 1. Semaine du lundi 26 septembre 2022 --  [TD 4 -- Architecture MVC simple](tutorials/tutorial4.html)
@@ -35,6 +35,7 @@ Cours à l'IUT de Montpellier - 2ème année
 
 <!-- ### Notes complémentaires
 
+1. [Syntaxe simple & avancée de PHP 8.1]({{site.baseurl}}/assets/complement1-PHPSyntax.html)
 1. [Encodage des caractères, serveur HTTP de l'IUT et note sur les URLs]({{site.baseurl}}/assets/tut1-complement.html)
 2. [NetBeans, attributs et méthodes statiques, Gitlab]({{site.baseurl}}/assets/tut2-complement.html)
 3. [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)

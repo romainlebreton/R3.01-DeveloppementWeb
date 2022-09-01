@@ -1,10 +1,11 @@
 ---
-title: Complément 1 &ndash; Syntaxe PHP 8.1
+title: Complément 1 &ndash; Syntaxe PHP 8.1 
 subtitle: Un comparatif avec Java & Python
 layout: tutorial
+lang: fr
 ---
 
-## Syntaxe
+## Syntaxe de PHP 8.1 (25 Nov 2021)
 
 * Les commandes PHP doivent se trouver entre une balise ouvrante `<?php` et une balise fermante `?>`
   * Il existe une balise ouvrante `<?=` qui est un raccourci pour `<?php echo` (pratique dans les vues)
@@ -12,28 +13,37 @@ layout: tutorial
 
   [Documentation PHP](https://www.php.net/manual/fr/language.basic-syntax.phptags.php)
 
-* Les noms de variables en PHP commencent par un `$`, comme par exemple `$voiture`
+* Les noms de variables en PHP commencent par un `$`, par exemple `$voiture`
+
+* PHP est un langage interprété ; il peut être directement exécuté sans compilation préalable.
+  * Vous pouvez exécuter un script en ligne de commande :
+    ```bash
+    $ php script.php
+    ```
+    Le résultat du script est écrit 
+  * Si vous demandez une page Web dans votre navigateur, c'est le serveur Web Apache qui
+    appelle PHP pour exécuter le script.
 
 ## Typage
 
-* Pas de déclaration obligatoire du type d'une variation en PHP:
-  * PHP: `$jour = "lundi";`
-  * Java: `String jour = "lundi";`
+* Pas de déclaration obligatoire du type d'une variation en PHP :
+  * PHP : `$jour = "lundi";`
+  * Java : `String jour = "lundi";`
 
-* Le type de la valeur stockée dans une variable peut varier en PHP:
+* Le type de la valeur stockée dans une variable peut varier en PHP :
 	```php
 	$jour = "lundi";
 	$jour = 0;
 	```
 
-* Un peu comme en Java, les principaux types que vous utiliserez en PHP sont:
+* Un peu comme en Java, les principaux types que vous utiliserez en PHP sont :
   * soit des types scalaires : `bool`, `int`, `float` et `string`
   * soit des tableaux `array`
-  * soit des objet `object`
+  * soit des objets `object`
 
   [Documentation PHP](https://www.php.net/manual/fr/language.types.intro.php)
 
-* Optionnellement, on peut déclarer des types en PHP:
+* Optionnellement, on peut déclarer des types en PHP :
   * soit pour les arguments d'une fonction
   * soit pour la valeur de retour d'une fonction
   * soit pour les attributs de classe
@@ -141,16 +151,16 @@ layout: tutorial
   </div>
 </div>
 
-* PHP: `$this` obligatoire, `function` avant les méthodes, constructeur nommé `__construct`
+* PHP : `$this` obligatoire, `function` avant les méthodes, constructeur nommé `__construct`
 * On accède aux attributs/méthodes avec `->` au lieu de `.` en Java
 * Les espaces de noms permettent de séparer les classes, comme si on les mettait dans des "dossiers" différent.
   On évite ainsi les risques de collisions :
-  * `namespace`:  
+  * `namespace` :  
     Dans l'exemple précédent, l'instruction `namespace App\Covoiturage;` dit que toutes les classes définies dans ce fichier
     vivent dans l'espace de nom `App\Covoiturage`.  
     En pratique, le fichier définit donc les classes `App\Covoiturage\Controller` et `App\Covoiturage\ControllerVoiture`.
 
-  * `use`: Permet de raccourcir le nom de classe dans un fichier.  
+  * `use` : Permet de raccourcir le nom de classe dans un fichier.  
     En effet,     
     ```php
     $controller = new ControllerVoiture("webinfo/~rletud/");
@@ -173,11 +183,11 @@ layout: tutorial
 * Pas de type générique en PHP, contrairement à Java (`List<String>`). Par exemple, on peut déclarer un `array`, mais on ne peut pas spécifier
   le type des éléments dans le tableau.
 
-* Le polymorphisme marche comme en Java:  
-  Une méthode peut être implémentée différement en fonction du type.
+* Le polymorphisme marche comme en Java :  
+  Une méthode peut être implémentée différemment en fonction du type.
 
-* Pas de surcharge de fonction en PHP:  
-  Java autorise 2 fonctions qui ont le même nom mais soit un nombre d'arguments différents, soit des types d'arguments différents. 
+* Pas de surcharge de fonction en PHP :  
+  Java autorise 2 fonctions qui ont le même nom, mais soit un nombre d'arguments différents, soit des types d'arguments différents. 
   Pas PHP.
 
 * Les classes abstraites et les interfaces existent en PHP de façon similaire à Java.
@@ -188,10 +198,10 @@ Le groupe PHP-FIG (PHP Framework Interoperability Group) pour l'interopérabilit
 la pratique de PHP. Ce travail vise notamment à ce que les différents composants ou framework PHP puissent bien
 communiquer entre eux.
 
-Parmis les standards PSR les plus importants, on trouve :
-* [PSR-1](https://www.php-fig.org/psr/psr-1/): Basic Code Style
-* [PSR-4](https://www.php-fig.org/psr/psr-4/): Autoloaders
-* [PSR-12](https://www.php-fig.org/psr/psr-12/): Extended Coding Style Guide
+Parmi les standards PSR les plus importants, on trouve :
+* [PSR-1](https://www.php-fig.org/psr/psr-1/) : Basic Code Style
+* [PSR-4](https://www.php-fig.org/psr/psr-4/) : Autoloaders
+* [PSR-12](https://www.php-fig.org/psr/psr-12/) : Extended Coding Style Guide
 
 ## PHPDoc
 
@@ -202,7 +212,7 @@ l'autocomplétion de l'IDE (PHPStorm, VSCode, ...), ainsi que l'infobulle rensei
 
 Cette documentation s'écrit dans des DocComment, qui sont des commentaires particuliers commençant par `/** ` et finissant par `*/`.  
 
-Exemple:
+Exemple :
 ```php
 /**
  * This class acts as an example on where to position a DocBlock.
@@ -239,10 +249,10 @@ Sources et plus d'informations :
 
 ## Avancé
 
-* Il y a 4 syntaxes pour créer des chaînes de caractères:
-  * [Guillemets simples](https://www.php.net/manual/fr/language.types.string.php#language.types.string.syntax.single): la plus simple
-  * [Guillemets doubles](https://www.php.net/manual/fr/language.types.string.php#language.types.string.syntax.double): elle interprète les variables et plus de caractères échappés comme `\n`
-  * [Syntaxe Heredoc](https://www.php.net/manual/fr/language.types.string.php#language.types.string.syntax.heredoc): Similaire aux guillemets doubles, mais on peut choisir le délimiteur de début/fin de chaîne.
+* Il y a 4 syntaxes pour créer des chaînes de caractères :
+  * [Guillemets simples](https://www.php.net/manual/fr/language.types.string.php#language.types.string.syntax.single) : la plus simple
+  * [Guillemets doubles](https://www.php.net/manual/fr/language.types.string.php#language.types.string.syntax.double) : elle interprète les variables et plus de caractères échappés comme `\n`
+  * [Syntaxe Heredoc](https://www.php.net/manual/fr/language.types.string.php#language.types.string.syntax.heredoc) : Similaire aux guillemets doubles, mais on peut choisir le délimiteur de début/fin de chaîne.
   * [Syntaxe Nowdoc](https://www.php.net/manual/fr/language.types.string.php#language.types.string.syntax.nowdoc) : Similaire aux guillemets simples, mais on peut choisir le délimiteur de début/fin de chaîne.
 
 
@@ -260,8 +270,7 @@ Sources et plus d'informations :
 
   Les variables pouvant être itérés sont 
   soit les `array`, 
-  soit les [générateurs](https://www.php.net/manual/en/language.generators.php), 
-  ou tout objet implémentant l'interface abstraite [Traversable](https://www.php.net/manual/fr/class.traversable.php), c'est-à-dire 
+  soit les [générateurs](https://www.php.net/manual/en/language.generators.php) ou tout objet implémentant l'interface abstraite [Traversable](https://www.php.net/manual/fr/class.traversable.php), c'est-à-dire 
     soit l'interface [Iterator](https://www.php.net/manual/fr/class.iterator.php), 
     soit l'interface [IteratorAggregate](https://www.php.net/manual/fr/class.iteratoraggregate.php).
 
@@ -274,33 +283,33 @@ Sources et plus d'informations :
 
   [Documentation PHP](https://www.php.net/manual/fr/features.gc.refcounting-basics.php)
 
-* Les déclarations de types optionelles supportent des types composés, notamment 
+* Les déclarations de types optionnelles supportent des types composés, notamment 
   * l'union de type : `type1|type2` (`type1` ou `type2`)
-  * Type qui peut être aussi `null`: `?type` est équivalent à `type|null`  
+  * Type qui peut être aussi `null` : `?type` est équivalent à `type|null`  
     <br>
     
-* Jonglage de type: [Documentation PHP](https://www.php.net/manual/fr/language.types.type-juggling.php)  
-  PHP peut tenter de convertir le type d'une valeur en une autre automatiquement dans certains contextes:
-  * Numérique: `"2" + 3` donne `5` (PHP convertit `"2"` en entier)
-  * String: `echo $voiture;` appelle la méthode `$__toString()` de `$voiture`
+* Jonglage de type : [Documentation PHP](https://www.php.net/manual/fr/language.types.type-juggling.php)  
+  PHP peut tenter de convertir le type d'une valeur en une autre automatiquement dans certains contextes :
+  * Numérique : `"2" + 3` donne `5` (PHP convertit `"2"` en entier)
+  * String `echo $voiture;` appelle la méthode `$__toString()` de `$voiture`
     <br>
 
-  * Comparaison: `$a == $b` donne des 
+  * Comparaison : `$a == $b` donne des 
     [résultats très surprenants](https://www.php.net/manual/fr/types.comparisons.php#types.comparisions-loose) 
     quand `$a` et `$b` ne sont pas du même type.  
     * Il faut **absolument** utiliser `===` qui teste l'égalité des types ET des valeurs.  
     
     <span></span>
     
-  * Arguments de fonctions: Le code suivant
+  * Arguments de fonctions : Le code suivant
     ```php
     function myEcho (string $s) {echo $s;}
     mecho(1); // S'execute bien et affiche 1
     ```
 
-    passe la vérification de déclaration de type car `1` est converti en `string`
+    passe la vérification de déclaration de type, car `1` est converti en `string`
 
-    **Solution**: Rajouter `declare(strict_types=1);` 
+    **Solution** : Rajouter `declare(strict_types=1);` 
     [Documentation PHP](https://www.php.net/manual/fr/language.types.declarations.php#language.types.declarations.strict)
     ```php
     declare(strict_types=1);
@@ -313,6 +322,8 @@ Sources et plus d'informations :
   [Source](https://php.watch/articles/php-dump-opcodes)
 
 <!-- ## TODO
+
+* php -S integrated server
 
 * [Named function arguments](https://www.php.net/manual/fr/functions.arguments.php#functions.named-arguments)
   `str_contains(needle: 'Bar', haystack: 'Foobar');`
