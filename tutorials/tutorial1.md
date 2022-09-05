@@ -691,18 +691,25 @@ function ServeurWeb(Requete $requete) : Reponse (
    * les sorties des getters
    * les entrées / sorties du constructeur
 
-2. Testez que PHP vérifie bien les types : appelez une fonction qui attend en argument un `string` en lui donnant à la place un tableau (le tableau vide `[]` par exemple). Vous devez recevoir un message comme suit
+2. Testez que PHP vérifie bien les types : dans `testVoiture.php`, appelez une fonction qui attend en argument un `string` en lui donnant à la place un tableau (le tableau vide `[]` par exemple). Vous devez recevoir un message comme suit
 
    ```
    PHP Fatal error:  Uncaught TypeError: Voiture::__construct(): Argument #1 ($marque) must be of type string, array given
    ```
 
-3. Testez en donnant une valeur entière à la place d'un `string`. Malheureusement, la vérification de PHP n'échoue pas. En effet, par défaut, PHP convertit automatiquement les types scalaires (`bool`, `int`, `float` et `string`) entre eux.
+   <!-- 3. Testez en donnant une valeur entière à la place d'un `string`. Malheureusement, la vérification de PHP n'échoue pas. En effet, par défaut, PHP convertit automatiquement les types scalaires (`bool`, `int`, `float` et `string`) entre eux.
 
-4. Rajoutez l'instruction `declare(strict_types=1);` au début de votre fichier PHP. Ceci active la vérification de types, même entre types scalaires.  
-Vérifiez que la vérification de type de PHP échoue maintenant.
+   4. Rajoutez l'instruction `declare(strict_types=1);` au début de votre fichier PHP. Ceci active la vérification de types, même entre types scalaires.  
+   Vérifiez que la vérification de type de PHP échoue maintenant.
 
-5. Nettoyez votre code de `Voiture.php` pour ne garder que la déclaration de la classe `Voiture` (commentez le reste pour en garder une trace). 
+   **Attention :** La déclaration `declare(strict_types=1);` doit être la première instruction de votre script PHP. Il faut donc écrire en ligne 1 
+   ```php
+   <?php declare(strict_types=1); ?>
+   ```
+   sans aucun espace avant `<?php`. 
+   
+   Aussi, `declare(strict_types=1);` marche fichier par fichier. Il doit donc être mis en haut de chaque fichier pour marcher partout.
+   -->
 
 6. Enregistrez votre travail à l'aide de `git add` et `git commit`. Aidez-vous toujours
    de `git status` pour savoir où vous en êtes.
