@@ -16,8 +16,9 @@ Cours à l'IUT de Montpellier - 2ème année
 
 ## TDs
 
-1. Semaine du lundi 5 septembre 2022 -- [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html) 
-1. Semaine du lundi 12 septembre 2022 -- [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html)
+1. Semaine du lundi 5 septembre 2022 -- [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html)
+
+<!-- 1. Semaine du lundi 12 septembre 2022 -- [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html)
 1. Semaine du lundi 19 septembre 2022 -- [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html)
 1. Semaine du lundi 26 septembre 2022 --  [TD 4 -- Architecture MVC simple](tutorials/tutorial4.html)
 1. Semaine du lundi 3 octobre 2022 -- [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html)
@@ -31,7 +32,7 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaine du lundi 5 décembre 2022
 1. Semaine du lundi 12 décembre 2022
 1. Semaine du lundi 2 janvier 2023 -- Évaluation SAÉ ou Projet
-1. Semaine du lundi 9 janvier 2023 -- Examen
+1. Semaine du lundi 9 janvier 2023 -- Examen -->
 
 <!-- ### Notes complémentaires
 
