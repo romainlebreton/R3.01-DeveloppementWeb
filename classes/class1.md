@@ -518,71 +518,61 @@ Hello World!
 </section>
 <section>
 
-## Imbrication de PHP dans le HTML 1/2
-
-L'exécution du script `script.php` suivant
+## Comment générer la page HTML suivante ?
 
 ```php
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Mon premier php </title>
-    </head>
-    <body>
-      <?php echo "Bonjour"; ?>
-    </body>
+  <head>
+    <title> Mon premier php </title>
+  </head>
+  <body>
+  Il est actuellement 09:04.
+  </body>
 </html>
 ```
 
-produira
+On pourrait faire
 
-```html
-<!DOCTYPE html>
-<html>
-    <head>
-        <title> Mon premier php </title>
-    </head>
-    <body>
-      Bonjour
-    </body>
-</html>
+```php
+<?php
+  echo "<!DOCTYPE html>\n";
+  echo "<html>
+  <head>
+    <title> Mon premier php </title>
+  </head>
+  <body>\n";
+  echo "  Il est actuellement " . date("H:i") . ".\n";
+  echo "  </body>\n</html>"; ?>
 ```
 
 </section>
 <section>
 
-## Imbrication de PHP dans le HTML 2/2
+## Imbrication de PHP dans le HTML
 
-En fait, les deux fichiers suivants sont équivalents.  
-
+Heureusement, PHP propose une syntaxe plus lisible:
 ```php
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Mon premier php </title>
-    </head>
-    <body>
-      <?php echo "Bonjour"; ?>
-    </body>
+  <head>
+    <title> Mon premier php </title>
+  </head>
+  <body>
+  Il est actuellement <?php echo date("H:i");?>.
+  </body>
 </html>
 ```
 
-```php
-<?php
-  echo "<!DOCTYPE html>";
-  echo "<html>
-      <head>
-          <title> Mon premier php </title>
-      </head>
-      <body>";
-  echo "Bonjour";
-  echo "</body></html>"; ?>
-```
-
-En effet, ce qui est en dehors des balises PHP est écrit tel quel dans la page
+Ce qui est en dehors des balises PHP est écrit tel quel dans la page
 Web générée (comme si on avait fait `echo`).
 
-<!-- Syntaxe raccourcie pratique en PHP -->
+<br>
+<br>
+
+Remarquez aussi la différence :
+* en Java: `System.out.println("Hello");`
+* en PHP: `echo "Hello";`
 
 </section>
 <section>

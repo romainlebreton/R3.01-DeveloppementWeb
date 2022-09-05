@@ -378,6 +378,43 @@ PHP 8 introduces the match expression.[19] The match expression is conceptually 
 
 Voir aussi https://www.php.net/releases/8.0/en.php ou https://php.watch/versions/8.0
 
+* Le `echo` *here document*
+
+  /!\ Changement de règles sur le délimiteur de fin en PHP 8
+
+  Il existe un `echo` sur plusieurs lignes très pratique
+
+  ```php?start_inline=1
+  $prenom="Helmut";
+  echo <<< EOT
+  Texte à afficher
+  sur plusieurs lignes
+  avec caractères spéciaux \t \n
+  et remplacement de variables $prenom
+  les caractères suivants passent : " ' $ / \ ;
+  EOT;
+  ```
+
+  Cette syntaxe s'intitule le `heredoc` et permet d'afficher plusieurs
+  lignes avec les mêmes caractéristiques que les chaînes entre *double quote*.
+  Notez que la fin de la syntaxe doit apparaître **au début d'une nouvelle ligne** (pas d'espaces avant),
+  avec uniquement un point-virgule, et **pas d'espaces de plus à la fin** !
+  Vous constaterez l'effet produit en observant le code source de la page. Par contre, les **\n** ou les **\t** n'ont pas d'effet visible dans le navigateur.
+
+  Par exemple le code PHP précédent génère
+
+  ```text
+  Texte à afficher
+  sur plusieurs lignes
+  avec caractères spéciaux 	 
+
+  et remplacement de variables Helmut
+  les caractères suivants passent : " ' $ / \ ;
+  ```
+
+  **Documentation :**
+    [Syntaxe Heredoc sur PHP.net](http://php.net/manual/fr/language.types.string.php#language.types.string.syntax.heredoc)
+
 -->
 
 <!-- ## https://en.wikipedia.org/wiki/Comparison_of_programming_languages_(object-oriented_programming)

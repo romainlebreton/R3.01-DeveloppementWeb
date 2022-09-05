@@ -5,10 +5,6 @@ layout: tutorial
 ---
 
 <!--
-Reprendre le fil rouge de site de covoiturage
--->
-
-<!--
 Présentez les getter et setter génériques à l'aide de $objet->$attr_name
 http://php.net/manual/en/language.oop5.php
 -->
@@ -17,20 +13,10 @@ http://php.net/manual/en/language.oop5.php
 Need to URL decode $_GET ??
 -->
 
-## Méthodologie
-
-Quelques consignes qui vous feront gagner beaucoup de temps en développement web:
-
-1. PHP est un langage de programmation donc utilisez un environnement de
-   développement. Vous ne codez pas du Java avec BlocNotes, c'est pareil pour
-   PHP. Nous coderons donc notre PHP sous Sublime Text ou Atom (sauf si vous
-   avez déjà votre éditeur préféré). A terme, pour des projets importants, un IDE comme PhpStorm pourra être plus pertinent.
-
-   Pour ce TD, nous vous recommandons un éditeur simple, comme Sublime Text ou Atom. Ainsi, nous n'aurons pas    l'impression que la grosse machinerie qu'est PhpStorm (ou Netbeans) nous cache trop de
-   choses. 
-     
-2. Ne copiez **jamais** vos fichiers à plusieurs endroits.
-3. Merci de **ne pas** imprimer ce TP.
+PHP est un langage de programmation donc utilisez un environnement de
+développement. Vous ne codez pas du Java avec BlocNotes, c'est pareil pour
+PHP. Nous coderons donc notre PHP sous PhpStorm (sauf si vous
+avez déjà votre éditeur préféré). 
 
 ## Accédez à vos pages web
 
@@ -163,7 +149,7 @@ fichiers OU de façon équivalente avec une URL en `file://` comme :
 
    **Que se passe-t-il quand on ouvre un fichier PHP directement dans le navigateur ?**  
    **Pourquoi ?**  
-   *Ça vous rappelle le [cours 1]({{site.baseurl}}/classes/class1.html#le-langage-de-cration-de-page-web--php) j'espère ?* 
+   *Ça vous rappelle le [cours 1]({{site.baseurl}}/classes/class1.html#le-langage-de-cration-de-pages-web--php) j'espère ?* 
 
 6. Ouvrez cette page dans le navigateur dans un second onglet en passant par le
    serveur HTTP de l'IUT :  
@@ -279,100 +265,90 @@ dans lequel la chronologie de toutes modifications pourront être enregistrées.
 
 2. Le code PHP doit être compris entre la balise ouvrante `<?php` et la balise fermante `?>`
 2. Les variables sont précédées d'un `$`
-1. Pas de typage des variables
+1. Il n'est pas obligatoire de déclarer le type d'une variable (cf. plus loin dans le TD)
 
 ### Les chaînes de caractères
 
 Différentes syntaxes existent en PHP ; selon les délimiteurs que l'on utilise,
-le comportement est différent :
+le comportement est différent.
 
-1. Les chaînes de caractères avec ***double quotes* `"`** peuvent contenir :
-   * des variables (qui seront remplacées par leur valeur),
-   * des sauts de lignes,
-   * des caractères spéciaux (tabulation `\t`, saut de ligne `\n`).
-   * Les caractères protégés sont `"`, `$` et `\` qui doivent être échappés avec
-   un anti-slash `\` comme ceci : `\"`, `\$` et `\\`;
-   
-   **Exemple :** Le code PHP suivant
+#### Avec guillements simples
 
-   ```php?start_inline=1
-   $prenom="Helmut";
-   echo "Bonjour $prenom,\n ça farte ?";
-   ```
-  
-   produit le document suivant
-   
-   ```text
-   Bonjour Helmut,
-   ça farte ?
-   ```
-  
-   **Astuce :** En cas de problèmes avec le remplacement de variables, rajoutez
-   des accolades autour de la variable à remplacer. Cela marche aussi bien pour
-   les tableaux `"{$tab[0]}"`, les attributs `"{$objet->attribut}"` et les
-   fonctions `"{$objet->fonction()}"`.
-   
-2. Les chaînes de caractères avec ***simple quote* `'`** sont conservées telles
-quelles (pas de remplacement, de caractères spéciaux ...). Les caractères
+Les chaînes de caractères avec ***simple quote* `'`** sont conservées telles
+quelles (pas de caractères spéciaux `\n`...). Les caractères
 protégés sont `'` et `\` qui doivent être échappés avec un anti-slash comme ceci
 `\'` et `\\`;
 
-   **Exemple :**
+<!-- **Exemple :**
 
-   ```php?start_inline=1
-   echo 'Bonjour $prenom,\n ça farte ?';
-   ```
-  
-   donne
-   
-   ```text
-   Bonjour $prenom,\n ça farte ?
-   ```
+```php?start_inline=1
+echo 'Bonjour $prenom,\n ça farte ?';
+```
 
-3. La concaténation de chaînes de caractères se fait avec l'opérateur point `.`  
-   **Exemple :**
+donne
 
-   ```php?start_inline=1
-   $texte = "hello" . 'World !';
-   ```
+```text
+Bonjour $prenom,\n ça farte ?
+``` -->
 
-**Documentation :**
-  [Les chaînes de caractères sur PHP.net](http://php.net/manual/fr/language.types.string.php)
+La concaténation de chaînes de caractères se fait avec l'opérateur point `.`  
+```php?start_inline=1
+$texte = 'hello' . 'World !';
+```
 
-### Le `echo` *here document*
+#### Avec guillements doubles
 
-Il existe un `echo` sur plusieurs lignes très pratique
+Pour simplifier le code suivant
+```php?start_inline=1
+$prenom="Helmut";
+echo 'Bonjour ' . $prenom . ', ça farte ?';
+```
+
+PHP propose une syntaxe de chaîne de caractères entourées de ***double quotes* `"`**
+qui permet d'écrire  
 
 ```php?start_inline=1
 $prenom="Helmut";
-echo <<< EOT
-Texte à afficher
-sur plusieurs lignes
-avec caractères spéciaux \t \n
- et remplacement de variables $prenom
-les caractères suivants passent : " ' $ / \ ;
-EOT;
+echo "Bonjour $prenom, ça farte ?";
 ```
 
-Cette syntaxe s'intitule le `heredoc` et permet d'afficher plusieurs
-lignes avec les mêmes caractéristiques que les chaînes entre *double quote*.
-Notez que la fin de la syntaxe doit apparaître **au début d'une nouvelle ligne** (pas d'espaces avant),
-avec uniquement un point-virgule, et **pas d'espaces de plus à la fin** !
-Vous constaterez l'effet produit en observant le code source de la page. Par contre, les **\n** ou les **\t** n'ont pas d'effet visible dans le navigateur.
+Les chaînes de caractères avec ***double quotes* `"`** peuvent contenir :
+* des variables (qui seront remplacées par leur valeur),
+* des sauts de lignes,
+* des caractères spéciaux (tabulation `\t`, saut de ligne `\n`).
+* Les caractères protégés sont `"`, `$` et `\` qui doivent être échappés avec
+un anti-slash `\` comme ceci : `\"`, `\$` et `\\`;
 
-Par exemple le code PHP précédent génère
-
-```text
-Texte à afficher
-sur plusieurs lignes
-avec caractères spéciaux 	 
-
- et remplacement de variables Helmut
-les caractères suivants passent : " ' $ / \ ;
-```
+**Astuce :** En cas de problèmes avec le remplacement de variables, rajoutez
+des accolades autour de la variable à remplacer. Cela marche aussi bien pour
+les tableaux `"{$tab[0]}"`, les attributs `"{$objet->attribut}"` et les
+fonctions `"{$objet->fonction()}"`.
+   
 
 **Documentation :**
-  [Syntaxe Heredoc sur PHP.net](http://php.net/manual/fr/language.types.string.php#language.types.string.syntax.heredoc)
+[Les chaînes de caractères sur PHP.net](http://php.net/manual/fr/language.types.string.php)
+
+<div class="exercise">
+Qu'écrivent chacun des `echo` suivants ?
+
+```php?start_inline=1
+$prenom = "Marc";
+
+echo "Bonjour\n " . $prenom;
+echo "Bonjour\n $prenom";
+echo 'Bonjour\n $prenom';
+
+echo $prenom;
+echo "$prenom";
+```
+
+Testez votre réponse en rajoutant ce code dans `echo.php`.
+
+**Astuce:** 
+* Vous pouvez aussi tester ce code dans le terminal (sans passer par un serveur Web et un navigateur). Pour cela, écrivez votre script dans `testEcho.php` (n'oubliez pas la balise ouvrante `<?php` en début de fichier). Puis, dans le terminal, exécutez `php testEcho.php`.
+
+   Ce fonctionnement est plus proche de ce que vous auriez fait en Python avec `python script.py`, ou en Java avec `javac program.java` puis `java program` .
+</div>
 
 ### Affichage pour le débogage
 
@@ -381,39 +357,33 @@ et sont très utiles pour déboguer notamment les tableaux ou les objets.
 La différence est que `print_r` est plus lisible car `var_dump` affiche plus de
 choses (les types).
 
-### Require
-
-PHP a plusieurs façons d'inclure un fichier :
-
-* `require "dossier/fichier.php"` : inclut et exécute le fichier spécifié en
-   argument, ici `"dossier/fichier.php"`. Autrement dit, tout se passe comme si
-   le contenu de `fichier.php` avait copié/collé à la place du `require`.  
-   Renvoie une erreur si le fichier n'existe pas.
-
-* `require_once "dossier/fichier.php"` : fait de même que `require` mais la différence est que si le
-  code a déjà été inclus, il ne le sera pas une seconde fois.  
-  Ceci est particulièrement utile pour inclure une classe car cela assure qu'on
-  ne l'inclura pas deux fois.
-
-Notez qu'il existe `include` et `include_once` qui ont le même effet mais
-n'émettent qu'un warning si le fichier n'est pas trouvé (au lieu d'une erreur).
-
 
 ### Les tableaux associatifs
 
 Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de caractères :
 
-* Pour créer un tableau vide, on utilise la syntaxe
+* Pour initialiser un tableau, on utilise la syntaxe
 
   ```php?start_inline=1
-  $mon_tableau = array();
+  $utilisateur = array(
+   'prenom' => 'Juste',
+   'nom'    => 'Leblanc'
+  );
   ```
 
-* On peut créer le tableau case par case :
+  ou la syntaxe raccourcie équivalente
 
   ```php?start_inline=1
-  $coordonnees['prenom'] = 'François';
-  $coordonnees['nom'] = 'Dupont';
+  $utilisateur = [
+   'prenom' => 'Juste',
+   'nom'    => 'Leblanc'
+  ];
+  ```
+
+* On peut ajouter des cases à un tableau :
+
+  ```php?start_inline=1
+  $utilisateur['passion'] = 'maquettes en allumettes';
   ```
 
   **Note :** Le tableau `$coordonnees` contient plusieurs associations. Par
@@ -422,19 +392,10 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
   Dans cette association, `'prenom'` s'appelle la **clé** (ou **index**) et
 `'François'` la **valeur**.
 
-* On peut aussi initialiser le tableau comme ceci
-
-  ```php?start_inline=1
-  $coordonnees = array (
-    'prenom' => 'François',
-    'nom'    => 'Dupont'  );
-  ```
-
-
 * On peut rajouter facilement un élément "à la fin" d'un tableau avec
 
   ```php?start_inline=1
-  $mon_tableau[] = "Nouvelle valeur";
+  $utilisateur[] = "Nouvelle valeur";
   ```
 
 * Notez l'existence des boucles
@@ -453,7 +414,7 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
   Par exemple
 
   ```php?start_inline=1
-  foreach ($coordonnees as $cle => $valeur){
+  foreach ($utilisateur as $cle => $valeur){
       echo "$cle : $valeur\n";
   }
   ```
@@ -461,8 +422,10 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
   va afficher ceci (ou l'inverse car l'ordre des entrées n'est pas assuré)
   
   ```
-  prenom : François
-  nom : Dupont
+  prenom : Juste
+  nom : Leblanc
+  passion : maquettes en allumettes
+  0 : Nouvelle valeur
   ```
   
   **Remarque :** La boucle `foreach` est indispensable pour parcourir les
@@ -503,23 +466,6 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
 <!-- http://php.net/manual/fr/control-structures.alternative-syntax.php -->
 
 ### Exercices d'application
-
-<div class="exercise">
-Qu'écrivent chacun des `echo` suivants ?
-
-```php?start_inline=1
-$prenom = "Marc";
-
-echo "Bonjour " . $prenom;
-echo "Bonjour $prenom";
-echo 'Bonjour $prenom';
-
-echo $prenom;
-echo "$prenom";
-```
-
-Testez votre réponse en rajoutant ce code dans `echo.php`.
-</div>
 
 <div class="exercise">
 
@@ -588,12 +534,12 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
 
    ```php
    <?php
-   
    class Voiture {
    
        private $marque;
        private $couleur;
        private $immatriculation;
+       private $nbSieges; // Nombre de places assises
    
        // un getter      
        public function getMarque() {
@@ -601,15 +547,21 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
        }
    
        // un setter 
-       public function setMarque($m) {
-           $this->marque = $m;
+       public function setMarque($marque) {
+           $this->marque = $marque;
        }
    
        // un constructeur
-       public function __construct($m, $c, $i) {
-           $this->marque = $m;
-           $this->couleur = $c;
-           $this->immatriculation = $i;
+       public function __construct(
+         $marque, 
+         $couleur, 
+         $immatriculation,
+         $nbSieges
+      ) {
+           $this->marque = $marque;
+           $this->couleur = $couleur;
+           $this->immatriculation = $immatriculation;
+           $this->nbSieges = $nbSieges;
        } 
               
        // une methode d'affichage.
@@ -620,32 +572,38 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    ?>
    ```
 
-2. Notes les **différences avec Java** :
+   Notez les **différences avec Java** :
 
    * Pour accéder à un attribut ou une fonction d'un objet, on utilise le `->`
-     au lieu du `.`
+     au lieu du `.` de Java.
+   * En PHP, `$this` obligatoire est obligatoire pour accéder aux attributs et méthodes d'un objet.
+   * On doit mettre le mot-clé `function` avant de déclarer un méthode
    * Le constructeur ne porte pas le nom de la classe, mais s'appelle
      `__construct()`.
    * En PHP, on ne peut pas avoir deux fonctions avec le même nom, même si elles
      ont un nombre d'arguments différent. En particulier, il ne peut y avoir au
      maximum qu'un constructeur.
 
-3. Créez des *getter* et des *setter* pour `$couleur` et `$immatriculation` ;
+3. Créez des *getter* et des *setter* pour `$couleur` et `$immatriculation` ;  
+   (PhpStorm peut les générer automatiquement pour vous avec Clic droit > Generate)
 
 3. L'intérêt des *setter* est notamment de vérifier ce qui va être écrit dans
    l'attribut.  
-   Vérifiez que l'immatriculation a  &le; 8 caractères dans le *setter*
-   correspondant (sinon ne faites rien).  
-   ([Documentation PHP : strlen](http://php.net/manual/fr/function.strlen.php)).
+   Vérifiez que l'immatriculation a moins de 8 caractères dans le *setter*
+   correspondant. Si l'immatriculation est trop longue, gardez seulement ses 8 premiers caractères.  
+   (Documentation PHP : [fonction `strlen` *string length*](http://php.net/manual/fr/function.strlen.php) et
+   [fonction `substr` *substring*](http://php.net/manual/fr/function.substr.php)).
+
 
 4. Remplissez `afficher()` qui permet d'afficher les informations de la voiture
-   courante (Regardez le code du constructeur de la classe Voiture : comme en
-   Java, on peut utiliser le mot-clé `this` mais suivi de `->`) ;
+   courante.  
+   <!-- (Regardez le code du constructeur de la classe Voiture : comme en
+   Java, on peut utiliser le mot-clé `$this` mais suivi de `->`) ; -->
 
 5. Testez que votre classe est valide pour PHP : la page générée par le serveur
    Web `webinfo` à partir de `Voiture.php` ne doit pas afficher d'erreur.  
    **Demandez donc** votre page à `webinfo`
-   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/Voiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/Voiture.php)
+   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/Voiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/Voiture.php).
 
 6. Enregistrez votre travail à l'aide de `git add` et `git commit`. Aidez-vous toujours
    de `git status` pour savoir où vous en êtes.
@@ -653,6 +611,27 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
 </div>
 
 ### Utilisation de la classe `Voiture`
+
+Nous voulons utiliser la classe `Voiture` dans un autre script `testVoiture.php`. Il faut donc inclure le fichier `Voiture.php`, qui contient la déclaration de la classe de `Voiture`, dans `testVoiture.php` pour pouvoir l'utiliser.
+
+#### Require
+
+PHP a plusieurs façons d'inclure un fichier :
+
+* `require "dossier/fichier.php"` : inclut et exécute le fichier spécifié en
+   argument, ici `"dossier/fichier.php"`. Autrement dit, tout se passe comme si
+   le contenu de `fichier.php` avait copié/collé à la place du `require`.  
+   Renvoie une erreur si le fichier n'existe pas.
+
+* `require_once "dossier/fichier.php"` : fait de même que `require` mais la différence est que si le
+  code a déjà été inclus, il ne le sera pas une seconde fois.  
+  Ceci est particulièrement utile pour inclure une classe car cela assure qu'on
+  ne l'inclura pas deux fois.
+
+Notez qu'il existe `include` et `include_once` qui ont le même effet mais
+n'émettent qu'un warning si le fichier n'est pas trouvé (au lieu d'une erreur).
+
+#### Exercice
 
 <div class="exercise">
 
@@ -672,6 +651,62 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
 3. Testez votre page sur `webinfo` :  
    [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php)
    
+</div>
+
+### Déclaration de type
+
+<div class="exercise">
+Optionnellement, on peut déclarer les types de certaines variables PHP :
+* les arguments d'une fonction
+* la valeur de retour d'une fonction
+* les attributs de classe
+
+Ces types sont vérifiés à l'exécution, contrairement à Java qui les vérifie à la compilation.  
+La déclaration de type est **cruciale** pour que l'**autocomplétion** de l'IDE (PHPStorm, VSCode, ...) marche. 
+
+Exemple:
+```php
+class Requete {
+  // Déclaration de type d'un attribut
+  string $url;
+  string $methode; // GET ou POST
+}
+class Reponse {
+  int $code; // 200 OK ou 404 Not Found
+  string $corps; // <html>...
+}
+
+// Déclaration de type d'un paramètre de fonction (Requete)
+// et d'un retour de fonction (Reponse)
+function ServeurWeb(Requete $requete) : Reponse (
+// ...
+)
+```
+
+[Documentation PHP](https://www.php.net/manual/fr/language.types.declarations.php)
+
+1. Mettez à jour `Voiture.php` pour déclarer `marque`, `couleur` et `immatriculation` comme `string`, et `nbSieges` comme `int` dans
+   * les attributs de classes
+   * les arguments des setters
+   * les sorties des getters
+   * les entrées / sorties du constructeur
+
+2. Testez que PHP vérifie bien les types : appelez une fonction qui attend en argument un `string` en lui donnant à la place un tableau (le tableau vide `[]` par exemple). Vous devez recevoir un message comme suit
+
+   ```
+   PHP Fatal error:  Uncaught TypeError: Voiture::__construct(): Argument #1 ($marque) must be of type string, array given
+   ```
+
+3. Testez en donnant une valeur entière à la place d'un `string`. Malheureusement, la vérification de PHP n'échoue pas. En effet, par défaut, PHP convertit automatiquement les types scalaires (`bool`, `int`, `float` et `string`) entre eux.
+
+4. Rajoutez l'instruction `declare(strict_types=1);` au début de votre fichier PHP. Ceci active la vérification de types, même entre types scalaires.  
+Vérifiez que la vérification de type de PHP échoue maintenant.
+
+5. Nettoyez votre code de `Voiture.php` pour ne garder que la déclaration de la classe `Voiture` (commentez le reste pour en garder une trace). 
+
+6. Enregistrez votre travail à l'aide de `git add` et `git commit`. Aidez-vous toujours
+   de `git status` pour savoir où vous en êtes.
+
 </div>
 
 ## Interaction avec un formulaire
@@ -781,7 +816,7 @@ prenom)`
 1. un prix `prix`,
 1. et le login du conducteur `conducteur_login`,
 
-**Astuce :** Pour éviter de taper 7 *getters*, 7 *setters* et un constructeur
+<!-- **Astuce :** Pour éviter de taper 7 *getters*, 7 *setters* et un constructeur
   avec 7 arguments pour `Trajet`, nous allons coder :
 
 1. des *getters* génériques `get($nom_attribut)` qui renvoient l'attribut de nom
@@ -793,7 +828,7 @@ prenom)`
    ```
 1. des *setters* génériques `set($nom_attribut, $valeur)` ;
 1. un constructeur `__construct($data)` qui prend un tableau dont les index
-   correspondent aux attributs de la classe.
+   correspondent aux attributs de la classe. -->
 
 </div>
 
