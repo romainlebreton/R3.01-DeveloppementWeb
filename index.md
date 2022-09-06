@@ -34,14 +34,15 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaine du lundi 2 janvier 2023 -- Évaluation SAÉ ou Projet
 1. Semaine du lundi 9 janvier 2023 -- Examen -->
 
-<!-- ### Notes complémentaires
+### Notes complémentaires
 
-1. [Syntaxe simple & avancée de PHP 8.1]({{site.baseurl}}/assets/complement1-PHPSyntax.html)
 1. [Encodage des caractères, serveur HTTP de l'IUT et note sur les URLs]({{site.baseurl}}/assets/tut1-complement.html)
-2. [NetBeans, attributs et méthodes statiques, Gitlab]({{site.baseurl}}/assets/tut2-complement.html)
-3. [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
+<!-- 2. [NetBeans, attributs et méthodes statiques, Gitlab]({{site.baseurl}}/assets/tut2-complement.html) -->
+
+<!-- 3. [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
 4. [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html)
 5. [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html)
+1. [Syntaxe simple & avancée de PHP 8.1]({{site.baseurl}}/assets/complement1-PHPSyntax.html)
 
 
 ## Instructions du projet

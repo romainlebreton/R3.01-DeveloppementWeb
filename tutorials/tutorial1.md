@@ -13,10 +13,70 @@ http://php.net/manual/en/language.oop5.php
 Need to URL decode $_GET ??
 -->
 
+## IDE pour PHP
+
 PHP est un langage de programmation donc utilisez un environnement de
 développement. Vous ne codez pas du Java avec BlocNotes, c'est pareil pour
-PHP. Nous coderons donc notre PHP sous PhpStorm (sauf si vous
-avez déjà votre éditeur préféré). 
+PHP. Nous coderons donc notre PHP sous PhpStorm.
+
+* Si vous êtes à l'IUT sous Linux, vous trouverez l'installation dans `/opt/phpstorm/`. Pour le lancer :
+
+    ```bash
+    ~/RepertoireCourant$  cd /opt/phpstorm/bin
+    /opt/phpstorm/bin$  ./phpstorm.sh
+    ```
+
+* Si vous utilisez votre propre machine :
+  * sur Ubuntu le plus simple pour installer l'IDE c'est d'utiliser _Snap_, qui est un système de distribution de logiciels simplifié et qui est pré-installé sur toutes les versions récentes d'Ubuntu. À partir d'un terminal tapez :
+
+      ```bash
+      sudo snap install phpstorm --classic
+      ```
+
+  * sur Windows, Mac OS, ou Linux on peut faire l'installation depuis un exécutable. Suivez les instructions de la 
+    [documentation de PhpStorm](https://www.jetbrains.com/help/phpstorm/installation-guide.html#standalone).
+
+    Pour Linux, la documentation vous dit 
+    * de [télécharger l'archive](https://www.jetbrains.com/phpstorm/download/),
+    * de l'extraire dans un endroit qui va bien (dans votre `$HOME` par exemple)    
+      ```bash
+      tar -xzf PhpStorm-***.tar.gz --directory ~/
+      ```
+    * et de lancer l'exécutable se trouvant dans le répertoire `PhpStorm-***.tar.gz/bin/`. Depuis un terminal :
+      ```bash
+      cd ~/PhpStorm-***/bin/
+      ./phpstorm.sh
+      ```
+
+#### Obtention de la licence académique Ultimate pour PhpStorm
+
+Pour bénéficier de la licence académique, il vous suffit de remplir [ce formulaire](https://www.jetbrains.com/shop/eform/students) en utilisant votre adresse universitaire.
+
+Quelques minutes après, vous recevrez un email de confirmation suivi d'un second email d'activation où vous devrez accepter les conditions d'utilisation et choisir un nom d'utilisateur et un mot de passe. Conservez précieusement ces informations, car c'est grâce à elles que vous pourrez importer votre licence sur toutes les machines que vous allez utiliser (chez vous, à l'IUT etc).
+
+<!-- #### Fonctionnalités utiles
+
+* Indentation automatique : 
+* Ouvrir la page Web : 
+* Activer/désactiver les commentaires :  -->
+
+#### Documentations de PhpStorm
+
+* [Documentation officielle en anglais](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html), dont notamment
+  [Step 1: Open a project in PhpStorm](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#open-a-project)
+  
+  <!-- * [Step 2: Explore the user interface](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#explore-the-user-interface)
+  * [Step 3: Code with smart assistance](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#code-with-smart-assistance)
+  * [Step 4: Keep your code neat](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#keep-your-code-neat)
+  * [Step 5: Generate some code](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#generate-some-code)
+  * .... -->
+* [Documentation à l'IUT de Intellij Idea](https://gitlabinfo.iutmontp.univ-montp2.fr/dev-objets/TP2) (proche de PhpStorm)
+
+#### Autre IDE
+
+Si vous le souhaitez fortement, vous pouvez aussi utiliser d'autres IDE. 
+VSCode est une bonne alternative, mais il manque des fonctionnalités PHP. 
+Notez cependant que nous n'assurons pas le support d'autres IDE.  
 
 ## Accédez à vos pages web
 
@@ -183,8 +243,8 @@ dans lequel la chronologie de toutes modifications pourront être enregistrées.
 
    **Note :** Vous pouvez utiliser HTTPS ou SSH pour vous connecter. Nous vous
    recommandons SSH pour ne pas avoir à taper votre login/mot de passe à chaque
-   `git push/pull`. Vous pouvez utiliser le [tutoriel de l'an
-   dernier](https://gitlabinfo.iutmontp.univ-montp2.fr/valicov/tutoGit1ereAnnee/blob/master/README.md)
+   `git push/pull`. Vous pouvez aller voir les 
+   [notes complémentaires au TD1]({{site.baseurl}}/assets/tut1-complement.html#configuration-des-clés-ssh)
    pour recréer une clé SSH. Si vous utilisez HTTPS, vous aurez besoin
    d'exécuter d'abord la commande suivante pour que `git clone` marche.
    

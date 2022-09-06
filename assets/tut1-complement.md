@@ -1,6 +1,6 @@
 ---
 title: TD1 &ndash; Quelques compléments et rappels
-subtitle: 
+subtitle: Encodage, serveur HTTP, URL, Git
 layout: tutorial
 ---
 
@@ -104,5 +104,40 @@ objets que des pages Web.
 Les schémas d'URI "http://" et "https:" correspondent à ce que l'on appelle
 les URL.
 
+## Configuration des clés SSH
+
+Vous en avez assez de devoir taper votre mot de passe à chaque `git push` ou
+`git pull` ? Mettez en place une identification sécurisée automatique à base de clé SSH.
+
+  1. Créez votre clé SSH sur les machines de l'IUT.
+
+     ```bash
+     # Creer un repertoire .ssh dans votre home si necessaire
+     mkdir ~/.ssh
+     cd ~/.ssh
+     # Creation d'une cle publique (id_rsa.pub) et privee (id_rsa)
+     # Nom du fichier ou enregistrer la clé -> Entrée pour garder le nom par defaut id_rsa
+     # Entrez deux fois un mot de passe
+     ssh-keygen
+     ```
+
+     <!-- Besoin de ssh-agent ? ssh-add ~/.ssh/id_rsa (id_rsa optionnel) ? -->
+
+  1. Déposez votre clé SSH sur Gitlab.  
+     Sur [Gitlab Info](https://gitlabinfo.iutmontp.univ-montp2.fr/), allez dans les
+     paramètres utilisateurs puis dans l'onglet latéral SSH Keys. Recopiez le contenu
+     de `id_rsa.pub` (clé publique) dans le champ clé.
+
+  1. Il faut alors changer l'adresse du dépôt distant sur Github. En effet les
+     adresses commencant par `https` nécessitent une authentification alors que
+     celles commencant par `git@` correspondent à SSH :
+	 
+     ```bash
+     # Supprimer l'ancienne adresse du dépôt distant
+	 git remote remove origin
+	 # La recréer avec la bonne adresse en git@...
+	 git remote add origin git@gitlabinfo.iutmontp.univ-montp2.fr:xxx/yyy.git
+     ```
+	 
 
 
