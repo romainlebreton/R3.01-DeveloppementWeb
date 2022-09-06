@@ -230,8 +230,9 @@ Il est souvent associé au port 80 de la machine hôte.
 
 **Quelques exemples de serveurs HTTP ?**
 
-* Apache HTTP Server : classique, celui que l'on utilisera
+* Apache HTTP Server : serveur historique (depuis 1995), celui que l'on utilisera
 * Apache TomCat : évolution pour Java (J2EE)
+* Nginx : serveur le plus utilisé au monde depuis 2021. Très performant
 * IIS (Internet Information Services) : Microsoft
 * Node.js : codé en JavaScript.
 
@@ -270,12 +271,12 @@ de votre répertoire personnel.
 Quand vous demandez la page  
 [https://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html](https://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html),  
 le serveur HTTP (Apache) de l'IUT va rechercher le fichier  
-`/home/ann2/rltetud/public_html/index.html`.
+`/home/ann2/rletud/public_html/index.html`.
 
 Idem la page  
 [http://webinfo.iutmontp.univ-montp2.fr/~rletud/image/topsecret.jpg](http://webinfo.iutmontp.univ-montp2.fr/~rletud/image/topsecret.jpg)  
 renvoie sur le fichier  
-`/home/ann2/rltetud/public_html/image/topsecret.jpg`.
+`/home/ann2/rletud/public_html/image/topsecret.jpg`.
 
 <!-- **Attention aux droits:** -->
 
@@ -425,22 +426,24 @@ lire
 
 ## Les concurrents de PHP
 
-* ASP .NET : conçu par Microsoft, il exploite le framework .NET (C#).
-* Ruby on Rails : ce framework s'utilise avec le langage Ruby.
-* Django : il est similaire à Ruby on Rails, mais il s'utilise en langage
-  Python.
-* Jakarta Server Pages (anciennement Java Server Pages) : particulièrement utilisé dans le monde professionnel.
+* ASP.NET : conçu par Microsoft, il exploite le framework .NET (C#).
+* Ruby : avec le framework Ruby on Rails par exemple.
+* Java : framework Jakarta Server Pages (anciennement Java Server Pages)  
+  particulièrement utilisé dans le monde professionnel.
+* Python : framework Django, Flask...
+* JavaScript : aussi côté serveur avec avec Node.js
 
 **Lequel est le meilleur ?**
 Tout dépend de vos connaissances en programmation.
 
-<img src="{{site.baseurl}}/assets/php_concu.jpg" style="width:650px; float:right;" alt="Popularité des langages côté serveur">  
+<img src="{{site.baseurl}}/assets/php_concu.png" style="width:450px; float:right; margin-left:30px;" alt="Popularité des langages côté serveur">  
 PHP se démarque de ses concurrents par une importante communauté qui peut vous
 aider. 
 
 C'est un langage facile à utiliser, idéal pour les débutants comme pour
 les professionnels (Wikipédia, Tumblr et Facebook).
 
+<div style="clear:both;"></div>
 
 <!-- https://w3techs.com/technologies/overview/programming_language/all -->
 
@@ -720,7 +723,7 @@ Une *URL* (Uniform Resource Locator) sert à représenter une adresse sur le Web
   </p>
 
   <!-- Protocole : ftp, http, file, ... -->
-  <!-- nom de domain (ou IP) avec ou sans port -->
+  <!-- nom de domaine (ou IP) avec ou sans port -->
   <!-- chemin d'accès (relatif ou absolu) -->
   <!-- ancre (/signet) optionnel -->
 
@@ -777,7 +780,7 @@ informations contenues dans le *query string*.
 
 **Exemple :**
 
-Quand un client demande `bonjour.php?nom=Assin&prenom=Marc` :
+Quand un client demande `bonjourGet.php?nom=Assin&prenom=Marc` :
 
 * PHP remplit le tableau `$_GET` avec
 
@@ -788,7 +791,7 @@ Quand un client demande `bonjour.php?nom=Assin&prenom=Marc` :
   ];
   ```
 
-* puis PHP exécute le script `bonjour.php`.
+* puis PHP exécute le script `bonjourGet.php`.
 
 </section>
 <section>
@@ -802,20 +805,20 @@ Une 1ère page avec un lien contenant des informations dans son *query string*.
 <div style="display:flex;align-items:center;">
 <div style="flex-grow:1">
 ```html
-<a href="bonjour.php?nom=Assin&prenom=Marc">
+<a href="bonjourGet.php?nom=Assin&prenom=Marc">
   Dis-moi bonjour !
 </a>
 ```
 </div>
 <div style="flex-grow:1;display:inline;text-align:center;">
-<a href="http://webinfo.iutmontp.univ-montp2.fr/~rletud/bonjour2.php?nom=Assin&prenom=Marc">Dis-moi bonjour !</a>
+<a href="http://webinfo.iutmontp.univ-montp2.fr/~rletud/bonjourGet.php?nom=Assin&prenom=Marc">Dis-moi bonjour !</a>
 </div>
 </div>
 
 <br>
 <br>
 
-Quand on clique sur ce lien, on est renvoyé sur la page `bonjour.php` suivante
+Quand on clique sur ce lien, on est renvoyé sur la page `bonjourGet.php` suivante
 
 ```php
 <p>Bonjour <?php echo $_GET['prenom']; ?> !</p>
@@ -835,7 +838,7 @@ qui va s'exécuter pour créer la page Web
   $_GET = ["nom" => "Assin", "prenom" => "Marc"];
 ```
 
-avant de lancer le script `bonjour.php`.
+avant de lancer le script `bonjourGet.php`.
 
 </section>
 <!-- <section> -->
@@ -925,10 +928,6 @@ C'est de cette manière que l'on demande une page Web généralement.
 **Remarque :**
 
 Les formulaires **GET** utilisent donc l'envoi de données dans le *query string*.
-
-<!--
-PREVOIR UNE DEMO AVEC LES OUTILS RESEAUX
--->
 
 </section>
 <section>
@@ -1091,10 +1090,11 @@ Elles servent aussi à demander des pages Web. Les principales différences sont
   ces informations **ne sont pas vraiment cachées** pour autant.
 
 <!--
-Note sur ù met-on le dollar 
+Note sur où met-on le dollar 
 
 $objet->attribut
 $tableau[$index]
+$tableau["cle"]
 Classe::$attribut_static
 
 -->
@@ -1165,7 +1165,7 @@ celui nous envoie sa réponse HTTP normalement.
 **Exemple :**  
 
 ```http
-> telnet webinfo.iutmontp.univ-montp2.fr 80
+> telnet romainlebreton.github.io 80
 GET /R3.01-DeveloppementWeb/assets/Cours1/HelloWorld.html HTTP/1.1
 Host: romainlebreton.github.io
 
