@@ -386,11 +386,11 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
   $utilisateur['passion'] = 'maquettes en allumettes';
   ```
 
-  **Note :** Le tableau `$coordonnees` contient plusieurs associations. Par
+  **Note :** Le tableau `$utilisateur` contient plusieurs associations. Par
     exemple, il associe à la chaîne de caractères `'prenom'` la chaîne de
-    caractères `'François'`.  
+    caractères `'Juste'`.  
   Dans cette association, `'prenom'` s'appelle la **clé** (ou **index**) et
-`'François'` la **valeur**.
+`'Juste'` la **valeur**.
 
 * On peut rajouter facilement un élément "à la fin" d'un tableau avec
 
@@ -470,19 +470,20 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
 <div class="exercise">
 
 1. Dans votre fichier `echo.php`, créez trois variables `$marque`, `$couleur` et
-`$immatriculation` contenant des chaînes de caractères de votre choix ;
+`$immatriculation` contenant des chaînes de caractères de votre choix, 
+et une variable `$nbSieges` contenant un nombre ;
 
 2. Créez la commande PHP qui écrit dans votre fichier le code HTML suivant (en
    remplaçant bien sûr la marque par le contenu de la variable `$marque` ...) :
 
    ```html
-   <p> Voiture 256AB34 de marque Renault (couleur bleu) </p>
+   <p> Voiture 256AB34 de marque Renault (couleur bleu, 5 sieges) </p>
    ```
 
 3. Faisons maintenant la même chose mais avec un tableau associatif `voiture`:
 
-   * Créez un tableau `$voiture` contenant trois clés `"marque"`, `"couleur"` et
-   `"immatriculation"` et les valeurs de votre choix ;
+   * Créez un tableau `$voiture` contenant quatre clés `"marque"`, `"couleur"`,
+   `"immatriculation"` et `"nbSieges"` et les valeurs de votre choix ;
 
    * Utilisez l'un des affichages de débogage (*e.g.* `var_dump`) pour vérifier
      que vous avez bien rempli votre tableau ;
@@ -490,7 +491,7 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
    * Affichez le contenu de la "voiture-tableau" au même format HTML 
 
    ```html
-   <p> Voiture 256AB34 de marque Renault (couleur bleu) </p>
+   <p> Voiture 256AB34 de marque Renault (couleur bleu, 5 sieges) </p>
    ```
 
 4. Maintenant nous souhaitons afficher une liste de voitures :
@@ -502,7 +503,7 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
      que vous avez bien rempli  `$voitures` ;
 
    * Modifier votre code d'affichage pour écrire proprement en HTML un titre
-     "Liste des voitures :" puis une liste (`<ul>`) contenant les informations
+     "Liste des voitures :" puis une liste (`<ul><li>...</li></ul>`) contenant les informations
      des voitures.
 
    * Rajoutez un cas par défaut qui affiche "Il n'y a aucune voiture." si la
@@ -584,14 +585,15 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
      ont un nombre d'arguments différent. En particulier, il ne peut y avoir au
      maximum qu'un constructeur.
 
-3. Créez des *getter* et des *setter* pour `$couleur` et `$immatriculation` ;  
+3. Créez des *getter* et des *setter* pour `$couleur`, `$immatriculation` et `$nbSieges` ;  
    (PhpStorm peut les générer automatiquement pour vous avec Clic droit > Generate)
 
 3. L'intérêt des *setter* est notamment de vérifier ce qui va être écrit dans
-   l'attribut.  
-   Vérifiez que l'immatriculation a moins de 8 caractères dans le *setter*
-   correspondant. Si l'immatriculation est trop longue, gardez seulement ses 8 premiers caractères.  
-   (Documentation PHP : [fonction `strlen` *string length*](http://php.net/manual/fr/function.strlen.php) et
+   l'attribut.
+   Comme l'immatriculation est limitée à 8 caractères, codez un *setter* qui 
+   ne stocke que les 8 premiers caractères de l'immatriculation dans l'objet.
+   Mettez aussi à jour le constructeur pour ne garder que les 8 premiers caractères.      
+   (Documentation PHP :
    [fonction `substr` *substring*](http://php.net/manual/fr/function.substr.php)).
 
 
@@ -689,7 +691,7 @@ function ServeurWeb(Requete $requete) : Reponse (
    * les attributs de classes
    * les arguments des setters
    * les sorties des getters
-   * les entrées / sorties du constructeur
+   * les arguments du constructeur
 
 2. Testez que PHP vérifie bien les types : dans `testVoiture.php`, appelez une fonction qui attend en argument un `string` en lui donnant à la place un tableau (le tableau vide `[]` par exemple). Vous devez recevoir un message comme suit
 
@@ -754,10 +756,10 @@ function ServeurWeb(Requete $requete) : Reponse (
 
    * l'attribut `placeholder` de `<input>` sert à écrire une valeur par défaut pour aider l'utilisateur.
 
-3. Créez des champs dans le formulaire pour pouvoir rentrer la marque et la couleur de la voiture.
+3. Créez des champs dans le formulaire pour pouvoir rentrer la marque, la couleur et le nombre de sièges (`<input type="number">`) de la voiture.
 
 4. Souvenez-vous (ou relisez le
-   [cours 1]({{site.baseurl}}/classes/class1.html)) de ce que fait un clic sur le bouton **"Envoyer"**.  
+   [cours 1]({{site.baseurl}}/classes/class1.html#les-formulaires-de-mthode-get)) de ce que fait un clic sur le bouton **"Envoyer"**.  
    Vérifiez en cliquant sur ce bouton.
    
    **Comment sont transmises les informations ?**  
