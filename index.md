@@ -11,8 +11,8 @@ Cours à l'IUT de Montpellier - 2ème année
 ## Cours
 
 1. Mardi 6 Septembre 2022 -- [Cours 1 -- Introduction à PHP](classes/class1.html)  
-   <!-- Accéder à l'[amphi à distance via Moodle](https://moodle.umontpellier.fr/mod/bigbluebuttonbn/view.php?id=291203) -->
-   <!-- et à son enregistrement -->
+   Accéder à l'[amphi à distance via Moodle](https://moodle.umontpellier.fr/mod/bigbluebuttonbn/view.php?id=590930)
+   et à son enregistrement
 
 ## TDs
 

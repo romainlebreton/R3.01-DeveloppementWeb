@@ -47,14 +47,13 @@ connectez-vous au [site de JetBrains](https://account.jetbrains.com/licenses).
 
 * [Documentation officielle en anglais](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html), dont notamment
   [Step 1: Open a project in PhpStorm](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#open-a-project)
+* [Documentation à l'IUT de Intellij Idea](https://gitlabinfo.iutmontp.univ-montp2.fr/dev-objets/TP2) (proche de PhpStorm)
 
   <!-- * [Step 2: Explore the user interface](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#explore-the-user-interface)
   * [Step 3: Code with smart assistance](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#code-with-smart-assistance)
   * [Step 4: Keep your code neat](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#keep-your-code-neat)
   * [Step 5: Generate some code](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#generate-some-code)
   * .... -->
-* [Documentation à l'IUT de Intellij Idea](https://gitlabinfo.iutmontp.univ-montp2.fr/dev-objets/TP2) (proche de PhpStorm)
-
 #### Autre IDE
 
 Si vous le souhaitez fortement, vous pouvez aussi utiliser d'autres IDE. 
