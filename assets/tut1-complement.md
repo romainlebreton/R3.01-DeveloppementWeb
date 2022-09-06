@@ -139,5 +139,26 @@ Vous en avez assez de devoir taper votre mot de passe à chaque `git push` ou
 	 git remote add origin git@gitlabinfo.iutmontp.univ-montp2.fr:xxx/yyy.git
      ```
 	 
+## Installer PhpStorm sur sa machine
 
+Si vous utilisez votre propre machine :
+* sur Ubuntu le plus simple pour installer l'IDE c'est d'utiliser _Snap_, qui est un système de distribution de logiciels simplifié et qui est pré-installé sur toutes les versions récentes d'Ubuntu. À partir d'un terminal tapez :
 
+    ```bash
+    sudo snap install phpstorm --classic
+    ```
+
+* sur Windows, Mac OS, ou Linux on peut faire l'installation depuis un exécutable. Suivez les instructions de la 
+[documentation de PhpStorm](https://www.jetbrains.com/help/phpstorm/installation-guide.html#standalone).
+
+Pour Linux, la documentation vous dit 
+* de [télécharger l'archive](https://www.jetbrains.com/phpstorm/download/),
+* de l'extraire dans un endroit qui va bien (dans votre `$HOME` par exemple)    
+    ```bash
+    tar -xzf PhpStorm-***.tar.gz --directory ~/
+    ```
+* et de lancer l'exécutable se trouvant dans le répertoire `PhpStorm-***.tar.gz/bin/`. Depuis un terminal :
+    ```bash
+    cd ~/PhpStorm-***/bin/
+    ./phpstorm.sh
+    ```
