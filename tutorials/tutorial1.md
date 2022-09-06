@@ -45,15 +45,17 @@ connectez-vous au [site de JetBrains](https://account.jetbrains.com/licenses).
 
 #### Documentations de PhpStorm
 
-* [Documentation officielle en anglais](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html), dont notamment
-  [Step 1: Open a project in PhpStorm](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#open-a-project)
+* [Documentation officielle en anglais](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html)
 * [Documentation à l'IUT de Intellij Idea](https://gitlabinfo.iutmontp.univ-montp2.fr/dev-objets/TP2) (proche de PhpStorm)
 
-  <!-- * [Step 2: Explore the user interface](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#explore-the-user-interface)
+  <!-- 
+  * [Step 1: Open a project in PhpStorm](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#open-a-project)
+  * [Step 2: Explore the user interface](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#explore-the-user-interface)
   * [Step 3: Code with smart assistance](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#code-with-smart-assistance)
   * [Step 4: Keep your code neat](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#keep-your-code-neat)
   * [Step 5: Generate some code](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#generate-some-code)
   * .... -->
+
 #### Autre IDE
 
 Si vous le souhaitez fortement, vous pouvez aussi utiliser d'autres IDE. 
@@ -722,9 +724,9 @@ class Reponse {
 
 // Déclaration de type d'un paramètre de fonction (Requete)
 // et d'un retour de fonction (Reponse)
-function ServeurWeb(Requete $requete) : Reponse (
-// ...
-)
+function ServeurWeb(Requete $requete) : Reponse {
+   // Corps de la fonction ...
+}
 ```
 
 [Documentation PHP](https://www.php.net/manual/fr/language.types.declarations.php)
@@ -883,35 +885,31 @@ prenom)`
 
 </div>
 
-## Installez un serveur Apache chez vous
+## Travailler depuis chez vous en local
 
-Nous vous conseillons d'installer Apache + PhP + MySql + PhpMyAdmin sur votre machine perso,
-ce sera très utile pour la suite et notamment pour le projet.
+Si vous voulez éviter de vous connecter sur webinfo (en FTP ou SSH) pour travailler depuis chez vous, vous pouvez installer un serveur Apache + PhP + MySql + PhpMyAdmin sur votre machine. Vous pourrez alors lancer votre script avec l'URL `localhost`.
 
 **Installation :**
 
 * sous Linux : XAMP  
-    [https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-7414761](https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-7414761)
-    <!-- MariaDb (Open Source fork of MySQL) -->
-    
-  <!-- * LAMP  
-    [https://doc.ubuntu-fr.org/lamp](https://doc.ubuntu-fr.org/lamp)  
-    Vérifiez que vous installez bien aussi `phpmyadmin` et que vous activez le
-    module Apache `userdir` pour pouvoir mettre vos pages Web dans `public_html`. -->
-  
-  <!-- Penser à activer PHP pour les userdir dans php*.conf -->
+   [https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-7414761](https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-7414761)
   
 * sous Mac OS X & Windows (MAMP) :  
   [https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-7426467](https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-7426467)  
 
 **Attention**, pensez à modifier le `php.ini` pour mettre `display_errors = On`
 et `error_reporting = E_ALL`, pour avoir les messages d'erreurs. Car par défaut,
-le serveur est configuré en mode production (`display_errors = Off`). Il faut
-redémarrer Apache pour que les modifications soient prises en compte. Pour localiser
-le fichier `php.ini`, exécutez la commande PHP:
-	```php
-	echo php_ini_loaded_file();
-	```
+le serveur est configuré en mode production (`display_errors = Off`). 
+
+Pour localiser le fichier `php.ini`, exécutez la commande suivante dans un script:
+```php
+echo php_ini_loaded_file();
+```
+
+Il faut redémarrer Apache pour que les modifications soient prises en compte. Dans le terminal
+```bash
+sudo service apache2 restart
+```
 
 <!-- Si ça ne marche pas, c'est que l'on édite pas le bon php.ini . Afficher la
 configuration vec phpinfo() pour trouver le php.ini qui est utilisé -->
