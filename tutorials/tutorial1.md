@@ -909,9 +909,9 @@ ce sera très utile pour la suite et notamment pour le projet.
 et `error_reporting = E_ALL`, pour avoir les messages d'erreurs. Car par défaut,
 le serveur est configuré en mode production (`display_errors = Off`). Il faut
 redémarrer Apache pour que les modifications soient prises en compte. Pour localiser
-le fichier `php.ini` sous Linux, tapez la commande suivant dans un terminal :
-	```
-	php -i | grep "Loaded Configuration File"
+le fichier `php.ini`, exécutez la commande PHP:
+	```php
+	echo php_ini_loaded_file();
 	```
 
 <!-- Si ça ne marche pas, c'est que l'on édite pas le bon php.ini . Afficher la
