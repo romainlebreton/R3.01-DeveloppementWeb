@@ -890,20 +890,19 @@ ce sera très utile pour la suite et notamment pour le projet.
 
 **Installation :**
 
-* sous Linux : Au choix
-
-  * XAMP  
-    [https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-environnement-de-travail#/id/r-4443743](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/preparer-son-environnement-de-travail#/id/r-4443743)
+* sous Linux : XAMP  
+    [https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-7414761](https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-7414761)
     <!-- MariaDb (Open Source fork of MySQL) -->
-  * LAMP  
+    
+  <!-- * LAMP  
     [https://doc.ubuntu-fr.org/lamp](https://doc.ubuntu-fr.org/lamp)  
     Vérifiez que vous installez bien aussi `phpmyadmin` et que vous activez le
-    module Apache `userdir` pour pouvoir mettre vos pages Web dans `public_html`.
+    module Apache `userdir` pour pouvoir mettre vos pages Web dans `public_html`. -->
   
   <!-- Penser à activer PHP pour les userdir dans php*.conf -->
   
 * sous Mac OS X & Windows (MAMP) :  
-  [https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-4443661](https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-4443661)  
+  [https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-7426467](https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-7426467)  
 
 **Attention**, pensez à modifier le `php.ini` pour mettre `display_errors = On`
 et `error_reporting = E_ALL`, pour avoir les messages d'erreurs. Car par défaut,
