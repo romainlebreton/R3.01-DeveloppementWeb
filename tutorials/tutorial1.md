@@ -666,7 +666,7 @@ PHP a plusieurs façons d'inclure un fichier :
 
 * `require "dossier/fichier.php"` : inclut et exécute le fichier spécifié en
    argument, ici `"dossier/fichier.php"`. Autrement dit, tout se passe comme si
-   le contenu de `fichier.php` avait copié/collé à la place du `require`.  
+   le contenu de `fichier.php` avait été copié/collé à la place du `require`.  
    Renvoie une erreur si le fichier n'existe pas.
 
 * `require_once "dossier/fichier.php"` : fait de même que `require` mais la différence est que si le
