@@ -576,8 +576,8 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
 
    * Pour accéder à un attribut ou une fonction d'un objet, on utilise le `->`
      au lieu du `.` de Java.
-   * En PHP, `$this` obligatoire est obligatoire pour accéder aux attributs et méthodes d'un objet.
-   * On doit mettre le mot-clé `function` avant de déclarer un méthode
+   * En PHP, `$this` est obligatoire pour accéder aux attributs et méthodes d'un objet.
+   * On doit mettre le mot-clé `function` avant de déclarer une méthode
    * Le constructeur ne porte pas le nom de la classe, mais s'appelle
      `__construct()`.
    * En PHP, on ne peut pas avoir deux fonctions avec le même nom, même si elles
