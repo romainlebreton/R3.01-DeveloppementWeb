@@ -708,7 +708,7 @@ Optionnellement, on peut déclarer les types de certaines variables PHP :
 * les attributs de classe
 
 Ces types sont vérifiés à l'exécution, contrairement à Java qui les vérifie à la compilation.  
-La déclaration de type est **cruciale** pour que l'**autocomplétion** de l'IDE (PHPStorm, VSCode, ...) marche. 
+La déclaration de type est **cruciale** pour que l'IDE devine correctement le type des objets et pour que vous puissiez bénéficier pleinement de l'**autocomplétion** de l'IDE. 
 
 Exemple:
 ```php
