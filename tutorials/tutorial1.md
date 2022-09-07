@@ -737,6 +737,8 @@ function ServeurWeb(Requete $requete) : Reponse {
    * les sorties des getters
    * les arguments du constructeur
 
+   **Note :** Pour pouvoir utiliser les déclarations de type, il faut indiquer à PhpStorm que vous voulez utiliser la version 8.1 du langage PHP. Pour ceci, cliquez en bas à droite de l'IDE sur `PHP: *.*` pour basculer vers `PHP: 8.1`.
+
 2. Testez que PHP vérifie bien les types : dans `testVoiture.php`, appelez une fonction qui attend en argument un `string` en lui donnant à la place un tableau (le tableau vide `[]` par exemple). Vous devez recevoir un message comme suit
 
    ```
@@ -889,7 +891,7 @@ prenom)`
 
 Si vous voulez éviter de vous connecter sur webinfo (en FTP ou SSH) pour travailler depuis chez vous, vous pouvez installer un serveur Apache + PhP + MySql + PhpMyAdmin sur votre machine. Vous pourrez alors lancer votre script avec l'URL `localhost`.
 
-**Installation :**
+#### Installation tout en un
 
 * sous Linux : XAMP  
    [https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-7414761](https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-7414761)
@@ -901,15 +903,25 @@ Si vous voulez éviter de vous connecter sur webinfo (en FTP ou SSH) pour travai
 et `error_reporting = E_ALL`, pour avoir les messages d'erreurs. Car par défaut,
 le serveur est configuré en mode production (`display_errors = Off`). 
 
-Pour localiser le fichier `php.ini`, exécutez la commande suivante dans un script:
+Pour localiser le fichier `php.ini`, exécutez la commande suivante dans un script PHP via votre navigateur:
 ```php
 echo php_ini_loaded_file();
 ```
+Votre `php.ini` se trouve dans `/opt/lampp/etc/` pour une installation avec XAMP sous Linux.
 
-Il faut redémarrer Apache pour que les modifications soient prises en compte. Dans le terminal
+Il faut redémarrer Apache pour que les modifications soient prises en compte. Dans le terminal, exécutez
+```bash
+sudo /opt/lampp/lampp stop
+sudo /opt/lampp/lampp start
+```
+
+#### Installation depuis les paquets
+
+Pour une [installation depuis les paquets](https://www.google.com/search?q=install+apache+php+phpmyadmin+mysql+ubuntu&tbs=qdr:y) de Apache + MySql + Php + PhpMyAdmin sous Linux, votre `php.ini` se trouve dans `/etc/php/8.1/apache2/` et le redémarrage du serveur se fait avec 
 ```bash
 sudo service apache2 restart
 ```
+
 
 <!-- Si ça ne marche pas, c'est que l'on édite pas le bon php.ini . Afficher la
 configuration vec phpinfo() pour trouver le php.ini qui est utilisé -->
