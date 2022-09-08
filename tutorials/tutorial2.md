@@ -13,15 +13,11 @@ layout: tutorial
 
 Dans le TD1 vous avez appris à créer des classes et à instancier des objets de
 ces classes.  Mais, comme vous l'avez constaté, la durée de vie des objets ainsi
-créés ne dépassait pas la durée de l'exécution du programme (soit quelques *ms*).
+créés ne dépassait pas la durée de l'exécution du programme.
 
 Dans ce TD, nous allons apprendre à rendre les objets persistants, en les
 sauvegardant dans une base de données. Ainsi il sera possible de retrouver les
 objets d'une visite à l'autre du site web.
-
-**Rappel :** PHP est un langage interprété, les erreurs ne sont pas détectées
-avant exécution comme lors d'une compilation.  Il est donc conseillé de tester 
-régulièrement chaque nouvelle partie de code.
 
 
 ## Connexion à la base de données
@@ -36,7 +32,8 @@ Le login est votre login IUT et votre mot de passe initial votre numéro INE.
 (Si vous êtes sur votre machine, allez sur votre phpmyadmin à l'adresse
 [http://localhost/phpmyadmin](http://localhost/phpmyadmin)).
 
-2. Changez votre mot de passe et reloguez-vous. Si vous n'arrivez pas à vous
+2. Changez votre mot de passe (Page d'accueil > Paramètres généraux >  Modifier le mot de passe) et reloguez-vous.
+   Si vous n'arrivez pas à vous
    logger après avoir changé le mot de passe, essayer avec un autre navigateur
    ou bien videz le cache du navigateur (`Ctrl+F5`).
 
@@ -51,12 +48,13 @@ Le login est votre login IUT et votre mot de passe initial votre numéro INE.
      exemple. Écrivez dès maintenant ce mot de passe dans un fichier.
    * Ou choisissez quelque chose de simple et de pas secret.
 
-2. Créez une table `voiture` possédant 3 champs :
+2. Créez une table `voiture` (sans majuscule) possédant 4 champs :
 
-   * `immatriculation` de type `VARCHAR` et de longueur maximale 8, défini comme la
+   * `immatriculationBDD` de type `VARCHAR` et de longueur maximale 8, défini comme la
      clé primaire (Index : `Primary`)
-   * `marque` de type `VARCHAR` est de longueur maximale 25.
-   * `couleur` de type `VARCHAR` est de longueur maximale 12.
+   * `marqueBDD` de type `VARCHAR` est de longueur maximale 25.
+   * `couleurBDD` de type `VARCHAR` est de longueur maximale 12.
+   * `nbSiegesBDD` de type `INT`.
 
    **Important :** Pour faciliter la suite du TD, mettez à la création de toutes
      vos tables `InnoDB` comme moteur de stockage, et `utf8_general_ci` comme
@@ -67,7 +65,7 @@ Le login est votre login IUT et votre mot de passe initial votre numéro INE.
    doivent pas contenir d'accents. Par ailleurs, et contrairement à Oracle,
    MySQL est sensible à la casse (minuscules/majuscules).
    
-3. Insérez des données en utilisant l'onglet `insérer` de PhpMyAdmin.
+3. Insérez des données en utilisant l'onglet `Insérer` de PhpMyAdmin.
 
 4. Dans la suite du TD, pensez à systématiquement tester vos requêtes SQL dans
    PhpMyAdmin avant de les inclure dans vos pages PHP.
@@ -107,9 +105,12 @@ serveur du reste du code PHP.
    <?php
    class Conf {
    
-     static private $databases = array(
+     static private array $databases = array(
        // Le nom d'hote est webinfo a l'IUT
        // ou localhost sur votre machine
+       // 
+       // ou webinfo.iutmontp.univ-montp2.fr
+       // pour accéder à webinfo depuis l'extérieur
        'hostname' => 'a_remplir',
        // A l'IUT, vous avez une BDD nommee comme votre login
        // Sur votre machine, vous devrez creer une BDD
@@ -122,7 +123,7 @@ serveur du reste du code PHP.
        'password' => 'a_remplir'
      );
    
-     static public function getLogin() {
+     static public function getLogin() : string {
        //en PHP l'indice d'un tableau n'est pas forcement un chiffre.
        return self::$databases['login'];
      }
@@ -157,69 +158,13 @@ ouvrira dans le navigateur.
    `getDatabase()` et `getPassword()`. Testez ces méthodes dans `testConf.php`.
      
 
-**Remarque :** Notez qu'en PHP, on appelle une méthode statique à partir du nom de
-la classe comme en Java, mais en utilisant `::` au lieu du `.` en
-Java. Souvenez-vous que les méthodes classiques (c'est-à-dire pas `static`)
-s'appellent avec `->` en PHP.
+   **Remarque :** Notez qu'en PHP, on appelle une méthode statique à partir du nom de
+   la classe comme en Java, mais en utilisant `::` au lieu du `.` en
+   Java. Souvenez-vous que les méthodes classiques (c'est-à-dire pas `static`)
+   s'appellent avec `->` en PHP.
 
-</div>
-
-<div class="exercise">
-
-Continuons à prendre la bonne habitude d'enregistrer régulièrement notre travail
-avec Git. La semaine dernière nous avons appris les commandes suivantes
-
-```shell
-# Pour savoir l'état de Git, c-à-d ce qui est enregistré ou non
-git status
-# Pour sélectionner des fichiers à enregistrer
-git add nom_du_fichier
-# Pour effectuer l'enregistrement
-git commit
-```
-
-1. Si vous ne l'avez pas fait la semaine dernière, configurez Git pour qu’il
-   connaisse votre nom et votre adresse email
-   
-   ```shell
-   git config --global user.name "Votre Prénom et Nom"
-   git config --global user.email "votre@email"
-   ```
-
-   De même, si vous voulez changer l'éditeur de texte qu'ouvre Git par défaut
-   
-   ```shell
-   git config --global core.editor "gedit --new-window -w"
-   ```
-
-1. Pour voir l'historique de vos commits, **exécutez**
-
-   ```shell
-   git log
-   ```
-   
-   Vous verrez une suite de commit affichés comme ceci
-   
-   ```
-commit a0cf8dba8cfe5ffb08500cb3a77ec6889a34b37f (HEAD -> master)
-Author: Romain Lebreton <romain.lebreton@lirmm.fr>
-Date:   Fri Sep 7 17:56:42 2018 +0200
-
-    Mon message de commit
-   ```
-
-   Le numéro `a0cf8db...` est l'identifiant unique de votre commit.  Vous pouvez
-   avoir de l'aide sur les commandes de `git log` en tapant `h` ou quitter en
-   tapant `q`.
-   
 1. Enregistrez votre travail à l'aide de `git add` et `git commit`. Nous
    comptons sur vous pour penser à faire cet enregistrement régulièrement.
-   
-1. Pour pouvoir retrouver vos fichiers en dehors de l'IUT, vous allez lier votre
-   dépôt local à un dépôt Gitlab accessible depuis l'extérieur. Pour cela,
-   suivez les instructions données dans les 
-   [compléments du TD2]({{site.baseurl}}/assets/tut2-complement.html#tutoGitlab).
-   
 </div>
 
 ### Initialiser un objet `PDO`
@@ -233,18 +178,15 @@ de donnée.
 <div class="exercise">
 
 1. Commençons par établir une connexion à la BDD. Créez un fichier `Model.php`
-   déclarant une classe `Model`. Cette classe possédera 
-   * un attribut `private static $pdo = NULL` qui a comme valeur par défaut `NULL`;
-   * une fonction `public static function init()`;
-   * un accesseur (getter) `public static function getPDO()`.
+   déclarant une classe `Model`, qui possédera 
+   * un attribut `private $pdo`,
+   * un constructeur sans arguments qui ne fait rien pour l'instant (à générer avec PhpStorm),
+   * un accesseur (getter) `getPdo()` à l'attribut `$pdo` (à générer avec PhpStorm). 
 
-   <!--**Souvenez-vous :** Qu'est-ce qu'un attribut `protected` ? (Cours de
-   Programmation Orientée Objet de l'an dernier)-->
-
-2. Dans la fonction `init()`, nous allons initialiser l'attribut `$pdo` en lui
+2. Dans le constructeur, nous allons initialiser l'attribut `$pdo` en lui
    assignant un objet `PDO`. Procédons par étapes :
    
-   2. Pour créer la connexion à notre base de donnée, il faut utiliser le
+   1. Pour créer la connexion à notre base de donnée, il faut utiliser le
    [constructeur de `PDO`](http://php.net/manual/fr/pdo.construct.php) de la
    façon suivante
    
@@ -252,10 +194,7 @@ de donnée.
       new PDO("mysql:host=$hostname;dbname=$database_name",$login,$password);
       ```
    
-      Stockez ce nouvel objet `PDO` dans la variable statique `self::$pdo`.  
-      **Explication :** Comme la variable est statique, elle s'accède par une syntaxe
-   `Type::$nom_var` comme indiqué précédemment. Le type de l'objet courant
-   s'obtient avec le mot clé `self`.
+      Stockez ce nouvel objet `PDO` dans l'attribut `$pdo`.
 
    1. Le code précédent a besoin que les variables `$hostname`,
    `$database_name`, `$login` et `$password` contiennent les chaînes
@@ -264,14 +203,8 @@ de donnée.
    récupérant les informations à l'aide des fonctions de la classe
    `Conf`.
    
-   4. Comme notre classe `Model` dépend de `Conf.php`, ajoutez un `require_once
-   'Conf.php'` au début du fichier.
-   
-   5. Codez l'accesseur `getPDO()` pour
-      * qu'il initialise l'attribut `self::$pdo` si il ne contient pas encore de
-        connexion vers la BDD.  
-        **Aide :** Si il n'a pas été initialisé, alors `$pdo` est égal à sa valeur par défaut (utilisez [`is_null()`](https://www.php.net/manual/en/function.is-null)).
-      * qu'il renvoie l'attribut `self::$pdo`.
+   4. Comme notre classe `Model` dépend de `Conf.php`, ajoutez un `require_once 'Conf.php'` 
+   au début du fichier.
 
    6. Testons dès à présent notre nouvelle classe. Créez le fichier
    `testModel.php` suivant. Vérifiez que l'exécution de `testModel.php` ne donne
@@ -287,15 +220,70 @@ de donnée.
       // SQLSTATE[HY000] [1045] Access denied for user ... (mauvais mot de passe)
       // ou
       // SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed (mauvais hostname)
-      echo Model::getPDO()->getAttribute(PDO::ATTR_CONNECTION_STATUS);
+      $model = new Model();
+      echo $model->getPdo()->getAttribute(PDO::ATTR_CONNECTION_STATUS);
       ?>
       ```
+</div>
 
+#### Patron de conception *Singleton*
+
+Comme cela ne fait pas de sens d'avoir plusieurs connexions à la BDD, nous allons utiliser le patron de conception *Singleton*. Ce patron de conception sert à assurer qu'il ne pourra y avoir qu’une et une seule instance possible de la classe `Model`, donc une seule connexion.
+
+Voici le squelette d'un singleton :
+
+```php?start_inline=1
+class Model {
+    private static $pdo = null;
+    
+    private function __construct () {
+        // Code du constructeur
+        // $hostname = ...
+
+        // On stocke l'objet PDO dans l'attribut statique $pdo
+        // que l'on obtient avec la syntaxe self::$pdo 
+        // au lieu de $this->pdo pour un attribut non statique
+        self::$pdo = new PDO(...);
+    }
+    
+    public static function getInstance() {
+        // Si la connexion à la BDD n'a jamais été initialisé, 
+        // on l'initialise en appelant le constructeur
+        if (is_null(self::$pdo))
+            new self();
+        
+        return self::$pdo;
+    }
+}
+```
+
+**Remarques :**
+* Comme la variable est statique, elle s'accède par une syntaxe
+  `Type::$nom_var` comme indiqué précédemment. 
+* Le type de la classe en cours de déclaration s'obtient avec le mot clé `self`.
+  Autrement dit, le code entre les accolades de `class Model { ... }` doit appeler `self`
+  à la place `Model`.
+* Le seul accès possible à la classe `Model` est d'appeler la méthode statique
+  `Model::getInstance()` qui renvoie l'unique objet `Model`. L'unicité est garantie
+  par `getInstance` qui n'appelle qu'une fois le constructeur. Comme le constructeur 
+  est privé, il ne peut pas non plus être appelé en dehors de la classe.
+
+<div class="exercise">
+
+1. Mettez à jour votre classe `Model` pour qu'elle suive le design pattern *Singleton*.
+1. Mettez à jour `testModel.php` et vérifiez que tout marche bien.
+1. Pour que PhpStorm comprenne que `Model::getInstance()` renvoie un objet de la classe `PDO`,
+   et qu'il puisse nous proposer l'autocomplétion des méthodes de cette classe, nous devons déclarer
+   les types.  
+   Déclarez que l'attribut `$pdo` et la valeur de retour de `getInstance()` sont de type
+   `?PDO`, qui est un raccourci pour le type `PDO|null`, qui veut dire `PDO` ou `null`.  
+   Vérifiez que l'autocomplétion de PhpStorm s'est améliorée dans `testModel.php`.
 
 </div>
-<br>
-Nous allons maintenant améliorer la gestion des erreurs de `PDO`.
 
+#### Gestion des erreurs 
+
+Nous allons maintenant améliorer la gestion des erreurs de `PDO`.
 
 <div class="exercise">
 
@@ -317,14 +305,14 @@ récupérer et traiter. Placez donc votre `new PDO(...)` au sein d'un try - catc
    
    **Remarque :** Dans cet exemple, la gestion est très brutale: En effet,
    l'instruction `die();` équivaut à un système `System.exit(1);` en Java.  
-   Dans un vrai site web "en production" il faudrait indiquer à l'utilisateur
+   Dans un vrai site web "en production", il faudrait indiquer à l'utilisateur
    qu'il a fait une erreur de saisie ou que le site est actuellement
    indisponible, ceci en fonction du détail de l'exception qui est levée.  
    Il est important que toutes lignes de codes utilisant `PDO` soit dans un `try` -
    `catch` afin de capturer les exceptions.
 
 4. Pour avoir plus de messages d'erreur de `PDO` et qu'il gère mieux l'UTF-8,
-  **mettez à jour** la connexion dans `Model` avec
+  **mettez à jour** la connexion dans `Model` en remplaçant `self::$pdo = new PDO(...);` par
 
    ```php?start_inline=1
    // Connexion à la base de données            
@@ -337,14 +325,8 @@ récupérer et traiter. Placez donc votre `new PDO(...)` au sein d'un try - catc
    self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
    ```
 
-**Question :** Avez-vous compris pourquoi il est préférable que la connexion à la BDD
-  (stockée dans l'attribut privé `Model::$pdo`) soit un attribut statique ?
-
-<!-- Réponse : Pour s'assurer de ne créer la connexion à la BDD qu'une fois. En
-effet, un attribut statique est associé à la classe, donc il ne peut y avoir
-qu'un Model::$pdo -->
-
 </div>
+
 
 ## Opérations sur la base de données
 
@@ -360,35 +342,12 @@ la classe `PDO`
      ([un objet `PDOStatement`](http://php.net/manual/fr/class.pdostatement.php)).
 
 2. La
-   [méthode `fetchAll($fetch_style)`](http://php.net/manual/fr/pdostatement.fetchall.php)   
+   [méthode `fetch()`](http://php.net/manual/fr/pdostatement.fetch.php)
    de la classe `PDOStatement` s'appelle sur les réponses de requêtes et renvoie
    la réponse de la requête dans un format lisible par PHP. Plus précisément,
-   elle renvoie un tableau d'entrée SQL, chaque entrée étant formattée comme un
-   tableau ou un objet.  
-   
-   Le choix du format se fait avec la
-   [variable `$fetch_style`](http://php.net/manual/fr/pdostatement.fetch.php#refsect1-pdostatement.fetch-parameters). Les formats les plus communs sont :
-
-   * `PDO::FETCH_ASSOC` : Chaque entrée SQL est un tableau indexé par les noms
-     des champs de la table de la BDD ;
-
-   * `PDO::FETCH_OBJ` : Chaque entrée SQL est un objet dont les noms d'attributs
-     sont les noms des champs de la table de la BDD ;
-
-   * `PDO::FETCH_CLASS` : De même que `PDO::FETCH_OBJ`, chaque entrée SQL est un
-     objet dont les noms d'attributs sont les noms des champs de la table de la
-     BDD. Cependant, on peut dans ce cas spécifier le nom de la classe des
-     objets. Pour ce faire, il faut avoir au préalable déclaré le nom de la
-     classe avec la commmande suivante :
-
-     ```php?start_inline=1
-     $pdo_stmt->setFetchMode( PDO::FETCH_CLASS, 'class_name');
-     ```
-
-     **Note :** Plus précisément, `PDO` va dans l'ordre créer une instance de la
-       classe demandée, écrire les attributs correspondants au champs de la BDD
-       **puis** appeler le constructeur *sans arguments*.
-
+   elle renvoie une entrée SQL formattée comme un tableau.  Ce tableau est indexé par les noms
+   des champs de la table de données, et aussi par les numéros des champs. 
+   Les valeurs du tableau sont celles de l'entrée SQL.
 
 ### Faire une requête SQL sans paramètres
 
@@ -399,148 +358,162 @@ d'une table (`voiture` dans notre exemple) :
 SELECT * FROM voiture
 ```
 
-<div class="exercise">
+<!-- 
+TODO:
+pdoStatement->fetch() donc PDO::FETCH_BOTH par défaut
+qui retourne un tableau indexé par les noms de colonnes et aussi par les numéros de colonnes, commençant à l'index 0, comme retournés dans le jeu de résultats
+  -->
 
+<div class="exercise">
 1. Créez un fichier `lireVoiture.php`
 
 2. Incluez le fichier contenant la classe `Model` pour pouvoir se connecter à la
    BDD.
    <!-- require_once "Model.php"; -->
    
-3. Appelez la fonction `query` de l'objet `PDO` `Model::getPDO()` en lui donnant
-   la requête SQL. Stockez sa réponse dans une variable `$rep`.
+3. Appelez la fonction `query` de l'objet `PDO` `Model::getInstance()` en lui donnant
+   la requête SQL. Stockez sa réponse dans une variable `$pdoStatement`.
 
 4. Comme expliqué précédemment, pour lire les réponses à des requêtes SQL, vous
    pouvez utiliser
 
    ```php?start_inline=1
-   $tab_obj = $rep->fetchAll(PDO::FETCH_OBJ)
+   $voitureTableau = $pdoStatement->fetch()
    ```
 
-   qui renvoie un tableau d'objets `tab_obj` ayant pour attributs les champs de
-la BDD.  Chacun des objets `$obj` de `$tab_obj` contient donc trois attributs
-`immatriculation`, `couleur` et `marque` (les champs de la BDD) qui sont
-accessibles classiquement par `$obj->immatriculation`, ....
+   qui renvoie un tableau avec 8 cases: 
+   * `immatriculationBDD`, `couleurBDD`, `marqueBDD` et `nbSiegesBDD` (les champs de la BDD).
+   * `0`, `1`, `2` et `3` qui correspondent aux champs de la BDD dans l'ordre. Ces cases
+   sont donc un peu redondantes.
 
-   **Utilisez la fonction `fetchAll`** pour afficher toutes les
-voitures. Servez-vous d'une boucle
-[`foreach`](http://php.net/manual/fr/control-structures.foreach.php) comme au TD
-précédent pour itérer sur le tableau `$tab_obj`.
+   Utilisez l’un des affichages de débogage (*e.g.* `var_dump`) pour afficher ce tableau.
 
-1. Avez-vous pensé à enregistrer régulièrement votre travail sous Git ?
+1. Créez une `$voiture` de classe `Voiture` à l'aide de `$voitureTableau` 
+en appelant le constructeur. Affichez la voiture en utilisant la méthode adéquate de `Voiture`. 
 
-</div>
-<br>
-Ce code fonctionne mais ne crée pas d'objets de la classe `Voiture` sur
-lesquelles l'on pourrait appeler des méthodes (par exemple `afficher`).
+1. On souhaite désormais afficher toutes les voitures dans la BDD. On pourrait
+   faire une boucle `while` sur `fetch` tant qu'on a pas parcouru toutes les entrées de la BDD.
 
-<div class="exercise">
-
-Nous allons mettre à jour le code de `lireVoiture.php` pour
-faire l'affichage à l'aide de la fonction `afficher()` de `Voiture`.
-
-Comme expliqué précédemment, vous pouvez récupérer directement un objet de la
-classe `Voiture` avec
-
-```php?start_inline=1
-$rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
-$tab_voit = $rep->fetchAll();
-```
-
-
-2. Incluez le fichier de la classe `Voiture` pour pouvoir l'utiliser ;
-
-3. Avec l'option `PDO::FETCH_CLASS`{: #majconst}, `PDO` va créer une instance de la
-classe `Voiture`, écrire les attributs correspondants au champs de la BDD
-**puis** appeler le constructeur sans arguments.  
-**Adaptons donc l'ancien constructeur de `Voiture` pour qu'il accepte aussi un
-  appel sans arguments (en plus d'un appel avec trois arguments).**
+   Heureusement, il existe une syntaxe simplifiée qui fait exactement cela :   
 
    ```php?start_inline=1
-   // La syntaxe ... = NULL signifie que l'argument est optionel
-   // Si un argument optionnel n'est pas fourni,
-   //   alors il prend la valeur par défaut, NULL dans notre cas
-   public function __construct($m = NULL, $c = NULL, $i = NULL) {
-     if (!is_null($m) && !is_null($c) && !is_null($i)) {
-       // Si aucun de $m, $c et $i sont nuls,
-       // c'est forcement qu'on les a fournis
-       // donc on retombe sur le constructeur à 3 arguments
-       $this->marque = $m;
-       $this->couleur = $c;
-       $this->immatriculation = $i;
-     }
+   foreach($pdoStatement as $voitureTableau){
+      // ...
    }
    ```
 
-   **Note :** Il peut être plus propre et concis de faire un constructeur
-   `__construct($data)` comme 
-   [dans le TD1.]({{site.baseurl}}/tutorials/tutorial1#les-bases-dun-site-de-covoiturage)
+   **Note :**
+   * chaque tour de boucle agit comme si on avait fait un fetch
+     ```php?start_inline=1
+     $voitureTableau = $pdoStatement->fetch()
+     ```
+   * on peut faire foreach car PDOStatement implémente l'interface Traversable.
+   C'est similaire à Java qui permettait la boucle `for(xxx : yyy)` pour les objets
+   implémentant l'interface `Iterable`.
 
-3. Vous pouvez maintenant appeler `fetchAll` dans `lireVoiture.php` et faire
-   l'affichage à l'aide de la méthode `afficher()`.
+   **Utilisez** la boucle `foreach` dans `lireVoiture.php` pour afficher toutes les voitures.
 
-   **Note :** La variable `$tab_voit` contient un tableau d'objets de classe
-   `Voiture`. Pour afficher les voitures, il faudra itérer sur le tableau avec une
-   boucle [`foreach`](http://php.net/manual/fr/control-structures.foreach.php).
-
+1. Avez-vous pensé à enregistrer régulièrement votre travail sous Git ?
 </div>
+
 <div class="exercise">
 
 Nous allons maintenant isoler le code qui retourne toutes les voitures et en faire une méthode de `Voiture`.
 
+<!-- TODO: à changer
+$voitures = [];
+foreach ($pdoStatement as $row){
+   $voitures[] = new ModelVoiture(
+      $row["marque"],
+      $row["couleur"],
+      $row["immatriculation"],
+      $row["nbSieges"],
+   );
+}
+
+Petru: mettre new ModelVoiture(
+      $row["marque"],
+      $row["couleur"],
+      $row["immatriculation"],
+      $row["nbSieges"],
+   );
+
+   dans une fonction buildFromArray ???
+ -->
+
+1. Isolez le code qui construit l'objet `Voiture` à partir du tableau donné par `fetch` 
+   (*e.g.* `$voitureTableau`) dans une méthode
+   ```php
+   public static function builder(array $voitureTableau) : self {
+   // ...
+   }
+   ```
+   **Attention :** On peut pas appeler le constructeur avec `new Voiture(...)` car la 
+   classe `Voiture` est en cours de déclaration. Il faut donc utiliser `new self(...)`.
 1. Créez une fonction statique
    `getAllVoitures()` dans la classe `Voiture` qui ne prend pas d'arguments et
-   renvoie le tableau des voitures de la BDD.
+   renvoie le tableau d'objets de la classe `Voiture` correspondant à la BDD.
 
-2. Mettez à jour `lireVoiture.php` pour appeler directement cette nouvelle fonction.
+   **Rappel :** On peut rajouter facilement un élément "à la fin" d'un tableau avec
+   ```php?start_inline=1
+   $tableau[] = "Nouvelle valeur";
+   ```
+2. Mettez à jour `lireVoiture.php` pour appeler directement `getAllVoitures()`.
 
-</div>
-
-### Gestion des erreurs (suite)
-
-Dans un site en production, pour des raisons de sécurité et de confort
-d'utilisation, il est déconseillé d'afficher directement un message d'erreur. Pour
-cela on va créer une variable pour activer ou désactiver l'affichage des
-messages d'erreurs.
-
-<div class="exercise">
-
-Dans la classe `Conf`, ajouter un attribut statique `debug` et son getter
-publique.
-
-```php
-<?php
-  class Conf{
-   ...
-   
-    // la variable debug est un boolean
-    static private $debug = True; 
-    
-    static public function getDebug() {
-        return self::$debug;
-    }
-}
-?>
-```
-   
-Ainsi on peut modifier les messages d'erreurs dans les `catch`.
-   
-```php?start_inline=1
-try {
-  ...
-} catch (PDOException $e) {
-  if (Conf::getDebug()) {
-    echo $e->getMessage(); // affiche un message d'erreur
-  } else {
-    echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
-  }
-  die();
-}
-```
-   
-N'oubliez pas d'enregistrer votre travail sous Git, surtout en fin de séance.
+1. Maintenant que vous avez bien compris où les noms de colonnes (`immatriculationBDD`, `couleurBDD`, ...)
+   de la table `voiture` interviennent dans le tableau `$voitureTableau`, nous allons leur redonner
+   des noms plus classiques:
+   1. Changer les noms des colonnes pour `immatriculation`, `couleur`, `marque` et `nbSieges`.
+      Pour ceci, dans PhpMyAdmin, cliquez sur l'onglet "Structure" de la table `voiture`, 
+      puis "Modifier" sur chaque colonne.
+   1. Modifiez le code PHP à l'endroit où interviennnent ces noms de colonnes.
+       <!-- dans Voiture::builder(array $voitureTableau)  -->
+      
 
 </div>
+
+### Format de retour de `fetch()`
+
+Rappelons que la
+[méthode `fetch($fetch_style)`](http://php.net/manual/fr/pdostatement.fetch.php)
+s'appelle sur les réponses de requêtes et renvoie
+la réponse de la requête dans un format lisible par PHP. 
+Le choix du format se fait avec la
+[variable `$fetch_style`](http://php.net/manual/fr/pdostatement.fetch.php#refsect1-pdostatement.fetch-parameters). Les formats les plus communs sont :
+
+* `PDO::FETCH_ASSOC` : Chaque entrée SQL est un tableau indexé par les noms
+   des champs de la table de la BDD ;
+
+* `PDO::FETCH_NUM` : Chaque entrée SQL est un tableau indexé par le numéro de la colonne 
+   commençant à 0 ;
+
+* `PDO::FETCH_BOTH` (valeur par défaut si on ne donne pas d'argument `$fetch_style`): 
+   combinaison de `PDO::FETCH_ASSOC` et `PDO::FETCH_NUM`.
+   retourne un tableau indexé par les noms de colonnes 
+   et aussi par les numéros de colonnes, commençant à l'index 0, comme retournés dans le jeu de résultats
+
+* `PDO::FETCH_OBJ` : Chaque entrée SQL est un objet dont les noms d'attributs
+   sont les noms des champs de la table de la BDD ;
+
+* `PDO::FETCH_CLASS` : De même que `PDO::FETCH_OBJ`, chaque entrée SQL est un
+   objet dont les noms d'attributs sont les noms des champs de la table de la
+   BDD. Cependant, on peut dans ce cas spécifier le nom de la classe des
+   objets. Pour ce faire, il faut avoir au préalable déclaré le nom de la
+   classe avec la commmande suivante :
+
+   ```php?start_inline=1
+   $pdoStatement->setFetchMode( PDO::FETCH_CLASS, 'class_name');
+   ```
+
+   **Note :** Ce format qui semble très pratique a malheureusement un comportement problématique:
+   * il crée d'abord une instance de la  classe demandée (sans passer par le constructeur !) ;
+   * il écrit les attributs correspondants au champs de la BDD (même si ils sont privés ou n'existent pas !) ;
+   * **puis** il appele le constructeur *sans arguments*.
+
+Dans les TDs, nous vous recommandons d'utiliser au choix :
+* le format par défaut `PDO::FETCH_BOTH` en appelant `fetch()` sans arguments,
+* le format `PDO::FETCH_ASSOC` pour ne pas avoir de cases redondantes (*e.g* `immatriculationBDD` et `0`).  
+  Dans ce cas, appelez `$pdoStatement->setFetchMode(PDO::FETCH_ASSOC)` avant d'appeler `fetch()`.
 
 ## Site de covoiturage
 
@@ -548,8 +521,6 @@ Appliquez ce que l'on a fait pendant ce TD aux classes `Trajet` et `Utilisateur`
 du TP précédent (exercice sur le covoiturage) :
 
 <div class="exercise">
-1. Modifiez les constructeurs pour accepter aussi zéro paramètre ;
-
 1. Dans votre PhpMyAdmin, créez une table `utilisateur` avec les champs suivants :
    * `login` : VARCHAR 32, clé primaire
    * `nom` : VARCHAR 32
