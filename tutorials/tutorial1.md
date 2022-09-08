@@ -28,6 +28,12 @@ PHP. Nous coderons donc notre PHP sous PhpStorm.
 
 * Si vous utilisez votre propre machine, allez voir ces instructions dans les [compléments du TD1]({{site.baseurl}}/assets/tut1-complement.html#installer-phpstorm-sur-sa-machine).
 
+#### Nouveau projet
+
+Quand vous ouvrez PhpStorm, créer un nouveau projet vide dans le dossier `public_html/TD1` 
+de votre répertoire personnel. 
+Pour ceci, sélectionnez `New Project`, `PHP Empty Project`, Location: `/home/ann2/votre_login/public_html/TD1`.
+
 #### Obtention de la licence académique Ultimate pour PhpStorm
 
 * Normalement, vous avez obtenu une licence académique l'an dernier. Pour la retrouver, 
@@ -73,7 +79,7 @@ en pratique tout cela !
 <div class="exercise">
 
 1. Créez une page **page1.html** avec le contenu suivant et enregistrez la dans
-le répertoire **public_html** de votre espace personnel.
+le répertoire **public_html/TD1** de votre espace personnel.
 
    ```html
    <!DOCTYPE html>
@@ -92,7 +98,7 @@ le répertoire **public_html** de votre espace personnel.
 1. Ouvrez cette page dans le navigateur directement en double-cliquant dessus
    directement depuis votre gestionnaire de fichiers.
    Notez l'URL du fichier :
-   [file://chemin_de_mon_compte/public_html/page1.html](file://chemin_de_mon_compte/public_html/page1.html).
+   [file://chemin_de_mon_compte/public_html/TD1/page1.html](file://chemin_de_mon_compte/public_html/TD1/page1.html).
 
    **Que fait le gestionnaire de fichier quand on double-clique ?**  
    **Que signifie le *file* au début de l'URL ?**  
@@ -139,15 +145,21 @@ le répertoire **public_html** de votre espace personnel.
    Pour donner les droits à l'utilisateur www-data (Apache), utilisez la commande
    `setfacl` dans un terminal sous Linux :
 
-   * `setfacl -m u:www-data:--x nom_du_répertoire`  pour chaque répertoire
-     menant à votre page Web.
-     
-   * Puis `setfacl -m u:www-data:r-- nom_de_la_page_Web`
+   ```bash
+   # On modifie (-m) récursivement (-R) les droits r-x
+   # de l'utilisateur (u:) www-data
+   setfacl -R -m u:www-data:r-x ~/public_html
+   # On fait de même avec des droits par défaut (d:)
+   # (les nouveaux fichiers prendront ces droits)
+   setfacl -R -m d:u:www-data:r-x ~/public_html
+   ```
 
    **Note :** Les ACL permettent d'avoir des droits spécifiques à plusieurs
    utilisateurs et à plusieurs groupes quand les droits classiques sont limités
    à un utilisateur et un groupe. Pour lire les droits ACL d'un fichier ou
    dossier, on tape `getfacl nom_du_fichier`.
+
+   <!-- Attention, il peut rester un dernier problème avec les mask -->
 
 </div>
 
@@ -155,11 +167,11 @@ le répertoire **public_html** de votre espace personnel.
 
 <div class="exercise">
 
-4. Créez une page `echo.php` avec le contenu suivant.  
-   Pour ne pas que votre **public_html** devienne une décharge de pages Web à ciel
+4. Créez une page `public_html/TD1/echo.php` avec le contenu suivant.  
+   <!-- Pour ne pas que votre **public_html** devienne une décharge de pages Web à ciel
    ouvert, créez des répertoires pour les cours et les TDs. Nous vous
    conseillons donc d'enregistrer `echo.php` dans
-   `.../public_html/PHP/TD1/echo.php`.
+   `.../public_html/PHP/TD1/echo.php`. -->
 
    ```php
    <!DOCTYPE html>
@@ -238,8 +250,14 @@ dans lequel la chronologie de toutes modifications pourront être enregistrées.
 	 git config --global http.sslverify false
      ```
    
-   1. Dans le terminal, faites `git clone` suivi de l'adresse de votre
+   1. Dans le terminal dans le dossier `public_html`, faites `git clone` suivi de l'adresse de votre
    projet. 
+   ```bash
+   # En mode SSH
+   ~/public_html$ git clone git@gitlabinfo.iutmontp.univ-montp2.fr:loginIUT/TD-PHP.git
+   # Ou en mode HTTPS
+   ~/public_html$ git clone https://gitlabinfo.iutmontp.univ-montp2.fr/loginIUT/TD-PHP.git
+   ```
    1. Enfin déplacez le dossier `TD1` dans le répertoire `TD-PHP` créé par le `git
    clone`.
 
@@ -250,7 +268,7 @@ dans lequel la chronologie de toutes modifications pourront être enregistrées.
 
    ```bash
    git config --global user.name "Votre Prénom et Nom"
-   git config --global user.email "votreemail@umontpellier.fr"
+   git config --global user.email "votreemail@etu.umontpellier.fr"
    ```
    
    Aussi pour nous simplifier la vie plus tard, veuillez exécuter la commande

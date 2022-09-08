@@ -42,6 +42,16 @@ Dans le TD, nous vous avons indiqué la commande
 setfacl -m u:www-data:r-x nom_du_fichier ou nom_du_répertoire
 ```
 
+En pratique, faites
+```bash
+# On modifie (-m) récursivement (-R) les droits r-x
+# de l'utilisateur (u:) www-data
+setfacl -R -m u:www-data:r-x ~/public_html
+# On fait de même avec des droits par défaut (d:)
+# (les nouveaux fichiers prendront ces droits)
+setfacl -R -m d:u:www-data:r-x ~/public_html
+```
+
 Cette commande donne les droits `r-x` à l'utilisateur `www-data`. Les ACL
 permettent d'avoir des droits spécifiques à plusieurs utilisateurs et à
 plusieurs groupes quand les droits classiques sont limités à un utilisateur et un
@@ -128,7 +138,8 @@ Vous en avez assez de devoir taper votre mot de passe à chaque `git push` ou
      paramètres utilisateurs puis dans l'onglet latéral SSH Keys. Recopiez le contenu
      de `id_rsa.pub` (clé publique) dans le champ clé.
 
-  1. Il faut alors changer l'adresse du dépôt distant sur Github. En effet les
+  1. **Si et seulement si** vous avez déjà cloné votre dépôt Git en mode HTTPs, 
+     il faut changer l'adresse du dépôt distant sur Github. En effet les
      adresses commencant par `https` nécessitent une authentification alors que
      celles commencant par `git@` correspondent à SSH :
 	 
