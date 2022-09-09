@@ -124,8 +124,9 @@ serveur du reste du code PHP.
      );
    
      static public function getLogin() : string {
-       //en PHP l'indice d'un tableau n'est pas forcement un chiffre.
-       return self::$databases['login'];
+       // L'attribut statique $databases s'obtient avec la syntaxe static::$databases 
+       // au lieu de $this->databases pour un attribut non statique
+       return static::$databases['login'];
      }
    
    }
@@ -145,8 +146,9 @@ ouvrira dans le navigateur.
    
    ```php
    <?php
-     // On inclut les fichiers de classe PHP avec require_once
-     // pour éviter qu'ils soient inclus plusieurs fois
+     // On inclut les fichiers de classe PHP pour pouvoir se servir de la classe Conf. 
+     // require_once évite que Conf.php soit inclus plusieurs fois, 
+     // et donc que la classe Conf soit déclaré plus d'une fois. 
      require_once 'Conf.php';
 
      // On affiche le login de la base de donnees
@@ -234,50 +236,64 @@ Voici le squelette d'un singleton :
 
 ```php?start_inline=1
 class Model {
-    private static $pdo = null;
+    private static ?Model $instance = null;
+
+    private $pdo;
+
+    public static function getPdo() {
+        return static::getInstance()->pdo;
+    }
     
     private function __construct () {
         // Code du constructeur
-        // $hostname = ...
-
-        // On stocke l'objet PDO dans l'attribut statique $pdo
-        // que l'on obtient avec la syntaxe self::$pdo 
-        // au lieu de $this->pdo pour un attribut non statique
-        self::$pdo = new PDO(...);
     }
-    
-    public static function getInstance() {
-        // Si la connexion à la BDD n'a jamais été initialisé, 
-        // on l'initialise en appelant le constructeur
-        if (is_null(self::$pdo))
-            new self();
-        
-        return self::$pdo;
+
+   // getInstance s'assure que le constructeur ne sera 
+   // appelé qu'une seule fois.
+   // L'unique instance crée est stockée dans l'attribut $instance
+    private static function getInstance() : Model {
+        // L'attribut statique $pdo s'obtient avec la syntaxe static::$pdo 
+        // au lieu de $this->pdo pour un attribut non statique
+        if (is_null(static::$instance))
+            // Appel du constructeur
+            static::$instance = new static();
+        return static::$instance;
     }
 }
 ```
 
 **Remarques :**
-* Comme la variable est statique, elle s'accède par une syntaxe
+* Quand un attribut est statique, il s'accède par une syntaxe
   `Type::$nom_var` comme indiqué précédemment. 
-* Le type de la classe en cours de déclaration s'obtient avec le mot clé `self`.
-  Autrement dit, le code entre les accolades de `class Model { ... }` doit appeler `self`
-  à la place `Model`.
-* Le seul accès possible à la classe `Model` est d'appeler la méthode statique
-  `Model::getInstance()` qui renvoie l'unique objet `Model`. L'unicité est garantie
+* Quand un attribut statique est appelé avec `Type::$nom_var`,
+  on peut récupérer le type `Type` à l'aide du mot clé `static`.
+* On ne peut pas appeler le constructeur avec `new Model(...)` car la 
+  classe `Model` est en cours de déclaration et n'existe pas encore. 
+  Il faut donc utiliser `new static(...)`.
+<!-- * Le seul accès possible à la classe `Model` est d'appeler la méthode statique
+  `Model::getPdo()` qui renvoie l'unique objet `Model`. L'unicité est garantie
   par `getInstance` qui n'appelle qu'une fois le constructeur. Comme le constructeur 
-  est privé, il ne peut pas non plus être appelé en dehors de la classe.
+  est privé, il ne peut pas non plus être appelé en dehors de la classe. -->
+<!-- * Le type de la classe en cours de déclaration s'obtient avec le mot clé `self`.
+  Autrement dit, le code entre les accolades de `class Model { ... }` doit appeler `self`
+  à la place `Model`. -->
 
 <div class="exercise">
 
 1. Mettez à jour votre classe `Model` pour qu'elle suive le design pattern *Singleton*.
 1. Mettez à jour `testModel.php` et vérifiez que tout marche bien.
-1. Pour que PhpStorm comprenne que `Model::getInstance()` renvoie un objet de la classe `PDO`,
+1. Pour que PhpStorm comprenne que `Model::getPdo()` renvoie un objet de la classe `PDO`,
    et qu'il puisse nous proposer l'autocomplétion des méthodes de cette classe, nous devons déclarer
-   les types.  
-   Déclarez que l'attribut `$pdo` et la valeur de retour de `getInstance()` sont de type
-   `?PDO`, qui est un raccourci pour le type `PDO|null`, qui veut dire `PDO` ou `null`.  
-   Vérifiez que l'autocomplétion de PhpStorm s'est améliorée dans `testModel.php`.
+   le type de retour.  
+   **Déclarez** que l'attribut `$pdo` et la valeur de retour de `Model::getPdo()` sont de type
+   `PDO`.  
+   **Vérifiez** que l'autocomplétion de PhpStorm s'est améliorée dans `testModel.php`.
+
+1. **Déclarez** que l'attribut `$instance` et la valeur de retour de `Model::getInstance()` sont de type
+   `Model`.  
+   L'IDE indique un problème : L'attribut `$instance` est initialisé à `null`, qui n'est pas de type
+   `Model` en PHP (contrairement à Java), mais de type `null`.  
+   **Corrigez** ce problème en indiquant le type `?Model` pour l'attribut `$instance`. En effet, `?Model` est un raccourci pour le type `Model|null`, qui veut dire `Model` ou `null`.
 
 </div>
 
@@ -286,6 +302,10 @@ class Model {
 Nous allons maintenant améliorer la gestion des erreurs de `PDO`.
 
 <div class="exercise">
+
+<!-- 
+https://phpdelusions.net/pdo dit d'enlever les try-catch
+sauf eventuellement pour le new PDO() dont le message donne les identifiants.
 
 2. Lorsqu'une erreur se produit, `PDO` lève une exception qu'il faut donc
 récupérer et traiter. Placez donc votre `new PDO(...)` au sein d'un try - catch
@@ -309,21 +329,21 @@ récupérer et traiter. Placez donc votre `new PDO(...)` au sein d'un try - catc
    qu'il a fait une erreur de saisie ou que le site est actuellement
    indisponible, ceci en fonction du détail de l'exception qui est levée.  
    Il est important que toutes lignes de codes utilisant `PDO` soit dans un `try` -
-   `catch` afin de capturer les exceptions.
+   `catch` afin de capturer les exceptions. -->
 
-4. Pour avoir plus de messages d'erreur de `PDO` et qu'il gère mieux l'UTF-8,
-  **mettez à jour** la connexion dans `Model` en remplaçant `self::$pdo = new PDO(...);` par
+Pour avoir plus de messages d'erreur de `PDO` et qu'il gère mieux l'UTF-8,
+**mettez à jour** la connexion dans `Model` en remplaçant `$this->$pdo = new PDO(...);` par
 
-   ```php?start_inline=1
-   // Connexion à la base de données            
-   // Le dernier argument sert à ce que toutes les chaines de caractères 
-   // en entrée et sortie de MySql soit dans le codage UTF-8
-   self::$pdo = new PDO("mysql:host=$hostname;dbname=$database_name", $login, $password,
-                        array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-   
-   // On active le mode d'affichage des erreurs, et le lancement d'exception en cas d'erreur
-   self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-   ```
+```php?start_inline=1
+// Connexion à la base de données            
+// Le dernier argument sert à ce que toutes les chaines de caractères 
+// en entrée et sortie de MySql soit dans le codage UTF-8
+$this->$pdo = new PDO("mysql:host=$hostname;dbname=$database_name", $login, $password,
+                     array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+
+// On active le mode d'affichage des erreurs, et le lancement d'exception en cas d'erreur
+$this->$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+```
 
 </div>
 
@@ -371,14 +391,14 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
    BDD.
    <!-- require_once "Model.php"; -->
    
-3. Appelez la fonction `query` de l'objet `PDO` `Model::getInstance()` en lui donnant
+3. Appelez la fonction `query` de l'objet `PDO` `Model::getPdo()` en lui donnant
    la requête SQL. Stockez sa réponse dans une variable `$pdoStatement`.
 
 4. Comme expliqué précédemment, pour lire les réponses à des requêtes SQL, vous
    pouvez utiliser
 
    ```php?start_inline=1
-   $voitureTableau = $pdoStatement->fetch()
+   $voitureFormatTableau = $pdoStatement->fetch()
    ```
 
    qui renvoie un tableau avec 8 cases: 
@@ -388,7 +408,7 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
 
    Utilisez l’un des affichages de débogage (*e.g.* `var_dump`) pour afficher ce tableau.
 
-1. Créez une `$voiture` de classe `Voiture` à l'aide de `$voitureTableau` 
+1. Créez une `$voiture` de classe `Voiture` à l'aide de `$voitureFormatTableau` 
 en appelant le constructeur. Affichez la voiture en utilisant la méthode adéquate de `Voiture`. 
 
 1. On souhaite désormais afficher toutes les voitures dans la BDD. On pourrait
@@ -397,7 +417,7 @@ en appelant le constructeur. Affichez la voiture en utilisant la méthode adéqu
    Heureusement, il existe une syntaxe simplifiée qui fait exactement cela :   
 
    ```php?start_inline=1
-   foreach($pdoStatement as $voitureTableau){
+   foreach($pdoStatement as $voitureFormatTableau){
       // ...
    }
    ```
@@ -405,7 +425,7 @@ en appelant le constructeur. Affichez la voiture en utilisant la méthode adéqu
    **Note :**
    * chaque tour de boucle agit comme si on avait fait un fetch
      ```php?start_inline=1
-     $voitureTableau = $pdoStatement->fetch()
+     $voitureFormatTableau = $pdoStatement->fetch()
      ```
    * on peut faire foreach car PDOStatement implémente l'interface Traversable.
    C'est similaire à Java qui permettait la boucle `for(xxx : yyy)` pour les objets
@@ -442,32 +462,32 @@ Petru: mettre new ModelVoiture(
  -->
 
 1. Isolez le code qui construit l'objet `Voiture` à partir du tableau donné par `fetch` 
-   (*e.g.* `$voitureTableau`) dans une méthode
+   (*e.g.* `$voitureFormatTableau`) dans une méthode
    ```php
-   public static function builder(array $voitureTableau) : self {
+   public static function builder(array $voitureFormatTableau) : Voiture {
    // ...
    }
    ```
-   **Attention :** On peut pas appeler le constructeur avec `new Voiture(...)` car la 
-   classe `Voiture` est en cours de déclaration. Il faut donc utiliser `new self(...)`.
+   **Attention :** On ne peut pas appeler le constructeur avec `new Voiture(...)` car la 
+   classe `Voiture` est en cours de déclaration. Il faut donc utiliser `new static(...)`.
 1. Créez une fonction statique
-   `getAllVoitures()` dans la classe `Voiture` qui ne prend pas d'arguments et
+   `getVoitures()` dans la classe `Voiture` qui ne prend pas d'arguments et
    renvoie le tableau d'objets de la classe `Voiture` correspondant à la BDD.
 
    **Rappel :** On peut rajouter facilement un élément "à la fin" d'un tableau avec
    ```php?start_inline=1
    $tableau[] = "Nouvelle valeur";
    ```
-2. Mettez à jour `lireVoiture.php` pour appeler directement `getAllVoitures()`.
+2. Mettez à jour `lireVoiture.php` pour appeler directement `getVoitures()`.
 
 1. Maintenant que vous avez bien compris où les noms de colonnes (`immatriculationBDD`, `couleurBDD`, ...)
-   de la table `voiture` interviennent dans le tableau `$voitureTableau`, nous allons leur redonner
+   de la table `voiture` interviennent dans le tableau `$voitureFormatTableau`, nous allons leur redonner
    des noms plus classiques:
    1. Changer les noms des colonnes pour `immatriculation`, `couleur`, `marque` et `nbSieges`.
       Pour ceci, dans PhpMyAdmin, cliquez sur l'onglet "Structure" de la table `voiture`, 
       puis "Modifier" sur chaque colonne.
    1. Modifiez le code PHP à l'endroit où interviennnent ces noms de colonnes.
-       <!-- dans Voiture::builder(array $voitureTableau)  -->
+       <!-- dans Voiture::builder(array $voitureFormatTableau)  -->
       
 
 </div>
@@ -515,6 +535,16 @@ Dans les TDs, nous vous recommandons d'utiliser au choix :
 * le format `PDO::FETCH_ASSOC` pour ne pas avoir de cases redondantes (*e.g* `immatriculationBDD` et `0`).  
   Dans ce cas, appelez `$pdoStatement->setFetchMode(PDO::FETCH_ASSOC)` avant d'appeler `fetch()`.
 
+<!-- 
+https://phpdelusions.net/pdo
+you can change it using PDO::ATTR_DEFAULT_FETCH_MODE configuration option as shown in the connection example. 
+
+Getting data out of statement. fetchColumn()
+A neat helper function that returns value of the single field of returned row. Very handy when we are selecting only one field:
+
+
+-->
+
 ## Site de covoiturage
 
 Appliquez ce que l'on a fait pendant ce TD aux classes `Trajet` et `Utilisateur`
@@ -535,7 +565,7 @@ du TP précédent (exercice sur le covoiturage) :
    * `depart` : VARCHAR 32
    * `arrivee` : VARCHAR 32
    * `date` : DATE
-   * `nbplaces` : INT
+   * `nbPlaces` : INT
    * `prix` : INT
    * `conducteur_login` : VARCHAR 32
    
