@@ -119,7 +119,7 @@ le répertoire **public_html/TD1** de votre espace personnel.
 2. **[Vous souvenez-vous]({{site.baseurl}}/classes/class1.html#test-de-la-page-sur-un-serveur-http)
    comment fait-on pour qu'une page Web soit servie par le serveur HTTP de l'IUT
    (à l'URL
-   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/page1.html](http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/page1.html))
+   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/TD1/page1.html](http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/TD1/page1.html))
    ?**
 
    **Réponse :**
@@ -201,7 +201,7 @@ le répertoire **public_html/TD1** de votre espace personnel.
 
 5. Ouvrez cette page dans le navigateur directement depuis votre gestionnaire de
 fichiers OU de façon équivalente avec une URL en `file://` comme :  
-[file://chemin_de_mon_compte/public_html/PHP/TD1/echo.php](file:///home/ann2/mon_login_IUT/public_html/PHP/TD1/echo.php).
+[file://chemin_de_mon_compte/public_html/TD1/echo.php](file:///home/ann2/mon_login_IUT/public_html/TD1/echo.php).
 
    **Que se passe-t-il quand on ouvre un fichier PHP directement dans le navigateur ?**  
    **Pourquoi ?**  
@@ -209,7 +209,7 @@ fichiers OU de façon équivalente avec une URL en `file://` comme :
 
 6. Ouvrez cette page dans le navigateur dans un second onglet en passant par le
    serveur HTTP de l'IUT :  
-   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/echo.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/echo.php)
+   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD1/echo.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD1/echo.php)
 
    **Que se passe-t-il quand on demande un fichier PHP à un serveur HTTP ?**  
    **Regardez les sources de la page Web (Clic droit, code source ou `Ctrl-U`)
@@ -667,7 +667,7 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
 5. Testez que votre classe est valide pour PHP : la page générée par le serveur
    Web `webinfo` à partir de `Voiture.php` ne doit pas afficher d'erreur.  
    **Demandez donc** votre page à `webinfo`
-   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/Voiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/Voiture.php).
+   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD1/Voiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD1/Voiture.php).
 
 6. Enregistrez votre travail à l'aide de `git add` et `git commit`. Aidez-vous toujours
    de `git status` pour savoir où vous en êtes.
@@ -713,7 +713,7 @@ n'émettent qu'un warning si le fichier n'est pas trouvé (au lieu d'une erreur)
    * Affichez cette voiture à l'aide de sa méthode `afficher()` .
 
 3. Testez votre page sur `webinfo` :  
-   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD1/testVoiture.php)
+   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD1/testVoiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD1/testVoiture.php)
    
 </div>
 
