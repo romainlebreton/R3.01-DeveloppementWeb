@@ -236,7 +236,7 @@ Voici le squelette d'un singleton :
 
 ```php?start_inline=1
 class Model {
-    private static ?Model $instance = null;
+    private static $instance = null;
 
     private $pdo;
 
@@ -251,7 +251,7 @@ class Model {
    // getInstance s'assure que le constructeur ne sera 
    // appelé qu'une seule fois.
    // L'unique instance crée est stockée dans l'attribut $instance
-    private static function getInstance() : Model {
+    private static function getInstance() {
         // L'attribut statique $pdo s'obtient avec la syntaxe static::$pdo 
         // au lieu de $this->pdo pour un attribut non statique
         if (is_null(static::$instance))
@@ -286,7 +286,7 @@ class Model {
 1. Pour que PhpStorm comprenne que `Model::getPdo()` renvoie un objet de la classe `PDO`,
    et qu'il puisse nous proposer l'autocomplétion des méthodes de cette classe, nous devons déclarer
    le type de retour.  
-   **Déclarez** que l'attribut `$pdo` et la valeur de retour de `Model::getPdo()` sont de type
+   Si ce n'est pas déjà fait, **déclarez** que l'attribut `$pdo` et la valeur de retour de `Model::getPdo()` sont de type
    `PDO`.  
    **Vérifiez** que l'autocomplétion de PhpStorm s'est améliorée dans `testModel.php`.
 
