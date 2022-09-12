@@ -193,13 +193,13 @@ de donnée.
    façon suivante
    
       ```php?start_inline=1
-      new PDO("mysql:host=$hostname;dbname=$database_name",$login,$password);
+      new PDO("mysql:host=$hostname;dbname=$databaseName",$login,$password);
       ```
    
       Stockez ce nouvel objet `PDO` dans l'attribut `$pdo`.
 
    1. Le code précédent a besoin que les variables `$hostname`,
-   `$database_name`, `$login` et `$password` contiennent les chaînes
+   `$databaseName`, `$login` et `$password` contiennent les chaînes
    de caractères correspondant à l'hôte, au nom, au login et au mot de
    passe de notre BDD. Créez donc ces variables avant le `new PDO` en
    récupérant les informations à l'aide des fonctions de la classe
@@ -339,7 +339,7 @@ Pour avoir plus de messages d'erreur de `PDO` et qu'il gère mieux l'UTF-8,
 // Connexion à la base de données            
 // Le dernier argument sert à ce que toutes les chaines de caractères 
 // en entrée et sortie de MySql soit dans le codage UTF-8
-$this->$pdo = new PDO("mysql:host=$hostname;dbname=$database_name", $login, $password,
+$this->$pdo = new PDO("mysql:host=$hostname;dbname=$databaseName", $login, $password,
                      array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 
 // On active le mode d'affichage des erreurs, et le lancement d'exception en cas d'erreur
@@ -496,11 +496,11 @@ Petru: mettre new ModelVoiture(
 ### Format de retour de `fetch()`
 
 Rappelons que la
-[méthode `fetch($fetch_style)`](http://php.net/manual/fr/pdostatement.fetch.php)
+[méthode `fetch($fetchStyle)`](http://php.net/manual/fr/pdostatement.fetch.php)
 s'appelle sur les réponses de requêtes et renvoie
 la réponse de la requête dans un format lisible par PHP. 
 Le choix du format se fait avec la
-[variable `$fetch_style`](http://php.net/manual/fr/pdostatement.fetch.php#refsect1-pdostatement.fetch-parameters). Les formats les plus communs sont :
+[variable `$fetchStyle`](http://php.net/manual/fr/pdostatement.fetch.php#refsect1-pdostatement.fetch-parameters). Les formats les plus communs sont :
 
 * `PDO::FETCH_ASSOC` : Chaque entrée SQL est un tableau indexé par les noms
    des champs de la table de la BDD ;
@@ -508,7 +508,7 @@ Le choix du format se fait avec la
 * `PDO::FETCH_NUM` : Chaque entrée SQL est un tableau indexé par le numéro de la colonne 
    commençant à 0 ;
 
-* `PDO::FETCH_BOTH` (valeur par défaut si on ne donne pas d'argument `$fetch_style`) : 
+* `PDO::FETCH_BOTH` (valeur par défaut si on ne donne pas d'argument `$fetchStyle`) : 
    combinaison de `PDO::FETCH_ASSOC` et `PDO::FETCH_NUM`.
    Ce format retourne un tableau indexé par les noms de colonnes 
    et aussi par les numéros de colonnes, commençant à l'index 0, comme retournés dans le jeu de résultats
@@ -568,7 +568,7 @@ du TP précédent (exercice sur le covoiturage) :
    * `date` : DATE
    * `nbPlaces` : INT
    * `prix` : INT
-   * `conducteur_login` : VARCHAR 32
+   * `conducteurLogin` : VARCHAR 32
    
    **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque
    nouvelle insertion dans la table. Pour ce faire, sélectionnez cocher la case
@@ -576,7 +576,7 @@ du TP précédent (exercice sur le covoiturage) :
 
 
 2. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
-   que l'auto-incrément marche) et en mettant dans `conducteur_login` des login
+   que l'auto-incrément marche) et en mettant dans `conducteurLogin` des login
    d'utilisateurs valides (pour éviter des problèmes par la suite).
 
 1. Créez les fonctions statiques `getAllTrajets()` et `getAllUtilisateurs()` qui listent

@@ -75,8 +75,8 @@ class Mere {
     public static function printSelfStatic(){
         // NomDeClasse::class a pour valeur
         // la chaine de caractères "NomDeClasse"
-        echo "self : " . self::class . PHP_EOL;
-        echo "static : " . static::class . PHP_EOL;
+        echo "self : " . self::class . "\n";
+        echo "static : " . static::class . "\n";
     }
 }
 

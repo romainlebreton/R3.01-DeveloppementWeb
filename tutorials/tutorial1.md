@@ -466,7 +466,7 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
   parcourir les paires clé/valeur des tableaux. 
 
   ```php?start_inline=1
-  foreach ($mon_tableau as $cle => $valeur){
+  foreach ($monTableau as $cle => $valeur){
       //commandes
   }
   ```
@@ -497,15 +497,15 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
   uniquement par des entiers
 
   ```php?start_inline=1
-  for ($i = 0; $i < count($mon_tableau); $i++) {
-      echo $mon_tableau[$i];
+  for ($i = 0; $i < count($monTableau); $i++) {
+      echo $monTableau[$i];
   }
   ```
 
   Pour comprendre `foreach` autrement, le code suivant
 
   ```php?start_inline=1
-  foreach ($mon_tableau as $cle => $valeur){
+  foreach ($monTableau as $cle => $valeur){
       //commandes
   }
   ```
@@ -513,9 +513,9 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
   est équivalent à
   
     ```php?start_inline=1
-  for ($i = 0; $i < count(array_keys($mon_tableau)); $i++) {
-      $cle = array_keys($mon_tableau)[$i];
-	  $valeur = $mon_tableau[$cle];
+  for ($i = 0; $i < count(array_keys($monTableau)); $i++) {
+      $cle = array_keys($monTableau)[$i];
+	  $valeur = $monTableau[$cle];
       //commandes
   }
   ```
@@ -886,9 +886,9 @@ prenom)`
 1. les détails d'un trajet (un point de départ `depart` et un point d’arrivée
 `arrivee`),
 1. des détails spécifiques à l’annonce comme une date de départ `date`,
-1. un nombre de places disponibles `nbplaces`,
+1. un nombre de places disponibles `nbPlaces`,
 1. un prix `prix`,
-1. et le login du conducteur `conducteur_login`,
+1. et le login du conducteur `conducteurLogin`,
 
 <!-- **Astuce :** Pour éviter de taper 7 *getters*, 7 *setters* et un constructeur
   avec 7 arguments pour `Trajet`, nous allons coder :
