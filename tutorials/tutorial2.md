@@ -230,7 +230,7 @@ de donnée.
 
 #### Patron de conception *Singleton*
 
-Comme cela n'a pas de sens d'avoir plusieurs connexions à la BDD, nous allons utiliser le patron de conception *Singleton*. Ce patron de conception sert à assurer qu'il ne pourra y avoir qu’une et une seule instance possible de la classe `Model`, donc une seule connexion.
+Comme cela n'a pas de sens d'avoir plusieurs connexions à la BDD, nous allons utiliser le patron de conception *Singleton*. Il sert à assurer qu'il n'y ait qu’une et une seule instance possible de la classe `Model` dans l'application (et donc une seule connexion).
 
 Voici le squelette d'un singleton :
 
