@@ -333,17 +333,17 @@ récupérer et traiter. Placez donc votre `new PDO(...)` au sein d'un try - catc
    `catch` afin de capturer les exceptions. -->
 
 Pour avoir plus de messages d'erreur de `PDO` et qu'il gère mieux l'UTF-8,
-**mettez à jour** la connexion dans `Model` en remplaçant `$this->$pdo = new PDO(...);` par
+**mettez à jour** la connexion dans `Model` en remplaçant `$this->pdo = new PDO(...);` par
 
 ```php?start_inline=1
 // Connexion à la base de données            
 // Le dernier argument sert à ce que toutes les chaines de caractères 
 // en entrée et sortie de MySql soit dans le codage UTF-8
-$this->$pdo = new PDO("mysql:host=$hostname;dbname=$databaseName", $login, $password,
+$this->pdo = new PDO("mysql:host=$hostname;dbname=$databaseName", $login, $password,
                      array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 
 // On active le mode d'affichage des erreurs, et le lancement d'exception en cas d'erreur
-$this->$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 ```
 
 </div>
@@ -402,7 +402,7 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
    $voitureFormatTableau = $pdoStatement->fetch()
    ```
 
-   qui renvoie un tableau avec 8 cases : 
+   qui, dans notre exemple, renvoie un tableau avec 8 cases : 
    * `immatriculationBDD`, `couleurBDD`, `marqueBDD` et `nbSiegesBDD` (les champs de la BDD).
    * `0`, `1`, `2` et `3` qui correspondent aux champs de la BDD dans l'ordre. Ces cases
    sont donc un peu redondantes.
