@@ -333,7 +333,7 @@ récupérer et traiter. Placez donc votre `new PDO(...)` au sein d'un try - catc
    `catch` afin de capturer les exceptions. -->
 
 Pour avoir plus de messages d'erreur de `PDO` et qu'il gère mieux l'UTF-8,
-**mettez à jour** la connexion dans `Model` en remplaçant `$this->$pdo = new PDO(...);` par
+**mettez à jour** la connexion dans `Model` en remplaçant `$this->pdo = new PDO(...);` par
 
 ```php?start_inline=1
 // Connexion à la base de données            
