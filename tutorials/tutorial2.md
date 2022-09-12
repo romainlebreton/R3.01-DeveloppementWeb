@@ -2,6 +2,7 @@
 title: TD2 &ndash; La persistance des données en PHP
 subtitle: BDD, PDO
 layout: tutorial
+lang: fr
 ---
 
 <!-- Rajouter quelques question au début du TD pour vérifier la compréhension -->
@@ -12,33 +13,32 @@ layout: tutorial
 <!-- fetchAll(..._CLASS, "nom de la classe") -->
 
 Dans le TD1 vous avez appris à créer des classes et à instancier des objets de
-ces classes.  Mais, comme vous l'avez constaté, la durée de vie des objets ainsi
+ces classes. Mais, comme vous l'avez constaté, la durée de vie des objets ainsi
 créés ne dépassait pas la durée de l'exécution du programme.
 
 Dans ce TD, nous allons apprendre à rendre les objets persistants, en les
-sauvegardant dans une base de données. Ainsi il sera possible de retrouver les
+sauvegardant dans une base de données. Ainsi, il sera possible de retrouver les
 objets d'une visite à l'autre du site web.
 
 
 ## Connexion à la base de données
 
-### Les bases de PHPMyAdmin
+### Les bases de PhpMyAdmin
 
 <div class="exercise">
 1. Connectez vous à votre base de données MySQL, à l'aide de l'interface
 PhpMyAdmin
 [http://webinfo.iutmontp.univ-montp2.fr/my](http://webinfo.iutmontp.univ-montp2.fr/my)
 Le login est votre login IUT et votre mot de passe initial votre numéro INE.  
-(Si vous êtes sur votre machine, allez sur votre phpmyadmin à l'adresse
-[http://localhost/phpmyadmin](http://localhost/phpmyadmin)).
 
-2. Changez votre mot de passe (Page d'accueil > Paramètres généraux >  Modifier le mot de passe) et reloguez-vous.
+
+2. Changez votre mot de passe (Page d'accueil > Paramètres généraux > Modifier le mot de passe) et reconnectez-vous.
    Si vous n'arrivez pas à vous
-   logger après avoir changé le mot de passe, essayer avec un autre navigateur
+   connecter après avoir changé le mot de passe, essayer avec un autre navigateur
    ou bien videz le cache du navigateur (`Ctrl+F5`).
 
 
-   **Attention :** N'utilisez pas un de vos mots de passe usuels car
+   **Attention :** N'utilisez pas un de vos mots de passe usuels, car
    nous allons bientôt écrire ce mot de passe dans un fichier qui sera sans
    doute vu par le professeur ou votre voisin.  
    Donc vous avez deux possibilités :
@@ -230,7 +230,7 @@ de donnée.
 
 #### Patron de conception *Singleton*
 
-Comme cela ne fait pas de sens d'avoir plusieurs connexions à la BDD, nous allons utiliser le patron de conception *Singleton*. Ce patron de conception sert à assurer qu'il ne pourra y avoir qu’une et une seule instance possible de la classe `Model`, donc une seule connexion.
+Comme cela n'a pas de sens d'avoir plusieurs connexions à la BDD, nous allons utiliser le patron de conception *Singleton*. Ce patron de conception sert à assurer qu'il ne pourra y avoir qu’une et une seule instance possible de la classe `Model`, donc une seule connexion.
 
 Voici le squelette d'un singleton :
 
@@ -256,7 +256,7 @@ class Model {
         // au lieu de $this->pdo pour un attribut non statique
         if (is_null(static::$instance))
             // Appel du constructeur
-            static::$instance = new static();
+            static::$instance = new Model();
         return static::$instance;
     }
 }
@@ -264,12 +264,13 @@ class Model {
 
 **Remarques :**
 * Quand un attribut est statique, il s'accède par une syntaxe
-  `Type::$nom_var` comme indiqué précédemment. 
-* Quand un attribut statique est appelé avec `Type::$nom_var`,
-  on peut récupérer le type `Type` à l'aide du mot clé `static`.
-* On ne peut pas appeler le constructeur avec `new Model(...)` car la 
+  `NomClasse::$nomVar` comme indiqué précédemment. 
+  <!-- CHANGER ICI ??? plus de static:: ??? -->
+* Quand un attribut statique est appelé avec `NomClasse::$nomVar`,
+  on peut récupérer le type `NomClasse` à l'aide du mot clé `static`.
+<!-- * On ne peut pas appeler le constructeur avec `new Model(...)` car la 
   classe `Model` est en cours de déclaration et n'existe pas encore. 
-  Il faut donc utiliser `new static(...)`.
+  Il faut donc utiliser `new static(...)`. -->
 <!-- * Le seul accès possible à la classe `Model` est d'appeler la méthode statique
   `Model::getPdo()` qui renvoie l'unique objet `Model`. L'unicité est garantie
   par `getInstance` qui n'appelle qu'une fois le constructeur. Comme le constructeur 
@@ -365,7 +366,7 @@ la classe `PDO`
    [méthode `fetch()`](http://php.net/manual/fr/pdostatement.fetch.php)
    de la classe `PDOStatement` s'appelle sur les réponses de requêtes et renvoie
    la réponse de la requête dans un format lisible par PHP. Plus précisément,
-   elle renvoie une entrée SQL formattée comme un tableau.  Ce tableau est indexé par les noms
+   elle renvoie une entrée SQL formatée comme un tableau. Ce tableau est indexé par les noms
    des champs de la table de données, et aussi par les numéros des champs. 
    Les valeurs du tableau sont celles de l'entrée SQL.
 
@@ -401,7 +402,7 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
    $voitureFormatTableau = $pdoStatement->fetch()
    ```
 
-   qui renvoie un tableau avec 8 cases: 
+   qui renvoie un tableau avec 8 cases : 
    * `immatriculationBDD`, `couleurBDD`, `marqueBDD` et `nbSiegesBDD` (les champs de la BDD).
    * `0`, `1`, `2` et `3` qui correspondent aux champs de la BDD dans l'ordre. Ces cases
    sont donc un peu redondantes.
@@ -412,7 +413,7 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
 en appelant le constructeur. Affichez la voiture en utilisant la méthode adéquate de `Voiture`. 
 
 1. On souhaite désormais afficher toutes les voitures dans la BDD. On pourrait
-   faire une boucle `while` sur `fetch` tant qu'on a pas parcouru toutes les entrées de la BDD.
+   faire une boucle `while` sur `fetch` tant qu'on n'a pas parcouru toutes les entrées de la BDD.
 
    Heureusement, il existe une syntaxe simplifiée qui fait exactement cela :   
 
@@ -468,7 +469,7 @@ Petru: mettre new ModelVoiture(
    // ...
    }
    ```
-   **Attention :** On ne peut pas appeler le constructeur avec `new Voiture(...)` car la 
+   **Attention :** On ne peut pas appeler le constructeur avec `new Voiture(...)`, car la 
    classe `Voiture` est en cours de déclaration. Il faut donc utiliser `new static(...)`.
 1. Créez une fonction statique
    `getVoitures()` dans la classe `Voiture` qui ne prend pas d'arguments et
@@ -482,11 +483,11 @@ Petru: mettre new ModelVoiture(
 
 1. Maintenant que vous avez bien compris où les noms de colonnes (`immatriculationBDD`, `couleurBDD`, ...)
    de la table `voiture` interviennent dans le tableau `$voitureFormatTableau`, nous allons leur redonner
-   des noms plus classiques:
+   des noms plus classiques :
    1. Changer les noms des colonnes pour `immatriculation`, `couleur`, `marque` et `nbSieges`.
       Pour ceci, dans PhpMyAdmin, cliquez sur l'onglet "Structure" de la table `voiture`, 
       puis "Modifier" sur chaque colonne.
-   1. Modifiez le code PHP à l'endroit où interviennnent ces noms de colonnes.
+   1. Modifiez le code PHP à l'endroit où interviennent ces noms de colonnes.
        <!-- dans Voiture::builder(array $voitureFormatTableau)  -->
       
 
@@ -507,9 +508,9 @@ Le choix du format se fait avec la
 * `PDO::FETCH_NUM` : Chaque entrée SQL est un tableau indexé par le numéro de la colonne 
    commençant à 0 ;
 
-* `PDO::FETCH_BOTH` (valeur par défaut si on ne donne pas d'argument `$fetch_style`): 
+* `PDO::FETCH_BOTH` (valeur par défaut si on ne donne pas d'argument `$fetch_style`) : 
    combinaison de `PDO::FETCH_ASSOC` et `PDO::FETCH_NUM`.
-   retourne un tableau indexé par les noms de colonnes 
+   Ce format retourne un tableau indexé par les noms de colonnes 
    et aussi par les numéros de colonnes, commençant à l'index 0, comme retournés dans le jeu de résultats
 
 * `PDO::FETCH_OBJ` : Chaque entrée SQL est un objet dont les noms d'attributs
@@ -519,16 +520,16 @@ Le choix du format se fait avec la
    objet dont les noms d'attributs sont les noms des champs de la table de la
    BDD. Cependant, on peut dans ce cas spécifier le nom de la classe des
    objets. Pour ce faire, il faut avoir au préalable déclaré le nom de la
-   classe avec la commmande suivante :
+   classe avec la commande suivante :
 
    ```php?start_inline=1
    $pdoStatement->setFetchMode( PDO::FETCH_CLASS, 'class_name');
    ```
 
-   **Note :** Ce format qui semble très pratique a malheureusement un comportement problématique:
-   * il crée d'abord une instance de la  classe demandée (sans passer par le constructeur !) ;
-   * il écrit les attributs correspondants au champs de la BDD (même si ils sont privés ou n'existent pas !) ;
-   * **puis** il appele le constructeur *sans arguments*.
+   **Note :** Ce format qui semble très pratique a malheureusement un comportement problématique :
+   * il crée d'abord une instance de la classe demandée (sans passer par le constructeur !) ;
+   * il écrit les attributs correspondants aux champs de la BDD (même s'ils sont privés ou n'existent pas !) ;
+   * **puis** il appelle le constructeur *sans arguments*.
 
 Dans les TDs, nous vous recommandons d'utiliser au choix :
 * le format par défaut `PDO::FETCH_BOTH` en appelant `fetch()` sans arguments,
@@ -570,7 +571,7 @@ du TP précédent (exercice sur le covoiturage) :
    * `conducteur_login` : VARCHAR 32
    
    **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque
-   nouvelle insertion dans la table.  Pour ce faire, sélectionnez cochez la case
+   nouvelle insertion dans la table. Pour ce faire, sélectionnez cocher la case
    `A_I` (auto-increment) pour le champ `id`.
 
 
@@ -581,3 +582,23 @@ du TP précédent (exercice sur le covoiturage) :
 1. Créez les fonctions statiques `getAllTrajets()` et `getAllUtilisateurs()` qui listent
    tous les trajets / utilisateurs.
 </div>
+
+## (Optionnel) Pour utiliser une base de données locale
+
+Actuellement, votre code PHP se connecte au serveur MySql de l'IUT. Cela marche très bien tant que vous avez une connexion internet.
+
+Si vous souhaitez utiliser une base de données `MySQL` en local, voici quelques instructions : 
+* Dans une installation XAMPP sous Linux, il y a un compte `root` sans mot de passe pour 
+  la base de données et PhpMyAdmin. Voici comment configurer le tout : 
+  * PhpMyAdmin est accessible à l'adresse [http://localhost/phpmyadmin](http://localhost/phpmyadmin).
+    Normalement, il ne nécessite pas de connexion par login / mdp. En effet, vous êtes directement connecté en tant que `root`.  
+    Pour avoir la même configuration qu'à l'IUT, vous pouvez créer une base de données portant votre nom qui servira pour les TDs de PHP.
+  * Pour se connecter à votre BDD dans PHP :
+    * Dans `Conf.php`, l'hôte est `localhost`, la base de données est celle que vous venez de créer. Pour le login, indiquez `root`. Le mot de passe ne sera pas nécessaire.
+    * Dans `Model.php`, changer l'appel au constructeur `new PDO(...)` pour donner 
+    la valeur `null` à l'argument `password`. Ceci a pour effet de vous connecter
+
+sur votre  
+
+(Si vous êtes sur votre machine, allez sur votre PhpMyAdmin à l'adresse
+[http://localhost/phpmyadmin](http://localhost/phpmyadmin)).
