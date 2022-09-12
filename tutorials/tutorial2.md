@@ -162,7 +162,7 @@ ouvrira dans le navigateur.
 
    **Remarque :** Notez qu'en PHP, on appelle une méthode statique à partir du nom de
    la classe comme en Java, mais en utilisant `::` au lieu du `.` en
-   Java. Souvenez-vous que les méthodes classiques (c'est-à-dire pas `static`)
+   Java. Souvenez-vous que les méthodes dynamiques (c'est-à-dire pas `static`)
    s'appellent avec `->` en PHP.
 
 1. Enregistrez votre travail à l'aide de `git add` et `git commit`. Nous
