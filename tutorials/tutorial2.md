@@ -402,7 +402,7 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
    $voitureFormatTableau = $pdoStatement->fetch()
    ```
 
-   qui renvoie un tableau avec 8 cases : 
+   qui, dans notre exemple, renvoie un tableau avec 8 cases : 
    * `immatriculationBDD`, `couleurBDD`, `marqueBDD` et `nbSiegesBDD` (les champs de la BDD).
    * `0`, `1`, `2` et `3` qui correspondent aux champs de la BDD dans l'ordre. Ces cases
    sont donc un peu redondantes.
