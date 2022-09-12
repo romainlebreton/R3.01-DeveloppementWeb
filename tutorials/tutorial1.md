@@ -2,6 +2,7 @@
 title: TD1 &ndash; Introduction à PHP
 subtitle: Hello World, objets et formulaires
 layout: tutorial
+lang: fr
 ---
 
 <!--
@@ -407,7 +408,7 @@ echo "$prenom";
 Testez votre réponse en rajoutant ce code dans `echo.php`.
 
 **Astuce:** 
-* Vous pouvez aussi tester ce code dans le terminal (sans passer par un serveur Web et un navigateur). Pour cela, écrivez votre script dans `testEcho.php` (n'oubliez pas la balise ouvrante `<?php` en début de fichier). Puis, dans le terminal, exécutez `php testEcho.php`.
+* Vous pouvez aussi tester ce code dans le terminal (sans passer par un serveur Web et un navigateur). Pour cela, écrivez votre script dans `echo.php` (n'oubliez pas la balise ouvrante `<?php` en début de fichier). Puis, dans le terminal, exécutez `php echo.php`.
 
    Ce fonctionnement est plus proche de ce que vous auriez fait en Python avec `python script.py`, ou en Java avec `javac program.java` puis `java program` .
 </div>

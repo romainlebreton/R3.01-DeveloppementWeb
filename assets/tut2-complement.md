@@ -1,10 +1,11 @@
 ---
 title:  TD2 &ndash; Compléments
-subtitle: NetBeans, attributs et méthodes statiques
+subtitle: Attributs et méthodes statiques
 layout: tutorial
+lang: fr
 ---
 
-## Créer un projet avec NetBeans
+<!-- ## Créer un projet avec NetBeans
 
 ### Si vous commencez un projet de zéro
 
@@ -45,7 +46,7 @@ existing sources**
 * Ouvrir la page Web : Éxécuter projet ou (`F6`).  
   Cela ouvre dans le navigateur l'URL donnée lors de la configuration complète.
 * Activer/désactiver les commentaires : sélectionner une région de texte et
-  taper `Ctrl+Shift+C`
+  taper `Ctrl+Shift+C` -->
 
 ## Les attributs et méthodes `static`
 
@@ -59,17 +60,39 @@ plusieurs instances différentes d'un même objet en mémoire, mais un attribut
 statique ne sera présent qu'une seule fois en mémoire.
 
 Comme un attribut `static` ne dépend que de la classe, on l'appelle avec la
-syntaxe `Classe::$nom_attribut` en PHP. Par contraste, les attributs classiques
+syntaxe `NomClasse::$nom_attribut` en PHP. Par contraste, les attributs classiques
 s'accèdent par la syntaxe `$instance->attribut`.
 
 De la même manière que `$this` renvoie sur l'instance courante lors de la
-déclaration d'une classe, `self` renvoie la classe courante (uniquement lors de
-la déclaration d'une classe).
+déclaration d'une classe (c-à-d `$instance` dans l'exemple précédent), 
+`static` renvoie la classe appelée (c-à-d `NomClasse` dans l'exemple précédent). 
+Il existe aussi le mot clé `self` qui renvoie au nom de la classe dans laquelle est déclarée le code.
 
-### Fonctions statiques
+Voyons la différence sur un exemple :
 
-Une fonction non statique peut se comprendre comme une fonction qui reçoit un
-argument `$this` en supplément des arguments déclarés. Du coup, une fonction
+```php?start_inline=1
+class Mere {
+    public static function printSelfStatic(){
+        // NomDeClasse::class a pour valeur
+        // la chaine de caractères "NomDeClasse"
+        echo "self : " . self::class . PHP_EOL;
+        echo "static : " . static::class . PHP_EOL;
+    }
+}
+
+class Fille extends Mere {
+}
+
+Fille::printSelfStatic();
+// Affiche :
+// self : Mere
+// static : Fille
+```
+
+### Méthodes statiques
+
+Une méthode non statique (appelé aussi dynamique) peut se comprendre comme une méthode qui reçoit un
+argument `$this` en supplément des arguments déclarés. Du coup, une méthode
 statique est juste une fonction dans laquelle on n'a pas accès à `$this`.
 
 ### Utilisation
@@ -89,80 +112,3 @@ en stockant dans une variable statique le nombre d'instances.
 <!-- - préparer squelette class avec fonction/attribut statique/non statique  -->
 <!-- -> Comment appelle-t-on la fonction/attribut dedans/dehors la classe -->
 
-## Dépôt Git accessible depuis l'extérieur
-{: #tutoGitlab}
-
-Actuellement, vos fichiers PHP sont enregistrés dans un dépôt Git local. Nous
-allons le lier au Gitlab du département Informatique pour que vous puissiez y
-accéder depuis l'extérieur.
-
-Accédez à l'URL
-[https://gitlabinfo.iutmontp.univ-montp2.fr/](https://gitlabinfo.iutmontp.univ-montp2.fr/)
-et identifiez-vous avec vos login/mdp IUT. Dans l'onglet Projet, créez un
-nouveau projet. Une fois le projet créé, trois possibilités :
-
-  1. Vous avez déjà un dépôt à l'IUT avec des fichiers
-
-     Suivez les instructions du paragraphe "Push an existing Git repository" pour
-     lier votre dépôt local à celui du Gitlab :
-
-     ```bash
-     cd chemin_vers_votre_depot_local
-     # Rajoute gitlab comme depot distant (remplacer xxx & yyy)
-     git remote add origin https://gitlabinfo.iutmontp.univ-montp2.fr/xxx/yyy.git
-	 # Pour anticiper une erreur due aux certificats de l'IUT
-	 #              "server certificate verification failed"
-	 git config --global http.sslverify false
-     # Pousse votre depot local sur Gitlab
-     # Plus precisement, pousse toutes les branches locales (--all)
-     # en y associant par défaut le depot distant origin (-u origin)
-     git push -u origin --all
-     ```
-
-  1. Vous avez déjà des fichiers à l'IUT mais pas dans un dépôt Git : Suivez les
-     instructions du paragraphe "Push an existing folder".
-
-  1. Vous n'avez pas encore de dépôt à l'IUT : Suivez les instructions du
-     paragraphe "Create a new repository".
-
-Vous pouvez accéder maintenant à ce dépôt depuis chez vous le clonant avec
-l'adresse donnée dans GitLab. Pensez bien à pousser vos modifications locales
-sur le dépôt distant Gitlab avant la fin de chaque séance avec la commande `git
-push`.
-
-
-### Configuration des clés SSH
-
-Vous en avez assez de devoir taper votre mot de passe à chaque `git push` ou
-`git pull` ? Mettez en place une identification sécurisée automatique à base de clé SSH.
-
-  1. Créez votre clé SSH sur les machines de l'IUT.
-
-     ```bash
-     # Creer un repertoire .ssh dans votre home si necessaire
-     mkdir ~/.ssh
-     cd ~/.ssh
-     # Creation d'une cle publique (id_rsa.pub) et privee (id_rsa)
-     # Nom du fichier ou enregistrer la clé -> Entrée pour garder le nom par defaut id_rsa
-     # Entrez deux fois un mot de passe
-     ssh-keygen
-     ```
-
-     <!-- Besoin de ssh-agent ? ssh-add ~/.ssh/id_rsa (id_rsa optionnel) ? -->
-
-  1. Déposez votre clé SSH sur Gitlab.  
-     Sur [Gitlab Info](https://gitlabinfo.iutmontp.univ-montp2.fr/), allez dans les
-     paramètres utilisateurs puis dans l'onglet latéral SSH Keys. Recopiez le contenu
-     de `id_rsa.pub` (clé publique) dans le champ clé.
-
-  1. Il faut alors changer l'adresse du dépôt distant sur Github. En effet les
-     adresses commencant par `https` nécessitent une authentification alors que
-     celles commencant par `git@` correspondent à SSH :
-	 
-     ```bash
-     # Supprimer l'ancienne adresse du dépôt distant
-	 git remote remove origin
-	 # La recréer avec la bonne adresse en git@...
-	 git remote add origin git@gitlabinfo.iutmontp.univ-montp2.fr:xxx/yyy.git
-     ```
-	 
