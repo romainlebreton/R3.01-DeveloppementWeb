@@ -91,7 +91,7 @@ Fille::printSelfStatic();
 
 ### Méthodes statiques
 
-Une méthode non statique (appelé aussi dynamique) peut se comprendre comme une méthode qui reçoit un
+Une méthode non statique (appelée aussi dynamique) peut se comprendre comme une méthode qui reçoit un
 argument `$this` en supplément des arguments déclarés. Du coup, une méthode
 statique est juste une fonction dans laquelle on n'a pas accès à `$this`.
 

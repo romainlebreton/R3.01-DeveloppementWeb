@@ -36,14 +36,15 @@ soutenance.
 
 **Emploi du temps prévisionnel :**
 
-1. Semaine du 18 Octobre 2021 --  Début projet
-1. Semaine du 25 Octobre 2021 -- Projet
-1. Semaines du 08 Novembre 2021 --  TD 7 -- Cookies & Sessions
-1. Semaine du 15 Novembre 2021 -- TD 8 -- Authentification & Validation par email
-   puis projet
-1. Semaine du 22 Novembre 2021 -- 3h projet
-1. Semaine du 29 Novembre 2021 -- 3h projet
-1. Semaine du 06 et 13 Décembre 2021 -- Soutenances du projet et examen
+1. Semaine du 17 Octobre 2022 --  Début projet
+1. Semaines du 24 Octobre 2022 --  TD 7 -- Cookies & Sessions et projet puis projet
+1. Semaine du 7 Novembre 2022 -- TD 8 -- Authentification & Validation par email puis projet
+1. Semaine du 14 Novembre 2022 -- Projet
+1. Semaine du 21 Novembre 2022 -- Projet
+1. Semaine du 28 Novembre 2022 -- Projet
+1. Semaine du lundi 5 décembre 2022 -- Projet
+1. Semaine du lundi 12 décembre 2022 -- Projet
+1. Semaine du 02 Janvier 2023 -- Soutenances du projet
 
 
 ### Critères de notation
