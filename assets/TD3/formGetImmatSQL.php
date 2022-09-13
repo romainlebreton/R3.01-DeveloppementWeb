@@ -16,25 +16,29 @@
                     <p>
                         <input type="submit" value="Envoyer" />
                     </p>
-                </fieldset> 
+                </fieldset>
             </form>
         </div>
         <?php
 
         require_once 'Model.php';
         require_once 'Voiture.php';
-        
-        function getVoitureByImmat($immat) {
+
+        function getVoitureParImmat(string $immat) : ?Voiture {
             $sql = "SELECT * from voiture2 WHERE immatriculation='$immat'";
-            echo "<p>J'effectue la requête \"$sql\"</p>";
-            $rep = Model::getPDO()->query($sql);
-            $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
-            return $rep->fetch();
+            echo "<p>J'effectue la requête <pre>\"$sql\"</pre></p>";
+            $pdoStatement = Model::getPDO()->query($sql);
+            $voitureTableau = $pdoStatement->fetch();
+
+            if ($voitureTableau !== false) {
+                return Voiture::construire($voitureTableau);
+            }
+            return null;
         }
 
         if (isset($_GET['immatriculation'])) {
-            $v = getVoitureByImmat($_GET['immatriculation']);
-            $v-> afficher();
+            $v = getVoitureParImmat($_GET['immatriculation']);
+            echo $v;
         }
         ?>
     </body>

@@ -1,56 +1,78 @@
 <?php
 
 require_once 'Model.php';
-require_once 'Trajet.php';
 
 class Utilisateur {
 
-    private $login;
-    private $nom;
-    private $prenom;
+    private string $login;
+    private string $nom;
+    private string $prenom;
 
-    // Getter générique (pas expliqué en TD)
-    public function get($nom_attribut) {
-        if (property_exists($this, $nom_attribut))
-            return $this->$nom_attribut;
-        return false;
+    public function __construct(string $login, string $nom, string $prenom)
+    {
+        $this->login = $login;
+        $this->nom = $nom;
+        $this->prenom = $prenom;
     }
 
-    // Setter générique (pas expliqué en TD)
-    public function set($nom_attribut, $valeur) {
-        if (property_exists($this, $nom_attribut))
-            $this->$nom_attribut = $valeur;
-        return false;
+    public static function construire(array $utilisateurTableau) : Utilisateur {
+        return new Utilisateur(
+            $utilisateurTableau["login"],
+            $utilisateurTableau["nom"],
+            $utilisateurTableau["prenom"]
+        );
     }
 
-    // un constructeur
-    public function __construct($login = NULL, $nom = NULL, $prenom = NULL) {
-        if (!is_null($login) && !is_null($nom) && !is_null($prenom)) {
-            $this->login = $login;
-            $this->nom = $nom;
-            $this->prenom = $prenom;
-        }
+    public function getLogin(): string
+    {
+        return $this->login;
+    }
+
+    public function setLogin(string $login): void
+    {
+        $this->login = $login;
+    }
+
+    public function getNom(): string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): void
+    {
+        $this->nom = $nom;
+    }
+
+    public function getPrenom(): string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): void
+    {
+        $this->prenom = $prenom;
     }
 
     // une methode d'affichage.
     public function afficher() {
-        echo "Utilisateur {$this->prenom} {$this->nom} de login {$this->login}";
+        echo "<p> Utilisateur {$this->prenom} {$this->nom} de login {$this->login} </p>";
     }
 
-    public static function getAllUtilisateurs() {
-        try {
-            $pdo = Model::$pdo;
-            $sql = "SELECT * from utilisateur";
-            $rep = $pdo->query($sql);
-            $rep->setFetchMode(PDO::FETCH_CLASS, 'Utilisateur');
-            return $rep->fetchAll();
-        } catch (PDOException $e) {
-            if (Conf::getDebug()) {
-                echo $e->getMessage(); // affiche un message d'erreur
-            } else {
-                echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
-            }
-            die();
+    public function __toString() : string {
+        return "<p> Utilisateur {$this->prenom} {$this->nom} de login {$this->login} </p>";
+    }
+
+    /**
+     * @return Utilisateur[]
+     */
+    public static function getUtilisateurs() : array {
+        $pdoStatement = Model::getPdo()->query("SELECT * FROM utilisateur");
+
+        $utilisateurs = [];
+        foreach($pdoStatement as $utilisateurFormatTableau) {
+            $utilisateurs[] = static::construire($utilisateurFormatTableau);
         }
+
+        return $utilisateurs;
     }
 }

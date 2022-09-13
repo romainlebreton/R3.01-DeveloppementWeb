@@ -1,63 +1,138 @@
 <?php
 
 require_once 'Model.php';
-require_once 'Utilisateur.php';
 
 class Trajet {
 
-    private $id;
-    private $depart;
-    private $arrivee;
-    private $date;
-    private $nbplaces;
-    private $prix;
-    private $conducteur_login;
+    private int $id;
+    private string $depart;
+    private string $arrivee;
+    private string $date;
+    private int $nbPlaces;
+    private int $prix;
+    private string $conducteurLogin;
 
-    // Getter générique (pas expliqué en TD)
-    public function get($nom_attribut) {
-        if (property_exists($this, $nom_attribut))
-            return $this->$nom_attribut;
-        return false;
+    public function __construct(
+        int $id,
+        string $depart,
+        string $arrivee,
+        string $date,
+        int $nbPlaces,
+        int $prix,
+        string $conducteurLogin
+    )
+    {
+        $this->id = $id;
+        $this->depart = $depart;
+        $this->arrivee = $arrivee;
+        $this->date = $date;
+        $this->nbPlaces = $nbPlaces;
+        $this->prix = $prix;
+        $this->conducteurLogin = $conducteurLogin;
     }
 
-    // Setter générique (pas expliqué en TD)
-    public function set($nom_attribut, $valeur) {
-        if (property_exists($this, $nom_attribut))
-            $this->$nom_attribut = $valeur;
-        return false;
+    public static function construire(array $trajetTableau) : Trajet {
+        return new Trajet(
+            $trajetTableau["id"],
+            $trajetTableau["depart"],
+            $trajetTableau["arrivee"],
+            $trajetTableau["date"],
+            $trajetTableau["nbPlaces"],
+            $trajetTableau["prix"],
+            $trajetTableau["conducteurLogin"],
+        );
     }
 
-    // un constructeur
-    public function __construct($data = array()) {
-        if (!empty($data)) {
-            $this->id = $data["id"];
-            $this->depart = $data["depart"];
-            $this->arrivee = $data["arrivee"];
-            $this->date = $data["date"];
-            $this->nbplaces = $data["nbplaces"];
-            $this->prix = $data["prix"];
-            $this->conducteur_login = $data["conducteur_login"];
-        }
+    public function getId(): int
+    {
+        return $this->id;
     }
-    // une methode d'affichage.
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getDepart(): string
+    {
+        return $this->depart;
+    }
+
+    public function setDepart(string $depart): void
+    {
+        $this->depart = $depart;
+    }
+
+    public function getArrivee(): string
+    {
+        return $this->arrivee;
+    }
+
+    public function setArrivee(string $arrivee): void
+    {
+        $this->arrivee = $arrivee;
+    }
+
+    public function getDate(): string
+    {
+        return $this->date;
+    }
+
+    public function setDate(string $date): void
+    {
+        $this->date = $date;
+    }
+
+    public function getNbPlaces(): int
+    {
+        return $this->nbPlaces;
+    }
+
+    public function setNbPlaces(int $nbPlaces): void
+    {
+        $this->nbPlaces = $nbPlaces;
+    }
+
+    public function getPrix(): int
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(int $prix): void
+    {
+        $this->prix = $prix;
+    }
+
+    public function getConducteurLogin(): string
+    {
+        return $this->conducteurLogin;
+    }
+
+    public function setConducteurLogin(string $conducteurLogin): void
+    {
+        $this->conducteurLogin = $conducteurLogin;
+    }
+
     public function afficher() {
-        echo "Ce trajet du {$this->date} partira de {$this->depart} pour aller à {$this->arrivee}.";
+        echo "<p> Ce trajet du {$this->date} partira de {$this->depart} pour aller à {$this->arrivee}. </p>";
     }
 
-    public static function getAllTrajets() {
-        try {
-            $pdo = Model::$pdo;
-            $sql = "SELECT * from trajet";
-            $rep = $pdo->query($sql);
-            $rep->setFetchMode(PDO::FETCH_CLASS, 'Trajet');
-            return $rep->fetchAll();
-        } catch (PDOException $e) {
-            if (Conf::getDebug()) {
-                echo $e->getMessage(); // affiche un message d'erreur
-            } else {
-                echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
-            }
-            die();
+    public function __toString()
+    {
+        return "<p> Ce trajet du {$this->date} partira de {$this->depart} pour aller à {$this->arrivee}. </p>";
+    }
+
+    /**
+     * @return Trajet[]
+     */
+    public static function getTrajets() : array {
+        $pdoStatement = Model::getPDO()->query("SELECT * FROM trajet");
+
+        $trajets = [];
+        foreach($pdoStatement as $trajetFormatTableau) {
+            $trajets[] = static::construire($trajetFormatTableau);
         }
+
+        return $trajets;
     }
 }

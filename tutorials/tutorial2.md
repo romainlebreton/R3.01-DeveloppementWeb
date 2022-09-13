@@ -579,7 +579,7 @@ du TP précédent (exercice sur le covoiturage) :
    que l'auto-incrément marche) et en mettant dans `conducteurLogin` des login
    d'utilisateurs valides (pour éviter des problèmes par la suite).
 
-1. Créez les fonctions statiques `getAllTrajets()` et `getAllUtilisateurs()` qui listent
+1. Créez les fonctions statiques `getTrajets()` et `getUtilisateurs()` qui listent
    tous les trajets / utilisateurs.
 </div>
 

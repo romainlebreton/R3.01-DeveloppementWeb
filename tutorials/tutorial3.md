@@ -2,6 +2,7 @@
 title: TD3 &ndash; Requêtes préparées et association de classes
 subtitle: SQL JOIN
 layout: tutorial
+lang: fr
 ---
 
 <!-- Afficher après la requête préparée la requête qui a vraiment été faite pour
@@ -48,7 +49,7 @@ suivante et accepte la connexion dès que la requête renvoie au moins une
 réponse.
 
 ```sql
-SELECT uid FROM Users WHERE name = '$nom' AND password = '$mot_de_passe';
+SELECT uid FROM Users WHERE name = '$nom' AND password = '$motDePasse';
 ```
 
 Un utilisateur malveillant pourrait taper les renseignements suivants :
@@ -71,21 +72,20 @@ SELECT uid FROM Users WHERE name = 'Dupont';
 L'attaquant peut alors se connecter sous l'utilisateur Dupont avec n'importe
 quel mot de passe. Cette attaque du site Web s'appelle une **injection SQL**.
 
-Vous aurez à la fin du TD un exercice pour simuler une injection SQL.
+Vous aurez un exercice à la fin du TD pour simuler une injection SQL.
 
 *Source :* [https://fr.wikipedia.org/wiki/Injection_SQL](https://fr.wikipedia.org/wiki/Injection_SQL)
 
 ## Les requêtes préparées
 
-Imaginez que nous ayons codé une fonction `getVoitureByImmat($immatriculation)`
+Imaginez que nous ayons codé une fonction `getVoitureParImmat($immatriculation)`
 comme suit
 
 ```php?start_inline=1
-function getVoitureByImmat($immat) {
-    $sql = "SELECT * from voiture WHERE immatriculation='$immat'"; 
-    $rep = Model::getPDO()->query($sql);
-    $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
-    return $rep->fetch();
+function getVoitureParImmat($immatriculation) {
+    $sql = "SELECT * from voiture WHERE immatriculation='$immatriculation'";
+    $pdoStatement = Model::getPdo()->query($sql);
+    return $pdoStatement->fetch();
 }
 ```
 
@@ -98,51 +98,49 @@ Pour empécher les **injections SQL**, nous allons utiliser une fonctionnalité
 qui s'appelle les **requêtes préparées** et qui est fournie par PDO. Voici
 comment les requêtes préparées fonctionnent :
 
-1. On met un *tag* `:nom_tag` en lieu de la valeur à remplacer dans la requête
+1. On met un *tag* `:nomTag` en lieu de la valeur à remplacer dans la requête
 SQL
 
-1. On doit "préparer" la requête avec la commande `prepare($requete_sql)`
+1. On doit "préparer" la requête avec la commande `prepare($requeteSql)`
 
 1. Puis utiliser un tableau pour associer des valeurs aux noms des tags des
    variables à remplacer :
 
    ```php?start_inline=1
-   $values = array("nom_tag" => "une valeur");
+   $values = array("nomTag" => "une valeur"); // Sans deux points devant nomTag
    ```
 
 1. Et exécuter la requête préparée avec `execute($values)`
 
 1. On peut alors récupérer les résultats comme précédemment (e.g. avec
-   `fetchAll()`)
+   `fetch()`)
 
 Voici toutes ces étapes regroupées dans une fonction :
 
 ```php?start_inline=1
-function getVoitureByImmat($immat) {
-    $sql = "SELECT * from voiture WHERE immatriculation=:nom_tag";
+function getVoitureParImmat(string $immatriculation) : Voiture {
+    $sql = "SELECT * from voiture WHERE immatriculation=:immatriculationTag";
     // Préparation de la requête
-    $req_prep = Model::getPDO()->prepare($sql);
+    $pdoStatement = Model::getPdo()->prepare($sql);
 
     $values = array(
-        "nom_tag" => $immat,
+        "immatriculationTag" => $immatriculation,
         //nomdutag => valeur, ...
     );
-    // On donne les valeurs et on exécute la requête	 
-    $req_prep->execute($values);
+    // On donne les valeurs et on exécute la requête
+    $pdoStatement->execute($values);
 
     // On récupère les résultats comme précédemment
-    $req_prep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
-    $tab_voit = $req_prep->fetchAll();
-    // Attention, si il n'y a pas de résultats, on renvoie false
-    if (empty($tab_voit))
-        return false;
-    return $tab_voit[0];
+    // Note: fetch() renvoie false si pas de voiture correspondante
+    $voiture = $pdoStatement->fetch();
+
+    return static::construire($voiture);
 }
 ```
 
 **Remarque :** Il existe une autre solution pour associer une à une les valeurs
 aux variables d'une requête préparée avec la fonction
-[`bindParam`](http://php.net/manual/fr/pdostatement.bindparam.php) de la classe
+[`bindParam()`](http://php.net/manual/fr/pdostatement.bindparam.php) de la classe
 PDO (qui permet de donner le type de la valeur). Cependant nous vous conseillons
 d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 
@@ -153,7 +151,11 @@ d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 1. Copiez la fonction précédente dans la classe `Voiture` en la déclarant
    publique et statique.
 
-1. Testez la fonction `getVoitureByImmat` dans `lireVoiture.php`.
+1. Testez la fonction `getVoitureParImmat` dans `lireVoiture.php`.
+
+1. On souhaite que `getVoitureParImmat` renvoie `null` s'il n'existe pas
+   de voiture d'immatriculation `$immatriculation`. Mettez à jour le code
+   et la déclaration de type. Testez votre code.
 
 </div>
 
@@ -163,7 +165,7 @@ requêtes préparées, sauf éventuellement des requêtes SQL sans variable comm
 
 <div class="exercise">
 
-2. Créez une fonction `save()` dans la classe `Voiture` qui insère la voiture
+2. Créez une fonction `public function sauvegarder() : void` dans la classe `Voiture` qui insère la voiture
 courante (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
 
    ```sql
@@ -176,8 +178,8 @@ courante (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion 
 
 3. Testez cette fonction dans `lireVoiture.php` en créant un objet de classe
    `Voiture` et en l'enregistrant.
-
 </div>
+
 <div class="exercise">
 
 Branchons maintenant notre enregistrement de voiture dans la BDD au formulaire
@@ -185,27 +187,46 @@ de création de voiture du TD1 :
 
 2. Copiez dans le dossier TD3 les fichiers `creerVoiture.php` et
    `formulaireVoiture.html` du TD1.
+
 3. Modifier la page `creerVoiture.php` de sorte qu'elle sauvegarde
    l'objet `Voiture` reçu (en GET ou POST, au choix).
-   
-4. Testez l'insertion grâce au formulaire `formulaireVoiture.html`. 
+
+4. Testez l'insertion grâce au formulaire `formulaireVoiture.html`.
+
+   **Remarque :** Vous aurez sans doute une erreur `Class "Model" not found`.
+   Où inclure `Model.php` : dans `Voiture.php` ou dans `creerVoiture.php` ?  
+   Règle simple : chaque fichier doit inclure les classes dont il a besoin.
+   Comme `Voiture.php` a besoin de la classe `Model` (à cause de l'instruction `Model::getPdo()`),
+   c'est au début de `Voiture.php` qu'il faut faire `require_once "Model.php";`.
+
 5. Vérifiez dans PhpMyAdmin que les voitures sont bien sauvegardées.
+
 6. Essayez de rajouter une voiture dont un champ contient un guillemet simple
    `'`, par exemple une marque `"Roll's Royce"`. Est-ce qu'elle a bien été
    sauvegardée ? Si ce n'est pas le cas, c'est sûrement que vous n'avez pas
    utilisé les requêtes préparées.
 
-**N'oubliez pas** de protéger tout votre code contenant du PDO
-  (`getAllVoitures`, ...)  avec des try - catch comme dans `Model`. En effet,
+
+<!--
+TODO:  https://phpdelusions.net/pdo#errors
+Reporting PDO errors
+TL;DR:
+Despite what all other tutorials say, you don't need a try..catch operator to report PDO errors. Catch an exception only if you have a handling scenario other than just reporting it. Otherwise just let it bubble up to a site-wide handler (note that you don't have to write one, there is a basic built-in handler in PHP, which is quite good).
+
+The only exception (pun not intended) is the creation of the PDO instance, which in case of error might reveal the connection credentials (that would be the part of the stack trace).
+-->
+
+<!-- **N'oubliez pas** de protéger tout votre code contenant du PDO
+  (`getVoitures`, ...)  avec des try - catch comme dans `Model`. En effet,
   chaque ligne de code liée à PDO est susceptible de lancer une exception,
-  qu'il nous faut capturer et traiter (rôle du `catch`).
+  qu'il nous faut capturer et traiter (rôle du `catch`). -->
 
 </div>
 
 ## Création des tables de notre site de covoiturage
 
 Reprenons les classes du TD précédent sur le covoiturage afin d'y ajouter la
-gestion de la persistance. 
+gestion de la persistance.
 
 <div class="exercise">
 Si vous ne l'avez pas déjà fait, créez des tables `utilisateur` et `trajet` comme suit :
@@ -227,25 +248,25 @@ Si vous ne l'avez pas déjà fait, créez des tables `utilisateur` et `trajet` c
    * `depart` : VARCHAR 32
    * `arrivee` : VARCHAR 32
    * `date` : DATE
-   * `nbplaces` : INT
+   * `nbPlaces` : INT
    * `prix` : INT
-   * `conducteur_login` : VARCHAR 32
-   
+   * `conducteurLogin` : VARCHAR 32
+
    **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque nouvelle
    insertion dans la table.  Pour ce faire, cochez la case `A_I` (auto-increment) pour le champ `id`.
 
    **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
 
 2. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
-   que l'auto-incrément marche) et en mettant dans `conducteur_login` des login
+   que l'auto-incrément marche) et en mettant dans `conducteurLogin` des login
    d'utilisateurs valides (pour éviter des problèmes par la suite).
 
 </div>
 
 ## Premier lien entre `utilisateur` et `trajet`
 
-Vous avez couvert dans le cours "Analyse, Conception et Développements
-d'Applications" les diagrammes de classes. Ce type de diagramme est utile pour
+Vous avez couvert dans le cours *R2.01 -- Développement orienté objets*
+les diagrammes de classes. Ce type de diagramme est utile pour
 penser la base de donnée d'une application Web. Voici le notre :
 
 <img alt="Diagramme entité association"
@@ -255,11 +276,11 @@ src="../assets/DiagClasse.png" style="margin-left:auto;margin-right:auto;display
 utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
 
 **Notre solution :** Comme il n'y a qu'un conducteur par trajet, nous allons
-  rajouter un champ `conducteur_login` à la table `trajet`.
+  rajouter un champ `conducteurLogin` à la table `trajet`.
 
 
 
-On souhaite que le champ `trajet.conducteur_login` corresponde à tout moment à un
+On souhaite que le champ `trajet.conducteurLogin` corresponde à tout moment à un
 login de conducteur `utilisateur.login`. Vous souvenez-vous quelle est la
 fonctionnalité des bases de données qui permet ceci ?
 
@@ -270,24 +291,24 @@ fonctionnalité des bases de données qui permet ceci ?
 
 Voici les étapes pour faire ce lien :
 
-1. À l'aide de l'interface de PhpMyAdmin, faites de `trajet.conducteur_login` un
+1. À l'aide de l'interface de PhpMyAdmin, faites de `trajet.conducteurLogin` un
    **index**.
 
    **Aide:** Dans l'onglet `Structure` de la table `trajet`, cliquez sur l'icône de
-   l'action `index` en face du champ `conducteur_login`.
+   l'action `index` en face du champ `conducteurLogin`.
 
 
-   **Plus de détails:** Dire que le champ `conducteur_login` est un **index** revient à
-   dire à MySql que l'on veut trouver rapidement les lignes qui ont un `conducteur_login`
+   **Plus de détails:** Dire que le champ `conducteurLogin` est un **index** revient à
+   dire à MySql que l'on veut trouver rapidement les lignes qui ont un `conducteurLogin`
    donné. Du coup, MySql va construire une structure de donnée pour permettre cette
    recherche rapide.  Une **clé étrangère** est nécessairement un **index** car on
    a besoin de ce genre de recherches pour tester rapidement la contrainte de clé
    étrangère.
 
-2. Rajoutez la contrainte de **clé étrangère** entre `trajet.conducteur_login` et
+2. Rajoutez la contrainte de **clé étrangère** entre `trajet.conducteurLogin` et
    `utilisateur.login`. Pour ceci, allez dans l'onglet `Structure` de la table
    `trajet` et cliquez sur `Gestion des relations` pour accéder à la
-   gestion des clés étrangères (ou `Vue relationnelle` pour les PHPMyAdmin plus récents).  
+   gestion des clés étrangères (ou `Vue relationnelle` pour les PHPMyAdmin plus récents).
 
    Nous allons utiliser le comportement `ON DELETE CASCADE` pour qu'une
    association soit supprimé si la clé étrangère est supprimée, et le
@@ -304,7 +325,7 @@ Voici les étapes pour faire ce lien :
 <!--
 Plutôt que le texte: "Reprendre les classes du TP précédent sur le covoiturage et y ajouter l'utilisation d'une base de données. Chaque utilisateur sera identifié par un id, de même pour chaque trajet."
 
--> Il faudrait donner soit le diagramme de classe, soit mieux entités/associations de trajet (annonce), voiture et utilisateur. 
+-> Il faudrait donner soit le diagramme de classe, soit mieux entités/associations de trajet (annonce), voiture et utilisateur.
 -->
 
 
@@ -322,22 +343,22 @@ utilise une table de jointure.</span>
 
 Nous choisissons donc de créer une table `passager` qui contiendra deux champs :
 
-* l'identifiant INT `trajet_id` d'un trajet et
-* l'identifiant VARCHAR(32) `utilisateur_login` d'un utilisateur.
+* l'identifiant INT `trajetId` d'un trajet et
+* l'identifiant VARCHAR(32) `utilisateurLogin` d'un utilisateur.
 
 Pour inscrire un utilisateur à un trajet, il suffit d'écrire la ligne
-correspondante dans la table `passager` avec leur `utilisateur_login` et leur
-`trajet_id`.
+correspondante dans la table `passager` avec leur `utilisateurLogin` et leur
+`trajetId`.
 
 **Question :** Quelle est la clé primaire de la table `passager` ?
 
 **Réponse:** <span style="color:#FCFCFC">Le couple
-  (trajet_id,utilisateur_login). Si vous choisissez trajet_id seul comme clé
+  (trajetId,utilisateurLogin). Si vous choisissez trajetId seul comme clé
   primaire, un trajet aura au plus un passager, et si vous choisissez
-  utilisateur_login, chaque utilisateur ne pourra être passager que sur un
+  utilisateurLogin, chaque utilisateur ne pourra être passager que sur un
   unique trajet.</span>
 
-<div class="exercise"> 
+<div class="exercise">
 1. Créer la table `passager` en utilisant l'interface de PhpMyAdmin.
 
    **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
@@ -345,8 +366,8 @@ correspondante dans la table `passager` avec leur `utilisateur_login` et leur
 1. Assurez-vous que vous avez bien le bon couple en tant que clé primaire. Cela
    se voit dans `Gestion des relations`.
 
-2. Rajoutez la contrainte de **clé étrangère** entre `passager.trajet_id` et
-`trajet.id`, puis entre `passager.utilisateur_login` et
+2. Rajoutez la contrainte de **clé étrangère** entre `passager.trajetId` et
+`trajet.id`, puis entre `passager.utilisateurLogin` et
 `utilisateur.login`. Utiliser encore les comportements `ON DELETE CASCADE` et
 `ON UPDATE CASCADE` pour qu'une association soit mise à jour si la clé étrangère
 est mise à jour.
@@ -385,15 +406,15 @@ pouvez vous rafraîchir la mémoire en lisant
 
 <div class="exercise">
 
-1. Créer une `public static function findPassagers($id)` dans `Trajet.php` qui
+1. Créer une `public static function getPassagers($id)` dans `Trajet.php` qui
    prendra en entrée un identifiant de trajet. Cette fonction devra retourner un
    tableau d'objets de classe `Utilisateur` correspondant aux utilisateurs
    inscrits au trajet d'identifiant `$id` en faisant la requête adéquate.
-   
-   <!-- Si on avait codé getTrajetById avant, on pourrait coder $t->findPassagers() ? -->
-   
+
+   <!-- Si on avait codé getTrajetById avant, on pourrait coder $t->getPassagers() ? -->
+
    **Indices :**
-   
+
    * Utiliser une requête à base d'`INNER JOIN`. Une bonne stratégie
    pour développer la bonne requête est d'essayer des requêtes dans l'onglet SQL de
    PhpMyAdmin jusqu'à tenir la bonne.
@@ -408,19 +429,19 @@ pouvez vous rafraîchir la mémoire en lisant
      du `require_once` vous mets à l'abri d'une inclusion multiple du même
      fichier de déclaration de classe.
 
-2. Testons votre fonction. Créez une page `testFindUtil.php` qui
+2. Testons votre fonction. Créez une page `testGetPassagers.php` qui
 
    1. charge les classes nécessaires,
-   3. appelle la fonction `findPassagers($id)` avec un identifiant de trajet
+   3. appelle la fonction `getPassagers($id)` avec un identifiant de trajet
       existant,
    4. affiche les utilisateurs renvoyés grâce à la fonction `afficher`.
 
-3. Créez un formulaire `formFindUtil.php` de méthode `GET` avec un champ texte
+3. Créez un formulaire `formGetPassagers.php` de méthode `GET` avec un champ texte
 où l'on rentrera l'identifiant d'un trajet. La page de traitement de ce
-formulaire sera `testFindUtil.php`. Modifiez `testFindUtil.php` pour qu'il
+formulaire sera `testGetPassagers.php`. Modifiez `testGetPassagers.php` pour qu'il
 récupère l'identifiant envoyé par le formulaire.
 
-**Avez-vous** bien utilisé une requête préparée dans `findPassagers` ?
+**Avez-vous** bien utilisé une requête préparée dans `getPassagers` ?
 
 </div>
 
@@ -443,81 +464,123 @@ Ce fichier contient un formulaire qui affiche les informations d'une voiture
 **Lisez** le code pour être sûr de bien comprendre le fonctionnement de cette
   page (et demandez au professeur si vous ne comprennez pas tout !).
 
-1. Le point clé de ce fichier est que la fonction `getVoitureByImmat` a été
+1. Le point clé de ce fichier est que la fonction `getVoitureParImmat` a été
    codée sans requête préparée et est vulnérable aux injections SQL.
-   
+
    ```php?start_inline=1
-   function getVoitureByImmat($immat) {
-       $sql = "SELECT * from voiture2 WHERE immatriculation='$immat'"; 
-       $rep = Model::getPDO()->query($sql);
-       $rep->setFetchMode(PDO::FETCH_CLASS, 'Voiture');
-       return $rep->fetch();
+   function getVoitureParImmat(string $immat) : ?Voiture {
+      $sql = "SELECT * from voiture2 WHERE immatriculation='$immat'";
+      echo "<p>J'effectue la requête <pre>\"$sql\"</pre></p>";
+      $pdoStatement = Model::getPDO()->query($sql);
+      $voitureTableau = $pdoStatement->fetch();
+
+      if ($voitureTableau !== false) {
+            return Voiture::construire($voitureTableau);
+      }
+      return null;
    }
    ```
 
    **Trouvez** ce qu'il faut taper dans le formulaire pour que
-     `getVoitureByImmat` vide la table `voiture2` (SQL Truncate).
+     `getVoitureParImmat` vide la table `voiture2` (SQL Truncate).
 
 <!--
 '; TRUNCATE voiture2; --
 -->
 
-### Un cas concret
+### Deux cas concrets
 
 Pour éviter les radars, il y a des petits malins.
 
  <p style="text-align:center">
- ![Requête HTTP]({{site.baseurl}}/assets/injection-sql-radar.jpg)
+ ![Injection SQL Radar]({{site.baseurl}}/assets/injection-sql-radar.jpg)
  </p>
 
+Ou un petit XKCD 
+
+ <p style="text-align:center">
+ ![Injection SQL Ecole]({{site.baseurl}}/assets/exploits_of_a_mom.png)
+ </p>
 
 ## Et si le temps le permet...
 
-Si vous êtes en avance sur les TDs, voici une liste d'idées pour compléter notre
+Si vous êtes bien avancés sur les TDs, voici une liste d'idées pour compléter notre
 site.
 
 ### Liste des trajets d'un utilisateur
 
-De la même manière que dans l'exercice sur `findPassager()`, utilisons un
+De la même manière que dans l'exercice sur `getPassagers()`, utilisons un
 jointure SQL pour trouver tous les trajets d'un utilisateur.
 
 <div class="exercise">
 
-1. Créez une `public static function findTrajets($login)`
+1. Créez une `public static function getTrajets($login)`
 dans `Utilisateur.php` qui prendra en entrée un login d'utilisateur `$login` et
 retourne les trajets auxquels il est inscrit en tant que passager.
 
-2. Créez une page de test `testFindTraj.php` et un
-formulaire `formFindTraj.php`.
+2. Créez une page de test `testGetTrajets.php` et un
+formulaire `formGetTrajets.php`.
 
 </div>
 
 ### Désinscrire un utilisateur d'un trajet et inversement
 
-Rajoutons une dernière fonctionnalité : dans une future vue qui listera les
+Rajoutons une fonctionnalité : dans une future vue qui listera les
 trajets d'un utilisateur, nous voudrions avoir un lien 'Désinscrire' qui
-enlèverait l'utilisateur courant du trajet sélectionné.
+enlèvera l'utilisateur courant du trajet sélectionné.
 
 <div class="exercise">
 
-1. Créer une `public static function deletePassager($data)` dans `Trajet.php`
-qui prendra en entrée un tableau associatif `$data` avec deux champs
-`$data['trajet_id']` et `$data['utilisateur_login']`. Cette fonction devra
-désinscrire l'utilisateur `utilisateur_login` du trajet `trajet_id`.
+1. Créer une `public static function supprimePassager($trajetId, $utilisateurLogin)` dans `Trajet.php`.
+   Cette fonction devra désinscrire l'utilisateur `utilisateurLogin` du trajet `trajetId`.
 
-2. Créez une page de test `testDelPassager.php` et un formulaire
-   `formDelPassager.php` de sorte que l'on puisse rentrer un identifiant de
+2. Créez une page de test `testSupprimePassager.php` et un formulaire
+   `formSupprimePassager.php` de sorte que l'on puisse rentrer un identifiant de
    trajet et un login d'utilisateur dans le formulaire, et que l'envoi du
-   formulaire redirige sur `testDelPassager.php` qui supprimera le passager dans
+   formulaire redirige sur `testSupprimePassager.php` qui supprimera le passager dans
    la BDD.
 
 </div>
 
+### Gestion des erreurs
+
+Traitons plus systématiquement tous les cas particuliers. Pour l'instant, 
+les méthodes suivantes sont correctement codés :
+* `getVoitures()` de `Voiture.php` n'a pas de cas particulier,
+* `getVoitureParImmat()` de `Voiture.php` gère une immatriculation inconnue en renvoyant la voiture `null`.
+
+Par contre, vous allez améliorer les méthodes suivantes :
+* `sauvegarder()` de `Voiture.php` ne traite pas :
+  * le cas d'une voiture existant déjà en base de donnée (`SQLSTATE[23000]: Integrity constraint violation`)
+  * le cas d'un problème de données :
+    * chaîne de caractères trop longue (`SQLSTATE[22001]: String data, right truncation`)
+    * entier trop grand (`SQLSTATE[22003]: Numeric value out of range`)
+* `supprimePassager()` de `Trajet.php` ne traite pas le cas d'un passage inexistant.
+
+<div class="exercise">
+
+1. Pour la méthode `sauvegarder()`, les cas particuliers génèrent une exception de la classe `PDOException`.
+   Modifiez la déclaration de type de la méthode pour qu'elle retourne un booléen 
+   pour indiquer si la sauvegarde s'est bien passée. Modifiez la méthode pour intercepter les `PDOException`
+   avec un `try/catch` et retourner `false` en cas de problème.
+
+1. Pour la méthode `supprimePassager()`, utilisez la méthode
+   [`rowCount()`](https://www.php.net/manual/fr/pdostatement.rowcount.php)
+   de la classe `PDOStatement` pour vérifier que la requête de suppression a bien supprimé une ligne de la BDD.
+
+</div>
+
+Documentation: 
+* [SQLSTATE error codes](https://docs.oracle.com/cd/E15817_01/appdev.111/b31228/appd.htm)
+  <!-- *SQLSTATE : 23000 : 23 Integrity constraint violation -->
+* [MySql Error Reference](https://dev.mysql.com/doc/mysql-errors/8.0/en/server-error-reference.html)
+   <!-- Error number: 1062; Symbol: ER_DUP_ENTRY; SQLSTATE: 23000
+   Message: Duplicate entry '%s' for key %d -->
+
 
 ### (Optionnel) Quelques idées complémentaires
 
-Si vous êtes en avance sur les TDs, voici une liste d'idées pour compléter notre
-site :
+Voici une liste d'idées pour compléter notre site :
 
 1. Notre liste des trajets d'un utilisateur est incomplète : il manque les
    trajets dont il est conducteur (et non passager). La page qui liste les
@@ -526,5 +589,13 @@ site :
 1. Similairement, nous avons oublié le conducteur de la liste des passagers d'un
    trajet. Le rajouter avec un statut à part.
 1. Vous pouvez aussi éventuellement mettre en place des `trigger` dans votre SQL
-   pour gérer le nombre de passager par véhicule ...
-
+   pour gérer le nombre de passagers par véhicule ...
+1. Nous n'avons pas intégré les voitures aux utilisateurs, ni aux trajets dans notre schéma
+   de bases de données.  
+   Que pourriez-vous faire ? À quelles relations pensez-vous entre ces tables ?
+   <!--
+   Un utilisateur possède des voitures
+   Une voiture a un seul propriétaire
+   Un Trajet nécessite une voiture
+   Une voiture peut servir dans plusieurs trajets
+    -->
