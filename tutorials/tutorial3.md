@@ -89,12 +89,12 @@ function getVoitureParImmat($immatriculation) {
 }
 ```
 
-Cette fonction marche mais pose un gros problème de sécurité ; elle est
+Cette fonction marche, mais pose un gros problème de sécurité ; elle est
 vulnérable aux **injections SQL** et un utilisateur pourrait faire comme dans
 l'exemple précédent pour exécuter le code SQL qu'il souhaite.
 
 
-Pour empécher les **injections SQL**, nous allons utiliser une fonctionnalité
+Pour empêcher les **injections SQL**, nous allons utiliser une fonctionnalité
 qui s'appelle les **requêtes préparées** et qui est fournie par PDO. Voici
 comment les requêtes préparées fonctionnent :
 
@@ -141,7 +141,7 @@ function getVoitureParImmat(string $immatriculation) : Voiture {
 **Remarque :** Il existe une autre solution pour associer une à une les valeurs
 aux variables d'une requête préparée avec la fonction
 [`bindParam()`](http://php.net/manual/fr/pdostatement.bindparam.php) de la classe
-PDO (qui permet de donner le type de la valeur). Cependant nous vous conseillons
+PDO (qui permet de donner le type de la valeur). Cependant, nous vous conseillons
 d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 
 <div class="exercise">
@@ -253,13 +253,13 @@ Si vous ne l'avez pas déjà fait, créez des tables `utilisateur` et `trajet` c
    * `conducteurLogin` : VARCHAR 32
 
    **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque nouvelle
-   insertion dans la table.  Pour ce faire, cochez la case `A_I` (auto-increment) pour le champ `id`.
+   insertion dans la table. Pour ce faire, cochez la case `A_I` (auto-increment) pour le champ `id`.
 
    **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
 
 2. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
-   que l'auto-incrément marche) et en mettant dans `conducteurLogin` des login
-   d'utilisateurs valides (pour éviter des problèmes par la suite).
+   que l'auto-incrément marche) et en mettant dans `conducteurLogin` un login
+   d'utilisateur valide (pour éviter des problèmes par la suite).
 
 </div>
 
@@ -267,7 +267,7 @@ Si vous ne l'avez pas déjà fait, créez des tables `utilisateur` et `trajet` c
 
 Vous avez couvert dans le cours *R2.01 -- Développement orienté objets*
 les diagrammes de classes. Ce type de diagramme est utile pour
-penser la base de donnée d'une application Web. Voici le notre :
+penser la base de donnée d'une application Web. Voici le nôtre :
 
 <img alt="Diagramme entité association"
 src="../assets/DiagClasse.png" style="margin-left:auto;margin-right:auto;display:block;">
@@ -284,7 +284,7 @@ On souhaite que le champ `trajet.conducteurLogin` corresponde à tout moment à 
 login de conducteur `utilisateur.login`. Vous souvenez-vous quelle est la
 fonctionnalité des bases de données qui permet ceci ?
 
-**Réponse:** <span style="color:#FCFCFC">Il faut utiliser des clés
+**Réponse :** <span style="color:#FCFCFC">Il faut utiliser des clés
   étrangères.</span>
 
 <div class="exercise">
@@ -294,14 +294,14 @@ Voici les étapes pour faire ce lien :
 1. À l'aide de l'interface de PhpMyAdmin, faites de `trajet.conducteurLogin` un
    **index**.
 
-   **Aide:** Dans l'onglet `Structure` de la table `trajet`, cliquez sur l'icône de
+   **Aide :** Dans l'onglet `Structure` de la table `trajet`, cliquez sur l'icône de
    l'action `index` en face du champ `conducteurLogin`.
 
 
-   **Plus de détails:** Dire que le champ `conducteurLogin` est un **index** revient à
+   **Plus de détails :** Dire que le champ `conducteurLogin` est un **index** revient à
    dire à MySql que l'on veut trouver rapidement les lignes qui ont un `conducteurLogin`
    donné. Du coup, MySql va construire une structure de donnée pour permettre cette
-   recherche rapide.  Une **clé étrangère** est nécessairement un **index** car on
+   recherche rapide. Une **clé étrangère** est nécessairement un **index**, car on
    a besoin de ce genre de recherches pour tester rapidement la contrainte de clé
    étrangère.
 
@@ -336,7 +336,7 @@ Plutôt que le texte: "Reprendre les classes du TP précédent sur le covoiturag
 **Question :** Comment implémenteriez-vous l'association *passager* entre
 utilisateurs et trajets dans la BDD en tenant compte de ses multiplicités ?
 
-**Réponse:** <span style="color:#FCFCFC">Comme la relation *passager* est non
+**Réponse :** <span style="color:#FCFCFC">Comme la relation *passager* est non
 bornée (on ne limite pas le nombre d'utilisateurs d'un trajet et inversement), on
 utilise une table de jointure.</span>
 
@@ -352,7 +352,7 @@ correspondante dans la table `passager` avec leur `utilisateurLogin` et leur
 
 **Question :** Quelle est la clé primaire de la table `passager` ?
 
-**Réponse:** <span style="color:#FCFCFC">Le couple
+**Réponse :** <span style="color:#FCFCFC">Le couple
   (trajetId,utilisateurLogin). Si vous choisissez trajetId seul comme clé
   primaire, un trajet aura au plus un passager, et si vous choisissez
   utilisateurLogin, chaque utilisateur ne pourra être passager que sur un
@@ -376,7 +376,7 @@ est mise à jour.
 la table `passager` ne soit pas vide.
 
 4. Vous allez maintenant vous assurer de la bonne gestion des clés étrangères en
-testant le comportement `ON DELETE CASCADE`.  Pour cela :
+testant le comportement `ON DELETE CASCADE`. Pour cela :
    1. créez un trajet correspondant à un certain conducteur,
    1. puis inscrivez des passagers pour ce trajet
    1. supprimez ensuite le conducteur en question de la table `utilisateur` et
@@ -450,19 +450,19 @@ récupère l'identifiant envoyé par le formulaire.
 Si vous êtes en avance sur les TDs, nous vous proposons de créer un exemple
 d'injection SQL. Mettons en place notre attaque SQL :
 
-1. Pour ne pas supprimer une table importante, créons un table `voiture2` qui ne craint rien :
+1. Pour ne pas supprimer une table importante, créons une table `voiture2` qui ne craint rien :
     * allez dans PHPMyAdmin et cliquez sur votre base de donnée (celle dont le
      nom est votre login à l'IUT)
    * Dans l'onglet SQL `Importer`, donnez le fichier
      [`voiture2.sql`]({{site.baseurl}}/assets/TD3/voiture2.sql) qui créera une table
-     `voiture2` avec quelques voitures
- 1. Nous vous fournissons le fichier PHP que nous allons attaquer :
+     `voiture2` avec quelques voitures.
+1. Nous vous fournissons le fichier PHP que nous allons attaquer :
 [`formGetImmatSQL.php`]({{site.baseurl}}/assets/TD3/formGetImmatSQL.php)  
 Ce fichier contient un formulaire qui affiche les informations d'une voiture
-étant donnée son immatriculation.  
+étant donné son immatriculation.  
 **Testez** ce fichier en donnant une immatriculation existante.  
 **Lisez** le code pour être sûr de bien comprendre le fonctionnement de cette
-  page (et demandez au professeur si vous ne comprennez pas tout !).
+  page (et demandez au professeur si vous ne comprenez pas tout !).
 
 1. Le point clé de ce fichier est que la fonction `getVoitureParImmat` a été
    codée sans requête préparée et est vulnérable aux injections SQL.
@@ -509,8 +509,7 @@ site.
 
 ### Liste des trajets d'un utilisateur
 
-De la même manière que dans l'exercice sur `getPassagers()`, utilisons un
-jointure SQL pour trouver tous les trajets d'un utilisateur.
+De la même manière que dans l'exercice sur `getPassagers()`, utilisons une jointure SQL pour trouver tous les trajets d'un utilisateur.
 
 <div class="exercise">
 
@@ -570,10 +569,10 @@ Par contre, vous allez améliorer les méthodes suivantes :
 
 </div>
 
-Documentation: 
+Documentation : 
 * [SQLSTATE error codes](https://docs.oracle.com/cd/E15817_01/appdev.111/b31228/appd.htm)
   <!-- *SQLSTATE : 23000 : 23 Integrity constraint violation -->
-* [MySql Error Reference](https://dev.mysql.com/doc/mysql-errors/8.0/en/server-error-reference.html)
+* [MySql error reference](https://dev.mysql.com/doc/mysql-errors/8.0/en/server-error-reference.html)
    <!-- Error number: 1062; Symbol: ER_DUP_ENTRY; SQLSTATE: 23000
    Message: Duplicate entry '%s' for key %d -->
 
