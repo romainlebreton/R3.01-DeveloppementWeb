@@ -182,7 +182,7 @@ de donnée.
 1. Commençons par établir une connexion à la BDD. Créez un fichier `Model.php`
    déclarant une classe `Model`, qui possédera 
    * un attribut `private PDO $pdo`,
-   * un constructeur sans arguments qui ne fait rien pour l'instant (à générer avec PhpStorm),
+   * un constructeur sans argument qui ne fait rien pour l'instant (à générer avec PhpStorm),
    * un accesseur (getter) `getPdo()` à l'attribut `$pdo` (à générer avec PhpStorm). 
 
 2. Dans le constructeur, nous allons initialiser l'attribut `$pdo` en lui

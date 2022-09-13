@@ -628,8 +628,8 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
            $this->nbSieges = $nbSieges;
        } 
               
-       // une methode d'affichage.
-       public function afficher() {
+       // Pour pouvoir convertir un objet en chaîne de caractères
+       public function __toString() {
          // À compléter dans le prochain exercice
        }
    }
@@ -660,8 +660,7 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    [fonction `substr` *substring*](http://php.net/manual/fr/function.substr.php)).
 
 
-4. Remplissez `afficher()` qui permet d'afficher les informations de la voiture
-   courante.  
+4. Remplissez `__toString()` qui permet de convertir une voiture en chaine de caractères.
    <!-- (Regardez le code du constructeur de la classe Voiture : comme en
    Java, on peut utiliser le mot-clé `$this` mais suivi de `->`) ; -->
 
@@ -711,7 +710,7 @@ n'émettent qu'un warning si le fichier n'est pas trouvé (au lieu d'une erreur)
 
    <!-- $voiture1 = new Voiture('Renault','Bleu','256AB34');  -->
 
-   * Affichez cette voiture à l'aide de sa méthode `afficher()` .
+   * Affichez cette voiture avec un `echo`, ce qui appellera implicitement la méthode `__toString()`.
 
 3. Testez votre page sur `webinfo` :  
    [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD1/testVoiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD1/testVoiture.php)
@@ -751,10 +750,11 @@ function ServeurWeb(Requete $requete) : Reponse {
 [Documentation PHP](https://www.php.net/manual/fr/language.types.declarations.php)
 
 1. Mettez à jour `Voiture.php` pour déclarer `marque`, `couleur` et `immatriculation` comme `string`, et `nbSieges` comme `int` dans
-   * les attributs de classes
-   * les arguments des setters
-   * les sorties des getters
-   * les arguments du constructeur
+   * les attributs de classes,
+   * les arguments des setters,
+   * les sorties des getters,
+   * les arguments du constructeur,
+   * le type de sortie de `__toString()`.
 
    **Note :** Pour pouvoir utiliser les déclarations de type, il faut indiquer à PhpStorm que vous voulez utiliser la version 8.1 du langage PHP. Pour ceci, cliquez en bas à droite de l'IDE sur `PHP: *.*` pour basculer vers `PHP: 8.1`.
 
