@@ -181,7 +181,7 @@ de donnée.
 
 1. Commençons par établir une connexion à la BDD. Créez un fichier `Model.php`
    déclarant une classe `Model`, qui possédera 
-   * un attribut `private PDO $pdo`,
+   * un attribut `private $pdo`,
    * un constructeur sans argument qui ne fait rien pour l'instant (à générer avec PhpStorm),
    * un accesseur (getter) `getPdo()` à l'attribut `$pdo` (à générer avec PhpStorm). 
 
@@ -596,9 +596,4 @@ Si vous souhaitez utiliser une base de données `MySQL` en local, voici quelques
   * Pour se connecter à votre BDD dans PHP :
     * Dans `Conf.php`, l'hôte est `localhost`, la base de données est celle que vous venez de créer. Pour le login, indiquez `root`. Le mot de passe ne sera pas nécessaire.
     * Dans `Model.php`, changer l'appel au constructeur `new PDO(...)` pour donner 
-    la valeur `null` à l'argument `password`. Ceci a pour effet de vous connecter
-
-sur votre  
-
-(Si vous êtes sur votre machine, allez sur votre PhpMyAdmin à l'adresse
-[http://localhost/phpmyadmin](http://localhost/phpmyadmin)).
+    la valeur `null` à l'argument `password`. Ceci a pour effet de vous connecter sans mot de passe.
