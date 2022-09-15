@@ -42,8 +42,6 @@ soutenance.
 1. Semaine du 14 Novembre 2022 -- Projet
 1. Semaine du 21 Novembre 2022 -- Projet
 1. Semaine du 28 Novembre 2022 -- Projet
-1. Semaine du lundi 5 décembre 2022 -- Projet
-1. Semaine du lundi 12 décembre 2022 -- Projet
 1. Semaine du 02 Janvier 2023 -- Soutenances du projet
 
 
