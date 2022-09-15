@@ -441,36 +441,15 @@ en appelant le constructeur. Affichez la voiture en utilisant la méthode adéqu
 
 Nous allons maintenant isoler le code qui retourne toutes les voitures et en faire une méthode de `Voiture`.
 
-<!-- TODO: à changer
-$voitures = [];
-foreach ($pdoStatement as $row){
-   $voitures[] = new ModelVoiture(
-      $row["marque"],
-      $row["couleur"],
-      $row["immatriculation"],
-      $row["nbSieges"],
-   );
-}
-
-Petru: mettre new ModelVoiture(
-      $row["marque"],
-      $row["couleur"],
-      $row["immatriculation"],
-      $row["nbSieges"],
-   );
-
-   dans une fonction buildFromArray ???
- -->
-
 1. Isolez le code qui construit l'objet `Voiture` à partir du tableau donné par `fetch` 
    (*e.g.* `$voitureFormatTableau`) dans une méthode
    ```php
-   public static function builder(array $voitureFormatTableau) : Voiture {
+   public static function construire(array $voitureFormatTableau) : Voiture {
    // ...
    }
    ```
-   **Attention :** On ne peut pas appeler le constructeur avec `new Voiture(...)`, car la 
-   classe `Voiture` est en cours de déclaration. Il faut donc utiliser `new static(...)`.
+   <!-- **Attention :** On ne peut pas appeler le constructeur avec `new Voiture(...)`, car la 
+   classe `Voiture` est en cours de déclaration. Il faut donc utiliser `new static(...)`. -->
 1. Créez une fonction statique
    `getVoitures()` dans la classe `Voiture` qui ne prend pas d'arguments et
    renvoie le tableau d'objets de la classe `Voiture` correspondant à la BDD.
@@ -488,7 +467,7 @@ Petru: mettre new ModelVoiture(
       Pour ceci, dans PhpMyAdmin, cliquez sur l'onglet "Structure" de la table `voiture`, 
       puis "Modifier" sur chaque colonne.
    1. Modifiez le code PHP à l'endroit où interviennent ces noms de colonnes.
-       <!-- dans Voiture::builder(array $voitureFormatTableau)  -->
+       <!-- dans Voiture::construire(array $voitureFormatTableau)  -->
       
 
 </div>
