@@ -18,15 +18,13 @@ layout: tutorial
 4. exécution de la requête
 5. résultat du serveur vers le client
 
-Source : [https://openclassrooms.com/courses/requete-preparee-1](https://openclassrooms.com/courses/requete-preparee-1)
-
 #### Syntaxe PDO
 
 ```php?start_inline=1
 $pdo = new PDO("mysql:host=$host;dbname=$dbname",$login,$pass);
 $sql = "SELECT * from voiture";
 $rep = $pdo->query($sql);
-$tab_obj = $rep->fetchAll(PDO::FETCH_OBJ);
+$tab = $rep->fetch();
 ```
 
 La première ligne crée une connexion à la BDD. La deuxième écrit la requête
@@ -62,7 +60,7 @@ $req_prep = $pdo->prepare($sql);
 $req_prep->bindParam(":c","bleu");
 $req_prep->execute();
 
-$req_prep->fetchAll(PDO::FETCH_OBJ);
+$tab = $req_prep->fetch();
 ```
 
 La différence par rapport aux requête non préparées se situe dans les lignes 3
