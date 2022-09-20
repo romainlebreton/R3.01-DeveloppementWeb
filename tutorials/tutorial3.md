@@ -270,7 +270,11 @@ les diagrammes de classes. Ce type de diagramme est utile pour
 penser la base de donnée d'une application Web. Voici le nôtre :
 
 <img alt="Diagramme entité association"
-src="../assets/DiagClasse.png" style="margin-left:auto;margin-right:auto;display:block;">
+src="https://www.plantuml.com/plantuml/svg/JKv1IWH13BptAy8SXONPQvzMyE9DK1-GxGv3jATxI6T451_aE_oOcTqToA7fLAKgLQUkABhE9VHthWiApb1RfauB7CVHiQbWx_UgmkTLwJ6r-inV16C8bmsyAXVkgBGAV8S3b3PnZT3DK2V3jSqEBK8RSSC_-v4NmJVIYvypHE2gDcQo2WhEZYByyVTBdike6twmRuixFnLCrFSZbiYVDs1nlkrmDnpixU4H5gk24ubNnNYj3CFHgsDqGQdLlAPD7Kvaurp-0G00" style="margin-left:auto;margin-right:auto;display:block;">
+
+<!-- Source code:
+https://www.plantuml.com/plantuml/uml/JKv1IWH13BptAy8SXONPQvzMyE9DK1-GxGv3jATxI6T451_aE_oOcTqToA7fLAKgLQUkABhE9VHthWiApb1RfauB7CVHiQbWx_UgmkTLwJ6r-inV16C8bmsyAXVkgBGAV8S3b3PnZT3DK2V3jSqEBK8RSSC_-v4NmJVIYvypHE2gDcQo2WhEZYByyVTBdike6twmRuixFnLCrFSZbiYVDs1nlkrmDnpixU4H5gk24ubNnNYj3CFHgsDqGQdLlAPD7Kvaurp-0G00
+ -->
 
 **Question :** Comment implémenteriez-vous l'association *conducteur* entre
 utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
@@ -406,7 +410,7 @@ pouvez vous rafraîchir la mémoire en lisant
 
 <div class="exercise">
 
-1. Créer une `public static function getPassagers($id)` dans `Trajet.php` qui
+1. Créer une fonction `public static function getPassagers($id)` dans `Trajet.php` qui
    prendra en entrée un identifiant de trajet. Cette fonction devra retourner un
    tableau d'objets de classe `Utilisateur` correspondant aux utilisateurs
    inscrits au trajet d'identifiant `$id` en faisant la requête adéquate.
@@ -434,7 +438,7 @@ pouvez vous rafraîchir la mémoire en lisant
    1. charge les classes nécessaires,
    3. appelle la fonction `getPassagers($id)` avec un identifiant de trajet
       existant,
-   4. affiche les utilisateurs renvoyés grâce à la fonction `afficher`.
+   4. affiche les utilisateurs renvoyés.
 
 3. Créez un formulaire `formGetPassagers.php` de méthode `GET` avec un champ texte
 où l'on rentrera l'identifiant d'un trajet. La page de traitement de ce
