@@ -344,18 +344,18 @@ utilise une table de jointure.</span>
 Nous choisissons donc de créer une table `passager` qui contiendra deux champs :
 
 * l'identifiant INT `trajetId` d'un trajet et
-* l'identifiant VARCHAR(32) `utilisateurLogin` d'un utilisateur.
+* l'identifiant VARCHAR(32) `passagerLogin` d'un utilisateur.
 
 Pour inscrire un utilisateur à un trajet, il suffit d'écrire la ligne
-correspondante dans la table `passager` avec leur `utilisateurLogin` et leur
+correspondante dans la table `passager` avec leur `passagerLogin` et leur
 `trajetId`.
 
 **Question :** Quelle est la clé primaire de la table `passager` ?
 
 **Réponse :** <span style="color:#FCFCFC">Le couple
-  (trajetId,utilisateurLogin). Si vous choisissez trajetId seul comme clé
+  (trajetId,passagerLogin). Si vous choisissez trajetId seul comme clé
   primaire, un trajet aura au plus un passager, et si vous choisissez
-  utilisateurLogin, chaque utilisateur ne pourra être passager que sur un
+  passagerLogin, chaque utilisateur ne pourra être passager que sur un
   unique trajet.</span>
 
 <div class="exercise">
@@ -367,7 +367,7 @@ correspondante dans la table `passager` avec leur `utilisateurLogin` et leur
    se voit dans `Gestion des relations`.
 
 2. Rajoutez la contrainte de **clé étrangère** entre `passager.trajetId` et
-`trajet.id`, puis entre `passager.utilisateurLogin` et
+`trajet.id`, puis entre `passager.passagerLogin` et
 `utilisateur.login`. Utiliser encore les comportements `ON DELETE CASCADE` et
 `ON UPDATE CASCADE` pour qu'une association soit mise à jour si la clé étrangère
 est mise à jour.
@@ -530,8 +530,8 @@ enlèvera l'utilisateur courant du trajet sélectionné.
 
 <div class="exercise">
 
-1. Créer une `public static function supprimePassager($trajetId, $utilisateurLogin)` dans `Trajet.php`.
-   Cette fonction devra désinscrire l'utilisateur `utilisateurLogin` du trajet `trajetId`.
+1. Créer une `public static function supprimePassager($trajetId, $passagerLogin)` dans `Trajet.php`.
+   Cette fonction devra désinscrire l'utilisateur `passagerLogin` du trajet `trajetId`.
 
 2. Créez une page de test `testSupprimePassager.php` et un formulaire
    `formSupprimePassager.php` de sorte que l'on puisse rentrer un identifiant de
@@ -587,8 +587,6 @@ Voici une liste d'idées pour compléter notre site :
    comme passager.
 1. Similairement, nous avons oublié le conducteur de la liste des passagers d'un
    trajet. Le rajouter avec un statut à part.
-1. Vous pouvez aussi éventuellement mettre en place des `trigger` dans votre SQL
-   pour gérer le nombre de passagers par véhicule ...
 1. Nous n'avons pas intégré les voitures aux utilisateurs, ni aux trajets dans notre schéma
    de bases de données.  
    Que pourriez-vous faire ? À quelles relations pensez-vous entre ces tables ?
@@ -598,3 +596,6 @@ Voici une liste d'idées pour compléter notre site :
    Un Trajet nécessite une voiture
    Une voiture peut servir dans plusieurs trajets
     -->
+    
+<!-- 1. Vous pouvez aussi éventuellement mettre en place des `trigger` dans votre SQL
+   pour gérer le nombre de passagers par véhicule ... -->
