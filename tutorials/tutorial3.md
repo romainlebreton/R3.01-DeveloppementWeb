@@ -534,13 +534,13 @@ enlèvera l'utilisateur courant du trajet sélectionné.
 
 <div class="exercise">
 
-1. Créer une `public static function supprimePassager($trajetId, $passagerLogin)` dans `Trajet.php`.
+1. Créer une `public static function supprimerPassager($trajetId, $passagerLogin)` dans `Trajet.php`.
    Cette fonction devra désinscrire l'utilisateur `passagerLogin` du trajet `trajetId`.
 
-2. Créez une page de test `testSupprimePassager.php` et un formulaire
-   `formSupprimePassager.php` de sorte que l'on puisse rentrer un identifiant de
+2. Créez une page de test `testSupprimerPassager.php` et un formulaire
+   `formSupprimerPassager.php` de sorte que l'on puisse rentrer un identifiant de
    trajet et un login d'utilisateur dans le formulaire, et que l'envoi du
-   formulaire redirige sur `testSupprimePassager.php` qui supprimera le passager dans
+   formulaire redirige sur `testSupprimerPassager.php` qui supprimera le passager dans
    la BDD.
 
 </div>
@@ -558,7 +558,7 @@ Par contre, vous allez améliorer les méthodes suivantes :
   * le cas d'un problème de données :
     * chaîne de caractères trop longue (`SQLSTATE[22001]: String data, right truncation`)
     * entier trop grand (`SQLSTATE[22003]: Numeric value out of range`)
-* `supprimePassager()` de `Trajet.php` ne traite pas le cas d'un passage inexistant.
+* `supprimerPassager()` de `Trajet.php` ne traite pas le cas d'un passage inexistant.
 
 <div class="exercise">
 
@@ -567,7 +567,7 @@ Par contre, vous allez améliorer les méthodes suivantes :
    pour indiquer si la sauvegarde s'est bien passée. Modifiez la méthode pour intercepter les `PDOException`
    avec un `try/catch` et retourner `false` en cas de problème.
 
-1. Pour la méthode `supprimePassager()`, utilisez la méthode
+1. Pour la méthode `supprimerPassager()`, utilisez la méthode
    [`rowCount()`](https://www.php.net/manual/fr/pdostatement.rowcount.php)
    de la classe `PDOStatement` pour vérifier que la requête de suppression a bien supprimé une ligne de la BDD.
 
