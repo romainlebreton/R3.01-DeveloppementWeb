@@ -43,10 +43,10 @@ h1 {
 }
 h1, h2, footer { margin-left: -20px }
 h2 {
-    counter-reset: subsection subsubsection;
+    counter-set: subsection subsubsection;
 }
 h3 {
-    counter-reset: subsubsection;
+    counter-set: subsubsection;
 }
 h2:before {
     counter-increment: section;
