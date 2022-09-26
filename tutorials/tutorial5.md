@@ -1,7 +1,8 @@
 ---
 title: TD5 &ndash; Architecture MVC avancée 1/2
-subtitle: index.php, échappement du HTML, vues modulaires, CRUD
+subtitle: Contrôleur frontal, échappement du HTML, vues modulaires, CRUD
 layout: tutorial
+lang: fr
 ---
 
 <!-- Prévoir une explication écrite de la différence entre chemin de fichier et
@@ -35,9 +36,11 @@ MVC. Le code était découpé en trois parties :
 3. Le modèle (*e.g.* `model/ModelVoiture.php`) est une bibliothèque des
 fonctions permettant de gérer les données, *i.e.* l'interaction avec la BDD dans
 notre cas. Cette bibliothèque sera utilisée par le contrôleur.
+
 2. Les vues (*e.g.* `view/voiture/list.php`) ne doivent contenir que
 les parties du code qui écrivent la page Web. Ces scripts seront appelés par le
 contrôleur qui s'en servira comme d'un outil pour générer la page Web ;
+
 1. Le contrôleur est la partie principale du script PHP. Dans notre cas, il est
    composé de deux parties :
 
@@ -57,210 +60,234 @@ contrôleur qui s'en servira comme d'un outil pour générer la page Web ;
 
 La semaine dernière, vous aviez dessiné le schéma qui explique comment le
 contrôleur (le routeur et la partie Voiture), le modèle et la vue interagissent
-pour créer la page qui correspond par exemple à l’action read.
+pour créer la page qui correspond par exemple à l’action `read`.
 
 Remémorez-vous ce schéma pour pouvoir l'expliquer à votre chargé de TD quand il
 passera le corriger.
 
 </div>
 
-## Changement de la page d'accueil du site
+## Réorganisation du site
 
-Comme nous venons de le rappeler, l'utilisateur doit se connecter au routeur
-`controller/routeur.php` pour accéder au site. Or l'organisation interne du site
-Web ne doit pas être visible du client pour des raisons de clarté et pour que
-l'URL reste propre. Nous allons déplacer la page d'entrée de notre site vers
-`index.php`.
+### Limitation des pages accessibles
 
-#### Le problème pour passer à `index.php`
+L'organisation actuelle du site pose un problème majeur : un client du site Web est censé accéder au site avec une requête `controller/routeur.php`. Mais rien ne garantis qu'il n'essayera pas d'accéder aux autres fichiers PHP "internes". Nous allons donc séparer les fichiers PHP dans des dossiers différents en fonction de s'ils doivent être accessibles sur le Web. 
 
-Jusqu'à maintenant, la page demandée était le routeur
-`controller/routeur.php`. Comme `require` fait un copier/coller du fichier
-demandé, tous les fichiers se retrouvent collés dans `routeur.php`. Le problème
-apparaît quand on utilise des chemins de fichiers relatifs dans nos `require`.
+<div class="exercise">
 
-**Rappel :** Il y a deux types de chemins de fichiers :
+   1. Renommez et déplacez le fichier `controller/routeur.php` pour qu'il devienne `web/frontController.php`.
 
-* les chemins *absolus* (commençant par `/` sous Linux ou `C:\` sous Windows)
-comme `/home/ann2/lebreton/public_html` partent du répertoire racine.
-* les chemins *relatifs* partent du répertoire courant comme par exemple
-`../config/Conf.php`. Dans ce cas, `.` désigne le répertoire courant et `..` le
-répertoire parent.
+      **Note :** Le nom *front controller* (ou contrôleur frontal en français) signifie que c'est le point d'entrée de notre site Web.
 
-Donc le problème quand on utilise des chemins de fichiers relatifs dans nos
+   2. Déplacez les dossiers `config`, `controller`, `model` et `view` dans un dossier `src`.
+
+   3. Nous allons indiquer au serveur Web Apache que les fichiers ne sont pas accessibles sur internet par défaut. Pour ceci, créez un fichier `.htaccess` à la racine de votre site `TD5` avec le contenu suivant
+
+      ```apache
+      Require all denied
+      ```
+
+   4. Pour indiquer que les fichiers du dossier `web` sont accessibles, créez un fichier `web/.htaccess`avec le contenu suivant
+
+      ```apache
+      Require all granted
+      ```
+
+   5. Vérifiez que l'accès par internet aux scripts autres que `web/frontController.php`
+      affiche une page Web `Forbidden You don't have permission to access this resource`.
+
+</div>
+
+### Réparer les inclusions de fichiers du site
+
+Lorsque l'on a déplacé la page d'accueil vers `frontController.php`, **tous nos
+`require` ont été décalés**. En effet, le problème quand on utilise des chemins de fichiers 
+relatifs dans nos
 `require`, c'est que comme ils sont tous copiés/collés dans `routeur.php`, ils
 utilisent le dossier du routeur comme base.
 
-Or lorsque l'on va déplacer la page d'accueil vers `index.php`, **tous nos
-`require` vont être décalés**. Par exemple, un `require '../config/Conf.php'`
-qui pointait vers `/chemin_du_site/controller/../config/Conf.php`, donc sur
-`/chemin_du_site/config/Conf.php` va désormais renvoyer vers
-l'adresse inconnue `/chemin_du_site/../config/Conf.php` (`/chemin_du_site/..`
-pointe vers le dossier parent du dossier où se trouve le site Web).
+Prenons l'exemple de `require '../config/Conf.php'` dans `Model.php` :
+* Avant cette adresse était relative à `/chemin_du_site/controller/routeur.php`, donc elle 
+  pointait vers `/chemin_du_site/controller/../config/Conf.php`, donc sur
+`/chemin_du_site/config/Conf.php`
+* Désormais, cette adresse est relative à `/chemin_du_site/web/frontController.php`. Elle
+va renvoyer vers l'adresse inconnue `/chemin_du_site/web/../config/Conf.php`, c.-à-d. `/chemin_du_site/config/Conf.php`.
 
-<!-- De plus, quand nous aurons plusieurs controlleurs, index.php nous permettra
-d'avoir une page de navigation unique -->
-
-<!--
-
-En fait, si on ne fournit aucun chemin, le include (ou require) cherche dans les
-chemins de l'include_path (.:/usr/share/php chez moi). Si le fichier n'est pas
-trouvé dans l' include_path, include vérifiera dans le dossier du script
-appelant et dans le dossier de travail courant avant d'échouer.
-
-Par exemple : si on est dans model/modelUtilisateur alors require `Model.php` marche
-car il n'y a pas de chemin mais require `./Model.php` ne marche pas.
-
--->
-
-#### Une première solution
-
-Pour remédier au problème précédent, nous allons utiliser des chemins
-absolus. Nous allons écrire le chemin absolu de fichier menant à votre site Web
-dans une variable `$ROOT_FOLDER` (sans slash à la fin). Par exemple, sur les machines de l'IUT
-(serveur webinfo)
-   
-```php?start_inline=1
-$ROOT_FOLDER = "/home/ann2/votre_login/public_html/TD5";
+Pour éviter ce comportement qui porte à confusion, utilisons dans `Model.php`
+```php
+// __DIR__ renvoie vers le dossier contenant Model.php
+// c-à-d ici __DIR__ égal "/chemin_du_site/model"
+require __DIR__ . '/../config/Conf.php';
 ```
 
-ou sur vos machines personnelles Windows 
-   
-```php?start_inline=1
-$ROOT_FOLDER = "C:\\wamp\www\TD5";
-```
+À partir de maintenant, nous allons faire ainsi pour chaque `require` avec un
+bout de chemin relatif.
 
-Nous allons se servir de cette variable pour créer des chemins de fichiers
-absolus en écrivant
-
-```php?start_inline=1
-require_once "{$ROOT_FOLDER}/config/Conf.php";
-```
-
-au lieu de chemins de fichiers relatifs
-
-```php?start_inline=1
-require_once "./config/Conf.php";
-```
-
-<div class="exercise">
-
-Pour garder notre code propre, nous allons écrire une fonction `build_path`. Le
-rôle de cette fonction est de créer un chemin de fichier absolu.
-
-1. Créez une classe PHP `File` dans un fichier `lib/File.php`.
-
-1. Copiez la méthode statique `build_path` dans la classe `File`. Vérifiez que
-   vous comprenez bien cette fonction en expérimentant avec.
-
-   ```php?start_inline=1
-   public static function build_path($path_array) {
-       // $ROOT_FOLDER (sans slash à la fin) vaut
-       // "/home/ann2/votre_login/public_html/TD5" à l'IUT 
-       $ROOT_FOLDER = "Votre chemin de fichier menant au site Web";
-       return $ROOT_FOLDER. '/' . join('/', $path_array);
-   }
-   ```
-
-   Voici comment la fonction marche sur un exemple : on appelle
-  `build_path(array("config","Conf.php"))` et elle nous renvoie un chemin de
-  fichier absolu comme par exemple
-  `"/home/ann2/votre_login/public_html/TD5/config/Conf.php"`.
-
-   **Note :** [Documentation de la fonction `join`](http://php.net/manual/fr/function.join.php).
-   
-1. **Incluez** votre classe `File.php` dans le routeur `routeur.php`.  
-   **Modifiez** tous les `require` de tous les fichiers pour qu'ils utilisent des
-   chemins absolus en utilisant la méthode `build_path`.  
-   **Testez** que votre ancien site marche toujours bien en demandant la page
-   `controller/routeur.php?action=readAll` dans votre navigateur.
-
-   **Remarques :** 
-   
-   * Contrairement au `require` du routeur, le `require` de `File.php` ne peut
-     pas se faire avec `build_path` puisqu'il n'a pas encore été déclaré. Il
-     faut donc le faire "à la main".
-   * Votre éditeur de texte peut sûrement rechercher tous les `require` dans tous
-     les fichiers ouverts pour être sûr de ne pas en oublier un. Par exemple,
-     Sublime Text a un menu `Find > Find in Files`.
-
-3. On souhaite désormais que la page d'accueil soit `index.php`. Créez donc un
-   tel fichier à la racine de votre site. Déplacez le `require` de `File.php` du
-   routeur vers le début de `index.php`, puis faites un
-   `require` du routeur `controller/routeur.php`.  
-   **Testez** que votre site marche encore en demandant la page
-   `index.php?action=readAll` dans le navigateur.
-
-4. Changer toutes les URLs que vous avez écrites dans les vues pour qu'elles
-   pointent sur `index.php` à la place de `controller/routeur.php`.
-
-</div>
-
-#### Une solution portable
-
-On souhaite que notre site soit portable, c'est-à-dire que l'on puisse
-facilement le déplacer sur une autre machine, à un autre endroit ... On voit
-bien que la variable `$ROOT_FOLDER` dépend de l'installation. De plus ceux qui
-ont des machines Windows ont dû se rendre compte que les chemins était séparés
-par des anti-slash `\` sur Windows, contrairement à Linux et Mac qui utilisent
-des slash `/`.
-
-**Exemple :** `C:\\wamp\www` sur Windows et `/home/ann2/lebreton/public_html`
-sur Linux.
-
-Pour la rendre portable, nous allons récupérer à la volée le répertoire du site
-avec le code suivant:
-   
-```php?start_inline=1
-// __DIR__ est une constante "magique" de PHP qui contient le chemin du dossier courant
-$ROOT_FOLDER = __DIR__;
-```
-
-De même, nous utiliserons la constante PHP `DIRECTORY_SEPARATOR` qui permet
-d'utiliser le bon slash de séparation des chemins selon le système :
-
-```php?start_inline=1
-// DS contient le slash des chemins de fichiers, c'est-à-dire '/' sur Linux et '\' sur Windows
-$DS = DIRECTORY_SEPARATOR;
-```
-
-**Références :**
-
-* [Constantes magiques en PHP](http://php.net/manual/fr/language.constants.predefined.php)
-* [Constantes prédéfinies en PHP](http://php.net/manual/fr/dir.constants.php)
+<!-- 
+`__DIR__` donne le dossier du fichier. Si utilisé dans une inclusion, le
+dossier du fichier inclus sera retourné. Ce nom de dossier ne contiendra
+pas de slash final (sauf si c'est le dossier racine `/`). -->
 
 
 
 <div class="exercise">
 
-Changeons notre site pour utiliser ces deux constantes. Il faut remplacer le
-code à deux endroits :
-
-1. Utilisez ces deux constantes dans le `require` de `File.php` qui est
-   fait dans `index.php`.
-
-1. Changez la fonction `build_path` pour qu'elle utilise ces deux constantes.
-
-   **Attention :** Si `__DIR__` est utilisé dans une inclusion, le dossier du
-     fichier inclus sera retourné.  Comme `File.php` est dans le dossier `lib`,
-     nous devons redescendre d'un dossier avec `"/.."`. Faites donc
-
-   ```php?start_inline=1
-   $DS = DIRECTORY_SEPARATOR;
-   $ROOT_FOLDER = __DIR__ . $DS . "..";
-   ```
-
-**Retestez** votre site Web.
+1. Corrigez tous les `require` pour que le site remarche (actions `read`,
+   `readAll`, `create` et `created`). 
 
 </div>
 
-<!--
-function build_path($segments) {
-    return __DIR__. DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, $segments);
-}
+### Chargement automatique des classes
 
-$path = build_path(array("config","Conf.php"));
--->
+Nous venons de faire l'expérience des limites des chemins relatifs. Dans le
+monde professionnel du PHP, on utilise le chargement automatique de classe
+(`autoloading` en anglais) : quand PHP doit utiliser une classe qu'il ne connait
+pas, il va charger le fichier de déclaration de cette classe. 
+
+Vous avez déjà utilisé ce mécanisme en Java sans le savoir. En effet, vous
+n'avez jamais inclus de fichier de déclaration de classe avec des `require`
+comme en PHP. Alors, comment fait Java pour savoir quel fichier inclure ? 
+
+Le chemin du fichier est directement lié au nom de classe *qualifié*, c.-à-d. du
+nom de classe précédé du nom de `package`. Par exemple, le fichier Java
+`src/main/java/fr/umontpellier/iut/svg/SVG.java` 
+```java
+package fr.umontpellier.iut.svg;
+
+public class SVG { }
+```
+contient la déclaration de la classe dont le nom qualifié est
+`fr.umontpellier.iut.svg.SVG`. On imagine bien comment Java s'est servi du nom de
+classe qualifié pour trouver l'adresse du fichier de déclaration. 
+
+Les principaux avantages du chargement automatique de classe sont : 
+* le chargement de classe devient paresseux, c.-à-d. qu'une classe ne sera chargée que
+  quand on a besoin d'elle. Pour de gros sites Web, cette économie est substantielle.
+* Ce mécanisme sera indispensable pour pouvoir utiliser biliothèques externes
+  PHP avec [`composer`](https://getcomposer.org/). Nous le verrons lors du
+  semestre 4.
+* On évite les problèmes de chemins relatifs.
+* On évite l'erreur de charger deux fois une classe (que l'on traitait avec
+  `require_once` avant).
+* La solution proposée sera portable, c.-à-d. qu'elle gèrera les sordides
+  subtilités entre les chemins de fichier Windows et ceux de Linux / MAC.
+
+#### Espaces de noms
+
+Avant d'utiliser le chargement automatique, nous avons besoin de préciser nos
+noms de classes avec des espaces de noms (`namespace` en anglais). C'est
+l'équivalent des `package` en Java.
+
+<div class="exercise">
+
+1. Rajoutez
+   ```php
+   namespace App\Covoiturage\Config;
+   ```
+   au début de `src/config/Conf.php`.
+
+   **Explication :**
+   * La déclaration `namespace` regroupe toutes les classes (et fonctions)
+     déclarées dans le fichier dans l'espace de nom `App\Covoiturage\Config`.
+   * Attention : Les espaces de nom utilisent des antislashs `\`, tandis que 
+   les chemins de fichiers Linux/Max utilisent des slash `/`.
+
+1. Le site est de nouveau cassé : `Model.php` ne connait pas la classe `Conf`.
+   En effet, cette classe s'appelle désormais `App\Covoiturage\Config\Conf`.  
+   **Complétez** le nom de la classe `Conf` dans `Model.php`.
+
+1. Vous conviendrez volontiers que ce nom de classe à rallonge est pénible. Nous
+   allons utiliser un alias à la place :
+
+   ```php
+   // Conf est un raccourci pour App\Covoiturage\Config\Conf
+   // use App\Covoiturage\Config\Conf as Conf; 
+   // ou syntaxe équivalente plus rapide 
+   use App\Covoiturage\Config\Conf;
+   ```
+
+   **Raccourcissez** les noms de classe dans `Model.php` grâce à cet alias. Le
+   site Web doit refonctionner.
+
+   **Remarque :** PhpStorm peut faire ce travail à votre place. Par exemple, quand
+     il ne connait pas la classe `Conf`, il la surligne pour indiquer un
+     warning. Lorsque votre curseur est sur la ligne du warning, une ampoule
+     apparait pour vous proposer des solutions rapides (ou faites `Alt+Entrée`).
+     Choisissez la solution *Import Class*.
+   
+</div>
+
+#### PSR-4 : Autoloading Standard
+
+Le groupe PHP-FIG (PHP Framework Interoperability Group) pour l'interopérabilité
+de PHP travaille pour standardiser la pratique de PHP. Ce travail vise notamment
+à ce que les différents composants ou framework PHP puissent bien communiquer
+entre eux.
+
+Parmi les recommandations de standards PHP (PSR en anglais) les plus importants,
+on trouve :
+* [PSR-1](https://www.php-fig.org/psr/psr-1/) : Basic Code Style
+* [PSR-4](https://www.php-fig.org/psr/psr-4/) : Autoloading Standard
+* [PSR-12](https://www.php-fig.org/psr/psr-12/) : Extended Coding Style Guide
+
+PhpStorm peut formater votre code en suivant les standards de style `PSR-1` et
+`PSR-12` en allant dans le menu `Code > Reformat Code` (ou en tapant
+`Ctrl+Alt+L`).
+
+Nous allons suivre le standard `PSR-4` pour notre chargement automatique de classe. 
+Voyons ce que cela implique en pratique.
+
+<div class="exercise">
+
+1. Enregistrez le fichier
+   [Psr4AutoloaderClass.php](../assets/TD4/Psr4AutoloaderClass.php)
+   à l'emplacement `src/Lib/Psr4AutoloaderClass.php`.
+
+   **Note :** Ce fichier contient l'implémentation donnée en exemple pour le
+   standard PSR-4. 
+
+1. Au début du contrôleur frontal, incluez ce fichier à l'aide d'un `require`.  
+   **Pensez** bien à utiliser `__DIR__` comme vu précédemment. 
+
+1. Rajoutez le code suivant dans le contrôleur frontal juste avant de traiter
+   les actions :
+   ```php
+   // instantiate the loader
+   $loader = new App\Covoiturage\Lib\Psr4AutoloaderClass();
+   // register the base directories for the namespace prefix
+   $loader->addNamespace('App\Covoiturage', __DIR__ . '/../src');
+   // register the autoloader
+   $loader->register();
+   ```
+
+   **Note :**
+   * En résumé, ce code dit au système d'autoloading de PHP que les classes dont
+     l'espace de nom commence par `App\Covoiturage` se trouvent dans le dossier
+     `src`.  
+     En particulier, la classe `App\Covoiturage\Config\Conf` sera cherchée dans
+     le fichier `src/Config/Conf.php`.
+
+1. Nous allons enfin pouvoir utiliser l'autoloader. Comme expliqué dans la note
+   précédente, la classe `App\Covoiturage\Config\Conf` sera cherchée dans le
+   fichier `src/Config/Conf.php`.  
+   **Renommez** le dossier `config` avec une majuscule `Config`. Dans
+   `Model.php`, enlevez le `require` de la classe `Conf`.  
+   Le site Web doit refonctionner.
+
+1. Répétez ce processus pour enlever tous les `require` de fichier de
+   déclaration de classe (sauf pour `Psr4AutoloaderClass`) :
+   * ajout de `namespace` dans chaque classe,
+   * utilisation d'alias pour faire référence à cette classe,
+   * rajout de majuscule à certains noms de dossier,
+   * suppression des `require`.  
+
+   Nous vous conseillons de procéder classe par classe, dans l'ordre suivant :
+   `Model`, `ModelVoiture` puis `ControllerVoiture`.
+
+   <!-- Attention pour PDO et PDOException
+   use PDOException; use PDO;
+   -->
+</div>
 
 ## Sécurité des vues 
 
@@ -340,7 +367,7 @@ Le remplacement des caractères spéciaux a bien eu lieu.
 1. Changer donc toutes vos vues pour appliquer la fonction `htmlspecialchars` à
 toutes les variables PHP.  
 Nous vous conseillons de créer des variables temporaires pour stocker le texte
-échappé, par exemple `$vImmatriculation`, puis d'afficher ces variables.
+échappé, par exemple `$immatriculationHTML`, puis d'afficher ces variables.
 
 2. Vérifiez que votre voiture d'immatriculation `<h1>Hack` s'affiche maintenant
    correctement et ne créé plus de balise HTML `<h1>`. Allez voir dans le code
@@ -428,28 +455,32 @@ l'en-tête et le pied de page plus tard).
         <title>Liste des trajets</title>
     </head>
     <body>
-        <nav>
-            <!-- Le menu de l'en-tête -->
-        </nav>
+        <header>
+            <nav>
+                <!-- Le menu de l'en-tête -->
+            </nav>
+        </header>
 ```
 
 le *body* à la partie :
 
 ```html?start_inline=1
-        <div>
+        <main>
             <h1>Liste des trajets:</h1>
             <ol>
                 <li>...</li>
                 <li>...</li>
             </ol>
-		</div>
+        </main>
 ```
 
 et le *footer* à la partie :
 
 ```html?start_inline=1
-    <p>Copyleft Romain Lebreton</p>
-  </body>
+        <footer>
+            <p>Copyleft Romain Lebreton</p>
+        </footer>    
+    </body>
 </html>
 ```
 
@@ -467,27 +498,33 @@ vues "corps" en l'incluant dans l'en-tête et le pied de page communs.
    ```php
    <!DOCTYPE html>
    <html>
-       <head>
-           <meta charset="UTF-8">
-           <title><?php echo $pagetitle; ?></title>
-       </head>
-       <body>
-   <?php
-   // Si $controleur='voiture' et $view='list',
-   // alors $filepath="/chemin_du_site/view/voiture/list.php"
-   $filepath = File::build_path(array("view", $controller, "$view.php"));
-   require $filepath;
-   ?>
-       </body>
+      <head>
+         <meta charset="UTF-8">
+         <title><?php echo $pagetitle; ?></title>
+      </head>
+      <body>
+         <header>
+               <nav>
+                   <!-- Votre menu de navigation ici -->
+               </nav>
+         </header>
+         <main>
+               <?php
+               require __DIR__ . "/{$cheminVueBody}";
+               ?>
+         </main>
+         <footer>
+         </footer>
+      </body>
    </html>
    ```
    
 2. Dans vos vues existantes, supprimer les parties du code correspondant aux
    *header* et *footer*.
 
-3. Reprendre l'action `readAll` du contrôleur pour qu'à la place d'un `require`
-   de `list.php`, on utilise `require` de `view.php` en initialisant les
-   variables `$controller='voiture'`, `$view='list'` et `$pagetitle='Liste des voitures'`.
+3. Reprendre l'action `readAll` du contrôleur pour afficher la vue `view.php`
+   avec les paramètres supplémentaires `"pagetitle" => "Liste des voitures"`,
+   `"cheminVueBody" => "voiture/list.php"`.
 
    <!-- 3. Redéfinir le `VIEW_PATH` en début de fichier par `define('VIEW_PATH', ROOT -->
    <!--    . DS . 'view' . DS);` -->
@@ -512,17 +549,16 @@ Nous allons bénéficier de notre changement d'organisation pour rajouter un
 avec trois liens:
 
    * un lien vers la page d'accueil des voitures  
-     `index.php?action=readAll`
+     `frontController.php?action=readAll`
    * un lien vers la future page d'accueil des utilisateurs  
-     `index.php?action=readAll&controller=utilisateur`
+     `frontController.php?action=readAll&controller=utilisateur`
    * un lien vers la future page d'accueil des trajets  
-     `index.php?action=readAll&controller=trajet`
+     `frontController.php?action=readAll&controller=trajet`
 
    <!-- Le lien vers utilisateur doit marcher après la partie sur le dispatcher
    ? -->
 
-2. Modifier la vue `view.php` pour rajouter un footer minimaliste comme par
-   exemple
+2. Modifier la vue `view.php` pour rajouter un pied de page minimaliste comme
 
    ```html
    <p style="border: 1px solid black;text-align:right;padding-right:1em;">
@@ -553,7 +589,7 @@ des voitures.
    maintenant.
 
 2. Changez l'action `created` du contrôleur pour appeler cette vue.  
-   **Attention :** Il faut initialiser la variable `$tab_v` contenant le tableau
+   **Attention :** Il faut initialiser la variable `$voitures` contenant le tableau
    de toutes les voitures afin qu'elle puisse être affichée dans la vue.
 
 </div>
