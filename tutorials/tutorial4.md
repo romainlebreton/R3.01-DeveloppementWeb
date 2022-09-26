@@ -89,15 +89,13 @@ src="../assets/RepStructure.png" style="margin-left:auto;margin-right:auto;displ
 
 Le modèle est chargé de la gestion des données, notamment des interactions avec
 la base de données. C'est, par exemple, la classe `Voiture` que vous avez créé
-lors des TDs précédents (sauf la fonction `afficher()`).
+lors des TDs précédents (sauf la fonction `afficher()` et/ou `__toString()`).
 
 <div class="exercise">
 1. Créez les répertoires `config`, `controller`, `model`, `view` et `view/voiture`.
 1. Renommez le fichier `Voiture.php` en `ModelVoiture.php`.
    Renommez la classe en `ModelVoiture`. Mettez en commentaire la fonction
-   `afficher()` pour la désactiver.
-   Pensez à corriger la classe appelée dans vos `setFetchMode()` pour créer des
-   objets de `ModelVoiture`.
+   `afficher()` et/ou `__toString()` pour la désactiver.
 1. Déplacez vos fichiers `ModelVoiture.php` et `Model.php` dans le répertoire `model/`.
 1. Déplacez `Conf.php` dans le dossier `config`.
 1. Corrigez le chemin relatif de l'`include` du fichier `Conf.php` dans `Model.php`.
@@ -455,15 +453,20 @@ dans la BDD.
       <form action='routeur.php?action=created' ...>
       ```
       **mais** cela ne marche **pas** si la méthode est `GET`.
-   2. Ou (**conseillé**) vous rajoutez un champ caché à votre formulaire :
+   2. Ou (**conseillé**) vous indiquez une action sans *query string* :
+
+      ```html?start_inline=1
+      <form action='routeur.php' ...>
+      ```
+      
+      et vous rajoutez un champ caché à votre formulaire :
 
       ```html?start_inline=1
       <input type='hidden' name='action' value='created'>
       ```
-
+      
       Si vous ne connaissez pas les `<input type='hidden'>`, allez lire
       [la documentation](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input).
-
 
 </div>
 
