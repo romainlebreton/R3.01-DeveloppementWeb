@@ -95,7 +95,7 @@ lors des TDs précédents (sauf la fonction `afficher()` et/ou `__toString()`).
 1. Créez les répertoires `config`, `controller`, `model`, `view` et `view/voiture`.
 1. Renommez le fichier `Voiture.php` en `ModelVoiture.php`.
    Renommez la classe en `ModelVoiture`. Mettez en commentaire la fonction
-   `afficher()` et/ou `__toString()` pour la désactiver.
+   `afficher()` et/ou `__toString()` pour la désactiver. Mettez à jour les déclarations de type. 
 1. Déplacez vos fichiers `ModelVoiture.php` et `Model.php` dans le répertoire `model/`.
 1. Déplacez `Conf.php` dans le dossier `config`.
 1. Corrigez le chemin relatif de l'`include` du fichier `Conf.php` dans `Model.php`.
@@ -226,8 +226,9 @@ voitures.
 <?php
 require_once ('../model/ModelVoiture.php'); // chargement du modèle
 class ControllerVoiture {
-    public static function readAll() {
-        $voitures = ModelVoiture::getVoitures();     //appel au modèle pour gerer la BD
+    // Déclaration de type de retour void : la fonction ne retourne pas de valeur
+    public static function readAll() : void {
+        $voitures = ModelVoiture::getVoitures(); //appel au modèle pour gerer la BD
         require ('../view/voiture/list.php');  //"redirige" vers la vue
     }
 }
@@ -406,7 +407,8 @@ Cela pose plusieurs problèmes :
     Ainsi, on peut appeler `ControllerVoiture::afficheVue('voiture/detail.php')`, ce qui est un 
     raccourci pour `ControllerVoiture::afficheVue('voiture/detail.php', [])`.
 
-1. Remplacez tous les `require ('../view/voiture/xxx.php');` par des appels à `afficheVue`.
+1. Remplacez tous les `require ('../view/voiture/xxx.php');` par des appels à `afficheVue()`.
+   Testez que tout fonctionne.
 
 </div>
 
