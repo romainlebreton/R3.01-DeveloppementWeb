@@ -94,9 +94,9 @@ lors des TDs précédents (sauf la fonction `afficher()` et/ou `__toString()`).
 
 <div class="exercise">
 1. Créez les répertoires `config`, `controller`, `model`, `view` et `view/voiture`.
-1. Renommez le fichier `Voiture.php` en `ModelVoiture.php`.
-   Renommez la classe en `ModelVoiture`. Mettez en commentaire la fonction
-   `afficher()` et/ou `__toString()` pour la désactiver. Mettez à jour les déclarations de type. 
+1. Utilisez l'outil de refactoring de votre IDE et renommez la classe `Voiture` en `ModelVoiture`.
+    Vérifiez que les déclarations de type ont bien été mises à jour partout dans votre code.
+    Mettez en commentaire la fonction `afficher()` et/ou `__toString()` pour la désactiver.
 1. Déplacez vos fichiers `ModelVoiture.php` et `Model.php` dans le répertoire `model/`.
 1. Déplacez `Conf.php` dans le dossier `config`.
 1. Corrigez le chemin relatif de l'`include` du fichier `Conf.php` dans `Model.php`.
@@ -440,7 +440,7 @@ dans la BDD.
       toutes les voitures.
 
 1. Testez l'action `created` de `routeur.php` en donnant
-   l'immatriculation, la marque et la couleur dans l'URL.
+   l'immatriculation, la marque, la couleur et le nombre de sièges dans l'URL.
 
 1. Testez le tout, c.-à-d. que la création de la voiture depuis le formulaire
    (action `create`) appelle bien l'action `created` et que la voiture est bien
