@@ -16,8 +16,8 @@ http://{$_SERVER['HTTP_HOST']}{$_SERVER['PHP_SELF']}
 <!-- require d'un chemin de fichier **et pas de query string** -->
 
 Aujourd'hui nous allons développer notre site-école de covoiturage. Au fur et à
-mesure que le projet grandit, nous allons bénéficier du modèle MVC qui va nous
-faciliter la tâche de conception.
+mesure que le projet grandit, nous allons bénéficier du patron d'architecture
+MVC qui va nous faciliter la tâche.
 
 Le but des TDs 5 & 6 est donc d'avoir un site qui propose une gestion minimale
 des voitures, utilisateurs et trajets proposés en covoiturage. En attendant de
@@ -81,6 +81,9 @@ L'organisation actuelle du site pose un problème majeur : un client du site Web
 
    2. Déplacez les dossiers `config`, `controller`, `model` et `view` dans un dossier `src`.
 
+   1. Réparez le site pour qu'il fonctionne à nouveau. En particulier, changez
+      les liens de `detail.php` et l'attribut `action` du formulaire `create.php`.
+
    3. Nous allons indiquer au serveur Web Apache que les fichiers ne sont pas accessibles sur internet par défaut. Pour ceci, créez un fichier `.htaccess` à la racine de votre site `TD5` avec le contenu suivant
 
       ```apache
@@ -96,17 +99,21 @@ L'organisation actuelle du site pose un problème majeur : un client du site Web
    5. Vérifiez que l'accès par internet aux scripts autres que `web/frontController.php`
       affiche une page Web `Forbidden You don't have permission to access this resource`.
 
+      Note : Si votre fichier `.htaccess` n'a pas d'effets et que vous êtes sur
+      votre machine, il se peut qu'il faille 
+      [configurer Apache]({{site.baseurl}}/assets/tut5-complement.html#si-le-fichier-htaccess-ne-marche-pas).
+   
 </div>
 
 ### Réparer les inclusions de fichiers du site
 
 Lorsque l'on a déplacé la page d'accueil vers `frontController.php`, **tous nos
-`require` ont été décalés**. En effet, le problème quand on utilise des chemins de fichiers 
+`require_once` ont été décalés**. En effet, le problème quand on utilise des chemins de fichiers 
 relatifs dans nos
-`require`, c'est que comme ils sont tous copiés/collés dans `routeur.php`, ils
+`require_once`, c'est que comme ils sont tous copiés/collés dans `routeur.php`, ils
 utilisent le dossier du routeur comme base.
 
-Prenons l'exemple de `require '../config/Conf.php'` dans `Model.php` :
+Prenons l'exemple de `require_once '../config/Conf.php'` dans `Model.php` :
 * Avant cette adresse était relative à `/chemin_du_site/controller/routeur.php`, donc elle 
   pointait vers `/chemin_du_site/controller/../config/Conf.php`, donc sur
 `/chemin_du_site/config/Conf.php`
@@ -117,10 +124,10 @@ Pour éviter ce comportement qui porte à confusion, utilisons dans `Model.php`
 ```php
 // __DIR__ renvoie vers le dossier contenant Model.php
 // c-à-d ici __DIR__ égal "/chemin_du_site/model"
-require __DIR__ . '/../config/Conf.php';
+require_once __DIR__ . '/../config/Conf.php';
 ```
 
-À partir de maintenant, nous allons faire ainsi pour chaque `require` avec un
+À partir de maintenant, nous allons faire ainsi pour chaque `require_once` avec un
 bout de chemin relatif.
 
 <!-- 
@@ -132,8 +139,7 @@ pas de slash final (sauf si c'est le dossier racine `/`). -->
 
 <div class="exercise">
 
-1. Corrigez tous les `require` pour que le site remarche (actions `read`,
-   `readAll`, `create` et `created`). 
+1. Corrigez tous les `require_once` pour que le site remarche.
 
 </div>
 
@@ -145,7 +151,7 @@ monde professionnel du PHP, on utilise le chargement automatique de classe
 pas, il va charger le fichier de déclaration de cette classe. 
 
 Vous avez déjà utilisé ce mécanisme en Java sans le savoir. En effet, vous
-n'avez jamais inclus de fichier de déclaration de classe avec des `require`
+n'avez jamais inclus de fichier de déclaration de classe avec des `require_once`
 comme en PHP. Alors, comment fait Java pour savoir quel fichier inclure ? 
 
 Le chemin du fichier est directement lié au nom de classe *qualifié*, c.-à-d. du
@@ -163,14 +169,14 @@ classe qualifié pour trouver l'adresse du fichier de déclaration.
 Les principaux avantages du chargement automatique de classe sont : 
 * le chargement de classe devient paresseux, c.-à-d. qu'une classe ne sera chargée que
   quand on a besoin d'elle. Pour de gros sites Web, cette économie est substantielle.
-* Ce mécanisme sera indispensable pour pouvoir utiliser biliothèques externes
+* Ce mécanisme sera indispensable pour pouvoir utiliser des bibliothèques externes
   PHP avec [`composer`](https://getcomposer.org/). Nous le verrons lors du
   semestre 4.
 * On évite les problèmes de chemins relatifs.
 * On évite l'erreur de charger deux fois une classe (que l'on traitait avec
   `require_once` avant).
 * La solution proposée sera portable, c.-à-d. qu'elle gèrera les sordides
-  subtilités entre les chemins de fichier Windows et ceux de Linux / MAC.
+  subtilités entre les chemins de fichier Windows et ceux de Linux / Mac.
 
 #### Espaces de noms
 
@@ -190,11 +196,11 @@ l'équivalent des `package` en Java.
    * La déclaration `namespace` regroupe toutes les classes (et fonctions)
      déclarées dans le fichier dans l'espace de nom `App\Covoiturage\Config`.
    * Attention : Les espaces de nom utilisent des antislashs `\`, tandis que 
-   les chemins de fichiers Linux/Max utilisent des slash `/`.
+   les chemins de fichiers Linux/Mac utilisent des slashs `/`.
 
 1. Le site est de nouveau cassé : `Model.php` ne connait pas la classe `Conf`.
    En effet, cette classe s'appelle désormais `App\Covoiturage\Config\Conf`.  
-   **Complétez** le nom de la classe `Conf` dans `Model.php`.
+   **Complétez** le nom de la classe `Conf` dans `Model.php`. Le site Web doit refonctionner.
 
 1. Vous conviendrez volontiers que ce nom de classe à rallonge est pénible. Nous
    allons utiliser un alias à la place :
@@ -206,8 +212,7 @@ l'équivalent des `package` en Java.
    use App\Covoiturage\Config\Conf;
    ```
 
-   **Raccourcissez** les noms de classe dans `Model.php` grâce à cet alias. Le
-   site Web doit refonctionner.
+   **Raccourcissez** les noms de classe dans `Model.php` grâce à cet alias.
 
    **Remarque :** PhpStorm peut faire ce travail à votre place. Par exemple, quand
      il ne connait pas la classe `Conf`, il la surligne pour indiquer un
@@ -243,10 +248,12 @@ Voyons ce que cela implique en pratique.
    [Psr4AutoloaderClass.php](../assets/TD4/Psr4AutoloaderClass.php)
    à l'emplacement `src/Lib/Psr4AutoloaderClass.php`.
 
-   **Note :** Ce fichier contient l'implémentation donnée en exemple pour le
+   **Note :**
+   * Attention à la majuscule du dossier `Lib` ! 
+   * Ce fichier contient l'implémentation donnée en exemple pour le
    standard PSR-4. 
 
-1. Au début du contrôleur frontal, incluez ce fichier à l'aide d'un `require`.  
+1. Au début du contrôleur frontal, incluez ce fichier à l'aide d'un `require_once`.  
    **Pensez** bien à utiliser `__DIR__` comme vu précédemment. 
 
 1. Rajoutez le code suivant dans le contrôleur frontal juste avant de traiter
@@ -271,22 +278,27 @@ Voyons ce que cela implique en pratique.
    précédente, la classe `App\Covoiturage\Config\Conf` sera cherchée dans le
    fichier `src/Config/Conf.php`.  
    **Renommez** le dossier `config` avec une majuscule `Config`. Dans
-   `Model.php`, enlevez le `require` de la classe `Conf`.  
+   `Model.php`, enlevez le `require_once` de la classe `Conf`.  
    Le site Web doit refonctionner.
 
-1. Répétez ce processus pour enlever tous les `require` de fichier de
+1. Répétez ce processus pour enlever tous les `require_once` de fichier de
    déclaration de classe (sauf pour `Psr4AutoloaderClass`) :
    * ajout de `namespace` dans chaque classe,
    * utilisation d'alias pour faire référence à cette classe,
    * rajout de majuscule à certains noms de dossier,
-   * suppression des `require`.  
+   * suppression des `require_once`.  
 
    Nous vous conseillons de procéder classe par classe, dans l'ordre suivant :
    `Model`, `ModelVoiture` puis `ControllerVoiture`.
 
-   <!-- Attention pour PDO et PDOException
-   use PDOException; use PDO;
-   -->
+   **Attention :** La classe `PDO` dans `Model.php` est comprise comme
+   `App\Covoiturage\Model\PDO` à cause du `namespace App\Covoiturage\Model`.
+   Deux solutions possibles :
+   * Ajoutez `use PDO` pour que PHP sache que `PDO` est dans l'espace de nom
+     global.
+   * Ou spécifiez que `PDO` est dans l'espace de nom global en appelant la
+     classe `\PDO`.
+   
 </div>
 
 ## Sécurité des vues 
@@ -303,7 +315,7 @@ echo "<p> Voiture $v->getImmatriculation() </p>";
 ```
 
 Que se passe-t-il si l'utilisateur a rentré du code HTML à la place d'une
-immatricutation ?
+immatriculation ?
 
 <div class="exercise">
 
@@ -328,7 +340,7 @@ HTML. Voici la liste des caractères qui font la différence entre du texte pur 
 du code HTML :
 
 1. les chevrons `<` et `>` car ils délimitent les balises HTML ;
-2. les guillements simples `'` ou doubles `"` car ils délimitent les valeurs des
+2. les guillemets simples `'` ou doubles `"` car ils délimitent les valeurs des
    attributs ;
 3. L'esperluette `&` car elle sert à échapper les caractères. Par exemple, le
    code HTML `&amp;` sert à afficher une esperluette `&`.
@@ -365,7 +377,8 @@ Le remplacement des caractères spéciaux a bien eu lieu.
 <div class="exercise">
 
 1. Changer donc toutes vos vues pour appliquer la fonction `htmlspecialchars` à
-toutes les variables PHP.  
+toutes les variables PHP qui se trouvent à un endroit où du code HTML pourrait
+être interprété. L'endroit typique est dans les zones de texte.  
 Nous vous conseillons de créer des variables temporaires pour stocker le texte
 échappé, par exemple `$immatriculationHTML`, puis d'afficher ces variables.
 
@@ -375,7 +388,7 @@ Nous vous conseillons de créer des variables temporaires pour stocker le texte
 
 </div>
 
-#### Échappement des URLS
+#### Échappement des URLs
 
 De la même manière, il faut encoder les URLs pour éviter d'en changer le sens
 lorsque l'on insère une donnée fournie par l'utilisateur. Par exemple, nous
@@ -430,12 +443,12 @@ bout. Voyons cela sur un exemple.
 
 Supposez que l'on souhaite que notre vue de création (action `created`) de
 *voiture* affiche *"Votre voiture a bien été créée"* puis la liste des
-voitures. Il serait donc naturel d'écrire le message puis d'appeller la vue
+voitures. Il serait donc naturel d'écrire le message puis d'appeler la vue
 `list.php`. Mais comme cette dernière vue écrivait la page HTML du début à la
 fin, on ne pouvait rien y rajouter au milieu !
 
 Décomposons nos pages Web en trois parties : le *header* (en-tête), le *body*
-(corps ou fil d'ariane) et le *footer* (pied de page). Dans le site final de
+(corps ou fil d'Ariane) et le *footer* (pied de page). Dans le site final de
 l'an dernier, on voit bien la distinction entre les 3 parties. On note aussi que
 le *header* et le *footer* sont communs à toutes nos pages.
 
@@ -491,7 +504,7 @@ vues "corps" en l'incluant dans l'en-tête et le pied de page communs.
 <div class="exercise">
 
 1. Créer une vue générique `TD5/view/view.php` avec le code suivant. La fonction
-   de `view.php` est de charger une en-tête et un pied de page communs, ainsi
+   de `view.php` est de charger un en-tête et un pied de page communs, ainsi
    que la vue dont le nom est stocké dans la variable `$view` (et le titre de
    page contenu dans `$pagetitle`).
 
@@ -546,7 +559,7 @@ Nous allons bénéficier de notre changement d'organisation pour rajouter un
 <div class="exercise"> 
 
 1. Modifier la vue `view.php` pour ajouter en en-tête de page une barre de menu,
-avec trois liens:
+avec trois liens :
 
    * un lien vers la page d'accueil des voitures  
      `frontController.php?action=readAll`
@@ -558,13 +571,18 @@ avec trois liens:
    <!-- Le lien vers utilisateur doit marcher après la partie sur le dispatcher
    ? -->
 
-2. Modifier la vue `view.php` pour rajouter un pied de page minimaliste comme
+2. Modifier la vue `view.php` pour rajouter un pied de page comme
 
    ```html
-   <p style="border: 1px solid black;text-align:right;padding-right:1em;">
+   <p>
      Site de covoiturage de ...
    </p>
    ```
+
+3. Rajoutez un [style CSS minimaliste]({{site.baseurl}}/assets/TD4/navstyle.css)
+   à votre page Web. Ce style sera mis dans un dossier `css`. Réfléchissez bien
+   où mettre ce dossier `css`, car nous avons interdit l'accès internet à
+   certaines parties du dossier `TD5`. 
 
 </div> 
 
@@ -581,7 +599,7 @@ Nous souhaitons créer une vue `created.php` qui affiche le message
 <p>La voiture a bien été créée !</p>
 ```
 
-avant de faire un require de `list.php` puisque cette vue sert à écrire la liste
+avant de faire un `require` de `list.php` puisque cette vue sert à écrire la liste
 des voitures.
 
 1. Créez la vue `created.php` comme expliqué ci-dessus.  

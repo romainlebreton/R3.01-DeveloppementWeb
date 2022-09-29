@@ -13,13 +13,14 @@ et model/Voiture.php qui définit ModelVoiture.php
 
 Au fur et à mesure que votre site Web grandit, vous allez rencontrer des
 difficultés à organiser votre code. Les prochains TDs visent à vous montrer une
-bonne façon de concevoir votre site web. On appelle *design pattern* (patron de
-conception) une série de bonnes pratiques pour l'organisation de votre site.
+bonne façon de concevoir votre site web. On appelle *architectural pattern*
+(patron d'architecture) une série de bonnes pratiques pour l'organisation de
+votre site.
 
-Un des plus célèbres *design patterns* s'appelle **MVC** (Modèle - Vue -
+Un des plus célèbres *architectural patterns* s'appelle **MVC** (Modèle - Vue -
 Contrôleur) : c'est celui que nous allons découvrir dans ce TD.
 
-## Présentation du design pattern **MVC**
+## Présentation du patron d'architecture **MVC**
 
 Le pattern **MVC** permet de bien organiser son code source. Jusqu'à présent,
 nous avons programmé de manière monolithique : nos pages Web mélangent
@@ -484,8 +485,9 @@ page qui correspond par exemple à l'action `read`.
 
 <div class="exercise">
 
-Rajouter une fonctionnalité *"Supprimer une voiture"* à votre site (action
-`delete`). Ajouter un lien cliquable pour supprimer chaque voiture dans la liste
-des voitures (dans la vue `view/voiture/list.php`).
+Rajouter une fonctionnalité *"Supprimer une voiture"* en fonction de son
+immatriculation à votre site (action `delete`). Ajouter un lien cliquable pour
+supprimer chaque voiture dans la liste des voitures (dans la vue
+`view/voiture/list.php`).
 
 </div>

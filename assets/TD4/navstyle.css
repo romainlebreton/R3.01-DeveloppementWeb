@@ -1,0 +1,38 @@
+nav ul {
+    list-style: none;
+    padding-left: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline-block;    
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;    
+}
+
+nav ul li:hover {
+    background-color: #c7cef5;
+}
+
+nav ul li:not(:first-child) {
+    border-left-width: 0;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #000000;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+body {
+    width: 600px;
+}
+
+footer p {
+    border: 1px solid black;
+    text-align:right;
+    width:600px;
+    padding-right:1em;
+}
