@@ -71,7 +71,11 @@ passera le corriger.
 
 ### Limitation des pages accessibles
 
-L'organisation actuelle du site pose un problème majeur : un client du site Web est censé accéder au site avec une requête `controller/routeur.php`. Mais rien ne garantis qu'il n'essayera pas d'accéder aux autres fichiers PHP "internes". Nous allons donc séparer les fichiers PHP dans des dossiers différents en fonction de s'ils doivent être accessibles sur le Web. 
+L'organisation actuelle du site pose un problème majeur : un client du site Web
+est censé accéder au site avec une requête `controller/routeur.php`. Mais rien
+ne garantis qu'il n'essayera pas d'accéder aux autres fichiers PHP "internes".
+Nous allons donc séparer les fichiers PHP dans des dossiers différents en
+fonction de s'ils doivent être accessibles sur le Web. 
 
 <div class="exercise">
 
@@ -79,33 +83,13 @@ L'organisation actuelle du site pose un problème majeur : un client du site Web
 
       **Note :** Le nom *front controller* (ou contrôleur frontal en français) signifie que c'est le point d'entrée de notre site Web.
 
-   2. Déplacez les dossiers `config`, `controller`, `model` et `view` dans un dossier `src`.
+   2. Déplacez les dossiers `config`, `controller`, `model` et `view` dans un
+      dossier `src`. Ce déplacement casse le site Web. Nous allons le réparer
+      dans le prochain exercice.
 
-   1. Réparez le site pour qu'il fonctionne à nouveau. En particulier, changez
-      les liens de `detail.php` et l'attribut `action` du formulaire `create.php`.
-
-   3. Nous allons indiquer au serveur Web Apache que les fichiers ne sont pas accessibles sur internet par défaut. Pour ceci, créez un fichier `.htaccess` à la racine de votre site `TD5` avec le contenu suivant
-
-      ```apache
-      Require all denied
-      ```
-
-   4. Pour indiquer que les fichiers du dossier `web` sont accessibles, créez un fichier `web/.htaccess`avec le contenu suivant
-
-      ```apache
-      Require all granted
-      ```
-
-   5. Vérifiez que l'accès par internet aux scripts autres que `web/frontController.php`
-      affiche une page Web `Forbidden You don't have permission to access this resource`.
-
-      Note : Si votre fichier `.htaccess` n'a pas d'effets et que vous êtes sur
-      votre machine, il se peut qu'il faille 
-      [configurer Apache]({{site.baseurl}}/assets/tut5-complement.html#si-le-fichier-htaccess-ne-marche-pas).
-   
 </div>
 
-### Réparer les inclusions de fichiers du site
+#### Réparer les inclusions de fichiers du site
 
 Lorsque l'on a déplacé la page d'accueil vers `frontController.php`, **tous nos
 `require_once` ont été décalés**. En effet, le problème quand on utilise des chemins de fichiers 
@@ -139,8 +123,28 @@ pas de slash final (sauf si c'est le dossier racine `/`). -->
 
 <div class="exercise">
 
-1. Corrigez tous les `require_once` pour que le site remarche.
+1. Corrigez tous les `require_once` pour que le site remarche. Si besoin, changez
+      les liens de `detail.php` et l'attribut `action` du formulaire `create.php`.
 
+3. Nous allons indiquer au serveur Web Apache que les fichiers ne sont pas accessibles sur internet par défaut. Pour ceci, créez un fichier `.htaccess` à la racine de votre site `TD5` avec le contenu suivant
+
+   ```apache
+   Require all denied
+   ```
+
+4. Pour indiquer que les fichiers du dossier `web` sont accessibles, créez un fichier `web/.htaccess`avec le contenu suivant
+
+   ```apache
+   Require all granted
+   ```
+
+5. Vérifiez que l'accès par internet aux scripts autres que `web/frontController.php`
+   affiche une page Web `Forbidden You don't have permission to access this resource`.
+
+   Note : Si votre fichier `.htaccess` n'a pas d'effets et que vous êtes sur
+   votre machine, il se peut qu'il faille 
+   [configurer Apache]({{site.baseurl}}/assets/tut5-complement.html#si-le-fichier-htaccess-ne-marche-pas).
+   
 </div>
 
 ### Chargement automatique des classes
@@ -214,10 +218,12 @@ l'équivalent des `package` en Java.
 
    **Raccourcissez** les noms de classe dans `Model.php` grâce à cet alias.
 
-   **Remarque :** PhpStorm peut faire ce travail à votre place. Par exemple, quand
-     il ne connait pas la classe `Conf`, il la surligne pour indiquer un
-     warning. Lorsque votre curseur est sur la ligne du warning, une ampoule
-     apparait pour vous proposer des solutions rapides (ou faites `Alt+Entrée`).
+   **Remarques :**
+   * `use` est similaire à `import` en Java. 
+   * PhpStorm peut faire ce travail à votre place. Par exemple, quand il ne
+     connait pas la classe `Conf`, il la surligne pour indiquer un *warning*.
+     Lorsque votre curseur est sur la ligne du *warning*, une ampoule apparait
+     pour vous proposer des solutions rapides (ou faites `Alt+Entrée`).
      Choisissez la solution *Import Class*.
    
 </div>
