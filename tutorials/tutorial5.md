@@ -73,9 +73,9 @@ passera le corriger.
 
 L'organisation actuelle du site pose un problème majeur : un client du site Web
 est censé accéder au site avec une requête `controller/routeur.php`. Mais rien
-ne garantis qu'il n'essayera pas d'accéder aux autres fichiers PHP "internes".
+ne garantit qu'il n'essayera pas d'accéder aux autres fichiers PHP "internes".
 Nous allons donc séparer les fichiers PHP dans des dossiers différents en
-fonction de s'ils doivent être accessibles sur le Web. 
+fonction de s'ils doivent être accessibles sur le Web.
 
 <div class="exercise">
 
@@ -317,7 +317,7 @@ injections SQL.
 Prenons l'exemple de notre vue `detail.php` qui écrit entre autre
 
 ```php?start_inline=1
-echo "<p> Voiture $v->getImmatriculation() </p>";
+echo "<p> Voiture {$v->getImmatriculation()} </p>";
 ```
 
 Que se passe-t-il si l'utilisateur a rentré du code HTML à la place d'une
