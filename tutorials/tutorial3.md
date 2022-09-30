@@ -119,7 +119,7 @@ Voici toutes ces étapes regroupées dans une fonction :
 
 ```php?start_inline=1
 function getVoitureParImmat(string $immatriculation) : Voiture {
-    $sql = "SELECT * from voiture WHERE immatriculation=:immatriculationTag";
+    $sql = "SELECT * from voiture WHERE immatriculation = :immatriculationTag";
     // Préparation de la requête
     $pdoStatement = Model::getPdo()->prepare($sql);
 

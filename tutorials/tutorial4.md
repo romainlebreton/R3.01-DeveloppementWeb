@@ -111,8 +111,8 @@ des méthodes :
 
 ```php?start_inline=1
  $voiture->sauvegarder();
- $voiture2 = ModelVoiture::getVoitureParImmat($immatriculation);
- $voitures = ModelVoiture::getVoitures();
+ ModelVoiture::getVoitureParImmat($immatriculation);
+ ModelVoiture::getVoitures();
 ```
 
 **N.B. :** Souvenez-vous que les deux dernières fonctions `getVoitureParImmat`
