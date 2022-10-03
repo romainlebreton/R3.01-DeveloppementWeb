@@ -93,13 +93,15 @@ la base de données. C'est, par exemple, la classe `Voiture` que vous avez cré�
 lors des TDs précédents (sauf la fonction `afficher()` et/ou `__toString()`).
 
 <div class="exercise">
+
 1. Créez les répertoires `config`, `controller`, `model`, `view` et `view/voiture`.
 1. Utilisez l'outil de refactoring de votre IDE et renommez la classe `Voiture` en `ModelVoiture`.
     Vérifiez que les déclarations de type ont bien été mises à jour partout dans votre code.
     Mettez en commentaire la fonction `afficher()` et/ou `__toString()` pour la désactiver.
 1. Déplacez vos fichiers `ModelVoiture.php` et `Model.php` dans le répertoire `model/`.
 1. Déplacez `Conf.php` dans le dossier `config`.
-1. Corrigez le chemin relatif de l'`include` du fichier `Conf.php` dans `Model.php`.
+1. Corrigez le chemin relatif du `require_once` du fichier `Conf.php` dans `Model.php`.
+
 </div>
 
 **N.B. :** Il est vraiment conseillé de renommer les fichiers et non de les

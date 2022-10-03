@@ -206,12 +206,14 @@ l'équivalent des `package` en Java.
    En effet, cette classe s'appelle désormais `App\Covoiturage\Config\Conf`.  
    **Complétez** le nom de la classe `Conf` dans `Model.php`. Le site Web doit refonctionner.
 
+   **Note :** Vous ne devez pas toucher au `require_once`, mais plutôt changer les appels à des méthodes statiques de la classe `Conf`. 
+
 1. Vous conviendrez volontiers que ce nom de classe à rallonge est pénible. Nous
    allons utiliser un alias à la place :
 
    ```php
    // Conf est un raccourci pour App\Covoiturage\Config\Conf
-   // use App\Covoiturage\Config\Conf as Conf; 
+   use App\Covoiturage\Config\Conf as Conf; 
    // ou syntaxe équivalente plus rapide 
    use App\Covoiturage\Config\Conf;
    ```

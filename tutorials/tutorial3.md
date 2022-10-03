@@ -311,8 +311,8 @@ Voici les étapes pour faire ce lien :
 
 2. Rajoutez la contrainte de **clé étrangère** entre `trajet.conducteurLogin` et
    `utilisateur.login`. Pour ceci, allez dans l'onglet `Structure` de la table
-   `trajet` et cliquez sur `Gestion des relations` pour accéder à la
-   gestion des clés étrangères (ou `Vue relationnelle` pour les PHPMyAdmin plus récents).
+   `trajet` et cliquez sur `Vue relationnelle` pour accéder à la
+   gestion des clés étrangères.
 
    Nous allons utiliser le comportement `ON DELETE CASCADE` pour qu'une
    association soit supprimé si la clé étrangère est supprimée, et le
@@ -368,7 +368,7 @@ correspondante dans la table `passager` avec leur `passagerLogin` et leur
    **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
 
 1. Assurez-vous que vous avez bien le bon couple en tant que clé primaire. Cela
-   se voit dans `Gestion des relations`.
+   se voit dans la section `Index` de l'onglet `Structure`.
 
 2. Rajoutez la contrainte de **clé étrangère** entre `passager.trajetId` et
 `trajet.id`, puis entre `passager.passagerLogin` et
