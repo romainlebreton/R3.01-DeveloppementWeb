@@ -107,17 +107,27 @@ use
 
 use as -->
 
-## autoloader
+## Explication de l'implémentation de l'*autoloader* 
 
-<!-- ### spl_autoregister
+### `spl_autoregister`
 
-Attend une fonction qui prend une classe.
+La fonction 
+[`spl_autoregister`](https://www.php.net/manual/fr/function.spl-autoload-register.php)
+est le cœur du mécanisme de chargement automatique de classes de PHP. On lui donne en argument 
+une fonction qui sera appelée si PHP rencontre une classe qui n'a pas encore été déclarée.
+
+La méthode `register()` de `Psr4AutoloaderClass` ne fait qu'enregistrer la
+méthode `Psr4AutoloaderClass::loadClass()` avec un appel à `spl_autoregister`.
+
+Le reste de la classe transforme un nom de classe qualifié en un nom de
+fichier (méthode `loadMappedFile`), puis charge le fichier avec `requireFile`.
 
 ### Exemple plus simple
 
-exemple plus simple dans 
-  https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader-examples.md
-  closure example -->
+Vous pouvez voir un exemple plus court d'autoloader à [cette adresse](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader-examples.md#closure-example). 
+Attention, cet exemple n'est pas recommandé car :
+* il n'utilise pas de programmation orientée-objet,
+* il ne permet d'associer qu'un seul préfixe de nom de classe qualifié à un chemin de fichier.
 
 ### Pas d'autoloader pour les vues ?
 

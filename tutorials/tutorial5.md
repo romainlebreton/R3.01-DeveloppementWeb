@@ -132,7 +132,7 @@ pas de slash final (sauf si c'est le dossier racine `/`). -->
    Require all denied
    ```
 
-4. Pour indiquer que les fichiers du dossier `web` sont accessibles, créez un fichier `web/.htaccess`avec le contenu suivant
+4. Pour indiquer que les fichiers du dossier `web` sont accessibles, créez un fichier `web/.htaccess` avec le contenu suivant
 
    ```apache
    Require all granted
@@ -288,6 +288,10 @@ Voyons ce que cela implique en pratique.
    **Renommez** le dossier `config` avec une majuscule `Config`. Dans
    `Model.php`, enlevez le `require_once` de la classe `Conf`.  
    Le site Web doit refonctionner.
+
+   **Besoin d'aide pour débugger `Psr4AutoloaderClass` ?** Rajoutez une ligne à
+   la méthode `requireFile` de `Psr4AutoloaderClass` pour afficher le nom du fichier
+   que l'*autoloader* essaye de charger.
 
 1. Répétez ce processus pour enlever tous les `require_once` de fichier de
    déclaration de classe (sauf pour `Psr4AutoloaderClass`) :
