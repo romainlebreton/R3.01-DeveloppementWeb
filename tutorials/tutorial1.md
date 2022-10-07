@@ -600,9 +600,9 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    <?php
    class Voiture {
    
+       private $immatriculation;
        private $marque;
        private $couleur;
-       private $immatriculation;
        private $nbSieges; // Nombre de places assises
    
        // un getter      
@@ -617,14 +617,14 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    
        // un constructeur
        public function __construct(
+         $immatriculation,
          $marque, 
          $couleur, 
-         $immatriculation,
          $nbSieges
       ) {
+           $this->immatriculation = $immatriculation;
            $this->marque = $marque;
            $this->couleur = $couleur;
-           $this->immatriculation = $immatriculation;
            $this->nbSieges = $nbSieges;
        } 
               

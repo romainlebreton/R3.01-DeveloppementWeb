@@ -450,29 +450,23 @@ dans la BDD.
 
    **Attention à l'envoi de `action=created` :** Vous souhaitez envoyer
    l'information `action=created` en plus des informations saisies lors de
-   l'envoi du formulaire. Il y a deux possibilités :
+   l'envoi du formulaire. La bonne façon de faire est de rajouter un champ caché à votre formulaire :
 
-   1. Vous pouvez rajouter l'information dans l'URL avec
+   ```html?start_inline=1
+   <input type='hidden' name='action' value='created'>
+   ```
+   
+   Si vous ne connaissez pas les `<input type='hidden'>`, allez lire
+   [la documentation](https://developer.mozilla.org/fr/docs/Web/HTML/Element/input/hidden).
 
-      ```html?start_inline=1
-      <form action='routeur.php?action=created' ...>
-      ```
-      **mais** cela ne marche **pas** si la méthode est `GET`.
-   2. Ou (**conseillé**) vous indiquez une action sans *query string* :
-
-      ```html?start_inline=1
-      <form action='routeur.php' ...>
-      ```
-      
-      et vous rajoutez un champ caché à votre formulaire :
+   <!-- 
+   Si vous avez un formulaire en méthode POST et que vous voulez transmettre l'action en méthode GET,
+   vous pouvez rajouter l'information dans l'URL avec
 
       ```html?start_inline=1
-      <input type='hidden' name='action' value='created'>
+      <form method="post" action='routeur.php?action=created'>
       ```
-      
-      Si vous ne connaissez pas les `<input type='hidden'>`, allez lire
-      [la documentation](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input).
-
+   -->
 </div>
 
 ## Et si le temps le permet...

@@ -252,13 +252,11 @@ Voyons ce que cela implique en pratique.
 
 <div class="exercise">
 
-1. Enregistrez le fichier
-   [Psr4AutoloaderClass.php](../assets/TD4/Psr4AutoloaderClass.php)
-   à l'emplacement `src/Lib/Psr4AutoloaderClass.php`.
+1. Créez le dossier `src/Lib` (attention à la majuscule). Enregistrez le fichier
+   [Psr4AutoloaderClass.php](../assets/TD4/Psr4AutoloaderClass.php) directement à
+   l'emplacement `src/Lib/Psr4AutoloaderClass.php`.
 
-   **Note :**
-   * Attention à la majuscule du dossier `Lib` ! 
-   * Ce fichier contient l'implémentation donnée en exemple pour le
+   **Note :** Ce fichier contient l'implémentation donnée en exemple pour le
    standard PSR-4. 
 
 1. Au début du contrôleur frontal, incluez ce fichier à l'aide d'un `require_once`.  

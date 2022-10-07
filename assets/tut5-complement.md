@@ -19,10 +19,30 @@ Pourquoi est-ce que les ACL ne permettent pas de faire notre comportement ?
 Normalement, les fichiers `.htaccess` marchent à l'IUT sur `webinfo`, et dans
 une installation classique de XAMP sous Linux.
 
-Cependant, si cela ne marche pas sur votre installation, il faut paramétrer
-Apache pour utiliser les fichiers `.htaccess`. Pour ceci, il faut modifier le
-fichier `apache2.conf` pour transformer les lignes `AllowOverride none` en
-`AllowOverride All`.
+Cependant, si cela ne marche pas sur votre installation, voici 2 pistes de solution :
+* il faut paramétrer Apache pour utiliser les fichiers `.htaccess`. Pour ceci,
+  il faut modifier le fichier `apache2.conf` pour transformer les lignes
+  `AllowOverride none` en `AllowOverride All`.
+* Votre version d'Apache n'est peut-être pas assez récente. La directive donnée
+  dans le TD5 nécessite une version d'Apache &ge; 2.4. Dans ce cas, utilisez les fichiers `.htaccess` suivant
+  ```apache
+  <IfVersion < 2.4>
+    Deny from all
+  </IfVersion>
+  <IfVersion >= 2.4>
+      Require all denied
+  </IfVersion>
+  ```
+  et
+  ```apache
+  <IfVersion < 2.4>
+    Allow from all
+  </IfVersion>
+  <IfVersion >= 2.4>
+      Require all granted
+  </IfVersion>
+  ```
+  Note : La version d'Apache peut se voir dans les en-têtes de réponse HTTP. Utilisez l'outil de développement `Network` pour y accéder.
 
 ## `namespace`
 

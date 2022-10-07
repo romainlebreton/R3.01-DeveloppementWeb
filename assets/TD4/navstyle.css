@@ -33,6 +33,6 @@ body {
 footer p {
     border: 1px solid black;
     text-align:right;
-    width:600px;
+    /* width:600px; */
     padding-right:1em;
 }
