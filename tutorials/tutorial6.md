@@ -149,14 +149,12 @@ d'API), cela impliquera beaucoup de réécriture de code.
 1. Faites remarcher les actions une par une :
    * `readAll` : 
      * `getVoitures` appartient à la classe `VoitureRepository` désormais.
-     * Dans `getVoitures`, `construire` appartient maintenant à `Voiture`.
    * `read` : 
      * `getVoitureParImmat` appartient à la classe `VoitureRepository`.
-     * Dans `getVoitureParImmat`, `construire` appartient maintenant à `Voiture`.
    * `created` :
      * `sauvegarder` et `getVoitures` appartiennent à la classe `VoitureRepository` désormais.
      * `sauvegarder` sera maintenant statique et prendra en argument un objet de
-       la classe `Voiture`
+       la classe `Voiture` ; les getters de `Voiture` serviront à construire la requête SQL.
      * la classe `Voiture` doit implémenter une nouvelle méthode `formatTableau`
        pour créer le tableau qui sera donné à `execute`
 
