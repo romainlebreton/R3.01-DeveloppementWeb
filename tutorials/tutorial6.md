@@ -125,7 +125,7 @@ d'API), cela impliquera beaucoup de réécriture de code.
    *Note :* Le dossier `Repository` gère la persistance des données. Le nom
    `Repository` est le nom du patron de conception que l'on utilise et que l'on retrouve dans les outils professionnels (*ORM Doctrine* par exemple).
 
-1. Créez une classe `VoitureRepository` dans le dossier Repository` avec le `namespace`
+1. Créez une classe `VoitureRepository` dans le dossier `Repository` avec le `namespace`
    correspondant (`App\Covoiturage\Model\Repository`). Déplacez les méthodes suivantes
    de `ModelVoiture` dans `VoitureRepository` :
    * `getVoitures`
@@ -134,7 +134,8 @@ d'API), cela impliquera beaucoup de réécriture de code.
    * `construire`
    
    Pour la méthode `construire`, changez si nécessaire le corps de la fonction afin qu'un objet
-   `Voiture` soit correctement retourné.
+   `Voiture` soit correctement retourné. Pensez également à adapter le code des autres fonctions
+   de la classe `VoitureRepository` afin qu'elles appellent correctement la méthode `construire`.
 
 1. Renommez la classe `Model` en `DatabaseConnection` et la la classe
    `ModelVoiture` en `Voiture`. Utilisez le refactoring de PhpStorm : Clic droit
