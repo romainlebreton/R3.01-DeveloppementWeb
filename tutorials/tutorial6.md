@@ -115,7 +115,12 @@ voitures et leur persistance dans une base de donnée. Ceci est contraire aux
 principes *SOLID*. Plus concrètement, si on veut enregistrer une voiture
 différemment plus tard (dans une session, dans un fichier ou via un appel d'API), cela impliquera beaucoup de réécriture de code.
 
+<div class="exercise">
+
 1. Créez deux dossiers `DataObject` et `Repository` dans `Model`.
+
+   *Note :* Le dossier `Repository` gère la persistance des données. Le nom
+   `Repository` est le nom du patron de conception que l'on utilise et que l'on retrouve dans les outils professionnels (*ORM Doctrine* par exemple).
 
 1. Les méthodes suivantes de `ModelVoiture` seront déplacées dans une nouvelle
    classe `VoitureRepository` dans le dossier `Repository` avec le `namespace`
@@ -124,14 +129,29 @@ différemment plus tard (dans une session, dans un fichier ou via un appel d'API
    * `getVoitureParImmat`
    * `sauvegarder`
 
-1. Renommez la classe `ModelVoiture` en `Voiture`. Déplacer cette classe dans le
-   dossier `DataObject`.
+1. Renommez la classe `Model` en `DatabaseConnection` et la la classe
+   `ModelVoiture` en `Voiture`. Utilisez le refactoring de PHPStorm : Clic droit
+   sur le nom de la classe > *Refactor* > *Rename*.
+
+1. Déplacer `Voiture` dans le dossier `DataObject` et `DatabaseConnection` dans
+   `Repository`. Utilisez le refactoring de PHPStorm : Clic droit sur le nom de
+   la classe > *Refactor* > *Move Class*.
 
 1. Faites remarcher les actions une par une :
-   * `readAll` : `getVoitures` appartient à la classe `VoitureRepository`
-     désormais.
-   * `read` : `getVoitureParImmat` appartient à la classe `VoitureRepository`.
-   * `created` : 
+   * `readAll` : 
+     * `getVoitures` appartient à la classe `VoitureRepository` désormais.
+     * Dans `getVoitures`, `construire` appartient maintenant à `Voiture`.
+   * `read` : 
+     * `getVoitureParImmat` appartient à la classe `VoitureRepository`.
+     * Dans `getVoitureParImmat`, `construire` appartient maintenant à `Voiture`.
+   * `created` :
+     * `sauvegarder` et `getVoitures` appartiennent à la classe `VoitureRepository` désormais.
+     * `sauvegarder` sera maintenant statique et prendra en argument un objet de
+       la classe `Voiture`
+     * la classe `Voiture` doit implémenter une nouvelle méthode `formatTableau`
+       pour créer le tableau qui sera donné à `execute`
+
+</div>
 
 ## CRUD pour les voitures
 
