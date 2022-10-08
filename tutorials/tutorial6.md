@@ -48,7 +48,7 @@ que s'il était arrivé sur `frontController.php?action=readAll`.
 <div class="exercise">
 
 1. Si aucun paramètre n'est donné dans l'URL, initialisons la variable `action`
-   avec la chaîne de caractères `readAll` dans `routeur.php`.
+   avec la chaîne de caractères `readAll` dans `frontController.php`.
    Utilisez la fonction `isset($_GET['action'])` qui teste si la variable
    `$_GET['action']` a été initialisée, ce qui est le cas si et seulement si une
    variable `action` a été donnée dans l'URL.
@@ -105,9 +105,11 @@ et tester si une valeur appartient à un tableau avec
 ## Séparation des données et de leur persistance
 
 Une bonne pratique lors de la programmation orientée objet est de suivre des
-principes de conception, notamment *SOLID* que vous avez vu dans le cours *R3.04
--- Qualité de développement*. Le `S` de *SOLID* signifie *Single responsibility
-principle* (ou principe de responsabilité unique en français) : chaque classe
+principes de conception, notamment *SOLID* dont vous en avez entendu parler
+l'an dernier en cours de Développement Orientée Objet et que vous allez également
+aborder dans le cours *R3.04 -- Qualité de développement*.
+Le `S` de *SOLID* signifie *Single responsibility principle* (ou principe de
+responsabilité unique en français) : chaque classe
 doit faire une seule tâche.
 
 Actuellement, notre classe `ModelVoiture` gère 2 tâches : la gestion des
@@ -245,7 +247,7 @@ formulaire de mise à jour. Pour cela :
       vous pouvez rajouter l'information dans l'URL avec
 
       ```html?start_inline=1
-      <form method="post" action='routeur.php?action=created'>
+      <form method="post" action='frontController.php?action=created'>
       ```
       -->
 
@@ -305,11 +307,11 @@ string*. Par exemple, l'ancienne page `frontController.php?action=readAll` du co
 
 <div class="exercise">
 
-1. Définissez une variable `controller` dans `routeur.php` en récupérant sa
+1. Définissez une variable `controller` dans `frontController.php` en récupérant sa
 valeur à partir de l'URL, et en mettant le contrôleur *voiture* par défaut.
 
    **Aide :** Ce bout de code est similaire à celui concernant `action` dans
-  `routeur.php`.
+  `frontController.php`.
 
 2. On souhaite créer le nom de la classe à partir de `controller`. Par exemple,
    quand `$controller="voiture"`, nous souhaitons créer une variable
@@ -348,7 +350,7 @@ l'action `readAll` de `Utilisateur`.
 1. Quelles différences notez-vous entre le code de `ControllerUtilisateur.php` et
    celui de `ControllerVoiture.php`
 
-1. Chargez la classe `ControllerUtilisateur.php` dans `routeur.php` pour qu'il y
+1. Chargez la classe `ControllerUtilisateur.php` dans `frontController.php` pour qu'il y
    ait accès.
 
 2. Créez un modèle `model/ModelUtilisateur.php` basé sur votre classe
