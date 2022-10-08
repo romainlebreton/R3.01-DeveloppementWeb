@@ -105,9 +105,11 @@ et tester si une valeur appartient à un tableau avec
 ## Séparation des données et de leur persistance
 
 Une bonne pratique lors de la programmation orientée objet est de suivre des
-principes de conception, notamment *SOLID* que vous avez vu dans le cours *R3.04
--- Qualité de développement*. Le `S` de *SOLID* signifie *Single responsibility
-principle* (ou principe de responsabilité unique en français) : chaque classe
+principes de conception, notamment *SOLID* dont vous en avez entendu parler
+l'an dernier en cours de Développement Orientée Objet et que vous allez également
+aborder dans le cours *R3.04 -- Qualité de développement*.
+Le `S` de *SOLID* signifie *Single responsibility principle* (ou principe de
+responsabilité unique en français) : chaque classe
 doit faire une seule tâche.
 
 Actuellement, notre classe `ModelVoiture` gère 2 tâches : la gestion des
