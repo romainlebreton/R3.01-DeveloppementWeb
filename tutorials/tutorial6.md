@@ -166,7 +166,7 @@ implémenté nos premières actions :
 3. afficher le formulaire de création d'une voiture : action `create`
 3. créer une voiture dans la BDD : action `created`
 
-Nous allons bientôt compléter ces opérations avec la suppression et la mise à
+Nous allons compléter ces opérations avec la suppression et la mise à
 jour.
 
 #### Action `delete`
@@ -175,9 +175,9 @@ jour.
 
 Nous souhaitons rajouter l'action `delete` aux voitures. Pour cela :
 
-1. Écrivez dans le modèle de voiture la fonction `supprimerParImmat($immatriculation)` qui prend
-   en entrée l'immatriculation à supprimer. Utilisez pour cela les requêtes préparées de
-   PDO.
+1. Écrivez dans `VoitureRepository` une méthode statique
+   `supprimerParImmat($immatriculation)` qui prend en entrée l'immatriculation à
+   supprimer. Utilisez pour cela les requêtes préparées de PDO.
 
 1. Créez une vue `src/view/voiture/deleted.php` qui affiche *"La voiture
    d'immatriculation `$immatriculation` a bien été supprimée*", suivi de la liste des
@@ -263,24 +263,15 @@ formulaire de mise à jour. Pour cela :
 Nous souhaitons rajouter l'action `updated` aux voitures qui effectue la mise à
 jour dans la BDD. Pour cela :
 
-1. Rajoutez à `ModelVoiture` une méthode dynamique `mettreAJour()`. L'entrée
-   `data` sera un tableau associatif associant aux champs de la table
-   `voiture` les valeurs correspondantes à la voiture courante. La fonction
-   doit mettre à jour tous les champs de la voiture dont l'immatriculation est
-   `$data['immat']`.
+1. Rajoutez à `VoitureRepository` une méthode statique `mettreAJour(Voiture
+   $voiture)`. Cette méthode est proche de `sauvegarder(Voiture $voiture)`, à
+   ceci près qu'elle ne renvoie pas de booléen. En effet, on va considérer
+   qu'une mise à jour se passe toujours correctement.
 
-   **Rappel :**
-
-   1. Ce type d'objet `data` est celui qui est pris en entrée par la
-      méthode `execute` de `PDO`,
-      [*cf.* le TD3]({{site.baseurl}}/tutorials/tutorial3.html#les-requêtes-préparées).
-   2. Une bonne pratique consiste à d'abord développer sa requête SQL puis de la
-      tester dans PHPMyAdmin avant de créer la fonction correspondante.
-
-1. Complétez la vue `src/view/voiture/updated.php` pour qu'elle affiche un message
-   indiquant que la voiture d'immatriculation `immat` a bien été mis à
-   jour. Affichez en dessous de ce message la liste des voitures mise à jour (à
-   la manière de `deleted.php` et `created.php`).
+1. Complétez la vue `src/view/voiture/updated.php` pour qu'elle affiche *"La
+   voiture d'immatriculation `$immatriculation` a bien été mise à jour*". Affichez
+   en dessous de ce message la liste des voitures mise à jour (à la manière de
+   `deleted.php` et `created.php`).
 
 1. Complétez l'action `updated` du contrôleur de voiture pour qu'il mette à
    jour la voiture dont l'immatriculation passée en paramètre dans l'URL, puis
