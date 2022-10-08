@@ -131,6 +131,10 @@ d'API), cela impliquera beaucoup de réécriture de code.
    * `getVoitures`
    * `getVoitureParImmat`
    * `sauvegarder`
+   * `construire`
+   
+   Pour la méthode `construire`, changez si nécessaire le corps de la fonction afin qu'un objet
+   `Voiture` soit correctement retourné.
 
 1. Renommez la classe `Model` en `DatabaseConnection` et la la classe
    `ModelVoiture` en `Voiture`. Utilisez le refactoring de PhpStorm : Clic droit
