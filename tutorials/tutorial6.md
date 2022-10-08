@@ -40,8 +40,8 @@ Ce TD présuppose que vous avez fini [le TD précédent](tutorial5.html).
 ## Amélioration du routeur
 
 On veut rajouter un comportement par défaut pour la page d'accueil ; nous allons
-faire en sorte qu'un utilisateur qui arrive sur `index.php` voit la même page
-que s'il était arrivé sur `index.php?action=readAll`.
+faire en sorte qu'un utilisateur qui arrive sur `frontController.php` voit la même page
+que s'il était arrivé sur `frontController.php?action=readAll`.
 
 #### Action par défaut
 
@@ -53,7 +53,7 @@ que s'il était arrivé sur `index.php?action=readAll`.
    `$_GET['action']` a été initialisée, ce qui est le cas si et seulement si une
    variable `action` a été donnée dans l'URL.
 
-1. Testez votre site en appelant `index.php` sans action.
+1. Testez votre site en appelant `frontController.php` sans action.
 
 **Note :** De manière générale, il ne faut jamais lire un `$_GET['action']`
   avant d'avoir vérifié s'il était bien défini avec un `isset(...)` sous peine
@@ -67,7 +67,7 @@ doit marcher sans paramètre.
 
 <!-- **Note :** que vous pouvez aussi y accéder avec l'adresse
 [http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD5/](http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD5/) :
-Apache ouvre directement les pages `index.html` ou `index.php` d'un répertoire
+Apache ouvre directement les pages `index.html` ou `frontController.php` d'un répertoire
 si elles existent. -->
 
 #### Vérification de l'action
@@ -305,12 +305,12 @@ l'adapter plus facilement aux utilisateurs et trajets dans un second temps.
 
 Pour l'instant, nous n'avons travaillé que sur le contrôleur *voiture*. Nous
 souhaitons maintenant rajouter les contrôleurs *utilisateur* et *trajet*. Pour
-gérer tous les contrôleurs à partir de notre page d'accueil unique `index.php`,
+gérer tous les contrôleurs à partir de notre page d'accueil unique `frontController.php`,
 nous avons besoin d'appeler le bon contrôleur dans le routeur.
 
 Désormais, nous devons donc spécifier le contrôleur demandé dans le *query
-string*. Par exemple, l'ancienne page `index.php?action=readAll` du contrôleur
-*voiture* devra s'obtenir avec `index.php?controller=voiture&action=readAll`.
+string*. Par exemple, l'ancienne page `frontController.php?action=readAll` du contrôleur
+*voiture* devra s'obtenir avec `frontController.php?controller=voiture&action=readAll`.
 
 <div class="exercise">
 
