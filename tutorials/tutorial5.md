@@ -104,7 +104,7 @@ Prenons l'exemple de `require_once '../config/Conf.php'` dans `Model.php` :
 * Désormais, cette adresse est relative à `/chemin_du_site/web/frontController.php`. Elle
 va renvoyer vers l'adresse inconnue `/chemin_du_site/web/../config/Conf.php`, c.-à-d. `/chemin_du_site/config/Conf.php`.
 
-Pour éviter ce comportement qui porte à confusion, utilisons dans `Model.php`
+Pour éviter ce comportement qui porte à confusion, utilisons la constante magique [`__DIR__`](https://www.php.net/manual/fr/language.constants.magic.php)dans `Model.php`
 ```php
 // __DIR__ renvoie vers le dossier contenant Model.php
 // c-à-d ici __DIR__ égal "/chemin_du_site/model"
