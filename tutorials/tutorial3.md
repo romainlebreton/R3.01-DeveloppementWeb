@@ -270,7 +270,7 @@ les diagrammes de classes. Ce type de diagramme est utile pour
 penser la base de donnée d'une application Web. Voici le nôtre :
 
 <img alt="Diagramme entité association"
-src="https://www.plantuml.com/plantuml/svg/JKv1IWH13BptAy8SXONPQvzMyE9DK1-GxGv3jATxI6T451_aE_oOcTqToA7fLAKgLQUkABhE9VHthWiApb1RfauB7CVHiQbWx_UgmkTLwJ6r-inV16C8bmsyAXVkgBGAV8S3b3PnZT3DK2V3jSqEBK8RSSC_-v4NmJVIYvypHE2gDcQo2WhEZYByyVTBdike6twmRuixFnLCrFSZbiYVDs1nlkrmDnpixU4H5gk24ubNnNYj3CFHgsDqGQdLlAPD7Kvaurp-0G00" style="margin-left:auto;margin-right:auto;display:block;">
+src="https://www.plantuml.com/plantuml/png/JKv1IWH13BptAy8SXONPQvzMyE9DK1-GxGv3jATxI6T451_aE_oOcTqToA7fLAKgLQUkABhE9VHthWiApb1RfauB7CVHiQbWx_UgmkTLwJ6r-inV16C8bmsyAXVkgBGAV8S3b3PnZT3DK2V3jSqEBK8RSSC_-v4NmJVIYvypHE2gDcQo2WhEZYByyVTBdike6twmRuixFnLCrFSZbiYVDs1nlkrmDnpixU4H5gk24ubNnNYj3CFHgsDqGQdLlAPD7Kvaurp-0G00" style="margin-left:auto;margin-right:auto;display:block;">
 
 <!-- Source code:
 https://www.plantuml.com/plantuml/uml/JKv1IWH13BptAy8SXONPQvzMyE9DK1-GxGv3jATxI6T451_aE_oOcTqToA7fLAKgLQUkABhE9VHthWiApb1RfauB7CVHiQbWx_UgmkTLwJ6r-inV16C8bmsyAXVkgBGAV8S3b3PnZT3DK2V3jSqEBK8RSSC_-v4NmJVIYvypHE2gDcQo2WhEZYByyVTBdike6twmRuixFnLCrFSZbiYVDs1nlkrmDnpixU4H5gk24ubNnNYj3CFHgsDqGQdLlAPD7Kvaurp-0G00
