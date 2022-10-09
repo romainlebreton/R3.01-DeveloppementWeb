@@ -21,9 +21,9 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaine du lundi 19 septembre 2022 -- [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html)
 1. Semaine du lundi 26 septembre 2022 --  [TD 4 -- Architecture MVC simple](tutorials/tutorial4.html)
 1. Semaine du lundi 3 octobre 2022 -- [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html)
+1. Semaine du lundi 10 octobre 2022 --  [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html)
 
 <!-- 
-1. Semaine du lundi 10 octobre 2022 --  [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html)
 1. Semaine du lundi 17 octobre 2022 --  Parcours A: Séance SAÉ S3.A.01, autres parcours (B & D): Séance projet
 1. Semaine du lundi 24 octobre 2022 --   [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) puis SAÉ ou projet
 1. Semaine du lundi 7 novembre 2022 -- [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html)
