@@ -669,7 +669,8 @@ jointure `passager`, cf. fin TD3).
 ## Bonus
 
 * Faire en sorte que la méthode d'erreur prenne en argument un message d'erreur. Chaque appel à cette méthode doit maintenant fournir un message d'erreur personnalisé.
-* Factoriser le code des contrôleurs dans un contrôleur générique.
+* Factoriser le code des contrôleurs dans un contrôleur générique, au moins pour
+  la méthode `afficheVue()` 
 * Faites hériter `Voiture`, `Utilisateur` et `Trajet` d'une classe abstraite
   `AbstractDataObject`. Ceci permet de compléter les déclarations de type dans le modèle générique.
 * Rajouter les actions spécifiques aux requêtes SQL `getTrajets()` et
