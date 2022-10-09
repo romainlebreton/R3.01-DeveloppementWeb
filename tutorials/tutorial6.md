@@ -183,7 +183,7 @@ implémenté nos premières actions :
 3. afficher le formulaire de création d'une voiture : action `create`
 4. créer une voiture dans la BDD : action `created`
 5. suppression d'une voiture dans la BDD : action `delete` (juste ceux d'entre
-   vous qui avaient fait la question optionnelle 10 du [TD4](tutorial4.html))
+   vous qui avaient fait l'exercice optionnelle numéro 10 du [TD4](tutorial4.html))
 
 Nous allons compléter ces opérations avec la mise à jour et une version améliorée de la suppression.
 
@@ -195,14 +195,14 @@ Nous souhaitons rajouter l'action `delete` aux voitures. Pour cela :
 
 1. Écrivez dans `VoitureRepository` une méthode statique
    `supprimerParImmatriculation($immatriculation)` qui prend en entrée l'immatriculation à
-   supprimer. Utilisez pour cela les requêtes préparées de `PDO`.
+   supprimer (pensez à utiliser les requêtes préparées de `PDO`).
 
 1. Créez une vue `src/view/voiture/deleted.php` qui affiche *"La voiture
    d'immatriculation `$immatriculation` a bien été supprimée*", suivi de la liste des
    voitures en appelant la vue `list.php` (de la même manière que
    `created.php`).
 
-1. Complétez l'action `delete` du contrôleur de voiture pour que
+1. Écrivez (ou modifiez pour ceux qui ont fait l'exercice 10 du [TD4](tutorial4.html)) l'action `delete` du contrôleur de voiture pour que
 
    1. il supprime la voiture dont l'immatriculation est passée en paramètre dans
       l'URL,
