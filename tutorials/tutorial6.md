@@ -5,13 +5,6 @@ layout: tutorial
 lang: fr
 ---
 
-<!-- viewAllVoiture.php => list.php -->
-<!-- create.php => create.php -->
-<!-- error.php => error.php -->
-<!-- detail.php => detail.php -->
-<!-- ControllerVoiture.php => ControllerVoiture.php -->
-<!-- ModelVoiture.php => ModelVoiture.php -->
-
 <!-- Rajouter des fonctions de sécurité/contrôle avec isset($_GET) et les
 htmlspecialchars quand on écrit dans du HTML et URLencode quand on écrit dans
 une URL -->
@@ -142,9 +135,11 @@ Notez que :
    correspondant (`App\Covoiturage\Model\Repository`). Déplacez les méthodes suivantes
    de `ModelVoiture` dans `VoitureRepository` :
    * `getVoitures`
-   * `getVoitureParImmat`
+   * `getVoitureParImmatriculation`
    * `sauvegarder`
    * `construire`
+   * `supprimerParImmatriculation` pour ceux qui avaient fait la question
+     optionnelle 10 du [TD4](tutorial4.html)
    
    Pour la méthode `construire`, changez si nécessaire le corps de la fonction afin qu'un objet
    `Voiture` soit correctement retourné. Pensez également à adapter le code des autres fonctions
@@ -166,7 +161,7 @@ Notez que :
    * `readAll` : 
      * `getVoitures` appartient à la classe `VoitureRepository` désormais.
    * `read` : 
-     * `getVoitureParImmat` appartient à la classe `VoitureRepository`.
+     * `getVoitureParImmatriculation` appartient à la classe `VoitureRepository`.
    * `created` :
      * `sauvegarder` et `getVoitures` appartiennent à la classe `VoitureRepository` désormais.
      * `sauvegarder` sera maintenant statique et prendra en argument un objet de
@@ -176,7 +171,7 @@ Notez que :
 
 </div>
 
-## CRUD our les v4itures
+## CRUD pour les voitures
 
 CRUD est un acronyme pour *Create/Read/Update/Delete*, qui sont les quatre
 opérations de base de toute donnée. Nous allons compléter notre site pour qu'il
@@ -187,7 +182,8 @@ implémenté nos premières actions :
 2. afficher les détails d'une voiture : action `read`
 3. afficher le formulaire de création d'une voiture : action `create`
 4. créer une voiture dans la BDD : action `created`
-5. peut-être certains d'entre vous ont écrit le code suppression d'une voiture dans la BDD : action `delete` (question 10 du [TD4](tutorial4.html))
+5. suppression d'une voiture dans la BDD : action `delete` (juste ceux d'entre
+   vous qui avaient fait la question optionnelle 10 du [TD4](tutorial4.html))
 
 Nous allons compléter ces opérations avec la mise à jour et une version améliorée de la suppression.
 
@@ -198,7 +194,7 @@ Nous allons compléter ces opérations avec la mise à jour et une version amél
 Nous souhaitons rajouter l'action `delete` aux voitures. Pour cela :
 
 1. Écrivez dans `VoitureRepository` une méthode statique
-   `supprimerParImmat($immatriculation)` qui prend en entrée l'immatriculation à
+   `supprimerParImmatriculation($immatriculation)` qui prend en entrée l'immatriculation à
    supprimer. Utilisez pour cela les requêtes préparées de `PDO`.
 
 1. Créez une vue `src/view/voiture/deleted.php` qui affiche *"La voiture
@@ -250,7 +246,7 @@ formulaire de mise à jour. Pour cela :
    champ du formulaire. Notez aussi que l'attribut `readonly` de `<input>`
    permet d'afficher l'immatriculation sans que l'internaute puisse le changer.
 
-   1. On pourra se servir dans le contrôleur de `getVoitureParImmat` pour
+   1. On pourra se servir dans le contrôleur de `getVoitureParImmatriculation` pour
       récupérer l'objet voiture de la bonne immatriculation. La vue devra alors
       remplir le formulaire avec les attributs de cet objet.
 
@@ -397,33 +393,68 @@ nouvel objet, nous allons mettre en commun le code autant que possible.
 
 ### Création d'un modèle générique
 
-Nous allons déplacer de `ModelVoiture.php` vers le modèle générique `Model.php`
-toutes les fonctions qui ne sont pas spécifiques aux voitures.
+Nous allons déplacer de `VoitureRepository` vers un modèle générique
+`AbstractRepository` toutes les requêtes SQL qui ne sont pas spécifiques aux
+voitures.
 
 <div class="exercise">
 
-Commençons par la fonction `getVoitures()` de `ModelVoiture.php`. Comme vous
-l'avez remarqué, la seule différence entre `getVoitures()` et
-`getUtilisateurs()` est le nom de la table et le nom de la classe des objets
-en sortie. Voici donc comment nous allons faire pour avoir un code générique :
+Commençons par la fonction `getVoitures()` de `VoitureRepository`. Les seules
+différences entre `getVoitures()` et `getUtilisateurs()` sont le nom de la table
+et le nom de la classe des objets en sortie. Voici donc comment nous allons
+faire pour avoir un code générique :
 
-1. Déplacez la fonction `getVoitures()` de `ModelVoiture.php` vers
-   `Model.php` en la renommant `selectAll()`.
+1. Déplacez la fonction `getVoitures()` de `VoitureRepository` vers une nouvelle
+   classe *abstraite* `AbstractRepository` en la renommant `selectAll()`.
 
-1. Faites que la classe `ModelVoiture` hérite de `Model` (mot clé `extends`
-   comme en Java).
-   Créez dans `ModelVoiture.php` une variable `object` qui est `protected`
-   (accessible uniquement dans la classe courante et ses classes filles),
-   `static` (qui ne dépend que de la classe, pas des objets) et qui prend la
-   valeur `voiture`.
+1. Faites que la classe `VoitureRepository` hérite de `AbstractRepository` (mot
+   clé `extends` comme en Java).
+
+1. Pour que `AbstractRepository` accède au nom de la table, elle va demander à
+   toutes ses classes filles de posséder une méthode `getNomTable()`.  
+   Rajoutez donc une méthode abstraite `getNomTable()` dans `AbstractRepository`
+   ```php
+   protected abstract function getNomTable(): string;
+   ```
+   et une implémentation de `getNomTable()` dans `VoitureRepository`.
+
+   <!-- getNomTable n'est pas statique car PHP déconseille l'utilisation de méthode statique et abstraite (PHP émet un warning) -->
+
+1. Utilisez `getNomTable()` dans `selectAll()`. Puisque `getNomTable()` est une
+   méthode dynamique, enlevez le `static` de `selectAll()`.
+
+1. De même, `AbstractRepository` va demander à toutes ses classes filles de
+   posséder une méthode `construire($objetFormatTableau)`.  
+   Rajoutez donc une méthode abstraite dans `AbstractRepository`
+   ```php
+   protected abstract function construire(array $objetFormatTableau);
+   ```
+   enlevez le `static` du `construire()` de `VoitureRepository`.
+
+   <!-- attention déclaration de type correspondante entre méthode et 
+   implémentation -->
+
+   <!-- construire($objetFormatTableau): AbstractDataObject; -->
+
+1. Créez dans `VoitureRepository` une variable
+   `object` qui est `protected` (accessible uniquement dans la classe courante
+   et ses classes filles), `static` (qui ne dépend que de la classe, pas des
+   objets) et qui prend la valeur `voiture`.
+
+   ```php
+   protected abstract function getNomColonneClePrimaire(): string;
+   protected abstract function getNomTable(): string;
+   protected abstract function getNomsColonnes(): array;
+   protected abstract function construire(array $objetFormatTableau): AbstractDataObject;
+   ```
 
 1. Faites de même pour `ModelUtilisateur`.
 
 1. Écrivons maintenant le code de `selectAll()`. L'idée est que cette fonction
-   sera héritée par `ModelVoiture` et `ModelUtilisateur`. On veut donc que quand
-   on fait `ModelVoiture::selectAll()`, la fonction aille récupérer la variable
-   `$object='voiture'` de `ModelVoiture` et s'en serve pour appeler la bonne
-   table `voiture` et renvoyer le bon type d'objet `ModelVoiture`. Et quand on
+   sera héritée par `VoitureRepository` et `ModelUtilisateur`. On veut donc que quand
+   on fait `VoitureRepository::selectAll()`, la fonction aille récupérer la variable
+   `$object='voiture'` de `VoitureRepository` et s'en serve pour appeler la bonne
+   table `voiture` et renvoyer le bon type d'objet `VoitureRepository`. Et quand on
    appellera `ModelUtilisateur::selectAll()`, on récupèrera la variable
    `$object='utilisateur'` de `ModelUtilisateur` et on pourra appeler la bonne
    table `utilisateur` et renvoyer le bon type d'objet
@@ -435,8 +466,8 @@ en sortie. Voici donc comment nous allons faire pour avoir un code générique :
       **Plus d'explications :** La syntaxe `static::$object` est
       [quelque peu subtile](http://php.net/manual/fr/language.oop5.late-static-bindings.php).
       Dans notre cas, elle permet que lorsque l'on appelle
-      `ModelVoiture::selectAll()`, qui est héritée de `Model::selectAll()`, la
-      variable `static::$object` aille chercher `ModelVoiture::$object` et non
+      `VoitureRepository::selectAll()`, qui est héritée de `Model::selectAll()`, la
+      variable `static::$object` aille chercher `VoitureRepository::$object` et non
       pas `Model::$object`.
 
    1. créez une variable `class_name` dans `selectAll()` qui contiendra `'Model'`
@@ -447,7 +478,7 @@ en sortie. Voici donc comment nous allons faire pour avoir un code générique :
       type d'objet dans `selectAll()`.
 
 
-1. Il ne reste plus qu'à appeler `ModelVoiture::selectAll()` au lieu de
+1. Il ne reste plus qu'à appeler `VoitureRepository::selectAll()` au lieu de
    `getVoitures()` et pareil pour les utilisateurs.
 
 1. Testez que votre site marche toujours.
@@ -463,7 +494,7 @@ actions `read` des différents contrôleurs :
   `Model.php` qui permet de faire une recherche par clé primaire dans une
   table. La nouveauté est que cette fonction a besoin de connaître le nom de la
   clé primaire de la table donc nous la stockerons dans un attribut `primary` de
-  nos classes `ModelVoiture` et `ModelUtilisateur`. Le paramètre
+  nos classes `VoitureRepository` et `ModelUtilisateur`. Le paramètre
   `$primary_value` permet de donner la valeur de la clé primaire pour la
   recherche.
 
@@ -475,10 +506,10 @@ actions `read` des différents contrôleurs :
 Commençons par la fonction `select($primary_value)`. Dans cette fonction, le nom de la table et la
 condition `WHERE` varie.
 
-1. Déplacez la fonction `getVoitureParImmat($immatriculation)` de `ModelVoiture.php` vers
+1. Déplacez la fonction `getVoitureParImmatriculation($immatriculation)` de `VoitureRepository.php` vers
    `Model.php` en la renommant `select($primary_value)`.
 
-1. Créez dans `ModelVoiture.php` une variable
+1. Créez dans `VoitureRepository.php` une variable
 
    ```php?start_inline=1
    protected static $primary='immatriculation'
@@ -496,7 +527,7 @@ condition `WHERE` varie.
       primaire et type d'objet dans `select($primary_value)`.
 
 1. Il ne reste plus qu'à appeler dans l'action `read()` de `ControllerVoiture`
-   la nouvelle méthode `ModelVoiture::select($immatriculation)`.
+   la nouvelle méthode `VoitureRepository::select($immatriculation)`.
 
 1. Testez que votre site marche toujours.
 
@@ -591,7 +622,7 @@ fonction correspondante dans le modèle générique.
 <div class="exercise">
 
 Créons une fonction générique pour remplacer `update($data)` de
-`ModelVoiture.php`. Pour reconstituer la requête
+`VoitureRepository.php`. Pour reconstituer la requête
 
 ```sql
 UPDATE voiture SET marque=:marque,couleur=:couleur,immatriculation=:immatriculation WHERE id=:id
@@ -601,7 +632,7 @@ il est nécessaire de pouvoir lister les champs de la table `voiture`. Ces
 champs sont les entrées du tableau `data` et c'est ainsi que nous allons les
 récupérer.
 
-1. Déplacez la fonction `update()` de `ModelVoiture.php` vers `Model.php`.
+1. Déplacez la fonction `update()` de `VoitureRepository.php` vers `Model.php`.
 1. Remplacer la table et le nom de la clé primaire par les variables adéquates.
 1. Nous allons générer la partie `SET` à partir des clés du tableau associatif
    `data`. Autrement dit, si `$data['un_champ']` existe, nous voulons rajouter
