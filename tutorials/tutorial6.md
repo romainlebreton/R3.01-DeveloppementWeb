@@ -120,7 +120,7 @@ d'API), cela impliquera beaucoup de réécriture de code.
 Voici le diagramme de classe modifié :
 
 <img alt="Diagramme de classe"
-src="https://www.plantuml.com/plantuml/png/XPD1JyCm38Nl_HK-5Z6aSTrfqxZiC40CSPeqkQbL1TgasCuacFRVKPSKaGffr_VizzbEknH5rj2rXNnOroDZ1yxN9DJ3_Np-HpKjYgnKsLP1QMEyszblWdbHEEn8UZG4gxxVh_tHMmsC3UstlgPs_u2AJzKx6OLJ0L10p8AtInrTn5i0E1oCTw8SZ9Qswr3Pcj2YMkzcq25_1fg1yQ6bm3DmrSvIGtAp61Bl063Iim1Hjgv9TagOgYblAe_f2x1E8GtOa3uclOpOGHNIJKwUJfzgOy8w0lE0KKpJPDulCjyunKtHMUlsid8PDy_QaXErSt6-_eelr7knwldhtrVCx8WvYQ9QSnvugIhTBRS5mv4Qv9guZ5JAggOXpyZN3pvjJv-MPHePhrYrX64ymN239Rbw-1T-0000" style="margin-left:auto;margin-right:auto;display:block;">
+src="https://www.plantuml.com/plantuml/png/XLB1Qkim4BphA_RenyiBUTSSIa9woI5jQKfFWR2M5wFMbjpLAj26_7jn99VABVWacDcPqQoqye8ieMsKVpMsGyOMhAl8KmV_5ujlg6xG-xK8cp88RRMpU_D1i53AOak-Gqsmxhh3nfsSaS1Oqs7dAceEjoXuNxwG5ZWh00NH2vwlStG5_mB0yQYTzS91Is7Q5eMD3WsASNO6BV9Re1be5neAF0DRxWtLvFyiUyT_033IBC4B6ridEZcCqUGtXWVt9HWha2vOazmblEXZ8-f9jddo-FPnDZbiOc1kC80wdXdt5PatJdRZw4owkrOkOlDCbfY8NTHb-XKVgNFUYEFtNrynesFCsGkAqPS-BqsblUMqnt2Y6haYBc8gvLCZamVawOMFvUbh6QOXumdBXZ0CA-XtCDLy_hFi_6RormygfLPagz0sdm00" style="margin-left:auto;margin-right:auto;display:block;">
 
 Notez que :
 * `ModelVoiture` est scindé en deux classes `VoitureRepository` et `Voiture`.
