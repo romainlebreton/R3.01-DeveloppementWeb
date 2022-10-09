@@ -105,18 +105,31 @@ et tester si une valeur appartient à un tableau avec
 ## Séparation des données et de leur persistance
 
 Une bonne pratique lors de la programmation orientée objet est de suivre des
-principes de conception, notamment *SOLID* dont vous en avez entendu parler
-l'an dernier en cours de *Développement Orientée Objet* et que vous allez également
-aborder dans le cours *R3.04 -- Qualité de développement*.
-Le `S` de *SOLID* signifie *Single responsibility principle* (ou principe de
-responsabilité unique en français) : chaque classe
-doit faire une seule tâche.
+principes de conception, notamment *SOLID* dont vous avez entendu parler l'an
+dernier en cours de *Développement Orienté Objet* et que vous allez également
+aborder dans le cours *Qualité de développement*. Le `S` de *SOLID* signifie
+*Single responsibility principle* (ou principe de responsabilité unique en
+français) : chaque classe doit faire une seule tâche.
 
 Actuellement, notre classe `ModelVoiture` gère 2 tâches : la gestion des
 voitures et leur persistance dans une base de donnée. Ceci est contraire aux
 principes *SOLID*. Plus concrètement, si on veut enregistrer une voiture
 différemment plus tard (dans une session, dans un fichier ou via un appel
 d'API), cela impliquera beaucoup de réécriture de code.
+
+Voici le diagramme de classe modifié :
+
+<img alt="Diagramme de classe"
+src="https://www.plantuml.com/plantuml/png/XPD1JyCm38Nl_HK-5Z6aSTrfqxZiC40CSPeqkQbL1TgasCuacFRVKPSKaGffr_VizzbEknH5rj2rXNnOroDZ1yxN9DJ3_Np-HpKjYgnKsLP1QMEyszblWdbHEEn8UZG4gxxVh_tHMmsC3UstlgPs_u2AJzKx6OLJ0L10p8AtInrTn5i0E1oCTw8SZ9Qswr3Pcj2YMkzcq25_1fg1yQ6bm3DmrSvIGtAp61Bl063Iim1Hjgv9TagOgYblAe_f2x1E8GtOa3uclOpOGHNIJKwUJfzgOy8w0lE0KKpJPDulCjyunKtHMUlsid8PDy_QaXErSt6-_eelr7knwldhtrVCx8WvYQ9QSnvugIhTBRS5mv4Qv9guZ5JAggOXpyZN3pvjJv-MPHePhrYrX64ymN239Rbw-1T-0000" style="margin-left:auto;margin-right:auto;display:block;">
+
+Notez que :
+* `ModelVoiture` est scindé en deux classes `VoitureRepository` et `Voiture`.
+* `VoitureRepository` et `Voiture` ont changés de dossier et de `namespace` par
+  rapport à `ModelVoiture`.
+* `sauvegarder` est maintenant une méthode statique qui prend une `Voiture` en
+  argument.
+
+
 
 <div class="exercise">
 
@@ -137,14 +150,17 @@ d'API), cela impliquera beaucoup de réécriture de code.
    `Voiture` soit correctement retourné. Pensez également à adapter le code des autres fonctions
    de la classe `VoitureRepository` afin qu'elles appellent correctement la méthode `construire`.
 
-1. Renommez la classe `Model` en `DatabaseConnection` et la la classe
-   `ModelVoiture` en `Voiture`. Utilisez le refactoring de PhpStorm : Clic droit
-   sur le nom de la classe > *Refactor* > *Rename*.
+1. Renommez la classe `Model` en `DatabaseConnection` et la classe
+   `ModelVoiture` en `Voiture`.     
+   Utilisez le *refactoring* de PhpStorm : Clic droit sur le nom de la classe >
+   *Refactor* > *Rename*.
 
 1. Déplacer `Voiture` dans le dossier `DataObject` et `DatabaseConnection` dans
-   `Repository`. **Attention** si vous utilisez le drag & drop de PhpStorm, vous allez
-   avoir des mauvaises surprises car les `namespace` risquent de ne pas se mettre à jour correctement...
-   La façon correcte de le faire : Clic droit sur le nom dela classe > *Refactor* > *Move Class* > Indiquer le namespace correspondant.
+   `Repository`. 
+   
+   **Attention** si vous utilisez le drag & drop de PhpStorm, vous allez
+   avoir des mauvaises surprises car les `namespace` risquent de ne pas se mettre à jour correctement...  
+   La façon correcte de le faire : Clic droit sur le nom de la classe > *Refactor* > *Move Class* > Indiquer le `namespace` correspondant.
 
 1. Faites remarcher les actions une par une :
    * `readAll` : 
@@ -155,8 +171,8 @@ d'API), cela impliquera beaucoup de réécriture de code.
      * `sauvegarder` et `getVoitures` appartiennent à la classe `VoitureRepository` désormais.
      * `sauvegarder` sera maintenant statique et prendra en argument un objet de
        la classe `Voiture` ; les getters de `Voiture` serviront à construire la requête SQL.
-     * la classe `Voiture` doit implémenter une nouvelle méthode `formatTableau`
-       pour créer le tableau qui sera donné à `execute`
+     <!-- * la classe `Voiture` doit implémenter une nouvelle méthode `formatTableau`
+       pour créer le tableau qui sera donné à `execute` -->
 
 </div>
 
@@ -183,7 +199,7 @@ Nous souhaitons rajouter l'action `delete` aux voitures. Pour cela :
 
 1. Écrivez dans `VoitureRepository` une méthode statique
    `supprimerParImmat($immatriculation)` qui prend en entrée l'immatriculation à
-   supprimer. Utilisez pour cela les requêtes préparées de PDO.
+   supprimer. Utilisez pour cela les requêtes préparées de `PDO`.
 
 1. Créez une vue `src/view/voiture/deleted.php` qui affiche *"La voiture
    d'immatriculation `$immatriculation` a bien été supprimée*", suivi de la liste des
@@ -343,31 +359,23 @@ l'action `readAll` de `Utilisateur`.
 <div class="exercise">
 
 1. Créez un contrôleur `controller/ControllerUtilisateur.php` similaire à celui
-   des voitures avec uniquement l'action `readAll` et le `require` du modèle
-   pour l'instant.
+   des voitures qui reprend les méthodes `readAll()`, `afficheVue()` et
+   `error()`.
 
-   **Astuce :** Vous pouvez utiliser la fonction de remplacement (`Ctrl+H` sur
-     Netbeans) pour remplacer toutes les `voiture` par `utilisateur`. En cochant
+   **Astuce :** Vous pouvez utiliser la fonction de remplacement (`Ctrl+R` sous
+     PHPStorm) pour remplacer tous les `voiture` par `utilisateur`. En cochant
      `Préserver la casse` (`Preserve case`), vous pouvez faire en sorte de
      respecter les majuscules lors du remplacement.
 
-1. Quelles différences notez-vous entre le code de `ControllerUtilisateur.php` et
-   celui de `ControllerVoiture.php`
-
-1. Chargez la classe `ControllerUtilisateur.php` dans `frontController.php` pour qu'il y
-   ait accès.
-
-2. Créez un modèle `model/ModelUtilisateur.php` basé sur votre classe
+2. Créez une classe `DataObject/Utilisateur.php` basé sur votre classe
    `Utilisateur` des TDs 2 & 3. Ce modèle ne contiendra que les *getter*, les
-   *setter*, le constructeur et la fonction `getUtilisateurs()` pour l'instant.
+   *setter* et le constructeur.
+   
+1. Créez une classe `Repository/UtilisateurRepository.php` qui reprend la
+   fonction `getUtilisateurs()` et `construire($utilisateurTableau)` de votre
+   ancienne classe `Utilisateur`.
 
-   <!--
-   Code de base donné avec get, set, __construct
-   puis remplacement avec NetBeans (garder majuscule) de voiture => utilisateur pour la fonction getVoitures()
-   -->
-
-1. Quelles différences notez-vous entre le code de `ModelUtilisateur.php` et
-   celui de `ModelVoiture.php`
+   Corrigez les erreurs : `Model` est devenu `DatabaseConnection` et il manque un alias avec `use` pour la classe `Voiture`.
 
 3. Créez une vue `src/view/utilisateur/list.php` similaire à celle des
    voitures (sans nécessairement de lien pour l'instant).
@@ -622,3 +630,9 @@ Vous pouvez aussi rajouter des actions pour afficher la liste des passagers pour
 un trajet, et inversement la liste des trajets pour un passager (table de
 jointure `passager`, cf. fin TD3).
 
+## Bonus
+
+* Faire en sorte que la méthode d'erreur prenne en argument un message d'erreur. Chaque appel à cette méthode doit maintenant fournir un message d'erreur personnalisé.
+* Factoriser le code des contrôleurs
+
+<!-- * Violation de SRP : le contrôleur frontal et le routeur devrait être séparés -->
