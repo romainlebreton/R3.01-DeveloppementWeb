@@ -484,7 +484,7 @@ Commençons par la fonction `select($valeurClePrimaire)`. Dans cette requête
 1. Utilisez `getNomTable()` et `getNomClePrimaire()` pour construire la requête
    *SQL* de `select()`.
 
-1. Finissez de corriger  `select()` :
+1. Finissez de corriger `select()` :
    * Changez les valeurs dans le tableau donné à `execute()`
    * Corrigez l'appel à `construire()` qui est une méthode dynamique maintenant.
 
@@ -514,7 +514,7 @@ Pas de nouveautés.
 
 <div class="exercise">
 
-Nous vous laissons adapter la requête *SQL* `delete($valeurClePrimaire)` de
+Nous vous laissons adapter la requête *SQL* `supprimer($valeurClePrimaire)` de
 `AbstractRepository`, l'action `delete` des contrôleurs *voiture* et
 *utilisateur*, ainsi que leur vue associée `delete.php` et à rajouter les liens
 pour supprimer dans `list.php`.
@@ -522,7 +522,9 @@ pour supprimer dans `list.php`.
 
 ### Action `create` et `update`
 
-Les vues `create.php` et `update.php` sont quasiment identiques : elles
+Pas de nouveautés.
+
+<!-- Les vues `create.php` et `update.php` sont quasiment identiques : elles
 affichent le même formulaire, et le préremplissent ou non. Nous allons donc
 fusionner `create.php` et `update.php` en une unique page.
 
@@ -547,12 +549,14 @@ fusionner `create.php` et `update.php` en une unique page.
 1. Enfin, le champ `action` du formulaire doit être `created` si l'action est
    `create` ou `updated` si l'action est `update`. Là aussi, utiliser une
    variable spécifique.
-
+-->
 
    <!-- Mettre à jour le contrôleur en conséquence.\\ -->
    <!-- **Indice :** `<input ... placeholder='Exemple' value='$val'>` affichera
    'Exemple' en grisé si `val` est la chaîne de caractère vide, et pré-remplira
    avec la valeur de `val` autrement. -->
+
+<!--
 
 1. Testez que votre nouvelle vue fusionnée marche.
 
@@ -560,46 +564,91 @@ fusionner `create.php` et `update.php` en une unique page.
    suite. Vous pouvez soit écrire en dur que le contrôleur est `voiture`, soit
    le récupérer avec l'attribut `static::$object` du contrôleur.
 
-</div>
+</div> -->
 
 <div class="exercise">
 
 Nous vous laissons adapter les actions `create` et `update` de
-`ControllerUtilisateur`, leur vue associée `update.php` et à rajouter les liens
-pour mettre à jour un utilisateur dans `detail.php`.
+`ControllerUtilisateur`, leurs vues associées `create.php` et `update.php` et à
+rajouter les liens pour mettre à jour un utilisateur ou une voiture dans
+`detail.php`.
 
 </div>
 
 ### Action `created` et `updated`
 
 Pour ces dernières actions, il faut un peu plus travailler pour créer la
-fonction correspondante dans le modèle générique.
+fonction correspondante dans le modèle générique. 
+
+#### Action `updated`
+
+Pour reconstituer la requête
+```sql
+UPDATE voiture SET marque= :marque, couleur= :couleur, immatriculation= :immatriculation WHERE id= :id;
+```
+il est nécessaire de pouvoir lister les champs de la table `voiture`.
 
 <div class="exercise">
 
-Créons une fonction générique pour remplacer `update($data)` de
-`VoitureRepository.php`. Pour reconstituer la requête
+1. Déplacez la fonction `mettreAJour($immatriculation)` de
+   `VoitureRepository.php` vers `AbstractRepository` en la renommant
+   `update($valeurClePrimaire)`. Enlevez son attribut `static` et son type de retour.
 
-```sql
-UPDATE voiture SET marque=:marque,couleur=:couleur,immatriculation=:immatriculation WHERE id=:id
-```
+1. Rajoutez donc une méthode abstraite `getNomsColonnes()` dans
+   `AbstractRepository`
+   ```php
+   protected abstract function getNomsColonnes(): array;
+   ```
+   et une implémentation de `getNomsColonnes()` dans `VoitureRepository`.
 
-il est nécessaire de pouvoir lister les champs de la table `voiture`. Ces
-champs sont les entrées du tableau `data` et c'est ainsi que nous allons les
-récupérer.
+1. Utilisez `getNomTable()`, `getNomClePrimaire()` et `getNomsColonnes()` pour
+   construire la requête *SQL* de `select()`.
 
-1. Déplacez la fonction `update()` de `VoitureRepository.php` vers `AbstractRepository`.
-1. Remplacer la table et le nom de la clé primaire par les variables adéquates.
-1. Nous allons générer la partie `SET` à partir des clés du tableau associatif
-   `data`. Autrement dit, si `$data['un_champ']` existe, nous voulons rajouter
-   la condition `un_champ=:un_champ` à `SET`.
+   **Aide :** N'hésitez pas à afficher la requête générée pour vérifier votre
+   code.
 
-   **Indice :** Utilisez la boucle `foreach ($tableau as $cle => $valeur)` pour
-  récupérer les clés du tableau. Googler aussi la fonction `rtrim` de PHP qui
-  pourra vous être utile pour enlever la virgule de trop à la fin de votre
-  requête.
+1. Pour les besoins de `execute()`, nous avons besoin de transformer l'objet
+   `Voiture $voiture` en un tableau 
+   ```php
+   array(
+       "immatriculationTag" => $voiture->getImmatriculation(),
+       "marqueTag" => $voiture->getMarque(),
+       "couleurTag" => $voiture->getCouleur(),
+       "nbSiegesTag" => $voiture->getNbSieges(),
+   );
+   ```
+
+   Nous allons demander à tous les `DataObject` d'implémenter une méthode `formatTableau()` qui fait celà :
+   1. Créer une classe abstraite `AbstractDataObject` dans le dossier
+      `DataObject`.
+   1. `Voiture` et `Utilisateur` doivent hériter de `AbstractDataObject`.
+   1. `AbstractDataObject` définit une méthode abstraite 
+      ```php
+      public abstract function formatTableau(): array;
+      ```
+      que vous implémenterez dans `Voiture` et `Utilisateur`.
+
+1. Utilisez `formatTableau()` dans `update()` pour obtenir le tableau donné à
+   `execute()`.
+
+1. Corrigez l'action `updated` du `ControllerVoiture` pour faire appel aux
+   méthodes de `VoitureRepository`. L'action doit remarcher.
+
+1. Grâce à la classe `AbstractDataObject`, vous pouvez rajouter des déclarations
+   de type dans `AbstractRepository` :
+   * type de retour de `select`,
+   * type d'entrée de `update`.
+</div>
+
+<div class="exercise">
+
+Implémentez l'action `updated` du contrôleur *utilisateur*.
 
 </div>
+
+
+
+#### Action `created`
 
 <div class="exercise">
 
@@ -620,6 +669,12 @@ jointure `passager`, cf. fin TD3).
 ## Bonus
 
 * Faire en sorte que la méthode d'erreur prenne en argument un message d'erreur. Chaque appel à cette méthode doit maintenant fournir un message d'erreur personnalisé.
-* Factoriser le code des contrôleurs
+* Factoriser le code des contrôleurs dans un contrôleur générique.
+* Faites hériter `Voiture`, `Utilisateur` et `Trajet` d'une classe abstraite
+  `AbstractDataObject`. Ceci permet de compléter les déclarations de type dans le modèle générique.
+* Rajouter les actions spécifiques aux requêtes SQL `getTrajets()` et
+  `supprimerPassager()` du TD3 non utilisées :
+  * qui liste les trajets d'un utilisateur,
+  * qui désinscrit un passager d'un trajet.
 
 <!-- * Violation de SRP : le contrôleur frontal et le routeur devrait être séparés -->
