@@ -176,7 +176,7 @@ Notez que :
 
 </div>
 
-## CRUD pour les voitures
+## CRUD our les v4itures
 
 CRUD est un acronyme pour *Create/Read/Update/Delete*, qui sont les quatre
 opérations de base de toute donnée. Nous allons compléter notre site pour qu'il
@@ -186,10 +186,10 @@ implémenté nos premières actions :
 1. afficher toutes les voitures : action `readAll`
 2. afficher les détails d'une voiture : action `read`
 3. afficher le formulaire de création d'une voiture : action `create`
-3. créer une voiture dans la BDD : action `created`
+4. créer une voiture dans la BDD : action `created`
+5. peut-être certains d'entre vous ont écrit le code suppression d'une voiture dans la BDD : action `delete` (question 10 du [TD4](tutorial4.html))
 
-Nous allons compléter ces opérations avec la suppression et la mise à
-jour.
+Nous allons compléter ces opérations avec la mise à jour et une version améliorée de la suppression.
 
 #### Action `delete`
 
