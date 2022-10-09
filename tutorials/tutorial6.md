@@ -420,131 +420,91 @@ faire pour avoir un code générique :
 
    <!-- getNomTable n'est pas statique car PHP déconseille l'utilisation de méthode statique et abstraite (PHP émet un warning) -->
 
-1. Utilisez `getNomTable()` dans `selectAll()`. Puisque `getNomTable()` est une
-   méthode dynamique, enlevez le `static` de `selectAll()`.
+1. Utilisez `getNomTable()` dans la requête *SQL* de `selectAll()`. Puisque
+   `getNomTable()` est une méthode dynamique, enlevez le `static` de
+   `selectAll()`.
 
 1. De même, `AbstractRepository` va demander à toutes ses classes filles de
    posséder une méthode `construire($objetFormatTableau)`.  
-   Rajoutez donc une méthode abstraite dans `AbstractRepository`
+   * Rajoutez donc une méthode abstraite dans `AbstractRepository`
    ```php
    protected abstract function construire(array $objetFormatTableau);
    ```
-   enlevez le `static` du `construire()` de `VoitureRepository`.
+   * Enlevez le `static` du `construire()` de `VoitureRepository`.
+   * Mettez à jour l'appel à `construire()` de `selectAll()`.
 
    <!-- attention déclaration de type correspondante entre méthode et 
    implémentation -->
 
    <!-- construire($objetFormatTableau): AbstractDataObject; -->
 
-1. Créez dans `VoitureRepository` une variable
-   `object` qui est `protected` (accessible uniquement dans la classe courante
-   et ses classes filles), `static` (qui ne dépend que de la classe, pas des
-   objets) et qui prend la valeur `voiture`.
+1. Corrigez l'action `readAll` du `ControllerVoiture` pour faire appel à la
+   méthode `selectAll()` de `VoitureRepository`. L'action `readAll` du
+   contrôleur *voiture* doit remarcher.
 
-   ```php
-   protected abstract function getNomColonneClePrimaire(): string;
-   protected abstract function getNomTable(): string;
-   protected abstract function getNomsColonnes(): array;
-   protected abstract function construire(array $objetFormatTableau): AbstractDataObject;
-   ```
+</div>
 
-1. Faites de même pour `ModelUtilisateur`.
+<div class="exercise">
 
-1. Écrivons maintenant le code de `selectAll()`. L'idée est que cette fonction
-   sera héritée par `VoitureRepository` et `ModelUtilisateur`. On veut donc que quand
-   on fait `VoitureRepository::selectAll()`, la fonction aille récupérer la variable
-   `$object='voiture'` de `VoitureRepository` et s'en serve pour appeler la bonne
-   table `voiture` et renvoyer le bon type d'objet `VoitureRepository`. Et quand on
-   appellera `ModelUtilisateur::selectAll()`, on récupèrera la variable
-   `$object='utilisateur'` de `ModelUtilisateur` et on pourra appeler la bonne
-   table `utilisateur` et renvoyer le bon type d'objet
-   `ModelUtilisateur`. Allons-y :
+1. Faites de même pour `UtilisateurRepository` :
+   * commentez `getUtilisateurs()`,
+   * enlevez le `static` de `construire()`,
+   * implémentez `getNomTable()`,
+   * `UtilisateurRepository` doit hériter de `AbstractRepository`.
 
-   1. créez une variable `table_name` dans `selectAll()` qui récupère le nom de
-      l'objet courant avec `static::$object` (car les deux coïncident).
-
-      **Plus d'explications :** La syntaxe `static::$object` est
-      [quelque peu subtile](http://php.net/manual/fr/language.oop5.late-static-bindings.php).
-      Dans notre cas, elle permet que lorsque l'on appelle
-      `VoitureRepository::selectAll()`, qui est héritée de `Model::selectAll()`, la
-      variable `static::$object` aille chercher `VoitureRepository::$object` et non
-      pas `Model::$object`.
-
-   1. créez une variable `class_name` dans `selectAll()` qui contiendra `'Model'`
-      concaténé au nom de l'objet avec sa première lettre en majuscule (utilisez
-      encore [`ucfirst()`](http://php.net/manual/fr/function.ucfirst.php)).
-
-   1. Servez-vous de ces deux variables pour appeler la bonne table et le bon
-      type d'objet dans `selectAll()`.
-
-
-1. Il ne reste plus qu'à appeler `VoitureRepository::selectAll()` au lieu de
-   `getVoitures()` et pareil pour les utilisateurs.
-
-1. Testez que votre site marche toujours.
+1. Corrigez l'action `readAll` du `ControllerUtilisateur` pour faire appel à la
+   méthode `selectAll()` de `UtilisateurRepository`. L'action doit remarcher.
 
 </div>
 
 ### Action `read`
 
-Voici ce que nous proposons comme factorisation de code pour faciliter les
-actions `read` des différents contrôleurs :
-
-* nous allons créer une fonction `select($primary_value)` générique dans
-  `Model.php` qui permet de faire une recherche par clé primaire dans une
-  table. La nouveauté est que cette fonction a besoin de connaître le nom de la
-  clé primaire de la table donc nous la stockerons dans un attribut `primary` de
-  nos classes `VoitureRepository` et `ModelUtilisateur`. Le paramètre
-  `$primary_value` permet de donner la valeur de la clé primaire pour la
-  recherche.
-
-* nous allons remplacer tous les `$controller='voiture'` qui servent dans la vue
-  générique par un attribut `object` de `ControllerVoiture.php`.
+Pour faciliter les actions `read` des différents contrôleurs, nous allons créer
+une fonction `select($valeurClePrimaire)` générique dans `AbstractRepository`
+qui permet de faire une recherche par clé primaire dans une table. Cette
+fonction a besoin de connaître le *nom de la clé primaire*. Nous allons donc
+demander aux implémentations de `AbstractRepository` de fournir une méthode
+`getNomClePrimaire()`.
 
 <div class="exercise">
 
-Commençons par la fonction `select($primary_value)`. Dans cette fonction, le nom de la table et la
-condition `WHERE` varie.
+Commençons par la fonction `select($valeurClePrimaire)`. Dans cette requête
+*SQL*, le nom de la table et la condition `WHERE` varie.
 
-1. Déplacez la fonction `getVoitureParImmatriculation($immatriculation)` de `VoitureRepository.php` vers
-   `Model.php` en la renommant `select($primary_value)`.
+1. Déplacez la fonction `getVoitureParImmatriculation($immatriculation)` de
+   `VoitureRepository.php` vers `AbstractRepository` en la renommant
+   `select($valeurClePrimaire)`. Enlevez son attribut `static` et son type de retour.
 
-1. Créez dans `VoitureRepository.php` une variable
-
-   ```php?start_inline=1
-   protected static $primary='immatriculation'
+1. Rajoutez donc une méthode abstraite `getNomClePrimaire()` dans
+   `AbstractRepository`
+   ```php
+   protected abstract function getNomClePrimaire(): string;
    ```
+   et une implémentation de `getNomClePrimaire()` dans `VoitureRepository`.
 
-   et faites de même dans `ModelUtilisateur.php`.
+1. Utilisez `getNomTable()` et `getNomClePrimaire()` pour construire la requête
+   *SQL* de `select()`.
 
-1. Écrivons maintenant le code de `select($primary_value)` :
+1. Finissez de corriger  `select()` :
+   * Changez les valeurs dans le tableau donné à `execute()`
+   * Corrigez l'appel à `construire()` qui est une méthode dynamique maintenant.
 
-   1. créez des variables `table_name` et `class_name` comme précédemment.
-
-   1. créez une variable `primary_key` qui récupère la clé primaire `static::$primary`
-
-   1. Servez-vous de ces trois variables pour appeler les bonnes table, clé
-      primaire et type d'objet dans `select($primary_value)`.
-
-1. Il ne reste plus qu'à appeler dans l'action `read()` de `ControllerVoiture`
-   la nouvelle méthode `VoitureRepository::select($immatriculation)`.
-
-1. Testez que votre site marche toujours.
-
+1. Corrigez l'action `read` du `ControllerVoiture` pour faire appel à la méthode
+   `select()` de `VoitureRepository`. L'action doit remarcher.
 </div>
 
 <div class="exercise">
 
-Créez un attribut `protected static $object` dans vos contrôleurs et remplacez la
-variable `controller` dans la vue générique par un appel à `object`.
+1. Faites de même pour `UtilisateurRepository` : implémentez
+   `getNomClePrimaire()`.
 
-</div>
+1. Créez l'action `read` du `ControllerUtilisateur` en vous basant sur celle de
+   `ControllerVoiture`.
 
-<div class="exercise">
+   **Rappel :** Utilisez le remplacement `Ctrl+R` en préservant la casse pour vous faciliter le travail.
 
-Il ne vous reste plus qu'à créer l'action `read()` de `ControllerUtilisateur`,
-sa vue associée `detail.php` et à rajouter les liens vers la vue de détail dans
-`list.php`.
+1. Il ne vous reste plus qu'à créer la vue associée `detail.php` et à rajouter
+   les liens vers la vue de détail dans `list.php`. L'action `read` doit maintenant fonctionner.
 
 </div>
 
@@ -555,13 +515,10 @@ Pas de nouveautés.
 
 <div class="exercise">
 
-Nous vous laissons adapter la fonction `delete($primary_value)` de `Model.php`,
-l'action `delete` de `ControllerUtilisateur`, sa vue associée `delete.php` et à
-rajouter les liens pour supprimer dans `list.php`.
-
-**Rappel :** Utilisez la fonction de remplacement de NetBeans pour être plus
-  efficace.
-
+Nous vous laissons adapter la requête *SQL* `delete($valeurClePrimaire)` de
+`AbstractRepository`, l'action `delete` des contrôleurs *voiture* et
+*utilisateur*, ainsi que leur vue associée `delete.php` et à rajouter les liens
+pour supprimer dans `list.php`.
 </div>
 
 ### Action `create` et `update`
@@ -632,7 +589,7 @@ il est nécessaire de pouvoir lister les champs de la table `voiture`. Ces
 champs sont les entrées du tableau `data` et c'est ainsi que nous allons les
 récupérer.
 
-1. Déplacez la fonction `update()` de `VoitureRepository.php` vers `Model.php`.
+1. Déplacez la fonction `update()` de `VoitureRepository.php` vers `AbstractRepository`.
 1. Remplacer la table et le nom de la clé primaire par les variables adéquates.
 1. Nous allons générer la partie `SET` à partir des clés du tableau associatif
    `data`. Autrement dit, si `$data['un_champ']` existe, nous voulons rajouter
