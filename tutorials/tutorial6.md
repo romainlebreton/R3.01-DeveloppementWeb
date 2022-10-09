@@ -113,7 +113,7 @@ d'API), cela impliquera beaucoup de réécriture de code.
 Voici le diagramme de classe modifié :
 
 <img alt="Diagramme de classe"
-src="https://www.plantuml.com/plantuml/png/XLB1Qkim4BphA_RenyiBUTSSIa9woI5jQKfFWR2M5wFMbjpLAj26_7jn99VABVWacDcPqQoqye8ieMsKVpMsGyOMhAl8KmV_5ujlg6xG-xK8cp88RRMpU_D1i53AOak-Gqsmxhh3nfsSaS1Oqs7dAceEjoXuNxwG5ZWh00NH2vwlStG5_mB0yQYTzS91Is7Q5eMD3WsASNO6BV9Re1be5neAF0DRxWtLvFyiUyT_033IBC4B6ridEZcCqUGtXWVt9HWha2vOazmblEXZ8-f9jddo-FPnDZbiOc1kC80wdXdt5PatJdRZw4owkrOkOlDCbfY8NTHb-XKVgNFUYEFtNrynesFCsGkAqPS-BqsblUMqnt2Y6haYBc8gvLCZamVawOMFvUbh6QOXumdBXZ0CA-XtCDLy_hFi_6RormygfLPagz0sdm00" style="margin-left:auto;margin-right:auto;display:block;">
+src="https://www.plantuml.com/plantuml/uml/XLB1Qkim4BphA_RenyiBUTSSIa9woI5jQKfFWR2M5wFMbjpLAj26_7jn99VABVWacDcPqQoqye8ieMsKVpMsGyOMhAl8KmV_5ujlg6xG-xK8cp88RRMpU_D1i53AOak-Gqsmxhh3nfsSaS1Oqs7dAceEjoXuNxwG5ZWh00NH2vwlStG5_mB0yQYTzS91Is7Q5eMD3WsASNO6BV9Re1be5neAF0DRxWtLvFyiUyT_033IBC4B6ridEZcCqUGtXWVt9HWha2vOazmblEXZ8-f9jddo-FPnDZbiOc1kC80wdXdt5PatJdRZw4owkrOkOlDCbfY8NTHb-XKVgNFUYEFtNrynesFCsGkAqPS-BqsblUMqnt2Y6haYBc8gvLCZamVawOMFvUbh6QOXumdBXZ0CA-XtCDLy_hFi_6RormygfLPagz0sdm00" style="margin-left:auto;margin-right:auto;display:block;">
 
 Notez que :
 * `ModelVoiture` est scindé en deux classes `VoitureRepository` et `Voiture`.
@@ -138,8 +138,7 @@ Notez que :
    * `getVoitureParImmatriculation`
    * `sauvegarder`
    * `construire`
-   * `supprimerParImmatriculation` pour ceux qui avaient fait la question
-     optionnelle 10 du [TD4](tutorial4.html)
+   * `supprimerParImmatriculation` pour ceux qui avaient fait l'exercice optionnel numéro 19 du [TD4](tutorial4.html)
    
    Pour la méthode `construire`, changez si nécessaire le corps de la fonction afin qu'un objet
    `Voiture` soit correctement retourné. Pensez également à adapter le code des autres fonctions
@@ -183,7 +182,7 @@ implémenté nos premières actions :
 3. afficher le formulaire de création d'une voiture : action `create`
 4. créer une voiture dans la BDD : action `created`
 5. suppression d'une voiture dans la BDD : action `delete` (juste ceux d'entre
-   vous qui avaient fait l'exercice optionnelle numéro 10 du [TD4](tutorial4.html))
+   vous qui avaient fait l'exercice optionnel numéro 10 du [TD4](tutorial4.html))
 
 Nous allons compléter ces opérations avec la mise à jour et une version améliorée de la suppression.
 
