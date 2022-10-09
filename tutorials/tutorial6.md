@@ -106,7 +106,7 @@ et tester si une valeur appartient à un tableau avec
 
 Une bonne pratique lors de la programmation orientée objet est de suivre des
 principes de conception, notamment *SOLID* dont vous en avez entendu parler
-l'an dernier en cours de Développement Orientée Objet et que vous allez également
+l'an dernier en cours de *Développement Orientée Objet* et que vous allez également
 aborder dans le cours *R3.04 -- Qualité de développement*.
 Le `S` de *SOLID* signifie *Single responsibility principle* (ou principe de
 responsabilité unique en français) : chaque classe
@@ -125,32 +125,36 @@ d'API), cela impliquera beaucoup de réécriture de code.
    *Note :* Le dossier `Repository` gère la persistance des données. Le nom
    `Repository` est le nom du patron de conception que l'on utilise et que l'on retrouve dans les outils professionnels (*ORM Doctrine* par exemple).
 
-1. Les méthodes suivantes de `ModelVoiture` seront déplacées dans une nouvelle
-   classe `VoitureRepository` dans le dossier `Repository` avec le `namespace`
-   correspondant :
+1. Créez une classe `VoitureRepository` dans le dossier `Repository` avec le `namespace`
+   correspondant (`App\Covoiturage\Model\Repository`). Déplacez les méthodes suivantes
+   de `ModelVoiture` dans `VoitureRepository` :
    * `getVoitures`
    * `getVoitureParImmat`
    * `sauvegarder`
+   * `construire`
+   
+   Pour la méthode `construire`, changez si nécessaire le corps de la fonction afin qu'un objet
+   `Voiture` soit correctement retourné. Pensez également à adapter le code des autres fonctions
+   de la classe `VoitureRepository` afin qu'elles appellent correctement la méthode `construire`.
 
 1. Renommez la classe `Model` en `DatabaseConnection` et la la classe
-   `ModelVoiture` en `Voiture`. Utilisez le refactoring de PHPStorm : Clic droit
+   `ModelVoiture` en `Voiture`. Utilisez le refactoring de PhpStorm : Clic droit
    sur le nom de la classe > *Refactor* > *Rename*.
 
 1. Déplacer `Voiture` dans le dossier `DataObject` et `DatabaseConnection` dans
-   `Repository`. Utilisez le refactoring de PHPStorm : Clic droit sur le nom de
-   la classe > *Refactor* > *Move Class*.
+   `Repository`. **Attention** si vous utilisez le drag & drop de PhpStorm, vous allez
+   avoir des mauvaises surprises car les `namespace` risquent de ne pas se mettre à jour correctement...
+   La façon correcte de le faire : Clic droit sur le nom dela classe > *Refactor* > *Move Class* > Indiquer le namespace correspondant.
 
 1. Faites remarcher les actions une par une :
    * `readAll` : 
      * `getVoitures` appartient à la classe `VoitureRepository` désormais.
-     * Dans `getVoitures`, `construire` appartient maintenant à `Voiture`.
    * `read` : 
      * `getVoitureParImmat` appartient à la classe `VoitureRepository`.
-     * Dans `getVoitureParImmat`, `construire` appartient maintenant à `Voiture`.
    * `created` :
      * `sauvegarder` et `getVoitures` appartiennent à la classe `VoitureRepository` désormais.
      * `sauvegarder` sera maintenant statique et prendra en argument un objet de
-       la classe `Voiture`
+       la classe `Voiture` ; les getters de `Voiture` serviront à construire la requête SQL.
      * la classe `Voiture` doit implémenter une nouvelle méthode `formatTableau`
        pour créer le tableau qui sera donné à `execute`
 
