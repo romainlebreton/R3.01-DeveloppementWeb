@@ -135,7 +135,7 @@ Notez que :
    correspondant (`App\Covoiturage\Model\Repository`). Déplacez les méthodes suivantes
    de `ModelVoiture` dans `VoitureRepository` :
    * `getVoitures`
-   * `getVoitureParImmatriculation`
+   * `getVoitureParImmat`
    * `sauvegarder`
    * `construire`
    * `supprimerParImmatriculation` pour ceux qui avaient fait l'exercice optionnel numéro 19 du [TD4](tutorial4.html)
@@ -160,7 +160,7 @@ Notez que :
    * `readAll` : 
      * `getVoitures` appartient à la classe `VoitureRepository` désormais.
    * `read` : 
-     * `getVoitureParImmatriculation` appartient à la classe `VoitureRepository`.
+     * `getVoitureParImmat` appartient à la classe `VoitureRepository`.
    * `created` :
      * `sauvegarder` et `getVoitures` appartiennent à la classe `VoitureRepository` désormais.
      * `sauvegarder` sera maintenant statique et prendra en argument un objet de
@@ -245,7 +245,7 @@ formulaire de mise à jour. Pour cela :
    champ du formulaire. Notez aussi que l'attribut `readonly` de `<input>`
    permet d'afficher l'immatriculation sans que l'internaute puisse le changer.
 
-   1. On pourra se servir dans le contrôleur de `getVoitureParImmatriculation` pour
+   1. On pourra se servir dans le contrôleur de `getVoitureParImmat` pour
       récupérer l'objet voiture de la bonne immatriculation. La vue devra alors
       remplir le formulaire avec les attributs de cet objet.
 
@@ -470,7 +470,7 @@ demander aux implémentations de `AbstractRepository` de fournir une méthode
 Commençons par la fonction `select($valeurClePrimaire)`. Dans cette requête
 *SQL*, le nom de la table et la condition `WHERE` varie.
 
-1. Déplacez la fonction `getVoitureParImmatriculation($immatriculation)` de
+1. Déplacez la fonction `getVoitureParImmat($immatriculation)` de
    `VoitureRepository.php` vers `AbstractRepository` en la renommant
    `select($valeurClePrimaire)`. Enlevez son attribut `static` et son type de retour.
 
