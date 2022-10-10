@@ -483,7 +483,7 @@ page qui correspond par exemple à l'action `read`.
 
 Rajouter une fonctionnalité *"Supprimer une voiture"* en fonction de son
 immatriculation à votre site (action `delete`). Ajouter un lien cliquable pour
-supprimer chaque voiture dans la liste des voitures (dans la vue
-`view/voiture/list.php`).
+supprimer chaque voiture dans la liste des voitures de la vue
+`view/voiture/list.php`.
 
 </div>

@@ -2,10 +2,11 @@ nav ul {
     list-style: none;
     padding-left: 0;
     text-align: center;
+    display:flex;
+    justify-content:center;
 }
 
 nav ul li {
-    display: inline-block;    
     border-color: black;
     border-width: 1px;
     border-style: solid;    

@@ -123,8 +123,9 @@ pas de slash final (sauf si c'est le dossier racine `/`). -->
 
 <div class="exercise">
 
-1. Corrigez tous les `require_once` pour que le site remarche. Si besoin, changez
-      les liens de `detail.php` et l'attribut `action` du formulaire `create.php`.
+1. Corrigez tous les `require_once` pour que le site remarche. Si besoin,
+   changez les liens de `list.php` et l'attribut `action` du formulaire
+   `create.php`.
 
 3. Nous allons indiquer au serveur Web Apache que les fichiers ne sont pas accessibles sur internet par défaut. Pour ceci, créez un fichier `.htaccess` à la racine de votre site `TD5` avec le contenu suivant
 

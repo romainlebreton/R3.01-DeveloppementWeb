@@ -208,8 +208,8 @@ Nous souhaitons rajouter l'action `delete` aux voitures. Pour cela :
    1. il affiche la vue `deleted.php` en utilisant le mécanisme de vue
       générique, et en donnant en paramètres les variables nécessaires dans la vue.  
 
-1. Enrichissez la vue de détail `detail.php` pour ajouter un lien
-   HTML qui permet de supprimer la voiture dont on affiche les détails.
+1. Enrichissez la vue `list.php` pour ajouter des liens HTML qui permettent de
+   supprimer une voiture.
 
    **Aide :** Procédez par étape. Écrivez d'abord un lien *fixe* dans votre vue,
    puis la partie qui dépend de la voiture.
@@ -269,9 +269,22 @@ formulaire de mise à jour. Pour cela :
 1. Écrivez l'action `update` du contrôleur de voiture pour qu'il affiche le
    formulaire prérempli. **Testez** votre action.
 
-1. Enrichissez la vue de détail `detail.php` pour ajouter un lien HTML qui
-   permet de mettre à jour la voiture dont on affiche les détails. Ce lien
-   pointe donc vers le formulaire de mis-à-jour prérempli.
+1. Enrichissez la vue `list.php` pour ajouter des liens HTML qui permettent de
+   mettre à jour une voiture. Ces liens pointent donc vers le formulaire de
+   mis-à-jour prérempli.
+
+   *Oubli des TDs précédents :* Rajoutez aussi un lien *Créer une voiture* vers l'action `created` dans `list.php`.
+
+1. Astuce optionnelle : La vue `update` peut être raccourcie en utilisant la
+   syntaxe 
+   ```php
+   <?= $immatriculationHTML ?>
+   ```
+   qui est équivalente à
+   ```php
+   <?php echo $immatriculationHTML; ?>
+   ```
+
 
 </div>
 
