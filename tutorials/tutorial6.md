@@ -235,7 +235,7 @@ chemin dans le serveur (?)
 Nous souhaitons rajouter l'action `update` aux voitures qui affiche le
 formulaire de mise à jour. Pour cela :
 
-1. Complétez la vue `src/view/voiture/update.php` pour qu'elle affiche un formulaire
+1. Créez une vue `src/view/voiture/update.php` qui affiche un formulaire
    identique à celui de `create.php`, mais qui sera prérempli par les données
    de la voiture courante. Nous ne passerons que l'immatriculation de la voiture
    *via* l'URL ; les autres informations seront récupérées dans la BDD. Voici
@@ -266,7 +266,7 @@ formulaire de mise à jour. Pour cela :
       ```
       -->
 
-1. Complétez l'action `update` du contrôleur de voiture pour qu'il affiche le
+1. Écrivez l'action `update` du contrôleur de voiture pour qu'il affiche le
    formulaire prérempli. **Testez** votre action.
 
 1. Enrichissez la vue de détail `detail.php` pour ajouter un lien HTML qui
