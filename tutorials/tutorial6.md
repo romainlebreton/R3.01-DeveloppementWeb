@@ -71,27 +71,28 @@ On souhaite que le routeur vérifie que `action` est le nom d'une méthode de
 `ControllerVoiture.php` avant d'appeler cette méthode et renvoyer vers une page
 d'erreur le cas échéant.
 
-**Modifiez** le code du routeur pour implémenter cette fonction. Si l'action
-n'existe pas, appelez la méthode `error` du contrôleur, que vous devez créer
-pour qu'elle affiche la vue d'erreur `src/view/voiture/error.php`.
+1. Créez une action `error(string $errorMessage)` qui affiche une vue d'erreur
+   `src/view/voiture/error.php` contenant le message d'erreur *Problème avec la voiture : `$errorMessage`*.
 
-**Notes :** 
-* Vous pouvez récupérer le tableau des méthodes d'une classe avec
-[la fonction `get_class_methods()`](http://php.net/manual/fr/function.get-class-methods.php)
-et tester si une valeur appartient à un tableau avec
-[la fonction `in_array`](http://php.net/manual/fr/function.in-array.php).
-* `get_class_methods()` prend en argument une chaine de caractères contenant le
-  nom de la classe **qualifié**, c.-à-d. avec le `namespace`.
-  <!-- (*Astuce optionnelle*) Si une classe possède un alias avec `use`, on peut
-  récupérer le nom de classe qualifié avec
-  [`::class`](https://www.php.net/manual/fr/language.oop5.basic.php#language.oop5.basic.class.class).
-  Exemple :
-  ```php
-  use App\Covoiturage\Controller\ControllerVoiture;
-  echo ControllerVoiture::class
-  // Affiche App\Covoiturage\Controller\ControllerVoiture
-  ``` -->
- 
+1. **Modifiez** le code du routeur pour implémenter la vérification de l'action.
+   Si l'action n'existe pas, appelez l'action `error`.
+
+   **Notes :** 
+   * Vous pouvez récupérer le tableau des méthodes d'une classe avec
+   [la fonction `get_class_methods()`](http://php.net/manual/fr/function.get-class-methods.php)
+   et tester si une valeur appartient à un tableau avec
+   [la fonction `in_array`](http://php.net/manual/fr/function.in-array.php).
+   * `get_class_methods()` prend en argument une chaine de caractères contenant le
+   nom de la classe **qualifié**, c.-à-d. avec le `namespace`.
+   <!-- (*Astuce optionnelle*) Si une classe possède un alias avec `use`, on peut
+   récupérer le nom de classe qualifié avec
+   [`::class`](https://www.php.net/manual/fr/language.oop5.basic.php#language.oop5.basic.class.class).
+   Exemple :
+   ```php
+   use App\Covoiturage\Controller\ControllerVoiture;
+   echo ControllerVoiture::class
+   // Affiche App\Covoiturage\Controller\ControllerVoiture
+   ``` -->
 
 </div>
 
@@ -669,7 +670,9 @@ Répétez la question précédente avec la fonction `sauvegarder()` des différe
 
 </div>
 
-## Contrôleur trajet
+## Bonus
+
+### Contrôleur trajet
 
 Adaptez chacune des actions de `ControllerTrajet.php` et les tester une à
 une. Nous vous conseillons de faire dans l'ordre les actions `read`, `delete`,
@@ -679,7 +682,7 @@ Vous pouvez aussi rajouter des actions pour afficher la liste des passagers pour
 un trajet, et inversement la liste des trajets pour un passager (table de
 jointure `passager`, cf. fin TD3).
 
-## Bonus
+### Autres idées
 
 * Faire en sorte que la méthode d'erreur prenne en argument un message d'erreur. Chaque appel à cette méthode doit maintenant fournir un message d'erreur personnalisé.
 * Factoriser le code des contrôleurs dans un contrôleur générique, au moins pour
