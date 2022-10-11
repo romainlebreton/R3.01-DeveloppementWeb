@@ -139,7 +139,7 @@ Notez que :
    * `getVoitureParImmat`
    * `sauvegarder`
    * `construire`
-   * `supprimerParImmatriculation` pour ceux qui avaient fait l'exercice optionnel numéro 19 du [TD4](tutorial4.html)
+   * `supprimerParImmatriculation` pour ceux qui avaient fait l'exercice 10 optionnel du [TD4](tutorial4.html)
    
    Pour la méthode `construire`, changez si nécessaire le corps de la fonction afin qu'un objet
    `Voiture` soit correctement retourné. Pensez également à adapter le code des autres fonctions
@@ -183,9 +183,10 @@ implémenté nos premières actions :
 3. afficher le formulaire de création d'une voiture : action `create`
 4. créer une voiture dans la BDD : action `created`
 5. suppression d'une voiture dans la BDD : action `delete` (juste ceux d'entre
-   vous qui avaient fait l'exercice optionnel numéro 10 du [TD4](tutorial4.html))
+   vous qui avaient fait l'exercice 10 optionnel du [TD4](tutorial4.html))
 
-Nous allons compléter ces opérations avec la mise à jour et une version améliorée de la suppression.
+Nous allons compléter ces opérations avec la mise à jour et une version
+améliorée de la suppression.
 
 #### Action `delete`
 
@@ -202,7 +203,8 @@ Nous souhaitons rajouter l'action `delete` aux voitures. Pour cela :
    voitures en appelant la vue `list.php` (de la même manière que
    `created.php`).
 
-1. Écrivez (ou modifiez pour ceux qui ont fait l'exercice 10 du [TD4](tutorial4.html)) l'action `delete` du contrôleur de voiture pour que
+1. Écrivez (ou modifiez pour ceux qui ont fait l'exercice 10 du
+   [TD4](tutorial4.html)) l'action `delete` du contrôleur de voiture pour que
 
    1. il supprime la voiture dont l'immatriculation est passée en paramètre dans
       l'URL,
@@ -268,11 +270,33 @@ formulaire de mise à jour. Pour cela :
       -->
 
 1. Écrivez l'action `update` du contrôleur de voiture pour qu'il affiche le
-   formulaire prérempli. **Testez** votre action.
+   formulaire prérempli. **Vérifiez** que l'action `update` affiche bien le formulaire.
 
-1. Enrichissez la vue `list.php` pour ajouter des liens HTML qui permettent de
-   mettre à jour une voiture. Ces liens pointent donc vers le formulaire de
-   mis-à-jour prérempli.
+1. Maintenant, passons à l'action `updated` qui effectue la mise à jour dans la
+   BDD.
+
+   Créez la vue `src/view/voiture/updated.php` pour qu'elle affiche *"La
+   voiture d'immatriculation `$immatriculation` a bien été mise à jour*". Affichez
+   en dessous de ce message la liste des voitures mise à jour (à la manière de
+   `deleted.php` et `created.php`).
+
+1. Rajoutez à `VoitureRepository` une méthode statique `mettreAJour(Voiture
+   $voiture)`. Cette méthode est proche de `sauvegarder(Voiture $voiture)`, à
+   ceci près qu'elle ne renvoie pas de booléen. En effet, on va considérer
+   qu'une mise à jour se passe toujours correctement.
+
+1. Complétez l'action `updated` du contrôleur de voiture pour qu'il mette à
+   jour la voiture dont l'immatriculation passée en paramètre dans l'URL, puis
+   qu'il affiche la vue `src/view/voiture/updated.php` après l'avoir correctement
+   initialisée.
+
+1. Testez le tout. Quand la fonctionnalité marche, appréciez de nouveau
+   l'instant.
+
+
+1. Rajoutons les liens manquants. Enrichissez la vue `list.php` pour ajouter des
+   liens HTML qui permettent de mettre à jour une voiture. Ces liens pointent
+   donc vers le formulaire de mis-à-jour prérempli.
 
    *Oubli des TDs précédents :* Rajoutez aussi un lien *Créer une voiture* vers l'action `created` dans `list.php`.
 
@@ -291,26 +315,7 @@ formulaire de mise à jour. Pour cela :
 
 <div class="exercise">
 
-Nous souhaitons rajouter l'action `updated` aux voitures qui effectue la mise à
-jour dans la BDD. Pour cela :
 
-1. Rajoutez à `VoitureRepository` une méthode statique `mettreAJour(Voiture
-   $voiture)`. Cette méthode est proche de `sauvegarder(Voiture $voiture)`, à
-   ceci près qu'elle ne renvoie pas de booléen. En effet, on va considérer
-   qu'une mise à jour se passe toujours correctement.
-
-1. Complétez la vue `src/view/voiture/updated.php` pour qu'elle affiche *"La
-   voiture d'immatriculation `$immatriculation` a bien été mise à jour*". Affichez
-   en dessous de ce message la liste des voitures mise à jour (à la manière de
-   `deleted.php` et `created.php`).
-
-1. Complétez l'action `updated` du contrôleur de voiture pour qu'il mette à
-   jour la voiture dont l'immatriculation passée en paramètre dans l'URL, puis
-   qu'il affiche la vue `src/view/voiture/updated.php` après l'avoir correctement
-   initialisée.
-
-1. Testez le tout. Quand la fonctionnalité marche, appréciez de nouveau
-   l'instant.
 
 </div>
 
