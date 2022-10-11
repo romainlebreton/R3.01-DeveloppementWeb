@@ -37,16 +37,16 @@ Voir quand intégrer la séance Git
 
 1. Mardi 6 septembre 2022 -- Cours d'introduction à PHP
 
-**1er bloc de TPs -- Bases de PHP :**
+**1er bloc de TDs -- Bases de PHP :**
 
-1. Semaine du lundi 6 septembre 2022 -- TP 1 -- Introduction aux objets en PHP
-1. Semaine du lundi 12 septembre 2022 -- TP 2 -- La persistance des données en PHP
-1. Semaine du lundi 19 septembre 2022 -- TP 3 -- Requêtes préparées et association de classes
-1. Semaine du lundi 26 septembre 2022 -- TP 4 -- Architecture MVC simple
-1. Semaine du lundi 3 octobre 2022 -- TP 5 -- Architecture MVC avancée 1/2
-1. Semaine du lundi 10 octobre 2022 -- TP 6 -- Architecture MVC avancée 2/2
+1. Semaine du lundi 6 septembre 2022 -- TD 1 -- Introduction aux objets en PHP
+1. Semaine du lundi 12 septembre 2022 -- TD 2 -- La persistance des données en PHP
+1. Semaine du lundi 19 septembre 2022 -- TD 3 -- Requêtes préparées et association de classes
+1. Semaine du lundi 26 septembre 2022 -- TD 4 -- Architecture MVC simple
+1. Semaine du lundi 3 octobre 2022 -- TD 5 -- Architecture MVC avancée 1/2
+1. Semaine du lundi 10 octobre 2022 -- TD 6 -- Architecture MVC avancée 2/2
 
-**2ème bloc de TPs -- Mise en application sur le projet + TPs complémentaires :**
+**2ème bloc de TDs -- Mise en application sur le projet + TDs complémentaires :**
 
 1. Semaine du lundi 17 octobre 2022 -- Projet : SAÉ (Parcours A) ou projet spécifique à ce cours (Parcours B & D)
 1. Semaine du lundi 24 octobre 2022 -- TD 7 -- Cookies et Sessions

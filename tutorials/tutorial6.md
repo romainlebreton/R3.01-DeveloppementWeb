@@ -108,13 +108,14 @@ français) : chaque classe doit faire une seule tâche.
 Actuellement, notre classe `ModelVoiture` gère 2 tâches : la gestion des
 voitures et leur persistance dans une base de donnée. Ceci est contraire aux
 principes *SOLID*. Plus concrètement, si on veut enregistrer une voiture
-différemment plus tard (dans une session, dans un fichier ou via un appel
-d'API), cela impliquera beaucoup de réécriture de code.
+différemment plus tard (dans une session, dans un fichier, via un appel d'API,
+ou avec une classe *mock* pour des tests), cela impliquera beaucoup de
+réécriture de code.
 
 Voici le diagramme de classe modifié :
 
 <img alt="Diagramme de classe"
-src="https://www.plantuml.com/plantuml/png/XPCnJ_im4CNtV8eRK_txhyhQ0RKgIuS2eeYfKdLnJf4XiODzhbIgVdTCuf3KW29bYExk_TxpELbQHiEkAXFx9bMD1YjGEYTBDTpCvuEgAD7Q5REHcMFQ2ArsyeDWdYGAAx8r2e9LNU_N-gWbEuC5xRUULExlaF4XUoN1S4u04cXPyDBCKLFy1m27WuTQDavmAgiAlPLm9RBKQWeLcdT7Kn3QbUJC55IsarIGdNZrVm2850lm9AaAQDj17rS3BIvtx0L8nH3Y5SJtePvEcaveMEBDjNaSVz8ZrgsZ9mJF3jAtGgXEP0U-tuVkGyNUFHbwmBOvVTekOP0cr8TXBibb_4gVgDPMiZQdNwzqs0vcPyl8Kbo-NCDKiqOq1a_nZ4Ltf09DJYODmz1682_nR_dVr4SqOxUnw7B6bF3zIKDfi7l6h2HqLnA_7_-CBMRsSnUpsz4_f5CbIrAvgyfF" style="margin-left:auto;margin-right:auto;display:block;">
+src="https://www.plantuml.com/plantuml/png/XLDDR-8m4BtdLymnqRA8lN9OWTWB1tPNfUe92KtCA7BhsAazHgA8_rwJn0suhI9nuJs_3yyu2yTesTSgSozIDsYn1cqEvAY1NxFP3IeKEhTajhBqJ6jXz5Q-4SooJ6DDha51i6oQtSeSZMHliQBT9ZYftHza_5S-as0uPm0PT5xmr9wZ5lm10FjzC7LilU1SrZM6AE4LiZHw0ZNQLqyJ4COhydO2kjnAgiWLGVqJ01B575pufolewKwVeD4jXQFt7AHcwEjLn7zxF2zQfYSSyVe-FArV31QhBZ4lOkPW4gc-L16PczoFIm-bqkp16GQ3JNlxl1l2q2RYjsKksMLyfG_K62VPsDENAqteQzZPSQWdBjVKxbGtHhGMJ-aPX_v85Te3sJo-agu21KbfZFhUzJ_QiMtCOy_KfNz_qbBUnprYgGZzdIJC9_p61ZFzF8lfxz4l9Ago1Uc3hzKx" style="margin-left:auto;margin-right:auto;display:block;">
 
 Notez que :
 * `ModelVoiture` est scindé en deux classes `VoitureRepository` et `Voiture`.
@@ -285,7 +286,7 @@ formulaire de mise à jour. Pour cela :
    ceci près qu'elle ne renvoie pas de booléen. En effet, on va considérer
    qu'une mise à jour se passe toujours correctement.
 
-1. Complétez l'action `updated` du contrôleur de voiture pour qu'il mette à
+1. Créez l'action `updated` du contrôleur de voiture pour qu'il mette à
    jour la voiture dont l'immatriculation passée en paramètre dans l'URL, puis
    qu'il affiche la vue `src/view/voiture/updated.php` après l'avoir correctement
    initialisée.
@@ -310,15 +311,7 @@ formulaire de mise à jour. Pour cela :
    <?php echo $immatriculationHTML; ?>
    ```
 
-
 </div>
-
-<div class="exercise">
-
-
-
-</div>
-
 
 ## Gérer plusieurs contrôleurs
 
@@ -349,15 +342,15 @@ valeur à partir de l'URL, et en mettant le contrôleur *voiture* par défaut.
 
 2. On souhaite créer le nom de la classe à partir de `controller`. Par exemple,
    quand `$controller="voiture"`, nous souhaitons créer une variable
-   `controller_class` qui vaut `"ControllerVoiture"`.
-   **Créez** la variable `controller_class` à l'aide de la fonction
+   `$controllerClassName` qui vaut `"App\Covoiturage\Controller\ControllerVoiture"`.  
+   **Créez** la variable `$controllerClassName` à l'aide de la fonction
    [`ucfirst`](http://php.net/manual/fr/function.ucfirst.php) (UpperCase
    FIRST letter) qui sert à mettre en majuscule la première lettre d'une chaîne
    de caractère.
 
-3. Testez si la classe de nom `controller_class` existe à l'aide de la fonction
-   [`class_exists`](http://php.net/manual/fr/function.class-exists.php) et
-   appelez l'action `action` de la classe `controller_class` le cas
+3. Testez si la classe de nom `$controllerClassName` existe à l'aide de la
+   fonction [`class_exists`](http://php.net/manual/fr/function.class-exists.php)
+   et appelez l'action `action` de la classe `$controllerClassName` le cas
    échéant. Autrement appelez l'action `error` de `ControllerVoiture`.
 
 3. Testez votre code en appelant vos anciennes pages du contrôleur *voiture*.
@@ -389,7 +382,7 @@ l'action `readAll` de `Utilisateur`.
    fonction `getUtilisateurs()` et `construire($utilisateurTableau)` de votre
    ancienne classe `Utilisateur`.
 
-   Corrigez les erreurs : `Model` est devenu `DatabaseConnection` et il manque un alias avec `use` pour la classe `Voiture`.
+   Corrigez les erreurs : `Model` est devenu `DatabaseConnection` et il manque un alias avec `use` pour la classe `Utilisateur`.
 
 3. Créez une vue `src/view/utilisateur/list.php` similaire à celle des
    voitures (sans nécessairement de lien pour l'instant).
@@ -423,7 +416,7 @@ et le nom de la classe des objets en sortie. Voici donc comment nous allons
 faire pour avoir un code générique :
 
 1. Déplacez la fonction `getVoitures()` de `VoitureRepository` vers une nouvelle
-   classe *abstraite* `AbstractRepository` en la renommant `selectAll()`.
+   classe *abstraite* `abstract class AbstractRepository` en la renommant `selectAll()`.
 
 1. Faites que la classe `VoitureRepository` hérite de `AbstractRepository` (mot
    clé `extends` comme en Java).
@@ -459,6 +452,8 @@ faire pour avoir un code générique :
 1. Corrigez l'action `readAll` du `ControllerVoiture` pour faire appel à la
    méthode `selectAll()` de `VoitureRepository`. L'action `readAll` du
    contrôleur *voiture* doit remarcher.
+
+1. Mettez à jour tous vos appels à `getVoitures()` dans les autres actions.
 
 </div>
 
@@ -509,6 +504,7 @@ Commençons par la fonction `select($valeurClePrimaire)`. Dans cette requête
 
 1. Corrigez l'action `read` du `ControllerVoiture` pour faire appel à la méthode
    `select()` de `VoitureRepository`. L'action doit remarcher.
+
 </div>
 
 <div class="exercise">
