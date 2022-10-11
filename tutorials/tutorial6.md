@@ -158,7 +158,8 @@ Notez que dans le schéma UML ci-dessus :
    de la classe `VoitureRepository` afin qu'elles appellent correctement la méthode `construire`.
    
    Transformez la méthode `sauvegarder` en une méthode statique prenant en paramètre un objet de type `Voiture`.
-   Cet objet sera la voiture à sauvegarder. Utilisez donc les getters de cet objet voiture afin de retrouver les données à insérer dans la requêtes SQL de la méthode `sauvegarder`.
+   Cet objet sera la voiture à sauvegarder. Utilisez donc les getters de cette `Voiture`
+   afin de retrouver les données à insérer dans la requêtes SQL de la méthode `sauvegarder`.
 
 1. Déplacer `Voiture` dans le dossier `DataObject` et `DatabaseConnection` dans
    `Repository`. 
@@ -177,7 +178,7 @@ Notez que dans le schéma UML ci-dessus :
    * `created` :
      * `sauvegarder` et `getVoitures` appartiennent à la classe `VoitureRepository` désormais.
      * `sauvegarder` sera maintenant statique et prendra en argument un objet de
-       la classe `Voiture` ; les getters de `Voiture` serviront à construire la requête SQL.
+       la classe `Voiture` ; les getters de `Voiture` servent à construire la requête SQL.
      <!-- * la classe `Voiture` doit implémenter une nouvelle méthode `formatTableau`
        pour créer le tableau qui sera donné à `execute` -->
 
