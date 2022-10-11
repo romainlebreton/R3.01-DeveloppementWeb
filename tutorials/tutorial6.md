@@ -134,6 +134,11 @@ Notez que dans le schéma UML ci-dessus :
 
 <div class="exercise">
 
+1. Renommez la classe `Model` en `DatabaseConnection` et la classe
+   `ModelVoiture` en `Voiture`.     
+   Utilisez le *refactoring* de PhpStorm : Clic droit sur le nom de la classe >
+   *Refactor* > *Rename*.
+
 1. Créez deux dossiers `DataObject` et `Repository` dans `Model`.
 
    *Note :* Le dossier `Repository` gère la persistance des données. Le nom
@@ -141,7 +146,7 @@ Notez que dans le schéma UML ci-dessus :
 
 1. Créez une classe `VoitureRepository` dans le dossier `Repository` avec le `namespace`
    correspondant (`App\Covoiturage\Model\Repository`). Déplacez les méthodes suivantes
-   de `ModelVoiture` dans `VoitureRepository` :
+   de `Voiture` dans `VoitureRepository` :
    * `getVoitures`
    * `getVoitureParImmat`
    * `sauvegarder`
@@ -149,13 +154,11 @@ Notez que dans le schéma UML ci-dessus :
    * `supprimerParImmatriculation` pour ceux qui avaient fait l'exercice 10 optionnel du [TD4](tutorial4.html)
    
    Pour la méthode `construire`, changez si nécessaire le corps de la fonction afin qu'un objet
-   `ModelVoiture` soit correctement retourné. Pensez également à adapter le code des autres fonctions
+   `Voiture` soit correctement retourné. Pensez également à adapter le code des autres fonctions
    de la classe `VoitureRepository` afin qu'elles appellent correctement la méthode `construire`.
-
-1. Renommez la classe `Model` en `DatabaseConnection` et la classe
-   `ModelVoiture` en `Voiture`.     
-   Utilisez le *refactoring* de PhpStorm : Clic droit sur le nom de la classe >
-   *Refactor* > *Rename*.
+   
+   Transformez la méthode `sauvegarder` en une méthode statique prenant en paramètre un objet de type `Voiture`.
+   Cet objet sera la voiture à sauvegarder. Utilisez donc les getters de cet objet voiture afin de retrouver les données à insérer dans la requêtes SQL de la méthode `sauvegarder`.
 
 1. Déplacer `Voiture` dans le dossier `DataObject` et `DatabaseConnection` dans
    `Repository`. 
