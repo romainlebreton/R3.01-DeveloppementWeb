@@ -114,12 +114,14 @@ différemment plus tard (dans une session, dans un fichier, via un appel d'API,
 ou avec une classe *mock* pour des tests), cela impliquera beaucoup de
 réécriture de code.
 
-Voici le diagramme de classe modifié :
+Nous allons séparé les méthodes gérant la persistance des données de celles propres
+aux voitures (méthodes métiers). Voici le diagramme de classe modifié que nous allons
+obtenir à la fin de cette section :
 
 <img alt="Diagramme de classe"
 src="https://www.plantuml.com/plantuml/png/XLDDR-8m4BtdLymnqRA8lN9OWTWB1tPNfUe92KtCA7BhsAazHgA8_rwJn0suhI9nuJs_3yyu2yTesTSgSozIDsYn1cqEvAY1NxFP3IeKEhTajhBqJ6jXz5Q-4SooJ6DDha51i6oQtSeSZMHliQBT9ZYftHza_5S-as0uPm0PT5xmr9wZ5lm10FjzC7LilU1SrZM6AE4LiZHw0ZNQLqyJ4COhydO2kjnAgiWLGVqJ01B575pufolewKwVeD4jXQFt7AHcwEjLn7zxF2zQfYSSyVe-FArV31QhBZ4lOkPW4gc-L16PczoFIm-bqkp16GQ3JNlxl1l2q2RYjsKksMLyfG_K62VPsDENAqteQzZPSQWdBjVKxbGtHhGMJ-aPX_v85Te3sJo-agu21KbfZFhUzJ_QiMtCOy_KfNz_qbBUnprYgGZzdIJC9_p61ZFzF8lfxz4l9Ago1Uc3hzKx" style="margin-left:auto;margin-right:auto;display:block;">
 
-Notez que :
+Notez que dans le schéma UML ci-dessus :
 * `ModelVoiture` est scindé en deux classes `VoitureRepository` et `Voiture`.
 * `VoitureRepository` et `Voiture` ont changés de dossier et de `namespace` par
   rapport à `ModelVoiture`.
@@ -159,6 +161,8 @@ Notez que :
    **Attention** si vous utilisez le drag & drop de PhpStorm, vous allez
    avoir des mauvaises surprises car les `namespace` risquent de ne pas se mettre à jour correctement...  
    La façon correcte de le faire : Clic droit sur le nom de la classe > *Refactor* > *Move Class* > Indiquer le `namespace` correspondant.
+   
+   Vérifiez que votre code correspond à celui indiqué dans le diagramme de classe évoqué précédemment.
 
 1. Faites remarcher les actions une par une :
    * `readAll` : 
