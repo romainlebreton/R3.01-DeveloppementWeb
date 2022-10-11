@@ -147,7 +147,7 @@ Notez que dans le schéma UML ci-dessus :
    * `supprimerParImmatriculation` pour ceux qui avaient fait l'exercice 10 optionnel du [TD4](tutorial4.html)
    
    Pour la méthode `construire`, changez si nécessaire le corps de la fonction afin qu'un objet
-   `Voiture` soit correctement retourné. Pensez également à adapter le code des autres fonctions
+   `ModelVoiture` soit correctement retourné. Pensez également à adapter le code des autres fonctions
    de la classe `VoitureRepository` afin qu'elles appellent correctement la méthode `construire`.
 
 1. Renommez la classe `Model` en `DatabaseConnection` et la classe
