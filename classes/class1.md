@@ -39,7 +39,7 @@ Voir quand intégrer la séance Git
 
 **1er bloc de TDs -- Bases de PHP :**
 
-1. Semaine du lundi 6 septembre 2022 -- TD 1 -- Introduction aux objets en PHP
+1. Semaine du lundi 5 septembre 2022 -- TD 1 -- Introduction aux objets en PHP
 1. Semaine du lundi 12 septembre 2022 -- TD 2 -- La persistance des données en PHP
 1. Semaine du lundi 19 septembre 2022 -- TD 3 -- Requêtes préparées et association de classes
 1. Semaine du lundi 26 septembre 2022 -- TD 4 -- Architecture MVC simple
