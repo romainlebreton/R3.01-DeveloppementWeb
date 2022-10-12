@@ -299,7 +299,7 @@ formulaire de mise à jour. Pour cela :
    qu'une mise à jour se passe toujours correctement.
 
 1. Créez l'action `updated` du contrôleur de voiture pour qu'il mette à
-   jour la voiture dont l'immatriculation passée en paramètre dans l'URL, puis
+   jour la voiture dont l'immatriculation est passée en paramètre dans l'URL, puis
    qu'il affiche la vue `src/view/voiture/updated.php` après l'avoir correctement
    initialisée.
 
