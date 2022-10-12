@@ -258,7 +258,7 @@ formulaire de mise à jour. Pour cela :
    quelques points à prendre en compte avant de se lancer :
 
    1. L'attribut `value` de la balise `<input>` permet de préremplir un champ du
-   formulaire. Utilisez aussi que l'attribut HTML `readonly` de `<input>` pour que 
+   formulaire. Utilisez l'attribut HTML `readonly` de `<input>` pour que 
    l'internaute ne puisse pas changer l'immatriculation.
 
    1. On pourra se servir dans le contrôleur de `getVoitureParImmat` pour
