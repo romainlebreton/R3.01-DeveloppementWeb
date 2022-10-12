@@ -48,10 +48,11 @@ Voir quand intégrer la séance Git
 
 **2ème bloc de TDs -- Mise en application sur le projet + TDs complémentaires :**
 
-1. Semaine du lundi 17 octobre 2022 -- Projet : SAÉ (Parcours A) ou projet spécifique à ce cours (Parcours B & D)
-1. Semaine du lundi 24 octobre 2022 -- TD 7 -- Cookies et Sessions
-1. Semaine du lundi 7 novembre 2022 -- TD 8 -- Authentification et Validation par email
-1. Semaine du lundi 14 novembre 2022 -- SAÉ ou Projet
+1. Semaine du lundi 17 octobre 2022 --  fin du [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html) (puis éventuellement projet)
+1. Semaine du lundi 24 octobre 2022 --  Parcours A: Séance SAÉ S3.A.01, autres parcours (B & D): Séance projet
+1. Semaine du lundi 7 novembre 2022  -- [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) puis SAÉ ou projet
+1. Semaine du lundi 14 novembre 2022 -- [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html)
+1. Semaine du lundi 21 novembre 2022 -- SAÉ ou Projet
 
 **Évaluation**
 
