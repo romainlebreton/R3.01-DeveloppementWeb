@@ -5,14 +5,14 @@ layout: tutorial
 lang: fr
 ---
 
-<!-- Rajouter des fonctions de sécurité/contrôle avec isset($_GET) et les
+<!-- Ajouter des fonctions de sécurité/contrôle avec isset($_GET) et les
 htmlspecialchars quand on écrit dans du HTML et URLencode quand on écrit dans
 une URL -->
 
 <!-- XSS et protection de l'écriture html -->
 
 <!--
-Rajouter dispatcher
+Ajouter dispatcher
 -->
 
 <!--
@@ -32,7 +32,7 @@ Ce TD présuppose que vous avez fini [le TD précédent](tutorial5.html).
 
 ## Amélioration du routeur
 
-On veut rajouter un comportement par défaut pour la page d'accueil ; nous allons
+On veut ajouter un comportement par défaut pour la page d'accueil ; nous allons
 faire en sorte qu'un utilisateur qui arrive sur `frontController.php` voit la même page
 que s'il était arrivé sur `frontController.php?action=readAll`.
 
@@ -205,7 +205,7 @@ améliorée de la suppression.
 
 <div class="exercise">
 
-Nous souhaitons rajouter l'action `delete` aux voitures. Pour cela :
+Nous souhaitons ajouter l'action `delete` aux voitures. Pour cela :
 
 1. Écrivez dans `VoitureRepository` une méthode statique
    `supprimerParImmatriculation($immatriculation)` qui prend en entrée l'immatriculation à
@@ -248,7 +248,7 @@ chemin dans le serveur (?)
 
 <div class="exercise">
 
-Nous souhaitons rajouter l'action `update` aux voitures qui affiche le
+Nous souhaitons ajouter l'action `update` aux voitures qui affiche le
 formulaire de mise à jour. Pour cela :
 
 1. Créez une vue `src/view/voiture/update.php` qui affiche un formulaire
@@ -270,7 +270,7 @@ formulaire de mise à jour. Pour cela :
 
    1. Rappel : Vous souhaitez envoyer l'information `action=updated` en plus des
       informations saisies lors de l'envoi du formulaire. La bonne façon de faire
-      pour un formulaire de méthode `GET` est de rajouter un champ caché `<input
+      pour un formulaire de méthode `GET` est d'ajouter un champ caché `<input
       type='hidden' name='action' value='updated'>`.
 
       <!-- 
@@ -293,7 +293,7 @@ formulaire de mise à jour. Pour cela :
    en dessous de ce message la liste des voitures mise à jour (à la manière de
    `deleted.php` et `created.php`).
 
-1. Rajoutez à `VoitureRepository` une méthode statique `mettreAJour(Voiture
+1. Ajoutez à `VoitureRepository` une méthode statique `mettreAJour(Voiture
    $voiture)`. Cette méthode est proche de `sauvegarder(Voiture $voiture)`, à
    ceci près qu'elle ne renvoie pas de booléen. En effet, on va considérer
    qu'une mise à jour se passe toujours correctement.
@@ -307,11 +307,11 @@ formulaire de mise à jour. Pour cela :
    l'instant.
 
 
-1. Rajoutons les liens manquants. Enrichissez la vue `list.php` pour ajouter des
+1. Ajoutons les liens manquants. Enrichissez la vue `list.php` pour ajouter des
    liens HTML qui permettent de mettre à jour une voiture. Ces liens pointent
    donc vers le formulaire de mis-à-jour prérempli.
 
-   *Oubli des TDs précédents :* Rajoutez aussi un lien *Créer une voiture* vers l'action `create` dans `list.php`.
+   *Oubli des TDs précédents :* Ajoutez aussi un lien *Créer une voiture* vers l'action `create` dans `list.php`.
 
 1. Astuce optionnelle : La vue `update` peut être raccourcie en utilisant la
    syntaxe 
@@ -336,7 +336,7 @@ l'adapter plus facilement aux utilisateurs et trajets dans un second temps.
 ### Dans le routeur
 
 Pour l'instant, nous n'avons travaillé que sur le contrôleur *voiture*. Nous
-souhaitons maintenant rajouter les contrôleurs *utilisateur* et *trajet*. Pour
+souhaitons maintenant ajouter les contrôleurs *utilisateur* et *trajet*. Pour
 gérer tous les contrôleurs à partir de notre page d'accueil unique `frontController.php`,
 nous avons besoin d'appeler le bon contrôleur dans le routeur.
 
@@ -435,7 +435,7 @@ faire pour avoir un code générique :
 
 1. Pour que `AbstractRepository` accède au nom de la table, elle va demander à
    toutes ses classes filles de posséder une méthode `getNomTable()`.  
-   Rajoutez donc une méthode abstraite `getNomTable()` dans `AbstractRepository`
+   Ajoutez donc une méthode abstraite `getNomTable()` dans `AbstractRepository`
    ```php
    protected abstract function getNomTable(): string;
    ```
@@ -449,7 +449,7 @@ faire pour avoir un code générique :
 
 1. De même, `AbstractRepository` va demander à toutes ses classes filles de
    posséder une méthode `construire($objetFormatTableau)`.  
-   * Rajoutez donc une méthode abstraite dans `AbstractRepository`
+   * Ajoutez donc une méthode abstraite dans `AbstractRepository`
    ```php
    protected abstract function construire(array $objetFormatTableau);
    ```
@@ -500,7 +500,7 @@ Commençons par la fonction `select($valeurClePrimaire)`. Dans cette requête
    `VoitureRepository.php` vers `AbstractRepository` en la renommant
    `select($valeurClePrimaire)`. Enlevez son attribut `static` et son type de retour.
 
-1. Rajoutez donc une méthode abstraite `getNomClePrimaire()` dans
+1. Ajoutez donc une méthode abstraite `getNomClePrimaire()` dans
    `AbstractRepository`
    ```php
    protected abstract function getNomClePrimaire(): string;
@@ -529,7 +529,7 @@ Commençons par la fonction `select($valeurClePrimaire)`. Dans cette requête
 
    **Rappel :** Utilisez le remplacement `Ctrl+R` en préservant la casse pour vous faciliter le travail.
 
-1. Il ne vous reste plus qu'à créer la vue associée `detail.php` et à rajouter
+1. Il ne vous reste plus qu'à créer la vue associée `detail.php` et à ajouter
    les liens vers la vue de détail dans `list.php`. L'action `read` doit maintenant fonctionner.
 
 </div>
@@ -543,7 +543,7 @@ Pas de nouveautés.
 
 Nous vous laissons adapter la requête *SQL* `supprimer($valeurClePrimaire)` de
 `AbstractRepository`, l'action `delete` des contrôleurs *voiture* et
-*utilisateur*, ainsi que leur vue associée `delete.php` et à rajouter les liens
+*utilisateur*, ainsi que leur vue associée `delete.php` et à ajouter les liens
 pour supprimer dans `list.php`.
 </div>
 
@@ -587,7 +587,7 @@ fusionner `create.php` et `update.php` en une unique page.
 
 1. Testez que votre nouvelle vue fusionnée marche.
 
-1. Rajoutez un champ `controller` dans le formulaire en prévision de la
+1. Ajoutez un champ `controller` dans le formulaire en prévision de la
    suite. Vous pouvez soit écrire en dur que le contrôleur est `voiture`, soit
    le récupérer avec l'attribut `static::$object` du contrôleur.
 
@@ -597,7 +597,7 @@ fusionner `create.php` et `update.php` en une unique page.
 
 Nous vous laissons adapter les actions `create` et `update` de
 `ControllerUtilisateur`, leurs vues associées `create.php` et `update.php` et à
-rajouter les liens pour mettre à jour un utilisateur ou une voiture dans
+ajouter les liens pour mettre à jour un utilisateur ou une voiture dans
 `detail.php`.
 
 </div>
@@ -621,7 +621,7 @@ il est nécessaire de pouvoir lister les champs de la table `voiture`.
    `VoitureRepository.php` vers `AbstractRepository` en la renommant
    `update($valeurClePrimaire)`. Enlevez son attribut `static` et son type de retour.
 
-1. Rajoutez donc une méthode abstraite `getNomsColonnes()` dans
+1. Ajoutez donc une méthode abstraite `getNomsColonnes()` dans
    `AbstractRepository`
    ```php
    protected abstract function getNomsColonnes(): array;
@@ -661,7 +661,7 @@ il est nécessaire de pouvoir lister les champs de la table `voiture`.
 1. Corrigez l'action `updated` du `ControllerVoiture` pour faire appel aux
    méthodes de `VoitureRepository`. L'action doit remarcher.
 
-1. Grâce à la classe `AbstractDataObject`, vous pouvez rajouter des déclarations
+1. Grâce à la classe `AbstractDataObject`, vous pouvez ajouter des déclarations
    de type dans `AbstractRepository` :
    * type de retour de `select`,
    * type d'entrée de `update`.
@@ -691,7 +691,7 @@ Adaptez chacune des actions de `ControllerTrajet.php` et les tester une à
 une. Nous vous conseillons de faire dans l'ordre les actions `read`, `delete`,
 `create`, `update`, `sauvegarder` et `updated`.
 
-Vous pouvez aussi rajouter des actions pour afficher la liste des passagers pour
+Vous pouvez aussi ajouter des actions pour afficher la liste des passagers pour
 un trajet, et inversement la liste des trajets pour un passager (table de
 jointure `passager`, cf. fin TD3).
 
@@ -702,7 +702,7 @@ jointure `passager`, cf. fin TD3).
   la méthode `afficheVue()` 
 * Faites hériter `Voiture`, `Utilisateur` et `Trajet` d'une classe abstraite
   `AbstractDataObject`. Ceci permet de compléter les déclarations de type dans le modèle générique.
-* Rajouter les actions spécifiques aux requêtes SQL `getTrajets()` et
+* Ajouter les actions spécifiques aux requêtes SQL `getTrajets()` et
   `supprimerPassager()` du TD3 non utilisées :
   * qui liste les trajets d'un utilisateur,
   * qui désinscrit un passager d'un trajet.
