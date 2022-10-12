@@ -465,13 +465,15 @@ faire pour avoir un code générique :
    <!-- construire($objetFormatTableau): AbstractDataObject; -->
 
 1. Corrigez l'action `readAll` du `ControllerVoiture` pour faire appel à la
-   méthode `selectAll()` de `VoitureRepository`. Ici nous vous conseillons pour le moment de construire un objet
-   anonyme afin de pouvoir appeler les fonctions dynamiques de `VoitureRepository`. Par exemple, si vous souhaitez
+   méthode `selectAll()` de `VoitureRepository`. Ici nous vous conseillons pour
+   le moment de construire un objet anonyme afin de pouvoir appeler les
+   fonctions dynamiques de `VoitureRepository`. Par exemple, si vous souhaitez
    appeler la fonction `selectAll`, vous pouvez faire ceci :
-   ```php
-   (new VoitureRepository())->selectAll()
-   ```
-   
+
+   ```php
+   (new VoitureRepository())->selectAll();
+   ```
+
    L'action `readAll` du contrôleur *voiture* doit remarcher.
 
 1. Mettez à jour tous vos appels à `getVoitures()` dans les autres actions.
