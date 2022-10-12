@@ -409,9 +409,9 @@ l'action `readAll` de `Utilisateur`.
 
 L'implémentation du CRUD pour les utilisateurs et les trajets est un code très
 similaire à celui pour les voitures. Nous pourrions donc copier/coller le code
-des voitures et changer les (nombreux) endroits nécessaires.
+des voitures et changer les (nombreux) endroits nécessaires. Et cela contredit le principe [DRY](https://fr.wikipedia.org/wiki/Ne_vous_r%C3%A9p%C3%A9tez_pas) que vous connaissez depuis l'an dernier.
 
-Pour éviter de perdre un temps conséquent à développer le CRUD pour chaque
+Pour éviter la duplication de code et la perte d'un temps conséquent à développer le CRUD pour chaque
 nouvel objet, nous allons mettre en commun le code autant que possible.
 
 ### Création d'un modèle générique
