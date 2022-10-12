@@ -430,6 +430,9 @@ faire pour avoir un code générique :
 1. Déplacez la fonction `getVoitures()` de `VoitureRepository` vers une nouvelle
    classe *abstraite* `abstract class AbstractRepository` en la renommant `selectAll()`.
 
+   **Astuce** : sur PhpStorm le moyen le plus simple ici serait *Clic droit sur la declaration de la méthode* >
+   *Refactor* > *Move Members* > *Indiquer `AbstractRepository` comme classe de destination*.
+
 1. Faites que la classe `VoitureRepository` hérite de `AbstractRepository` (mot
    clé `extends` comme en Java).
 
@@ -462,8 +465,14 @@ faire pour avoir un code générique :
    <!-- construire($objetFormatTableau): AbstractDataObject; -->
 
 1. Corrigez l'action `readAll` du `ControllerVoiture` pour faire appel à la
-   méthode `selectAll()` de `VoitureRepository`. L'action `readAll` du
-   contrôleur *voiture* doit remarcher.
+   méthode `selectAll()` de `VoitureRepository`. Ici nous vous conseillons pour le moment de construire un objet
+   anonyme afin de pouvoir appeler les fonctions dynamiques de `VoitureRepository`. Par exemple, si vous souhaitez
+   appeler la fonction `selectAll`, vous pouvez faire ceci :
+   ```php
+   (new VoitureRepository())->selectAll()
+   ```
+   
+   L'action `readAll` du contrôleur *voiture* doit remarcher.
 
 1. Mettez à jour tous vos appels à `getVoitures()` dans les autres actions.
 
