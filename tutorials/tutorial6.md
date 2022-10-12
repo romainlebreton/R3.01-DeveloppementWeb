@@ -311,7 +311,7 @@ formulaire de mise à jour. Pour cela :
    liens HTML qui permettent de mettre à jour une voiture. Ces liens pointent
    donc vers le formulaire de mis-à-jour prérempli.
 
-   *Oubli des TDs précédents :* Rajoutez aussi un lien *Créer une voiture* vers l'action `created` dans `list.php`.
+   *Oubli des TDs précédents :* Rajoutez aussi un lien *Créer une voiture* vers l'action `create` dans `list.php`.
 
 1. Astuce optionnelle : La vue `update` peut être raccourcie en utilisant la
    syntaxe 
