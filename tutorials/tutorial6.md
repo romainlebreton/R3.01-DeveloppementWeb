@@ -257,9 +257,9 @@ formulaire de mise à jour. Pour cela :
    *via* l'URL ; les autres informations seront récupérées dans la BDD. Voici
    quelques points à prendre en compte avant de se lancer :
 
-   1. L'attribut `value` de la balise `<input>` permet de préremplir un
-   champ du formulaire. Notez aussi que l'attribut `readonly` de `<input>`
-   permet d'afficher l'immatriculation sans que l'internaute puisse le changer.
+   1. L'attribut `value` de la balise `<input>` permet de préremplir un champ du
+   formulaire. Utilisez aussi que l'attribut HTML `readonly` de `<input>` pour que 
+   l'internaute ne puisse pas changer l'immatriculation.
 
    1. On pourra se servir dans le contrôleur de `getVoitureParImmat` pour
       récupérer l'objet voiture de la bonne immatriculation. La vue devra alors
