@@ -430,7 +430,7 @@ faire pour avoir un code générique :
 1. Déplacez la fonction `getVoitures()` de `VoitureRepository` vers une nouvelle
    classe *abstraite* `abstract class AbstractRepository` en la renommant `selectAll()`.
 
-   **Astuce** : sur PhpStorm le moyen le plus simple ici serait *Clic droit sur la declaration de la méthode* >
+   **Astuce** : sur PhpStorm le moyen le plus simple ici serait *Clic droit sur la declaration de la méthode* >
    *Refactor* > *Move Members* > *Indiquer `AbstractRepository` comme classe de destination*.
 
 1. Faites que la classe `VoitureRepository` hérite de `AbstractRepository` (mot
