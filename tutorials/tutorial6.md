@@ -131,6 +131,10 @@ Notez que dans le schéma UML ci-dessus :
 * La classe `VoitureRepository` dépend de `Voiture`, mais pas l'inverse
 (d'où la direction du lien de dépendance entre les deux classes).
 
+En termes de fichiers, nous aurons l'arborescence suivante après nos modifications :
+
+<img alt="Nouvelle organisation du dossier Model"
+src="{{site.baseurl}}/assets/TD6/listeFichiers.png" style="margin-left:auto;margin-right:auto;display:block;" width=350>
 
 
 <div class="exercise">
