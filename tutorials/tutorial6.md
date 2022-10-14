@@ -431,8 +431,8 @@ faire pour avoir un code générique :
 1. Déplacez la fonction `getVoitures()` de `VoitureRepository` vers une nouvelle
    classe *abstraite* `abstract class AbstractRepository` en la renommant `selectAll()`.
 
-   **Astuce** : sur PhpStorm le moyen le plus simple ici serait *Clic droit sur la declaration de la méthode* >
-   *Refactor* > *Move Members* > *Indiquer `AbstractRepository` comme classe de destination*.
+   **Astuce** : sur PhpStorm le moyen le plus simple pour déplacer la fonction serait *Clic droit sur la declaration de la méthode* >
+   *Refactor* > *Move Members* > *Indiquer `AbstractRepository` comme classe de destination*. De même pour le renommage, pensez à utiliser le refactoring.
 
 1. Faites que la classe `VoitureRepository` hérite de `AbstractRepository` (mot
    clé `extends` comme en Java).
