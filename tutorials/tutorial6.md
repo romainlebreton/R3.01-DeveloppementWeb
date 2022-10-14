@@ -32,9 +32,10 @@ Ce TD présuppose que vous avez fini [le TD précédent](tutorial5.html).
 
 ## Amélioration du routeur
 
-On veut ajouter un comportement par défaut pour la page d'accueil ; nous allons
-faire en sorte qu'un utilisateur qui arrive sur `frontController.php` voit la même page
-que s'il était arrivé sur `frontController.php?action=readAll`.
+On veut ajouter un comportement par défaut du routeur qui est contenu dans le
+contrôleur frontal. Nous allons faire en sorte qu'un utilisateur qui arrive sur
+`frontController.php` voit la même page que s'il était arrivé sur
+`frontController.php?action=readAll`.
 
 #### Action par défaut
 
@@ -71,10 +72,10 @@ On souhaite que le routeur vérifie que `action` est le nom d'une méthode de
 `ControllerVoiture.php` avant d'appeler cette méthode et renvoyer vers une page
 d'erreur le cas échéant.
 
-1. Créez une action `error(string $errorMessage = "")` qui affiche une vue
-   d'erreur `src/view/voiture/error.php` contenant le message d'erreur *Problème
-   avec la voiture : `$errorMessage`*, ou juste *Problème
-   avec la voiture* si le message est vide.
+1. Créez une action `error(string $errorMessage = "")` dans le contrôleur
+   *voiture* qui affiche une vue d'erreur `src/view/voiture/error.php` contenant
+   le message d'erreur *Problème avec la voiture : `$errorMessage`*, ou juste
+   *Problème avec la voiture* si le message est vide.
 
 1. **Modifiez** le code du routeur pour implémenter la vérification de l'action.
    Si l'action n'existe pas, appelez l'action `error`.
