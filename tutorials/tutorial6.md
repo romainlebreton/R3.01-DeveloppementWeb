@@ -164,7 +164,7 @@ src="{{site.baseurl}}/assets/TD6/listeFichiers.png" style="margin-left:auto;marg
    
    Transformez la méthode `sauvegarder` en une méthode statique prenant en paramètre un objet de type `Voiture`.
    Cet objet sera la voiture à sauvegarder. Utilisez donc les getters de cette `Voiture`
-   afin de retrouver les données à insérer dans la requêtes SQL de la méthode `sauvegarder`.
+   afin de retrouver les données à insérer dans la requête SQL de la méthode `sauvegarder`.
 
 1. Déplacer `Voiture` dans le dossier `DataObject` et `DatabaseConnection` dans
    `Repository`. 
@@ -414,16 +414,38 @@ l'action `readAll` de `Utilisateur`.
 
 L'implémentation du CRUD pour les utilisateurs et les trajets est un code très
 similaire à celui pour les voitures. Nous pourrions donc copier/coller le code
-des voitures et changer les (nombreux) endroits nécessaires. Et cela contredit le principe [DRY](https://fr.wikipedia.org/wiki/Ne_vous_r%C3%A9p%C3%A9tez_pas) que vous connaissez depuis l'an dernier.
-
-Pour éviter la duplication de code et la perte d'un temps conséquent à développer le CRUD pour chaque
-nouvel objet, nous allons mettre en commun le code autant que possible.
+des voitures et changer les (nombreux) endroits nécessaires. Et cela contredit
+le principe [DRY](https://fr.wikipedia.org/wiki/Ne_vous_r%C3%A9p%C3%A9tez_pas)
+que vous connaissez depuis l'an dernier.
 
 ### Création d'un modèle générique
 
-Nous allons déplacer de `VoitureRepository` vers un modèle générique
-`AbstractRepository` toutes les requêtes SQL qui ne sont pas spécifiques aux
-voitures.
+Pour éviter la duplication de code et la perte d'un temps conséquent à
+développer le CRUD pour chaque nouvel objet, nous allons mettre en commun le
+code autant que possible. Commençons par abstraire les 3 classes métiers
+`Voiture`, `Utilisateur` et `Trajet`.
+
+<img alt="Diagramme de classe"
+src="http://www.plantuml.com/plantuml/png/SoWkIImgAStDuN9CAYufIamkSKaiIVHFoafDBb6mgT7LLGZBpomfBKh5AHzIb9YLMe9JEhGaCoUpEB4ajRI8oo4rBmLe5G00" style="margin-left:auto;margin-right:auto;display:block;">
+
+<div class="exercise">
+
+Créer une classe abstraite `AbstractDataObject` dans le dossier `DataObject`.
+Faites hériter les autres classes de ce répertoire de `AbstractDataObject` pour
+correspondre au diagramme de classe ci-dessus.
+
+</div>
+
+Également, nous allons abstraire les classes *Repository* de façon à obtenir le schéma suivant :   
+
+<img alt="Diagramme de classe"
+src="http://www.plantuml.com/plantuml/png/SoWkIImgAStDuN9CAYufIamk2Kejo2_EBCalgbImgT7LLGZBpomfBKf52EDK6LAKc9LQGeJ2q9BCdCpYn9BKqY8arGwfUIb0Xm00" style="margin-left:auto;margin-right:auto;display:block;">
+
+Nous allons détailler ces changements dans les prochaines sections.
+
+Déplaçons de `VoitureRepository` vers un modèle générique `AbstractRepository`
+toutes les requêtes SQL qui ne sont pas spécifiques aux voitures.
+
 
 <div class="exercise">
 
@@ -455,14 +477,24 @@ faire pour avoir un code générique :
    `getNomTable()` est une méthode dynamique, enlevez le `static` de
    `selectAll()`.
 
+   ```php
+   /**
+    * @return AbstractDataObject[]
+    */
+   public function selectAll(): array
+   ```
+
 1. De même, `AbstractRepository` va demander à toutes ses classes filles de
    posséder une méthode `construire($objetFormatTableau)`.  
    * Ajoutez donc une méthode abstraite dans `AbstractRepository`
    ```php
-   protected abstract function construire(array $objetFormatTableau);
+   protected abstract function construire(array $objetFormatTableau) : AbstractDataObject;
    ```
    * Enlevez le `static` du `construire()` de `VoitureRepository`.
    * Mettez à jour l'appel à `construire()` de `selectAll()`.
+   * Pensez à vérifier que l'implémentation de la méthode `construire()` de
+     `VoitureRepository` déclare bien le type de retour `Voiture` (sous-classe
+     de `AbstractDataObject`).
 
    <!-- attention déclaration de type correspondante entre méthode et 
    implémentation -->
@@ -509,15 +541,16 @@ demander aux implémentations de `AbstractRepository` de fournir une méthode
 
 <div class="exercise">
 
-Commençons par la fonction `select($valeurClePrimaire)`. Dans cette requête
-*SQL*, le nom de la table et la condition `WHERE` varie.
+1. Commençons par déclarer la fonction suivante dans la classe `AbstractRepository` :
+   ```php
+   public function select(string $valeurClePrimaire): ?AbstractDataObject
+   ```
+   
+   Copiez/collez le corps de la fonction `getVoitureParImmat($immatriculation)`
+   vers `select($valeurClePrimaire)` de `AbstractRepository`. Nous allons
+   le *refactoriser* dans les questions suivantes pour qu'il devienne générique.
 
-1. Déplacez la fonction `getVoitureParImmat($immatriculation)` de
-   `VoitureRepository.php` vers `AbstractRepository` en la renommant
-   `select($valeurClePrimaire)`. Enlevez son attribut `static` et son type de retour.
-
-1. Ajoutez donc une méthode abstraite `getNomClePrimaire()` dans
-   `AbstractRepository`
+1. Ajoutez la méthode suivante dans `AbstractRepository`
    ```php
    protected abstract function getNomClePrimaire(): string;
    ```
@@ -635,9 +668,11 @@ il est nécessaire de pouvoir lister les champs de la table `voiture`.
 
 1. Déplacez la fonction `mettreAJour($immatriculation)` de
    `VoitureRepository.php` vers `AbstractRepository` en la renommant
-   `update($valeurClePrimaire)`. Enlevez son attribut `static` et son type de retour.
+   ```php
+   public function update(AbstractDataObject $object): void
+   ```
 
-1. Ajoutez donc une méthode abstraite `getNomsColonnes()` dans
+1. Ajoutez une méthode abstraite `getNomsColonnes()` dans
    `AbstractRepository`
    ```php
    protected abstract function getNomsColonnes(): array;
@@ -661,15 +696,14 @@ il est nécessaire de pouvoir lister les champs de la table `voiture`.
    );
    ```
 
-   Nous allons demander à tous les `DataObject` d'implémenter une méthode `formatTableau()` qui fait celà :
-   1. Créer une classe abstraite `AbstractDataObject` dans le dossier
-      `DataObject`.
-   1. `Voiture` et `Utilisateur` doivent hériter de `AbstractDataObject`.
-   1. `AbstractDataObject` définit une méthode abstraite 
-      ```php
-      public abstract function formatTableau(): array;
-      ```
-      que vous implémenterez dans `Voiture` et `Utilisateur`.
+   Nous allons demander à tous les `AbstractDataObject` d'implémenter une
+   méthode `formatTableau()` qui transforme un `AbstractDataObject` en tableau.
+   Ainsi, nous pouvons l'imposer directement par contrat dans
+   `AbstractDataObject` : 
+   ```php
+   public abstract function formatTableau(): array;
+   ```
+   Implémentez cette méthode dans `Voiture` et `Utilisateur`.
 
 1. Utilisez `formatTableau()` dans `update()` pour obtenir le tableau donné à
    `execute()`.
@@ -716,8 +750,6 @@ jointure `passager`, cf. fin TD3).
 * Faire en sorte que la méthode d'erreur prenne en argument un message d'erreur. Chaque appel à cette méthode doit maintenant fournir un message d'erreur personnalisé.
 * Factoriser le code des contrôleurs dans un contrôleur générique, au moins pour
   la méthode `afficheVue()` 
-* Faites hériter `Voiture`, `Utilisateur` et `Trajet` d'une classe abstraite
-  `AbstractDataObject`. Ceci permet de compléter les déclarations de type dans le modèle générique.
 * Ajouter les actions spécifiques aux requêtes SQL `getTrajets()` et
   `supprimerPassager()` du TD3 non utilisées :
   * qui liste les trajets d'un utilisateur,
