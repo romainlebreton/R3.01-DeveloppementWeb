@@ -33,10 +33,11 @@ par l'examen final sur papier (pas de code à écrire, questions de
 compréhension).
 
 Le jour de la soutenance, **le site devra être déployé sur `webinfo`** sous l'un
-de vos comptes. Les sources du site devront être accessible dans un fichier
-`sources.zip` à la racine de votre site. Il n'y a pas de date de rendu : votre
-site Web et ses sources devront juste être disponibles au moment de la
-soutenance.
+de vos comptes. Le code source du site doit être accessible à votre enseignant :
+ajouter votre professeur de PHP à votre dépôt Git, et lui donner au moins le
+rôle développeur. Il n'y a pas de date de rendu : votre site Web devront juste
+être disponibles au moment de la soutenance. **Attention** cependant aux
+modifications de dernière minute qui ont tendance à casser le site !
 
 **Emploi du temps prévisionnel :**
 
