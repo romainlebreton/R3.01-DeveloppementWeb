@@ -2,13 +2,14 @@
 title:  Démarrage du projet Web
 subtitle: Planning et cahier des charges 
 layout: tutorial
+lang: fr
 ---
 
 ## Sujet
 
-Vous devrez réaliser un site de e-commerce. Les produits que vous devez vendre
+Vous devez réaliser un site de e-commerce. Les produits que vous devez vendre
 sont laissés à votre entière appréciation (y compris humoristique). Il n'y a pas
-de restriction particulière.  Pensez néanmoins que ce projet Web fait partie de
+de restriction particulière. Pensez néanmoins que ce projet Web fait partie de
 vos réalisations qui pourraient être mises en avant lors d'un entretien pour un
 stage, par exemple.
 
@@ -18,15 +19,18 @@ site vend-il ? ).
 
 ## Modalités
 
-Le projet est dimensionné pour des groupes de 3 étudiants.  Ponctuellement les
-groupes de 2 sont autorisés (mais ils seront notés comme un groupe de 3).  Les
-groupes de 4 sont aussi ponctuellement autorisés, mais seront évalués de manière
-plus stricte et l'on attendra 1/3 de boulot en plus.
+Le projet est dimensionné pour des groupes de 3 étudiants. Ponctuellement les
+groupes de 2 sont autorisés (mais ils seront notés comme un groupe de 3). 
 
-Les soutenances de projet auront lieu entre le jeudi 9 et le mercredi 15
-Décembre, à votre créneau de TD habituel.  La note de ce projet Web interviendra
-pour moitié, l'autre moitié sera donnée par l'examen final sur papier (pas de
-code à écrire, questions de compréhension).
+<!-- Les groupes de 4 sont aussi ponctuellement autorisés, mais seront évalués de
+manière plus stricte et l'on attendra 1/3 de boulot en plus. -->
+
+<!-- Les soutenances de projet auront lieu entre le jeudi 9 et le mercredi 15
+décembre, à votre créneau de TD habituel.  -->
+
+La note de ce projet Web interviendra pour moitié, l'autre moitié sera donnée
+par l'examen final sur papier (pas de code à écrire, questions de
+compréhension).
 
 Le jour de la soutenance, **le site devra être déployé sur `webinfo`** sous l'un
 de vos comptes. Les sources du site devront être accessible dans un fichier
@@ -36,13 +40,12 @@ soutenance.
 
 **Emploi du temps prévisionnel :**
 
-1. Semaine du 17 Octobre 2022 --  Début projet
-1. Semaines du 24 Octobre 2022 --  TD 7 -- Cookies & Sessions et projet puis projet
-1. Semaine du 7 Novembre 2022 -- TD 8 -- Authentification & Validation par email puis projet
-1. Semaine du 14 Novembre 2022 -- Projet
-1. Semaine du 21 Novembre 2022 -- Projet
-1. Semaine du 28 Novembre 2022 -- Projet
-1. Semaine du 02 Janvier 2023 -- Soutenances du projet
+1. Semaine du lundi 24 octobre 2022 -- Séance projet
+1. Semaine du lundi 7 novembre 2022 -- TD 7 -- Cookies & Sessions puis projet
+1. Semaine du lundi 14 novembre 2022 -- TD 8 -- Authentification & Validation par email
+1. Semaine du lundi 21 novembre 2022 -- Projet
+1. Semaine du lundi 2 janvier 2023 -- Évaluation Projet
+1. Semaine du lundi 9 janvier 2023 -- Examen final écrit
 
 
 ### Critères de notation
@@ -76,7 +79,7 @@ d'évaluer ce qui a été implémenté.
 
 ### Que garder pour plus tard ?
 
-Dans la suite de ce cours, plusieures séances seront consacrées à: 
+Dans la suite de ce cours, plusieurs séances seront consacrées à
 
 * la gestion des utilisateurs,
 * la gestion des paniers, 
@@ -89,39 +92,40 @@ En conséquence, ne pas attaquer ces parties pour le moment.
 Pour travailler à distance, vous pouvez soit installer un serveur Web sur votre
 ordinateur (cf. [la fin du
 TD1](http://romainlebreton.github.io/R3.01-DeveloppementWeb/tutorials/tutorial1.html#installez-un-serveur-apache-chez-vous))
-ou envoyer vos fichiers à l'IUT en FTP avec FileZilla par exemple
+ou envoyer vos fichiers à l'IUT en FTP avec FileZilla par exemple ou utiliser SSH
 (cf. [instructions sur l'intranet Côté Technique > Accès au Réseau > Depuis chez
-vous](https://iutdepinfo.iutmontp.univ-montp2.fr/index.php/cote-technique/acces-au-reseau/depuis-chez-vous)).
+vous](https://iutdepinfo.iutmontp.univ-montp2.fr/intranet/acces-a-distance/)).
 
 Lors de la soutenance, le site devra être hébergé dans le répertoire de l'un des
-membres de votre groupe.  Par exemple
+membres de votre groupe. Par exemple
 [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/eCommerce/](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/eCommerce/)
 
-En attendant, vous avez 2 solutions pour partager votre code PHP :
+Pour partager votre code PHP, créez un projet Git commun sur le [Gitlab de
+l'IUT](https://gitlabinfo.iutmontp.univ-montp2.fr). Puis chacun
+`clone` le projet dans son `public_html` pour avoir une copie du dépôt sur son
+compte. 
 
-#### Git (recommandé)
+Établissez clairement qui écrit dans quel fichier : si 2 personnes modifient la
+même partie de code, ils risquent d'avoir des conflits lors du `git pull`. Une
+bonne pratique est d'utiliser le système de branches de Git à chaque fois que
+l'on veut développer une nouvelle fonctionnalité.
 
-Créez un projet Git commun sur le [Gitlab de
-l'IUT](https://gitlabinfo.iutmontp.univ-montp2.fr) (ou sur Github). Puis chacun
-clone le projet pour avoir une copie du dépôt sur son compte. Établissez
-clairement qui écrit dans quel fichier : si 2 personnes modifient la même partie
-de code, ils risquent d'avoir des conflits lors du `git pull`. Pour plus
-d'informations sur Git, la création d'une clé SSH, les commandes `git
+Pour plus d'informations sur Git, la création d'une clé SSH, les commandes `git
 pull/add/commit/push` et autres `git log/status`, la gestion des conflits, je
-vous renvoie sur le [tutoriel d'introdution à
+vous renvoie sur le [tutoriel d'introduction à
 Git](https://gitlabinfo.iutmontp.univ-montp2.fr/valicov/tutoGit1ereAnnee/blob/master/README.md).
 
-#### Répertoire partagé à l'IUT
+<!-- #### Répertoire partagé à l'IUT
 
 L'étudiant 1 doit donc créer le répertoire `eCommerce` dans son dossier `public_html`
-puis donner les droits aux autres étudiants de son groupe sur ce répertoire:
+puis donner les droits aux autres étudiants de son groupe sur ce répertoire :
 
 * `setfacl -m u:loginetudiant2:x /home/ann2/loginetudiant1` (droit de
-     lister le repertoire personnel)
+     lister le répertoire personnel)
 * `setfacl -m u:loginetudiant2:x /home/ann2/loginetudiant1/public_html` (droit de
-     lister le repertoire public_html)
+     lister le répertoire `public_html`)
 * `setfacl -R -m u:loginetudiant2:rwx eCommerce` (donne récursivement les droits
-à tout les fichiers inclus dans eCommerce)
+à tous les fichiers inclus dans `eCommerce`)
 * `setfacl -R -m d:u:loginetudiant2:rwx eCommerce` (défini des droits par
 défaut : les nouveaux fichiers créés prendront ces droits)
 
@@ -131,4 +135,4 @@ défaut : les nouveaux fichiers créés prendront ces droits)
    fichier ou dossier, on tape `getfacl nom_du_fichier`.
 
 **Référence :**
-  [La page Côté Technique > Site Web > Partager public_html de intradepinfo](https://iutdepinfo.iutmontp.univ-montp2.fr/intranet/partager-public_html/)
+  [La page Côté Technique > Site Web > Partager public_html de intradepinfo](https://iutdepinfo.iutmontp.univ-montp2.fr/intranet/partager-public_html/) -->
