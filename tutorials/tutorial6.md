@@ -590,10 +590,8 @@ Pas de nouveautés.
 
 <div class="exercise">
 
-Nous vous laissons adapter la requête *SQL* `supprimer($valeurClePrimaire)` de
-`AbstractRepository`, l'action `delete` des contrôleurs *voiture* et
-*utilisateur*, ainsi que leur vue associée `deleted.php` et à ajouter les liens
-pour supprimer dans `list.php`.
+Nous vous laissons migrer la fonction `supprimerParImmatriculation($immatriculation)` de `VoitureRepository` vers `AbstractRepository` en la renommant `delete($valeurClePrimaire)` et adpater sa requête *SQL*. Adaptez également l'action `delete` des contrôleurs *voiture* et
+*utilisateur*, ainsi que leur vue associée `deleted.php`. Enfin, ajoutez les liens pour supprimer dans `list.php`.
 </div>
 
 ### Action `create` et `update`
