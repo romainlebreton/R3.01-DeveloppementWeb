@@ -660,7 +660,8 @@ Pour reconstituer la requête
 ```sql
 UPDATE voiture SET marque= :marque, couleur= :couleur, immatriculation= :immatriculation WHERE id= :id;
 ```
-il est nécessaire de pouvoir lister les champs de la table `voiture`.
+il est nécessaire de pouvoir lister les champs de la table `voiture`. De même il sera nécessaire de lister
+les champs des tables `utilisateur` et `trajet`. Nous allons factoriser le code nécessaire dans `AbstractRepository`.
 
 <div class="exercise">
 
