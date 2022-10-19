@@ -696,13 +696,14 @@ les champs des tables `utilisateur` et `trajet`. Nous allons factoriser le code 
    ```
 
    Nous allons demander à tous les `AbstractDataObject` d'implémenter une
-   méthode `formatTableau()` qui transforme un `AbstractDataObject` en tableau.
-   Ainsi, nous pouvons l'imposer directement par contrat dans
+   méthode `formatTableau()` qui transforme un `AbstractDataObject` en tableau, qui pourrait
+   être utiliser dans les différents appels à `execute()`.
+   Ainsi, nous pouvons imposer cette méthode directement par contrat dans
    `AbstractDataObject` : 
    ```php
    public abstract function formatTableau(): array;
    ```
-   Implémentez cette méthode dans `Voiture` et `Utilisateur`.
+   Implémentez cette fonction dans `Voiture` et `Utilisateur`.
 
 1. Utilisez `formatTableau()` dans `update()` pour obtenir le tableau donné à
    `execute()`.
