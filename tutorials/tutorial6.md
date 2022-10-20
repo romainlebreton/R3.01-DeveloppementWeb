@@ -697,7 +697,7 @@ les champs des tables `utilisateur` et `trajet`. Nous allons factoriser le code 
 
    Nous allons demander à tous les `AbstractDataObject` d'implémenter une
    méthode `formatTableau()` qui transforme un `AbstractDataObject` en tableau, qui pourrait
-   être utiliser dans les différents appels à `execute()`.
+   être utilisé dans les différents appels à `execute()`.
    Ainsi, nous pouvons imposer cette méthode directement par contrat dans
    `AbstractDataObject` : 
    ```php
