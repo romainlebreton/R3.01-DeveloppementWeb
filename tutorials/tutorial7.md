@@ -272,11 +272,15 @@ isset($_COOKIE["nomCookie"]);
 
 ### Effacer un cookie
 
-Enfin pour effacer un cookie, il suffit de le faire expirer (en lui mettant une
-date d'expiration inférieure à la date courante). Comme le temps d'expiration
-`0` a une signification particulière (vous souvenez-vous laquelle ?), on propose
-d'utiliser 
+Enfin pour effacer un cookie,
+* on efface le cookie lu par PHP
+```php
+unset($_COOKIE["TestCookie"]);
+```
 
+* on le supprime chez le client en le faisant expirer, c-à-d en lui mettant une
+date d'expiration passée. Comme la date d'expiration `0` a une signification
+particulière (vous souvenez-vous laquelle ?), on propose d'utiliser 
 ```php?start_inline=1
 setcookie ("TestCookie", "", 1);
 ```
@@ -410,8 +414,13 @@ l'action par défaut plutôt que le contrôleur par défaut.
 5. Vérifier que ce cookie a bien été déposé à l'aide des outils de développement.
 
 2. Dans votre menu, qui doit se trouver dans l'en-tête commun de chaque page,
-   ajouter un lien qui pointe vers l'action `formulairePreference`. Ce peut être
-   une [icône](https://freeicons.io/) cliquable pour faire plus joli. 
+   ajouter une icône cliquable ![coeur]({{site.baseurl}}/assets/TD7/heart.png)
+   qui pointe vers l'action `formulairePreference`.
+
+   Note : Stockez vos images et votre CSS dans un dossier `assets` accessible
+   sur internet
+
+   ![assets]({{site.baseurl}}/assets/TD7/assets.png){: .blockcenter}
 
 3. Dans le contrôleur frontal, le contrôleur par défaut est `voiture`. Faites en
    sorte d'utiliser la préférence de contrôleur par défaut si elle existe.
