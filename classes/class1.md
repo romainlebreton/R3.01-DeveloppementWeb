@@ -50,7 +50,7 @@ Voir quand intégrer la séance Git
 
 1. Semaine du lundi 17 octobre 2022 -- fin du TD 6 -- Architecture MVC avancée 2/2 (puis éventuellement projet)
 1. Semaine du lundi 24 octobre 2022 -- Parcours A : Séance SAÉ S3.A.01, autres parcours (B & D): Séance projet
-1. Semaine du lundi 7 novembre 2022 -- TD 7 -- Cookies & Sessions puis SAÉ ou projet
+1. Semaine du lundi 7 novembre 2022 -- TD 7 -- Cookies & Sessions
 1. Semaine du lundi 14 novembre 2022 -- TD 8 -- Authentification & Validation par email
 1. Semaine du lundi 21 novembre 2022 -- SAÉ ou Projet
 

@@ -27,7 +27,7 @@ Cours à l'IUT de Montpellier - 2ème année
 1. Semaine du lundi 24 octobre 2022 --  Parcours A: Séance SAÉ S3.A.01, autres parcours (B & D): Séance projet
 
 <!-- 
-1. Semaine du lundi 7 novembre 2022  -- [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) puis SAÉ ou projet
+1. Semaine du lundi 7 novembre 2022  -- [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html)
 1. Semaine du lundi 14 novembre 2022 -- [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html)
 1. Semaine du lundi 21 novembre 2022 -- SAÉ ou Projet
 1. Semaine du lundi 28 novembre 2022
@@ -43,9 +43,9 @@ Cours à l'IUT de Montpellier - 2ème année
 3. [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
 4. [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html)
 5. [`.htaccess`, namespace et autoloader]({{site.baseurl}}/assets/tut5-complement.html)
+5. [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html)
 
 <!-- 
-5. [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html)
 1. [Syntaxe simple & avancée de PHP 8.1]({{site.baseurl}}/assets/complement1-PHPSyntax.html)
 -->
 

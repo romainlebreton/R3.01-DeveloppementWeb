@@ -383,7 +383,7 @@ l'action par défaut plutôt que le contrôleur par défaut.
 
       public static function enregistrer(string $preference) : void
       {
-         Cookie::enregistrer(self::$clePreference, $preference);
+         Cookie::enregistrer(static::$clePreference, $preference);
       }
 
       public static function lire() : string
@@ -414,7 +414,7 @@ l'action par défaut plutôt que le contrôleur par défaut.
 5. Vérifier que ce cookie a bien été déposé à l'aide des outils de développement.
 
 2. Dans votre menu, qui doit se trouver dans l'en-tête commun de chaque page,
-   ajouter une icône cliquable ![coeur]({{site.baseurl}}/assets/TD7/heart.png)
+   ajouter une icône cliquable ![cœur]({{site.baseurl}}/assets/TD7/heart.png)
    qui pointe vers l'action `formulairePreference`.
 
    Note : Stockez vos images et votre CSS dans un dossier `assets` accessible
@@ -504,8 +504,11 @@ Présentons maintenant les opérations fondamentales sur les sessions :
 
 *  **Vérifier qu'une variable existe en session**
 
+   Comme pour les cookies, vous avez 2 manières équivalentes 
+
    ```php?start_inline=1
-   if (isset($_SESSION['login'])) { /*do something*/ }
+   array_key_exists("login", $_SESSION);
+   isset($_SESSION['login']);
    ```
    
 *  **Supprimer une variable de session**
@@ -514,9 +517,9 @@ Présentons maintenant les opérations fondamentales sur les sessions :
    unset($_SESSION['login']);
    ```
 
-   Comme la variable `$_SESSION` est aussi en écriture, alors le fait de vider
-   l'un de ses champs fera que ce champ sera aussi effacé des données de session
-   sur le disque dur.
+   Comme la variable `$_SESSION` est aussi en écriture, vider un de ses champs
+   effacera la donnée de session sur le disque dur à la fin de l'exécution du
+   PHP.
 
 *  **Suppression complète d'une session**
 
@@ -524,7 +527,7 @@ Présentons maintenant les opérations fondamentales sur les sessions :
    session_unset();     // unset $_SESSION variable for the run-time 
    session_destroy();   // destroy session data in storage
    // Il faut réappeler session_start() pour accéder de nouveau aux variables de session
-   setcookie(session_name(),'',time()-1); // deletes the session cookie containing the session ID
+   Cookie::supprimer(session_name()); // deletes the session cookie containing the session ID
    ```
 
    Pour le dire autrement :
@@ -534,7 +537,309 @@ Présentons maintenant les opérations fondamentales sur les sessions :
    `$_SESSION`,
    * `session_destroy()` supprime le fichier de données associées à la session
    courante qui étaient enregistrées sur le disque dur du serveur,
-   * `setcookie` demande au client de supprimer son cookie de session (sans garantie).
+   * On demande au client de supprimer son cookie de session (sans garantie).
+
+### Exercice sur les sessions
+
+<div class="exercise">
+
+1.  Dans un nouveau fichier `src/Model/HTTP/Session.php`, compléter la classe `Session` suivante
+    ```php
+    namespace App\Covoiturage\Model\HTTP;
+
+    class Session
+    {
+        private static ?Session $instance = null;
+
+        private function __construct(int $timeoutMinutes = 0)
+        {
+            if (session_start() === false) {
+                throw new Exception("La session n'a pas réussi à démarrer.");
+            }
+        }
+
+        public static function getInstance(): Session
+        {
+            if (is_null(static::$instance))
+                static::$instance = new Session();
+            return static::$instance;
+        }
+
+        public function contient($name): bool
+        {
+            // À compléter
+        }
+
+        public function enregistrer(string $name, mixed $value): void
+        {
+            // À compléter
+        }
+        
+        public function lire(string $name): mixed
+        {
+            // À compléter
+        }
+        
+        public function supprimer($name): void
+        {
+            // À compléter
+        }
+        
+        public function detruire() : void
+        {
+            session_unset();     // unset $_SESSION variable for the run-time
+            session_destroy();   // destroy session data in storage
+            Cookie::supprimer(session_name()); // deletes the session cookie
+            // Il faudra reconstruire la session au prochain appel de getInstance()
+            $instance = null;
+        }        
+    }
+    ```
+
+    Note : Cette classe suit le patron de conception *Singleton* car une session
+    est forcément unique.
+
+1. Testez toutes les méthodes de `Session` dans une action temporaire du contrôleur *utilisateur* :
+    1. Démarrer une session : observez le cookie de session avec les outils de développement,
+    1. Écrire et lire des variables de session de différents types (chaînes de caractères,
+        tableaux, objets, ...),
+    1. Supprimer une variable de session,
+    1. Supprimer complètement une session avec notamment la suppression du cookie de session.
+
+</div>
+
+### Application : Redirection HTTP & messages flash
+
+#### Cahier des charges
+
+<!--  
+Mettre un joli carousel
+https://getbootstrap.com/docs/3.4/javascript/#carousel
+-->
+
+Le client est sur le formulaire de création d'une voiture
+
+![VoitureCreate]({{site.baseurl}}/assets/TD7/VoitureCreate.png){: .blockcenter}
+
+S'il rentre une immatriculation existante, le site le redirige vers le
+formulaire de création avec un message d'avertissement
+
+![VoitureCreatedWarning]({{site.baseurl}}/assets/TD7/VoitureCreatedWarning.png){: .blockcenter}
+
+De même, s'il oublie un champ du formulaire (ce qui ne devrait *normalement* pas
+arriver puisque les `<input>` ont l'attribut `required`), le site le redirige vers le
+formulaire de création avec un message de danger
+
+![VoitureCreatedDanger]({{site.baseurl}}/assets/TD7/VoitureCreatedDanger.png){: .blockcenter}
+
+Quand le formulaire est valide, le client est redirigé vers la vue qui liste
+toutes les voitures avec un message de succès
+
+![VoitureCreatedSuccess]({{site.baseurl}}/assets/TD7/VoitureCreatedSuccess.png){: .blockcenter}
+
+Ce message ne s'affiche qu'une fois ; si le client rafraîchit la page (`F5`),
+alors le message disparait
+
+![VoitureReadAll]({{site.baseurl}}/assets/TD7/VoitureReadAll.png){: .blockcenter}
+
+<div class="exercise">
+
+1. À l'aide des indications de la section suivante, implémentez un système de message flash.
+
+1. Utilisez les messages flash pour enlever toutes les vues qui affichaient un
+   message puis appelaient une autre vue. En particulier, supprimez les vues
+   désormais inutiles `created.php`, `deleted.php` et `updated.php`.
+
+</div>
+
+
+#### Indications techniques
+
+1.  Pour la redirection, nous allons utiliser le code suivant (à encapsuler dans une fonction)
+    ```php
+    header("Location: $url");
+    exit();
+    ```
+
+    En effet, quand un navigateur reçoit l'en-tête de réponse [`Location`](https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Location), il
+    doit effectuer une redirection temporaire sur l'URL indiquée.
+
+1. Le principe d'un message flash est qu'il est détruit quand il est lu. Du
+   coup, le message ne sera affiché qu'une fois.
+
+1.  Vos messages flash doivent supporter 4 types de messages *success* (vert),
+    *info* (jaune), *warning* (orange) et *danger* (rouge).
+
+1. Ces messages seront stockés en session pour pouvoir être écrit lors d'une
+   requête et lu lors de la requête de redirection suivante.
+
+1. Les messages flash peuvent s'afficher sur n'importe quelle page qui utilise
+   la vue générique `view.php`. Il faudra donc mettre à jour `view.php` pour
+   afficher tous les messages flash existants. Il faudra aussi penser à ce
+   qu'une variable contenant les messages flash soit donné en paramètre lors de
+   l'affichage de la vue.
+
+1.  Vous devriez coder une classe pour les messages flash. Nous vous proposons
+    l'interface suivante pour le fichier `src/Lib/MessageFlash.php`
+
+    ```php
+    namespace App\Covoiturage\Lib;
+
+    class MessageFlash
+    {
+
+        private static string $cleFlash = "_messagesFlash";
+
+        // $type peut être "success", "info", "warning" ou "danger" 
+        public static function ajouter(string $type, string $message): void
+        {
+            // À compléter
+        }
+
+        public static function contientMessageDeType(string $type): bool
+        {
+            // À compléter
+        }
+
+        public static function lireMessages(string $type): array
+        {
+            // À compléter
+        }
+
+        public static function lireTousMessages() : array
+        {
+            // À compléter
+        }
+
+    }
+    ```
+
+1.  Pour le CSS des messages d'alerte, vous pouvez reprendre le [composant
+    d'alerte du framework CSS Bootstrap](https://getbootstrap.com/docs/3.4/components/#alerts)
+    ```css
+    /* Bootstrap alerts */
+    /* https://getbootstrap.com/docs/3.4/components/#alerts */
+
+    .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+
+    .alert-success {
+        color: #3c763d;
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+    }
+
+    .alert-info {
+        color: #31708f;
+        background-color: #d9edf7;
+        border-color: #bce8f1;
+    }
+
+    .alert-warning {
+        color: #8a6d3b;
+        background-color: #fcf8e3;
+        border-color: #faebcc;
+    }
+
+    .alert-danger {
+        color: #a94442;
+        background-color: #f2dede;
+        border-color: #ebccd1;
+    }
+    ```
+
+    On obtient alors un bloc de succès avec le code
+    ```html
+    <div class="alert alert-success">...</div>
+    ```
+
+1.  (Optionnel) Pour des formulaires plus jolis, vous pouvez utiliser les [`Input add-ons`
+    de *Solved by
+    Flexbox*](https://philipwalton.github.io/solved-by-flexbox/demos/input-add-ons/)
+    ```css
+    /* https://philipwalton.github.io/solved-by-flexbox/demos/input-add-ons/ */
+    .InputAddOn {
+        display: flex;
+        margin-bottom: 1.5em;
+    }
+
+    .InputAddOn-field {
+        flex: 1;
+    }
+    .InputAddOn-field:not(:first-child) {
+        border-left: 0;
+    }
+    .InputAddOn-field:not(:last-child) {
+        border-right: 0;
+    }
+
+    .InputAddOn-item {
+        background-color: rgba(147, 128, 108, 0.1);
+        color: #666666;
+        font: inherit;
+        font-weight: normal;
+    }
+
+    .InputAddOn-field,
+    .InputAddOn-item {
+        border: 1px solid rgba(147, 128, 108, 0.25);
+        padding: 0.5em 0.75em;
+    }
+    .InputAddOn-field:first-child,
+    .InputAddOn-item:first-child {
+        border-radius: 2px 0 0 2px;
+    }
+    .InputAddOn-field:last-child,
+    .InputAddOn-item:last-child {
+        border-radius: 0 2px 2px 0;
+    }
+    ```
+
+    Un champ de formulaire s'obtient par exemple avec 
+    ```html
+    <p class="InputAddOn">
+        <label class="InputAddOn-item" for="immat_id">Immatriculation&#42;</label>
+        <input class="InputAddOn-field" type="text" placeholder="Ex : 256AB34" name="immatriculation" id="immat_id" required>
+    </p>
+    ```
+
+
+<!-- On écrit dans le champ `_messagesFlash` de la session un tableau comme suit :
+
+```php
+[
+    "success" => [
+        "Utilisateur enregistré"
+    ],
+    "info" => [],
+    "warning" => [
+        "Erreur dans le formulaire",
+        "Mauvais mot de passe"
+    ],
+    // Pas de clé "danger" dans cet exemple
+];
+```
+
+Les clés sont l'un des 4 types possibles : "success", "info", "warning" ou
+"danger". Les valeurs sont une liste de messages. Tous les types ne sont pas
+nécessairement présents. 
+
+contientMessageDeType : true ssi il y a un tableau dans le champ `_messagesFlash` de la session qui contient une liste non vide de messages pour la clé `$type`.
+
+ajouter : 
+* lis le tableau des messages flash en session. 
+* rajoute le message dans la case `$type` du tableau
+* enregistre le tableau des messages flash en session
+
+lireMessages :
+* si le tableau des messages flash ne contient pas de messages du type -> []
+* sinon renvoie la case `$type` du tableau
+* enleve la case `$type` du tableau dans l'enregistrement en session -->
+
 
 ### Notes techniques
 
@@ -549,7 +854,6 @@ administrateur dans la variable `isAdmin` d'un cookie. Alors rien n'empêche
 l'utilisateur de modifier son cookie en passant le champ `isAdmin` à la valeur
 `true`. Cependant, avec le mécanisme de sessions, l'utilisateur n'a pas accès
 aux données qui lui sont associées.
-
 
 #### Expiration des sessions
 
@@ -570,7 +874,7 @@ aux données qui lui sont associées.
 	sessions soit conservé disons 30 minutes, même en cas de fermeture du
 	navigateur.
 
-1. **Comment rajouter un timeout sur les sessions :**
+1.  **Comment rajouter un timeout sur les sessions :**
 
 	La durée de vie d'une session est liée à deux paramètres. D'une part, le
 	délai d'expiration du cookie permet d'effacer l'identifiant unique côté
@@ -584,14 +888,30 @@ aux données qui lui sont associées.
 	stocker la date de dernière activité dans la session :
 	
     ```php?start_inline=1
-    if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > (30*60))) {
+    if (isset($_SESSION['derniereActivite']) && (time() - $_SESSION['derniereActivite'] > (30*60))) {
         // if last request was more than 30 minutes ago
         session_unset();     // unset $_SESSION variable for the run-time 
         session_destroy();   // destroy session data in storage
     } else {
-        $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+        $_SESSION['derniereActivite'] = time(); // update last activity time stamp
     }
     ```
+    
+    <!-- Ancien code : Problèmes : 
+    * Ce qu'on écrit dans $_SESSION n'est plus enregistré après session_detroy()
+      -> rajouter un session_start() ?
+    * Problème aussi avec détruire : l'utilisateur qui a déjà récupéré une session avec getInstance
+      se retrouve avec une session qui ne marche pas *sans le savoir*
+      -> Tant pis pour lui, il le sait quand il appelle detruire ?
+    ```php?start_inline=1
+    if (isset($_SESSION['derniereActivite']) && (time() - $_SESSION['derniereActivite'] > (30*60))) {
+        // if last request was more than 30 minutes ago
+        session_unset();     // unset $_SESSION variable for the run-time 
+        session_destroy();   // destroy session data in storage
+    } else {
+        $_SESSION['derniereActivite'] = time(); // update last activity time stamp
+    }
+    ``` -->
 
 	Nous recommandons de mettre un délai d'expiration correspondant au
     `session.cookie_lifetime` (si celui-ci est non nul).
@@ -606,6 +926,16 @@ POST ?)
 Alors il y a un risque plus important de "session fixation"
 cf http://defeo.lu/aws/lessons/session-fixation
 -->
+
+<div class="exercise">
+
+Rajouter un mécanisme d'expiration pour les sessions.
+
+</div>
+
+<!-- Problèmes :
+* changer la signature du constructeur et de getInstance ? -->
+
 
 #### Où sont stockées les sessions ?
 
@@ -629,24 +959,7 @@ alors le fichier `/var/lib/php/sessions/sess_aapot` contient
 login|s:9:"rlebreton";isAdmin|s:1:"1";
 ```
 
-
-### Exercice sur les sessions
-
-<div class="exercise">
-
-Créez un nouveau fichier PHP et vérifiez votre compréhension en implémentant les
-fonctionnalités suivantes :
-
-1. Démarrer une session,
-1. Écrire des variables de session de différents types (chaînes de caractères,
-   tableaux, objets, ...),
-1. Lire une variable de session,
-1. Supprimer une variable de session,
-1. Supprimer complètement une session
-
-</div>
-
-## Mise en application sur le site de covoiturage
+<!-- ## Mise en application sur le site de covoiturage
 
 <div class="exercise">
 
@@ -676,25 +989,37 @@ la stocker avec des sessions.
    délai sera d'abord de 10 secondes à des fins de test puis passez-le à 10 minutes
    quand cela marche.
 
-</div>
+</div> -->
+
+
+## (Optionnel) Au-delà des cookies et des sessions
+
 
 Pour approfondir votre compréhension des cookies et des sessions, vous avez
 aussi accès aux [notes complémentaires à ce
 sujet]({{site.baseurl}}/assets/tut7-complement).
 
-# (Optionnel) Au-delà des cookies et des sessions
+### Cas d'utilisation classique : panier sur un site marchand
 
-Nécessite l'exécution de JavaScript côté client
+* Le panier est enregistré en cookie ou en session
+* Lors de la validation du panier, on demande à l'utilisateur de se connecter
+* Une fois connectée, le panier validé est enregistrée en BDD dans une table *commandes*.
 
-* localStorage
+### Alternatives aux cookies et sessions 
+
+Il existe des alternatives aux cookies et aux sessions. Par exemple, en
+utilisant [l'API Web
+Storage](https://developer.mozilla.org/fr/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API)
+de JavaScript (langage que nous étudierons au semestre 4). 
+
+<!-- * localStorage
 * webStorage
-* indexedDB
+* indexedDB -->
 
-Des données que l'utilisateur ne veut pas nécessairement partager avec le
-serveur (contrairement aux cookies et aux sessions).
+<!-- Des données que l'utilisateur ne veut pas nécessairement partager avec le
+serveur (contrairement aux cookies et aux sessions). 
+Exemple :   * formulaire sur plusieurs pages 
+-->
 
-## Cas d'utilisation classique
-
-* panier d'un utilisateur non connecte
-* session pour utilisateur connecte
-* puis enregistrement en BDD
+Enfin, si l'on veut sécuriser des informations côté client (Cookie ou Web storage), une technologie
+répandue est le [JSON Web Token (JWT)](https://jwt.io/).
