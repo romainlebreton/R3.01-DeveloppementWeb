@@ -246,14 +246,16 @@ public static function enregistrer(string $cle, mixed $valeur, ?int $dureeExpira
    * `$dureeExpiration` indique dans combien de secondes est-ce que le cookie doit expirer.
    * Il faut traiter séparément le cas où `$dureeExpiration` vaut `null` qui
      indique que l'on veut une expiration à la fin de la session.
+   * Le type de retour `mixed` nécessite la version 8 de PHP. En cas de problème, vous pouvez retirer les `mixed`.
 
 1. Coder la méthode
 ```php
 public static function lire(string $cle): mixed;
 ```
 
-1. Testez vos méthodes, en particulier l'enregistrement d'une valeur qui n'est
-   pas un `string`, et l'expiration des cookies. 
+1. Modifiez les actions `deposerCookie` et `lireCookie` pour utiliser la classe
+   `Cookie`. Testez votre code, en particulier l'enregistrement d'une valeur
+   qui n'est pas un `string`, et l'expiration des cookies. 
 
 1. Coder la méthode
 ```php
@@ -358,6 +360,15 @@ l'action par défaut plutôt que le contrôleur par défaut.
 
 <div class="exercise">
 
+2. Dans votre menu qui se trouve dans l'en-tête commun de chaque page, ajouter
+   une icône cliquable ![cœur]({{site.baseurl}}/assets/TD7/heart.png) qui pointe
+   vers la futur action `formulairePreference`.
+
+   Note : Stockez vos images et votre CSS dans un dossier `assets` accessible
+   sur internet
+
+   ![assets]({{site.baseurl}}/assets/TD7/assets.png){: .blockcenter}
+
 1. Créez une action `formulairePreference` dans le contrôleur *utilisateur*, qui doit 
    afficher une vue `src/view/utilisateur/formulairePreference.php`.
    
@@ -377,6 +388,7 @@ l'action par défaut plutôt que le contrôleur par défaut.
 
 1. Afin de pouvoir gérer les préférences de contrôleur, créez une classe
    `src/Lib/PreferenceControleur.php` avec le bon espace de nom et le contenu
+   suivant que vous complèterez
    ```php
    class PreferenceControleur {
       private static string $clePreference = "preferenceControleur";
@@ -412,15 +424,6 @@ l'action par défaut plutôt que le contrôleur par défaut.
      qui liste tous les utilisateurs.
 
 5. Vérifier que ce cookie a bien été déposé à l'aide des outils de développement.
-
-2. Dans votre menu, qui doit se trouver dans l'en-tête commun de chaque page,
-   ajouter une icône cliquable ![cœur]({{site.baseurl}}/assets/TD7/heart.png)
-   qui pointe vers l'action `formulairePreference`.
-
-   Note : Stockez vos images et votre CSS dans un dossier `assets` accessible
-   sur internet
-
-   ![assets]({{site.baseurl}}/assets/TD7/assets.png){: .blockcenter}
 
 3. Dans le contrôleur frontal, le contrôleur par défaut est `voiture`. Faites en
    sorte d'utiliser la préférence de contrôleur par défaut si elle existe.
@@ -551,7 +554,7 @@ Présentons maintenant les opérations fondamentales sur les sessions :
     {
         private static ?Session $instance = null;
 
-        private function __construct(int $timeoutMinutes = 0)
+        private function __construct()
         {
             if (session_start() === false) {
                 throw new Exception("La session n'a pas réussi à démarrer.");
@@ -668,7 +671,8 @@ alors le message disparait
    coup, le message ne sera affiché qu'une fois.
 
 1.  Vos messages flash doivent supporter 4 types de messages *success* (vert),
-    *info* (jaune), *warning* (orange) et *danger* (rouge).
+    *info* (jaune), *warning* (orange) et *danger* (rouge). Chaque type peut
+    comporter plusieurs messages.
 
 1. Ces messages seront stockés en session pour pouvoir être écrit lors d'une
    requête et lu lors de la requête de redirection suivante.
@@ -688,9 +692,10 @@ alors le message disparait
     class MessageFlash
     {
 
+        // Les messages sont enregistré en session associé à la clé suivante 
         private static string $cleFlash = "_messagesFlash";
 
-        // $type peut être "success", "info", "warning" ou "danger" 
+        // $type parmi "success", "info", "warning" ou "danger" 
         public static function ajouter(string $type, string $message): void
         {
             // À compléter
@@ -701,6 +706,7 @@ alors le message disparait
             // À compléter
         }
 
+        // Attention : la lecture doit détruire le message
         public static function lireMessages(string $type): array
         {
             // À compléter
@@ -929,7 +935,10 @@ cf http://defeo.lu/aws/lessons/session-fixation
 
 <div class="exercise">
 
-Rajouter un mécanisme d'expiration pour les sessions.
+Rajouter un mécanisme d'expiration pour les sessions. 
+
+*Note :* La durée d'expiration est une donnée qui dépend du site. Il serait donc
+judicieux de la mettre dans le fichier de configuration `Conf.php`.
 
 </div>
 

@@ -591,9 +591,13 @@ avec trois liens :
    ```
 
 3. Rajoutez un [style CSS minimaliste]({{site.baseurl}}/assets/TD4/navstyle.css)
-   à votre page Web. Ce style sera mis dans un dossier `css`. Réfléchissez bien
-   où mettre ce dossier `css`, car nous avons interdit l'accès internet à
-   certaines parties du dossier `TD5`. 
+   à votre page Web. Ce style sera mis dans un dossier `css`. Où mettre ce
+   dossier `css` sachant que nous interdisons l'accès internet à certaines
+   parties du dossier `TD5` ?
+   
+   Une façon de faire est de créer un dossier `TD5/assets` qui sera accessible sur
+   internet, et qui contiendra le dossier `css`, mais aussi plus tard des
+   dossiers `img` d'images et `js` pour le JavaScript.  
 
 </div> 
 
