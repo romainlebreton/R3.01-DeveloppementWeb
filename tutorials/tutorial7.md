@@ -894,13 +894,10 @@ aux données qui lui sont associées.
 	stocker la date de dernière activité dans la session :
 	
     ```php?start_inline=1
-    if (isset($_SESSION['derniereActivite']) && (time() - $_SESSION['derniereActivite'] > (30*60))) {
-        // if last request was more than 30 minutes ago
-        session_unset();     // unset $_SESSION variable for the run-time 
-        session_destroy();   // destroy session data in storage
-    } else {
-        $_SESSION['derniereActivite'] = time(); // update last activity time stamp
-    }
+    if (isset($_SESSION['derniereActivite']) && (time() - $_SESSION['derniereActivite'] > ($dureeExpiration)))
+        session_unset();     // unset $_SESSION variable for the run-time
+
+    $_SESSION['derniereActivite'] = time(); // update last activity time stamp
     ```
     
     <!-- Ancien code : Problèmes : 
@@ -919,8 +916,9 @@ aux données qui lui sont associées.
     }
     ``` -->
 
-	Nous recommandons de mettre un délai d'expiration correspondant au
-    `session.cookie_lifetime` (si celui-ci est non nul).
+	Nous recommandons de mettre un délai d'expiration correspondant au cookie
+    d'identifiant de session à l'aide de la méthode
+    [`session_set_cookie_params`](https://www.php.net/manual/fr/function.session-set-cookie-params.php).
     
     **Référence :** [Stackoverflow](http://stackoverflow.com/questions/520237/how-do-i-expire-a-php-session-after-30-minutes)
 
