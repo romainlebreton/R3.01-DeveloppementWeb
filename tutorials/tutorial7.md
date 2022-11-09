@@ -360,23 +360,30 @@ l'action par défaut plutôt que le contrôleur par défaut.
 
 <div class="exercise">
 
+1. Pour préparer la suite de l'exercice, nous allons mettre en place un
+   contrôleur générique (si vous ne l'avez pas déjà fait au TD6). En effet, la
+   future action de préférence de contrôleur par défaut n'est spécifique à aucun contrôleur en particulier. On va donc la rendre accessible à tous les contrôleurs.
+
+   * Créez une classe `src/Controller/GenericController.php`.
+   * Les autres contrôleurs doivent hériter de `GenericController`.
+   * Déplacez la méthode `afficheVue` commune à tous les contrôleurs dans `GenericController`. Sa visibilité passe de `private` à `protected` pour être accessible dans ses classes filles.
+
 2. Dans votre menu qui se trouve dans l'en-tête commun de chaque page, ajouter
    une icône cliquable ![cœur]({{site.baseurl}}/assets/TD7/heart.png) qui pointe
-   vers la futur action `formulairePreference`.
+   vers la future action `formulairePreference` (sans contrôleur).
 
    Note : Stockez vos images et votre CSS dans un dossier `assets` accessible
    sur internet
 
    ![assets]({{site.baseurl}}/assets/TD7/assets.png){: .blockcenter}
 
-1. Créez une action `formulairePreference` dans le contrôleur *utilisateur*, qui doit 
-   afficher une vue `src/view/utilisateur/formulairePreference.php`.
+1. Créez une action `formulairePreference` dans le contrôleur *générique*, qui
+   doit afficher une vue `src/view/formulairePreference.php`.
    
 1. Créez cette vue et complétez-la avec un formulaire 
-   * renvoyant vers la future action `enregistrerPreference` du contrôleur
-   *utilisateur*, 
-   * contenant des *boutons radio* permettant de choisir `voiture`, `trajet` ou `utilisateur` comme
-   contrôleur par défaut
+   * renvoyant vers la future action `enregistrerPreference` (sans indiquer de contrôleur), 
+   * contenant des *boutons radio* permettant de choisir `voiture`, `trajet` ou
+   `utilisateur` comme contrôleur par défaut
 ```html
 <input type="radio" id="voitureId" name="controleur_defaut" value="voiture">
 <label for="voitureId">Voiture</label>
@@ -416,10 +423,10 @@ l'action par défaut plutôt que le contrôleur par défaut.
    }
    ```
 
-4. Écrire l'action `enregistrerPreference` qui 
+4. Écrire l'action `enregistrerPreference` du contrôleur générique qui 
    * récupère la valeur `controleur_defaut` du formulaire,
    * l'enregistre dans un cookie en utilisant la classe `PreferenceControleur`,
-   * appelle une nouvelle vue `src/view/utilisateur/enregistrerPreference.php`
+   * appelle une nouvelle vue `src/view/enregistrerPreference.php`
      qui affiche *La préférence de contrôleur est enregistrée !*, puis la vue
      qui liste tous les utilisateurs.
 
@@ -658,7 +665,8 @@ alors le message disparait
 
 #### Indications techniques
 
-1.  Pour la redirection, nous allons utiliser le code suivant (à encapsuler dans une fonction)
+1.  Pour la redirection, nous allons utiliser le code suivant (à encapsuler dans
+    une méthode du contrôleur générique)
     ```php
     header("Location: $url");
     exit();
@@ -701,7 +709,7 @@ alors le message disparait
             // À compléter
         }
 
-        public static function contientMessageDeType(string $type): bool
+        public static function contientMessage(string $type): bool
         {
             // À compléter
         }
