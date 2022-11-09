@@ -438,6 +438,11 @@ l'action par défaut plutôt que le contrôleur par défaut.
 5. Testez le bon fonctionnement de cette personnalisation de la page d'accueil en
 choisissant autre chose que `voiture` dans le formulaire.
 
+1. Il est possible que vos anciens liens du contrôleur voiture (vues `list` et
+   `detail`) et de la barre de menu (`view.php`) n'indiquait pas le contrôleur
+   voiture, car c'était le contrôleur par défaut. Si nécessaire, rajoutez
+   l'indication du contrôleur dans ces liens.
+
 1. On souhaite que le formulaire de préférence soit déjà coché si la préférence
    existe déjà. Implémentez cette fonctionnalité. Vous utiliserez l'attribut
    `checked` pour cocher un `<input type="radio">`.
