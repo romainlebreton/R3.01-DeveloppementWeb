@@ -237,11 +237,11 @@ Nous allons regrouper toutes les fonctionnalités des cookies dans une classe.
 1. Créez la classe `Cookie` dans le fichier `src/Model/HTTP/Cookie.php` en y indiquant le bon espace de nom.
 1. Codez la méthode
 ```php
-public static function enregistrer(string $cle, mixed $valeur, ?int $dureeExpiration = null): void;
+public static function enregistrer(string $cle, mixed $valeur, ?int $dureeExpiration = null): void
 ```
 
    Note :
-   * Pour pouvoir stocker tout type de valeur, transformez la toujours en chaîne
+   * Pour pouvoir stocker tout type de valeur, transformez-la toujours en chaîne
      de caractères avant de la stocker.
    * `$dureeExpiration` indique dans combien de secondes est-ce que le cookie doit expirer.
    * Il faut traiter séparément le cas où `$dureeExpiration` vaut `null` qui
