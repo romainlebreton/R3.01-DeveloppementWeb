@@ -168,7 +168,7 @@ Cookie: TestCookie1=valeur1; TestCookie2=valeur2
 Le PHP traite la requête pour rendre le cookie 
 disponible dans la variable
 [`$_COOKIE`](http://php.net/manual/fr/reserved.variables.cookies.php), de la même
-manière de `$_GET` récupère l'information dans l'URL et que `$_POST` récupère
+manière que `$_GET` récupère l'information dans l'URL et que `$_POST` récupère
 l'information dans le corps de la requête (*cf.* [le cours
 1]({{site.baseurl}}/classes/class1.html#protocole-de-communication--http)).
 
