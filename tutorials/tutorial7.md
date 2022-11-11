@@ -147,8 +147,7 @@ nous avons un cookie `"TestCookie1"` de valeur `"valeur1"` et un cookie
 
 ### Récupérer un cookie
 
-Après le dépôt par le serveur d'un cookie chez le client, le navigateur du
-client envoie les informations du cookie à chaque requête HTTP.
+À chaque requête HTTP, le navigateur du client envoie ses cookies correspondant au site visité dans l'en-tête de la requête.
 
 #### Comment le client transmet-il les informations de ses cookies ?
 
@@ -237,7 +236,7 @@ Nous allons regrouper toutes les fonctionnalités des cookies dans une classe.
 1. Créez la classe `Cookie` dans le fichier `src/Model/HTTP/Cookie.php` en y indiquant le bon espace de nom.
 1. Codez la méthode
 ```php
-public static function enregistrer(string $cle, mixed $valeur, ?int $dureeExpiration = null): void;
+public static function enregistrer(string $cle, mixed $valeur, ?int $dureeExpiration = null): void
 ```
 
    Note :
@@ -250,7 +249,7 @@ public static function enregistrer(string $cle, mixed $valeur, ?int $dureeExpira
 
 1. Coder la méthode
 ```php
-public static function lire(string $cle): mixed;
+public static function lire(string $cle): mixed
 ```
 
 1. Modifiez les actions `deposerCookie` et `lireCookie` pour utiliser la classe
@@ -259,7 +258,7 @@ public static function lire(string $cle): mixed;
 
 1. Coder la méthode
 ```php
-public static function contient($cle) : bool;
+public static function contient($cle) : bool
 ```
 
    Note : Un cookie existe si le tableau `$_COOKIE` contient une case à son nom.
@@ -291,7 +290,7 @@ setcookie ("TestCookie", "", 1);
 
 1. Codez et testez la méthode suivante de la classe `Cookie` :
 ```php
-public static function supprimer($cle) : void;
+public static function supprimer($cle) : void
 ```
 
 1. Nettoyez le contrôleur *utilisateur* en commentant les actions
@@ -339,9 +338,8 @@ public static function supprimer($cle) : void;
    disponible à tous les sites ayant ce nom de domaine, en particulier aux
    pages de `*.univ-montp2.fr`,  mais pas aux autres domaines tels que `google.fr`.
 
-   Il est possible de préciser ce comportement en donnant plus de paramètres (nom
-   de domaine, chemin) à la fonction
-   [`setcookie`](http://php.net/manual/fr/function.setcookie.php).
+   Il est possible de préciser ce comportement en donnant plus de paramètres à
+   la fonction [`setcookie`](http://php.net/manual/fr/function.setcookie.php). On peut ainsi restreindre l'envoi des cookies à certains noms de domaine, à certains chemins (partie après le nom d'hôte dans l'URL), ou seulement aux URL utilisant le protocole sécurisé `https`.
 
 <!-- The Max-Age attribute defines the lifetime of the  cookie, in seconds. -->
 <!-- The Expires attribute indicates the maximum lifetime of the cookie, -->
