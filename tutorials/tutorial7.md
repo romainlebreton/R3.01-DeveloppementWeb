@@ -360,11 +360,21 @@ l'action par défaut plutôt que le contrôleur par défaut.
 
 1. Pour préparer la suite de l'exercice, nous allons mettre en place un
    contrôleur générique (si vous ne l'avez pas déjà fait au TD6). En effet, la
-   future action de préférence de contrôleur par défaut n'est spécifique à aucun contrôleur en particulier. On va donc la rendre accessible à tous les contrôleurs.
+   future action de préférence de contrôleur par défaut n'est spécifique à aucun
+   contrôleur en particulier. On va donc la rendre accessible à tous les
+   contrôleurs.
 
    * Créez une classe `src/Controller/GenericController.php`.
    * Les autres contrôleurs doivent hériter de `GenericController`.
-   * Déplacez la méthode `afficheVue` commune à tous les contrôleurs dans `GenericController`. Sa visibilité passe de `private` à `protected` pour être accessible dans ses classes filles.
+   * Déplacez la méthode `afficheVue` commune à tous les contrôleurs dans
+     `GenericController`. Sa visibilité passe de `private` à `protected` pour
+     être accessible dans ses classes filles.
+   * Si vous n'avez de contrôleur trajet `src/Controller/ControllerTrajet.php`,
+     créez un contrôleur vide qui hérite seulement du contrôleur générique.
+
+   *Note* : Le contrôleur générique pourrait implémenter une méthode `error()`
+   générique. Cette méthode du contrôleur générique serait notamment appelée par
+   le contrôleur frontal en cas de contrôleur inconnu.
 
 2. Dans votre menu qui se trouve dans l'en-tête commun de chaque page, ajouter
    une icône cliquable ![cœur]({{site.baseurl}}/assets/TD7/heart.png) qui pointe
@@ -675,8 +685,14 @@ alors le message disparait
     exit();
     ```
 
-    En effet, quand un navigateur reçoit l'en-tête de réponse [`Location`](https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Location), il
-    doit effectuer une redirection temporaire sur l'URL indiquée.
+    En effet, quand un navigateur reçoit l'en-tête de réponse
+    [`Location`](https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Location),
+    il doit effectuer une redirection temporaire sur l'URL indiquée. Enfin,
+    `exit()` termine l'exécution du script courant. 
+
+    *Note :* L'utilisation de `exit()` est optionnelle. Nous vous le mentionnons
+    car généralement le script n'a plus rien à faire après avoir demandé une
+    redirection.
 
 1. Le principe d'un message flash est qu'il est détruit quand il est lu. Du
    coup, le message ne sera affiché qu'une fois.
