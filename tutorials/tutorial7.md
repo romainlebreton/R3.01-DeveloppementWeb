@@ -435,8 +435,7 @@ l'action par défaut plutôt que le contrôleur par défaut.
    * récupère la valeur `controleur_defaut` du formulaire,
    * l'enregistre dans un cookie en utilisant la classe `PreferenceControleur`,
    * appelle une nouvelle vue `src/view/enregistrerPreference.php`
-     qui affiche *La préférence de contrôleur est enregistrée !*, puis la vue
-     qui liste tous les utilisateurs.
+     qui affiche *La préférence de contrôleur est enregistrée !*.
 
 5. Vérifier que ce cookie a bien été déposé à l'aide des outils de développement.
 
