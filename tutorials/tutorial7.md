@@ -703,7 +703,7 @@ alors le message disparait
     class MessageFlash
     {
 
-        // Les messages sont enregistré en session associé à la clé suivante 
+        // Les messages sont enregistrés en session associée à la clé suivante 
         private static string $cleFlash = "_messagesFlash";
 
         // $type parmi "success", "info", "warning" ou "danger" 
