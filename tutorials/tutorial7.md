@@ -671,7 +671,12 @@ alors le message disparait
 
 1. Utilisez les messages flash pour enlever toutes les vues qui affichaient un
    message puis appelaient une autre vue. En particulier, supprimez les vues
-   désormais inutiles `created.php`, `deleted.php` et `updated.php`.
+   désormais inutiles `created.php`, `deleted.php` et `updated.php`. 
+   
+   De plus, l'action `enregistrerPreference()` peut maintenant rediriger
+   l'action par défaut du contrôleur par défaut, que l'on obtient sans indiquer
+   d'action ni de contrôleur dans l'URL, avec un message flash *La préférence de
+   contrôleur est enregistrée !*.
 
 </div>
 

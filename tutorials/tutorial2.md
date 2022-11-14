@@ -243,14 +243,14 @@ class Model {
     public static function getPdo() {
         return static::getInstance()->pdo;
     }
-    
+
     private function __construct () {
         // Code du constructeur
     }
 
-   // getInstance s'assure que le constructeur ne sera 
-   // appelé qu'une seule fois.
-   // L'unique instance crée est stockée dans l'attribut $instance
+    // getInstance s'assure que le constructeur ne sera 
+    // appelé qu'une seule fois.
+    // L'unique instance crée est stockée dans l'attribut $instance
     private static function getInstance() {
         // L'attribut statique $pdo s'obtient avec la syntaxe static::$pdo 
         // au lieu de $this->pdo pour un attribut non statique
