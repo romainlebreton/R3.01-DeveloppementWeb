@@ -685,8 +685,8 @@ alors le message disparait
     *info* (jaune), *warning* (orange) et *danger* (rouge). Chaque type peut
     comporter plusieurs messages.
 
-1. Ces messages seront stockés en session pour pouvoir être écrit lors d'une
-   requête et lu lors de la requête de redirection suivante.
+1. Ces messages seront stockés en session pour pouvoir être écrits lors d'une
+   requête et lus lors de la requête de redirection suivante.
 
 1. Les messages flash peuvent s'afficher sur n'importe quelle page qui utilise
    la vue générique `view.php`. Il faudra donc mettre à jour `view.php` pour
