@@ -247,7 +247,7 @@ public static function enregistrer(string $cle, mixed $valeur, ?int $dureeExpira
      indique que l'on veut une expiration à la fin de la session.
    * Le type de retour `mixed` nécessite la version 8 de PHP. En cas de problème, vous pouvez retirer les `mixed`.
 
-1. Coder la méthode
+1. Codez la méthode
 ```php
 public static function lire(string $cle): mixed
 ```
@@ -256,7 +256,7 @@ public static function lire(string $cle): mixed
    `Cookie`. Testez votre code, en particulier l'enregistrement d'une valeur
    qui n'est pas un `string`, et l'expiration des cookies. 
 
-1. Coder la méthode
+1. Codez la méthode
 ```php
 public static function contient($cle) : bool
 ```
