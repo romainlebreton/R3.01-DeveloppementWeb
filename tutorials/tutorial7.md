@@ -479,10 +479,6 @@ propres à ce client.
 
 ### Opérations sur les sessions
 
-On peut stocker presque tout dans une variable de session : un chiffre, un
-texte, voir un tableau ou un objet. Contrairement aux cookies, il n'est même pas
-nécessaire d'utiliser `serialize()` pour convertir tous les types en texte.
-
 Présentons maintenant les opérations fondamentales sur les sessions :
 
 *  **Initialiser les sessions**
@@ -504,6 +500,20 @@ Présentons maintenant les opérations fondamentales sur les sessions :
      écritures (on doit écrire l'en-tête HTTP avant d'envoyer le corps de la
      réponse HTTP).
 
+*  **Mettre une variable en session**
+
+   ```php?start_inline=1
+   $_SESSION['login'] = 'remi';
+   ```
+
+   On peut stocker presque tout dans une variable de session : un chiffre, un
+   texte, voir un tableau ou un objet. Contrairement aux cookies, il n'est pas
+   nécessaire d'utiliser `serialize()` pour convertir tous les types en texte.
+
+   **Nouveauté :** Contrairement à `$_GET`, `$_POST` et `$_COOKIE`, la variable
+   `$_SESSION` est aussi une variable d'écriture : elle permet d'écrire des
+   informations de sessions.
+
 *  **Lire une variable de session**
 
    ```php?start_inline=1
@@ -513,16 +523,6 @@ Présentons maintenant les opérations fondamentales sur les sessions :
    À la manière de `$_GET`, `$_POST` et `$_COOKIE`, la variable `$_SESSION`
    permet de lire les informations de sessions (stockées sur le disque dur du
    serveur et liées à l'identifiant de session).
-
-*  **Mettre une variable en session**
-
-   ```php?start_inline=1
-   $_SESSION['login'] = 'remi';
-   ```
-
-   **Nouveauté :** Contrairement à `$_GET`, `$_POST` et `$_COOKIE`, la variable
-   `$_SESSION` est aussi une variable d'écriture : elle permet d'écrire des
-   informations de sessions.
 
 *  **Vérifier qu'une variable existe en session**
 
@@ -568,11 +568,16 @@ Présentons maintenant les opérations fondamentales sur les sessions :
 1.  Dans un nouveau fichier `src/Model/HTTP/Session.php`, compléter la classe `Session` suivante
     ```php
     namespace App\Covoiturage\Model\HTTP;
+    
+    use Exception;
 
     class Session
     {
         private static ?Session $instance = null;
 
+        /**
+         * @throws Exception
+         */
         private function __construct()
         {
             if (session_start() === false) {
@@ -618,8 +623,13 @@ Présentons maintenant les opérations fondamentales sur les sessions :
     }
     ```
 
-    Note : Cette classe suit le patron de conception *Singleton* car une session
-    est forcément unique.
+    *Note :* Cette classe suit le patron de conception *Singleton*, car une session
+    est forcément unique. De plus, on ne peut pas se satisfaire d'une classe
+    statique comme `Cookie`, car une session a deux états : démarrée ou pas.
+    Notre classe dynamique nous permets de nous assurer que la session est
+    démarré avec `session_start()` avant de l'utiliser. En pratique, l'appel à
+    une méthode dynamique comme `enregistrer()` nécessite d'avoir construit
+    l'objet précédemment, donc d'avoir appelé `session_start()`. 
 
 1. Testez toutes les méthodes de `Session` dans une action temporaire du contrôleur *utilisateur* :
     1. Démarrer une session : observez le cookie de session avec les outils de développement,
@@ -627,6 +637,12 @@ Présentons maintenant les opérations fondamentales sur les sessions :
         tableaux, objets, ...),
     1. Supprimer une variable de session,
     1. Supprimer complètement une session avec notamment la suppression du cookie de session.
+
+   *Note* : Voici un exemple d'utilisation de la classe `Session`
+   ```php
+   $session = Session::getInstance();
+   $session->enregistrer("utilisateur", "Cathy Penneflamme");
+   ```
 
 </div>
 
@@ -671,8 +687,12 @@ alors le message disparait
 1. Utilisez les messages flash pour enlever toutes les vues qui affichaient un
    message puis appelaient une autre vue. En particulier, supprimez les vues
    désormais inutiles `created.php`, `deleted.php` et `updated.php`. 
+
+   *Note* : Par exemple, en cas de succès de création d'un utilisateur, on
+   pourrait ajouter un message flash de succès *L'utilisateur a bien été créé*
+   puis rediriger dans l'action `readAll` du contrôleur `utilisateur`.
    
-   De plus, l'action `enregistrerPreference()` peut maintenant rediriger
+1. De plus, l'action `enregistrerPreference()` peut maintenant rediriger
    l'action par défaut du contrôleur par défaut, que l'on obtient sans indiquer
    d'action ni de contrôleur dans l'URL, avec un message flash *La préférence de
    contrôleur est enregistrée !*.
