@@ -381,7 +381,7 @@ l'action par défaut plutôt que le contrôleur par défaut.
    vers la future action `formulairePreference` (sans contrôleur).
 
    Note : Stockez vos images et votre CSS dans un dossier `assets` accessible
-   sur internet
+   sur internet (avec le bon fichier `htaccess`)
 
    ![assets]({{site.baseurl}}/assets/TD7/assets.png){: .blockcenter}
 
