@@ -2,6 +2,7 @@
 title: TD8 &ndash; Authentification & validation par email
 subtitle: Sécurité des mots de passe
 layout: tutorial
+lang: fr
 ---
 
 <!-- Parler des nouvelles fonctions de PHP pour les mots de passe ?
@@ -11,7 +12,7 @@ http://php.net/manual/fr/book.password.php -->
 
 Ce TD vient à la suite du
 [TD7 -- cookies & sessions]({{site.baseurl}}/tutorials/tutorial7.html) et
-prendra donc comme acquis l'utilisation de cookies et des sessions. Cette
+prendra donc comme acquis l'utilisation des cookies et des sessions. Cette
 semaine, nous allons :
 
 1. mettre en place l'authentification par mot de passe des utilisateurs du site ;
@@ -22,36 +23,222 @@ semaine, nous allons :
 
 ## Authentification par mot de passe
 
-### Mise en place dans la BDD et les formulaires
+### Stockage sécurisé de mot de passe
+
+Nous allons stocker le mot de passe d'un utilisateur dans la base de données.
+Cependant, on ne stocke jamais le mot de passe en clair (de manière directement
+lisible) pour plusieurs raisons :
+1. l'utilisateur souhaite que personne ne connaisse son mot de passe, y compris
+   l'administrateur du site Web. De plus, c'est une règle de la CNIL.
+1. Un attaquant qui arriverait à se connecter à la base de données apprendrait
+   directement tous les mots de passe.
+
+#### Idée 1 : Chiffrement
+
+Le serveur pourrait stocker les mots de passes chiffrés.  
+
+**Problème** : L'administrateur du site pourrait toujours lire les mots de passe. En
+effet, il possède la clé secrète et peut donc déchiffrer les mots de passe.
+
+#### Idée 2 : Hachage
+
+Utilisons une fonction de hachage cryptographique, c'est-à-dire une fonction qui
+vérifie notamment les propriétés suivantes (source :
+[Wikipedia](https://fr.wikipedia.org/wiki/Fonction_de_hachage_cryptographique)):
+* la valeur de hachage d'un message se calcule « facilement » ;
+* il est impossible, pour une valeur de hachage donnée, de construire un message
+  ayant cette valeur (résistance à la préimage) ;
+
+Ainsi, si un site Web stocke les mots de passe hachés dans sa base de données,
+l'administrateur du site ne pourra pas lire ces mots de passes.
+
+```php
+$mdpClair = 'apple';
+echo hash('sha256', $mdpClair); // SHA-256 est un algorithme de hachage
+// Affiche '3a7bd3e2360a3d29eea436fcfb7e44c735d117c42d1c1835420b6b9942dd4f1b'
+```
+(*Une manière simple d'exécuter ce code est d'ouvrir un interpréteur PHP
+interactif en exécutant `php -a` dans le terminal. Il suffit alors de
+couper/coller le code PHP dans l'interpréteur.*)
+
+Cependant, le site peut quand même vérifier un mot de passe
+```php
+$mdpClair = 'apple';
+$mdpHache = '3a7bd3e2360a3d29eea436fcfb7e44c735d117c42d1c1835420b6b9942dd4f1b';
+var_dump($mdpHache == hash('sha256', $mdpClair));
+// Renvoie true
+``` 
+
+**Problème** :
+* L'administrateur du site peut facilement voir si deux utilisateurs ont le
+  même mot de passe.
+* [*Rainbow table*](https://fr.wikipedia.org/wiki/Rainbow_table) : Rapidement,
+  c’est une structure de données qui permet de retrouver des mots de passe avec
+  un bon compromis stockage/temps. Cette technique est surtout utile pour
+  essayer de d'attaquer de nombreux mots de passes à la fois, par exemple tous
+  ceux des utilisateurs d'un site Web. 
+
+<div class="exercise">
+
+   Créez à partir du code précédent le haché `Sha-256` d'un mot du dictionnaire
+   français. Utilisez un site comme [md5decrypt](http://md5decrypt.net/Sha256/)
+   pour retrouver le mot de passe originel à partir de son haché.
+   <!-- http://reverse-hash-lookup.online-domain-tools.com/ -->
+
+</div>
+
+
+**Explication :** Ce site stocke le haché de `3 771 961 285 ≃ 4*10^9` mots de
+passe communs. Si votre mot de passe est l'un de ceux-là, sa sécurité est
+compromise.  
+Heureusement il existe beaucoup plus de mot de passe possible ! Par exemple,
+rien qu'en utilisant des mots de passe de longueur 10 écrits à partir des 64
+caractères `0,1,...,9,A,B,...,Z,a,...,z,+,/`, vous avez `(64)^10 = 2^60 ≃ 10^18`
+possibilités.
+
+#### Idée 3 : Saler et hacher
+
+Comme une *rainbow table* est dépendante d'un algorithme de hachage, nous allons
+hacher différemment chaque mot de passe. Pour ceci, nous allons concaténer une
+chaîne aléatoire, appelée *sel*, au début de chaque mot de passe avant de le
+hacher. La base de donnée doit stocker un sel et un haché pour chaque mot de
+passe. En effet, la connaissance du sel est nécessaire pour tester un mot de
+passe.
+
+Nous allons utiliser l'implémentation suivante de PHP de la fonction de hachage
+`bcrypt` qui a la particularité d'intégrer automatiquement un sel aléatoire.
+Ainsi, nous n'aurons besoin de rajouter qu'un seul champ à notre BDD qui
+contiendra à la fois le sel et le haché.
+
+```php
+$mdpClair = 'apple';
+// PASSWORD_DEFAULT utilise l'algorithme bcrypt actuellement
+var_dump(password_hash($mdpClair, PASSWORD_DEFAULT));
+// Le hachage d'un même mot de passe donne des résultats différents
+var_dump(password_hash($mdpClair, PASSWORD_DEFAULT));
+```
+
+Le code précédent affiche par exemple :
+```
+$2y$10$VZxpwQN8.vVc5UkJy.dBh.n2yRC4Uh9dqrHxvyC.SlSlyDaZKPzQW
+```
+
+La sortie contient plusieurs informations (source :
+[Wikipedia](https://en.wikipedia.org/wiki/Bcrypt#Description)):
+* `2y` : 
+  * `2` correspond à l'algorithme de hachage, ici `bcrypt`,
+  * `y` correspond à la version de l'algorithme
+* `10` : coût de l'algorithme. Augmenter le coût de 1 double le temps de calcul
+  de la fonction de hachage. Ceci est utile pour limiter les capacités de
+  l'attaque par force brute sachant que les ordinateurs sont de plus en plus
+  rapides.
+* `VZxpwQN8.vVc5UkJy.dBh.` : Les 22 premiers caractères correspondent au sel
+  aléatoire.
+* `n2yRC4Uh9dqrHxvyC.SlSlyDaZKPzQW` : Les 31 caractères finaux correspondent au haché 
+
+On peut vérifier qu'un mot de passe en clair correspond bien à un mot de passe
+haché :
+```php
+$mdpClair = 'apple';
+$mdpHache1 = password_hash($mdpClair, PASSWORD_DEFAULT);
+$mdpHache2 = password_hash($mdpClair, PASSWORD_DEFAULT);
+var_dump(password_verify($mdpClair, $mdpHache1)); // True
+var_dump(password_verify($mdpClair, $mdpHache2)); // True
+```
+
+**Problème** :
+* Si un attaquant arrive à lire la base de données (en utilisant une injection
+  SQL par exemple), il peut toujours effectuer les attaques suivantes sur les
+  mots de passe hachés :
+  * attaque par force brute : L'attaquant essaye tous les mots de passes
+    possibles en commençant par ceux de petite taille.
+  * attaque par dictionnaire : L'attaquant essaye les mots de passes les plus
+    courants, par exemple les mots du dictionnaire, ou en trouvant une liste des
+    mots de passe les plus communs.
+
+#### Idée 4 : Poivrer, saler et hacher
+
+L'idée finale est de rajouter une autre chaîne aléatoire, appelée *poivre*, dans
+le hachage du mot de passe. La particularité du poivre est qu'il ne doit pas
+être stocké dans la base de donnée. Ainsi, si la base de donnée est compromise,
+l'attaquant n'apprend rien sur les mots de passe, car il ne connaît pas le
+poivre. En effet, le poivre est nécessaire pour tester un mot de passe.
+
+```php
+$poivre = "M7UKGv9fkptxwbSmZvlr1U";
+$mdpClair = 'apple';
+$mdpPoivre = hash_hmac("sha256", $mdpClair, $poivre);
+$mdpHache = password_hash($mdpPoivre, PASSWORD_DEFAULT);
+var_dump($mdpHache);
+```
+
+*Explication* : Dans l'esprit, la fonction `hash_hmac` permet d'appliquer un
+salage/hachage en spécifiant le sel. Dans notre cas, on commence par saler avec
+notre poivre secret (*note de l'auteur* : oui cette phrase sonne étrangement
+mais elle est correcte).
+
+
+### Mise en place de la BDD et des formulaires
+
+```php
+namespace App\Covoiturage\Lib;
+
+class MotDePasse
+{
+
+    // Exécutez genererChaineAleatoire() et stockez sa sortie dans le poivre
+    private static string $poivre = "";
+
+    public static function hacher(string $mdpClair): string
+    {
+        $mdpPoivre = hash_hmac("sha256", $mdpClair, MotDePasse::$poivre);
+        $mdpHache = password_hash($mdpPoivre, PASSWORD_DEFAULT);
+        return $mdpHache;
+    }
+
+    public static function verifier(string $mdpClair, string $mdpHache): bool
+    {
+        // À compléter
+    }
+
+    public static function genererChaineAleatoire(int $nbCaracteres = 22): string
+    {
+        // 22 caractères par défaut pour avoir au moins 128 bits aléatoires
+        // 1 caractère = 6 bits car 64=2^6 caractères en base_64
+        // et 128 <= 22*6 = 132
+        $octetsAleatoires = random_bytes(ceil($nbCaracteres * 6 / 8));
+        return substr(base64_encode($octetsAleatoires), 0, $nbCaracteres);
+    }
+}
+
+// Pour créer votre poivre (une seule fois)
+// var_dump(MotDePasse::genererChaineAleatoire());
+```
 
 <div class="exercise">
 
 1. Nous allons commencer par modifier la table utilisateur en lui ajoutant une
-colonne `VARCHAR(64) mdp` stockant son mot de passe.
+colonne `VARCHAR(255) mdpHache` stockant son mot de passe.
 
-   **Plus d'explications :** Étant donné que nous allons utiliser une fonction
-   de hachage pour stocker ce mot de passe, vous devez prévoir une taille de
-   champ correspondant à la taille du mot de passe haché (64 caractères pour
-   SHA-256 et comme 1 octet se code en hexadécimal sur 2 caractères e.g. `1F`,
-   cela donne `32 octets = 256 bits`) et non de la taille du mot de passe
-   lui-même.
+   **Note :** Nous prévoyons un texte plus large que nécessaire car nous allons
+   bientôt utiliser une fonction de hachage pour protéger ce mot de passe.
 
 1. Modifier la vue `create.php` (ou `update.php` si vous aviez fusionné les deux
 vues dans le TD6) pour ajouter deux champs `<input type="password">` au
-formulaire.  Le deuxième champ mot de passe sert à valider le premier.
+formulaire. Le deuxième champ mot de passe sert à valider le premier.
 
    <!-- Erreur commune : oubli input type=''password'' laisse value='$m' -->
 
 1. Après avoir vérifié que les deux champs coïncident, modifier les actions
-created puis updated du contrôleur ControllerUtilisateur.php pour sauver dans la
-base le mot de passe de l’utilisateur.
+`created` puis `updated` du contrôleur ControllerUtilisateur.php pour sauver
+dans la base le mot de passe de l’utilisateur.
 
 </div>
 
 ### Premier hachage
 
 Comme mentionné ci-dessus, on ne stocke jamais le mot de passe en clair dans la
-base, mais sa version hachée:
+base, mais sa version hachée :
 
 ```php
 <?php
@@ -107,7 +294,7 @@ son haché.
 Expérimentons un peu *l'attaque par dictionnaire* pour comprendre son
 fonctionnement.
 
-1. Créez un utilisateur bidon dont [le mot de passe est l'un des plus courant en
+1. Créez un utilisateur bidon dont [le mot de passe est l'un des plus courants en
    2019](https://www.google.fr/search?q=most+used+password), par exemple `password`.
 2. Allez lire dans la base de donnée le haché du mot de passe de cet
    utilisateur.
@@ -116,7 +303,7 @@ fonctionnement.
    <!-- http://reverse-hash-lookup.online-domain-tools.com/ -->
 
 **Explication :** Ce site stocke le haché de `3 771 961 285 ≃ 4*10^9` mots de
-passe communs. Si votre mot de passe est l'un de ceux là, sa sécurité est
+passe communs. Si votre mot de passe est l'un de ceux-là, sa sécurité est
 compromise.  
 Heureusement il existe beaucoup plus de mot de passe possible ! Par exemple,
 rien qu'en utilisant des mots de passe de longueur 16 écrits à partir des 16
@@ -158,9 +345,9 @@ début de nos mots de passes en clair pour qu'aucun ne soit plus "classique".
 
 ## Sécurisation d'une page avec les sessions
 
-Pour accéder à une page réservée, un utilisateur doit s'authentifier.  Une fois
+Pour accéder à une page réservée, un utilisateur doit s'authentifier. Une fois
 authentifié, un utilisateur peut accéder à toutes les pages réservées sans avoir
-à retaper son mot de passe.  Il faut donc faire circuler l'information "s'être
+à retaper son mot de passe. Il faut donc faire circuler l'information "s'être
 authentifié" de pages en pages et nous allons donc utiliser les sessions.
 
 <!-- On pourrait faire ceci grâce à un champ caché dans un formulaire, mais ça ne -->
@@ -176,7 +363,7 @@ Procédons en plusieurs étapes :
 
    1. Créer une vue `connect.php` qui comprend un formulaire avec deux
    champs, l'un pour le login, l'autre pour le mot de passe. Ce formulaire appelle
-   l'action `connected` du contrôleur de Utilisateur.
+   l'action `connected` du contrôleur de `Utilisateur`.
    1. Ajouter une action `connect` qui affiche ce formulaire dans
    `ControllerUtilisateur.php`.
 
@@ -187,7 +374,7 @@ Procédons en plusieurs étapes :
    1. Créez une fonction
       `ModelUtilisateur::checkPassword($login,$mot_de_passe_hache)` qui
       cherche dans la BDD les couples (login / mot de passe haché)
-      correspondants. Cette fonction doit renvoyer `true` si il n'y a qu'un tel
+      correspondants. Cette fonction doit renvoyer `true` s'il n'y a qu'un tel
       couple, et `false` sinon.
 
    1. Ajouter une action `connected` dans `ControllerUtilisateur`, qui vérifie
@@ -221,7 +408,7 @@ d'accueil du site.
 <div class="exercise">
 
 1. Modifier le `header` de votre site (*a priori* dans `view.php` à moins que
-vous n'ayez créé un `header.php`) de sorte à ajouter:
+vous n'ayez créé un `header.php`) de sorte à ajouter :
 
    * un lien vers la page de connexion, quand l'utilisateur n'est pas connecté (pas
       présent en session).
@@ -301,7 +488,7 @@ l'action `updated`.
 
 **Note générale importante :** Les seules pages qu'il est vital de sécuriser
 sont celles dont le script effectue vraiment l'action de mise à jour ou de
-suppression, *c-à-d* les actions `updated` et `delete`. Les autres sécurisations
+suppression, *c.-à-d.* les actions `updated` et `delete`. Les autres sécurisations
 sont surtout pour améliorer l'ergonomie du site.  
 De manière générale, il ne faut **jamais faire confiance au client** ; seule une
 vérification côté serveur est sûre.
@@ -363,7 +550,7 @@ promouvoir un autre utilisateur en tant qu'administrateur.
 
 Dans beaucoup de sites Web, il est important de savoir si un utilisateur est
 bien réel. Pour ce faire on peut utiliser une vérification de son numéro de
-portable, de sa carte bancaire, etc...  Nous allons ici nous baser sur la
+portable, de sa carte bancaire, etc.  Nous allons ici nous baser sur la
 vérification de l'adresse email.
 
 <div class="exercise">
@@ -386,7 +573,7 @@ le filtre
 
 </div>
 
-À ce stade vous savez que votre utilisateur a saisi une adresse email d'un
+À ce stade, vous savez que votre utilisateur a saisi une adresse email d'un
 format valide. Nous allons maintenant vérifier que cette adresse existe
 réellement et qu'elle appartient bien à notre utilisateur. Pour ce faire, nous
 allons lui envoyer un mail et ne valider l'utilisateur (l'autoriser à se
@@ -423,9 +610,9 @@ Mettons en place ce procédé :
 1. Modifiez l'action `connected` du contrôleur `Utilisateur` de sorte à accepter la
 connexion uniquement si le champ `nonce` est `NULL`.
 
-1. Ajoutez une action `validate` au contrôleur `Utilisateur` qui récupère en GET
-deux valeurs `login` et `nonce`.  Si le login correspond à un utilisateur
-présent dans la base et que le `nonce` passé en GET correspond au `nonce`
+1. Ajoutez une action `validate` au contrôleur `Utilisateur` qui récupère en `GET`
+deux valeurs `login` et `nonce`. Si le login correspond à un utilisateur
+présent dans la base et que le `nonce` passé en `GET` correspond au `nonce`
 de la BDD, alors passez à `NULL` le champ `nonce` de la BDD.
 
 1. Il ne reste plus qu'à initialiser ce nonce avec une chaîne de caractères
@@ -496,7 +683,7 @@ TD2](tutorial2.html#gestion-des-erreurs)).
 
 Il faudrait donc maintenant récupérer les variables à l'aide de `$_POST` ou
 `$_GET`. Cependant, nos liens internes, tels que 'Détails' ou 'Mettre à jour'
-fonctionnent en passant les variables dans l'URL comme un formulaire GET.  Nous
+fonctionnent en passant les variables dans l'URL comme un formulaire GET. Nous
 avons donc besoin d'être capable de récupérer les variables automatiquement dans
 `$_POST` ou le cas échéant dans `$_GET`.
 
@@ -540,10 +727,58 @@ le mot passe haché qu'il a récupéré.
 La seule façon fiable de sécuriser une application web est le recours au
 chiffrement de l'ensemble des communications entre le client (browser) et le
 serveur, via l'utilisation du protocole `TLS` sur `http`, à savoir
-`https`. Cependant, la mise en place de cet infrastructure était jusqu'à présent
+`https`. Cependant, la mise en place de cette infrastructure était jusqu'à présent
 compliqué. Même si
 [elle s'est simplifié considérablement récemment](https://letsencrypt.org/),
 cela dépasse le cadre de notre cours.
+
+### Notes techniques supplémentaires
+
+Attaques :
+* Toujours possible 
+  essayer un couple login / mdp par l'interface de connexion
+  Force brute ou attaque par dictionnaire
+  Limiter le nombre d'échecs d'authentification avec un login : vérouiller le compte ou rajouter une temporisation (non implem dans ce TD) 
+
+https://cdn2.hubspot.net/hubfs/3791228/NIST_Best_Practices_Guide_SpyCloudADG.pdf
+Required : 
+* Set an 8-character minimum
+* Limit failed login attempts
+* Ban “commonly-used, expected, or compromised” passwords
+* Don’t use password hints or reminders
+* Don’t use knowledge-based authentication
+* Encrypt passwords during transmission
+
+
+Primitives cryptographiques :
+* fonction de hachage cryptographique
+  N'importe quel acteur ne peut que vérifier
+* MAC : 1 ou 2 acteurs avec une clé secrète
+  Objectif ? authentification et intégrité
+  vérifier intégrité
+* Chiffrement : 1 ou 2 acteurs avec clé secrète 
+  Objectif : confidentialité
+  vérifier ? 
+
+Q/ Bizarre : alors pourquoi fait-on un MAC pour poivrer ? Si c'est de la
+confidentialité, il faudrait plutôt chiffrer non ?  
+R/ Dans l'esprit, HMAC est similaire à password_hash pour lequel on aurait
+spécifié le sel (le poivre ici). Utiliser plutôt `hash_pbkdf2`
+
+Plus d'infos dans le cours de crypto 
+R3.09 - Cryptographie et sécurité
+R4.B.10 - Cryptographie et sécurité que parcours B
+
+https://www.netsec.news/summary-of-the-nist-password-recommendations-for-2021/
+
+NIST parle plutôt de "key derivation function" 
+
+https://crypto.stackexchange.com/questions/76430/clarification-of-nist-digital-identify-guidelines-and-pepper-in-password-hashi
+
+https://vnhacker.blogspot.com/2020/09/why-you-want-to-encrypt-password-hashes.html
+hash-then-encrypt
+
+TODO : Parler de  vol de mdp ou phpsessid ?
 
 <!-- Preventing session hijacking -->
 
