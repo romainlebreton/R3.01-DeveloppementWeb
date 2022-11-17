@@ -16,10 +16,10 @@ prendra donc comme acquis l'utilisation des cookies et des sessions. Cette
 semaine, nous allons :
 
 1. mettre en place l'authentification par mot de passe des utilisateurs du site ;
+3. mettre en place une validation par email de l'inscription des utilisateurs ;
 2. verrouiller l'accès à certaines pages ou actions à certains utilisateurs. Par
    exemple, un utilisateur ne peut modifier que ses données. Ou encore,
-   l'administrateur a tous les droits sur les utilisateurs ;
-3. mettre en place une validation par email de l'inscription des utilisateurs.
+   l'administrateur a tous les droits sur les utilisateurs.
 
 ## Authentification par mot de passe
 
@@ -180,6 +180,8 @@ mais elle est correcte).
 
 ### Mise en place de la BDD et des formulaires
 
+On vous donne la classe `MotDePasse` qui reprend les explications précédentes. 
+
 ```php
 namespace App\Covoiturage\Lib;
 
@@ -198,7 +200,8 @@ class MotDePasse
 
     public static function verifier(string $mdpClair, string $mdpHache): bool
     {
-        // À compléter
+        $mdpPoivre = hash_hmac("sha256", $mdpClair, MotDePasse::$poivre);
+        return password_verify($mdpPoivre, $mdpHache);
     }
 
     public static function genererChaineAleatoire(int $nbCaracteres = 22): string
@@ -215,131 +218,98 @@ class MotDePasse
 // var_dump(MotDePasse::genererChaineAleatoire());
 ```
 
+
+
 <div class="exercise">
 
-1. Nous allons commencer par modifier la table utilisateur en lui ajoutant une
-colonne `VARCHAR(255) mdpHache` stockant son mot de passe.
-
-   **Note :** Nous prévoyons un texte plus large que nécessaire car nous allons
-   bientôt utiliser une fonction de hachage pour protéger ce mot de passe.
-
-1. Modifier la vue `create.php` (ou `update.php` si vous aviez fusionné les deux
-vues dans le TD6) pour ajouter deux champs `<input type="password">` au
-formulaire. Le deuxième champ mot de passe sert à valider le premier.
-
-   <!-- Erreur commune : oubli input type=''password'' laisse value='$m' -->
-
-1. Après avoir vérifié que les deux champs coïncident, modifier les actions
-`created` puis `updated` du contrôleur ControllerUtilisateur.php pour sauver
-dans la base le mot de passe de l’utilisateur.
-
-</div>
-
-### Premier hachage
-
-Comme mentionné ci-dessus, on ne stocke jamais le mot de passe en clair dans la
-base, mais sa version hachée :
-
+1. Copiez cette classe dans le fichier `src/Lib/MotDePasse.php`. Exécutez la commande
 ```php
-<?php
-class Security {
-	public static function hacher($texte_en_clair) {
-		$texte_hache = hash('sha256', $texte_en_clair);
-		return $texte_hache;
-	}
-}
-
-$mot_passe_en_clair = 'apple';
-$mot_passe_hache = Security::hacher($mot_passe_en_clair);
-echo $mot_passe_hache;
-//affiche '3a7bd3e2360a3d29eea436fcfb7e44c735d117c42d1c1835420b6b9942dd4f1b'
-?>
+var_dump(MotDePasse::genererChaineAleatoire());
 ```
+et copiez-le dans l'attribut statique `$poivre` une fois pour toute.
 
-<div class="exercise">
+   *Note* : Une façon simple d'exécuter la commande est de décommenter
+   temporairement cette ligne dans `MotDePasse.php` puis d'exécuter la commande
+   suivante dans le terminal (avec pour dossier courant `src/Lib`)
+   ```bash
+   php MotDePasse.php
+   ``` 
 
-1. Copier la fonction `hacher` ci-dessus dans un fichier
-  `lib/Security.php`. Pour faire les choses plus proprement, créez une classe
-  `Security` englobant la fonction.
-2. Modifier les actions `created` puis `updated` du contrôleur
-`ControllerUtilisateur.php` pour sauver dans la BDD le mot de passe
-haché. N'oubliez pas de faire un `require_once` de `Security.php` pour pouvoir
-appeler la fonction.
+1. Nous allons modifier la structure de donnée *utilisateur* :
+   1. Modifiez la table utilisateur en lui ajoutant une colonne `VARCHAR(255)
+mdpHache` stockant son mot de passe.
+   1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Model/DataObject`) :
+      1. ajoutez un attribut `private string $mdpHache`,
+      1. mettez à jour le constructeur, 
+      1. rajoutez un getter,
+      1. rajoutez un setter qui prend en entrée le mot de passe clair et le
+         hache avant de l'enregistrer,
+      1. mettez à jour la méthode `formatTableau` (qui fournit les données des
+         requêtes SQL préparées).
+   1. Mettez à jour la classe de persistance `UtilisateurRepository` :
+      1. mettez à jour `construire` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
+      1. mettez à jour `getNomsColonnes`.
 
-**Note :** On dit que SHA-256 est une fonction de hachage. Les fonctions de
-hachage cryptographiques ont la particularité qu'on ne peut pas retrouver le mot
-de passe à partir de son haché. Il existe aussi des fonctions de chiffrement qui
-permettent de chiffrer, mais aussi de déchiffrer si on connaît la clé.  
-Pour un site Web, mieux vaut une fonction de hachage qu'une fonction de
-chiffrement. En effet,
-
-* les fonctions de hachage suffisent à nos besoins car pour tester si un mot de
-  passe est le bon, il suffit de comparer les hachés.
-* il est plus sage pour un site Web de ne pas pouvoir découvrir les mots de
-  passe de ses utilisateurs.
-
-</div>
-
-Les autres vues et actions du contrôleur ne sont pas impactées par la
-modification car le mot de passe n'a pas vocation à être affiché.
-
-### Plus de sécurité
-
-Si le mot de passe n'est pas très original, il existe une attaque appelée
-*attaque par dictionnaire* qui permet de retrouver un mot de passe à partir de
-son haché.
-
-<div class="exercise">
-
-Expérimentons un peu *l'attaque par dictionnaire* pour comprendre son
-fonctionnement.
-
-1. Créez un utilisateur bidon dont [le mot de passe est l'un des plus courants en
-   2019](https://www.google.fr/search?q=most+used+password), par exemple `password`.
-2. Allez lire dans la base de donnée le haché du mot de passe de cet
-   utilisateur.
-3. Utilisez un site comme [md5decrypt](http://md5decrypt.net/Sha256/) pour
-   retrouver le mot de passe originel.
-   <!-- http://reverse-hash-lookup.online-domain-tools.com/ -->
-
-**Explication :** Ce site stocke le haché de `3 771 961 285 ≃ 4*10^9` mots de
-passe communs. Si votre mot de passe est l'un de ceux-là, sa sécurité est
-compromise.  
-Heureusement il existe beaucoup plus de mot de passe possible ! Par exemple,
-rien qu'en utilisant des mots de passe de longueur 16 écrits à partir des 16
-caractères `0,1,...,9,A,B,C,D,E,F`, vous avez `2^64 ≃ 10^18` possibilités (code
-hexadécimal à `16` chiffres).
+   *Note* : L'utilisation d'un framework PHP professionnel nous éviterait ces
+   tâches répétitives.
 
 </div>
 
-Donc pour éviter les attaques par dictionnaire, nous devons utiliser des mots de
-passes originaux, par exemple aléatoire. Pour ceci, nous allons concaténer une
-chaîne aléatoire au début de chaque mot de passe. Ainsi, même si l'utilisateur
-utilise un mot de passe très commun comme `apple`, nous allons hacher par
-exemple `DhuRXYdEkJapple` ce qui est nettement moins commun.
-
-Pour remédier à ce problème, nous allons rajouter une chaîne aléatoire fixe au
-début de nos mots de passes en clair pour qu'aucun ne soit plus "classique".
+Nous allons modifier la création d'un utilisateur.
 
 <div class="exercise">
 
-1. Rajoutez un attribut statique `seed` dans la classe `Security` :
-
-   ```php?start_inline=1
-   private static $seed = 'votre chaine aleatoire fixe';
+1. Modifier la vue `create.php` pour ajouter deux champs *password* au formulaire
+   ```html
+   <p class="InputAddOn">
+         <label class="InputAddOn-item" for="mdp_id">Mot de passe&#42;</label>
+         <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp" id="mdp_id" required>
+   </p>
+   <p class="InputAddOn">
+         <label class="InputAddOn-item" for="mdp2_id">Vérification du mot de passe&#42;</label>
+         <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp2" id="mdp2_id" required>
+   </p>
    ```
 
-1. Changez votre graine `seed` par une chaîne aléatoire, obtenue par exemple
-   grâce au site [https://www.random.org/strings/](https://www.random.org/strings/).
+   Le deuxième champ mot de passe sert à valider le premier.
 
-1. Modifier la fonction `hacher` pour qu'elle concatène la graine aléatoire
-`$seed` au mot de passe avant de le hacher.
+1. Modifiez l'action `created` du contrôleur *utilisateur* :
+   1. rajoutez la condition que les deux champs mot de passe doivent
+      coïncider avant de sauvegarder l'utilisateur. En cas d'échec, redirigez
+      vers le formulaire de création avec un message flash *Mots de passe distincts*.
+   1. Nous allons changer la manière de construire un objet métier
+      *utilisateur* à partir des données `$_GET` du formulaire. Jusqu'à
+      présent, nous appelions `Utilisateur::__construct()` ou de manière
+      équivalente `UtilisateurRepository::construire()`. Mais ces méthodes
+      sont faites pour prendre en entrée un résultat SQL (sous forme de
+      tableau). À cause du mot de passe qui est en clair dans le formulaire,
+      mais haché dans la BDD, il faut changer le code.
 
-**Explication :** Concaténer une graine (`seed` en anglais) au début d'un mot de
-  passage s'appelle *saler le mot de passe*. Grâce au salage, les mots de passe
-  concaténés sont moins communs et résistent à une attaque par
-  dictionnaire. Attention tout de même que si votre `seed` est dévoilée, alors
-  l'attaque par dictionnaire redevient efficace contre votre site.
+      * Créez une méthode 
+      ```php
+      public static function construireDepuisFormulaire (array $tableauFormulaire) : Utilisateur
+      ```
+      dans la classe `Utilisateur`. Elle appelle le constructeur de
+      `Utilisateur` en hachant d'abord le mot de passe.
+      * Mettez à jour l'action `created` pour appeler `construireDepuisFormulaire()`.
+
+</div>
+
+Rajoutons des mots de passe dans la mise à jour d'un utilisateur.
+
+<div class="exercise">
+
+1. Modifier la vue `update.php` pour ajouter trois champs *password* : l'ancien mot de passe, le nouveau qu'il faut écrire 2 fois pour ne pas se tromper.
+1. Modifiez l'action `updated` :
+   * vérifiez que les 2 nouveaux mots de passe coïncident. En cas d'échec,
+      redirigez vers le formulaire de mise à jour en indiquant le login dans
+      l'URL avec un message flash *Mots de passe distincts*.
+   * Vérifiez que l'ancien mot de passe est correct. En cas d'échec,
+      redirigez vers le formulaire de mise à jour en indiquant le login dans
+      l'URL avec un message flash *Ancien mot de passe erroné*.
+   * Le cas échéant, mettez à jour votre utilisateur en appelant les *setter*
+      avec les données du formulaire. Enfin, effectuez la mise à jour dans la
+      base de donnée.
 
 </div>
 
