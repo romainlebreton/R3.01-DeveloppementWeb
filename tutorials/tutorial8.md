@@ -318,109 +318,146 @@ Rajoutons des mots de passe dans la mise à jour d'un utilisateur.
 Pour accéder à une page réservée, un utilisateur doit s'authentifier. Une fois
 authentifié, un utilisateur peut accéder à toutes les pages réservées sans avoir
 à retaper son mot de passe. Il faut donc faire circuler l'information "s'être
-authentifié" de pages en pages et nous allons donc utiliser les sessions.
+authentifié" de pages en pages : nous allons donc utiliser les sessions.
 
 <!-- On pourrait faire ceci grâce à un champ caché dans un formulaire, mais ça ne -->
 <!-- serait absolument pas sécurisé. -->
 
-### Page de connexion
+### Connexion d'un utilisateur
 
 <div class="exercise">
 
 Procédons en plusieurs étapes :
 
+1. Nous allons regrouper les méthodes liées à la connexion d'un utilisateur dans
+   la classe purement statique suivante :
+
+   ```php
+   namespace App\Covoiturage\Lib;
+
+   class ConnexionUtilisateur
+   {
+       // L'utilisateur connecté sera enregistré en session associé à la clé suivante 
+       private static string $cleConnexion = "_utilisateurConnecte";
+
+       public static function connecter(Utilisateur $utilisateur): void
+       {
+           // À compléter
+       }
+
+       public static function estConnecte(): bool
+       {
+           // À compléter
+       }
+
+       public static function deconnecter(): void
+       {
+           // À compléter
+       }
+
+       public static function getLoginUtilisateurConnecte(): ?string
+       {
+           // À compléter
+       }
+   }
+   ```
+
+   Créez cette classe dans le fichier `src/Lib/ConnexionUtilisateur.php` et
+   complétez son code. 
+   
+   *Indications* : 
+   * La connexion enregistre un utilisateur en session dans le champ
+    `$cleConnexion`.
+   * Le client est connecté si et seulement si la session contient un enregistrement associé à la clé `$cleConnexion`.
+   * La déconnexion consiste à supprimer cet enregistrement de la session.  
+   * `getUtilisateurConnecte()` renvoie `null` si le client n'est pas connecté.
+   
+1. Rajoutons au menu de notre site un lien pour se connecter. Dans le menu de la
+   vue générique `view.php`, rajoutez une icône cliquable
+   ![connexion]({{site.baseurl}}/assets/TD8/enter.png) qui pointe vers la future
+   action `formulaireConnexion` (contrôleur *utilisateur*). Ce lien ne doit
+   s'afficher que si aucun utilisateur n'est connecté (utiliser une méthode de
+   la classe `ConnexionUtilisateur`). 
+   
+   *Note* : Il est autorisé de mettre un `if` dans la vue `view.php`.
+
 1. Créons une vue pour afficher un formulaire de connexion :
 
-   1. Créer une vue `connect.php` qui comprend un formulaire avec deux
-   champs, l'un pour le login, l'autre pour le mot de passe. Ce formulaire appelle
-   l'action `connected` du contrôleur de `Utilisateur`.
-   1. Ajouter une action `connect` qui affiche ce formulaire dans
-   `ControllerUtilisateur.php`.
+   1. Créer une vue `utilisateur/formulaireConnexion.php` qui comprend un formulaire avec
+   deux champs, l'un pour le login, l'autre pour le mot de passe. Ce formulaire
+   appelle la future action `connecter` du contrôleur *utilisateur*.
+   1. Ajouter une action `formulaireConnexion` qui affiche ce formulaire.
 
-1. Si ce n'est déjà fait lors du TD précédent, démarrez la session au début de `index.php`.
 
-1. Enfin il faut vérifier le login/mot de passe de l'utilisateur et le connecter le cas échéant :
-
-   1. Créez une fonction
-      `ModelUtilisateur::checkPassword($login,$mot_de_passe_hache)` qui
-      cherche dans la BDD les couples (login / mot de passe haché)
-      correspondants. Cette fonction doit renvoyer `true` s'il n'y a qu'un tel
-      couple, et `false` sinon.
-
-   1. Ajouter une action `connected` dans `ControllerUtilisateur`, qui vérifie
-   que le couple (login / mot de passe) donné est valide et qui, le cas échéant,
-   met le login de l'utilisateur en session. Puis affichez la vue de détail de
-   l'utilisateur qui vient de se connecter.
-
-   **Aide :** 
-  
-   <!-- 1. Utilisez la fonction `ModelUtilisateur::selectWhere($data)` qui fait un -->
-   <!--   select sur les champs de `$data` (ici 'login' et 'mdp'). En effet, la -->
-   <!--   fonction de base `ModelUtilisateur::select($data)` ne sert qu'à récupérer un -->
-   <!--   utilisateur étant donné son login. -->
-   <!-- 1. Notez que `ModelUtilisateur::selectWhere($data)` renvoie un **tableau -->
-   <!--   d'utilisateurs**. Il faudra donc tester si le tableau est vide avec -->
-   <!--   `count()`. De plus, -->
-   1. La vue `detail` a besoin que l'on initialise une variable d'utilisateur
-     `$u` contenant l'utilisateur.
-   1. N'oubliez pas de hacher le mot de passe convenablement.
+1. Créons enfin l'action `connecter()` du contrôleur *utilisateur* :
+   1. Commençons par les vérifications à faire avant de se connecter. La
+      première vérification est qu'un login et un mot de passe sont transmis dans le
+      *query string*. Sinon, redirigez vers le formulaire de connexion avec un message flash de type `danger`.
+   1. Puis, il faut récupérer l'utilisateur ayant le login transmis. Ceci
+      permettra de vérifier que ce login existe bien. Sinon, redirigez vers le
+      formulaire de connexion avec un message flash de type `warning`.
+   1. Après, il faut vérifier que le mot de passe transmis est bien celui de
+      l'utilisateur (utiliser une méthode de la classe `MotDePasse`). Sinon,
+      redirigez vers le formulaire de connexion avec un message flash de type
+      `warning`.
+   1. Enfin, vous pouvez connecter l'utilisateur (utiliser une méthode de la
+      classe `ConnexionUtilisateur`). Redirigez vers l'action `read` de
+      l'utilisateur connecté avec un message flash de type `success`.
 
 </div>
 
-<div class="exercise">
-
-Ajouter une action `deconnect` dans `controllerUtilisateur`, qui détruit la
-session en cours.  Une fois déconnecté, on renvoie l'utilisateur sur la page
-d'accueil du site.
-
-</div>
+Codons maintenant la déconnexion.
 
 <div class="exercise">
 
-1. Modifier le `header` de votre site (*a priori* dans `view.php` à moins que
-vous n'ayez créé un `header.php`) de sorte à ajouter :
+1. Quand un utilisateur est connecté, ajoutez au menu de la vue générique
+   `view.php` deux cases : 
+   * la première contient une icône cliquable
+     ![user]({{site.baseurl}}/assets/TD8/user.png) qui renvoie vers la vue de
+     détail de l'utilisateur connecté.
+   * puis une deuxième case avec une icône cliquable
+   ![deconnexion]({{site.baseurl}}/assets/TD8/logout.png) qui pointe vers la
+   future action `deconnecter` (contrôleur *utilisateur*). 
 
-   * un lien vers la page de connexion, quand l'utilisateur n'est pas connecté (pas
-      présent en session).
-   * un message de bienvenu, quand l'utilisateur est connecté, et un lien vers
-     l'action de déconnexion.
-
-1. Tester la connexion/déconnexion avec un couple login/password correct et un
-incorrect.
+1. Ajouter une action `deconnecter` qui déconnecte l'utilisateur (utiliser une
+   méthode de la classe `ConnexionUtilisateur`). Redirigez vers l'action
+   `readAll` avec un message flash de type `success`.
 
 </div>
 
 ### Sécurisation d'une page à accès réservé
 
 On souhaite restreindre les actions de mise à jour et de suppression à
-l'utilisateur actuellement authentifié.
+l'utilisateur actuellement authentifié. Commençons par limiter les liens.
 
 <div class="exercise">
 
-Modifier la vue de détail pour qu'elle n'affiche les liens vers la mise à jour
-ou la suppression que pour l'utilisateur dont le login concorde avec celui
+1. Assurez-vous que la vue `list.php` n'affiche que les liens vers la vue de
+   détail, pas les liens de modifications ou de suppression.
+
+1. Modifier la vue de détail pour qu'elle n'affiche les liens vers la mise à
+jour ou la suppression que si le login de l'utilisateur concorde avec celui
 stocké en session.
 
-**Conseil :** Pour faciliter la lecture du code, nous vous conseillons de créer
-une fonction `is_user()`. Pour faire les choses proprement, on va créer un
-fichier `lib/Session.php` contenant le code suivant que l'on inclura au
-moment de `session_start()`.
-
-```php?start_inline=1
-class Session {
-    public static function is_user($login) {
-        return (!empty($_SESSION['login']) && ($_SESSION['login'] == $login));
-    }
-}
-```
+   Pour vous aider dans cette tâche, rajoutez la méthode suivante à
+   `ConnexionUtilisateur`
+   ```php
+   public static function estUtilisateur($login): bool
+   {
+       return (ConnexionUtilisateur::estConnecte() &&
+           ConnexionUtilisateur::getLoginUtilisateurConnecte() == $login);
+   }
+   ``` 
 
 </div>
-
-<div class="exercise">
 
 **Attention :** Supprimer le lien n'est pas suffisant car un petit malin
 pourrait accéder au formulaire de mise à jour d'un utilisateur quelconque en
 rentrant manuellement l'action `update` dans l'URL.
+
+**Ici 18 nov**
+
+<div class="exercise">
 
 1. « Hacker » votre site en accédant à la page de mise à jour d'un utilisateur
    quelconque.
