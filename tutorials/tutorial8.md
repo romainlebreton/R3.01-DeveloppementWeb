@@ -763,19 +763,25 @@ enverra le nonce au site.
    Envoyez ce mail en utilisant [la fonction
    `mail()`](http://php.net/manual/en/function.mail.php) de PHP.
    
-   **Attention :** La fonction `mail()` n'est disponible que sur le serveur
-   `webinfo` Web de l'IUT. Si vous avez installé un serveur Web local sur votre
-   machine avec LAMP/MAMP/WAMP, `mail()` n'est pas configuré par défaut.
 
-   **Abuser de cette fonction serait considéré comme une violation de la charte
-   d'utilisation des ressources informatiques de l'IUT et vous exposerait à des
-   sanctions !**
+   **Attention : Abuser de cette fonction serait considéré comme une violation
+   de la charte d'utilisation des ressources informatiques de l'IUT et vous
+   exposerait à des sanctions !**
    
    Pour éviter d'être blacklistés des serveurs de mail, nous allons envoyer
    uniquement des emails dans le domaine `yopmail.com`, dont le fonctionnement
    est le suivant : un mail envoyé à `bob@yopmail.com` est immédiatement lisible
    sur [http://bob.yopmail.com](http://bob.yopmail.com).
 
+   *Note* : La fonction `mail()` n'est disponible que sur le serveur `webinfo`
+   Web de l'IUT. Si vous avez installé un serveur Web local sur votre machine
+   avec MAMP/XAMP, `mail()` n'est pas configuré par défaut. XAMP sur Linux
+   permet d'activer l'envoie, *cf.* [leur
+   FAQ](https://www.apachefriends.org/faq_linux.html).  
+   La bonne solution
+   multiplateforme nécessite d'installer une [bibliothèque
+   PHP](https://packagist.org/packages/symfony/mailer), ce que nous apprendrons
+   à faire au semestre 4. Autrement, vous pouvez rester avec des messages flash. 
 </div>
 
 Nous allons maintenant pouvoir nous servir de la validation de l'email ailleurs
@@ -799,23 +805,11 @@ la connexion uniquement si l'utilisateur a validé un email.
 
 
 1. Mise à jour d'un utilisateur : 
-   * rajoutez un champ *nouvel email* prérempli,
+   * rajoutez un champ *Email* prérempli,
    * dans l'action `updated`, vérifiez le format de l'email puis écrivez-le dans
      le champ `emailAValider`. Créez aussi un nonce aléatoire et envoyez le mail de validation.
-   * **ici**
 
 </div>
-
-À ce stade, vous savez que votre utilisateur a saisi une adresse email d'un
-format valide. Nous allons maintenant vérifier que cette adresse existe
-réellement et qu'elle appartient bien à notre utilisateur. Pour ce faire, nous
-allons lui envoyer un mail et ne valider l'utilisateur (l'autoriser à se
-connecter) que s'il a consulté le mail que nous lui avons envoyé.
-
-
-<div class="exercise">
-
-
 
 <!--
 Si l'utilisateur fait une faute de frappe dans l'email, le nonce sera envoyé à
@@ -827,12 +821,6 @@ nonce.
 Donc il faut un champ email_validated dans la session qui fait que quand on est
 connecté sans avoir validé, alors on ne peut que valider son email.
 -->
-
-Mettons en place ce procédé :
-
-
-
-</div>
 
 ## Autres sécurisations
 
@@ -854,19 +842,18 @@ avons donc besoin d'être capable de récupérer les variables automatiquement d
 
 <div class="exercise">
 
-1. Créer dans le routeur une fonction `myGet($nomvar)` qui retournera
-   `$_GET[$nomvar]` s'il est défini, ou `$_POST[$nomvar]` s'il est défini, ou
-   sinon `NULL`.
+1. La variable globale `$_REQUEST` est similaire à `$_GET` et `$_POST`, à ceci
+   près qu'elle est la fusion de ces tableaux. En cas de conflit, les valeurs de
+   `$_POST` écrasent celles de `$_GET`.
 
-1. Remplacer tous les `$_GET` de `routeur.php`, `ControllerUtilisateur.php`
-et `ControllerTrajet.php` par des appels à `myGet`.  
-Remplacer les tests du type `isset($_GET['login'])` par `!is_null(myGet('login'))`.
+   Remplacez tous les `$_GET` par des appels à `$_REQUEST`.
 
-   **Aide :** Utiliser la fonction de remplacement `Ctrl+H` de NetBeans pour vous aider.
+   **Aide :** Utiliser la fonction de remplacement globale (sur tous les
+   fichiers du dossier `TD8`) pour vous aider.
 
-1. Passez le formulaire de `create.php` (ou `update.php`) en méthode POST si
-   `Conf::getDebug()` est `false` ou en méthode GET sinon. Faites de même avec
-   les autres formulaires que vous souhaitez changer.
+1. Passez les formulaires `create.php`, `update.php`, `formulaireConnexion.php`
+   et `formulairePreference.php` en méthode POST si `Conf::getDebug()` est
+   `false` ou en méthode GET sinon.
 
 </div>
 
@@ -899,20 +886,29 @@ cela dépasse le cadre de notre cours.
 
 ### Notes techniques supplémentaires
 
-Attaques :
-* Toujours possible 
-  essayer un couple login / mdp par l'interface de connexion
-  Force brute ou attaque par dictionnaire
-  Limiter le nombre d'échecs d'authentification avec un login : vérouiller le compte ou rajouter une temporisation (non implem dans ce TD) 
+Malgré nos protections, il est toujours possible pour un attaquant d'essayer des
+couples login / mot de passe en passant par notre interface de connexion. Un
+site professionnel devrait donc implémenter une limite au nombre d'échecs
+d'authentification consécutifs lié à chaque login. En cas de trop nombreux
+échecs, le site pourrait verrouiller le compte (déverrouillage avec l'adresse
+mail validée), ou rajouter une temporisation.
 
-https://cdn2.hubspot.net/hubfs/3791228/NIST_Best_Practices_Guide_SpyCloudADG.pdf
-Required : 
-* Set an 8-character minimum
-* Limit failed login attempts
-* Ban “commonly-used, expected, or compromised” passwords
-* Don’t use password hints or reminders
-* Don’t use knowledge-based authentication
-* Encrypt passwords during transmission
+Listons d'autres protections de l'authentification des mots de passe
+indispensable dans un site professionnel : 
+* minimum de 8 caractères,
+* interdire les mots de passe communs, attendus ou compromis,
+* ne pas utiliser de question de rappel (nom de votre chien, ...)
+* utilisation d'un *token* dans le formulaire de connexion pour vérifier que
+  l'utilisateur s'est bien connecté à l'aide de ce formulaire. Le but est
+  d'éviter le *phishing* qui vous invite à vous connecter sur une autre
+  interface dans le but de voler vos identifiants ([attaque
+  CSRF](https://fr.wikipedia.org/wiki/Cross-site_request_forgery)).
+
+Source :
+* [Recommandations du NIST](https://cdn2.hubspot.net/hubfs/3791228/NIST_Best_Practices_Guide_SpyCloudADG.pdf)
+* [Recommandations OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
+
+<!-- https://cdn2.hubspot.net/hubfs/3791228/NIST_Best_Practices_Guide_SpyCloudADG.pdf
 
 
 Primitives cryptographiques :
@@ -943,7 +939,10 @@ https://crypto.stackexchange.com/questions/76430/clarification-of-nist-digital-i
 https://vnhacker.blogspot.com/2020/09/why-you-want-to-encrypt-password-hashes.html
 hash-then-encrypt
 
-TODO : Parler de  vol de mdp ou phpsessid ?
+TODO : Parler de  vol de mdp ou phpsessid ? -->
+
+
+
 
 <!-- Preventing session hijacking -->
 
