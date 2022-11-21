@@ -236,7 +236,7 @@ et copiez-le dans l'attribut statique `$poivre` une fois pour toute.
    ``` 
 
 1. Nous allons modifier la structure de donnée *utilisateur* :
-   1. Modifiez la table utilisateur en lui ajoutant une colonne `VARCHAR(255)
+   1. Modifiez la table utilisateur en lui ajoutant une colonne `VARCHAR(256)
 mdpHache` stockant son mot de passe.
    1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Model/DataObject`) :
       1. ajoutez un attribut `private string $mdpHache`,
@@ -274,9 +274,17 @@ Nous allons modifier la création d'un utilisateur.
    Le deuxième champ mot de passe sert à valider le premier.
 
 1. Modifiez l'action `created` du contrôleur *utilisateur* :
-   1. rajoutez la condition que les deux champs mot de passe doivent
-      coïncider avant de sauvegarder l'utilisateur. En cas d'échec, redirigez
-      vers le formulaire de création avec un message flash *Mots de passe distincts*.
+   1. rajoutez la condition que les deux champs mot de passe doivent coïncider
+      avant de sauvegarder l'utilisateur. En cas d'échec, redirigez vers le
+      formulaire de création avec un message flash *Mots de passe distincts* de
+      type *warning*.
+
+      *Note* : Nous réserverons les messages flash de type *danger* pour les
+      erreurs qui ne sont censées se produire que si le client a essayé de
+      hacker le site (accès à une page qu'on ne lui a pas proposé, donnée de
+      formulaire manquante alors qu'elle était `required`), et les messages flash
+      de type *warning* pour les erreurs de l'utilisateur. 
+
    1. Nous allons changer la manière de construire un objet métier
       *utilisateur* à partir des données `$_GET` du formulaire. Jusqu'à
       présent, nous appelions `Utilisateur::__construct()` ou de manière
@@ -433,7 +441,7 @@ l'utilisateur actuellement authentifié. Commençons par limiter les liens.
 <div class="exercise">
 
 1. Assurez-vous que la vue `list.php` n'affiche que les liens vers la vue de
-   détail, pas les liens de modifications ou de suppression.
+   détail, pas les liens de modification ou de suppression.
 
 1. Modifier la vue de détail pour qu'elle n'affiche les liens vers la mise à
 jour ou la suppression que si le login de l'utilisateur concorde avec celui
@@ -443,11 +451,8 @@ stocké en session.
    `ConnexionUtilisateur`
    ```php
    public static function estUtilisateur($login): bool
-   {
-       return (ConnexionUtilisateur::estConnecte() &&
-           ConnexionUtilisateur::getLoginUtilisateurConnecte() == $login);
-   }
-   ``` 
+   ```
+   qui doit vérifier si un utilisateur est connecté et qu'il a le login donné. 
 
 </div>
 
@@ -455,24 +460,25 @@ stocké en session.
 pourrait accéder au formulaire de mise à jour d'un utilisateur quelconque en
 rentrant manuellement l'action `update` dans l'URL.
 
-**Ici 18 nov**
-
 <div class="exercise">
 
 1. « Hacker » votre site en accédant à la page de mise à jour d'un utilisateur
    quelconque.
 
-1. Modifier l'action `update` du contrôleur `Utilisateur` de sorte que si le
-   login pour lequel une modification est demandé ne concorde pas avec celui
-   stocké en session, on redirige l'utilisateur sur la page de connexion.
+1. Modifier l'action `update` du contrôleur `Utilisateur` de sorte que l'accès
+   au formulaire soit restreint à l'utilisateur connecté. En cas de problème,
+   redirigez vers l'action `readAll` avec un message flash de type *danger*.
+
+   *Note* : Votre action `update` doit aussi vérifier que le login donné existe
+   bien ; sinon faites une redirection avec message flash.
 
 </div>
-
-<div class="exercise">
 
 **Attention :** Restreindre l'accès au formulaire de mise à jour n'est pas suffisant
 car un petit malin pourrait exécuter une mise à jour en demandant manuellement
 l'action `updated`.
+
+<div class="exercise">
 
 1. « Hacker » votre site en effectuant une mise à jour d'un utilisateur
    quelconque sans changer de code PHP[^nbp].  
@@ -481,11 +487,16 @@ l'action `updated`.
    traitement. Passez temporairement votre formulaire en cette méthode si
    nécessaire.
 
-1. Modifier l'action `updated` du contrôleur `Utilisateur` de sorte que si le
-   login pour lequel une modification est demandé ne concorde pas avec celui
-   stocké en session, on redirige l'utilisateur sur la page de connexion.
+1. Mettez à jour l'action `updated` du contrôleur `Utilisateur` pour qu'il
+   effectue toutes les vérifications suivantes, avec "redirection flash" en cas
+   de problème :
+   * vérifiez que tous les champs obligatoires du formulaire ont été transmis.
+   * Vérifiez que le login existe ;
+   * Vérifiez que les 2 nouveaux mots de passe coïncident ;
+   * Vérifiez que l'ancien mot de passe est correct ;
+   * Vérifiez que l'utilisateur mis-à-jour correspond à l'utilisateur connecté. 
 
-1. Sécuriser l'accès à l'action `delete` d'un utilisateur. 
+1. Sécurisez de manière similaire l'accès à l'action `delete` d'un utilisateur. 
 
 </div>
 
@@ -502,81 +513,296 @@ vérification côté serveur est sûre.
 
 ### Super administrateur
 
-Nous souhaitons pouvoir avoir des comptes administrateur sur notre site.
+Jusqu'au début de ce TD, le site était codé comme si tout le monde avait le rôle
+d'administrateur. Maintenant, nous allons différencier ceux qui ont ce rôle des
+autres utilisateurs. Nous souhaitons donc pouvoir avoir des comptes
+administrateur sur notre site.
+
+Commençons par rajouter un attribut `estAdmin` à notre classe métier
+`Utilisateur` et à son stockage `UtilisateurRepository`.
 
 <div class="exercise">
 
-1. Ajouter un champ `admin` de type `boolean` à la table `utilisateur`. 
-
-1. Modifier l'action `connected` de `ControllerUtilisateur.php` pour enregistrer
-dans la session si l'utilisateur est un administrateur ou non avec
-
-   ```php?start_inline=1
-   $_SESSION['admin'] = true; // ou false
-   ```
-
-1. Modifier l'action `update` de `ControllerUtilisateur.php` de sorte qu'un
-utilisateur de type admin ait tous les droits sur toutes les actions de tous les
-utilisateurs.
-
-   **Conseil :** Pour faciliter la lecture du code, nous vous conseillons de
-     compléter le fichier `lib/Session.php` avec la fonction `is_admin` :
-   
-   ```php?start_inline=1
-   public static function is_admin() {
-       return (!empty($_SESSION['admin']) && $_SESSION['admin']);
-   }
-   ```
-
-</div>
-
-Nous souhaitons maintenant permettre à un administrateur de facilement
-promouvoir un autre utilisateur en tant qu'administrateur.
-
-<div class="exercise">
-
-1. On souhaite ajouter un bouton `checkbox` "Administrateur ?" au formulaire de mise à jour d'un utilisateur. Ce bouton ne doit être présent que si
-   l'utilisateur authentifié est un administrateur.  
-   À vous de modifier l'action `update` du contrôleur `Utilisateur` et la vue
-   `update.php`. 
-   <!-- **N'oubliez pas** que les vues ne doivent pas faire de calculs -->
-   <!-- (donc pas de `if`). -->
-
-1. Modifiez l'action `updated` pour prendre en compte un bouton `checkbox`
-   "Administrateur ?" et mettre à jour le champ `admin` de la table
+1. Ajouter un champ `estAdmin` de type `BOOLEAN` (ou `TINYINT(1)`) à la table
    `utilisateur`.
 
-   **Attention :** N'oubliez pas que la page la plus importante à vérifier est
-   l'action `updated` car c'est elle qui effectue vraiment la mise à jour.
-   
+1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Model/DataObject`) :
+   1. ajoutez un attribut `private bool $estAdmin`,
+   1. mettez à jour le constructeur, 
+   1. rajoutez un getter et un setter,
+   1. mettez à jour la méthode `formatTableau` (qui fournit les données des
+      requêtes SQL préparées).
+
+      **Attention** : SQL stocke différemment les booléens que PHP. En SQL, on
+      encode `false` avec l'entier `0` et `true` avec l'entier `1`. Il faut donc
+      que votre méthode `formatTableau` renvoie `0` ou `1` pour le champ
+      `estAdminTag`.
+   1. Nous mettrons à jour `construireDepuisFormulaire` plus tard.
+
+1. Mettez à jour la classe de persistance `UtilisateurRepository` :
+   1. mettez à jour `construire` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
+   1. mettez à jour `getNomsColonnes`.
+
 </div>
 
+Modifions le processus de création d'un utilisateur intégrer cette nouvelle donnée.
 
+<div class="exercise">
+
+1. Rajoutez un bouton `checkbox` au formulaire de création 
+   ```html
+   <p class="InputAddOn">
+         <label class="InputAddOn-item" for="estAdmin_id">Administrateur</label>
+         <input class="InputAddOn-field" type="checkbox" placeholder="" name="estAdmin" id="estAdmin_id">
+   </p>
+   ```
+
+1. Pour que l'action `created` arrive à construire un utilisateur et à le
+   sauvegarder en base de données, il ne manque que la mise à jour de la méthode
+   `construireDepuisFormulaire`. Si la case est cochée, alors l'association
+   clé/valeur `estAdmin => on` sera transmise. Si la case n'est pas cochée,
+   aucune association n'est rajoutée.
+
+   **Mettez à jour** la méthode la méthode `construireDepuisFormulaire` avec ces
+   explications. Vérifiez dans PHPMyAdmin que vous arrivez à créer des
+   utilisateurs administrateurs ou non.
+
+</div>
+
+Passons au processus de mise-à-jour.
+
+<div class="exercise">
+
+1. Rajoutez un bouton `checkbox` au formulaire de mise-à-jour. Faites en sorte
+   que le bouton soit pré-coché ([attribut
+   `checked`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input/checkbox#attr-checked))
+   si l'utilisateur est déjà administrateur.
+
+1. Dans l'action `updated`, rajoutez un appel au setter `setEstAdmin`. Vérifiez
+   que la mise à jour fonctionne.
+
+</div>
+
+Nous allons modifier la sécurité de notre site pour qu'un *administrateur* ait
+tous les droits.
+
+<div class="exercise">
+
+1. Rajoutez la méthode suivante à `ConnexionUtilisateur`
+   ```php
+   public static function estAdministrateur() : bool
+   ```
+
+   Cette méthode doit renvoyer `true` si un utilisateur est connecté et qu'il
+   est administrateur. Les informations sur l'utilisateur devront être
+   récupérées de la base de données.
+
+   *Remarque optionnelle :* On aurait pu coder un système qui récupère une seule
+   fois les données de l'utilisateur connecté à partir de la base de donnée.
+
+1. Processus de création :
+   1. Le champ *Administrateur ?* du formulaire de création ne doit apparaître
+   que si l'utilisateur connecté est administrateur.
+
+      *Note* : Vous pouvez mettre un `if` dans la vue.
+
+   1. Plus important, l'action `created` ne doit créer des administrateurs que si
+      l'utilisateur connecté est administrateur.
+
+
+1. Processus de mise-à-jour :
+   1. Les liens de mise-à-jour d'un utilisateur doivent apparaître quand un
+      administrateur est connecté.
+   1. Le champ *Administrateur ?* du formulaire de mise-à-jour ne doit
+   apparaître que si l'utilisateur connecté est administrateur.
+   1. Plus important, l'action `updated` ne doit modifier le statut
+      *administrateur* que si l'utilisateur connecté est administrateur. De
+      plus, un administrateur doit pouvoir modifier n'importe quel utilisateur.
+
+</div>
+
+Il est courant qu'un site Web sépare ses interfaces administrateur et
+utilisateur. Vous avez tous les outils pour le mettre en place si vous le
+souhaitez. Le défi est de limiter la duplication du code entre les 2 interfaces. 
 
 ## Enregistrement avec une adresse email valide
 
 Dans beaucoup de sites Web, il est important de savoir si un utilisateur est
 bien réel. Pour ce faire on peut utiliser une vérification de son numéro de
-portable, de sa carte bancaire, etc.  Nous allons ici nous baser sur la
-vérification de l'adresse email.
+portable, de sa carte bancaire, ou de la validation d'un captcha. Nous allons
+ici nous baser sur la vérification de l'adresse email.
+
+De plus, cela nous permet d'éviter des fautes de frappe dans l'email. Aussi, en
+ayant associé de manière sûre un email à un utilisateur, nous pourrions nous en
+servir pour une authentification à deux facteurs, ou pour renvoyer un mot de
+passe oublié...
+
+### Le nonce : un secret pour valider une adresse mail
+
+Expliquons brièvement le mécanisme de validation par adresse email que nous
+allons mettre en place. À la création d'un utilisateur, nous lui associons une
+chaîne secrète de caractères aléatoires appelée [nonce
+cryptographique](https://fr.wiktionary.org/wiki/nonce). Nous envoyons ce nonce
+par email à l'adresse indiqué. La connaissance de ce nonce sert de preuve que
+l'adresse email existe et que l'utilisateur y a accès. Il suffit alors à
+l'utilisateur de renvoyer le nonce au site pour que ce dernier valide l'adresse
+email (en mettant la valeur du nonce à la chaîne de caractère vide `""` dans
+notre cas).
+
+Commençons par mettre à jour notre classe métier `Utilisateur`. Nous allons
+rajouter des données `nonce` et `email`. Cependant, en cas de changement
+d'adresse mail, nous souhaitons garder l'ancienne adresse mail en mémoire tant
+que la nouvelle n'a pas été validée. Nous aurons donc une donnée `emailAValider`
+en plus.
 
 <div class="exercise">
-1. Dans votre formulaire de création d'un utilisateur, vérifiez le format de
-l'adresse email côté client, avec par exemple
-[le champ `type="email"` du HTML5](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input).
 
-1. Une fois de plus, un contrôle côté client n'est pas suffisant.  
-**Hackez** votre propre site de sorte à vous inscrire avec une adresse mail non valide.
+1. Ajouter trois champs à la table `utilisateur` : 
+   * `email` de type `VARCHAR(256)`,
+   * `emailAValider` de type `VARCHAR(256)`,
+   * `nonce` de type `VARCHAR(32)`,
 
-   **Remarque :** Vous devriez en conclure que les contrôles côté client (navigateur) offrent
-   un confort d'affichage mais ne constituent en aucun cas une sécurisation de
-   votre site !
+1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Model/DataObject`) :
+   1. ajoutez les attributs,
+   1. mettez à jour le constructeur, les getter et les setter,
+   1. mettez à jour la méthode `formatTableau` (qui fournit les données des
+      requêtes SQL préparées),
+   1. vous mettrez à jour la méthode `construireDepuisFormulaire` plus tard.
 
-1. Dans l'action `created` du contrôleur `Utilisateur`, vérifiez le format de
-l'adresse email de l'utilisateur. Pour cela, vous pouvez par exemple utiliser la
-fonction [`filter_var()`](http://php.net/manual/en/function.filter-var.php) avec
-le filtre
-[`FILTER_VALIDATE_EMAIL`](http://www.php.net/manual/en/filter.filters.validate.php).
+1. Mettez à jour la classe de persistance `UtilisateurRepository` :
+   1. mettez à jour `construire` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
+   1. mettez à jour `getNomsColonnes`.
+
+</div>
+
+Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`.
+
+<div class="exercise">
+
+1. Créez la classe avec le code suivant, que nous complèterons plus tard
+
+   ```php
+   namespace App\Covoiturage\Lib;
+
+   use App\Covoiturage\Config\Conf;
+   use App\Covoiturage\Model\DataObject\Utilisateur;
+
+   class VerificationEmail
+   {
+      public static function envoiEmailValidation(Utilisateur $utilisateur): void
+      {
+         $loginURL = rawurlencode($utilisateur->getLogin());
+         $nonceURL = rawurlencode($utilisateur->getNonce());
+         $absoluteURL = Conf::getAbsoluteURL();
+         $lienValidationEmail = "$absoluteURL?action=validerEmail&controller=utilisateur&login=$loginURL&nonce=$nonceURL";
+         $corpsEmail = "<a href=\"$lienValidationEmail\">Validation</a>";
+
+         // Temporairement avant d'envoyer un vrai mail
+         MessageFlash::ajouter("success", $corpsEmail);
+      }
+
+      public static function traiterEmailValidation($login, $nonce): bool
+      {
+         // À compléter
+         return true;
+      }
+
+      public static function aValideEmail(Utilisateur $utilisateur) : bool
+      {
+         // À compléter
+         return true;
+      }
+   }
+   ```
+
+   **Rajoutez** une méthode `Conf::getAbsoluteURL` qui renvoie la base de l'URL
+   de votre site, par exemple 
+   ```text
+   http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD8/web/frontController.php
+   ```
+
+1. Dans votre formulaire de création d'un utilisateur, rajoutez un champ pour
+   l'adresse email
+   ```php
+   <p class="InputAddOn">
+         <label class="InputAddOn-item" for="email_id">Email&#42;</label>
+         <input class="InputAddOn-field" type="email" value="" placeholder="toto@yopmail.com" name="email" id="email_id" required>
+   </p>
+   ```
+
+1. Pour faire fonctionner l'action `created` :
+   * il faut que l'utilisateur créé avec `construireDepuisFormulaire` soit
+   correct :   
+   Mettez à jour la méthode `construireDepuisFormulaire` pour
+   qu'elle donne la valeur `""` à l'email, qu'elle stocke l'adresse mail du
+   formulaire dans `emailAValider`, et qu'elle crée un nonce aléatoire à
+   l'aide de `MotDePasse::genererChaineAleatoire()`.
+   * il faut envoyer l'email de validation (qui est un message flash pour
+   l'instant): appelez la fonction `VerificationEmail::envoiEmailValidation`.
+
+1. Faisons en sorte que le lien envoyé par mail valide bien l'adresse mail. 
+   * Ajoutez une action `validerEmail` au contrôleur `Utilisateur` qui récupère
+   en `GET` deux valeurs `login` et `nonce` (si elle existe sinon message flash
+   d'erreur) et appelle `VerificationEmail::traiterEmailValidation()` avec ces
+   valeurs.  
+   En cas de succès, "redirection flash" vers la page de détail de cet
+   utilisateur. En cas d'échec, "redirection flash" vers `readAll`.
+   * Codez `traiterEmailValidation()` :    
+   Si le login correspond à un utilisateur présent dans la base et que le
+   `nonce` passé en `GET` correspond au `nonce` de la BDD, alors coupez/collez
+   l'email à valider dans l'email et passez à `""` le champ `nonce` de la BDD.
+
+1. Testez que la validation de l'email marche bien après la création d'un
+   utilisateur. Pour ceci, regarder dans la BDD que les données évoluent bien à
+   chaque étape. 
+
+1. Modifiez la fonction `VerificationEmail::envoiEmailValidation` pour qu'elle
+envoie un mail à l'adresse renseignée contenant avec un lien qui
+enverra le nonce au site.
+
+   Envoyez ce mail en utilisant [la fonction
+   `mail()`](http://php.net/manual/en/function.mail.php) de PHP.
+   
+   **Attention :** La fonction `mail()` n'est disponible que sur le serveur
+   `webinfo` Web de l'IUT. Si vous avez installé un serveur Web local sur votre
+   machine avec LAMP/MAMP/WAMP, `mail()` n'est pas configuré par défaut.
+
+   **Abuser de cette fonction serait considéré comme une violation de la charte
+   d'utilisation des ressources informatiques de l'IUT et vous exposerait à des
+   sanctions !**
+   
+   Pour éviter d'être blacklistés des serveurs de mail, nous allons envoyer
+   uniquement des emails dans le domaine `yopmail.com`, dont le fonctionnement
+   est le suivant : un mail envoyé à `bob@yopmail.com` est immédiatement lisible
+   sur [http://bob.yopmail.com](http://bob.yopmail.com).
+
+</div>
+
+Nous allons maintenant pouvoir nous servir de la validation de l'email ailleurs
+dans le site.
+
+
+<div class="exercise">
+
+1. Modifiez l'action `connecter` du contrôleur `Utilisateur` de sorte à accepter
+la connexion uniquement si l'utilisateur a validé un email. 
+   * Pour ceci, appelez la méthode `VerificationEmail::aValideEmail()`.
+   * Codez cette méthode pour qu'elle regarde si l'utilisateur a un email
+     différent de `""`.
+
+1. Dans l'action `created` du contrôleur `Utilisateur`, vérifiez que l'adresse
+   email envoyée par l'utilisateur en est bien une. Pour cela, vous pouvez par
+   exemple utiliser la fonction
+   [`filter_var()`](http://php.net/manual/en/function.filter-var.php) avec le
+   filtre
+   [`FILTER_VALIDATE_EMAIL`](http://www.php.net/manual/en/filter.filters.validate.php).
+
+
+1. Mise à jour d'un utilisateur : 
+   * rajoutez un champ *nouvel email* prérempli,
+   * dans l'action `updated`, vérifiez le format de l'email puis écrivez-le dans
+     le champ `emailAValider`. Créez aussi un nonce aléatoire et envoyez le mail de validation.
+   * **ici**
 
 </div>
 
@@ -589,14 +815,7 @@ connecter) que s'il a consulté le mail que nous lui avons envoyé.
 
 <div class="exercise">
 
-Expliquons brièvement le mécanisme de validation par adresse email que nous
-allons mettre en place. À la création d'un utilisateur, nous associons à
-l'utilisateur une chaîne de caractères aléatoires
-([un nonce cryptographique](https://fr.wiktionary.org/wiki/nonce)) dans un champ
-`nonce` de la BDD. Nous envoyons ce nonce par email à l'adresse indiqué. La
-connaissance de ce nonce sert de preuve que l'adresse email existe ; le client
-renverra donc le nonce au site qui validera donc l'adresse email (en mettant la
-valeur du nonce à `NULL` dans notre cas).
+
 
 <!--
 Si l'utilisateur fait une faute de frappe dans l'email, le nonce sera envoyé à
@@ -611,68 +830,7 @@ connecté sans avoir validé, alors on ne peut que valider son email.
 
 Mettons en place ce procédé :
 
-1. Ajoutez un champ `nonce` de type `VARCHAR[32]` ainsi qu'un champ `email` de
-   type `VARCHAR[256]` à la table `utilisateur`.
 
-1. Modifiez l'action `connected` du contrôleur `Utilisateur` de sorte à accepter la
-connexion uniquement si le champ `nonce` est `NULL`.
-
-1. Ajoutez une action `validate` au contrôleur `Utilisateur` qui récupère en `GET`
-deux valeurs `login` et `nonce`. Si le login correspond à un utilisateur
-présent dans la base et que le `nonce` passé en `GET` correspond au `nonce`
-de la BDD, alors passez à `NULL` le champ `nonce` de la BDD.
-
-1. Il ne reste plus qu'à initialiser ce nonce avec une chaîne de caractères
-aléatoires à la création de l'utilisateur :
-
-   * Copiez la fonction `generateRandomHex()` suivante dans `Security.php` qui
-     permet de générer des chaînes de 32 caractères aléatoires
-
-     ```php?start_inline=1
-     function generateRandomHex() {
-       // Generate a 32 digits hexadecimal number
-       $numbytes = 16; // Because 32 digits hexadecimal = 16 bytes
-       $bytes = openssl_random_pseudo_bytes($numbytes); 
-       $hex   = bin2hex($bytes);
-       return $hex;
-     }
-     ```
-
-   <!--
-   uniqid pas top car basé sur l'horloge donc prévisible
-   http://php.net/manual/fr/function.uniqid.php](http://php.net/manual/fr/function.uniqid.php
-   -->
-
-   * Dans l'action `created` du contrôleur `Utilisateur`, générez un identifiant
-   unique avec la fonction `generateRandomHex()`  que vous stockerez
-   dans le champ `nonce` de la table `utilisateur`.
-
-
-1. Il ne reste plus qu'à envoyer un mail à l'adresse à l'adresse renseignée
-contenant avec un lien qui enverra le nonce au site :
-
-   1. Rédigez le mail en HTML dans une variable `$mail`. Ce mail doit contenir
-      un lien vers l'action `validate` avec le login et le nonce dans l'URL (au
-      format *query string*).  
-	  **Testez** bien l'adresse de votre lien avant de passer à la question suivante.
-
-   1. Envoyez ce mail en utilisant
-      [la fonction `mail()`](http://php.net/manual/en/function.mail.php) de PHP.
-	  
-	  **Attention :** La fonction `mail()` n'est disponible que sur le serveur
-      `webinfo` Web de l'IUT. Si vous avez installé un serveur Web local sur
-      votre machine avec LAMP/MAMP/WAMP, `mail()` n'est pas configuré par
-      défaut.
-
-      **Abuser de cette fonction serait considéré comme une violation de la
-      charte d'utilisation des ressources informatiques de l'IUT et vous
-      exposerait à des sanctions !**
-      
-      Pour éviter d'être blacklistés des serveurs de mail, nous allons envoyer
-      uniquement des emails dans le domaine `yopmail.com`, dont le
-      fonctionnement est le suivant : un mail envoyé à `bob@yopmail.com` est
-      immédiatement lisible sur
-      [http://bob.yopmail.com](http://bob.yopmail.com).
 
 </div>
 
