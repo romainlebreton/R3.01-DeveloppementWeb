@@ -967,9 +967,9 @@ aux données qui lui sont associées.
     }
     ``` -->
 
-	Nous recommandons de mettre un délai d'expiration correspondant au cookie
+	<!-- Nous recommandons de mettre un délai d'expiration correspondant au cookie
     d'identifiant de session à l'aide de la méthode
-    [`session_set_cookie_params`](https://www.php.net/manual/fr/function.session-set-cookie-params.php).
+    [`session_set_cookie_params`](https://www.php.net/manual/fr/function.session-set-cookie-params.php). -->
     
     **Référence :** [Stackoverflow](http://stackoverflow.com/questions/520237/how-do-i-expire-a-php-session-after-30-minutes)
 
@@ -984,7 +984,8 @@ cf http://defeo.lu/aws/lessons/session-fixation
 
 <div class="exercise">
 
-Rajouter un mécanisme d'expiration pour les sessions. 
+Rajoutez un mécanisme d'expiration pour les sessions. Le code du mécanisme sera
+codé dans une méthode `verifierDerniereActivite` de la classe `Session`. Cette méthode sera appelée par `getInstance()` après l'appel au constructeur pour ne vérifier l'expiration qu'au démarrage de la session.
 
 *Note :* La durée d'expiration est une donnée qui dépend du site. Il serait donc
 judicieux de la mettre dans le fichier de configuration `Conf.php`.
