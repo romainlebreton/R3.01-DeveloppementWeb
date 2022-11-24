@@ -342,14 +342,12 @@ Procédons en plusieurs étapes :
    ```php
    namespace App\Covoiturage\Lib;
 
-   use App\Covoiturage\Model\DataObject\Utilisateur;
-
    class ConnexionUtilisateur
    {
        // L'utilisateur connecté sera enregistré en session associé à la clé suivante 
        private static string $cleConnexion = "_utilisateurConnecte";
 
-       public static function connecter(Utilisateur $utilisateur): void
+       public static function connecter(string $loginUtilisateur): void
        {
            // À compléter
        }
@@ -375,7 +373,7 @@ Procédons en plusieurs étapes :
    complétez son code. 
    
    *Indications* : 
-   * La connexion enregistre un utilisateur en session dans le champ
+   * La connexion enregistre le login d'un utilisateur en session dans le champ
     `$cleConnexion`.
    * Le client est connecté si et seulement si la session contient un enregistrement associé à la clé `$cleConnexion`.
    * La déconnexion consiste à supprimer cet enregistrement de la session.  
