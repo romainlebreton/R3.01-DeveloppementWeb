@@ -10,10 +10,9 @@ http://php.net/manual/fr/book.password.php -->
 
 <!-- Màj le TD pour le fait d'être connecté pour valider le mail -->
 
-Ce TD vient à la suite du
-[TD7 -- cookies & sessions]({{site.baseurl}}/tutorials/tutorial7.html) et
-prendra donc comme acquis l'utilisation des cookies et des sessions. Cette
-semaine, nous allons :
+Ce TD vient à la suite du [TD7 -- cookies &
+sessions]({{site.baseurl}}/tutorials/tutorial7.html) et prendra donc comme
+acquis l'utilisation des cookies et des sessions. Dans ce TD, nous allons :
 
 1. mettre en place l'authentification par mot de passe des utilisateurs du site ;
 3. mettre en place une validation par email de l'inscription des utilisateurs ;
@@ -46,7 +45,7 @@ Utilisons une fonction de hachage cryptographique, c'est-à-dire une fonction qu
 vérifie notamment les propriétés suivantes (source :
 [Wikipedia](https://fr.wikipedia.org/wiki/Fonction_de_hachage_cryptographique)):
 * la valeur de hachage d'un message se calcule « facilement » ;
-* il est impossible, pour une valeur de hachage donnée, de construire un message
+* il est extrêmement difficile, pour une valeur de hachage donnée, de construire un message
   ayant cette valeur (résistance à la préimage) ;
 
 Ainsi, si un site Web stocke les mots de passe hachés dans sa base de données,
@@ -88,9 +87,9 @@ var_dump($mdpHache == hash('sha256', $mdpClair));
 </div>
 
 
-**Explication :** Ce site stocke le haché de `3 771 961 285 ≃ 4*10^9` mots de
-passe communs. Si votre mot de passe est l'un de ceux-là, sa sécurité est
-compromise.  
+**Explication :** Ce site annonce qu'il stocke le haché de `15 183 605 161 ≃
+10^10` mots de passe communs. Si votre mot de passe est l'un de ceux-là, sa
+sécurité est compromise.  
 Heureusement il existe beaucoup plus de mot de passe possible ! Par exemple,
 rien qu'en utilisant des mots de passe de longueur 10 écrits à partir des 64
 caractères `0,1,...,9,A,B,...,Z,a,...,z,+,/`, vous avez `(64)^10 = 2^60 ≃ 10^18`
@@ -343,6 +342,8 @@ Procédons en plusieurs étapes :
    ```php
    namespace App\Covoiturage\Lib;
 
+   use App\Covoiturage\Model\DataObject\Utilisateur;
+
    class ConnexionUtilisateur
    {
        // L'utilisateur connecté sera enregistré en session associé à la clé suivante 
@@ -378,7 +379,7 @@ Procédons en plusieurs étapes :
     `$cleConnexion`.
    * Le client est connecté si et seulement si la session contient un enregistrement associé à la clé `$cleConnexion`.
    * La déconnexion consiste à supprimer cet enregistrement de la session.  
-   * `getUtilisateurConnecte()` renvoie `null` si le client n'est pas connecté.
+   * `getLoginUtilisateurConnecte()` renvoie `null` si le client n'est pas connecté.
    
 1. Rajoutons au menu de notre site un lien pour se connecter. Dans le menu de la
    vue générique `view.php`, rajoutez une icône cliquable
@@ -402,10 +403,8 @@ Procédons en plusieurs étapes :
       première vérification est qu'un login et un mot de passe sont transmis dans le
       *query string*. Sinon, redirigez vers le formulaire de connexion avec un message flash de type `danger`.
    1. Puis, il faut récupérer l'utilisateur ayant le login transmis. Ceci
-      permettra de vérifier que ce login existe bien. Sinon, redirigez vers le
-      formulaire de connexion avec un message flash de type `warning`.
-   1. Après, il faut vérifier que le mot de passe transmis est bien celui de
-      l'utilisateur (utiliser une méthode de la classe `MotDePasse`). Sinon,
+      permettra de vérifier que ce login existe bien et que le mot de passe est
+      transmis correct (utiliser une méthode de la classe `MotDePasse`). Sinon,
       redirigez vers le formulaire de connexion avec un message flash de type
       `warning`.
    1. Enfin, vous pouvez connecter l'utilisateur (utiliser une méthode de la
@@ -440,8 +439,8 @@ l'utilisateur actuellement authentifié. Commençons par limiter les liens.
 
 <div class="exercise">
 
-1. Assurez-vous que la vue `list.php` n'affiche que les liens vers la vue de
-   détail, pas les liens de modification ou de suppression.
+1. Assurez-vous que la vue `utilisateur/list.php` n'affiche que les liens vers
+   la vue de détail, pas les liens de modification ou de suppression.
 
 1. Modifier la vue de détail pour qu'elle n'affiche les liens vers la mise à
 jour ou la suppression que si le login de l'utilisateur concorde avec celui
@@ -545,7 +544,8 @@ Commençons par rajouter un attribut `estAdmin` à notre classe métier
 
 </div>
 
-Modifions le processus de création d'un utilisateur intégrer cette nouvelle donnée.
+Modifions le processus de création d'un utilisateur pour intégrer cette nouvelle
+donnée.
 
 <div class="exercise">
 
@@ -598,7 +598,7 @@ tous les droits.
    récupérées de la base de données.
 
    *Remarque optionnelle :* On aurait pu coder un système qui récupère une seule
-   fois les données de l'utilisateur connecté à partir de la base de donnée.
+   fois les données de l'utilisateur connecté à partir de la base de donnée, et le stocke dans un attribut statique de la classe `ConnexionUtilisateur`.
 
 1. Processus de création :
    1. Le champ *Administrateur ?* du formulaire de création ne doit apparaître
