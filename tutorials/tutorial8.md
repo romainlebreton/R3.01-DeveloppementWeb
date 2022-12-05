@@ -159,7 +159,7 @@ var_dump(password_verify($mdpClair, $mdpHache2)); // True
 
 L'idée finale est de rajouter une autre chaîne aléatoire, appelée *poivre*, dans
 le hachage du mot de passe. La particularité du poivre est qu'il ne doit pas
-être stocké dans la base de donnée. Ainsi, si la base de données est compromise,
+être stocké dans la base de données. Ainsi, si la base de données est compromise,
 l'attaquant n'apprend rien sur les mots de passe, car il ne connaît pas le
 poivre. En effet, le poivre est nécessaire pour tester un mot de passe.
 
@@ -234,7 +234,7 @@ et copiez-le dans l'attribut statique `$poivre` une fois pour toute.
    php MotDePasse.php
    ``` 
 
-1. Nous allons modifier la structure de donnée *utilisateur* :
+1. Nous allons modifier la structure de données *utilisateur* :
    1. Modifiez la table utilisateur en lui ajoutant une colonne `VARCHAR(256)
 mdpHache` stockant son mot de passe.
    1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Model/DataObject`) :
@@ -316,7 +316,7 @@ Rajoutons des mots de passe dans la mise à jour d'un utilisateur.
       l'URL avec un message flash *Ancien mot de passe erroné*.
    * Le cas échéant, mettez à jour votre utilisateur en appelant les *setter*
       avec les données du formulaire. Enfin, effectuez la mise à jour dans la
-      base de donnée.
+      base de données.
 
 </div>
 
@@ -596,7 +596,7 @@ tous les droits.
    récupérées de la base de données.
 
    *Remarque optionnelle :* On aurait pu coder un système qui récupère une seule
-   fois les données de l'utilisateur connecté à partir de la base de donnée, et le stocke dans un attribut statique de la classe `ConnexionUtilisateur`.
+   fois les données de l'utilisateur connecté à partir de la base de données, et le stocke dans un attribut statique de la classe `ConnexionUtilisateur`.
 
 1. Processus de création :
    1. Le champ *Administrateur ?* du formulaire de création ne doit apparaître
