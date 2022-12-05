@@ -100,7 +100,7 @@ possibilités.
 Comme une *rainbow table* est dépendante d'un algorithme de hachage, nous allons
 hacher différemment chaque mot de passe. Pour ceci, nous allons concaténer une
 chaîne aléatoire, appelée *sel*, au début de chaque mot de passe avant de le
-hacher. La base de donnée doit stocker un sel et un haché pour chaque mot de
+hacher. La base de données doit stocker un sel et un haché pour chaque mot de
 passe. En effet, la connaissance du sel est nécessaire pour tester un mot de
 passe.
 
@@ -159,7 +159,7 @@ var_dump(password_verify($mdpClair, $mdpHache2)); // True
 
 L'idée finale est de rajouter une autre chaîne aléatoire, appelée *poivre*, dans
 le hachage du mot de passe. La particularité du poivre est qu'il ne doit pas
-être stocké dans la base de donnée. Ainsi, si la base de donnée est compromise,
+être stocké dans la base de donnée. Ainsi, si la base de données est compromise,
 l'attaquant n'apprend rien sur les mots de passe, car il ne connaît pas le
 poivre. En effet, le poivre est nécessaire pour tester un mot de passe.
 
