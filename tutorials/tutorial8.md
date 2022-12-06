@@ -34,10 +34,12 @@ lisible) pour plusieurs raisons :
 
 #### Idée 1 : Chiffrement
 
-Le serveur pourrait stocker les mots de passes chiffrés.  
+À la réception du mot de passe, le serveur pourrait le chiffrer et stocker ce
+chiffré dans la base de données.
 
-**Problème** : L'administrateur du site pourrait toujours lire les mots de passe. En
-effet, il possède la clé secrète et peut donc déchiffrer les mots de passe.
+**Problème** : L'administrateur du site pourrait toujours lire les mots de
+passe. En effet, il peut lire la clé secrète sur le serveur et peut donc
+déchiffrer les mots de passe.
 
 #### Idée 2 : Hachage
 
@@ -100,7 +102,13 @@ possibilités.
 Comme une *rainbow table* est dépendante d'un algorithme de hachage, nous allons
 hacher différemment chaque mot de passe. Pour ceci, nous allons concaténer une
 chaîne aléatoire, appelée *sel*, au début de chaque mot de passe avant de le
-hacher. La base de données doit stocker un sel et un haché pour chaque mot de
+hacher. 
+
+Dans le scénario où deux utilisateurs ont un même mot de passe, l'utilisation
+d'un sel aléatoire, donc différent, permet que leurs mots de passe salés/hachés
+respectifs soient différents.
+
+La base de données doit stocker un sel et un haché pour chaque mot de
 passe. En effet, la connaissance du sel est nécessaire pour tester un mot de
 passe.
 
@@ -163,10 +171,15 @@ le hachage du mot de passe. La particularité du poivre est qu'il ne doit pas
 l'attaquant n'apprend rien sur les mots de passe, car il ne connaît pas le
 poivre. En effet, le poivre est nécessaire pour tester un mot de passe.
 
+En pratique, nous stockerons un unique poivre par site, qui est choisi aléatoirement :
+
 ```php
 $poivre = "M7UKGv9fkptxwbSmZvlr1U";
+// Le client envoie son mot de passe en clair au serveur
 $mdpClair = 'apple';
+// Le serveur transforme le mot de passe à l'aide d'un secret appelé poivre
 $mdpPoivre = hash_hmac("sha256", $mdpClair, $poivre);
+// Le mot de passe poivré peut alors être salé/haché avant d'être enregistré en BDD
 $mdpHache = password_hash($mdpPoivre, PASSWORD_DEFAULT);
 var_dump($mdpHache);
 ```
@@ -278,7 +291,10 @@ Nous allons modifier la création d'un utilisateur.
       formulaire de création avec un message flash *Mots de passe distincts* de
       type *warning*.
 
-      *Note* : Nous réserverons les messages flash de type *danger* pour les
+      *Notes* : 
+      * Si vous n'avez pas codé les messages flash et la redirection, remplacez
+        toutes ces consignes par des appels à l'action d'erreur `error`. 
+      * Nous réserverons les messages flash de type *danger* pour les
       erreurs qui ne sont censées se produire que si le client a essayé de
       hacker le site (accès à une page qu'on ne lui a pas proposé, donnée de
       formulaire manquante alors qu'elle était `required`), et les messages flash
@@ -542,47 +558,7 @@ Commençons par rajouter un attribut `estAdmin` à notre classe métier
 
 </div>
 
-Modifions le processus de création d'un utilisateur pour intégrer cette nouvelle
-donnée.
-
-<div class="exercise">
-
-1. Rajoutez un bouton `checkbox` au formulaire de création 
-   ```html
-   <p class="InputAddOn">
-         <label class="InputAddOn-item" for="estAdmin_id">Administrateur</label>
-         <input class="InputAddOn-field" type="checkbox" placeholder="" name="estAdmin" id="estAdmin_id">
-   </p>
-   ```
-
-1. Pour que l'action `created` arrive à construire un utilisateur et à le
-   sauvegarder en base de données, il ne manque que la mise à jour de la méthode
-   `construireDepuisFormulaire`. Si la case est cochée, alors l'association
-   clé/valeur `estAdmin => on` sera transmise. Si la case n'est pas cochée,
-   aucune association n'est rajoutée.
-
-   **Mettez à jour** la méthode la méthode `construireDepuisFormulaire` avec ces
-   explications. Vérifiez dans PHPMyAdmin que vous arrivez à créer des
-   utilisateurs administrateurs ou non.
-
-</div>
-
-Passons au processus de mise-à-jour.
-
-<div class="exercise">
-
-1. Rajoutez un bouton `checkbox` au formulaire de mise-à-jour. Faites en sorte
-   que le bouton soit pré-coché ([attribut
-   `checked`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input/checkbox#attr-checked))
-   si l'utilisateur est déjà administrateur.
-
-1. Dans l'action `updated`, rajoutez un appel au setter `setEstAdmin`. Vérifiez
-   que la mise à jour fonctionne.
-
-</div>
-
-Nous allons modifier la sécurité de notre site pour qu'un *administrateur* ait
-tous les droits.
+Mettons à jour la classe utilitaire `ConnexionUtilisateur`.
 
 <div class="exercise">
 
@@ -598,6 +574,53 @@ tous les droits.
    *Remarque optionnelle :* On aurait pu coder un système qui récupère une seule
    fois les données de l'utilisateur connecté à partir de la base de données, et le stocke dans un attribut statique de la classe `ConnexionUtilisateur`.
 
+</div>
+
+Modifions le processus de création d'un utilisateur pour intégrer cette nouvelle
+donnée.
+
+<div class="exercise">
+
+1. Rajoutez un bouton `checkbox` au formulaire de création 
+   ```html
+   <p class="InputAddOn">
+         <label class="InputAddOn-item" for="estAdmin_id">Administrateur</label>
+         <input class="InputAddOn-field" type="checkbox" placeholder="" name="estAdmin" id="estAdmin_id">
+   </p>
+   ```
+
+1. Pour que l'action `created` arrive à construire un utilisateur et à le
+   sauvegarder en base de données, il ne manque que la mise à jour de la méthode
+   `construireDepuisFormulaire`. Si la case est cochée, alors `estAdmin=on`
+   sera transmis. Si la case n'est pas cochée, aucune donnée liée au `checkbox`
+   n'est rajoutée.
+
+   **Mettez à jour** la méthode la méthode `construireDepuisFormulaire` avec ces
+   explications. Vérifiez dans PHPMyAdmin que vous arrivez à créer des
+   utilisateurs administrateurs ou non.
+
+</div>
+
+Passons au processus de mise-à-jour.
+
+<div class="exercise">
+
+1. Rajoutez un bouton `checkbox` au formulaire de mise-à-jour. Faites en sorte
+   que le bouton soit pré-coché ([attribut
+   `checked`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input/checkbox#attr-checked))
+   si l'utilisateur est déjà administrateur (utilisez
+   `ConnexionUtilisateur::estAdministrateur()`).
+
+1. Dans l'action `updated`, rajoutez un appel au setter `setEstAdmin`. Vérifiez
+   que la mise à jour fonctionne.
+
+</div>
+
+Nous allons modifier la sécurité de notre site pour qu'un *administrateur* ait
+tous les droits.
+
+<div class="exercise">
+
 1. Processus de création :
    1. Le champ *Administrateur ?* du formulaire de création ne doit apparaître
    que si l'utilisateur connecté est administrateur.
@@ -606,6 +629,10 @@ tous les droits.
 
    1. Plus important, l'action `created` ne doit créer des administrateurs que si
       l'utilisateur connecté est administrateur.
+
+      *Aide* : si l'utilisateur connecté n'est pas administrateur, forcez
+      l'utilisateur créé à ne pas être administrateur, indépendamment de la
+      valeur reçue par le formulaire.
 
 
 1. Processus de mise-à-jour :
