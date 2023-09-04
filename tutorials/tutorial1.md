@@ -871,40 +871,7 @@ function ServeurWeb(Requete $requete) : Reponse {
    modifications que vous avez faites depuis la dernière validation (`commit`).
    <!-- On voit toutes les modifications sauf celles en cours d'enregistrement avec `git add` -->
 </div>
-   
-## Les bases d'un site de covoiturage
 
-<div class="exercise">
-
-Vous allez programmer les classes d'un site de covoiturage, dont voici la
-description d'une version minimaliste:
-
-* **Utilisateur :** Un utilisateur possède des champs propres `(login, nom,
-prenom)`
-* **Trajet :** Une annonce de trajet comprend :
-1. un identifiant unique `id`,
-1. les détails d'un trajet (un point de départ `depart` et un point d’arrivée
-`arrivee`),
-1. des détails spécifiques à l’annonce comme une date de départ `date`,
-1. un nombre de places disponibles `nbPlaces`,
-1. un prix `prix`,
-1. et le login du conducteur `conducteurLogin`,
-
-<!-- **Astuce :** Pour éviter de taper 7 *getters*, 7 *setters* et un constructeur
-  avec 7 arguments pour `Trajet`, nous allons coder :
-
-1. des *getters* génériques `get($nom_attribut)` qui renvoient l'attribut de nom
-`$nom_attribut`. Utilisez la syntaxe suivante pour accéder à l'attribut de nom
-`$nom_attribut` de l'objet `$objet` :
-
-   ```php?start_inline=1
-   $objet->$nom_attribut
-   ```
-1. des *setters* génériques `set($nom_attribut, $valeur)` ;
-1. un constructeur `__construct($data)` qui prend un tableau dont les index
-   correspondent aux attributs de la classe. -->
-
-</div>
 
 ## Travailler depuis chez vous en local
 

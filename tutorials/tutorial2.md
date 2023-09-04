@@ -525,42 +525,11 @@ A neat helper function that returns value of the single field of returned row. V
 
 -->
 
-## Site de covoiturage
-
-Appliquez ce que l'on a fait pendant ce TD aux classes `Trajet` et `Utilisateur`
-du TP précédent (exercice sur le covoiturage) :
-
-<div class="exercise">
-1. Dans votre PhpMyAdmin, créez une table `utilisateur` avec les champs suivants :
-   * `login` : VARCHAR 32, clé primaire
-   * `nom` : VARCHAR 32
-   * `prenom` : VARCHAR 32
-
-   **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
-
-1. Insérez quelques utilisateurs.
-
-2. Créez une table `trajet` avec les champs suivants :
-   * `id` : INT, clé primaire, qui s'auto-incrémente (voir en dessous)
-   * `depart` : VARCHAR 32
-   * `arrivee` : VARCHAR 32
-   * `date` : DATE
-   * `nbPlaces` : INT
-   * `prix` : INT
-   * `conducteurLogin` : VARCHAR 32
-   
-   **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque
-   nouvelle insertion dans la table. Pour ce faire, sélectionnez cocher la case
-   `A_I` (auto-increment) pour le champ `id`.
 
 
-2. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
-   que l'auto-incrément marche) et en mettant dans `conducteurLogin` des login
-   d'utilisateurs valides (pour éviter des problèmes par la suite).
+<!-- 1. Créez les fonctions statiques `getTrajets()` et `getUtilisateurs()` qui listent
+   tous les trajets / utilisateurs. -->
 
-1. Créez les fonctions statiques `getTrajets()` et `getUtilisateurs()` qui listent
-   tous les trajets / utilisateurs.
-</div>
 
 ## (Optionnel) Pour utiliser une base de données locale
 

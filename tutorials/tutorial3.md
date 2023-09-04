@@ -229,7 +229,7 @@ Reprenons les classes du TD précédent sur le covoiturage afin d'y ajouter la
 gestion de la persistance.
 
 <div class="exercise">
-Si vous ne l'avez pas déjà fait, créez des tables `utilisateur` et `trajet` comme suit :
+Créez des tables `utilisateur` et `trajet` comme suit :
 
 1. Dans votre PhpMyAdmin, créez une table `utilisateur` avec les champs suivants :
    * `login` : VARCHAR 32, clé primaire
