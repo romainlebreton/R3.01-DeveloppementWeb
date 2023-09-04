@@ -5,18 +5,15 @@ layout: slideshow
 lang: fr
 ---
 
-<!-- 
-Mettre à jour intervenants et heures 
-Voir quand intégrer la séance Git
--->
-
 <section>
 ## Présentation du cours
 
 **Objectif du cours :**
 
 * Apprendre à faire des pages dynamiques avec PHP et MySQL
+* Stocker les informations en base de données
 * Organiser son code avec l'architecture MVC
+* Mettre en place un système d'utilisateur connecté 
 
 **Cours et TP en ligne :**
 
@@ -191,7 +188,7 @@ Le navigateur interprète alors la page Web et l'affiche.
 <div class="incremental">
 <div>
 Cliquer sur un lien fait pareil que demander une page Web par la barre
-d'adresse, cela envoie une requête HTTP.
+d'adresse, cela envoie une requête HTTP de verbe `GET`.
 
 </div>
 </div>
@@ -469,7 +466,7 @@ les professionnels (Wikipédia, Tumblr et Facebook).
 **PHP va nous servir à créer des documents HTML :**
 
 * Il prend donc en entrée un fichier `.php` <!-- qui contient de l'HTML et du PHP -->
-* Il exécute les instructions PHP sans étape compilation nécessaire (langage interprété)
+* Il exécute les instructions PHP sans compilation (langage interprété)
 * Il affiche en sortie un document HTML  
   (comme un programme C écrirait dans sa sortie standard).
 
@@ -1172,7 +1169,8 @@ suivant :
 
 * la partie *query string* d'une URL 
 
-* formulaire de méthode GET ou POST
+* formulaire de méthode GET ou POST  
+  Et comment l'information est transmise
 
 
 
@@ -1191,7 +1189,7 @@ suivant :
 
 ## Bonus : Émuler un client HTTP textuel
 
-**Expérience amusante :**  
+**Expérience "amusante" :**  
 Même si le client HTTP le plus connu est votre navigateur, il est facile de
 simuler un client HTTP autrement. La commande `telnet` permet d'envoyer du texte à
 une machine distance. En envoyant le texte d'une requête HTTP à un serveur HTTP,
