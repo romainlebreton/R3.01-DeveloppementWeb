@@ -11,4 +11,4 @@ kramdown:
 
 # Server Config options
 livereload: true    # You no longer need to include --livereload
-reload_port: 5679    # If you don't want to use the default port
+reload_port: 5677    # If you don't want to use the default port

@@ -1,7 +1,7 @@
 ---
-title : Cours 1 <br> Introduction au Web dynamique
-subtitle : Le rôle du PHP
-layout : slideshow
+title: Cours 1 <br> Introduction au Web dynamique
+subtitle: Le rôle du PHP
+layout: slideshow
 lang: fr
 ---
 
@@ -20,17 +20,21 @@ Voir quand intégrer la séance Git
 
 **Cours et TP en ligne :**
 
+* 8 semaines de 4h : 
+  * ≃ 29h de travail sur les sujets de TP
+  * ≃ 3h de suivi de projet
 * site Web : 
   [http://romainlebreton.github.io/R3.01-DeveloppementWeb](http://romainlebreton.github.io/R3.01-DeveloppementWeb)
 
 **Évaluation :**
 
-* Partiel : 20%
-* Examen écrit final : 30%
+* Examen écrit final : 50%
 * Projet PHP : 50%
   * Parcours A : Le projet PHP sera celui de votre SAÉ
   * Parcours B & D : Le projet PHP sera celui de ce cours
 </section>
+
+<!-- 
 <section>
 
 ## Emploi du temps prévisionnel
@@ -59,7 +63,9 @@ Voir quand intégrer la séance Git
 1. Semaine du lundi 2 janvier 2023 -- Évaluation SAÉ ou Projet
 1. Semaine du lundi 9 janvier 2023 -- Examen final écrit
 
-</section>
+</section> 
+-->
+
 <section>
 
 ## Plan du cours
@@ -1140,6 +1146,34 @@ echo
 if - for imbriqués html
 
 -->
+
+
+</section>
+<section>
+
+## Bilan du cours
+
+À la suite de ce cours, vous devez comprendre la signification du vocabulaire
+suivant :
+
+* protocole HTTP
+
+* client HTTP
+
+* requête HTTP scindée en 2 parties : en-tête et corps
+
+* verbes HTTP : GET, POST
+
+* serveur HTTP, fourni par le logiciel Apache à l'IUT
+
+* réponse HTTP scindée en 2 parties : en-tête et corps
+
+* Site Web statique / dynamique
+
+* la partie *query string* d'une URL 
+
+* formulaire de méthode GET ou POST
+
 
 
 </section>
