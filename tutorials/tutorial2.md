@@ -193,7 +193,7 @@ de donnée.
    façon suivante
    
       ```php?start_inline=1
-      new PDO("mysql:host=$hostname;dbname=$databaseName",$login,$password);
+      new PDO("mysql:host=$hostname;port=3316;dbname=$databaseName",$login,$password);
       ```
    
       Stockez ce nouvel objet `PDO` dans l'attribut `$pdo`.

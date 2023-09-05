@@ -5,6 +5,8 @@ layout: slideshow
 lang: fr
 ---
 
+<!-- Rajouter un mot sur HTTP/2 et HTTP/3 -->
+
 <section>
 ## Présentation du cours
 
