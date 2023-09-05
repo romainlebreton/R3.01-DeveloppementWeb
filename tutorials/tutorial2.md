@@ -90,7 +90,7 @@ serveur du reste du code PHP.
 <!--      * qu'il sache indenter automatiquement votre code -->
 
 1. Créez un fichier `Conf.php`. Ce fichier contiendra une classe
-   `Conf` possédant un attribut statique `$databases` comme suit
+   `Conf` possédant un attribut statique `$databaseConfiguration` comme suit
    (changez bien sûr les `a_remplir`).
    
    <!-- Sont-ils à l'aise avec les attributs statiques ? -->
@@ -105,7 +105,7 @@ serveur du reste du code PHP.
    <?php
    class Conf {
    
-     static private array $databases = array(
+     static private array $databaseConfiguration = array(
        // Le nom d'hote est webinfo a l'IUT
        // ou localhost sur votre machine
        // 
@@ -115,6 +115,9 @@ serveur du reste du code PHP.
        // A l'IUT, vous avez une BDD nommee comme votre login
        // Sur votre machine, vous devrez creer une BDD
        'database' => 'a_remplir',
+       // À l'IUT, le port de MySQL est particulier : 3316
+       // Ailleurs, on utilise le port par défaut : 3306
+       'port' => 'a_remplir',
        // A l'IUT, c'est votre login
        // Sur votre machine, vous avez surement un compte 'root'
        'login' => 'a_remplir',
@@ -124,9 +127,10 @@ serveur du reste du code PHP.
      );
    
      static public function getLogin() : string {
-       // L'attribut statique $databases s'obtient avec la syntaxe static::$databases 
-       // au lieu de $this->databases pour un attribut non statique
-       return static::$databases['login'];
+       // L'attribut statique $databaseConfiguration 
+       // s'obtient avec la syntaxe static::$databaseConfiguration 
+       // au lieu de $this->databaseConfiguration pour un attribut non statique
+       return static::$databaseConfiguration['login'];
      }
    
    }
@@ -156,7 +160,7 @@ ouvrira dans le navigateur.
    ?>
    ```
 
-3. Complétez `Conf.php` avec des méthodes statiques `getHostname()`,
+3. Complétez `Conf.php` avec des méthodes statiques `getHostname()`, `getPort()`,
    `getDatabase()` et `getPassword()`. Testez ces méthodes dans `testConf.php`.
      
 
@@ -193,12 +197,12 @@ de donnée.
    façon suivante
    
       ```php?start_inline=1
-      new PDO("mysql:host=$hostname;port=3316;dbname=$databaseName",$login,$password);
+      new PDO("mysql:host=$hostname;port=$port;dbname=$databaseName",$login,$password);
       ```
    
       Stockez ce nouvel objet `PDO` dans l'attribut `$pdo`.
 
-   1. Le code précédent a besoin que les variables `$hostname`,
+   1. Le code précédent a besoin que les variables `$hostname`, `$port`,
    `$databaseName`, `$login` et `$password` contiennent les chaînes
    de caractères correspondant à l'hôte, au nom, au login et au mot de
    passe de notre BDD. Créez donc ces variables avant le `new PDO` en
@@ -339,7 +343,7 @@ Pour avoir plus de messages d'erreur de `PDO` et qu'il gère mieux l'UTF-8,
 // Connexion à la base de données            
 // Le dernier argument sert à ce que toutes les chaines de caractères 
 // en entrée et sortie de MySql soit dans le codage UTF-8
-$this->pdo = new PDO("mysql:host=$hostname;port=3316;dbname=$databaseName", $login, $password,
+$this->pdo = new PDO("mysql:host=$hostname;port=$port;dbname=$databaseName", $login, $password,
                      array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 
 // On active le mode d'affichage des erreurs, et le lancement d'exception en cas d'erreur
@@ -444,13 +448,11 @@ Nous allons maintenant isoler le code qui retourne toutes les voitures et en fai
 1. Isolez le code qui construit l'objet `Voiture` à partir du tableau donné par `fetch` 
    (*e.g.* `$voitureFormatTableau`) dans une méthode
    ```php
-   public static function construire(array $voitureFormatTableau) : Voiture {
+   public static function construireDepuisTableau(array $voitureFormatTableau) : Voiture {
    // ...
    }
    ```
-   <!-- **Attention :** On ne peut pas appeler le constructeur avec `new Voiture(...)`, car la 
-   classe `Voiture` est en cours de déclaration. Il faut donc utiliser `new static(...)`. -->
-1. Créez une fonction statique
+2. Créez une fonction statique
    `getVoitures()` dans la classe `Voiture` qui ne prend pas d'arguments et
    renvoie le tableau d'objets de la classe `Voiture` correspondant à la BDD.
 
@@ -458,16 +460,16 @@ Nous allons maintenant isoler le code qui retourne toutes les voitures et en fai
    ```php?start_inline=1
    $tableau[] = "Nouvelle valeur";
    ```
-2. Mettez à jour `lireVoiture.php` pour appeler directement `getVoitures()`.
+3. Mettez à jour `lireVoiture.php` pour appeler directement `getVoitures()`.
 
-1. Maintenant que vous avez bien compris où les noms de colonnes (`immatriculationBDD`, `couleurBDD`, ...)
+4. Maintenant que vous avez bien compris où les noms de colonnes (`immatriculationBDD`, `couleurBDD`, ...)
    de la table `voiture` interviennent dans le tableau `$voitureFormatTableau`, nous allons leur redonner
    des noms plus classiques :
    1. Changer les noms des colonnes pour `immatriculation`, `couleur`, `marque` et `nbSieges`.
       Pour ceci, dans PhpMyAdmin, cliquez sur l'onglet "Structure" de la table `voiture`, 
       puis "Modifier" sur chaque colonne.
-   1. Modifiez le code PHP à l'endroit où interviennent ces noms de colonnes.
-       <!-- dans Voiture::construire(array $voitureFormatTableau)  -->
+   2. Modifiez le code PHP à l'endroit où interviennent ces noms de colonnes.
+       <!-- dans Voiture::construireDepuisTableau(array $voitureFormatTableau)  -->
       
 
 </div>
@@ -521,7 +523,6 @@ you can change it using PDO::ATTR_DEFAULT_FETCH_MODE configuration option as sho
 
 Getting data out of statement. fetchColumn()
 A neat helper function that returns value of the single field of returned row. Very handy when we are selecting only one field:
-
 
 -->
 
