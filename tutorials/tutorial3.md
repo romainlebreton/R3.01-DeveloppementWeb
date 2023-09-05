@@ -150,12 +150,12 @@ d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 1. Copiez/collez dans un nouveau dossier TD3 les fichiers `Conf.php`,
    `Model.php`, `Voiture.php` et `lireVoiture.php`.
 
-1. Copiez la fonction précédente dans la classe `Voiture` en la déclarant
-   publique et statique.
+1. Copiez la fonction précédente `getVoitureParImmat` dans la classe `Voiture`
+   en la déclarant publique et statique.
 
-1. Testez la fonction `getVoitureParImmat` dans `lireVoiture.php`.
+2. Testez la fonction `getVoitureParImmat` dans un nouveau fichier `testRequetePrepare.php`.
 
-1. On souhaite que `getVoitureParImmat` renvoie `null` s'il n'existe pas
+3. On souhaite que `getVoitureParImmat` renvoie `null` s'il n'existe pas
    de voiture d'immatriculation `$immatriculation`. Mettez à jour le code
    et la déclaration de type. Testez votre code.
 
@@ -178,7 +178,7 @@ courante (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion 
      faut donc pas faire de `fetch()` sous peine d'avoir une erreur
      `SQLSTATE[HY000]: General error`.
 
-3. Testez cette fonction dans `lireVoiture.php` en créant un objet de classe
+3. Testez cette fonction dans `testRequetePrepare.php` en créant un objet de classe
    `Voiture` et en l'enregistrant.
 </div>
 
@@ -225,47 +225,7 @@ The only exception (pun not intended) is the creation of the PDO instance, which
 
 </div>
 
-## Création des tables de notre site de covoiturage
-
-Reprenons les classes du TD précédent sur le covoiturage afin d'y ajouter la
-gestion de la persistance.
-
-<div class="exercise">
-Créez des tables `utilisateur` et `trajet` comme suit :
-
-1. Dans votre PhpMyAdmin, créez une table `utilisateur` avec les champs suivants :
-   * `login` : VARCHAR 32, clé primaire
-   * `nom` : VARCHAR 32
-   * `prenom` : VARCHAR 32
-
-   **Important :** Pour faciliter la suite du TD, mettez à la création de toutes
-     vos tables `InnoDB` comme moteur de stockage, et `utf8_general_ci` comme
-     interclassement (c’est l’encodage des données, et donc des accents,
-     caractères spéciaux...).
-
-1. Insérez quelques utilisateurs.
-
-2. Créez une table `trajet` avec les champs suivants :
-   * `id` : INT, clé primaire, qui s'auto-incrémente (voir en dessous)
-   * `depart` : VARCHAR 32
-   * `arrivee` : VARCHAR 32
-   * `date` : DATE
-   * `nbPlaces` : INT
-   * `prix` : INT
-   * `conducteurLogin` : VARCHAR 32
-
-   **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque nouvelle
-   insertion dans la table. Pour ce faire, cochez la case `A_I` (auto-increment) pour le champ `id`.
-
-   **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
-
-2. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
-   que l'auto-incrément marche) et en mettant dans `conducteurLogin` un login
-   d'utilisateur valide (pour éviter des problèmes par la suite).
-
-</div>
-
-## Premier lien entre `utilisateur` et `trajet`
+## Utilisateurs et trajets
 
 Vous avez couvert dans le cours *R2.01 -- Développement orienté objets*
 les diagrammes de classes. Ce type de diagramme est utile pour
@@ -285,6 +245,62 @@ utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
   rajouter un champ `conducteurLogin` à la table `trajet`.
 
 
+### Création des tables
+
+<div class="exercise">
+Créez des tables `utilisateur` et `trajet` comme suit :
+
+1. Dans votre PhpMyAdmin, créez une table `utilisateur` avec les champs suivants :
+   * `login` : VARCHAR 32, clé primaire
+   * `nom` : VARCHAR 32
+   * `prenom` : VARCHAR 32
+
+   **Important :** Pour faciliter la suite du TD, mettez à la création de toutes
+     vos tables `InnoDB` comme moteur de stockage, et `utf8_general_ci` comme
+     interclassement (c’est l’encodage des données, et donc des accents,
+     caractères spéciaux...).
+
+2. Insérez quelques utilisateurs.
+
+3. Créez une table `trajet` avec les champs suivants :
+   * `id` : INT, clé primaire, qui s'auto-incrémente (voir en dessous)
+   * `depart` : VARCHAR 32
+   * `arrivee` : VARCHAR 32
+   * `date` : DATE
+   * `nbPlaces` : INT
+   * `prix` : INT
+   * `conducteurLogin` : VARCHAR 32
+
+   **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque nouvelle
+   insertion dans la table. Pour ce faire, cochez la case `A_I` (auto-increment) pour le champ `id`.
+
+   **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
+
+4. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
+   que l'auto-incrément marche) et en mettant dans `conducteurLogin` un login
+   d'utilisateur valide (pour éviter des problèmes par la suite).
+
+</div>
+
+### Lecture des tables
+
+Au niveau du PHP, nous vous fournissons les classes de base `Utilisateur.php` et `Trajet.php`.
+Elles sont semblables à la classe `Voiture.php` que vous avez déjà codé.
+
+
+<div class="exercise">
+
+1. Enregistrez les classes suivantes :
+[`Utilisateur.php`]({{site.baseurl}}/assets/TD3/Utilisateur.php) et
+[`Trajet.php`]({{site.baseurl}}/assets/TD3/Trajet.php).
+
+1. En vous inspirant de `lireVoiture.php`, créez un script qui liste les
+   utilisateurs et les trajets.
+
+</div>
+
+
+### Contrainte sur le conducteur
 
 On souhaite que le champ `trajet.conducteurLogin` corresponde à tout moment à un
 login de conducteur `utilisateur.login`. Vous souvenez-vous quelle est la
@@ -398,11 +414,6 @@ testant le comportement `ON DELETE CASCADE`. Pour cela :
 Nous allons maintenant pouvoir compléter le code PHP de notre site pour gérer
 l'association. Commençons par rajouter des fonctions à nos classes `Utilisateur`
 et `Trajet`.
-
-**Note :** Si vos fichier `Utilisateur.php` et `Trajet.php` ne sont pas
-complets, vous pouvez repartir des fichiers suivants :
-[`Utilisateur.php`]({{site.baseurl}}/assets/TD3/Utilisateur.php),
-[`Trajet.php`]({{site.baseurl}}/assets/TD3/Trajet.php).
 
 Avant toute chose, vous souvenez-vous comment faire une jointure en SQL ? Si
 vous n'êtes pas tout à fait au point sur les différents `JOIN` de SQL, vous
