@@ -31,10 +31,12 @@ en utilisant la classe `PDO` de PHP. Nous poursuivons par le concept très
 important de requêtes préparées. Puis nous coderons des associations entre
 plusieurs tables de la BDD.
 
+<!-- 
 **Attention :** Il est nécessaire d'avoir fini
   [la section 2.1 du TD précédent](tutorial2.html#faire-une-requête-sql-sans-paramètres),
   qui vous faisait coder votre première requête `SELECT * FROM voiture`, pour
-  attaquer ce TD.
+  attaquer ce TD. 
+  -->
 
 Nous vous invitons toujours à utiliser les différentes commandes
 `status/log/add/commit` de `git` pour savoir où vous en êtes et enregistrer vos
@@ -132,9 +134,9 @@ function getVoitureParImmat(string $immatriculation) : Voiture {
 
     // On récupère les résultats comme précédemment
     // Note: fetch() renvoie false si pas de voiture correspondante
-    $voiture = $pdoStatement->fetch();
+    $voitureFormatTableau = $pdoStatement->fetch();
 
-    return static::construire($voiture);
+    return Voiture::construireDepuisTableau($voitureFormatTableau);
 }
 ```
 

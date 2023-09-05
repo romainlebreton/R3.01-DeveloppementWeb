@@ -31,7 +31,7 @@ class Trajet {
         $this->conducteurLogin = $conducteurLogin;
     }
 
-    public static function construire(array $trajetTableau) : Trajet {
+    public static function construireDepuisTableau(array $trajetTableau) : Trajet {
         return new Trajet(
             $trajetTableau["id"],
             $trajetTableau["depart"],
@@ -113,10 +113,6 @@ class Trajet {
         $this->conducteurLogin = $conducteurLogin;
     }
 
-    public function afficher() {
-        echo "<p> Ce trajet du {$this->date} partira de {$this->depart} pour aller à {$this->arrivee}. </p>";
-    }
-
     public function __toString()
     {
         return "<p> Ce trajet du {$this->date} partira de {$this->depart} pour aller à {$this->arrivee}. </p>";
@@ -130,7 +126,7 @@ class Trajet {
 
         $trajets = [];
         foreach($pdoStatement as $trajetFormatTableau) {
-            $trajets[] = static::construire($trajetFormatTableau);
+            $trajets[] = Trajet::construireDepuisTableau($trajetFormatTableau);
         }
 
         return $trajets;

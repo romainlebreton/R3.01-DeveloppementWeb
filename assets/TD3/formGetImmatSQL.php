@@ -31,7 +31,7 @@
             $voitureTableau = $pdoStatement->fetch();
 
             if ($voitureTableau !== false) {
-                return Voiture::construire($voitureTableau);
+                return Voiture::construireDepuisTableau($voitureTableau);
             }
             return null;
         }

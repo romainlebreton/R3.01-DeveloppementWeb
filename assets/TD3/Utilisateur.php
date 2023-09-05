@@ -15,7 +15,7 @@ class Utilisateur {
         $this->prenom = $prenom;
     }
 
-    public static function construire(array $utilisateurTableau) : Utilisateur {
+    public static function construireDepuisTableau(array $utilisateurTableau) : Utilisateur {
         return new Utilisateur(
             $utilisateurTableau["login"],
             $utilisateurTableau["nom"],
@@ -53,11 +53,6 @@ class Utilisateur {
         $this->prenom = $prenom;
     }
 
-    // une methode d'affichage.
-    public function afficher() {
-        echo "<p> Utilisateur {$this->prenom} {$this->nom} de login {$this->login} </p>";
-    }
-
     public function __toString() : string {
         return "<p> Utilisateur {$this->prenom} {$this->nom} de login {$this->login} </p>";
     }
@@ -70,7 +65,7 @@ class Utilisateur {
 
         $utilisateurs = [];
         foreach($pdoStatement as $utilisateurFormatTableau) {
-            $utilisateurs[] = static::construire($utilisateurFormatTableau);
+            $utilisateurs[] = Utilisateur::construireDepuisTableau($utilisateurFormatTableau);
         }
 
         return $utilisateurs;

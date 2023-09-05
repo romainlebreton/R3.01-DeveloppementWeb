@@ -128,9 +128,9 @@ serveur du reste du code PHP.
    
      static public function getLogin() : string {
        // L'attribut statique $databaseConfiguration 
-       // s'obtient avec la syntaxe static::$databaseConfiguration 
+       // s'obtient avec la syntaxe Conf::$databaseConfiguration 
        // au lieu de $this->databaseConfiguration pour un attribut non statique
-       return static::$databaseConfiguration['login'];
+       return Conf::$databaseConfiguration['login'];
      }
    
    }
@@ -245,7 +245,7 @@ class Model {
     private $pdo;
 
     public static function getPdo() {
-        return static::getInstance()->pdo;
+        return Model::getInstance()->pdo;
     }
 
     private function __construct () {
@@ -256,12 +256,12 @@ class Model {
     // appelé qu'une seule fois.
     // L'unique instance crée est stockée dans l'attribut $instance
     private static function getInstance() {
-        // L'attribut statique $pdo s'obtient avec la syntaxe static::$pdo 
+        // L'attribut statique $pdo s'obtient avec la syntaxe Model::$pdo 
         // au lieu de $this->pdo pour un attribut non statique
-        if (is_null(static::$instance))
+        if (is_null(Model::$instance))
             // Appel du constructeur
-            static::$instance = new Model();
-        return static::$instance;
+            Model::$instance = new Model();
+        return Model::$instance;
     }
 }
 ```

@@ -410,7 +410,7 @@ l'action par défaut plutôt que le contrôleur par défaut.
 
       public static function enregistrer(string $preference) : void
       {
-         Cookie::enregistrer(static::$clePreference, $preference);
+         Cookie::enregistrer(PreferenceControleur::$clePreference, $preference);
       }
 
       public static function lire() : string
@@ -587,9 +587,9 @@ Présentons maintenant les opérations fondamentales sur les sessions :
 
         public static function getInstance(): Session
         {
-            if (is_null(static::$instance))
-                static::$instance = new Session();
-            return static::$instance;
+            if (is_null(Session::$instance))
+                Session::$instance = new Session();
+            return Session::$instance;
         }
 
         public function contient($name): bool
