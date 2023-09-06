@@ -29,7 +29,7 @@ objets d'une visite à l'autre du site web.
 1. Connectez vous à votre base de données MySQL, à l'aide de l'interface
 PhpMyAdmin
 [http://webinfo.iutmontp.univ-montp2.fr/my](http://webinfo.iutmontp.univ-montp2.fr/my)
-Le login est votre login IUT et votre mot de passe initial votre date de naissance.  
+Le login est votre login IUT et votre mot de passe initial est soit votre date de naissance (format `JJMMAAAA`), soit la date de la rentrée `04092023`, soit votre numéro INE.  
 
 
 2. Changez votre mot de passe (Page d'accueil > Paramètres généraux > Modifier le mot de passe) et reconnectez-vous.
@@ -121,7 +121,7 @@ serveur du reste du code PHP.
        // A l'IUT, c'est votre login
        // Sur votre machine, vous avez surement un compte 'root'
        'login' => 'a_remplir',
-       // A l'IUT, c'est votre mdp (INE par defaut)
+       // A l'IUT, c'est le même mdp que PhpMyAdmin
        // Sur votre machine personelle, vous avez creez ce mdp a l'installation
        'password' => 'a_remplir'
      );
@@ -255,7 +255,7 @@ class Model {
     // getInstance s'assure que le constructeur ne sera 
     // appelé qu'une seule fois.
     // L'unique instance crée est stockée dans l'attribut $instance
-    private static function getInstance() {
+    private static function getInstance() : Model {
         // L'attribut statique $pdo s'obtient avec la syntaxe Model::$pdo 
         // au lieu de $this->pdo pour un attribut non statique
         if (is_null(Model::$instance))
@@ -266,35 +266,21 @@ class Model {
 }
 ```
 
-**Remarques :**
-* Quand un attribut est statique, il s'accède par une syntaxe
+**Remarque :** Quand un attribut est statique, il s'accède par une syntaxe
   `NomClasse::$nomVar` comme indiqué précédemment. 
-  <!-- CHANGER ICI ??? plus de static:: ??? -->
-* Quand un attribut statique est appelé avec `NomClasse::$nomVar`,
-  on peut récupérer le type `NomClasse` à l'aide du mot clé `static`.
-<!-- * On ne peut pas appeler le constructeur avec `new Model(...)` car la 
-  classe `Model` est en cours de déclaration et n'existe pas encore. 
-  Il faut donc utiliser `new static(...)`. -->
-<!-- * Le seul accès possible à la classe `Model` est d'appeler la méthode statique
-  `Model::getPdo()` qui renvoie l'unique objet `Model`. L'unicité est garantie
-  par `getInstance` qui n'appelle qu'une fois le constructeur. Comme le constructeur 
-  est privé, il ne peut pas non plus être appelé en dehors de la classe. -->
-<!-- * Le type de la classe en cours de déclaration s'obtient avec le mot clé `self`.
-  Autrement dit, le code entre les accolades de `class Model { ... }` doit appeler `self`
-  à la place `Model`. -->
 
 <div class="exercise">
 
 1. Mettez à jour votre classe `Model` pour qu'elle suive le design pattern *Singleton*.
-1. Mettez à jour `testModel.php` et vérifiez que tout marche bien.
-1. Pour que PhpStorm comprenne que `Model::getPdo()` renvoie un objet de la classe `PDO`,
+2. Mettez à jour `testModel.php` et vérifiez que tout marche bien.
+3. Pour que PhpStorm comprenne que `Model::getPdo()` renvoie un objet de la classe `PDO`,
    et qu'il puisse nous proposer l'autocomplétion des méthodes de cette classe, nous devons déclarer
    le type de retour.  
    Si ce n'est pas déjà fait, **déclarez** que l'attribut `$pdo` et la valeur de retour de `Model::getPdo()` sont de type
    `PDO`.  
    **Vérifiez** que l'autocomplétion de PhpStorm s'est améliorée dans `testModel.php`.
 
-1. **Déclarez** que l'attribut `$instance` et la valeur de retour de `Model::getInstance()` sont de type
+4. **Déclarez** que l'attribut `$instance` et la valeur de retour de `Model::getInstance()` sont de type
    `Model`.  
    L'IDE indique un problème : L'attribut `$instance` est initialisé à `null`, qui n'est pas de type
    `Model` en PHP (contrairement à Java), mais de type `null`.  

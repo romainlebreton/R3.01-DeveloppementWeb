@@ -234,8 +234,9 @@ dans lequel la chronologie de toutes modifications pourront être enregistrées.
 1. Créons un dépôt Git sur GitLab (ou GitHub si vous y avez vos habitudes).
 
    1. Allez sur le [GitLab de
-   l'IUT](https://gitlabinfo.iutmontp.univ-montp2.fr/) et créez un nouveau
-   projet `TD-PHP`. 
+   l'IUT](https://gitlabinfo.iutmontp.univ-montp2.fr/), connectez-vous avec vos
+   login / mot de passe de l'IUT (comme pour accéder aux machines) et créez un
+   nouveau projet `TD-PHP`. 
    1. Récupérez l'adresse de votre projet dans le bouton `Clone`.
 
    **Note :** Vous pouvez utiliser HTTPS ou SSH pour vous connecter. Nous vous
@@ -291,6 +292,13 @@ dans lequel la chronologie de toutes modifications pourront être enregistrées.
    ```
 
    Elle nous dit que le suivi des modifications n'est pas activé pour le dossier `TD1`.
+
+1. Avant de versionner le dossier `TD1`, demandons à *Git* d'ignorer les
+   fichiers générés par PhpStorm (dossier `.idea`). Pour ceci, créez un fichier `TD1/.gitignore` contenant le texte suivant
+
+   ```
+   /.idea/
+   ```
 
 1. **Exécutez** la commande `git add TD1` pour suivre les modifications de tous
    les fichiers dans le répertoire `TD1`.
