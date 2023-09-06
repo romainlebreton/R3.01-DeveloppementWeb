@@ -242,9 +242,9 @@ Voici le squelette d'un singleton :
 class Model {
     private static $instance = null;
 
-    private $pdo;
+    private PDO $pdo;
 
-    public static function getPdo() {
+    public static function getPdo(): PDO {
         return Model::getInstance()->pdo;
     }
 
