@@ -235,8 +235,8 @@ dans lequel la chronologie de toutes modifications pourront être enregistrées.
 
    1. Allez sur le [GitLab de
    l'IUT](https://gitlabinfo.iutmontp.univ-montp2.fr/), connectez-vous avec vos
-   login / mot de passe de l'IUT (comme pour accéder aux machines) et créez un
-   nouveau projet `TD-PHP`. 
+   login / mot de passe de l'IUT (comme pour accéder aux machines).
+   1. Créez un nouveau projet *blanc* `TD-PHP`. Pour le *groupe ou namespace*, choisissez votre nom d'utilisateur qui est tout en bas de la liste.
    1. Récupérez l'adresse de votre projet dans le bouton `Clone`.
 
    **Note :** Vous pouvez utiliser HTTPS ou SSH pour vous connecter. Nous vous
@@ -467,6 +467,18 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
 
   ```php?start_inline=1
   $utilisateur[] = "Nouvelle valeur";
+  ```
+
+* Pour le remplacement de variable dans des chaînes de caractères délimités par
+  des guillemets doubles, on utilise une des syntaxes suivantes
+
+  ```php
+  // Syntaxe avec {$...}
+  echo "Je m'appelle {$utilisateur['nom']}";
+  echo "Je m'appelle {$utilisateur["nom"]}";
+  // Syntaxe simplifiée
+  // Attention, pas de guillemets autour de la clé "nom"
+  echo "Je m'appelle  $utilisateur[nom]";
   ```
 
 * Notez l'existence des boucles
