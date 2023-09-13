@@ -80,11 +80,11 @@ Vous aurez un exercice à la fin du TD pour simuler une injection SQL.
 
 ## Les requêtes préparées
 
-Imaginez que nous ayons codé une fonction `getVoitureParImmat($immatriculation)`
+Imaginez que nous ayons codé une fonction `getVoitureParImmatriculation($immatriculation)`
 comme suit
 
 ```php?start_inline=1
-function getVoitureParImmat($immatriculation) {
+function getVoitureParImmatriculation($immatriculation) {
     $sql = "SELECT * from voiture WHERE immatriculation='$immatriculation'";
     $pdoStatement = Model::getPdo()->query($sql);
     return $pdoStatement->fetch();
@@ -120,7 +120,7 @@ SQL
 Voici toutes ces étapes regroupées dans une fonction :
 
 ```php?start_inline=1
-function getVoitureParImmat(string $immatriculation) : Voiture {
+function getVoitureParImmatriculation(string $immatriculation) : Voiture {
     $sql = "SELECT * from voiture WHERE immatriculation = :immatriculationTag";
     // Préparation de la requête
     $pdoStatement = Model::getPdo()->prepare($sql);
@@ -150,12 +150,12 @@ d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 1. Copiez/collez dans un nouveau dossier TD3 les fichiers `Conf.php`,
    `Model.php`, `Voiture.php` et `lireVoiture.php`.
 
-1. Copiez la fonction précédente `getVoitureParImmat` dans la classe `Voiture`
+1. Copiez la fonction précédente `getVoitureParImmatriculation` dans la classe `Voiture`
    en la déclarant publique et statique.
 
-2. Testez la fonction `getVoitureParImmat` dans un nouveau fichier `testRequetePrepare.php`.
+2. Testez la fonction `getVoitureParImmatriculation` dans un nouveau fichier `testRequetePrepare.php`.
 
-3. On souhaite que `getVoitureParImmat` renvoie `null` s'il n'existe pas
+3. On souhaite que `getVoitureParImmatriculation` renvoie `null` s'il n'existe pas
    de voiture d'immatriculation `$immatriculation`. Mettez à jour le code
    et la déclaration de type. Testez votre code.
 
@@ -481,12 +481,12 @@ Ce fichier contient un formulaire qui affiche les informations d'une voiture
 **Lisez** le code pour être sûr de bien comprendre le fonctionnement de cette
   page (et demandez au professeur si vous ne comprenez pas tout !).
 
-1. Le point clé de ce fichier est que la fonction `getVoitureParImmat` a été
+1. Le point clé de ce fichier est que la fonction `getVoitureParImmatriculation` a été
    codée sans requête préparée et est vulnérable aux injections SQL.
 
    ```php?start_inline=1
-   function getVoitureParImmat(string $immat) : ?Voiture {
-      $sql = "SELECT * from voiture2 WHERE immatriculation='$immat'";
+   function getVoitureParImmatriculation(string $immatriculation) : ?Voiture {
+      $sql = "SELECT * from voiture2 WHERE immatriculation='$immatriculation'";
       echo "<p>J'effectue la requête <pre>\"$sql\"</pre></p>";
       $pdoStatement = Model::getPDO()->query($sql);
       $voitureTableau = $pdoStatement->fetch();
@@ -499,7 +499,7 @@ Ce fichier contient un formulaire qui affiche les informations d'une voiture
    ```
 
    **Trouvez** ce qu'il faut taper dans le formulaire pour que
-     `getVoitureParImmat` vide la table `voiture2` (SQL Truncate).
+     `getVoitureParImmatriculation` vide la table `voiture2` (SQL Truncate).
 
 <!--
 '; TRUNCATE voiture2; --
@@ -563,7 +563,7 @@ enlèvera l'utilisateur courant du trajet sélectionné.
 Traitons plus systématiquement tous les cas particuliers. Pour l'instant, 
 les méthodes suivantes sont correctement codés :
 * `getVoitures()` de `Voiture.php` n'a pas de cas particulier,
-* `getVoitureParImmat()` de `Voiture.php` gère une immatriculation inconnue en renvoyant la voiture `null`.
+* `getVoitureParImmatriculation()` de `Voiture.php` gère une immatriculation inconnue en renvoyant la voiture `null`.
 
 Par contre, vous allez améliorer les méthodes suivantes :
 * `sauvegarder()` de `Voiture.php` ne traite pas :

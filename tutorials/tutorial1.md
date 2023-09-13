@@ -815,8 +815,8 @@ function ServeurWeb(Requete $requete) : Reponse {
      <fieldset>
        <legend>Mon formulaire :</legend>
        <p>
-         <label for="immat_id">Immatriculation</label> :
-         <input type="text" placeholder="256AB34" name="immatriculation" id="immat_id" required/>
+         <label for="immatriculation_id">Immatriculation</label> :
+         <input type="text" placeholder="256AB34" name="immatriculation" id="immatriculation_id" required/>
        </p>
        <p>
          <input type="submit" value="Envoyer" />

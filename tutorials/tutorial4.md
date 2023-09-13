@@ -5,12 +5,6 @@ layout: tutorial
 lang: fr
 ---
 
-<!--
-Simplifier les noms :
-controller/Voiture.php qui définit ControllerVoiture.php
-et model/Voiture.php qui définit ModelVoiture.php
--->
-
 Au fur et à mesure que votre site Web grandit, vous allez rencontrer des
 difficultés à organiser votre code. Les prochains TDs visent à vous montrer une
 bonne façon de concevoir votre site web. On appelle *architectural pattern*
@@ -43,7 +37,7 @@ expliquer le fonctionnement sur l'exemple de la page `lireVoiture.php` du TD2 :
         require_once 'Voiture.php';
         $voitures = Voiture::getVoitures();
         foreach ($voitures as $voiture)
-          $voiture->afficher();
+          echo $voiture;
         ?>
     </body>
 </html>
@@ -61,13 +55,13 @@ class Voiture {
     private string $immatriculation;
     private int $nbSieges;
 
-  public function __construct($marque, $couleur, $immatriculation, $nbSieges) { ... }
+  public function __construct(string $marque, ...) { ... }
 
-  public function afficher() { ... }
+  public function __toString()() { ... }
 
   public static function getVoitures() { ... }
 
-  public static function getVoitureParImmat($immatriculation) { ... }
+  public static function getVoitureParImmatriculation(string $immatriculation) { ... }
 
   public function sauvegarder() { ... }
 }
@@ -77,30 +71,40 @@ class Voiture {
 L'architecture **MVC** est une manière de découper le code en trois bouts M, V et C
 ayant des fonctions bien précises. Dans notre exemple, l'ancien fichier
 `lireVoiture.php` va être réparti entre le contrôleur
-`controller/ControllerVoiture.php`, le modèle `model/ModelVoiture.php` et la vue
-`view/voiture/list.php`.
+`Controleur/ControleurVoiture.php`, le modèle `Modele/ModeleVoiture.php` et la vue
+`vue/voiture/liste.php`.
 
 Voici un aperçu de tous les fichiers que nous allons créer dans ce TD.
 
 <img alt="Structure de nos fichiers"
-src="../assets/RepStructure.png" style="margin-left:auto;margin-right:auto;display:block;width:12em;">
+src="../assets/TD4/StructureRepertoire.png" style="margin-left:auto;margin-right:auto;display:block;width:14em;">
 
+**Conventions de nommage :**
+1. Les noms des fichiers PHP de déclaration de classe commencent par une majuscule, les autres non.
+2. Les noms des répertoires qui contiennent des déclarations de classe PHP commencent par une majuscule, les autres non.
+3. On privilégie le français dans les noms de classe, de fichiers, de fonctions... 
 
 ### M : Le modèle
 
 Le modèle est chargé de la gestion des données, notamment des interactions avec
 la base de données. C'est, par exemple, la classe `Voiture` que vous avez créé
-lors des TDs précédents (sauf la fonction `afficher()` et/ou `__toString()`).
+lors des TDs précédents (sauf la fonction `__toString()`).
 
 <div class="exercise">
 
-1. Créez les répertoires `config`, `controller`, `model`, `view` et `view/voiture`.
-1. Utilisez l'outil de refactoring de votre IDE et renommez la classe `Voiture` en `ModelVoiture`.
-    Vérifiez que les déclarations de type ont bien été mises à jour partout dans votre code.
-    Mettez en commentaire la fonction `afficher()` et/ou `__toString()` pour la désactiver.
-1. Déplacez vos fichiers `ModelVoiture.php` et `Model.php` dans le répertoire `model/`.
-1. Déplacez `Conf.php` dans le dossier `config`.
-1. Corrigez le chemin relatif du `require_once` du fichier `Conf.php` dans `Model.php`.
+1. Créez les répertoires `Configuration`, `Controleur`, `Modele`, `vue` et `vue/voiture`.
+2. Utilisez l'outil de refactoring de votre IDE pour renommer : 
+   1. la classe `Voiture` en `ModeleVoiture`, 
+   2. la classe `Model` en `Modele`,
+   3. la classe `Conf` en `Configuration`.  
+   
+   Vérifiez que les déclarations de type ont bien été mises à jour partout dans votre code.  
+   Mettez en commentaire la fonction `__toString()` pour la désactiver.
+
+   **Aide pour le *refactoring*** : Clic droit sur le fichier de déclaration de classe à renommer à PhpStorm, puis *Refactor* → *Rename*.
+3. Déplacez vos fichiers `ModeleVoiture.php` et `Model.php` dans le répertoire `Modele/`.
+4. Déplacez la classe `Configuration` dans le dossier `Configuration`.
+5. Corrigez le chemin relatif du `require_once` du fichier `Configuration.php` dans `Modele.php`.
 
 </div>
 
@@ -108,16 +112,16 @@ lors des TDs précédents (sauf la fonction `afficher()` et/ou `__toString()`).
   copier. Avoir plusieurs copies de vos classes et fichiers est source d'erreur
   difficile à déboguer.
 
-Dans notre cas, la nouvelle classe `ModelVoiture` gère la persistance au travers
+Dans notre cas, la nouvelle classe `ModeleVoiture` gère la persistance au travers
 des méthodes :
 
 ```php?start_inline=1
  $voiture->sauvegarder();
- ModelVoiture::getVoitureParImmat($immatriculation);
- ModelVoiture::getVoitures();
+ ModeleVoiture::getVoitureParImmatriculation($immatriculation);
+ ModeleVoiture::getVoitures();
 ```
 
-**N.B. :** Souvenez-vous que les deux dernières fonctions `getVoitureParImmat`
+**N.B. :** Souvenez-vous que les deux dernières fonctions `getVoitureParImmatriculation`
 et `getVoitures` sont `static`. Elles ne dépendent donc que de
 leur classe (et non pas des objets instanciés). D'où la syntaxe différente
 `NomClasse::nomMethodeStatique()` pour les appeler.
@@ -131,7 +135,7 @@ contiennent quasiment exclusivement que du code HTML, à l'exception de quelques
 boucle `for` est toutefois autorisée pour les vues qui affichent une liste
 d'éléments. **La vue n'effectue pas de traitement, de calcul**.
 
-Dans notre exemple, la vue serait le fichier `view/voiture/list.php`
+Dans notre exemple, la vue serait le fichier `vue/voiture/liste.php`
 suivant. Le code de ce fichier permet d'afficher une page Web contenant toutes
 les voitures contenues dans la variable `$voitures`.
 
@@ -153,7 +157,7 @@ les voitures contenues dans la variable `$voitures`.
 
 <div class="exercise">
 
-Créez la vue `view/voiture/list.php` avec le code précédent.
+Créez la vue `vue/voiture/liste.php` avec le code précédent.
 
 </div>
 
@@ -172,38 +176,38 @@ Il existe une multitude d'implémentations du **MVC** :
 1. un contrôleur pour chaque action de chaque modèle
 
 Nous choisissons ici la version intermédiaire et commençons à créer un
-contrôleur pour `ModelVoiture`. Voici le contrôleur
-`controller/ControllerVoiture.php` sur notre exemple :
+contrôleur pour `ModeleVoiture`. Voici le contrôleur
+`Controleur/ControleurVoiture.php` sur notre exemple :
 
 ```php
 <?php
-require_once ('../model/ModelVoiture.php'); // chargement du modèle
-$voitures = ModelVoiture::getVoitures();     //appel au modèle pour gerer la BD
-require ('../view/voiture/list.php');  //redirige vers la vue
+require_once ('../Modele/ModeleVoiture.php'); // chargement du modèle
+$voitures = ModeleVoiture::getVoitures();     //appel au modèle pour gerer la BD
+require ('../vue/voiture/liste.php');  //redirige vers la vue
 ?>
 ```
 
 
 Notre contrôleur se décompose donc en plusieurs parties :
 
-1. On charge la déclaration de la classe `ModelVoiture` ;
+1. On charge la déclaration de la classe `ModeleVoiture` ;
 3. on se sert du modèle pour récupérer le tableau de toutes les voitures avec
 `$voitures = Voiture::getVoitures();`
 4. on appelle alors la vue qui va nous générer la page Web avec
-`require ('../view/voiture/list.php');`
+`require ('../vue/voiture/liste.php');`
 
 **Notes :**
 
 * **Pourquoi `../` ?** Les adresses sont relatives au fichier courant qui est
-`controller/ControllerVoiture.php` dans notre cas.
+`Controleur/ControleurVoiture.php` dans notre cas.
 * Notez bien que c'est le contrôleur qui initialise la variable `$voitures` et que
 la vue ne fait que lire cette variable pour générer la page Web.
 
 <div class="exercise">
 
-1. Créez le contrôleur `controller/ControllerVoiture.php` avec le code précédent.
+1. Créez le contrôleur `Controleur/ControleurVoiture.php` avec le code précédent.
 2. Testez votre page en appelant l'URL
-[.../controller/ControllerVoiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD4/controller/ControllerVoiture.php)
+[.../Controleur/ControleurVoiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD4/Controleur/ControleurVoiture.php)
 3. Prenez le temps de comprendre le **MVC** sur cet exemple.
    Avez-vous compris l'ordre dans lequel PHP exécute votre code ?
    Est-ce que ce code vous semble similaire à l'ancien fichier
@@ -217,22 +221,22 @@ la vue ne fait que lire cette variable pour générer la page Web.
 ### Le routeur : un autre composant du contrôleur
 
 Un contrôleur doit en fait gérer plusieurs pages. Dans notre exemple, il doit
-gérer toutes les pages liées au modèle `ModelVoiture`. Du coup, on regroupe le
+gérer toutes les pages liées au modèle `ModeleVoiture`. Du coup, on regroupe le
 code de chaque page Web dans une fonction, et on met le tout dans une classe
 contrôleur.
 
-Voici à quoi va ressembler notre contrôleur `ControllerVoiture.php`. On
-reconnaît dans la fonction `readAll` le code précédent qui affiche toutes les
+Voici à quoi va ressembler notre contrôleur `ControleurVoiture.php`. On
+reconnaît dans la fonction `afficherListe` le code précédent qui affiche toutes les
 voitures.
 
 ```php
 <?php
-require_once ('../model/ModelVoiture.php'); // chargement du modèle
-class ControllerVoiture {
+require_once ('../Modele/ModeleVoiture.php'); // chargement du modèle
+class ControleurVoiture {
     // Déclaration de type de retour void : la fonction ne retourne pas de valeur
-    public static function readAll() : void {
-        $voitures = ModelVoiture::getVoitures(); //appel au modèle pour gerer la BD
-        require ('../view/voiture/list.php');  //"redirige" vers la vue
+    public static function afficherListe() : void {
+        $voitures = ModeleVoiture::getVoitures(); //appel au modèle pour gerer la BD
+        require ('../vue/voiture/liste.php');  //"redirige" vers la vue
     }
 }
 ?>
@@ -241,32 +245,32 @@ class ControllerVoiture {
 
 On appelle *action* une fonction du contrôleur ; une action correspond
 généralement à une page Web. Dans notre exemple du contrôleur
-`ControllerVoiture`, nous allons bientôt rajouter les actions qui correspondent
+`ControleurVoiture`, nous allons bientôt rajouter les actions qui correspondent
 aux pages suivantes :
 
-1. afficher toutes les voitures : action `readAll`
-2. afficher les détails d'une voiture : action `read`
-3. afficher le formulaire de création d'une voiture : action `create`
-3. créer une voiture dans la BDD et afficher un message de confirmation : action `created`
-4. supprimer une voiture et afficher un message de confirmation : action `delete`
+1. afficher toutes les voitures : action `afficherListe`
+2. afficher les détails d'une voiture : action `afficherDetail`
+3. afficher le formulaire de création d'une voiture : action `afficherFormulaireCreation`
+3. créer une voiture dans la BDD et afficher un message de confirmation : action `creerDepuisFormulaire`
+<!-- 4. supprimer une voiture et afficher un message de confirmation : action `delete` -->
 
 Pour recréer la page précédente, il manque encore un bout de code qui appelle la
-méthode `ControllerVoiture::readAll()`. Le *routeur* est la partie du contrôleur
+méthode `ControleurVoiture::afficherListe()`. Le *routeur* est la partie du contrôleur
 qui s'occupe d'appeler l'action du contrôleur. Un routeur simpliste serait le
-fichier suivant `controller/routeur.php` :
+fichier suivant `Controleur/routeur.php` :
 
 ```php
 <?php
-require_once 'ControllerVoiture.php';
-ControllerVoiture::readAll(); // Appel de la méthode statique $action de ControllerVoiture
+require_once 'ControleurVoiture.php';
+ControleurVoiture::afficherListe(); // Appel de la méthode statique $action de ControleurVoiture
 ?>
 ```
 
 <div class="exercise">
-1. Modifiez le code de `ControllerVoiture.php` et créez le fichier
-   `controller/routeur.php` pour correspondre au code ci-dessus ;
+1. Modifiez le code de `ControleurVoiture.php` et créez le fichier
+   `Controleur/routeur.php` pour correspondre au code ci-dessus ;
 2. Testez la nouvelle architecture en appelant la page
-[.../controller/routeur.php](http://webinfo/~mon_login/PHP/TD4/controller/routeur.php).
+[.../Controleur/routeur.php](http://webinfo/~mon_login/PHP/TD4/Controleur/routeur.php).
 3. Prenez le temps de comprendre le **MVC** sur cet exemple.
    Avez-vous compris l'ordre dans lequel PHP exécute votre code ?
 </div>
@@ -276,36 +280,36 @@ ControllerVoiture::readAll(); // Appel de la méthode statique $action de Contro
 Le code précédent marche sauf que le client doit pouvoir choisir quelle action
 est-ce qu'il veut effectuer. Du coup, il va faire une requête pour la page
 `routeur.php`, mais en envoyant l'information qu'il veut que `action` soit égal à
-`readAll`. Pour transmettre ces données à la page du routeur, nous allons les
+`afficherListe`. Pour transmettre ces données à la page du routeur, nous allons les
 écrire dans l'URL avec la syntaxe du *query string* (cf. [**rappel** sur query
 string dans le cours
 1]({{site.baseurl}}/classes/class1.html#les-query-strings-dans-lurl)).
 
 De son côté, le routeur doit récupérer l'action envoyée et appeler la méthode
 correspondante du contrôleur. Pour appeler la méthode statique de
-`ControllerVoiture` dont le nom se trouve dans la variable `$action`, le PHP
-peut faire comme suit. Voici le fichier `controller/routeur.php` mis à jour :
+`ControleurVoiture` dont le nom se trouve dans la variable `$action`, le PHP
+peut faire comme suit. Voici le fichier `Controleur/routeur.php` mis à jour :
 
 ```php
 <?php
-require_once 'ControllerVoiture.php';
+require_once 'ControleurVoiture.php';
 // On recupère l'action passée dans l'URL
 $action = ...;
-// Appel de la méthode statique $action de ControllerVoiture
-ControllerVoiture::$action();
+// Appel de la méthode statique $action de ControleurVoiture
+ControleurVoiture::$action();
 ?>
 ```
 
 <div class="exercise">
 
-1. Modifiez le code `controller/routeur.php` pour correspondre au code ci-dessus
+1. Modifiez le code `Controleur/routeur.php` pour correspondre au code ci-dessus
    en remplissant vous-même la ligne 4. Si vous ne vous souvenez plus comment
    extraire un paramètre d'une URL,
    [relisez la partie sur le query string dans le cours
    1.]({{site.baseurl}}/classes/class1.html#les-query-strings-dans-lurl)
 1. Testez la nouvelle architecture en appelant la page
-   [.../controller/routeur.php](http://webinfo/~mon_login/PHP/TD4/controller/routeur.php)
-   en rajoutant l'information que `action` est égal à `readAll` dans l'URL au
+   [.../Controleur/routeur.php](http://webinfo/~mon_login/PHP/TD4/Controleur/routeur.php)
+   en rajoutant l'information que `action` est égal à `afficherListe` dans l'URL au
    format *query string*.
 3. Prenez le temps de comprendre le **MVC** sur cet exemple.
    Avez-vous compris l'ordre dans lequel PHP exécute votre code ?
@@ -317,50 +321,50 @@ ControllerVoiture::$action();
 
 #### Solutions
 
-Voici le déroulé de l'exécution du routeur pour l'action `readAll` :
+Voici le déroulé de l'exécution du routeur pour l'action `afficherListe` :
 
 1. Le client demande l'URL
-[.../controller/routeur.php?action=readAll](http://webinfo/~mon_login/PHP/TD4/controller/routeur.php?action=readAll).
+[.../Controleur/routeur.php?action=afficherListe](http://webinfo/~mon_login/PHP/TD4/Controleur/routeur.php?action=afficherListe).
 1. Le routeur récupère l'action donnée par l'utilisateur dans l'URL avec
-   `$action = $_GET['action'];` (donc `$action="readAll"`)
-2. le routeur appelle la méthode statique `readAll` de `ControllerVoiture.php`
-3. `ControllerVoiture.php` se sert du modèle pour récupérer le tableau de toutes les voitures ;
-4. `ControllerVoiture.php` appelle alors la vue qui va nous générer la page Web.
+   `$action = $_GET['action'];` (donc `$action="afficherListe"`)
+2. le routeur appelle la méthode statique `afficherListe` de `ControleurVoiture.php`
+3. `ControleurVoiture.php` se sert du modèle pour récupérer le tableau de toutes les voitures ;
+4. `ControleurVoiture.php` appelle alors la vue qui va nous générer la page Web.
 
 
 ## À vous de jouer
 
 ### Vue "détail d'une voiture"
 
-Comme la page qui liste toutes les voitures (action `readAll`) ne donne pas
+Comme la page qui liste toutes les voitures (action `afficherListe`) ne donne pas
 toutes les informations, nous souhaitons créer une page de détail dont le rôle
 sera d'afficher toutes les informations de la voiture. Cette action aura besoin
 de connaître l'immatriculation de la voiture visée ; on utilisera encore le
 *query string* pour passer l'information dans l'URL en même temps que l'action :
-[.../routeur.php?action=read&immat=AAA111BB](http://webinfo/~mon_login/PHP/TD4/controller/routeur.php?action=read&immat=AAA11BB)
+[.../routeur.php?action=afficherDetail&immatriculation=AAA111BB](http://webinfo/~mon_login/PHP/TD4/Controleur/routeur.php?action=afficherDetail&immatriculation=AAA11BB)
 
 <div class="exercise">
 
-1. Créez une vue `./view/voiture/detail.php` qui doit afficher tous les
+1. Créez une vue `./vue/voiture/detail.php` qui doit afficher tous les
    détails de la voiture stockée dans `$voiture` de la même manière que l'ancienne
-   fonction `afficher()` (encore commentée dans `ModelVoiture`).
+   fonction `__toString()` (encore commentée dans `ModeleVoiture`).
    **Note :** La variable `$voiture` sera initialisée dans le contrôleur plus tard,
    *cf.* `$voitures` dans l'exemple précédent.
 
-1. Rajoutez une action `read` au contrôleur `ControllerVoiture.php`. Cette
+1. Rajoutez une action `afficherDetail` au contrôleur `ControleurVoiture.php`. Cette
    action devra récupérer l'immatriculation donnée dans l'URL, appeler la
-   fonction `getVoitureParImmat()` du modèle, mettre la voiture visée dans la
+   fonction `getVoitureParImmatriculation()` du modèle, mettre la voiture visée dans la
    variable `$voiture` et appeler la vue précédente.
 
 2. Testez cette vue en appelant la page du routeur avec les bons paramètres dans
 l'URL.
 
-3. Rajoutez des liens cliquables `<a>` sur les immatriculations de la vue `list.php`
+3. Rajoutez des liens cliquables `<a>` sur les immatriculations de la vue `liste.php`
    qui renvoient sur la vue de détail de la voiture concernée.
 
 4. On souhaite gérer les immatriculations non reconnues : Créez une vue
-   `./view/voiture/error.php` qui affiche un message d'erreur et renvoyez vers
-   cette vue si `getVoitureParImmat()` ne trouve pas de voiture qui correspond à
+   `./vue/voiture/erreur.php` qui affiche un message d'erreur et renvoyez vers
+   cette vue si `getVoitureParImmatriculation()` ne trouve pas de voiture qui correspond à
    cette immatriculation.
 
 </div>
@@ -369,34 +373,34 @@ l'URL.
 
 Actuellement, le chargement d'une vue se fait à l'aide du code 
 ```php?start_inline=1
-require ('../view/voiture/list.php');
+require ('../vue/voiture/liste.php');
 ```
-On peut légitimement se demander comment le script `list.php` accède à la variable locale `$voitures` de  
-`ControllerVoiture::readAll()`. C'est parce que `require` a pour effet
-de "copier/coller" les instructions du `list.php` dans la méthode `ControllerVoiture::readAll()`.
+On peut légitimement se demander comment le script `liste.php` accède à la variable locale `$voitures` de
+`ControleurVoiture::afficherListe()`. C'est parce que `require` a pour effet
+de "copier/coller" les instructions du `liste.php` dans la méthode `ControleurVoiture::afficherListe()`.
 
 Cela pose plusieurs problèmes :
-1. la vue a accès à toutes les variables accessibles dans `ControllerVoiture::readAll()`,
+1. la vue a accès à toutes les variables accessibles dans `ControleurVoiture::afficherListe()`,
 1. la manière de procéder du `require` est très éloignée d'un code orienté-objet propre.
 
 <div class="exercise">
 
-1. Créez dans `ControllerVoiture.php` une méthode 
+1. Créez dans `ControleurVoiture.php` une méthode 
    ```php?start_inline=1
-   private static function afficheVue(string $cheminVue, array $parametres = []) : void {
+   private static function afficherVue(string $cheminVue, array $parametres = []) : void {
       extract($parametres); // Crée des variables à partir du tableau $parametres
-      require "../view/$cheminVue"; // Charge la vue
+      require "../vue/$cheminVue"; // Charge la vue
    }
    ```
    dont le rôle est d'afficher la vue qui se trouve au chemin `$cheminVue`. L'argument `$parametres`
    sert à définir quelles variables existeront lors de l'exécution de la vue. Par exemple, si
    vous appelez
    ```php?start_inline=1
-   ControllerVoiture::afficheVue('voiture/detail.php', [
+   ControleurVoiture::afficherVue('voiture/detail.php', [
       "voitureEnParametre" => new Voiture("Fiat", "Bleu", "AB123CD", 5)
    ]);
    ```
-   alors `afficheVue` affichera la vue `view/voiture/detail.php`, qui aura accès uniquement à la variable
+   alors `afficherVue` affichera la vue `vue/voiture/detail.php`, qui aura accès uniquement à la variable
    `$voitureEnParametre` qui vaut `new Voiture("Fiat", "Bleu", "AB123CD", 5)`. 
    
    Remarques :
@@ -404,13 +408,13 @@ Cela pose plusieurs problèmes :
    * La création des variables est faite par la fonction 
    [`extract`](https://www.php.net/manual/fr/function.extract.php) fournie par PHP.
 
-   * La syntaxe `$parametres = []` dans la déclaration de `afficheVue` indique que l'argument
+   * La syntaxe `$parametres = []` dans la déclaration de `afficherVue` indique que l'argument
    `$parametres` est optionnel. S'il n'est pas fourni, alors il prendra la valeur par défaut
    `[]`.  
-    Ainsi, on peut appeler `ControllerVoiture::afficheVue('voiture/detail.php')`, ce qui est un 
-    raccourci pour `ControllerVoiture::afficheVue('voiture/detail.php', [])`.
+    Ainsi, on peut appeler `ControleurVoiture::afficherVue('voiture/detail.php')`, ce qui est un 
+    raccourci pour `ControleurVoiture::afficherVue('voiture/detail.php', [])`.
 
-1. Remplacez tous les `require ('../view/voiture/xxx.php');` par des appels à `afficheVue()`.
+1. Remplacez tous les `require ('../vue/voiture/xxx.php');` par des appels à `afficherVue()`.
    Testez que tout fonctionne.
 
 </div>
@@ -418,42 +422,42 @@ Cela pose plusieurs problèmes :
 
 ### Vue "ajout d'une voiture"
 
-Nous allons créer deux actions `create` et `created` qui doivent respectivement
+Nous allons créer deux actions `afficherFormulaireCreation` et `creerDepuisFormulaire` qui doivent respectivement
 afficher un formulaire de création d'une voiture et effectuer l'enregistrement
 dans la BDD.
 
 <div class="exercise">
 
-1. Commençons par l'action `create` qui affichera le formulaire :
-   1. Créez la vue `./view/voiture/create.php` qui reprend le code de
+1. Commençons par l'action `afficherFormulaireCreation` qui affichera le formulaire :
+   1. Créez la vue `./vue/voiture/formulaireCreation.php` qui reprend le code de
       `formulaireVoiture.html` fait dans le TD1.
-      La page de traitement de ce formulaire devra être l'action `created` du
+      La page de traitement de ce formulaire devra être l'action `creerDepuisFormulaire` du
       routeur `routeur.php`.
-   1. Rajoutez une action `create` à `ControllerVoiture.php` qui affiche cette
+   1. Rajoutez une action `afficherFormulaireCreation` à `ControleurVoiture.php` qui affiche cette
       vue.
-1. Testez votre page en appelant l'action `create` de `routeur.php`.
+1. Testez votre page en appelant l'action `afficherFormulaireCreation` de `routeur.php`.
 
-1. Créez l'action `created` dans le contrôleur qui devra
+1. Créez l'action `creerDepuisFormulaire` dans le contrôleur qui devra
 
    1. récupérer les donnés de la voiture à partir de la *query string*,
-   1. créer une instance de `ModelVoiture` avec les données reçues,
+   1. créer une instance de `ModeleVoiture` avec les données reçues,
    2. appeler la méthode `sauvegarder` du modèle,
-   3. appeler la fonction `readAll()` pour afficher le tableau de
+   3. appeler la fonction `afficherListe()` pour afficher le tableau de
       toutes les voitures.
 
-1. Testez l'action `created` de `routeur.php` en donnant
+1. Testez l'action `creerDepuisFormulaire` de `routeur.php` en donnant
    l'immatriculation, la marque, la couleur et le nombre de sièges dans l'URL.
 
 1. Testez le tout, c.-à-d. que la création de la voiture depuis le formulaire
-   (action `create`) appelle bien l'action `created` et que la voiture est bien
+   (action `afficherFormulaireCreation`) appelle bien l'action `creerDepuisFormulaire` et que la voiture est bien
    créée dans la BDD.
 
-   **Attention à l'envoi de `action=created` :** Vous souhaitez envoyer
-   l'information `action=created` en plus des informations saisies lors de
+   **Attention à l'envoi de `action=creerDepuisFormulaire` :** Vous souhaitez envoyer
+   l'information `action=creerDepuisFormulaire` en plus des informations saisies lors de
    l'envoi du formulaire. La bonne façon de faire est de rajouter un champ caché à votre formulaire :
 
    ```html?start_inline=1
-   <input type='hidden' name='action' value='created'>
+   <input type='hidden' name='action' value='creerDepuisFormulaire'>
    ```
    
    Si vous ne connaissez pas les `<input type='hidden'>`, allez lire
@@ -464,26 +468,7 @@ dans la BDD.
    vous pouvez rajouter l'information dans l'URL avec
 
       ```html?start_inline=1
-      <form method="post" action='routeur.php?action=created'>
+      <form method="post" action='routeur.php?action=creerDepuisFormulaire'>
       ```
    -->
-</div>
-
-## Et si le temps le permet...
-
-<div class="exercise">
-
-Dessinez sur un bout de papier un schéma qui explique comment le contrôleur (le
-routeur et la partie Voiture), le modèle et la vue interagissent pour créer la
-page qui correspond par exemple à l'action `read`.
-
-</div>
-
-<div class="exercise">
-
-Rajouter une fonctionnalité *"Supprimer une voiture"* en fonction de son
-immatriculation à votre site (action `delete`). Ajouter un lien cliquable pour
-supprimer chaque voiture dans la liste des voitures de la vue
-`view/voiture/list.php`.
-
 </div>
