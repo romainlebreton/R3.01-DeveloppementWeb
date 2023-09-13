@@ -84,7 +84,7 @@ Imaginez que nous ayons codé une fonction `getVoitureParImmatriculation($immatr
 comme suit
 
 ```php?start_inline=1
-function getVoitureParImmatriculation($immatriculation) {
+function getVoitureParImmat(string $immatriculation) {
     $sql = "SELECT * from voiture WHERE immatriculation='$immatriculation'";
     $pdoStatement = Model::getPdo()->query($sql);
     return $pdoStatement->fetch();
@@ -423,7 +423,7 @@ pouvez vous rafraîchir la mémoire en lisant
 
 <div class="exercise">
 
-1. Créer une fonction `public static function getPassagers($id)` dans `Trajet.php` qui
+1. Créer une fonction `public static function getPassagers(int $id): array` dans `Trajet.php` qui
    prendra en entrée un identifiant de trajet. Cette fonction devra retourner un
    tableau d'objets de classe `Utilisateur` correspondant aux utilisateurs
    inscrits au trajet d'identifiant `$id` en faisant la requête adéquate.
@@ -530,7 +530,7 @@ De la même manière que dans l'exercice sur `getPassagers()`, utilisons une joi
 
 <div class="exercise">
 
-1. Créez une `public static function getTrajets($login)`
+1. Créez une `public static function getTrajets(string $login): array`
 dans `Utilisateur.php` qui prendra en entrée un login d'utilisateur `$login` et
 retourne les trajets auxquels il est inscrit en tant que passager.
 
@@ -547,7 +547,7 @@ enlèvera l'utilisateur courant du trajet sélectionné.
 
 <div class="exercise">
 
-1. Créer une `public static function supprimerPassager($trajetId, $passagerLogin)` dans `Trajet.php`.
+1. Créer une `public static function supprimerPassager(int $trajetId, string $passagerLogin):void` dans `Trajet.php`.
    Cette fonction devra désinscrire l'utilisateur `passagerLogin` du trajet `trajetId`.
 
 2. Créez une page de test `testSupprimerPassager.php` et un formulaire
