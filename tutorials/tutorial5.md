@@ -92,7 +92,7 @@ relatifs dans nos
 `require_once`, c'est que comme ils sont tous copiés/collés dans `routeur.php`, ils
 utilisent le dossier du routeur comme base.
 
-Prenons l'exemple de `require_once '../Configuration/Configuration.php'` dans `Modele.php` :
+Prenons l'exemple de `require_once '../Configuration/Configuration.php'` dans `ConnexionBaseDeDonnee.php` :
 * Avant cette adresse était relative à `/chemin_du_site/Controleur/routeur.php`, donc elle 
   pointait vers `/chemin_du_site/Controleur/../Configuration/Configuration.php`, donc sur
 `/chemin_du_site/Configuration/Configuration.php`
@@ -100,9 +100,9 @@ Prenons l'exemple de `require_once '../Configuration/Configuration.php'` dans `M
 va renvoyer vers l'adresse inconnue `/chemin_du_site/web/../Configuration/Configuration.php`, c.-à-d. `/chemin_du_site/Configuration/Configuration.php`.
 
 Pour éviter ce comportement qui porte à confusion, nous allons utiliser des chemins
-de fichiers absolus. Pour ce faire, nous utiliserons la constante [`__DIR__`](https://www.php.net/manual/fr/language.constants.magic.php) qui contient le chemin absolu du dossier contenant le fichier actuel. Par exemple, nous pouvons écrire dans `Modele.php`
+de fichiers absolus. Pour ce faire, nous utiliserons la constante [`__DIR__`](https://www.php.net/manual/fr/language.constants.magic.php) qui contient le chemin absolu du dossier contenant le fichier actuel. Par exemple, nous pouvons écrire dans `ConnexionBaseDeDonnee.php`
 ```php
-// __DIR__ renvoie vers le dossier contenant Modele.php
+// __DIR__ renvoie vers le dossier contenant ConnexionBaseDeDonnee.php
 // c-à-d ici __DIR__ égal "/chemin_du_site/Modele"
 require_once __DIR__ . '/../Configuration/Configuration.php';
 ```
@@ -200,9 +200,9 @@ l'équivalent des `package` en Java.
    **Attention :** Les espaces de nom utilisent des antislashs `\`, tandis que 
    les chemins de fichiers Linux/Mac utilisent des slashs `/`.
 
-1. Le site est de nouveau cassé : `Modele.php` ne connait pas la classe `Configuration`.
+1. Le site est de nouveau cassé : `ConnexionBaseDeDonnee.php` ne connait pas la classe `Configuration`.
    En effet, cette classe s'appelle désormais `App\Covoiturage\Configuration\Configuration`.  
-   **Complétez** le nom de la classe `Configuration` dans `Modele.php`. Le site Web doit refonctionner.
+   **Complétez** le nom de la classe `Configuration` dans `ConnexionBaseDeDonnee.php`. Le site Web doit refonctionner.
 
    **Note :** Vous ne devez pas toucher au `require_once`, mais plutôt changer les appels à des méthodes statiques de la classe `Configuration`. 
 
@@ -216,7 +216,7 @@ l'équivalent des `package` en Java.
    use App\Covoiturage\Configuration\Configuration;
    ```
 
-   **Raccourcissez** les noms de classe dans `Modele.php` grâce à cet alias.
+   **Raccourcissez** les noms de classe dans `ConnexionBaseDeDonnee.php` grâce à cet alias.
 
    **Remarques :**
    * `use` est similaire à `import` en Java. 
@@ -304,7 +304,7 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
    fichier `src/Configuration/Configuration.php`.  
    <!-- **Renommez** le dossier `Configuration` avec une majuscule `Configuration`.  -->
    Dans
-   `Modele.php`, enlevez le `require_once` de la classe `Configuration`.  
+   `ConnexionBaseDeDonnee.php`, enlevez le `require_once` de la classe `Configuration`.  
    Le site Web doit refonctionner.
 
    **Besoin d'aide pour débugger `Psr4AutoloaderClass` ?** Rajoutez une ligne à
@@ -318,9 +318,9 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
    * suppression des `require_once`.  
 
    Nous vous conseillons de procéder classe par classe, dans l'ordre suivant :
-   `Modele`, `ModeleVoiture` puis `ControleurVoiture`.
+   `ConnexionBaseDeDonnee`, `ModeleVoiture` puis `ControleurVoiture`.
 
-   **Attention :** La classe `PDO` dans `Modele.php` est comprise comme
+   **Attention :** La classe `PDO` dans `ConnexionBaseDeDonnee.php` est comprise comme
    `App\Covoiturage\Modele\PDO` à cause du `namespace App\Covoiturage\Modele`.
    Deux solutions possibles :
    * Ajoutez `use PDO` pour que PHP sache que `PDO` est dans l'espace de nom
@@ -607,7 +607,7 @@ avec trois liens :
    dossier `css` sachant que nous interdisons l'accès internet à certaines
    parties du dossier `TD5` ?
    
-   Une façon de faire est de créer un dossier `TD5/assets` qui sera accessible sur
+   Une façon de faire est de créer un dossier `TD5/ressources` qui sera accessible sur
    internet, et qui contiendra le dossier `css`, mais aussi plus tard des
    dossiers `img` d'images et `js` pour le JavaScript.  
 
