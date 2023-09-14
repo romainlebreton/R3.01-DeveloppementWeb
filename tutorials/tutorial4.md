@@ -95,16 +95,16 @@ lors des TDs précédents (sauf la fonction `__toString()`).
 1. Créez les répertoires `Configuration`, `Controleur`, `Modele`, `vue` et `vue/voiture`.
 2. Utilisez l'outil de refactoring de votre IDE pour renommer : 
    1. la classe `Voiture` en `ModeleVoiture`, 
-   2. la classe `Model` en `Modele`,
+   2. la classe `Model` en `ConnexionBaseDeDonnee`,
    3. la classe `Conf` en `Configuration`.  
    
    Vérifiez que les déclarations de type ont bien été mises à jour partout dans votre code.  
    Mettez en commentaire la fonction `__toString()` pour la désactiver.
 
    **Aide pour le *refactoring*** : Clic droit sur le fichier de déclaration de classe à renommer à PhpStorm, puis *Refactor* → *Rename*.
-3. Déplacez vos fichiers `ModeleVoiture.php` et `Model.php` dans le répertoire `Modele/`.
+3. Déplacez vos fichiers `ModeleVoiture.php` et `ConnexionBaseDeDonnee.php` dans le répertoire `Modele/`.
 4. Déplacez la classe `Configuration` dans le dossier `Configuration`.
-5. Corrigez le chemin relatif du `require_once` du fichier `Configuration.php` dans `Modele.php`.
+5. Corrigez le chemin relatif du `require_once` du fichier `Configuration.php` dans `ConnexionBaseDeDonnee.php`.
 
 </div>
 
