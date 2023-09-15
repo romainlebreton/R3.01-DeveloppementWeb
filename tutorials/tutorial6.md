@@ -34,20 +34,20 @@ Ce TD présuppose que vous avez fini [le TD précédent](tutorial5.html).
 
 On veut ajouter un comportement par défaut du routeur qui est contenu dans le
 contrôleur frontal. Nous allons faire en sorte qu'un utilisateur qui arrive sur
-`frontController.php` voit la même page que s'il était arrivé sur
-`frontController.php?action=readAll`.
+`controleurFrontal.php` voit la même page que s'il était arrivé sur
+`controleurFrontal.php?action=afficherListe`.
 
 #### Action par défaut
 
 <div class="exercise">
 
 1. Si aucun paramètre n'est donné dans l'URL, initialisons la variable `action`
-   avec la chaîne de caractères `readAll` dans `frontController.php`.
+   avec la chaîne de caractères `"afficherListe"` dans `controleurFrontal.php`.
    Utilisez la fonction `isset($_GET['action'])` qui teste si la variable
    `$_GET['action']` a été initialisée, ce qui est le cas si et seulement si une
    variable `action` a été donnée dans l'URL.
 
-1. Testez votre site en appelant `frontController.php` sans action.
+1. Testez votre site en appelant `controleurFrontal.php` sans action.
 
 **Note :** De manière générale, il ne faut jamais lire un `$_GET['action']`
   avant d'avoir vérifié s'il était bien défini avec un `isset(...)` sous peine
@@ -56,12 +56,12 @@ contrôleur frontal. Nous allons faire en sorte qu'un utilisateur qui arrive sur
 </div>
 
 Désormais, la page
-[http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/frontController.php](http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/frontController.php)
+[http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/controleurFrontal.php](http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/controleurFrontal.php)
 doit marcher sans paramètre.
 
 <!-- **Note :** que vous pouvez aussi y accéder avec l'adresse
 [http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD5/](http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD5/) :
-Apache ouvre directement les pages `index.html` ou `frontController.php` d'un répertoire
+Apache ouvre directement les pages `index.html` ou `controleurFrontal.php` d'un répertoire
 si elles existent. -->
 
 #### Vérification de l'action
@@ -69,16 +69,16 @@ si elles existent. -->
 <div class="exercise">
 
 On souhaite que le routeur vérifie que `action` est le nom d'une méthode de
-`ControllerVoiture.php` avant d'appeler cette méthode et renvoyer vers une page
+`ControleurVoiture.php` avant d'appeler cette méthode et renvoyer vers une page
 d'erreur le cas échéant.
 
-1. Créez une action `error(string $errorMessage = "")` dans le contrôleur
-   *voiture* qui affiche une vue d'erreur `src/view/voiture/error.php` contenant
-   le message d'erreur *Problème avec la voiture : `$errorMessage`*, ou juste
+1. Créez une action `afficherErreur(string $messageErreur = "")` dans le contrôleur
+   *voiture* qui affiche une vue d'erreur `src/vue/voiture/erreur.php` contenant
+   le message d'erreur *Problème avec la voiture : `$messageErreur`*, ou juste
    *Problème avec la voiture* si le message est vide.
 
 1. **Modifiez** le code du routeur pour implémenter la vérification de l'action.
-   Si l'action n'existe pas, appelez l'action `error`.
+   Si l'action n'existe pas, appelez l'action `afficherErreur`.
 
    **Notes :** 
    * Vous pouvez récupérer le tableau des méthodes d'une classe avec
@@ -92,9 +92,9 @@ d'erreur le cas échéant.
    [`::class`](https://www.php.net/manual/fr/language.oop5.basic.php#language.oop5.basic.class.class).
    Exemple :
    ```php
-   use App\Covoiturage\Controller\ControllerVoiture;
-   echo ControllerVoiture::class
-   // Affiche App\Covoiturage\Controller\ControllerVoiture
+   use App\Covoiturage\Controleur\ControleurVoiture;
+   echo ControleurVoiture::class
+   // Affiche App\Covoiturage\Controleur\ControleurVoiture
    ``` -->
 
 </div>
@@ -108,7 +108,7 @@ aborder dans le cours *Qualité de développement*. Le `S` de *SOLID* signifie
 *Single responsibility principle* (ou principe de responsabilité unique en
 français) : chaque classe doit faire une seule tâche.
 
-Actuellement, notre classe `ModelVoiture` gère 2 tâches : la gestion des
+Actuellement, notre classe `ModeleVoiture` gère 2 tâches : la gestion des
 voitures et leur persistance dans une base de donnée. Ceci est contraire aux
 principes *SOLID*. Plus concrètement, si on veut enregistrer une voiture
 différemment plus tard (dans une session, dans un fichier, via un appel d'API,
@@ -123,9 +123,9 @@ nous allons obtenir à la fin de cette section :
 src="https://www.plantuml.com/plantuml/png/XLDDR-8m4BtdLymnqRA8lN9OWTWB1tPNfUe92KtCA7BhsAazHgA8_rwJn0suhI9nuJs_3yyu2yTesTSgSozIDsYn1cqEvAY1NxFP3IeKEhTajhBqJ6jXz5Q-4SooJ6DDha51i6oQtSeSZMHliQBT9ZYftHza_5S-as0uPm0PT5xmr9wZ5lm10FjzC7LilU1SrZM6AE4LiZHw0ZNQLqyJ4COhydO2kjnAgiWLGVqJ01B575pufolewKwVeD4jXQFt7AHcwEjLn7zxF2zQfYSSyVe-FArV31QhBZ4lOkPW4gc-L16PczoFIm-bqkp16GQ3JNlxl1l2q2RYjsKksMLyfG_K62VPsDENAqteQzZPSQWdBjVKxbGtHhGMJ-aPX_v85Te3sJo-agu21KbfZFhUzJ_QiMtCOy_KfNz_qbBUnprYgGZzdIJC9_p61ZFzF8lfxz4l9Ago1Uc3hzKx" style="margin-left:auto;margin-right:auto;display:block;">
 
 Notez que dans le schéma UML ci-dessus :
-* `ModelVoiture` est scindé en deux classes `VoitureRepository` et `Voiture`.
+* `ModeleVoiture` est scindé en deux classes `VoitureRepository` et `Voiture`.
 * `VoitureRepository` et `Voiture` ont changés de dossier et de `namespace` par
-  rapport à `ModelVoiture`.
+  rapport à `ModeleVoiture`.
 * `sauvegarder` est maintenant une méthode statique qui prend une `Voiture` en
   argument.
 * La classe `VoitureRepository` dépend de `Voiture`, mais pas l'inverse
@@ -133,40 +133,39 @@ Notez que dans le schéma UML ci-dessus :
 
 En termes de fichiers, nous aurons l'arborescence suivante après nos modifications :
 
-<img alt="Nouvelle organisation du dossier Model"
-src="{{site.baseurl}}/assets/TD6/listeFichiers.png" style="margin-left:auto;margin-right:auto;display:block;" width=350>
+<img alt="Nouvelle organisation du dossier Modele"
+src="{{site.baseurl}}/assets/TD6/listeFichiers.png" style="margin-left:auto;margin-right:auto;display:block;" width=400>
 
 
 <div class="exercise">
 
-1. Renommez la classe `Model` en `DatabaseConnection` et la classe
-   `ModelVoiture` en `Voiture`.     
+1. Renommez la classe
+   `ModeleVoiture` en `Voiture`.     
    Utilisez le *refactoring* de PhpStorm : Clic droit sur le nom de la classe >
    *Refactor* > *Rename*.
 
-1. Créez deux dossiers `DataObject` et `Repository` dans `Model`.
+2. Créez deux dossiers `DataObject` et `Repository` dans `Modele`.
 
    *Note :* Le dossier `Repository` gère la persistance des données. Le nom
    `Repository` est le nom du patron de conception que l'on utilise et que l'on retrouve dans les outils professionnels (*ORM Doctrine* par exemple).
 
-1. Créez une classe `VoitureRepository` dans le dossier `Repository` avec le `namespace`
-   correspondant (`App\Covoiturage\Model\Repository`). Déplacez les méthodes suivantes
+3. Créez une classe `VoitureRepository` dans le dossier `Repository` avec le `namespace`
+   correspondant (`App\Covoiturage\Modele\Repository`). Déplacez les méthodes suivantes
    de `Voiture` dans `VoitureRepository` :
    * `getVoitures`
-   * `getVoitureParImmat`
+   * `getVoitureParImmatriculation`
    * `sauvegarder`
-   * `construire`
-   * `supprimerParImmatriculation` pour ceux qui avaient fait l'exercice 10 optionnel du [TD4](tutorial4.html)
+   * `construireDepuisTableau`
    
-   Pour la méthode `construire`, changez si nécessaire le corps de la fonction afin qu'un objet
+   Pour la méthode `construireDepuisTableau`, changez si nécessaire le corps de la fonction afin qu'un objet
    `Voiture` soit correctement retourné. Pensez également à adapter le code des autres fonctions
-   de la classe `VoitureRepository` afin qu'elles appellent correctement la méthode `construire`.
+   de la classe `VoitureRepository` afin qu'elles appellent correctement la méthode `construireDepuisTableau`.
    
    Transformez la méthode `sauvegarder` en une méthode statique prenant en paramètre un objet de type `Voiture`.
    Cet objet sera la voiture à sauvegarder. Utilisez donc les getters de cette `Voiture`
    afin de retrouver les données à insérer dans la requête SQL de la méthode `sauvegarder`.
 
-1. Déplacer `Voiture` dans le dossier `DataObject` et `DatabaseConnection` dans
+4. Déplacer `Voiture` dans le dossier `DataObject` et `ConnexionBaseDeDonnees` dans
    `Repository`. 
    
    **Attention** si vous utilisez le drag & drop de PhpStorm, vous allez
@@ -175,12 +174,12 @@ src="{{site.baseurl}}/assets/TD6/listeFichiers.png" style="margin-left:auto;marg
    
    Vérifiez que votre code correspond à celui indiqué dans le diagramme de classe évoqué précédemment.
 
-1. Faites remarcher les actions une par une :
-   * `readAll` : 
+5. Faites remarcher les actions une par une :
+   * `afficherListe` : 
      * `getVoitures` appartient à la classe `VoitureRepository` désormais.
-   * `read` : 
-     * `getVoitureParImmat` appartient à la classe `VoitureRepository`.
-   * `created` :
+   * `afficherDetail` : 
+     * `getVoitureParImmatriculation` appartient à la classe `VoitureRepository`.
+   * `creerDepuisFormulaire` :
      * `sauvegarder` et `getVoitures` appartiennent à la classe `VoitureRepository` désormais.
      * `sauvegarder` sera maintenant statique et prendra en argument un objet de
        la classe `Voiture` ; les getters de `Voiture` servent à construire la requête SQL.
@@ -196,40 +195,37 @@ opérations de base de toute donnée. Nous allons compléter notre site pour qu'
 implémente toutes ces fonctionnalités. Lors des TDs précédents, nous avons
 implémenté nos premières actions :
 
-1. afficher toutes les voitures : action `readAll`
-2. afficher les détails d'une voiture : action `read`
-3. afficher le formulaire de création d'une voiture : action `create`
-4. créer une voiture dans la BDD : action `created`
-5. suppression d'une voiture dans la BDD : action `delete` (juste ceux d'entre
-   vous qui avaient fait l'exercice 10 optionnel du [TD4](tutorial4.html))
+1. *Read* -- afficher toutes les voitures : action `afficherListe`
+2. *Read* -- afficher les détails d'une voiture : action `afficherDetail`
+3. *Create* -- afficher le formulaire de création d'une voiture : action `afficherFormulaireCreation`
+4. *Create* -- créer une voiture dans la BDD : action `creerDepuisFormulaire`
 
 Nous allons compléter ces opérations avec la mise à jour et une version
 améliorée de la suppression.
 
-#### Action `delete`
+#### Action `supprimer`
 
 <div class="exercise">
 
-Nous souhaitons ajouter l'action `delete` aux voitures. Pour cela :
+Nous souhaitons ajouter l'action `supprimer` aux voitures. Pour cela :
 
 1. Écrivez dans `VoitureRepository` une méthode statique
    `supprimerParImmatriculation($immatriculation)` qui prend en entrée l'immatriculation à
    supprimer (pensez à utiliser les requêtes préparées de `PDO`).
 
-1. Créez une vue `src/view/voiture/deleted.php` qui affiche *"La voiture
+1. Créez une vue `src/vue/voiture/voitureSupprimee.php` qui affiche *"La voiture
    d'immatriculation `$immatriculation` a bien été supprimée*", suivi de la liste des
-   voitures en appelant la vue `list.php` (de la même manière que
-   `created.php`).
+   voitures en appelant la vue `liste.php` (de la même manière que
+   `voitureCreee.php`).
 
-1. Écrivez (ou modifiez pour ceux qui ont fait l'exercice 10 du
-   [TD4](tutorial4.html)) l'action `delete` du contrôleur de voiture pour que
+2. Écrivez l'action `supprimer` du contrôleur de voiture pour que
 
    1. il supprime la voiture dont l'immatriculation est passée en paramètre dans
       l'URL,
-   1. il affiche la vue `deleted.php` en utilisant le mécanisme de vue
+   2. il affiche la vue `voitureSupprimee.php` en utilisant le mécanisme de vue
       générique, et en donnant en paramètres les variables nécessaires dans la vue.  
 
-1. Enrichissez la vue `list.php` pour ajouter des liens HTML qui permettent de
+3. Enrichissez la vue `liste.php` pour ajouter des liens HTML qui permettent de
    supprimer une voiture.
 
    **Aide :** Procédez par étape. Écrivez d'abord un lien *fixe* dans votre vue,
@@ -237,7 +233,7 @@ Nous souhaitons ajouter l'action `delete` aux voitures. Pour cela :
    <!-- Erreur tentante : utiliser $ROOT_FOLDER dans les liens. On pourrait leur faire faire
    du $ROOTWEB -->
 
-1. Testez le tout. Quand la fonctionnalité marche, appréciez l'instant.
+4. Testez le tout. Quand la fonctionnalité marche, appréciez l'instant.
 
 </div>
 
@@ -249,15 +245,15 @@ chemin dans le serveur (?)
 
 -->
 
-#### Action `update` et `updated`
+#### Action `afficherFormulaireMiseAJour` et `mettreAJour`
 
 <div class="exercise">
 
-Nous souhaitons ajouter l'action `update` aux voitures qui affiche le
+Nous souhaitons ajouter l'action `afficherFormulaireMiseAJour` aux voitures qui affiche le
 formulaire de mise à jour. Pour cela :
 
-1. Créez une vue `src/view/voiture/update.php` qui affiche un formulaire
-   identique à celui de `create.php`, mais qui sera prérempli par les données
+1. Créez une vue `src/vue/voiture/formulaireMiseAJour.php` qui affiche un formulaire
+   identique à celui de `formulaireCreation.php`, mais qui sera prérempli par les données
    de la voiture courante. Nous ne passerons que l'immatriculation de la voiture
    *via* l'URL ; les autres informations seront récupérées dans la BDD. Voici
    quelques points à prendre en compte avant de se lancer :
@@ -266,59 +262,59 @@ formulaire de mise à jour. Pour cela :
    formulaire. Utilisez l'attribut HTML `readonly` de `<input>` pour que 
    l'internaute ne puisse pas changer l'immatriculation.
 
-   1. On pourra se servir dans le contrôleur de `getVoitureParImmat` pour
+   1. On pourra se servir dans le contrôleur de `getVoitureParImmatriculation` pour
       récupérer l'objet voiture de la bonne immatriculation. La vue devra alors
       remplir le formulaire avec les attributs de cet objet.
 
    1. Pensez bien à échapper vos variables PHP avant de les écrire dans l'HTML
      et dans les URLs.
 
-   1. Rappel : Vous souhaitez envoyer l'information `action=updated` en plus des
+   1. Rappel : Vous souhaitez envoyer l'information `action=mettreAJour` en plus des
       informations saisies lors de l'envoi du formulaire. La bonne façon de faire
       pour un formulaire de méthode `GET` est d'ajouter un champ caché `<input
-      type='hidden' name='action' value='updated'>`.
+      type='hidden' name='action' value='mettreAJour'>`.
 
       <!-- 
       Si vous avez un formulaire en méthode POST et que vous voulez transmettre l'action en méthode GET,
       vous pouvez rajouter l'information dans l'URL avec
 
       ```html?start_inline=1
-      <form method="post" action='frontController.php?action=created'>
+      <form method="post" action='controleurFrontal.php?action=creerDepuisFormulaire'>
       ```
       -->
 
-1. Écrivez l'action `update` du contrôleur de voiture pour qu'il affiche le
-   formulaire prérempli. **Vérifiez** que l'action `update` affiche bien le formulaire.
+1. Écrivez l'action `afficherFormulaireMiseAJour` du contrôleur de voiture pour qu'il affiche le
+   formulaire prérempli. **Vérifiez** que l'action `afficherFormulaireMiseAJour` affiche bien le formulaire.
 
-1. Maintenant, passons à l'action `updated` qui effectue la mise à jour dans la
+1. Maintenant, passons à l'action `mettreAJour` qui effectue la mise à jour dans la
    BDD.
 
-   Créez la vue `src/view/voiture/updated.php` pour qu'elle affiche *"La
+   Créez la vue `src/vue/voiture/voitureMiseAJour.php` pour qu'elle affiche *"La
    voiture d'immatriculation `$immatriculation` a bien été mise à jour*". Affichez
    en dessous de ce message la liste des voitures mise à jour (à la manière de
-   `deleted.php` et `created.php`).
+   `voitureSupprimee.php` et `voitureCreee.php`).
 
 1. Ajoutez à `VoitureRepository` une méthode statique `mettreAJour(Voiture
    $voiture)`. Cette méthode est proche de `sauvegarder(Voiture $voiture)`, à
    ceci près qu'elle ne renvoie pas de booléen. En effet, on va considérer
    qu'une mise à jour se passe toujours correctement.
 
-1. Créez l'action `updated` du contrôleur de voiture pour qu'il mette à
+1. Créez l'action `mettreAJour` du contrôleur de voiture pour qu'il mette à
    jour la voiture dont l'immatriculation est passée en paramètre dans l'URL, puis
-   qu'il affiche la vue `src/view/voiture/updated.php` après l'avoir correctement
+   qu'il affiche la vue `src/vue/voiture/voitureMiseAJour.php` après l'avoir correctement
    initialisée.
 
 1. Testez le tout. Quand la fonctionnalité marche, appréciez de nouveau
    l'instant.
 
 
-1. Ajoutons les liens manquants. Enrichissez la vue `list.php` pour ajouter des
+1. Ajoutons les liens manquants. Enrichissez la vue `liste.php` pour ajouter des
    liens HTML qui permettent de mettre à jour une voiture. Ces liens pointent
    donc vers le formulaire de mis-à-jour prérempli.
 
-   *Oubli des TDs précédents :* Ajoutez aussi un lien *Créer une voiture* vers l'action `create` dans `list.php`.
+   *Oubli des TDs précédents :* Ajoutez aussi un lien *Créer une voiture* vers l'action `afficherFormulaireCreation` dans `liste.php`.
 
-1. Astuce optionnelle : La vue `update` peut être raccourcie en utilisant la
+1. Astuce optionnelle : La vue `afficherFormulaireMiseAJour` peut être raccourcie en utilisant la
    syntaxe 
    ```php
    <?= $immatriculationHTML ?>
@@ -342,33 +338,33 @@ l'adapter plus facilement aux utilisateurs et trajets dans un second temps.
 
 Pour l'instant, nous n'avons travaillé que sur le contrôleur *voiture*. Nous
 souhaitons maintenant ajouter les contrôleurs *utilisateur* et *trajet*. Pour
-gérer tous les contrôleurs à partir de notre page d'accueil unique `frontController.php`,
+gérer tous les contrôleurs à partir de notre page d'accueil unique `controleurFrontal.php`,
 nous avons besoin d'appeler le bon contrôleur dans le routeur.
 
 Désormais, nous devons donc spécifier le contrôleur demandé dans le *query
-string*. Par exemple, l'ancienne page `frontController.php?action=readAll` du contrôleur
-*voiture* devra s'obtenir avec `frontController.php?controller=voiture&action=readAll`.
+string*. Par exemple, l'ancienne page `controleurFrontal.php?action=afficherListe` du contrôleur
+*voiture* devra s'obtenir avec `controleurFrontal.php?controleur=voiture&action=afficherListe`.
 
 <div class="exercise">
 
-1. Définissez une variable `controller` dans `frontController.php` en récupérant sa
+1. Définissez une variable `controleur` dans `controleurFrontal.php` en récupérant sa
 valeur à partir de l'URL, et en mettant le contrôleur *voiture* par défaut.
 
    **Aide :** Ce bout de code est similaire à celui concernant `action` dans
-  `frontController.php`.
+  `controleurFrontal.php`.
 
-2. On souhaite créer le nom de la classe à partir de `controller`. Par exemple,
-   quand `$controller="voiture"`, nous souhaitons créer une variable
-   `$controllerClassName` qui vaut `"App\Covoiturage\Controller\ControllerVoiture"`.  
-   **Créez** la variable `$controllerClassName` à l'aide de la fonction
+2. On souhaite créer le nom de la classe à partir de `controleur`. Par exemple,
+   quand `$controleur="voiture"`, nous souhaitons créer une variable
+   `$nomDeClasseControleur` qui vaut `"App\Covoiturage\Controleur\ControleurVoiture"`.  
+   **Créez** la variable `$nomDeClasseControleur` à l'aide de la fonction
    [`ucfirst`](http://php.net/manual/fr/function.ucfirst.php) (UpperCase
    FIRST letter) qui sert à mettre en majuscule la première lettre d'une chaîne
    de caractère.
 
-3. Testez si la classe de nom `$controllerClassName` existe à l'aide de la
+3. Testez si la classe de nom `$nomDeClasseControleur` existe à l'aide de la
    fonction [`class_exists`](http://php.net/manual/fr/function.class-exists.php)
-   et appelez l'action `action` de la classe `$controllerClassName` le cas
-   échéant. Autrement appelez l'action `error` de `ControllerVoiture`.
+   et appelez l'action `action` de la classe `$nomDeClasseControleur` le cas
+   échéant. Autrement appelez l'action `afficherErreur` de `ControleurVoiture`.
 
 3. Testez votre code en appelant vos anciennes pages du contrôleur *voiture*.
 
@@ -378,13 +374,13 @@ valeur à partir de l'URL, et en mettant le contrôleur *voiture* par défaut.
 
 Maintenant que notre routeur est en place, nous pouvons créer de nouveaux
 contrôleurs. Pour avoir un aperçu de l'étendu du travail, commençons par créer
-l'action `readAll` de `Utilisateur`.
+l'action `afficherListe` de `Utilisateur`.
 
 <div class="exercise">
 
-1. Créez un contrôleur `controller/ControllerUtilisateur.php` similaire à celui
-   des voitures qui reprend les méthodes `readAll()`, `afficheVue()` et
-   `error()`.
+1. Créez un contrôleur `controleur/ControleurUtilisateur.php` similaire à celui
+   des voitures qui reprend les méthodes `afficherListe()`, `afficherVue()` et
+   `afficherErreur()`.
 
    **Astuce :** Vous pouvez utiliser la fonction de remplacement (`Ctrl+R` sous
      PHPStorm) pour remplacer tous les `voiture` par `utilisateur`. En cochant
@@ -396,15 +392,15 @@ l'action `readAll` de `Utilisateur`.
    *setter* et le constructeur.
    
 1. Créez une classe `Repository/UtilisateurRepository.php` qui reprend la
-   fonction `getUtilisateurs()` et `construire($utilisateurTableau)` de votre
+   fonction `getUtilisateurs()` et `construireDepuisTableau($utilisateurTableau)` de votre
    ancienne classe `Utilisateur`.
 
-   Corrigez les erreurs : `Model` est devenu `DatabaseConnection` et il manque un alias avec `use` pour la classe `Utilisateur`.
+   Corrigez l'erreur : il manque un alias avec `use` pour la classe `Utilisateur`.
 
-3. Créez une vue `src/view/utilisateur/list.php` similaire à celle des
+2. Créez une vue `src/vue/utilisateur/liste.php` similaire à celle des
    voitures (sans nécessairement de lien pour l'instant).
 
-4. **Testez** votre action en appelant l'action `readAll` du contrôleur
+3. **Testez** votre action en appelant l'action `afficherListe` du contrôleur
    `Utilisateur` (qui est accessible dans la barre de menu de votre site
    normalement).
 
@@ -455,7 +451,7 @@ et le nom de la classe des objets en sortie. Voici donc comment nous allons
 faire pour avoir un code générique :
 
 1. Déplacez la fonction `getVoitures()` de `VoitureRepository` vers une nouvelle
-   classe *abstraite* `abstract class AbstractRepository` en la renommant `selectAll()`.
+   classe *abstraite* `abstract class AbstractRepository` en la renommant `recuperer()`.
 
    **Astuce** : sur PhpStorm le moyen le plus simple pour déplacer la fonction serait *Clic droit sur la declaration de la méthode* >
    *Refactor* > *Move Members* > *Indiquer `AbstractRepository` comme classe de destination*. De même pour le renommage, pensez à utiliser le refactoring.
@@ -473,45 +469,45 @@ faire pour avoir un code générique :
 
    <!-- getNomTable n'est pas statique car PHP déconseille l'utilisation de méthode statique et abstraite (PHP émet un warning) -->
 
-1. Utilisez `getNomTable()` dans la requête *SQL* de `selectAll()`. Puisque
+1. Utilisez `getNomTable()` dans la requête *SQL* de `recuperer()`. Puisque
    `getNomTable()` est une méthode dynamique, enlevez le `static` de
-   `selectAll()`.
+   `recuperer()`.
 
    ```php
    /**
     * @return AbstractDataObject[]
     */
-   public function selectAll(): array
+   public function recuperer(): array
    ```
 
 1. De même, `AbstractRepository` va demander à toutes ses classes filles de
-   posséder une méthode `construire($objetFormatTableau)`.  
+   posséder une méthode `construireDepuisTableau($objetFormatTableau)`.  
    * Ajoutez donc une méthode abstraite dans `AbstractRepository`
    ```php
-   protected abstract function construire(array $objetFormatTableau) : AbstractDataObject;
+   protected abstract function construireDepuisTableau(array $objetFormatTableau) : AbstractDataObject;
    ```
-   * Enlevez le `static` du `construire()` de `VoitureRepository`.
-   * Mettez à jour l'appel à `construire()` de `selectAll()`.
-   * Pensez à vérifier que l'implémentation de la méthode `construire()` de
+   * Enlevez le `static` du `construireDepuisTableau()` de `VoitureRepository`.
+   * Mettez à jour l'appel à `construireDepuisTableau()` de `recuperer()`.
+   * Pensez à vérifier que l'implémentation de la méthode `construireDepuisTableau()` de
      `VoitureRepository` déclare bien le type de retour `Voiture` (sous-classe
      de `AbstractDataObject`).
 
    <!-- attention déclaration de type correspondante entre méthode et 
    implémentation -->
 
-   <!-- construire($objetFormatTableau): AbstractDataObject; -->
+   <!-- construireDepuisTableau($objetFormatTableau): AbstractDataObject; -->
 
-1. Corrigez l'action `readAll` du `ControllerVoiture` pour faire appel à la
-   méthode `selectAll()` de `VoitureRepository`. Ici nous vous conseillons pour
+1. Corrigez l'action `afficherListe` du `ControleurVoiture` pour faire appel à la
+   méthode `recuperer()` de `VoitureRepository`. Ici nous vous conseillons pour
    le moment de construire un objet anonyme afin de pouvoir appeler les
    fonctions dynamiques de `VoitureRepository`. Par exemple, si vous souhaitez
-   appeler la fonction `selectAll`, vous pouvez faire ceci :
+   appeler la fonction `recuperer`, vous pouvez faire ceci :
 
    ```php
-   (new VoitureRepository())->selectAll();
+   (new VoitureRepository())->recuperer();
    ```
 
-   L'action `readAll` du contrôleur *voiture* doit remarcher.
+   L'action `afficherListe` du contrôleur *voiture* doit remarcher.
 
 1. Mettez à jour tous vos appels à `getVoitures()` dans les autres actions.
 
@@ -521,19 +517,19 @@ faire pour avoir un code générique :
 
 1. Faites de même pour `UtilisateurRepository` :
    * commentez `getUtilisateurs()`,
-   * enlevez le `static` de `construire()`,
+   * enlevez le `static` de `construireDepuisTableau()`,
    * implémentez `getNomTable()`,
    * `UtilisateurRepository` doit hériter de `AbstractRepository`.
 
-1. Corrigez l'action `readAll` du `ControllerUtilisateur` pour faire appel à la
-   méthode `selectAll()` de `UtilisateurRepository`. L'action doit remarcher.
+1. Corrigez l'action `afficherListe` du `ControleurUtilisateur` pour faire appel à la
+   méthode `recuperer()` de `UtilisateurRepository`. L'action doit remarcher.
 
 </div>
 
-### Action `read`
+### Action `afficherDetail`
 
-Pour faciliter les actions `read` des différents contrôleurs, nous allons créer
-une fonction `select($valeurClePrimaire)` générique dans `AbstractRepository`
+Pour faciliter les actions `afficherDetail` des différents contrôleurs, nous allons créer
+une fonction `recupererParClePrimaire($valeurClePrimaire)` générique dans `AbstractRepository`
 qui permet de faire une recherche par clé primaire dans une table. Cette
 fonction a besoin de connaître le *nom de la clé primaire*. Nous allons donc
 demander aux implémentations de `AbstractRepository` de fournir une méthode
@@ -543,11 +539,11 @@ demander aux implémentations de `AbstractRepository` de fournir une méthode
 
 1. Commençons par déclarer la fonction suivante dans la classe `AbstractRepository` :
    ```php
-   public function select(string $valeurClePrimaire): ?AbstractDataObject
+   public function recupererParClePrimaire(string $valeurClePrimaire): ?AbstractDataObject
    ```
    
-   Copiez/collez le corps de la fonction `getVoitureParImmat($immatriculation)`
-   vers `select($valeurClePrimaire)` de `AbstractRepository`. Nous allons
+   Copiez/collez le corps de la fonction `getVoitureParImmatriculation($immatriculation)`
+   vers `recupererParClePrimaire($valeurClePrimaire)` de `AbstractRepository`. Nous allons
    le *refactoriser* dans les questions suivantes pour qu'il devienne générique.
 
 1. Ajoutez la méthode suivante dans `AbstractRepository`
@@ -557,14 +553,14 @@ demander aux implémentations de `AbstractRepository` de fournir une méthode
    et une implémentation de `getNomClePrimaire()` dans `VoitureRepository`.
 
 1. Utilisez `getNomTable()` et `getNomClePrimaire()` pour construire la requête
-   *SQL* de `select()`.
+   *SQL* de `recupererParClePrimaire()`.
 
-1. Finissez de corriger `select()` :
+1. Finissez de corriger `recupererParClePrimaire()` :
    * Changez les valeurs dans le tableau donné à `execute()`
-   * Corrigez l'appel à `construire()` qui est une méthode dynamique maintenant.
+   * Corrigez l'appel à `construireDepuisTableau()` qui est une méthode dynamique maintenant.
 
-1. Corrigez l'action `read` du `ControllerVoiture` pour faire appel à la méthode
-   `select()` de `VoitureRepository`. L'action doit remarcher.
+1. Corrigez l'action `afficherDetail` du `ControleurVoiture` pour faire appel à la méthode
+   `recupererParClePrimaire()` de `VoitureRepository`. L'action doit remarcher.
 
 </div>
 
@@ -573,88 +569,46 @@ demander aux implémentations de `AbstractRepository` de fournir une méthode
 1. Faites de même pour `UtilisateurRepository` : implémentez
    `getNomClePrimaire()`.
 
-1. Créez l'action `read` du `ControllerUtilisateur` en vous basant sur celle de
-   `ControllerVoiture`.
+1. Créez l'action `afficherDetail` du `ControleurUtilisateur` en vous basant sur celle de
+   `ControleurVoiture`.
 
    **Rappel :** Utilisez le remplacement `Ctrl+R` en préservant la casse pour vous faciliter le travail.
 
 1. Il ne vous reste plus qu'à créer la vue associée `detail.php` et à ajouter
-   les liens vers la vue de détail dans `list.php`. L'action `read` doit maintenant fonctionner.
+   les liens vers la vue de détail dans `liste.php`. L'action `afficherDetail` doit maintenant fonctionner.
 
 </div>
 
 
-### Action `delete`
+### Action `supprimer`
 
 Pas de nouveautés.
 
 <div class="exercise">
 
-Nous vous laissons migrer la fonction `supprimerParImmatriculation($immatriculation)` de `VoitureRepository` vers `AbstractRepository` en la renommant `delete($valeurClePrimaire)` et adpater sa requête *SQL*. Adaptez également l'action `delete` des contrôleurs *voiture* et
-*utilisateur*, ainsi que leur vue associée `deleted.php`. Enfin, ajoutez les liens pour supprimer dans `list.php`.
+Nous vous laissons migrer la fonction `supprimerParImmatriculation($immatriculation)` de `VoitureRepository` vers `AbstractRepository` en la renommant `supprimer($valeurClePrimaire)` et adapter sa requête *SQL*. Adaptez également l'action `supprimer` des contrôleurs *voiture* et
+*utilisateur*, ainsi que leur vue associée `voitureSupprime.php` et `utilisateurSupprime.php`. Enfin, ajoutez les liens pour supprimer dans `liste.php`.
 </div>
 
-### Action `create` et `update`
+### Action `afficherFormulaireCreation` et `afficherFormulaireMiseAJour`
 
 Pas de nouveautés.
 
-<!-- Les vues `create.php` et `update.php` sont quasiment identiques : elles
-affichent le même formulaire, et le préremplissent ou non. Nous allons donc
-fusionner `create.php` et `update.php` en une unique page.
-
 <div class="exercise">
 
-1. Supprimez la vue `create.php` et modifiez le contrôleur de sorte que
-   l'action `create` appelle la vue `update.php`.
-
-   **Attention :** quand on arrive sur la vue `update.php` depuis l'action
-   `create`, les variables d'immatriculation, de couleur et de marque ne sont
-   pas renseignées. Penser à les initialiser à chaîne vide dans le contrôleur.
-
-1. Le champ `immatriculation` du formulaire doit être :
-
-   * `required` si l'action est `create` ou
-   * `readonly` si l'action est `update` (on ne peut pas modifier la clé
-      primaire d'un tuple).
-
-   Utilisez une variable dans le contrôleur pour permettre l'adaptation de la
-   vue à ces deux actions.
-
-1. Enfin, le champ `action` du formulaire doit être `created` si l'action est
-   `create` ou `updated` si l'action est `update`. Là aussi, utiliser une
-   variable spécifique.
--->
-
-   <!-- Mettre à jour le contrôleur en conséquence.\\ -->
-   <!-- **Indice :** `<input ... placeholder='Exemple' value='$val'>` affichera
-   'Exemple' en grisé si `val` est la chaîne de caractère vide, et pré-remplira
-   avec la valeur de `val` autrement. -->
-
-<!--
-
-1. Testez que votre nouvelle vue fusionnée marche.
-
-1. Ajoutez un champ `controller` dans le formulaire en prévision de la
-   suite. Vous pouvez soit écrire en dur que le contrôleur est `voiture`, soit
-   le récupérer avec l'attribut `static::$object` du contrôleur.
-
-</div> -->
-
-<div class="exercise">
-
-Nous vous laissons adapter les actions `create` et `update` de
-`ControllerUtilisateur`, leurs vues associées `create.php` et `update.php` et à
+Nous vous laissons adapter les actions `afficherFormulaireCreation` et `afficherFormulaireMiseAJour` de
+`ControleurUtilisateur`, leurs vues associées `formulaireCreation.php` et `formulaireMiseJour.php` et à
 ajouter les liens pour mettre à jour un utilisateur ou une voiture dans
 `detail.php`.
 
 </div>
 
-### Action `created` et `updated`
+### Action `creerDepuisFormulaire` et `mettreAJour`
 
 Pour ces dernières actions, il faut un peu plus travailler pour créer la
 fonction correspondante dans le modèle générique. 
 
-#### Action `updated`
+#### Action `mettreAJour`
 
 Pour reconstituer la requête
 ```sql
@@ -668,7 +622,7 @@ les champs des tables `utilisateur` et `trajet`. Nous allons factoriser le code 
 1. Déplacez la fonction `mettreAJour($immatriculation)` de
    `VoitureRepository.php` vers `AbstractRepository` en la renommant
    ```php
-   public function update(AbstractDataObject $object): void
+   public function mettreAJour(AbstractDataObject $object): void
    ```
 
 1. Ajoutez une méthode abstraite `getNomsColonnes()` dans
@@ -679,7 +633,7 @@ les champs des tables `utilisateur` et `trajet`. Nous allons factoriser le code 
    et une implémentation de `getNomsColonnes()` dans `VoitureRepository`.
 
 1. Utilisez `getNomTable()`, `getNomClePrimaire()` et `getNomsColonnes()` pour
-   construire la requête *SQL* de `select()`.
+   construire la requête *SQL* de `mettreAJour()`.
 
    **Aide :** N'hésitez pas à afficher la requête générée pour vérifier votre
    code.
@@ -705,27 +659,27 @@ les champs des tables `utilisateur` et `trajet`. Nous allons factoriser le code 
    ```
    Implémentez cette fonction dans `Voiture` et `Utilisateur`.
 
-1. Utilisez `formatTableau()` dans `update()` pour obtenir le tableau donné à
+1. Utilisez `formatTableau()` dans `mettreAJour()` pour obtenir le tableau donné à
    `execute()`.
 
-1. Corrigez l'action `updated` du `ControllerVoiture` pour faire appel aux
+1. Corrigez l'action `mettreAJour` du `ControleurVoiture` pour faire appel aux
    méthodes de `VoitureRepository`. L'action doit remarcher.
 
 1. Grâce à la classe `AbstractDataObject`, vous pouvez ajouter des déclarations
    de type dans `AbstractRepository` :
-   * type de retour de `select`,
-   * type d'entrée de `update`.
+   * type de retour de `mettreAJour`,
+   * type d'entrée de `mettreAJour`.
 </div>
 
 <div class="exercise">
 
-Implémentez l'action `updated` du contrôleur *utilisateur*.
+Implémentez l'action `mettreAJour` du contrôleur *utilisateur*.
 
 </div>
 
 
 
-#### Action `created`
+#### Action `creerDepuisFormulaire`
 
 <div class="exercise">
 
@@ -737,9 +691,9 @@ Répétez la question précédente avec la fonction `sauvegarder()` des différe
 
 ### Contrôleur trajet
 
-Adaptez chacune des actions de `ControllerTrajet.php` et les tester une à
-une. Nous vous conseillons de faire dans l'ordre les actions `read`, `delete`,
-`create`, `update`, `sauvegarder` et `updated`.
+Adaptez chacune des actions de `ControleurTrajet.php` et les tester une à
+une. Nous vous conseillons de faire dans l'ordre les actions `afficherDetail`, `supprimer`,
+`afficherFormulaireCreation`, `afficherFormulaireMiseAJour`, `creerDepuisFormulaire` et `mettreAJour`.
 
 Vous pouvez aussi ajouter des actions pour afficher la liste des passagers pour
 un trajet, et inversement la liste des trajets pour un passager (table de
@@ -749,7 +703,7 @@ jointure `passager`, cf. fin TD3).
 
 * Faire en sorte que la méthode d'erreur prenne en argument un message d'erreur. Chaque appel à cette méthode doit maintenant fournir un message d'erreur personnalisé.
 * Factoriser le code des contrôleurs dans un contrôleur générique, au moins pour
-  la méthode `afficheVue()` 
+  la méthode `afficherVue()` 
 * Ajouter les actions spécifiques aux requêtes SQL `getTrajets()` et
   `supprimerPassager()` du TD3 non utilisées :
   * qui liste les trajets d'un utilisateur,
