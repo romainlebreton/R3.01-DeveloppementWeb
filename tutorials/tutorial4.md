@@ -159,6 +159,15 @@ les voitures contenues dans la variable `$voitures`.
 
 Créez la vue `vue/voiture/liste.php` avec le code précédent.
 
+**Remarque :** Pour ce fichier, votre IDE risque de souligner l'utilisation de la variable `$voitures`
+comme étant non-définie. C'est un comportement tout à fait normal, car il n'est jamais sûr d'utiliser
+une variable dont l'existence n'est pas garantie ! Cependant, si vous savez ce que vous faites, vous pouvez
+"aider" l'IDE en lui fournissant une documentation sous forme de PHPDOC. Dans notre cas :
+
+```php
+/** @var array $voitures */
+```
+
 </div>
 
 ### C : le contrôleur
