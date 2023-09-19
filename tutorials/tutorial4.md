@@ -191,7 +191,7 @@ contrôleur pour `ModeleVoiture`. Voici le contrôleur
 ```php
 <?php
 require_once ('../Modele/ModeleVoiture.php'); // chargement du modèle
-$voitures = ModeleVoiture::getVoitures();     //appel au modèle pour gerer la BD
+$voitures = ModeleVoiture::getVoitures();     //appel au modèle pour gérer la BD
 require ('../vue/voiture/liste.php');  //redirige vers la vue
 ?>
 ```
@@ -244,7 +244,7 @@ require_once ('../Modele/ModeleVoiture.php'); // chargement du modèle
 class ControleurVoiture {
     // Déclaration de type de retour void : la fonction ne retourne pas de valeur
     public static function afficherListe() : void {
-        $voitures = ModeleVoiture::getVoitures(); //appel au modèle pour gerer la BD
+        $voitures = ModeleVoiture::getVoitures(); //appel au modèle pour gérer la BD
         require ('../vue/voiture/liste.php');  //"redirige" vers la vue
     }
 }
@@ -302,7 +302,7 @@ peut faire comme suit. Voici le fichier `Controleur/routeur.php` mis à jour :
 ```php
 <?php
 require_once 'ControleurVoiture.php';
-// On recupère l'action passée dans l'URL
+// On récupère l'action passée dans l'URL
 $action = ...;
 // Appel de la méthode statique $action de ControleurVoiture
 ControleurVoiture::$action();
