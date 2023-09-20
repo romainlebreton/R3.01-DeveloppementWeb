@@ -432,14 +432,13 @@ Pour information, la liste des caractères réservés des URLs sont
 
 <div class="exercise">
 
-1. Créez une voiture d'immatriculation `&immatriculation=h` en utilisant votre action
+1. Créez une voiture d'immatriculation `&a=b` en utilisant votre action
    `afficherFormulaireCreation` ;
 
 1. Observez que le lien vers la vue de détail de cette voiture ne marche
    pas. Pourquoi ?
 
-   <!-- On change la signification de l'URL et on dit que l'immatriculation est h au lieu
-   de &immatriculation=h -->
+   <!-- On change la signification de l'URL l'immatriculation ne correspond plus -->
 
 1. Changer la vue `liste.php` pour qu'elle encode à l'aide de `rawurlencode` la
    variable PHP correspondant à l'immatriculation.  
