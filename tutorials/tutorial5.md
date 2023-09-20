@@ -15,7 +15,7 @@ http://{$_SERVER['HTTP_HOST']}{$_SERVER['PHP_SELF']}
 
 <!-- require d'un chemin de fichier **et pas de query string** -->
 
-Aujourd'hui nous allons développer notre site-école de covoiturage. Au fur et à
+Nous allons continuer de développer notre site-école de covoiturage. Au fur et à
 mesure que le projet grandit, nous allons bénéficier du patron d'architecture
 MVC qui va nous faciliter la tâche.
 
@@ -26,8 +26,8 @@ pouvoir gérer les sessions d'utilisateur, nous allons développer l'interface
 
 ## Remise en route
 
-La semaine dernière, nous avons commencé à utiliser l'architecture
-MVC. Le code était découpé en trois parties :
+Lors du [TD4](https://romainlebreton.github.io/R3.01-DeveloppementWeb/tutorials/tutorial4.html),
+nous avons commencé à utiliser l'architecture MVC. Le code était découpé en trois parties :
 
 3. Le modèle (*e.g.* `Modele/ModeleVoiture.php`) est une bibliothèque des
 fonctions permettant de gérer les données, *i.e.* l'interaction avec la BDD dans
