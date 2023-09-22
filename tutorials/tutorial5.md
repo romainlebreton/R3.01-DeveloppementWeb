@@ -581,19 +581,23 @@ Nous allons bénéficier de notre changement d'organisation pour rajouter un
 <div class="exercise"> 
 
 1. Modifier la vue `vueGenerale.php` pour ajouter en en-tête de page une barre de menu,
-avec trois liens :
+avec trois liens vers les différents contrôleurs :
 
-   * un lien vers la page d'accueil des voitures  
-     `controleurFrontal.php?action=afficherListe`
-   * un lien vers la future page d'accueil des utilisateurs  
-     `controleurFrontal.php?action=afficherListe&controleur=utilisateur`
-   * un lien vers la future page d'accueil des trajets  
-     `controleurFrontal.php?action=afficherListe&controleur=trajet`
+   ```html
+   <nav>
+      <ul>
+         <li>
+            <a href="controleurFrontal.php?action=afficherListe&controleur=voiture">Gestion des voitures</a>
+         </li><li>
+            <a href="controleurFrontal.php?action=afficherListe&controleur=utilisateur">Gestion des utilisateurs</a>
+         </li><li>
+            <a href="controleurFrontal.php?action=afficherListe&controleur=trajet">Gestion des trajets</a>
+         </li>
+      </ul>
+   </nav>
+   ```
 
-   <!-- Le lien vers utilisateur doit marcher après la partie sur le dispatcher
-   ? -->
-
-2. Modifier la vue `vueGenerale.php` pour rajouter un pied de page comme
+1. Modifier la vue `vueGenerale.php` pour rajouter un pied de page comme
 
    ```html
    <p>
@@ -601,7 +605,7 @@ avec trois liens :
    </p>
    ```
 
-3. Rajoutez un [style CSS minimaliste]({{site.baseurl}}/assets/TD4/navstyle.css)
+2. Rajoutez un [style CSS minimaliste]({{site.baseurl}}/assets/TD4/navstyle.css)
    à votre page Web. Ce style sera mis dans un dossier `css`. Où mettre ce
    dossier `css` sachant que nous interdisons l'accès internet à certaines
    parties du dossier `TD5` ?
@@ -632,7 +636,7 @@ des voitures.
    **Remarque :** La vue `voitureCreee.php` ne doit plus faire que deux lignes
    maintenant.
 
-2. Changez l'action `created` du contrôleur pour appeler cette vue.  
+2. Changez l'action `creerDepuisFormulaire` du contrôleur pour appeler cette vue.  
    **Attention :** Il faut initialiser la variable `$voitures` contenant le tableau
    de toutes les voitures afin qu'elle puisse être affichée dans la vue.
 
