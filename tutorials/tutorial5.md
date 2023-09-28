@@ -611,7 +611,7 @@ avec trois liens vers les différents contrôleurs :
    parties du dossier `TD5` ?
    
    Une façon de faire est de créer un dossier `TD5/ressources` qui sera accessible sur
-   internet, et qui contiendra le dossier `css`, mais aussi plus tard des
+   internet (copiez le `.htaccess` de `web`), et qui contiendra le dossier `css`, mais aussi plus tard des
    dossiers `img` d'images et `js` pour le JavaScript.  
 
 </div> 
