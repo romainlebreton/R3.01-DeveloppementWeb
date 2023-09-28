@@ -334,7 +334,7 @@ pour les utilisateurs et les trajets. Dans ce TD, nous allons dans un premier
 temps rendre notre MVC de voitures plus générique. Cela nous permettra de
 l'adapter plus facilement aux utilisateurs et trajets dans un second temps.
 
-### Dans le routeur
+### Dans le routeur du contrôleur frontal
 
 Pour l'instant, nous n'avons travaillé que sur le contrôleur *voiture*. Nous
 souhaitons maintenant ajouter les contrôleurs *utilisateur* et *trajet*. Pour
@@ -372,9 +372,9 @@ valeur à partir de l'URL, et en mettant le contrôleur *voiture* par défaut.
 
 ### Début du nouveau contrôleur
 
-Maintenant que notre routeur est en place, nous pouvons créer de nouveaux
-contrôleurs. Pour avoir un aperçu de l'étendu du travail, commençons par créer
-l'action `afficherListe` de `Utilisateur`.
+Maintenant que notre routeur dans le contrôleur frontal est en place, nous
+pouvons créer de nouveaux contrôleurs. Pour avoir un aperçu de l'étendu du
+travail, commençons par créer l'action `afficherListe` de `Utilisateur`.
 
 <div class="exercise">
 
