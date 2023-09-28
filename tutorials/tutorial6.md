@@ -665,10 +665,10 @@ les champs des tables `utilisateur` et `trajet`. Nous allons factoriser le code 
 1. Corrigez l'action `mettreAJour` du `ControleurVoiture` pour faire appel aux
    méthodes de `VoitureRepository`. L'action doit remarcher.
 
-1. Grâce à la classe `AbstractDataObject`, vous pouvez ajouter des déclarations
+<!-- 1. Grâce à la classe `AbstractDataObject`, vous pouvez ajouter des déclarations
    de type dans `AbstractRepository` :
    * type de retour de `mettreAJour`,
-   * type d'entrée de `mettreAJour`.
+   * type d'entrée de `mettreAJour`.-->
 </div>
 
 <div class="exercise">
