@@ -451,11 +451,11 @@ différences entre `getVoitures()` et `getUtilisateurs()` sont le nom de la tabl
 et le nom de la classe des objets en sortie. Voici donc comment nous allons
 faire pour avoir un code générique :
 
-1. Créez une nouvelle classe *abstraite* `abstract class `AbstractRepository` et
+1. Créez une nouvelle classe *abstraite* `abstract class AbstractRepository` et
    faites hériter la classe `VoitureRepository` de `AbstractRepository` (mot
    clé `extends` comme en Java).
 
-1. Pour qu'on puisse migre la fonction `getVoitures()` de `VoitureRepository` vers
+1. Pour qu'on puisse migrer la fonction `getVoitures()` de `VoitureRepository` vers
    `AbstractRepository`, il faudrait que cette dernière puisse accèder au nom de la table.
    Pour cela elle va demander à toutes ses classes filles de posséder une méthode `getNomTable()`.  
    Ajoutez donc une méthode abstraite `getNomTable()` dans `AbstractRepository`
