@@ -370,8 +370,9 @@ l'URL.
    qui renvoient sur la vue de détail de la voiture concernée.
 
 4. On souhaite gérer les immatriculations non reconnues : Créez une vue
-   `./vue/voiture/erreur.php` qui affiche un message d'erreur et renvoyez vers
-   cette vue si `getVoitureParImmatriculation()` ne trouve pas de voiture qui correspond à
+   `./vue/voiture/erreur.php` qui affiche un message d'erreur générique *"Problème
+   avec la voiture"* et renvoyez vers cette vue si
+   `getVoitureParImmatriculation()` ne trouve pas de voiture qui correspond à
    cette immatriculation.
 
 </div>

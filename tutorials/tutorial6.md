@@ -81,7 +81,7 @@ d'erreur le cas échéant.
    Si l'action n'existe pas, appelez l'action `afficherErreur`.
 
    **Notes :** 
-   * Vous pouvez récupérer le tableau des méthodes d'une classe avec
+   * Vous pouvez récupérer le tableau des méthodes visibles d'une classe avec
    [la fonction `get_class_methods()`](http://php.net/manual/fr/function.get-class-methods.php)
    et tester si une valeur appartient à un tableau avec
    [la fonction `in_array`](http://php.net/manual/fr/function.in-array.php).
@@ -137,6 +137,10 @@ En termes de fichiers, nous aurons l'arborescence suivante après nos modificati
 src="{{site.baseurl}}/assets/TD6/listeFichiers.png" style="margin-left:auto;margin-right:auto;display:block;" width=400>
 
 
+Le dossier `Repository` gère la persistance des données. Le nom `Repository` est
+le nom du patron de conception que l'on utilise et que l'on retrouve dans les
+outils professionnels (*ORM Doctrine* par exemple).
+
 <div class="exercise">
 
 1. Renommez la classe
@@ -145,9 +149,6 @@ src="{{site.baseurl}}/assets/TD6/listeFichiers.png" style="margin-left:auto;marg
    *Refactor* > *Rename*.
 
 2. Créez deux dossiers `DataObject` et `Repository` dans `Modele`.
-
-   *Note :* Le dossier `Repository` gère la persistance des données. Le nom
-   `Repository` est le nom du patron de conception que l'on utilise et que l'on retrouve dans les outils professionnels (*ORM Doctrine* par exemple).
 
 3. Créez une classe `VoitureRepository` dans le dossier `Repository` avec le `namespace`
    correspondant (`App\Covoiturage\Modele\Repository`). Déplacez les méthodes suivantes
@@ -450,12 +451,6 @@ différences entre `getVoitures()` et `getUtilisateurs()` sont le nom de la tabl
 et le nom de la classe des objets en sortie. Voici donc comment nous allons
 faire pour avoir un code générique :
 
-1. Déplacez la fonction `getVoitures()` de `VoitureRepository` vers une nouvelle
-   classe *abstraite* `abstract class AbstractRepository` en la renommant `recuperer()`.
-
-   **Astuce** : sur PhpStorm le moyen le plus simple pour déplacer la fonction serait *Clic droit sur la declaration de la méthode* >
-   *Refactor* > *Move Members* > *Indiquer `AbstractRepository` comme classe de destination*. De même pour le renommage, pensez à utiliser le refactoring.
-
 1. Faites que la classe `VoitureRepository` hérite de `AbstractRepository` (mot
    clé `extends` comme en Java).
 
@@ -469,6 +464,12 @@ faire pour avoir un code générique :
 
    <!-- getNomTable n'est pas statique car PHP déconseille l'utilisation de méthode statique et abstraite (PHP émet un warning) -->
 
+1. Déplacez la fonction `getVoitures()` de `VoitureRepository` vers une nouvelle
+   classe *abstraite* `abstract class AbstractRepository` en la renommant `recuperer()`.
+
+   **Astuce** : sur PhpStorm le moyen le plus simple pour déplacer la fonction serait *Clic droit sur la declaration de la méthode* >
+   *Refactor* > *Move Members* > *Indiquer `AbstractRepository` comme classe de destination*. De même pour le renommage, pensez à utiliser le refactoring.
+
 1. Utilisez `getNomTable()` dans la requête *SQL* de `recuperer()`. Puisque
    `getNomTable()` est une méthode dynamique, enlevez le `static` de
    `recuperer()`.
@@ -480,7 +481,7 @@ faire pour avoir un code générique :
    public function recuperer(): array
    ```
 
-1. De même, `AbstractRepository` va demander à toutes ses classes filles de
+2. De même, `AbstractRepository` va demander à toutes ses classes filles de
    posséder une méthode `construireDepuisTableau($objetFormatTableau)`.  
    * Ajoutez donc une méthode abstraite dans `AbstractRepository`
    ```php
@@ -491,13 +492,14 @@ faire pour avoir un code générique :
    * Pensez à vérifier que l'implémentation de la méthode `construireDepuisTableau()` de
      `VoitureRepository` déclare bien le type de retour `Voiture` (sous-classe
      de `AbstractDataObject`).
+   * La méthode `construireDepuisTableau()` devient `protected` dans les classes filles.
 
    <!-- attention déclaration de type correspondante entre méthode et 
    implémentation -->
 
    <!-- construireDepuisTableau($objetFormatTableau): AbstractDataObject; -->
 
-1. Corrigez l'action `afficherListe` du `ControleurVoiture` pour faire appel à la
+3. Corrigez l'action `afficherListe` du `ControleurVoiture` pour faire appel à la
    méthode `recuperer()` de `VoitureRepository`. Ici nous vous conseillons pour
    le moment de construire un objet anonyme afin de pouvoir appeler les
    fonctions dynamiques de `VoitureRepository`. Par exemple, si vous souhaitez
@@ -509,7 +511,9 @@ faire pour avoir un code générique :
 
    L'action `afficherListe` du contrôleur *voiture* doit remarcher.
 
-1. Mettez à jour tous vos appels à `getVoitures()` dans les autres actions.
+4. Mettez à jour tous vos appels à `getVoitures()` (ou `recuperer()` si la
+   méthode `getVoitures()` a été correctement renommé par le *refactoring* de la
+   question 3).
 
 </div>
 
@@ -586,8 +590,12 @@ Pas de nouveautés.
 
 <div class="exercise">
 
-Nous vous laissons migrer la fonction `supprimerParImmatriculation($immatriculation)` de `VoitureRepository` vers `AbstractRepository` en la renommant `supprimer($valeurClePrimaire)` et adapter sa requête *SQL*. Adaptez également l'action `supprimer` des contrôleurs *voiture* et
-*utilisateur*, ainsi que leur vue associée `voitureSupprime.php` et `utilisateurSupprime.php`. Enfin, ajoutez les liens pour supprimer dans `liste.php`.
+Nous vous laissons migrer la fonction
+`supprimerParImmatriculation($immatriculation)` de `VoitureRepository` vers
+`AbstractRepository` en la renommant `supprimer($valeurClePrimaire)` et adapter
+sa requête *SQL*. Adaptez également l'action `supprimer` des contrôleurs
+*voiture* et *utilisateur*, ainsi que leur vue associée `voitureSupprime.php` et
+`utilisateurSupprime.php`. 
 </div>
 
 ### Action `afficherFormulaireCreation` et `afficherFormulaireMiseAJour`
