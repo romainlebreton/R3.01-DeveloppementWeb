@@ -21,13 +21,13 @@
         </div>
         <?php
 
-        require_once 'Model.php';
+        require_once 'ConnexionBaseDeDonnees.php';
         require_once 'Voiture.php';
 
-        function getVoitureParImmat(string $immat) : ?Voiture {
+        function getVoitureParImmatriculation(string $immat) : ?Voiture {
             $sql = "SELECT * from voiture2 WHERE immatriculation='$immat'";
             echo "<p>J'effectue la requête <pre>\"$sql\"</pre></p>";
-            $pdoStatement = Model::getPDO()->query($sql);
+            $pdoStatement = ConnexionBaseDeDonnees::getPDO()->query($sql);
             $voitureTableau = $pdoStatement->fetch();
 
             if ($voitureTableau !== false) {
@@ -37,7 +37,7 @@
         }
 
         if (isset($_GET['immatriculation'])) {
-            $v = getVoitureParImmat($_GET['immatriculation']);
+            $v = getVoitureParImmatriculation($_GET['immatriculation']);
             echo $v;
         }
         ?>

@@ -84,9 +84,9 @@ Imaginez que nous ayons codé une fonction `getVoitureParImmatriculation($immatr
 comme suit
 
 ```php?start_inline=1
-function getVoitureParImmat(string $immatriculation) {
+function getVoitureParImmatriculation(string $immatriculation) {
     $sql = "SELECT * from voiture WHERE immatriculation='$immatriculation'";
-    $pdoStatement = Model::getPdo()->query($sql);
+    $pdoStatement = ConnexionBaseDeDonnees::getPdo()->query($sql);
     return $pdoStatement->fetch();
 }
 ```
@@ -123,7 +123,7 @@ Voici toutes ces étapes regroupées dans une fonction :
 function getVoitureParImmatriculation(string $immatriculation) : Voiture {
     $sql = "SELECT * from voiture WHERE immatriculation = :immatriculationTag";
     // Préparation de la requête
-    $pdoStatement = Model::getPdo()->prepare($sql);
+    $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
 
     $values = array(
         "immatriculationTag" => $immatriculation,
@@ -147,8 +147,8 @@ PDO (qui permet de donner le type de la valeur). Cependant, nous vous conseillon
 d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 
 <div class="exercise">
-1. Copiez/collez dans un nouveau dossier TD3 les fichiers `Conf.php`,
-   `Model.php`, `Voiture.php` et `lireVoiture.php`.
+1. Copiez/collez dans un nouveau dossier TD3 les fichiers `ConfigurationBaseDeDonnees.php`,
+   `ConnexionBaseDeDonnees.php`, `Voiture.php` et `lireVoiture.php`.
 
 1. Copiez la fonction précédente `getVoitureParImmatriculation` dans la classe `Voiture`
    en la déclarant publique et statique.
@@ -195,11 +195,11 @@ de création de voiture du TD1 :
 
 4. Testez l'insertion grâce au formulaire `formulaireVoiture.html`.
 
-   **Remarque :** Vous aurez sans doute une erreur `Class "Model" not found`.
-   Où inclure `Model.php` : dans `Voiture.php` ou dans `creerVoiture.php` ?  
+   **Remarque :** Vous aurez sans doute une erreur `Class "ConnexionBaseDeDonnees" not found`.
+   Où inclure `ConnexionBaseDeDonnees.php` : dans `Voiture.php` ou dans `creerVoiture.php` ?  
    Règle simple : chaque fichier doit inclure les classes dont il a besoin.
-   Comme `Voiture.php` a besoin de la classe `Model` (à cause de l'instruction `Model::getPdo()`),
-   c'est au début de `Voiture.php` qu'il faut faire `require_once "Model.php";`.
+   Comme `Voiture.php` a besoin de la classe `ConnexionBaseDeDonnees` (à cause de l'instruction `ConnexionBaseDeDonnees::getPdo()`),
+   c'est au début de `Voiture.php` qu'il faut faire `require_once "ConnexionBaseDeDonnees.php";`.
 
 5. Vérifiez dans PhpMyAdmin que les voitures sont bien sauvegardées.
 
@@ -219,7 +219,7 @@ The only exception (pun not intended) is the creation of the PDO instance, which
 -->
 
 <!-- **N'oubliez pas** de protéger tout votre code contenant du PDO
-  (`getVoitures`, ...)  avec des try - catch comme dans `Model`. En effet,
+  (`getVoitures`, ...)  avec des try - catch comme dans `ConnexionBaseDeDonnees`. En effet,
   chaque ligne de code liée à PDO est susceptible de lancer une exception,
   qu'il nous faut capturer et traiter (rôle du `catch`). -->
 
@@ -488,7 +488,7 @@ Ce fichier contient un formulaire qui affiche les informations d'une voiture
    function getVoitureParImmatriculation(string $immatriculation) : ?Voiture {
       $sql = "SELECT * from voiture2 WHERE immatriculation='$immatriculation'";
       echo "<p>J'effectue la requête <pre>\"$sql\"</pre></p>";
-      $pdoStatement = Model::getPDO()->query($sql);
+      $pdoStatement = ConnexionBaseDeDonnees::getPDO()->query($sql);
       $voitureTableau = $pdoStatement->fetch();
 
       if ($voitureTableau !== false) {
