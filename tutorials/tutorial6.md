@@ -587,7 +587,7 @@ demander aux implémentations de `AbstractRepository` de fournir une méthode
 
 ### Action `supprimer`
 
-Pas de nouveautés.
+ouveautés.
 
 <div class="exercise">
 
@@ -606,7 +606,7 @@ Pas de nouveautés.
 <div class="exercise">
 
 Nous vous laissons adapter les actions `afficherFormulaireCreation` et `afficherFormulaireMiseAJour` de
-`ControleurVoiture (et `ControleurUtilisateur`), leurs vues associées `formulaireCreation.php` et
+`ControleurVoiture` (et `ControleurUtilisateur`), leurs vues associées `formulaireCreation.php` et
 `formulaireMiseJour.php` et à ajouter les liens pour mettre à jour un utilisateur ou une voiture dans
 `detail.php`.
 
