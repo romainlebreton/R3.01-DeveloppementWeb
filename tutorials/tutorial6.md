@@ -606,8 +606,8 @@ Pas de nouveautés.
 <div class="exercise">
 
 Nous vous laissons adapter les actions `afficherFormulaireCreation` et `afficherFormulaireMiseAJour` de
-`ControleurUtilisateur`, leurs vues associées `formulaireCreation.php` et `formulaireMiseJour.php` et à
-ajouter les liens pour mettre à jour un utilisateur ou une voiture dans
+`ControleurVoiture (et `ControleurUtilisateur`), leurs vues associées `formulaireCreation.php` et
+`formulaireMiseJour.php` et à ajouter les liens pour mettre à jour un utilisateur ou une voiture dans
 `detail.php`.
 
 </div>
