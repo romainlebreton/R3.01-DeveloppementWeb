@@ -1,6 +1,6 @@
 ---
 title: TD2 &ndash; La persistance des données en PHP
-subtitle: BDD, PDO
+subtitle: Base de données, PDO
 layout: tutorial
 lang: fr
 ---
@@ -50,11 +50,11 @@ Le login est votre login IUT et votre mot de passe initial est soit votre date d
 
 2. Créez une table `voiture` (sans majuscule) possédant 4 champs :
 
-   * `immatriculationBDD` de type `VARCHAR` et de longueur maximale 8, défini comme la
+   * `immatriculationBaseDeDonnees` de type `VARCHAR` et de longueur maximale 8, défini comme la
      clé primaire (Index : `Primary`)
-   * `marqueBDD` de type `VARCHAR` est de longueur maximale 25.
-   * `couleurBDD` de type `VARCHAR` est de longueur maximale 12.
-   * `nbSiegesBDD` de type `INT`.
+   * `marqueBaseDeDonnees` de type `VARCHAR` est de longueur maximale 25.
+   * `couleurBaseDeDonnees` de type `VARCHAR` est de longueur maximale 12.
+   * `nbSiegesBaseDeDonnees` de type `INT`.
 
    **Important :** Pour faciliter la suite du TD, mettez à la création de toutes
      vos tables `InnoDB` comme moteur de stockage, et `utf8_general_ci` comme
@@ -89,8 +89,8 @@ serveur du reste du code PHP.
 <!--      * qu'il prenne en charge la coloration syntaxique -->
 <!--      * qu'il sache indenter automatiquement votre code -->
 
-1. Créez un fichier `Conf.php`. Ce fichier contiendra une classe
-   `Conf` possédant un attribut statique `$databaseConfiguration` comme suit
+1. Créez un fichier `ConfigurationBaseDeDonnees.php`. Ce fichier contiendra une classe
+   `ConfigurationBaseDeDonnees` possédant un attribut statique `$configurationBaseDeDonnees` comme suit
    (changez bien sûr les `a_remplir`).
    
    <!-- Sont-ils à l'aise avec les attributs statiques ? -->
@@ -103,18 +103,18 @@ serveur du reste du code PHP.
 
    ```php
    <?php
-   class Conf {
+   class ConfigurationBaseDeDonnees {
    
-     static private array $databaseConfiguration = array(
+     static private array $configurationBaseDeDonnees = array(
        // Le nom d'hote est webinfo a l'IUT
        // ou localhost sur votre machine
        // 
        // ou webinfo.iutmontp.univ-montp2.fr
        // pour accéder à webinfo depuis l'extérieur
-       'hostname' => 'a_remplir',
-       // A l'IUT, vous avez une BDD nommee comme votre login
-       // Sur votre machine, vous devrez creer une BDD
-       'database' => 'a_remplir',
+       'nomHote' => 'a_remplir',
+       // A l'IUT, vous avez une base de données nommee comme votre login
+       // Sur votre machine, vous devrez creer une base de données
+       'nomBaseDeDonnees' => 'a_remplir',
        // À l'IUT, le port de MySQL est particulier : 3316
        // Ailleurs, on utilise le port par défaut : 3306
        'port' => 'a_remplir',
@@ -123,21 +123,21 @@ serveur du reste du code PHP.
        'login' => 'a_remplir',
        // A l'IUT, c'est le même mdp que PhpMyAdmin
        // Sur votre machine personelle, vous avez creez ce mdp a l'installation
-       'password' => 'a_remplir'
+       'motDePasse' => 'a_remplir'
      );
    
      static public function getLogin() : string {
-       // L'attribut statique $databaseConfiguration 
-       // s'obtient avec la syntaxe Conf::$databaseConfiguration 
-       // au lieu de $this->databaseConfiguration pour un attribut non statique
-       return Conf::$databaseConfiguration['login'];
+       // L'attribut statique $configurationBaseDeDonnees 
+       // s'obtient avec la syntaxe ConfigurationBaseDeDonnees::$configurationBaseDeDonnees 
+       // au lieu de $this->configurationBaseDeDonnees pour un attribut non statique
+       return ConfigurationBaseDeDonnees::$configurationBaseDeDonnees['login'];
      }
    
    }
    ?>
    ```
 
-2. Pour tester notre classe `Conf`, créons un fichier `testConf.php` que l'on
+2. Pour tester notre classe `ConfigurationBaseDeDonnees`, créons un fichier `testConfigurationBaseDeDonnees.php` que l'on
 ouvrira dans le navigateur.
 
    **Souvenez-vous le TD dernier :** Quelle est la bonne et la mauvaise URL
@@ -150,18 +150,18 @@ ouvrira dans le navigateur.
    
    ```php
    <?php
-     // On inclut les fichiers de classe PHP pour pouvoir se servir de la classe Conf. 
-     // require_once évite que Conf.php soit inclus plusieurs fois, 
-     // et donc que la classe Conf soit déclaré plus d'une fois. 
-     require_once 'Conf.php';
+     // On inclut les fichiers de classe PHP pour pouvoir se servir de la classe ConfigurationBaseDeDonnees. 
+     // require_once évite que ConfigurationBaseDeDonnees.php soit inclus plusieurs fois, 
+     // et donc que la classe ConfigurationBaseDeDonnees soit déclaré plus d'une fois. 
+     require_once 'ConfigurationBaseDeDonnees.php';
 
      // On affiche le login de la base de donnees
-     echo Conf::getLogin();
+     echo ConfigurationBaseDeDonnees::getLogin();
    ?>
    ```
 
-3. Complétez `Conf.php` avec des méthodes statiques `getHostname()`, `getPort()`,
-   `getDatabase()` et `getPassword()`. Testez ces méthodes dans `testConf.php`.
+3. Complétez `ConfigurationBaseDeDonnees.php` avec des méthodes statiques `getNomHote()`, `getPort()`,
+   `getNomBaseDeDonnees()` et `getPassword()`. Testez ces méthodes dans `testConfigurationBaseDeDonnees.php`.
      
 
    **Remarque :** Notez qu'en PHP, on appelle une méthode statique à partir du nom de
@@ -183,8 +183,8 @@ de donnée.
 
 <div class="exercise">
 
-1. Commençons par établir une connexion à la BDD. Créez un fichier `Model.php`
-   déclarant une classe `Model`, qui possédera 
+1. Commençons par établir une connexion à la base de données. Créez un fichier `ConnexionBaseDeDonnees.php`
+   déclarant une classe `ConnexionBaseDeDonnees`, qui possédera 
    * un attribut `private PDO $pdo`,
    * un constructeur sans argument qui ne fait rien pour l'instant (à générer avec PhpStorm),
    * un accesseur (getter) `getPdo()` à l'attribut `$pdo` (à générer avec PhpStorm). 
@@ -197,36 +197,36 @@ de donnée.
    façon suivante
    
       ```php?start_inline=1
-      new PDO("mysql:host=$hostname;port=$port;dbname=$databaseName",$login,$password);
+      new PDO("mysql:host=$nomHote;port=$port;dbname=$nomBaseDeDonnees",$login,$motDePasse);
       ```
    
       Stockez ce nouvel objet `PDO` dans l'attribut `$pdo`.
 
-   1. Le code précédent a besoin que les variables `$hostname`, `$port`,
-   `$databaseName`, `$login` et `$password` contiennent les chaînes
+   1. Le code précédent a besoin que les variables `$nomHote`, `$port`,
+   `$nomBaseDeDonnees`, `$login` et `$motDePasse` contiennent les chaînes
    de caractères correspondant à l'hôte, au nom, au login et au mot de
-   passe de notre BDD. Créez donc ces variables avant le `new PDO` en
+   passe de notre base de données. Créez donc ces variables avant le `new PDO` en
    récupérant les informations à l'aide des fonctions de la classe
-   `Conf`.
+   `ConfigurationBaseDeDonnees`.
    
-   4. Comme notre classe `Model` dépend de `Conf.php`, ajoutez un `require_once 'Conf.php'` 
+   4. Comme notre classe `ConnexionBaseDeDonnees` dépend de `ConfigurationBaseDeDonnees.php`, ajoutez un `require_once 'ConfigurationBaseDeDonnees.php'` 
    au début du fichier.
 
    6. Testons dès à présent notre nouvelle classe. Créez le fichier
-   `testModel.php` suivant. Vérifiez que l'exécution de `testModel.php` ne donne
+   `testConnexionBaseDeDonnees.php` suivant. Vérifiez que l'exécution de `testConnexionBaseDeDonnees.php` ne donne
    pas de messages d'erreur.
 
       ```php
       <?php
-      require_once "Model.php";
+      require_once "ConnexionBaseDeDonnees.php";
 
       // On affiche un attribut de PDO pour vérifier  que la connexion est bien établie.
       // Cela renvoie par ex. "webinfo.iutmontp.univ-montp2.fr via TCP/IP"
       // mais surtout pas de message d'erreur
       // SQLSTATE[HY000] [1045] Access denied for user ... (mauvais mot de passe)
       // ou
-      // SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed (mauvais hostname)
-      $model = new Model();
+      // SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed (mauvais nom d'hôte)
+      $model = new ConnexionBaseDeDonnees();
       echo $model->getPdo()->getAttribute(PDO::ATTR_CONNECTION_STATUS);
       ?>
       ```
@@ -234,18 +234,18 @@ de donnée.
 
 #### Patron de conception *Singleton*
 
-Comme cela n'a pas de sens d'avoir plusieurs connexions à la BDD, nous allons utiliser le patron de conception *Singleton*. Il sert à assurer qu'il n'y ait qu’une et une seule instance possible de la classe `Model` dans l'application (et donc une seule connexion).
+Comme cela n'a pas de sens d'avoir plusieurs connexions à la base de données, nous allons utiliser le patron de conception *Singleton*. Il sert à assurer qu'il n'y ait qu’une et une seule instance possible de la classe `ConnexionBaseDeDonnees` dans l'application (et donc une seule connexion).
 
 Voici le squelette d'un singleton :
 
 ```php?start_inline=1
-class Model {
+class ConnexionBaseDeDonnees {
     private static $instance = null;
 
     private PDO $pdo;
 
     public static function getPdo(): PDO {
-        return Model::getInstance()->pdo;
+        return ConnexionBaseDeDonnees::getInstance()->pdo;
     }
 
     private function __construct () {
@@ -255,13 +255,13 @@ class Model {
     // getInstance s'assure que le constructeur ne sera 
     // appelé qu'une seule fois.
     // L'unique instance crée est stockée dans l'attribut $instance
-    private static function getInstance() : Model {
-        // L'attribut statique $pdo s'obtient avec la syntaxe Model::$pdo 
+    private static function getInstance() : ConnexionBaseDeDonnees {
+        // L'attribut statique $pdo s'obtient avec la syntaxe ConnexionBaseDeDonnees::$pdo 
         // au lieu de $this->pdo pour un attribut non statique
-        if (is_null(Model::$instance))
+        if (is_null(ConnexionBaseDeDonnees::$instance))
             // Appel du constructeur
-            Model::$instance = new Model();
-        return Model::$instance;
+            ConnexionBaseDeDonnees::$instance = new ConnexionBaseDeDonnees();
+        return ConnexionBaseDeDonnees::$instance;
     }
 }
 ```
@@ -271,20 +271,20 @@ class Model {
 
 <div class="exercise">
 
-1. Mettez à jour votre classe `Model` pour qu'elle suive le design pattern *Singleton*.
-2. Mettez à jour `testModel.php` et vérifiez que tout marche bien.
-3. Pour que PhpStorm comprenne que `Model::getPdo()` renvoie un objet de la classe `PDO`,
+1. Mettez à jour votre classe `ConnexionBaseDeDonnees` pour qu'elle suive le design pattern *Singleton*.
+2. Mettez à jour `testConnexionBaseDeDonnees.php` et vérifiez que tout marche bien.
+3. Pour que PhpStorm comprenne que `ConnexionBaseDeDonnees::getPdo()` renvoie un objet de la classe `PDO`,
    et qu'il puisse nous proposer l'autocomplétion des méthodes de cette classe, nous devons déclarer
    le type de retour.  
-   Si ce n'est pas déjà fait, **déclarez** que l'attribut `$pdo` et la valeur de retour de `Model::getPdo()` sont de type
+   Si ce n'est pas déjà fait, **déclarez** que l'attribut `$pdo` et la valeur de retour de `ConnexionBaseDeDonnees::getPdo()` sont de type
    `PDO`.  
-   **Vérifiez** que l'autocomplétion de PhpStorm s'est améliorée dans `testModel.php`.
+   **Vérifiez** que l'autocomplétion de PhpStorm s'est améliorée dans `testConnexionBaseDeDonnees.php`.
 
-4. **Déclarez** que l'attribut `$instance` et la valeur de retour de `Model::getInstance()` sont de type
-   `Model`.  
+4. **Déclarez** que l'attribut `$instance` et la valeur de retour de `ConnexionBaseDeDonnees::getInstance()` sont de type
+   `ConnexionBaseDeDonnees`.  
    L'IDE indique un problème : L'attribut `$instance` est initialisé à `null`, qui n'est pas de type
-   `Model` en PHP (contrairement à Java), mais de type `null`.  
-   **Corrigez** ce problème en indiquant le type `?Model` pour l'attribut `$instance`. En effet, `?Model` est un raccourci pour le type `Model|null`, qui veut dire `Model` ou `null`.
+   `ConnexionBaseDeDonnees` en PHP (contrairement à Java), mais de type `null`.  
+   **Corrigez** ce problème en indiquant le type `?ConnexionBaseDeDonnees` pour l'attribut `$instance`. En effet, `?ConnexionBaseDeDonnees` est un raccourci pour le type `ConnexionBaseDeDonnees|null`, qui veut dire `ConnexionBaseDeDonnees` ou `null`.
 
 </div>
 
@@ -323,13 +323,13 @@ récupérer et traiter. Placez donc votre `new PDO(...)` au sein d'un try - catc
    `catch` afin de capturer les exceptions. -->
 
 Pour avoir plus de messages d'erreur de `PDO` et qu'il gère mieux l'UTF-8,
-**mettez à jour** la connexion dans `Model` en remplaçant `$this->pdo = new PDO(...);` par
+**mettez à jour** la connexion dans `ConnexionBaseDeDonnees` en remplaçant `$this->pdo = new PDO(...);` par
 
 ```php?start_inline=1
 // Connexion à la base de données            
 // Le dernier argument sert à ce que toutes les chaines de caractères 
 // en entrée et sortie de MySql soit dans le codage UTF-8
-$this->pdo = new PDO("mysql:host=$hostname;port=$port;dbname=$databaseName", $login, $password,
+$this->pdo = new PDO("mysql:host=$nomHote;port=$port;dbname=$nomBaseDeDonnees", $login, $motDePasse,
                      array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 
 // On active le mode d'affichage des erreurs, et le lancement d'exception en cas d'erreur
@@ -378,11 +378,11 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
 <div class="exercise">
 1. Créez un fichier `lireVoiture.php`
 
-2. Incluez le fichier contenant la classe `Model` pour pouvoir se connecter à la
-   BDD.
-   <!-- require_once "Model.php"; -->
+2. Incluez le fichier contenant la classe `ConnexionBaseDeDonnees` pour pouvoir se connecter à la
+   base de données.
+   <!-- require_once "ConnexionBaseDeDonnees.php"; -->
    
-3. Appelez la fonction `query` de l'objet `PDO` `Model::getPdo()` en lui donnant
+3. Appelez la fonction `query` de l'objet `PDO` `ConnexionBaseDeDonnees::getPdo()` en lui donnant
    la requête SQL. Stockez sa réponse dans une variable `$pdoStatement`.
 
 4. Comme expliqué précédemment, pour lire les réponses à des requêtes SQL, vous
@@ -393,8 +393,8 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
    ```
 
    qui, dans notre exemple, renvoie un tableau avec 8 cases : 
-   * `immatriculationBDD`, `couleurBDD`, `marqueBDD` et `nbSiegesBDD` (les champs de la BDD).
-   * `0`, `1`, `2` et `3` qui correspondent aux champs de la BDD dans l'ordre. Ces cases
+   * `immatriculationBaseDeDonnees`, `couleurBaseDeDonnees`, `marqueBaseDeDonnees` et `nbSiegesBaseDeDonnees` (les champs de la base de données).
+   * `0`, `1`, `2` et `3` qui correspondent aux champs de la base de données dans l'ordre. Ces cases
    sont donc un peu redondantes.
 
    Utilisez l’un des affichages de débogage (*e.g.* `var_dump`) pour afficher ce tableau.
@@ -402,8 +402,8 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
 1. Créez une `$voiture` de classe `Voiture` à l'aide de `$voitureFormatTableau` 
 en appelant le constructeur. Affichez la voiture en utilisant la méthode adéquate de `Voiture`. 
 
-1. On souhaite désormais afficher toutes les voitures dans la BDD. On pourrait
-   faire une boucle `while` sur `fetch` tant qu'on n'a pas parcouru toutes les entrées de la BDD.
+1. On souhaite désormais afficher toutes les voitures dans la base de données. On pourrait
+   faire une boucle `while` sur `fetch` tant qu'on n'a pas parcouru toutes les entrées de la base de données.
 
    Heureusement, il existe une syntaxe simplifiée qui fait exactement cela :   
 
@@ -440,7 +440,7 @@ Nous allons maintenant isoler le code qui retourne toutes les voitures et en fai
    ```
 2. Créez une fonction statique
    `getVoitures()` dans la classe `Voiture` qui ne prend pas d'arguments et
-   renvoie le tableau d'objets de la classe `Voiture` correspondant à la BDD.
+   renvoie le tableau d'objets de la classe `Voiture` correspondant à la base de données.
 
    **Rappel :** On peut rajouter facilement un élément "à la fin" d'un tableau avec
    ```php?start_inline=1
@@ -448,7 +448,7 @@ Nous allons maintenant isoler le code qui retourne toutes les voitures et en fai
    ```
 3. Mettez à jour `lireVoiture.php` pour appeler directement `getVoitures()`.
 
-4. Maintenant que vous avez bien compris où les noms de colonnes (`immatriculationBDD`, `couleurBDD`, ...)
+4. Maintenant que vous avez bien compris où les noms de colonnes (`immatriculationBaseDeDonnees`, `couleurBaseDeDonnees`, ...)
    de la table `voiture` interviennent dans le tableau `$voitureFormatTableau`, nous allons leur redonner
    des noms plus classiques :
    1. Changer les noms des colonnes pour `immatriculation`, `couleur`, `marque` et `nbSieges`.
@@ -470,7 +470,7 @@ Le choix du format se fait avec la
 [variable `$fetchStyle`](http://php.net/manual/fr/pdostatement.fetch.php#refsect1-pdostatement.fetch-parameters). Les formats les plus communs sont :
 
 * `PDO::FETCH_ASSOC` : Chaque entrée SQL est un tableau indexé par les noms
-   des champs de la table de la BDD ;
+   des champs de la table de la base de données ;
 
 * `PDO::FETCH_NUM` : Chaque entrée SQL est un tableau indexé par le numéro de la colonne 
    commençant à 0 ;
@@ -481,11 +481,11 @@ Le choix du format se fait avec la
    et aussi par les numéros de colonnes, commençant à l'index 0, comme retournés dans le jeu de résultats
 
 * `PDO::FETCH_OBJ` : Chaque entrée SQL est un objet dont les noms d'attributs
-   sont les noms des champs de la table de la BDD ;
+   sont les noms des champs de la table de la base de données ;
 
 * `PDO::FETCH_CLASS` : De même que `PDO::FETCH_OBJ`, chaque entrée SQL est un
    objet dont les noms d'attributs sont les noms des champs de la table de la
-   BDD. Cependant, on peut dans ce cas spécifier le nom de la classe des
+   base de données. Cependant, on peut dans ce cas spécifier le nom de la classe des
    objets. Pour ce faire, il faut avoir au préalable déclaré le nom de la
    classe avec la commande suivante :
 
@@ -495,12 +495,12 @@ Le choix du format se fait avec la
 
    **Note :** Ce format qui semble très pratique a malheureusement un comportement problématique :
    * il crée d'abord une instance de la classe demandée (sans passer par le constructeur !) ;
-   * il écrit les attributs correspondants aux champs de la BDD (même s'ils sont privés ou n'existent pas !) ;
+   * il écrit les attributs correspondants aux champs de la base de données (même s'ils sont privés ou n'existent pas !) ;
    * **puis** il appelle le constructeur *sans arguments*.
 
 Dans les TDs, nous vous recommandons d'utiliser au choix :
 * le format par défaut `PDO::FETCH_BOTH` en appelant `fetch()` sans arguments,
-* le format `PDO::FETCH_ASSOC` pour ne pas avoir de cases redondantes (*e.g* `immatriculationBDD` et `0`).  
+* le format `PDO::FETCH_ASSOC` pour ne pas avoir de cases redondantes (*e.g* `immatriculationBaseDeDonnees` et `0`).  
   Dans ce cas, appelez `$pdoStatement->setFetchMode(PDO::FETCH_ASSOC)` avant d'appeler `fetch()`.
 
 <!-- 
@@ -528,7 +528,7 @@ Si vous souhaitez utiliser une base de données `MySQL` en local, voici quelques
   * PhpMyAdmin est accessible à l'adresse [http://localhost/phpmyadmin](http://localhost/phpmyadmin).
     Normalement, il ne nécessite pas de connexion par login / mdp. En effet, vous êtes directement connecté en tant que `root`.  
     Pour avoir la même configuration qu'à l'IUT, vous pouvez créer une base de données portant votre nom qui servira pour les TDs de PHP.
-  * Pour se connecter à votre BDD dans PHP :
-    * Dans `Conf.php`, l'hôte est `localhost`, la base de données est celle que vous venez de créer. Pour le login, indiquez `root`. Le mot de passe ne sera pas nécessaire.
-    * Dans `Model.php`, changer l'appel au constructeur `new PDO(...)` pour donner 
+  * Pour se connecter à votre base de données dans PHP :
+    * Dans `ConfigurationBaseDeDonnees.php`, l'hôte est `localhost`, la base de données est celle que vous venez de créer. Pour le login, indiquez `root`. Le mot de passe ne sera pas nécessaire.
+    * Dans `ConnexionBaseDeDonnees.php`, changer l'appel au constructeur `new PDO(...)` pour donner 
     la valeur `null` à l'argument `password`. Ceci a pour effet de vous connecter sans mot de passe.
