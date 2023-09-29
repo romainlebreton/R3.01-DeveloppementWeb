@@ -92,19 +92,19 @@ relatifs dans nos
 `require_once`, c'est que comme ils sont tous copiés/collés dans `routeur.php`, ils
 utilisent le dossier du routeur comme base.
 
-Prenons l'exemple de `require_once '../Configuration/Configuration.php'` dans `ConnexionBaseDeDonnees.php` :
+Prenons l'exemple de `require_once '../Configuration/ConfigurationBaseDeDonnees.php'` dans `ConnexionBaseDeDonnees.php` :
 * Avant cette adresse était relative à `/chemin_du_site/Controleur/routeur.php`, donc elle 
-  pointait vers `/chemin_du_site/Controleur/../Configuration/Configuration.php`, donc sur
-`/chemin_du_site/Configuration/Configuration.php`
+  pointait vers `/chemin_du_site/Controleur/../Configuration/ConfigurationBaseDeDonnees.php`, donc sur
+`/chemin_du_site/Configuration/ConfigurationBaseDeDonnees.php`
 * Désormais, cette adresse est relative à `/chemin_du_site/web/controleurFrontal.php`. Elle
-va renvoyer vers l'adresse inconnue `/chemin_du_site/web/../Configuration/Configuration.php`, c.-à-d. `/chemin_du_site/Configuration/Configuration.php`.
+va renvoyer vers l'adresse inconnue `/chemin_du_site/web/../Configuration/ConfigurationBaseDeDonnees.php`, c.-à-d. `/chemin_du_site/Configuration/ConfigurationBaseDeDonnees.php`.
 
 Pour éviter ce comportement qui porte à confusion, nous allons utiliser des chemins
 de fichiers absolus. Pour ce faire, nous utiliserons la constante [`__DIR__`](https://www.php.net/manual/fr/language.constants.magic.php) qui contient le chemin absolu du dossier contenant le fichier actuel. Par exemple, nous pouvons écrire dans `ConnexionBaseDeDonnees.php`
 ```php
 // __DIR__ renvoie vers le dossier contenant ConnexionBaseDeDonnees.php
 // c-à-d ici __DIR__ égal "/chemin_du_site/Modele"
-require_once __DIR__ . '/../Configuration/Configuration.php';
+require_once __DIR__ . '/../Configuration/ConfigurationBaseDeDonnees.php';
 ```
 
 À partir de maintenant, nous allons faire ainsi pour chaque `require_once` avec un
@@ -192,7 +192,7 @@ l'équivalent des `package` en Java.
    ```php
    namespace App\Covoiturage\Configuration;
    ```
-   au début de `src/Configuration/Configuration.php`.
+   au début de `src/Configuration/ConfigurationBaseDeDonnees.php`.
 
    **Explication :** La déclaration `namespace` regroupe toutes les classes (et
      fonctions) déclarées dans le fichier dans l'espace de nom
@@ -201,7 +201,7 @@ l'équivalent des `package` en Java.
    les chemins de fichiers Linux/Mac utilisent des slashs `/`.
 
 1. Le site est de nouveau cassé : `ConnexionBaseDeDonnees.php` ne connait pas la classe `Configuration`.
-   En effet, cette classe s'appelle désormais `App\Covoiturage\Configuration\Configuration`.  
+   En effet, cette classe s'appelle désormais `App\Covoiturage\Configuration\ConfigurationBaseDeDonnees`.  
    **Complétez** le nom de la classe `Configuration` dans `ConnexionBaseDeDonnees.php`. Le site Web doit refonctionner.
 
    **Note :** Vous ne devez pas toucher au `require_once`, mais plutôt changer les appels à des méthodes statiques de la classe `Configuration`. 
@@ -210,10 +210,10 @@ l'équivalent des `package` en Java.
    allons utiliser un alias à la place :
 
    ```php
-   // Configuration est un raccourci pour App\Covoiturage\Configuration\Conf
-   use App\Covoiturage\Configuration\Configuration as Configuration; 
+   // ConfigurationBaseDeDonnees est un raccourci pour App\Covoiturage\Configuration\ConfigurationBaseDeDonnees
+   use App\Covoiturage\Configuration\ConfigurationBaseDeDonnees as ConfigurationBaseDeDonnees; 
    // ou syntaxe équivalente plus rapide 
-   use App\Covoiturage\Configuration\Configuration;
+   use App\Covoiturage\Configuration\ConfigurationBaseDeDonnees;
    ```
 
    **Raccourcissez** les noms de classe dans `ConnexionBaseDeDonnees.php` grâce à cet alias.
@@ -262,12 +262,12 @@ commence par `App\Covoiturage` et `Psr4AutoloaderClass` chargera le fichier de
 déclaration de classe correspondant avec un `require_once`. Par exemple, si vous
 exécutez maintenant
 ```php
-use App\Covoiturage\Configuration\Configuration;
+use App\Covoiturage\Configuration\ConfigurationBaseDeDonnees;
 echo Configuration::getPort();
 ```
 alors `Psr4AutoloaderClass` exécutera pour vous
 ```php
-require_once(__DIR__ . '/../src/Configuration/Configuration.php')
+require_once(__DIR__ . '/../src/Configuration/ConfigurationBaseDeDonnees.php')
 ```
 Le chemin de fichier est déterminé par `Psr4AutoloaderClass` en utilisant
 l'association déclarée précédemment avec `addNamespace` pour remplacer
@@ -302,8 +302,8 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
    `src`.  
 
 4. Nous allons enfin pouvoir utiliser l'autoloader. Comme expliqué précédemment,
-   la classe `App\Covoiturage\Configuration\Configuration` sera cherchée dans le
-   fichier `src/Configuration/Configuration.php`.  
+   la classe `App\Covoiturage\Configuration\ConfigurationBaseDeDonnees` sera cherchée dans le
+   fichier `src/Configuration/ConfigurationBaseDeDonnees.php`.  
    <!-- **Renommez** le dossier `Configuration` avec une majuscule `Configuration`.  -->
    Dans
    `ConnexionBaseDeDonnees.php`, enlevez le `require_once` de la classe `Configuration`.  
@@ -322,10 +322,11 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
    Nous vous conseillons de procéder classe par classe, dans l'ordre suivant :
    `ConnexionBaseDeDonnees`, `ModeleVoiture` puis `ControleurVoiture`.
 
-   **Attention :** La classe `PDO` dans `ConnexionBaseDeDonnees.php` est comprise comme
-   `App\Covoiturage\Modele\PDO` à cause du `namespace App\Covoiturage\Modele`.
-   Deux solutions possibles :
-   * Ajoutez `use PDO` pour que PHP sache que `PDO` est dans l'espace de nom
+   **Attention :** La classe `PDO` dans `ConnexionBaseDeDonnees.php` est
+   comprise comme `App\Covoiturage\Modele\PDO` à cause du `namespace
+   App\Covoiturage\Modele`. Or son nom complet est `\PDO`. Deux solutions
+   possibles :
+   * Ajoutez `use \PDO as PDO;` pour que PHP sache que `PDO` est dans l'espace de nom
      global.
    * Ou spécifiez que `PDO` est dans l'espace de nom global en appelant la
      classe `\PDO`.
