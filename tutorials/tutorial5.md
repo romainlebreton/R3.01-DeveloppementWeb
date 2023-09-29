@@ -92,7 +92,7 @@ relatifs dans nos
 `require_once`, c'est que comme ils sont tous copiés/collés dans `routeur.php`, ils
 utilisent le dossier du routeur comme base.
 
-Prenons l'exemple de `require_once '../Configuration/Configuration.php'` dans `ConnexionBaseDeDonnee.php` :
+Prenons l'exemple de `require_once '../Configuration/Configuration.php'` dans `ConnexionBaseDeDonnees.php` :
 * Avant cette adresse était relative à `/chemin_du_site/Controleur/routeur.php`, donc elle 
   pointait vers `/chemin_du_site/Controleur/../Configuration/Configuration.php`, donc sur
 `/chemin_du_site/Configuration/Configuration.php`
@@ -100,9 +100,9 @@ Prenons l'exemple de `require_once '../Configuration/Configuration.php'` dans `C
 va renvoyer vers l'adresse inconnue `/chemin_du_site/web/../Configuration/Configuration.php`, c.-à-d. `/chemin_du_site/Configuration/Configuration.php`.
 
 Pour éviter ce comportement qui porte à confusion, nous allons utiliser des chemins
-de fichiers absolus. Pour ce faire, nous utiliserons la constante [`__DIR__`](https://www.php.net/manual/fr/language.constants.magic.php) qui contient le chemin absolu du dossier contenant le fichier actuel. Par exemple, nous pouvons écrire dans `ConnexionBaseDeDonnee.php`
+de fichiers absolus. Pour ce faire, nous utiliserons la constante [`__DIR__`](https://www.php.net/manual/fr/language.constants.magic.php) qui contient le chemin absolu du dossier contenant le fichier actuel. Par exemple, nous pouvons écrire dans `ConnexionBaseDeDonnees.php`
 ```php
-// __DIR__ renvoie vers le dossier contenant ConnexionBaseDeDonnee.php
+// __DIR__ renvoie vers le dossier contenant ConnexionBaseDeDonnees.php
 // c-à-d ici __DIR__ égal "/chemin_du_site/Modele"
 require_once __DIR__ . '/../Configuration/Configuration.php';
 ```
@@ -200,9 +200,9 @@ l'équivalent des `package` en Java.
    **Attention :** Les espaces de nom utilisent des antislashs `\`, tandis que 
    les chemins de fichiers Linux/Mac utilisent des slashs `/`.
 
-1. Le site est de nouveau cassé : `ConnexionBaseDeDonnee.php` ne connait pas la classe `Configuration`.
+1. Le site est de nouveau cassé : `ConnexionBaseDeDonnees.php` ne connait pas la classe `Configuration`.
    En effet, cette classe s'appelle désormais `App\Covoiturage\Configuration\Configuration`.  
-   **Complétez** le nom de la classe `Configuration` dans `ConnexionBaseDeDonnee.php`. Le site Web doit refonctionner.
+   **Complétez** le nom de la classe `Configuration` dans `ConnexionBaseDeDonnees.php`. Le site Web doit refonctionner.
 
    **Note :** Vous ne devez pas toucher au `require_once`, mais plutôt changer les appels à des méthodes statiques de la classe `Configuration`. 
 
@@ -216,7 +216,7 @@ l'équivalent des `package` en Java.
    use App\Covoiturage\Configuration\Configuration;
    ```
 
-   **Raccourcissez** les noms de classe dans `ConnexionBaseDeDonnee.php` grâce à cet alias.
+   **Raccourcissez** les noms de classe dans `ConnexionBaseDeDonnees.php` grâce à cet alias.
 
    **Remarques :**
    * `use` est similaire à `import` en Java. 
@@ -278,8 +278,10 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
 <div class="exercise">
 
 1. Créez le dossier `src/Lib` (attention à la majuscule). Enregistrez le fichier
-   [Psr4AutoloaderClass.php](../assets/TD4/Psr4AutoloaderClass.php) directement à
+   [Psr4AutoloaderClass.php](../assets/TD5/Psr4AutoloaderClass.php) directement à
    l'emplacement `src/Lib/Psr4AutoloaderClass.php`.
+
+   **Attention :** Un bug apparaît si vous vous servez de PhpStorm pour déplacer `Psr4AutoloaderClass` et le changer de dossier. Il est donc important d'enregistrer `Psr4AutoloaderClass` directement dans le bon dossier.
 
 2. Au début du contrôleur frontal, incluez ce fichier à l'aide d'un
    `require_once`. Utilisez un chemin de fichier absolu avec `__DIR__` comme vu
@@ -288,8 +290,8 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
 3. Rajoutez le code suivant dans le contrôleur frontal juste avant de traiter
    les actions :
    ```php
-   // initialisation
-   $loader = new App\Covoiturage\Lib\Psr4AutoloaderClass();
+   // initialisation en activant l'affichage de débogage
+   $loader = new App\Covoiturage\Lib\Psr4AutoloaderClass(true);
    $loader->register();
    // enregistrement d'une association "espace de nom" → "dossier"
    $loader->addNamespace('App\Covoiturage', __DIR__ . '/../src');
@@ -299,28 +301,28 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
    l'espace de nom commence par `App\Covoiturage` se trouvent dans le dossier
    `src`.  
 
-1. Nous allons enfin pouvoir utiliser l'autoloader. Comme expliqué précédemment,
+4. Nous allons enfin pouvoir utiliser l'autoloader. Comme expliqué précédemment,
    la classe `App\Covoiturage\Configuration\Configuration` sera cherchée dans le
    fichier `src/Configuration/Configuration.php`.  
    <!-- **Renommez** le dossier `Configuration` avec une majuscule `Configuration`.  -->
    Dans
-   `ConnexionBaseDeDonnee.php`, enlevez le `require_once` de la classe `Configuration`.  
+   `ConnexionBaseDeDonnees.php`, enlevez le `require_once` de la classe `Configuration`.  
    Le site Web doit refonctionner.
 
-   **Besoin d'aide pour débugger `Psr4AutoloaderClass` ?** Rajoutez une ligne à
+   <!-- **Besoin d'aide pour débugger `Psr4AutoloaderClass` ?** Rajoutez une ligne à
    la méthode `requireFile` de `Psr4AutoloaderClass` pour afficher le nom du fichier
-   que l'*autoloader* essaye de charger.
+   que l'*autoloader* essaye de charger. -->
 
-2. Répétez ce processus pour enlever tous les `require_once` de fichier de
+5. Répétez ce processus pour enlever tous les `require_once` de fichier de
    déclaration de classe (sauf pour `Psr4AutoloaderClass`) :
    * ajout de `namespace` dans chaque classe,
    * utilisation d'alias pour faire référence à cette classe,
    * suppression des `require_once`.  
 
    Nous vous conseillons de procéder classe par classe, dans l'ordre suivant :
-   `ConnexionBaseDeDonnee`, `ModeleVoiture` puis `ControleurVoiture`.
+   `ConnexionBaseDeDonnees`, `ModeleVoiture` puis `ControleurVoiture`.
 
-   **Attention :** La classe `PDO` dans `ConnexionBaseDeDonnee.php` est comprise comme
+   **Attention :** La classe `PDO` dans `ConnexionBaseDeDonnees.php` est comprise comme
    `App\Covoiturage\Modele\PDO` à cause du `namespace App\Covoiturage\Modele`.
    Deux solutions possibles :
    * Ajoutez `use PDO` pour que PHP sache que `PDO` est dans l'espace de nom
@@ -328,6 +330,12 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
    * Ou spécifiez que `PDO` est dans l'espace de nom global en appelant la
      classe `\PDO`.
    
+6. Maintenant que vous avez compris le principe de `Psr4AutoloaderClass`, vous
+   pouvez si vous le souhaitez désactiver son affichage de débogage :
+   ```php
+   $loader = new App\Covoiturage\Lib\Psr4AutoloaderClass(false);
+   ```
+
 </div>
 
 ## Sécurité des vues 

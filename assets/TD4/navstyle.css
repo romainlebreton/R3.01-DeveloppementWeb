@@ -27,7 +27,7 @@ nav ul li a {
     padding-right: 5px;
 }
 
-body {
+header, footer, main {
     width: 600px;
 }
 

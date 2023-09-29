@@ -53,6 +53,20 @@ namespace App\Covoiturage\Lib;
  */
 class Psr4AutoloaderClass
 {
+
+    private bool $debug;
+
+    public function __construct(bool $debug=false)
+    {
+        $this->debug = $debug;
+    }
+
+    private function affichageDebogage(string $message) : void
+    {
+        if ($this->debug)
+            echo $message;
+    }
+
     /**
      * An associative array where the key is a namespace prefix and the value
      * is an array of base directories for classes in that namespace.
@@ -112,6 +126,7 @@ class Psr4AutoloaderClass
      */
     public function loadClass(string $class)
     {
+        $this->affichageDebogage("<h3>Chargement automatique de classe $class </h3>");
         // the current namespace prefix
         $prefix = $class;
 
@@ -137,6 +152,7 @@ class Psr4AutoloaderClass
         }
 
         // never found a mapped file
+        $this->affichageDebogage("<h3 style=\"color:red;font-weight: bold;\">Échec !</h3>");
         return false;
     }
 
@@ -157,6 +173,8 @@ class Psr4AutoloaderClass
 
         // look through base directories for this namespace prefix
         foreach ($this->prefixes[$prefix] as $base_dir) {
+
+            $this->affichageDebogage("Remplacement du préfixe $prefix par $base_dir<br>");
 
             // replace the namespace prefix with the base directory,
             // replace namespace separators with directory separators
@@ -185,9 +203,11 @@ class Psr4AutoloaderClass
     protected function requireFile(string $file) : bool
     {
         if (file_exists($file)) {
+            $this->affichageDebogage("<p><span style=\"color:green;font-weight: bold;\">Réussite</span> : fichier chargé <pre>$file</pre></p>");
             require $file;
             return true;
         }
+        $this->affichageDebogage("<p><span style=\"color:red;font-weight: bold;\">Échec</span> : fichier introuvable <pre>$file</pre></p>");
         return false;
     }
 }
