@@ -77,7 +77,7 @@ ayant des fonctions bien précises. Dans notre exemple, l'ancien fichier
 Voici un aperçu de tous les fichiers que nous allons créer dans ce TD.
 
 <img alt="Structure de nos fichiers"
-src="../assets/TD4/StructureRepertoire.png" style="margin-left:auto;margin-right:auto;display:block;width:14em;">
+src="../assets/TD4/StructureRepertoire.png" style="margin-left:auto;margin-right:auto;display:block;width:17em;">
 
 **Conventions de nommage :**
 1. Les noms des fichiers PHP de déclaration de classe commencent par une majuscule, les autres non.
@@ -93,18 +93,16 @@ lors des TDs précédents (sauf la fonction `__toString()`).
 <div class="exercise">
 
 1. Créez les répertoires `Configuration`, `Controleur`, `Modele`, `vue` et `vue/voiture`.
-2. Utilisez l'outil de refactoring de votre IDE pour renommer : 
-   1. la classe `Voiture` en `ModeleVoiture`, 
-   2. la classe `Model` en `ConnexionBaseDeDonnee`,
-   3. la classe `Conf` en `Configuration`.  
+2. Utilisez l'outil de refactoring de votre IDE pour renommer la classe
+   `Voiture` en `ModeleVoiture`. 
    
    Vérifiez que les déclarations de type ont bien été mises à jour partout dans votre code.  
    Mettez en commentaire la fonction `__toString()` pour la désactiver.
 
    **Aide pour le *refactoring*** : Clic droit sur le fichier de déclaration de classe à renommer à PhpStorm, puis *Refactor* → *Rename*.
-3. Déplacez vos fichiers `ModeleVoiture.php` et `ConnexionBaseDeDonnee.php` dans le répertoire `Modele/`.
-4. Déplacez la classe `Configuration` dans le dossier `Configuration`.
-5. Corrigez le chemin relatif du `require_once` du fichier `Configuration.php` dans `ConnexionBaseDeDonnee.php`.
+3. Déplacez vos fichiers `ModeleVoiture.php` et `ConnexionBaseDeDonnees.php` dans le répertoire `Modele/`.
+4. Déplacez la classe `ConfigurationBaseDeDonnees` dans le dossier `Configuration`.
+5. Corrigez le chemin relatif du `require_once` du fichier `ConfigurationBaseDeDonnees.php` dans `ConnexionBaseDeDonnees.php`.
 
 </div>
 
