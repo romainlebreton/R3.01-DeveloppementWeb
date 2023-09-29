@@ -451,11 +451,13 @@ différences entre `getVoitures()` et `getUtilisateurs()` sont le nom de la tabl
 et le nom de la classe des objets en sortie. Voici donc comment nous allons
 faire pour avoir un code générique :
 
-1. Faites que la classe `VoitureRepository` hérite de `AbstractRepository` (mot
+1. Créez une nouvelle classe *abstraite* `abstract class `AbstractRepository` et
+   faites hériter la classe `VoitureRepository` de `AbstractRepository` (mot
    clé `extends` comme en Java).
 
-1. Pour que `AbstractRepository` accède au nom de la table, elle va demander à
-   toutes ses classes filles de posséder une méthode `getNomTable()`.  
+1. Pour qu'on puisse migre la fonction `getVoitures()` de `VoitureRepository` vers
+   `AbstractRepository`, il faudrait que cette dernière puisse accèder au nom de la table.
+   Pour cela elle va demander à toutes ses classes filles de posséder une méthode `getNomTable()`.  
    Ajoutez donc une méthode abstraite `getNomTable()` dans `AbstractRepository`
    ```php
    protected abstract function getNomTable(): string;
@@ -464,8 +466,7 @@ faire pour avoir un code générique :
 
    <!-- getNomTable n'est pas statique car PHP déconseille l'utilisation de méthode statique et abstraite (PHP émet un warning) -->
 
-1. Déplacez la fonction `getVoitures()` de `VoitureRepository` vers une nouvelle
-   classe *abstraite* `abstract class AbstractRepository` en la renommant `recuperer()`.
+1. Déplacez la fonction `getVoitures()` de `VoitureRepository` vers `AbstractRepository` en la renommant `recuperer()`.
 
    **Astuce** : sur PhpStorm le moyen le plus simple pour déplacer la fonction serait *Clic droit sur la declaration de la méthode* >
    *Refactor* > *Move Members* > *Indiquer `AbstractRepository` comme classe de destination*. De même pour le renommage, pensez à utiliser le refactoring.
