@@ -258,7 +258,7 @@ aux pages suivantes :
 1. afficher toutes les voitures : action `afficherListe`
 2. afficher les détails d'une voiture : action `afficherDetail`
 3. afficher le formulaire de création d'une voiture : action `afficherFormulaireCreation`
-3. créer une voiture dans la BDD et afficher un message de confirmation : action `creerDepuisFormulaire`
+3. créer une voiture dans la base de données et afficher un message de confirmation : action `creerDepuisFormulaire`
 <!-- 4. supprimer une voiture et afficher un message de confirmation : action `delete` -->
 
 Pour recréer la page précédente, il manque encore un bout de code qui appelle la
@@ -431,15 +431,14 @@ Cela pose plusieurs problèmes :
 
 Nous allons créer deux actions `afficherFormulaireCreation` et `creerDepuisFormulaire` qui doivent respectivement
 afficher un formulaire de création d'une voiture et effectuer l'enregistrement
-dans la BDD.
+dans la base de données.
 
 <div class="exercise">
 
 1. Commençons par l'action `afficherFormulaireCreation` qui affichera le formulaire :
    1. Créez la vue `./vue/voiture/formulaireCreation.php` qui reprend le code de
-      `formulaireVoiture.html` fait dans le TD1.
-      La page de traitement de ce formulaire devra être l'action `creerDepuisFormulaire` du
-      routeur `routeur.php`.
+      `formulaireVoiture.html` fait dans le TD1.  
+      Repasser le formulaire en méthode `GET` pour faciliter son débogage.  
    1. Rajoutez une action `afficherFormulaireCreation` à `ControleurVoiture.php` qui affiche cette
       vue.
 1. Testez votre page en appelant l'action `afficherFormulaireCreation` de `routeur.php`.
@@ -455,27 +454,23 @@ dans la BDD.
 1. Testez l'action `creerDepuisFormulaire` de `routeur.php` en donnant
    l'immatriculation, la marque, la couleur et le nombre de sièges dans l'URL.
 
-1. Testez le tout, c.-à-d. que la création de la voiture depuis le formulaire
-   (action `afficherFormulaireCreation`) appelle bien l'action `creerDepuisFormulaire` et que la voiture est bien
-   créée dans la BDD.
-
-   **Attention à l'envoi de `action=creerDepuisFormulaire` :** Vous souhaitez envoyer
-   l'information `action=creerDepuisFormulaire` en plus des informations saisies lors de
-   l'envoi du formulaire. La bonne façon de faire est de rajouter un champ caché à votre formulaire :
-
-   ```html?start_inline=1
-   <input type='hidden' name='action' value='creerDepuisFormulaire'>
-   ```
-   
-   Si vous ne connaissez pas les `<input type='hidden'>`, allez lire
-   [la documentation](https://developer.mozilla.org/fr/docs/Web/HTML/Element/input/hidden).
-
-   <!-- 
-   Si vous avez un formulaire en méthode POST et que vous voulez transmettre l'action en méthode GET,
-   vous pouvez rajouter l'information dans l'URL avec
+1. Nous souhaitons maintenant relier l'envoi du formulaire de création à
+   l'action `creerDepuisFormulaire` pour la voiture soit bien créée : 
+   1. La page de traitement du formulaire (l'attribut `action` de `<form>`)
+   devra renvoyer vers `routeur.php`;
+   2. Afin d'envoyer l'information `action=creerDepuisFormulaire` en plus des
+      informations saisies dans le formulaire, la bonne façon de faire
+      est de rajouter un champ caché à votre formulaire :
 
       ```html?start_inline=1
-      <form method="post" action='routeur.php?action=creerDepuisFormulaire'>
+      <input type='hidden' name='action' value='creerDepuisFormulaire'>
       ```
-   -->
+      
+      Si vous ne connaissez pas les `<input type='hidden'>`, allez lire
+      [la documentation](https://developer.mozilla.org/fr/docs/Web/HTML/Element/input/hidden).
+
+1. Testez le tout, c.-à-d. que la création de la voiture depuis le formulaire
+   (action `afficherFormulaireCreation`) appelle bien l'action `creerDepuisFormulaire` et que la voiture est bien
+   créée dans la base de données.
+
 </div>
