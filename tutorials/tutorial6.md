@@ -49,9 +49,9 @@ contrôleur frontal. Nous allons faire en sorte qu'un utilisateur qui arrive sur
 
 1. Testez votre site en appelant `controleurFrontal.php` sans action.
 
-**Note :** De manière générale, il ne faut jamais lire un `$_GET['action']`
-  avant d'avoir vérifié s'il était bien défini avec un `isset(...)` sous peine
-  d'avoir des erreurs `Undefined index : action ...`.
+**Note :** De manière générale, il ne faut jamais lire la case d'un tableau
+  avant d'avoir vérifié qu'elle était bien définie avec un `isset(...)` sous peine
+  d'avoir des erreurs `Undefined index : ...`.
 
 </div>
 
@@ -69,15 +69,15 @@ si elles existent. -->
 <div class="exercise">
 
 On souhaite que le routeur vérifie que `action` est le nom d'une méthode de
-`ControleurVoiture.php` avant d'appeler cette méthode et renvoyer vers une page
-d'erreur le cas échéant.
+`ControleurVoiture.php` avant d'appeler cette méthode. Sinon, nous renverrons
+vers une page d'erreur.
 
 1. Créez une action `afficherErreur(string $messageErreur = "")` dans le contrôleur
    *voiture* qui affiche une vue d'erreur `src/vue/voiture/erreur.php` contenant
    le message d'erreur *Problème avec la voiture : `$messageErreur`*, ou juste
    *Problème avec la voiture* si le message est vide.
 
-1. **Modifiez** le code du routeur pour implémenter la vérification de l'action.
+2. **Modifiez** le code du routeur pour implémenter la vérification de l'action.
    Si l'action n'existe pas, appelez l'action `afficherErreur`.
 
    **Notes :** 
@@ -101,7 +101,7 @@ d'erreur le cas échéant.
 
 ## Séparation des données et de leur persistance
 
-Une bonne pratique lors de la programmation orientée objet est de suivre des
+Une bonne pratique de la programmation orientée objet est de suivre des
 principes de conception, notamment *SOLID* dont vous avez entendu parler l'an
 dernier en cours de *Développement Orienté Objet* et que vous allez également
 aborder dans le cours *Qualité de développement*. Le `S` de *SOLID* signifie
@@ -120,7 +120,7 @@ propres aux voitures (méthodes métiers). Voici le diagramme de classe UML modi
 nous allons obtenir à la fin de cette section :
 
 <img alt="Diagramme de classe"
-src="https://www.plantuml.com/plantuml/png/XLDDR-8m4BtdLymnqRA8lN9OWTWB1tPNfUe92KtCA7BhsAazHgA8_rwJn0suhI9nuJs_3yyu2yTesTSgSozIDsYn1cqEvAY1NxFP3IeKEhTajhBqJ6jXz5Q-4SooJ6DDha51i6oQtSeSZMHliQBT9ZYftHza_5S-as0uPm0PT5xmr9wZ5lm10FjzC7LilU1SrZM6AE4LiZHw0ZNQLqyJ4COhydO2kjnAgiWLGVqJ01B575pufolewKwVeD4jXQFt7AHcwEjLn7zxF2zQfYSSyVe-FArV31QhBZ4lOkPW4gc-L16PczoFIm-bqkp16GQ3JNlxl1l2q2RYjsKksMLyfG_K62VPsDENAqteQzZPSQWdBjVKxbGtHhGMJ-aPX_v85Te3sJo-agu21KbfZFhUzJ_QiMtCOy_KfNz_qbBUnprYgGZzdIJC9_p61ZFzF8lfxz4l9Ago1Uc3hzKx" style="margin-left:auto;margin-right:auto;display:block;">
+src="http://www.plantuml.com/plantuml/png/ZLFFJy8m5BxlhtZ7BIB1AmS3mGi7r8ZnH4BUoijIxThPlf8WuN-tRfqRKuC92TdtlUz7NxUPOxJiIvMuDwahj5Y2DZjoLC7DPD93XKBdvinMvfvfAOnUom-2IP9eBCbLA0ZcLRLPcBsHx2qMj5a59qMREsHyo5z9C1mJW0GQCtYf1wa6hm1WkmskZgqNdCgon90bl4AMHe-WHFlkQGJ2U4NUZa3dQqa5kIoehuDwe9Y22q-wW8QE-Y4QtOPmwpq5gHbYlOBuFk9fLZEHSCJBy_1X_QopM3I9QTPcjYOT5KjbBTFB_JvqLsgOtJb3Px2gJvysI-YrYNY_p2av_UDEdwWoJhAnXr_lj4_7jAFZq4-SlcARgMQFQ2qUXZCE_PuAj3koQHo6VVCV9Banwc_NHxINhcCASNRe4bz0QIcDSS-OAq9_9WaB2h-Bcnd_NCRuzl97qigI6UcTBzKd" style="margin-left:auto;margin-right:auto;display:block;">
 
 Notez que dans le schéma UML ci-dessus :
 * `ModeleVoiture` est scindé en deux classes `VoitureRepository` et `Voiture`.
@@ -287,6 +287,28 @@ formulaire de mise à jour. Pour cela :
 1. Écrivez l'action `afficherFormulaireMiseAJour` du contrôleur de voiture pour qu'il affiche le
    formulaire prérempli. **Vérifiez** que l'action `afficherFormulaireMiseAJour` affiche bien le formulaire.
 
+
+1. Ajoutons les liens manquants. Enrichissez la vue `liste.php` pour ajouter des
+   liens HTML qui permettent de mettre à jour une voiture. Ces liens pointent
+   donc vers le formulaire de mis-à-jour prérempli.
+
+   *Oubli des TDs précédents :* Ajoutez aussi un lien *Créer une voiture* vers l'action `afficherFormulaireCreation` dans `liste.php`.
+   <!-- Corrigé : TODO à supprimer l'an prochain -->
+
+1. Astuce optionnelle : La vue `afficherFormulaireMiseAJour` peut être raccourcie en utilisant la
+   syntaxe 
+   ```php
+   <?= $immatriculationHTML ?>
+   ```
+   qui est équivalente à
+   ```php
+   <?php echo $immatriculationHTML; ?>
+   ```
+
+</div>
+
+<div class="exercise">
+
 1. Maintenant, passons à l'action `mettreAJour` qui effectue la mise à jour dans la
    BDD.
 
@@ -307,23 +329,6 @@ formulaire de mise à jour. Pour cela :
 
 1. Testez le tout. Quand la fonctionnalité marche, appréciez de nouveau
    l'instant.
-
-
-1. Ajoutons les liens manquants. Enrichissez la vue `liste.php` pour ajouter des
-   liens HTML qui permettent de mettre à jour une voiture. Ces liens pointent
-   donc vers le formulaire de mis-à-jour prérempli.
-
-   *Oubli des TDs précédents :* Ajoutez aussi un lien *Créer une voiture* vers l'action `afficherFormulaireCreation` dans `liste.php`.
-
-1. Astuce optionnelle : La vue `afficherFormulaireMiseAJour` peut être raccourcie en utilisant la
-   syntaxe 
-   ```php
-   <?= $immatriculationHTML ?>
-   ```
-   qui est équivalente à
-   ```php
-   <?php echo $immatriculationHTML; ?>
-   ```
 
 </div>
 
@@ -398,8 +403,9 @@ travail, commençons par créer l'action `afficherListe` de `Utilisateur`.
 
    Corrigez l'erreur : il manque un alias avec `use` pour la classe `Utilisateur`.
 
-2. Créez une vue `src/vue/utilisateur/liste.php` similaire à celle des
-   voitures (sans nécessairement de lien pour l'instant).
+2. Créez une vue `src/vue/utilisateur/liste.php` similaire à celle des voitures
+   (sans nécessairement de lien pour l'instant).  
+   Idem pour `utilisateur/erreur.php`.
 
 3. **Testez** votre action en appelant l'action `afficherListe` du contrôleur
    `Utilisateur` (qui est accessible dans la barre de menu de votre site
@@ -407,7 +413,7 @@ travail, commençons par créer l'action `afficherListe` de `Utilisateur`.
 
 </div>
 
-## Modèle et contrôleur générique
+## Modèle générique
 
 L'implémentation du CRUD pour les utilisateurs et les trajets est un code très
 similaire à celui pour les voitures. Nous pourrions donc copier/coller le code
@@ -443,6 +449,31 @@ Nous allons détailler ces changements dans les prochaines sections.
 Déplaçons de `VoitureRepository` vers un modèle générique `AbstractRepository`
 toutes les requêtes SQL qui ne sont pas spécifiques aux voitures.
 
+<!-- 
+
+TODO : rewrite l'an prochain. Le nouveau factoring marche mieux mais émet des messages de warning
+
+1. getVoitures plus statiques
+   4 changements dans Contr (Ctrl+R ou Alt+J)
+   Pour pouvoir utiliser héritage
+   
+1. getVoitureParImmatriculation plus statique
+   2 changements dans Contr (Ctrl+R ou Alt+J)
+   Pour pouvoir utiliser héritage
+
+1. public static function construireDepuisTableau
+   plus statique
+   2 change Repo: $this-> 
+   1 change Contr: new VoitureRepos->
+   créer interface avec type de retour AbstractDataObject
+   
+1. getNomTable
+   interface + implémentation + utilisation dans getVoitures
+
+2. getVoitures -> abstract recuperer
+   Pull member Up (skip le message de warning)
+
+ -->
 
 <div class="exercise">
 
@@ -589,7 +620,7 @@ demander aux implémentations de `AbstractRepository` de fournir une méthode
 
 ### Action `supprimer`
 
-ouveautés.
+Pas de nouveautés.
 
 <div class="exercise">
 
@@ -620,6 +651,16 @@ Pour ces dernières actions, il faut un peu plus travailler pour créer la
 fonction correspondante dans le modèle générique. 
 
 #### Action `mettreAJour`
+
+<!-- 
+
+TODO : À changer l'an prochain
+
+Faire déjà les changements dans VoitureRepository pour la rendre générique et que cela marche
+
+Après on la déplacera dans AbstractRepository
+
+ -->
 
 Pour reconstituer la requête
 ```sql
@@ -712,7 +753,7 @@ jointure `passager`, cf. fin TD3).
 
 ### Autres idées
 
-* Faire en sorte que la méthode d'erreur prenne en argument un message d'erreur. Chaque appel à cette méthode doit maintenant fournir un message d'erreur personnalisé.
+<!-- * Faire en sorte que la méthode d'erreur prenne en argument un message d'erreur. Chaque appel à cette méthode doit maintenant fournir un message d'erreur personnalisé. -->
 * Factoriser le code des contrôleurs dans un contrôleur générique, au moins pour
   la méthode `afficherVue()` 
 * Ajouter les actions spécifiques aux requêtes SQL `getTrajets()` et

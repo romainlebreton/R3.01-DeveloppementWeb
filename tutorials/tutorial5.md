@@ -266,12 +266,12 @@ Dans la suite, nous allons vous fournir une classe `Psr4AutoloaderClass` qui
 implémente un chargeur automatique de classe suivant le standard `PSR-4`. 
 En pratique, après avoir initialisé la classe avec 
 ```php
-$loader = new App\Covoiturage\Lib\Psr4AutoloaderClass();
-$loader->register();
+$chargeurDeClasse = new App\Covoiturage\Lib\Psr4AutoloaderClass();
+$chargeurDeClasse->register();
 ```
 vous pourrez enregistrer une association entre un espace de nom et un dossier
 ```php
-$loader->addNamespace('App\Covoiturage', __DIR__ . '/../src');
+$chargeurDeClasse->addNamespace('App\Covoiturage', __DIR__ . '/../src');
 ```
 Vous pouvez maintenant utiliser n'importe quelle classe dont l'espace nom
 commence par `App\Covoiturage` et `Psr4AutoloaderClass` chargera le fichier de
@@ -307,10 +307,10 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
    les actions :
    ```php
    // initialisation en activant l'affichage de débogage
-   $loader = new App\Covoiturage\Lib\Psr4AutoloaderClass(true);
-   $loader->register();
+   $chargeurDeClasse = new App\Covoiturage\Lib\Psr4AutoloaderClass(true);
+   $chargeurDeClasse->register();
    // enregistrement d'une association "espace de nom" → "dossier"
-   $loader->addNamespace('App\Covoiturage', __DIR__ . '/../src');
+   $chargeurDeClasse->addNamespace('App\Covoiturage', __DIR__ . '/../src');
    ```
 
    *En résumé*, ce code dit au système d'autoloading de PHP que les classes dont

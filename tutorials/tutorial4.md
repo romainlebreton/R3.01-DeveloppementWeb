@@ -443,19 +443,24 @@ dans la base de données.
    1. Rajoutez une action `afficherFormulaireCreation` à `ControleurVoiture.php` qui affiche cette
       vue.
 1. Testez votre page en appelant l'action `afficherFormulaireCreation` de `routeur.php`.
+2. Ajoutez aussi un lien *Créer une voiture* vers l’action
+   `afficherFormulaireCreation` dans `liste.php`.
+</div>
 
-1. Créez l'action `creerDepuisFormulaire` dans le contrôleur qui devra
+<div class="exercise">
+
+3. Créez l'action `creerDepuisFormulaire` dans le contrôleur qui devra
 
    1. récupérer les donnés de la voiture à partir de la *query string*,
-   1. créer une instance de `ModeleVoiture` avec les données reçues,
-   2. appeler la méthode `sauvegarder` du modèle,
-   3. appeler la fonction `afficherListe()` pour afficher le tableau de
+   2. créer une instance de `ModeleVoiture` avec les données reçues,
+   3. appeler la méthode `sauvegarder` du modèle,
+   4. appeler la fonction `afficherListe()` pour afficher le tableau de
       toutes les voitures.
 
-1. Testez l'action `creerDepuisFormulaire` de `routeur.php` en donnant
+4. Testez l'action `creerDepuisFormulaire` de `routeur.php` en donnant
    l'immatriculation, la marque, la couleur et le nombre de sièges dans l'URL.
 
-1. Nous souhaitons maintenant relier l'envoi du formulaire de création à
+5. Nous souhaitons maintenant relier l'envoi du formulaire de création à
    l'action `creerDepuisFormulaire` pour la voiture soit bien créée : 
    1. La page de traitement du formulaire (l'attribut `action` de `<form>`)
    devra renvoyer vers `routeur.php`;
@@ -470,7 +475,7 @@ dans la base de données.
       Si vous ne connaissez pas les `<input type='hidden'>`, allez lire
       [la documentation](https://developer.mozilla.org/fr/docs/Web/HTML/Element/input/hidden).
 
-1. Testez le tout, c.-à-d. que la création de la voiture depuis le formulaire
+6. Testez le tout, c.-à-d. que la création de la voiture depuis le formulaire
    (action `afficherFormulaireCreation`) appelle bien l'action `creerDepuisFormulaire` et que la voiture est bien
    créée dans la base de données.
 
