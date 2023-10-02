@@ -464,6 +464,8 @@ faire pour avoir un code générique :
    ```
    et une implémentation de `getNomTable()` dans `VoitureRepository`.
 
+   **Question** : pourquoi la visibilité de cette fonction est `protected` ?
+
    <!-- getNomTable n'est pas statique car PHP déconseille l'utilisation de méthode statique et abstraite (PHP émet un warning) -->
 
 1. Déplacez la fonction `getVoitures()` de `VoitureRepository` vers `AbstractRepository` en la renommant `recuperer()`.
