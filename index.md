@@ -53,12 +53,10 @@ Cours à l'IUT de Montpellier - 2ème année
 * TD1 -- [Encodage des caractères, serveur HTTP de l'IUT et note sur les URLs]({{site.baseurl}}/assets/tut1-complement.html)
 * TD2 -- [Attributs et méthodes statiques]({{site.baseurl}}/assets/tut2-complement.html)
 * TD3 -- [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
-
-<!-- 
 * TD4 -- [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html)
 * TD5 -- [`.htaccess`, namespace et autoloader]({{site.baseurl}}/assets/tut5-complement.html)
 * TD7 -- [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html) 
--->
+
 
 <!-- 
 1. [Syntaxe simple & avancée de PHP 8.1]({{site.baseurl}}/assets/complement1-PHPSyntax.html)
