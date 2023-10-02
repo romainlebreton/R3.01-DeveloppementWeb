@@ -40,7 +40,7 @@ Cours à l'IUT de Montpellier - 2ème année
 
 ### Authentification (2 semaines)
 
-* TD 7 -- Cookies & Sessions (durée indicative ≃ 4h) 
+* [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) (durée indicative ≃ 4h) 
 * TD 8 -- Authentification & Validation par email (durée indicative ≃ 4h) 
 
 <!-- 

@@ -127,7 +127,7 @@ nous avons un cookie `"TestCookie1"` de valeur `"valeur1"` et un cookie
    * Allez dans les outils développeurs (avec `F12`) &#8594; Onglet Réseau (ou
    Network). 
    * Rechargez votre page Web qui enregistre un cookie. 
-   * En cliquant sur la requête de `frontController.php`, vous pouvez voir [les
+   * En cliquant sur la requête de `controleurFrontal.php`, vous pouvez voir [les
    en-têtes (ou Headers) de la
    réponse](https://developer.chrome.com/docs/devtools/network/reference/#headers)
    et y observer la ligne `Set-Cookie: ...`.
@@ -233,7 +233,7 @@ devrait afficher `valeur1`.
 
 Nous allons regrouper toutes les fonctionnalités des cookies dans une classe.
 
-1. Créez la classe `Cookie` dans le fichier `src/Model/HTTP/Cookie.php` en y indiquant le bon espace de nom.
+1. Créez la classe `Cookie` dans le fichier `src/Modele/HTTP/Cookie.php` en y indiquant le bon espace de nom.
 1. Codez la méthode
 ```php
 public static function enregistrer(string $cle, mixed $valeur, ?int $dureeExpiration = null): void
@@ -364,15 +364,15 @@ l'action par défaut plutôt que le contrôleur par défaut.
    contrôleur en particulier. On va donc la rendre accessible à tous les
    contrôleurs.
 
-   * Créez une classe `src/Controller/GenericController.php`.
-   * Les autres contrôleurs doivent hériter de `GenericController`.
-   * Déplacez la méthode `afficheVue` commune à tous les contrôleurs dans
-     `GenericController`. Sa visibilité passe de `private` à `protected` pour
+   * Créez une classe `src/Controleur/ControleurGenerique.php`.
+   * Les autres contrôleurs doivent hériter de `ControleurGenerique`.
+   * Déplacez la méthode `afficherVue` commune à tous les contrôleurs dans
+     `ControleurGenerique`. Sa visibilité passe de `private` à `protected` pour
      être accessible dans ses classes filles.
-   * Si vous n'avez de contrôleur trajet `src/Controller/ControllerTrajet.php`,
+   * Si vous n'avez de contrôleur trajet `src/Controleur/ControleurTrajet.php`,
      créez un contrôleur vide qui hérite seulement du contrôleur générique.
 
-   *Note* : Le contrôleur générique pourrait implémenter une méthode `error()`
+   *Note* : Le contrôleur générique pourrait implémenter une méthode `afficherErreur()`
    générique. Cette méthode du contrôleur générique serait notamment appelée par
    le contrôleur frontal en cas de contrôleur inconnu.
 
@@ -380,15 +380,15 @@ l'action par défaut plutôt que le contrôleur par défaut.
    une icône cliquable ![cœur]({{site.baseurl}}/assets/TD7/heart.png) qui pointe
    vers la future action `formulairePreference` (sans contrôleur).
 
-   Note : Stockez vos images et votre CSS dans un dossier `assets` accessible
-   sur internet (avec le bon fichier `htaccess`)
+   Note : Stockez vos images et votre CSS dans un dossier `ressources` accessible
+   sur internet (avec le bon fichier `.htaccess`)
 
-   ![assets]({{site.baseurl}}/assets/TD7/assets.png){: .blockcenter}
+   ![assets]({{site.baseurl}}/assets/TD7/assets.png){: .blockcenter width="230em"}
 
-1. Créez une action `formulairePreference` dans le contrôleur *générique*, qui
-   doit afficher une vue `src/view/formulairePreference.php`.
+3. Créez une action `formulairePreference` dans le contrôleur *générique*, qui
+   doit afficher une vue `src/vue/formulairePreference.php`.
    
-1. Créez cette vue et complétez-la avec un formulaire 
+4. Créez cette vue et complétez-la avec un formulaire 
    * renvoyant vers la future action `enregistrerPreference` (sans indiquer de contrôleur), 
    * contenant des *boutons radio* permettant de choisir `voiture`, `trajet` ou
    `utilisateur` comme contrôleur par défaut
@@ -431,26 +431,26 @@ l'action par défaut plutôt que le contrôleur par défaut.
    }
    ```
 
-4. Écrire l'action `enregistrerPreference` du contrôleur générique qui 
+2. Écrire l'action `enregistrerPreference` du contrôleur générique qui 
    * récupère la valeur `controleur_defaut` du formulaire,
    * l'enregistre dans un cookie en utilisant la classe `PreferenceControleur`,
-   * appelle une nouvelle vue `src/view/enregistrerPreference.php`
+   * appelle une nouvelle vue `src/vue/enregistrerPreference.php`
      qui affiche *La préférence de contrôleur est enregistrée !*.
 
-5. Vérifier que ce cookie a bien été déposé à l'aide des outils de développement.
+3. Vérifier que ce cookie a bien été déposé à l'aide des outils de développement.
 
-3. Dans le contrôleur frontal, le contrôleur par défaut est `voiture`. Faites en
+4. Dans le contrôleur frontal, le contrôleur par défaut est `voiture`. Faites en
    sorte d'utiliser la préférence de contrôleur par défaut si elle existe.
 
 5. Testez le bon fonctionnement de cette personnalisation de la page d'accueil en
 choisissant autre chose que `voiture` dans le formulaire.
 
-1. Il est possible que vos anciens liens du contrôleur voiture (vues `list` et
-   `detail`) et de la barre de menu (`view.php`) n'indiquait pas le contrôleur
+1. Il est possible que vos anciens liens du contrôleur voiture (vues `liste` et
+   `detail`) et de la barre de menu (`vueGenerale.php`) n'indiquait pas le contrôleur
    voiture, car c'était le contrôleur par défaut. Si nécessaire, rajoutez
    l'indication du contrôleur dans ces liens.
 
-1. On souhaite que le formulaire de préférence soit déjà coché si la préférence
+2. On souhaite que le formulaire de préférence soit déjà coché si la préférence
    existe déjà. Implémentez cette fonctionnalité. Vous utiliserez l'attribut
    `checked` pour cocher un `<input type="radio">`.
 
@@ -565,9 +565,9 @@ Présentons maintenant les opérations fondamentales sur les sessions :
 
 <div class="exercise">
 
-1.  Dans un nouveau fichier `src/Model/HTTP/Session.php`, compléter la classe `Session` suivante
+1.  Dans un nouveau fichier `src/Modele/HTTP/Session.php`, compléter la classe `Session` suivante
     ```php
-    namespace App\Covoiturage\Model\HTTP;
+    namespace App\Covoiturage\Modele\HTTP;
     
     use Exception;
 
@@ -592,22 +592,22 @@ Présentons maintenant les opérations fondamentales sur les sessions :
             return Session::$instance;
         }
 
-        public function contient($name): bool
+        public function contient($nom): bool
         {
             // À compléter
         }
 
-        public function enregistrer(string $name, mixed $value): void
+        public function enregistrer(string $nom, mixed $valeur): void
         {
             // À compléter
         }
         
-        public function lire(string $name): mixed
+        public function lire(string $nom): mixed
         {
             // À compléter
         }
         
-        public function supprimer($name): void
+        public function supprimer($nom): void
         {
             // À compléter
         }
@@ -686,11 +686,12 @@ alors le message disparait
 
 1. Utilisez les messages flash pour enlever toutes les vues qui affichaient un
    message puis appelaient une autre vue. En particulier, supprimez les vues
-   désormais inutiles `created.php`, `deleted.php` et `updated.php`. 
+   désormais inutiles `utilisateurCree.php`, `utilisateurMisAJour.php` et
+   `utilisateurSupprime.php`. Faites de même pour les vues de voiture.
 
    *Note* : Par exemple, en cas de succès de création d'un utilisateur, on
    pourrait ajouter un message flash de succès *L'utilisateur a bien été créé*
-   puis rediriger dans l'action `readAll` du contrôleur `utilisateur`.
+   puis rediriger dans l'action `afficherListe` du contrôleur `utilisateur`.
    
 1. De plus, l'action `enregistrerPreference()` peut maintenant rediriger
    l'action par défaut du contrôleur par défaut, que l'on obtient sans indiquer
@@ -729,7 +730,7 @@ alors le message disparait
    requête et lus lors de la requête de redirection suivante.
 
 1. Les messages flash peuvent s'afficher sur n'importe quelle page qui utilise
-   la vue générique `view.php`. Il faudra donc mettre à jour `view.php` pour
+   la vue générique `vueGenerale.php`. Il faudra donc mettre à jour `vueGenerale.php` pour
    afficher tous les messages flash existants. Il faudra aussi penser à ce
    qu'une variable contenant les messages flash soit donné en paramètre lors de
    l'affichage de la vue.
@@ -988,7 +989,7 @@ Rajoutez un mécanisme d'expiration pour les sessions. Le code du mécanisme ser
 codé dans une méthode `verifierDerniereActivite` de la classe `Session`. Cette méthode sera appelée par `getInstance()` après l'appel au constructeur pour ne vérifier l'expiration qu'au démarrage de la session.
 
 *Note :* La durée d'expiration est une donnée qui dépend du site. Il serait donc
-judicieux de la mettre dans le fichier de configuration `Conf.php`.
+judicieux de la mettre dans un fichier de configuration `ConfigurationSite.php`.
 
 </div>
 
