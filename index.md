@@ -38,9 +38,18 @@ Cours à l'IUT de Montpellier - 2ème année
 * [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html) (durée indicative ≃ 4h) 
 * [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html) (durée indicative ≃ 5h) 
 
+<!-- ### Lancement des projets
+
+La première séance de la semaine du lundi 9 octobre sera dédiée aux projets PHP :
+
+* [Parcours A -- SAÉ](https://moodle.umontpellier.fr/course/view.php?id=31828)
+* [Parcours B & D -- Instructions du projet](projet.html)
+
+La dernière séance de PHP (fin de la semaine du lundi 23 octobre) sera dédiée au suivi des projets. -->
+  
 ### Authentification (2 semaines)
 
-* [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) (durée indicative ≃ 4h) 
+* TD 7 -- Cookies & Sessions (durée indicative ≃ 4h) 
 * TD 8 -- Authentification & Validation par email (durée indicative ≃ 4h) 
 
 <!-- 

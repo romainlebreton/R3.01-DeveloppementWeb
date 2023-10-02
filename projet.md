@@ -39,14 +39,14 @@ rôle développeur. Il n'y a pas de date de rendu : votre site Web devront juste
 être disponibles au moment de la soutenance. **Attention** cependant aux
 modifications de dernière minute qui ont tendance à casser le site !
 
-**Emploi du temps prévisionnel :**
+<!-- **Emploi du temps prévisionnel :**
 
 1. Semaine du lundi 24 octobre 2022 -- Séance projet
 1. Semaine du lundi 7 novembre 2022 -- TD 7 -- Cookies & Sessions puis projet
 1. Semaine du lundi 14 novembre 2022 -- TD 8 -- Authentification & Validation par email
 1. Semaine du lundi 21 novembre 2022 -- Projet
 1. Semaine du lundi 2 janvier 2023 -- Évaluation Projet
-1. Semaine du lundi 9 janvier 2023 -- Examen final écrit
+1. Semaine du lundi 9 janvier 2023 -- Examen final écrit -->
 
 
 ### Critères de notation
