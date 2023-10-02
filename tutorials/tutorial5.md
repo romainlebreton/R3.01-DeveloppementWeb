@@ -30,7 +30,7 @@ Lors du [TD4](https://romainlebreton.github.io/R3.01-DeveloppementWeb/tutorials/
 nous avons commencé à utiliser l'architecture MVC. Le code était découpé en trois parties :
 
 3. Le modèle (*e.g.* `Modele/ModeleVoiture.php`) est une bibliothèque des
-fonctions permettant de gérer les données, *i.e.* l'interaction avec la BDD dans
+fonctions permettant de gérer les données, *i.e.* l'interaction avec la base de données dans
 notre cas. Cette bibliothèque sera utilisée par le contrôleur.
 
 2. Les vues (*e.g.* `vue/voiture/liste.php`) ne doivent contenir que
@@ -76,7 +76,8 @@ fonction de s'ils doivent être accessibles sur le Web.
 
    1. Renommez et déplacez le fichier `Controleur/routeur.php` pour qu'il devienne `web/controleurFrontal.php`.
 
-      **Note :** Le nom *front controller* (ou contrôleur frontal en français) signifie que c'est le point d'entrée de notre site Web.
+      **Note :** Ce script s'appelle contrôleur frontal (*front controller* en
+      anglais) puisque c'est la partie visible de notre site.
 
    2. Déplacez les dossiers `Configuration`, `Controleur`, `Modele` et `vue` dans un
       dossier `src`. Ce déplacement casse le site Web. Nous allons le réparer
@@ -107,8 +108,8 @@ de fichiers absolus. Pour ce faire, nous utiliserons la constante [`__DIR__`](ht
 require_once __DIR__ . '/../Configuration/ConfigurationBaseDeDonnees.php';
 ```
 
-À partir de maintenant, nous allons faire ainsi pour chaque `require_once` avec un
-bout de chemin relatif.
+À partir de maintenant, nous n'utiliserons plus de `require_once` avec des
+chemins relatifs. Il va donc falloir changer ceux qui existent déjà.
 
 <!-- 
 `__DIR__` donne le dossier du fichier. Si utilisé dans une inclusion, le
@@ -119,9 +120,17 @@ pas de slash final (sauf si c'est le dossier racine `/`). -->
 
 <div class="exercise">
 
-1. Corrigez tous les `require_once` pour que le site remarche. Si besoin,
-   changez les liens de `liste.php` et l'attribut `action` du formulaire
-   `formulaireCreation.php`.
+Corrigez tous les `require_once` pour que le site remarche. Si besoin, changez
+les liens de `liste.php` et l'attribut `action` du formulaire
+`formulaireCreation.php`.
+
+</div>
+
+Maintenant que le site remarche et que les scripts accessibles sur le Web sont
+isolées dans des dossiers différents, nous allons pouvoir appliquer la
+restriction d'accès.
+
+<div class="exercise">
 
 2. Nous allons indiquer au serveur Web Apache que les fichiers ne sont pas accessibles sur internet par défaut. Pour ceci, créez un fichier `.htaccess` à la racine de votre site `TD5` avec le contenu suivant
 
@@ -140,7 +149,7 @@ pas de slash final (sauf si c'est le dossier racine `/`). -->
 
    Note : Si votre fichier `.htaccess` n'a pas d'effet et que vous êtes sur
    votre machine, il se peut qu'il faille 
-   [configurer Apache]({{site.baseurl}}/assets/tut5-complement.html#si-le-fichier-htaccess-ne-marche-pas).
+   [configurer Apache autrement]({{site.baseurl}}/assets/tut5-complement.html#si-le-fichier-htaccess-ne-marche-pas).
    
 </div>
 
@@ -196,17 +205,24 @@ l'équivalent des `package` en Java.
 
    **Explication :** La déclaration `namespace` regroupe toutes les classes (et
      fonctions) déclarées dans le fichier dans l'espace de nom
-     `App\Covoiturage\Configuration`.  
+     `App\Covoiturage\Configuration`, ce qui a pour effet de rajouter un préfixe
+     à leur nom. Ainsi, la classe déclarée dans `ConfigurationBaseDeDonnees.php`
+     s'appelle maintenant
+     `App\Covoiturage\Configuration\ConfigurationBaseDeDonnees`. 
+
+
    **Attention :** Les espaces de nom utilisent des antislashs `\`, tandis que 
    les chemins de fichiers Linux/Mac utilisent des slashs `/`.
 
-1. Le site est de nouveau cassé : `ConnexionBaseDeDonnees.php` ne connait pas la classe `Configuration`.
+2. Le site est de nouveau cassé : `ConnexionBaseDeDonnees.php` ne connait pas la classe `ConfigurationBaseDeDonnees`.
    En effet, cette classe s'appelle désormais `App\Covoiturage\Configuration\ConfigurationBaseDeDonnees`.  
-   **Complétez** le nom de la classe `Configuration` dans `ConnexionBaseDeDonnees.php`. Le site Web doit refonctionner.
+   **Complétez** le nom de la classe `ConfigurationBaseDeDonnees` dans `ConnexionBaseDeDonnees.php`. Le site Web doit refonctionner.
 
-   **Note :** Vous ne devez pas toucher au `require_once`, mais plutôt changer les appels à des méthodes statiques de la classe `Configuration`. 
+   **Note :** Vous ne devez pas toucher aux noms de fichiers dans les
+   `require_once`, mais plutôt changer le nom de classe
+   `ConfigurationBaseDeDonnees` dans les appels à des méthodes statiques. 
 
-1. Vous conviendrez volontiers que ce nom de classe à rallonge est pénible. Nous
+3. Vous conviendrez volontiers que ce nom de classe à rallonge est pénible. Nous
    allons utiliser un alias à la place :
 
    ```php
@@ -263,7 +279,7 @@ déclaration de classe correspondant avec un `require_once`. Par exemple, si vou
 exécutez maintenant
 ```php
 use App\Covoiturage\Configuration\ConfigurationBaseDeDonnees;
-echo Configuration::getPort();
+echo ConfigurationBaseDeDonnees::getPort();
 ```
 alors `Psr4AutoloaderClass` exécutera pour vous
 ```php
@@ -272,7 +288,7 @@ require_once(__DIR__ . '/../src/Configuration/ConfigurationBaseDeDonnees.php')
 Le chemin de fichier est déterminé par `Psr4AutoloaderClass` en utilisant
 l'association déclarée précédemment avec `addNamespace` pour remplacer
 `'App\Covoiturage'` par `__DIR__ . '/../src'` dans le nom de classe qualifié de
-`Configuration`.
+``ConfigurationBaseDeDonnees``.
 
 
 <div class="exercise">
@@ -642,11 +658,11 @@ avant de faire un `require` de `liste.php` puisque cette vue sert à écrire la 
 des voitures.
 
 1. Créez la vue `voitureCreee.php` comme expliqué ci-dessus.  
-   **Remarque :** La vue `voitureCreee.php` ne doit plus faire que deux lignes
+   **Remarque :** La vue `voitureCreee.php` doit faire deux lignes
    maintenant.
 
 2. Changez l'action `creerDepuisFormulaire` du contrôleur pour appeler cette vue.  
-   **Attention :** Il faut initialiser la variable `$voitures` contenant le tableau
-   de toutes les voitures afin qu'elle puisse être affichée dans la vue.
+   **Attention :** Il faut initialiser la variable `$voitures` contenant le
+   tableau de toutes les voitures afin qu'elle puisse être affichée dans la vue.
 
 </div>
