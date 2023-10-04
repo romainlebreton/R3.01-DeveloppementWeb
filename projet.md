@@ -22,6 +22,8 @@ site vend-il ? ).
 Le projet est dimensionné pour des groupes de 3 étudiants. Ponctuellement les
 groupes de 2 sont autorisés (mais ils seront notés comme un groupe de 3). 
 
+**Date de rendu du projet :** vendredi 24 novembre à 23h59.
+
 <!-- Les groupes de 4 sont aussi ponctuellement autorisés, mais seront évalués de
 manière plus stricte et l'on attendra 1/3 de boulot en plus. -->
 
@@ -34,10 +36,13 @@ compréhension).
 
 Le jour de la soutenance, **le site devra être déployé sur `webinfo`** sous l'un
 de vos comptes. Le code source du site doit être accessible à votre enseignant :
-ajouter votre professeur de PHP à votre dépôt Git, et lui donner au moins le
-rôle développeur. Il n'y a pas de date de rendu : votre site Web devront juste
+**ajouter votre professeur de PHP à votre dépôt Git** (de préférence le GitLab
+de l'IUT), et lui donner au moins le rôle développeur. Maintenez un dépôt Git
+propre pour que l'enseignant puisse évaluer la contribution de chacun en regardant l'historique des *commits*. 
+
+<!-- Il n'y a pas de date de rendu : votre site Web devront juste
 être disponibles au moment de la soutenance. **Attention** cependant aux
-modifications de dernière minute qui ont tendance à casser le site !
+modifications de dernière minute qui ont tendance à casser le site ! -->
 
 <!-- **Emploi du temps prévisionnel :**
 
@@ -55,6 +60,8 @@ Le but pédagogique de ce projet est de mettre en application toutes les
 techniques que vous avez apprises lors des TDs. **Important :** Voici donc
 [**les critères sur lesquels vous serez
 notés**](https://docs.google.com/spreadsheets/d/1oUd7fe0K8WZhI2TPRRvgZ2xPZf5H22CUvlpcXEMD3Ao/edit#gid=0).
+Pour simplifier le projet, vous n'avez pas à gérer de quantité pour les achats
+de produits.
 
 Il n'y a **pas** de rapport à écrire, ni de présentation à préparer. Vous devrez
 juste répondre à une série de questions sur votre code qui nous permettra
