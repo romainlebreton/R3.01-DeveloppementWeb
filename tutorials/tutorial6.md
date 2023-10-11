@@ -628,7 +628,7 @@ Nous vous laissons migrer la fonction
 `supprimerParImmatriculation($immatriculation)` de `VoitureRepository` vers
 `AbstractRepository` en la renommant `supprimer($valeurClePrimaire)` et adapter
 sa requête *SQL*. Adaptez également l'action `supprimer` des contrôleurs
-*voiture* et *utilisateur*, ainsi que leur vue associée `voitureSupprime.php` et
+*voiture* et *utilisateur*, ainsi que leur vue associée `voitureSupprimee.php` et
 `utilisateurSupprime.php`. 
 </div>
 
@@ -664,7 +664,7 @@ Après on la déplacera dans AbstractRepository
 
 Pour reconstituer la requête
 ```sql
-UPDATE voiture SET marque= :marque, couleur= :couleur, immatriculation= :immatriculation WHERE immatriculation= :immatriculation;
+UPDATE voiture SET marque= :marqueTag, couleur= :couleurTag, immatriculation= :immatriculationTag WHERE immatriculation= :immatriculationTag;
 ```
 il est nécessaire de pouvoir lister les champs de la table `voiture`. De même, il sera nécessaire de lister
 les champs des tables `utilisateur` et `trajet`. Nous allons factoriser le code nécessaire dans `AbstractRepository`.
@@ -693,7 +693,7 @@ les champs des tables `utilisateur` et `trajet`. Nous allons factoriser le code 
 1. Utilisez `getNomTable()`, `getNomClePrimaire()` et `getNomsColonnes()` pour
    construire la requête *SQL* de `mettreAJour()` : 
    ```sql
-   UPDATE voiture SET marque= :marque, couleur= :couleur, immatriculation= :immatriculation WHERE immatriculation= :immatriculation;
+   UPDATE voiture SET marque= :marqueTag, couleur= :couleurTag, immatriculation= :immatriculationTag WHERE immatriculation= :immatriculationTag;
    ```
 
    **Aide :** N'hésitez pas à afficher la requête générée pour vérifier votre
@@ -755,7 +755,9 @@ Implémentez l'action `mettreAJour` du contrôleur *utilisateur*.
 
 <div class="exercise">
 
-Répétez la question précédente avec la fonction `sauvegarder()` des différents modèles.
+Répétez la question précédente avec la fonction `sauvegarder()` des différents
+modèles. Ajoutez l'action `creerDepuisFormulaire` dans le contrôleur
+*utilisateur*.
 
 </div>
 
