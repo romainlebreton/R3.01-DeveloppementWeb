@@ -664,9 +664,9 @@ Après on la déplacera dans AbstractRepository
 
 Pour reconstituer la requête
 ```sql
-UPDATE voiture SET marque= :marque, couleur= :couleur, immatriculation= :immatriculation WHERE id= :id;
+UPDATE voiture SET marque= :marque, couleur= :couleur, immatriculation= :immatriculation WHERE immatriculation= :immatriculation;
 ```
-il est nécessaire de pouvoir lister les champs de la table `voiture`. De même il sera nécessaire de lister
+il est nécessaire de pouvoir lister les champs de la table `voiture`. De même, il sera nécessaire de lister
 les champs des tables `utilisateur` et `trajet`. Nous allons factoriser le code nécessaire dans `AbstractRepository`.
 
 <div class="exercise">
@@ -682,10 +682,19 @@ les champs des tables `utilisateur` et `trajet`. Nous allons factoriser le code 
    ```php
    protected abstract function getNomsColonnes(): array;
    ```
-   et une implémentation de `getNomsColonnes()` dans `VoitureRepository`.
+   et une implémentation de `getNomsColonnes()` dans `VoitureRepository`
+   ```php
+   protected function getNomsColonnes(): array
+   {
+       return ["immatriculation", "marque", "couleur", "nbSieges"];
+   }
+    ```
 
 1. Utilisez `getNomTable()`, `getNomClePrimaire()` et `getNomsColonnes()` pour
-   construire la requête *SQL* de `mettreAJour()`.
+   construire la requête *SQL* de `mettreAJour()` : 
+   ```sql
+   UPDATE voiture SET marque= :marque, couleur= :couleur, immatriculation= :immatriculation WHERE immatriculation= :immatriculation;
+   ```
 
    **Aide :** N'hésitez pas à afficher la requête générée pour vérifier votre
    code.
@@ -709,7 +718,18 @@ les champs des tables `utilisateur` et `trajet`. Nous allons factoriser le code 
    ```php
    public abstract function formatTableau(): array;
    ```
-   Implémentez cette fonction dans `Voiture` et `Utilisateur`.
+   Implémentez cette fonction dans `Voiture` avec
+   ```php
+   public function formatTableau(): array
+   {
+       return array(
+           "immatriculationTag" => $this->immatriculation,
+           "marqueTag" => $this->marque,
+           "couleurTag" => $this->couleur,
+           "nbSiegesTag" => $this->nbSieges,
+       );
+   }
+   ```
 
 1. Utilisez `formatTableau()` dans `mettreAJour()` pour obtenir le tableau donné à
    `execute()`.
