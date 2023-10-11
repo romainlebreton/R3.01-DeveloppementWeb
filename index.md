@@ -49,11 +49,11 @@ La dernière séance de PHP (fin de la semaine du lundi 23 octobre) sera dédié
   
 ### Authentification (2 semaines)
 
-* TD 7 -- Cookies & Sessions (durée indicative ≃ 4h) 
-* TD 8 -- Authentification & Validation par email (durée indicative ≃ 4h) 
+* [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) (durée indicative ≃ 2h) 
+* TD 8 -- Authentification, Sécurisation et Validation par email (durée indicative ≃ 4h) 
+* TD 9 -- Messages Flash (durée indicative ≃ 2h) 
 
 <!-- 
-* [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) (durée indicative ≃ 5h) 
 * [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html) (durée indicative ≃ 4h) 
  -->
 
