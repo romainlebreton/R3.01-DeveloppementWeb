@@ -253,14 +253,12 @@ mdpHache` stockant son mot de passe.
    1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Model/DataObject`) :
       1. ajoutez un attribut `private string $mdpHache`,
       1. mettez à jour le constructeur, 
-      1. rajoutez un getter,
-      1. rajoutez un setter qui prend en entrée le mot de passe clair et le
-         hache avant de l'enregistrer,
-      1. mettez à jour la méthode `formatTableau` (qui fournit les données des
+      2. rajoutez un getter et un setter,
+      3. mettez à jour la méthode `formatTableau` (qui fournit les données des
          requêtes SQL préparées).
-   1. Mettez à jour la classe de persistance `UtilisateurRepository` :
-      1. mettez à jour `construire` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
-      1. mettez à jour `getNomsColonnes`.
+   2. Mettez à jour la classe de persistance `UtilisateurRepository` :
+      1. mettez à jour `construireDepuisTableau` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
+      2. mettez à jour `getNomsColonnes`.
 
    *Note* : L'utilisation d'un framework PHP professionnel nous éviterait ces
    tâches répétitives.
@@ -271,7 +269,7 @@ Nous allons modifier la création d'un utilisateur.
 
 <div class="exercise">
 
-1. Modifier la vue `create.php` pour ajouter deux champs *password* au formulaire
+1. Modifier la vue `utilisateur/formulaireCreation.php` pour ajouter deux champs *password* au formulaire
    ```html
    <p class="InputAddOn">
          <label class="InputAddOn-item" for="mdp_id">Mot de passe&#42;</label>
@@ -285,25 +283,14 @@ Nous allons modifier la création d'un utilisateur.
 
    Le deuxième champ mot de passe sert à valider le premier.
 
-1. Modifiez l'action `created` du contrôleur *utilisateur* :
+1. Modifiez l'action `creerDepuisFormulaire` du contrôleur *utilisateur* :
    1. rajoutez la condition que les deux champs mot de passe doivent coïncider
-      avant de sauvegarder l'utilisateur. En cas d'échec, redirigez vers le
-      formulaire de création avec un message flash *Mots de passe distincts* de
-      type *warning*.
+      avant de sauvegarder l'utilisateur. En cas d'échec, appelez à l'action d'erreur `afficherErreur` avec un message *Mots de passe distincts*.
 
-      *Notes* : 
-      * Si vous n'avez pas codé les messages flash et la redirection, remplacez
-        toutes ces consignes par des appels à l'action d'erreur `error`. 
-      * Nous réserverons les messages flash de type *danger* pour les
-      erreurs qui ne sont censées se produire que si le client a essayé de
-      hacker le site (accès à une page qu'on ne lui a pas proposé, donnée de
-      formulaire manquante alors qu'elle était `required`), et les messages flash
-      de type *warning* pour les erreurs de l'utilisateur. 
-
-   1. Nous allons changer la manière de construire un objet métier
+   2. Nous allons changer la manière de construire un objet métier
       *utilisateur* à partir des données `$_GET` du formulaire. Jusqu'à
       présent, nous appelions `Utilisateur::__construct()` ou de manière
-      équivalente `UtilisateurRepository::construire()`. Mais ces méthodes
+      équivalente `UtilisateurRepository::construireDepuisTableau()`. Mais ces méthodes
       sont faites pour prendre en entrée un résultat SQL (sous forme de
       tableau). À cause du mot de passe qui est en clair dans le formulaire,
       mais haché dans la BDD, il faut changer le code.
@@ -314,7 +301,7 @@ Nous allons modifier la création d'un utilisateur.
       ```
       dans la classe `Utilisateur`. Elle appelle le constructeur de
       `Utilisateur` en hachant d'abord le mot de passe.
-      * Mettez à jour l'action `created` pour appeler `construireDepuisFormulaire()`.
+      * Mettez à jour l'action `creerDepuisFormulaire` pour appeler `construireDepuisFormulaire()`.
 
 </div>
 
@@ -322,17 +309,17 @@ Rajoutons des mots de passe dans la mise à jour d'un utilisateur.
 
 <div class="exercise">
 
-1. Modifier la vue `update.php` pour ajouter trois champs *password* : l'ancien mot de passe, le nouveau qu'il faut écrire 2 fois pour ne pas se tromper.
-1. Modifiez l'action `updated` :
+1. Modifier la vue `formulaireMiseAJour.php` pour ajouter trois champs *password* : l'ancien mot de passe, le nouveau qu'il faut écrire 2 fois pour ne pas se tromper.
+1. Modifiez l'action `mettreAJour` :
    * vérifiez que les 2 nouveaux mots de passe coïncident. En cas d'échec,
-      redirigez vers le formulaire de mise à jour en indiquant le login dans
-      l'URL avec un message flash *Mots de passe distincts*.
-   * Vérifiez que l'ancien mot de passe est correct. En cas d'échec,
-      redirigez vers le formulaire de mise à jour en indiquant le login dans
-      l'URL avec un message flash *Ancien mot de passe erroné*.
-   * Le cas échéant, mettez à jour votre utilisateur en appelant les *setter*
-      avec les données du formulaire. Enfin, effectuez la mise à jour dans la
-      base de données.
+     appelez à l'action d'erreur `afficherErreur` avec un message *Mots de
+     passe distincts*.
+   * Vérifiez que l'ancien mot de passe est correct. En cas d'échec, appelez à
+     l'action d'erreur `afficherErreur` avec un message *Ancien mot de passe
+     erroné*.
+   * Le cas échéant, mettez à jour votre utilisateur en appelant les *setter*.
+     N'oubliez pas de hacher le mot de passe. Enfin, effectuez la mise à jour
+      dans la base de données.
 
 </div>
 
@@ -396,13 +383,13 @@ Procédons en plusieurs étapes :
    * `getLoginUtilisateurConnecte()` renvoie `null` si le client n'est pas connecté.
    
 1. Rajoutons au menu de notre site un lien pour se connecter. Dans le menu de la
-   vue générique `view.php`, rajoutez une icône cliquable
+   vue générique `vueGenerale.php`, rajoutez une icône cliquable
    ![connexion]({{site.baseurl}}/assets/TD8/enter.png) qui pointe vers la future
    action `formulaireConnexion` (contrôleur *utilisateur*). Ce lien ne doit
    s'afficher que si aucun utilisateur n'est connecté (utiliser une méthode de
    la classe `ConnexionUtilisateur`). 
    
-   *Note* : Il est autorisé de mettre un `if` dans la vue `view.php`.
+   *Note* : Il est autorisé de mettre un `if` dans la vue `vueGenerale.php`.
 
 1. Créons une vue pour afficher un formulaire de connexion :
 
@@ -415,15 +402,17 @@ Procédons en plusieurs étapes :
 1. Créons enfin l'action `connecter()` du contrôleur *utilisateur* :
    1. Commençons par les vérifications à faire avant de se connecter. La
       première vérification est qu'un login et un mot de passe sont transmis dans le
-      *query string*. Sinon, redirigez vers le formulaire de connexion avec un message flash de type `danger`.
-   1. Puis, il faut récupérer l'utilisateur ayant le login transmis. Ceci
+      *query string*. Sinon, appelez `afficherErreur` avec le message *Login et/ou mot de passe manquant*.
+   2. Puis, il faut récupérer l'utilisateur ayant le login transmis. Ceci
       permettra de vérifier que ce login existe bien et que le mot de passe est
       transmis correct (utiliser une méthode de la classe `MotDePasse`). Sinon,
-      redirigez vers le formulaire de connexion avec un message flash de type
-      `warning`.
-   1. Enfin, vous pouvez connecter l'utilisateur (utiliser une méthode de la
-      classe `ConnexionUtilisateur`). Redirigez vers l'action `read` de
-      l'utilisateur connecté avec un message flash de type `success`.
+      appelez `afficherErreur` avec le message *Login inconnu*.
+   3. Enfin, vous pouvez connecter l'utilisateur (utiliser une méthode de la
+      classe `ConnexionUtilisateur`). 
+      <!-- ICI TODO Afficher la vue utilisateurConnecte ! -->
+      Affichez une nouvelle vue `utilisateur\utilisateurConnecte.php` qui écrit
+      un message *Utilisateur connecté* puis appelle la vue `liste.php` pour
+      lister les utilisateurs. Cette vue est similaire à `utilisateurCree.php`.
 
 </div>
 
@@ -432,7 +421,7 @@ Codons maintenant la déconnexion.
 <div class="exercise">
 
 1. Quand un utilisateur est connecté, ajoutez au menu de la vue générique
-   `view.php` deux cases : 
+   `vueGenerale.php` deux cases : 
    * la première contient une icône cliquable
      ![user]({{site.baseurl}}/assets/TD8/user.png) qui renvoie vers la vue de
      détail de l'utilisateur connecté.
@@ -440,9 +429,14 @@ Codons maintenant la déconnexion.
    ![deconnexion]({{site.baseurl}}/assets/TD8/logout.png) qui pointe vers la
    future action `deconnecter` (contrôleur *utilisateur*). 
 
-1. Ajouter une action `deconnecter` qui déconnecte l'utilisateur (utiliser une
-   méthode de la classe `ConnexionUtilisateur`). Redirigez vers l'action
-   `readAll` avec un message flash de type `success`.
+2. Ajouter une action `deconnecter` qui déconnecte l'utilisateur (utiliser une
+   méthode de la classe `ConnexionUtilisateur`). Affichez une nouvelle vue
+   `utilisateur\utilisateurDeconnecte.php` similaire à
+   `utilisateurConnecte.php`, mais avec le message *Utilisateur déconnecté*.
+
+   *Note :* Toutes les vues `utilisateurConnecte.php`,
+   `utilisateurDeconnecte.php`, `utilisateurCree.php`, `utilisateurMisAJour.php`
+   et `utilisateurSupprime.php` sont bien sûr redondantes. Nous résoudrons ce problème lors du TD9 sur les messages Flash.
 
 </div>
 
@@ -453,7 +447,7 @@ l'utilisateur actuellement authentifié. Commençons par limiter les liens.
 
 <div class="exercise">
 
-1. Assurez-vous que la vue `utilisateur/list.php` n'affiche que les liens vers
+1. Assurez-vous que la vue `utilisateur/liste.php` n'affiche que les liens vers
    la vue de détail, pas les liens de modification ou de suppression.
 
 1. Modifier la vue de détail pour qu'elle n'affiche les liens vers la mise à
@@ -465,31 +459,32 @@ stocké en session.
    ```php
    public static function estUtilisateur($login): bool
    ```
-   qui doit vérifier si un utilisateur est connecté et qu'il a le login donné. 
+   qui doit vérifier si un utilisateur est connecté et que son login correspond à celui passé en argument de la fonction. 
 
 </div>
 
 **Attention :** Supprimer le lien n'est pas suffisant car un petit malin
 pourrait accéder au formulaire de mise à jour d'un utilisateur quelconque en
-rentrant manuellement l'action `update` dans l'URL.
+rentrant manuellement l'action `afficherFormulaireMiseAJour` dans l'URL.
 
 <div class="exercise">
 
 1. « Hacker » votre site en accédant à la page de mise à jour d'un utilisateur
    quelconque.
 
-1. Modifier l'action `update` du contrôleur `Utilisateur` de sorte que l'accès
-   au formulaire soit restreint à l'utilisateur connecté. En cas de problème,
-   redirigez vers l'action `readAll` avec un message flash de type *danger*.
+2. Modifier l'action `afficherFormulaireMiseAJour` du contrôleur `Utilisateur`
+   de sorte que l'accès au formulaire soit restreint à l'utilisateur connecté.
+   En cas de problème, utiliser `afficherErreur` pour afficher un message *La
+   mise à jour n'est possible que pour l'utilisateur connecté*.
 
-   *Note* : Votre action `update` doit aussi vérifier que le login donné existe
-   bien ; sinon faites une redirection avec message flash.
+   *Note* : Votre action `afficherFormulaireMiseAJour` doit aussi vérifier que le login donné existe
+   bien ; sinon utiliser `afficherErreur` pour afficher un message *Login inconnu*.
 
 </div>
 
 **Attention :** Restreindre l'accès au formulaire de mise à jour n'est pas suffisant
 car un petit malin pourrait exécuter une mise à jour en demandant manuellement
-l'action `updated`.
+l'action `mettreAJour`.
 
 <div class="exercise">
 
@@ -500,7 +495,7 @@ l'action `updated`.
    traitement. Passez temporairement votre formulaire en cette méthode si
    nécessaire.
 
-1. Mettez à jour l'action `updated` du contrôleur `Utilisateur` pour qu'il
+2. Mettez à jour l'action `mettreAJour` du contrôleur `Utilisateur` pour qu'il
    effectue toutes les vérifications suivantes, avec "redirection flash" en cas
    de problème :
    * vérifiez que tous les champs obligatoires du formulaire ont été transmis.
@@ -509,7 +504,7 @@ l'action `updated`.
    * Vérifiez que l'ancien mot de passe est correct ;
    * Vérifiez que l'utilisateur mis-à-jour correspond à l'utilisateur connecté. 
 
-1. Sécurisez de manière similaire l'accès à l'action `delete` d'un utilisateur. 
+3. Sécurisez de manière similaire l'accès à l'action `delete` d'un utilisateur. 
 
 </div>
 
@@ -519,7 +514,7 @@ l'action `updated`.
 
 **Note générale importante :** Les seules pages qu'il est vital de sécuriser
 sont celles dont le script effectue vraiment l'action de mise à jour ou de
-suppression, *c.-à-d.* les actions `updated` et `delete`. Les autres sécurisations
+suppression, *c.-à-d.* les actions `mettreAJour` et `delete`. Les autres sécurisations
 sont surtout pour améliorer l'ergonomie du site.  
 De manière générale, il ne faut **jamais faire confiance au client** ; seule une
 vérification côté serveur est sûre.
@@ -553,7 +548,7 @@ Commençons par rajouter un attribut `estAdmin` à notre classe métier
    1. Nous mettrons à jour `construireDepuisFormulaire` plus tard.
 
 1. Mettez à jour la classe de persistance `UtilisateurRepository` :
-   1. mettez à jour `construire` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
+   1. mettez à jour `construireDepuisTableau` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
    1. mettez à jour `getNomsColonnes`.
 
 </div>
@@ -589,7 +584,7 @@ donnée.
    </p>
    ```
 
-1. Pour que l'action `created` arrive à construire un utilisateur et à le
+1. Pour que l'action `creerDepuisFormulaire` arrive à construire un utilisateur et à le
    sauvegarder en base de données, il ne manque que la mise à jour de la méthode
    `construireDepuisFormulaire`. Si la case est cochée, alors `estAdmin=on`
    sera transmis. Si la case n'est pas cochée, aucune donnée liée au `checkbox`
@@ -611,7 +606,7 @@ Passons au processus de mise-à-jour.
    si l'utilisateur est déjà administrateur (utilisez
    `ConnexionUtilisateur::estAdministrateur()`).
 
-1. Dans l'action `updated`, rajoutez un appel au setter `setEstAdmin`. Vérifiez
+1. Dans l'action `mettreAJour`, rajoutez un appel au setter `setEstAdmin`. Vérifiez
    que la mise à jour fonctionne.
 
 </div>
@@ -627,7 +622,7 @@ tous les droits.
 
       *Note* : Vous pouvez mettre un `if` dans la vue.
 
-   1. Plus important, l'action `created` ne doit créer des administrateurs que si
+   1. Plus important, l'action `creerDepuisFormulaire` ne doit créer des administrateurs que si
       l'utilisateur connecté est administrateur.
 
       *Aide* : si l'utilisateur connecté n'est pas administrateur, forcez
@@ -640,7 +635,7 @@ tous les droits.
       administrateur est connecté.
    1. Le champ *Administrateur ?* du formulaire de mise-à-jour ne doit
    apparaître que si l'utilisateur connecté est administrateur.
-   1. Plus important, l'action `updated` ne doit modifier le statut
+   1. Plus important, l'action `mettreAJour` ne doit modifier le statut
       *administrateur* que si l'utilisateur connecté est administrateur. De
       plus, un administrateur doit pouvoir modifier n'importe quel utilisateur.
 
@@ -695,7 +690,7 @@ en plus.
    1. vous mettrez à jour la méthode `construireDepuisFormulaire` plus tard.
 
 1. Mettez à jour la classe de persistance `UtilisateurRepository` :
-   1. mettez à jour `construire` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
+   1. mettez à jour `construireDepuisTableau` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
    1. mettez à jour `getNomsColonnes`.
 
 </div>
@@ -755,7 +750,7 @@ Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`.
    </p>
    ```
 
-1. Pour faire fonctionner l'action `created` :
+1. Pour faire fonctionner l'action `creerDepuisFormulaire` :
    * il faut que l'utilisateur créé avec `construireDepuisFormulaire` soit
    correct :   
    Mettez à jour la méthode `construireDepuisFormulaire` pour
@@ -771,7 +766,7 @@ Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`.
    d'erreur) et appelle `VerificationEmail::traiterEmailValidation()` avec ces
    valeurs.  
    En cas de succès, "redirection flash" vers la page de détail de cet
-   utilisateur. En cas d'échec, "redirection flash" vers `readAll`.
+   utilisateur. En cas d'échec, "redirection flash" vers `afficherListe`.
    * Codez `traiterEmailValidation()` :    
    Si le login correspond à un utilisateur présent dans la base et que le
    `nonce` passé en `GET` correspond au `nonce` de la BDD, alors coupez/collez
@@ -821,7 +816,7 @@ la connexion uniquement si l'utilisateur a validé un email.
    * Codez cette méthode pour qu'elle regarde si l'utilisateur a un email
      différent de `""`.
 
-1. Dans l'action `created` du contrôleur `Utilisateur`, vérifiez que l'adresse
+1. Dans l'action `creerDepuisFormulaire` du contrôleur `Utilisateur`, vérifiez que l'adresse
    email envoyée par l'utilisateur en est bien une. Pour cela, vous pouvez par
    exemple utiliser la fonction
    [`filter_var()`](http://php.net/manual/en/function.filter-var.php) avec le
@@ -831,7 +826,7 @@ la connexion uniquement si l'utilisateur a validé un email.
 
 1. Mise à jour d'un utilisateur : 
    * rajoutez un champ *Email* prérempli,
-   * dans l'action `updated`, vérifiez le format de l'email puis écrivez-le dans
+   * dans l'action `mettreAJour`, vérifiez le format de l'email puis écrivez-le dans
      le champ `emailAValider`. Créez aussi un nonce aléatoire et envoyez le mail de validation.
 
 </div>
@@ -876,7 +871,7 @@ avons donc besoin d'être capable de récupérer les variables automatiquement d
    **Aide :** Utiliser la fonction de remplacement globale (sur tous les
    fichiers du dossier `TD8`) pour vous aider.
 
-1. Passez les formulaires `create.php`, `update.php`, `formulaireConnexion.php`
+1. Passez les formulaires `formulaireCreation.php`, `formulaireMiseAJour.php`, `formulaireConnexion.php`
    et `formulairePreference.php` en méthode POST si `Conf::getDebug()` est
    `false` ou en méthode GET sinon.
 
