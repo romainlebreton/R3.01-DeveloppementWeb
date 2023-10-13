@@ -250,7 +250,7 @@ et copiez-le dans l'attribut statique `$poivre` une fois pour toute.
 1. Nous allons modifier la structure de données *utilisateur* :
    1. Modifiez la table utilisateur en lui ajoutant une colonne `VARCHAR(256)
 mdpHache` stockant son mot de passe.
-   1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Model/DataObject`) :
+   1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Modele/DataObject`) :
       1. ajoutez un attribut `private string $mdpHache`,
       1. mettez à jour le constructeur, 
       2. rajoutez un getter et un setter,
@@ -507,7 +507,7 @@ l'action `mettreAJour`.
    nécessaire.
 
 2. Mettez à jour l'action `mettreAJour` du contrôleur `Utilisateur` pour qu'il
-   effectue toutes les vérifications suivantes, avec "redirection flash" en cas
+   effectue toutes les vérifications suivantes, avec `afficherErreur` en cas
    de problème :
    * vérifiez que tous les champs obligatoires du formulaire ont été transmis.
    * Vérifiez que le login existe ;
@@ -515,7 +515,7 @@ l'action `mettreAJour`.
    * Vérifiez que l'ancien mot de passe est correct ;
    * Vérifiez que l'utilisateur mis-à-jour correspond à l'utilisateur connecté. 
 
-3. Sécurisez de manière similaire l'accès à l'action `delete` d'un utilisateur. 
+3. Sécurisez de manière similaire l'accès à l'action `supprimer` d'un utilisateur. 
 
 </div>
 
@@ -525,7 +525,7 @@ l'action `mettreAJour`.
 
 **Note générale importante :** Les seules pages qu'il est vital de sécuriser
 sont celles dont le script effectue vraiment l'action de mise à jour ou de
-suppression, *c.-à-d.* les actions `mettreAJour` et `delete`. Les autres sécurisations
+suppression, *c.-à-d.* les actions `mettreAJour` et `supprimer`. Les autres sécurisations
 sont surtout pour améliorer l'ergonomie du site.  
 De manière générale, il ne faut **jamais faire confiance au client** ; seule une
 vérification côté serveur est sûre.
@@ -545,7 +545,7 @@ Commençons par rajouter un attribut `estAdmin` à notre classe métier
 1. Ajouter un champ `estAdmin` de type `BOOLEAN` (ou `TINYINT(1)`) à la table
    `utilisateur`.
 
-1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Model/DataObject`) :
+1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Modele/DataObject`) :
    1. ajoutez un attribut `private bool $estAdmin`,
    1. mettez à jour le constructeur, 
    1. rajoutez un getter et un setter,
@@ -693,7 +693,7 @@ en plus.
    * `emailAValider` de type `VARCHAR(256)`,
    * `nonce` de type `VARCHAR(32)`,
 
-1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Model/DataObject`) :
+1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Modele/DataObject`) :
    1. ajoutez les attributs,
    1. mettez à jour le constructeur, les getter et les setter,
    1. mettez à jour la méthode `formatTableau` (qui fournit les données des
@@ -715,8 +715,8 @@ Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`.
    ```php
    namespace App\Covoiturage\Lib;
 
-   use App\Covoiturage\Config\Conf;
-   use App\Covoiturage\Model\DataObject\Utilisateur;
+   use App\Covoiturage\Configuration\ConfigurationSite;
+   use App\Covoiturage\Modele\DataObject\Utilisateur;
 
    class VerificationEmail
    {
@@ -724,12 +724,12 @@ Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`.
       {
          $loginURL = rawurlencode($utilisateur->getLogin());
          $nonceURL = rawurlencode($utilisateur->getNonce());
-         $absoluteURL = Conf::getAbsoluteURL();
+         $absoluteURL = ConfigurationSite::getAbsoluteURL();
          $lienValidationEmail = "$absoluteURL?action=validerEmail&controller=utilisateur&login=$loginURL&nonce=$nonceURL";
          $corpsEmail = "<a href=\"$lienValidationEmail\">Validation</a>";
 
          // Temporairement avant d'envoyer un vrai mail
-         MessageFlash::ajouter("success", $corpsEmail);
+         var_dump($corpsEmail);
       }
 
       public static function traiterEmailValidation($login, $nonce): bool
@@ -746,10 +746,10 @@ Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`.
    }
    ```
 
-   **Rajoutez** une méthode `Conf::getAbsoluteURL` qui renvoie la base de l'URL
+   **Rajoutez** une méthode `ConfigurationSite::getAbsoluteURL` qui renvoie la base de l'URL
    de votre site, par exemple 
    ```text
-   http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD8/web/frontController.php
+   http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD8/web/controleurFrontal.php
    ```
 
 1. Dans votre formulaire de création d'un utilisateur, rajoutez un champ pour
@@ -768,26 +768,25 @@ Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`.
    qu'elle donne la valeur `""` à l'email, qu'elle stocke l'adresse mail du
    formulaire dans `emailAValider`, et qu'elle crée un nonce aléatoire à
    l'aide de `MotDePasse::genererChaineAleatoire()`.
-   * il faut envoyer l'email de validation (qui est un message flash pour
-   l'instant): appelez la fonction `VerificationEmail::envoiEmailValidation`.
+   * il faut envoyer l'email de validation : appelez la fonction `VerificationEmail::envoiEmailValidation`.
 
-1. Faisons en sorte que le lien envoyé par mail valide bien l'adresse mail. 
+2. Faisons en sorte que le lien envoyé par mail valide bien l'adresse mail. 
    * Ajoutez une action `validerEmail` au contrôleur `Utilisateur` qui récupère
-   en `GET` deux valeurs `login` et `nonce` (si elle existe sinon message flash
-   d'erreur) et appelle `VerificationEmail::traiterEmailValidation()` avec ces
-   valeurs.  
-   En cas de succès, "redirection flash" vers la page de détail de cet
-   utilisateur. En cas d'échec, "redirection flash" vers `afficherListe`.
+   en `GET` deux valeurs `login` et `nonce` (si elle existe sinon on appelle
+   `afficherErreur`) et appelle `VerificationEmail::traiterEmailValidation()`
+   avec ces valeurs.  
+   En cas de succès, on affiche la page de détail de cet
+   utilisateur. En cas d'échec, on appelle `afficherErreur`.
    * Codez `traiterEmailValidation()` :    
    Si le login correspond à un utilisateur présent dans la base et que le
    `nonce` passé en `GET` correspond au `nonce` de la BDD, alors coupez/collez
    l'email à valider dans l'email et passez à `""` le champ `nonce` de la BDD.
 
-1. Testez que la validation de l'email marche bien après la création d'un
+3. Testez que la validation de l'email marche bien après la création d'un
    utilisateur. Pour ceci, regarder dans la BDD que les données évoluent bien à
    chaque étape. 
 
-1. Modifiez la fonction `VerificationEmail::envoiEmailValidation` pour qu'elle
+4. Modifiez la fonction `VerificationEmail::envoiEmailValidation` pour qu'elle
 envoie un mail à l'adresse renseignée contenant avec un lien qui
 enverra le nonce au site.
 
@@ -812,7 +811,7 @@ enverra le nonce au site.
    La bonne solution
    multiplateforme nécessite d'installer une [bibliothèque
    PHP](https://packagist.org/packages/symfony/mailer), ce que nous apprendrons
-   à faire au semestre 4. Autrement, vous pouvez rester avec des messages flash. 
+   à faire au semestre 4. Autrement, vous pouvez rester avec `var_dump()`. 
 </div>
 
 Nous allons maintenant pouvoir nous servir de la validation de l'email ailleurs
@@ -862,7 +861,7 @@ connecté sans avoir validé, alors on ne peut que valider son email.
 À l'heure actuelle, le mot de passe transite en clair dans l'URL. Vous
 conviendrez facilement que ce n'est pas top. Nous allons donc passer nos
 formulaires en méthode POST si le site est en production, ou en méthode GET si
-le site est en développement (selon [la variable `Conf::getDebug()` du
+le site est en développement (selon [la variable `ConfigurationSite::getDebug()` du
 TD2](tutorial2.html#gestion-des-erreurs)).
 
 Il faudrait donc maintenant récupérer les variables à l'aide de `$_POST` ou
@@ -883,7 +882,7 @@ avons donc besoin d'être capable de récupérer les variables automatiquement d
    fichiers du dossier `TD8`) pour vous aider.
 
 1. Passez les formulaires `formulaireCreation.php`, `formulaireMiseAJour.php`, `formulaireConnexion.php`
-   et `formulairePreference.php` en méthode POST si `Conf::getDebug()` est
+   et `formulairePreference.php` en méthode POST si `ConfigurationSite::getDebug()` est
    `false` ou en méthode GET sinon.
 
 </div>

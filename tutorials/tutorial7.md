@@ -392,14 +392,14 @@ l'action par défaut plutôt que le contrôleur par défaut.
    * renvoyant vers la future action `enregistrerPreference` (sans indiquer de contrôleur), 
    * contenant des *boutons radio* permettant de choisir `voiture`, `trajet` ou
    `utilisateur` comme contrôleur par défaut
-```html
-<input type="radio" id="voitureId" name="controleur_defaut" value="voiture">
-<label for="voitureId">Voiture</label>
-<input type="radio" id="utilisateurId" name="controleur_defaut" value="utilisateur">
-<label for="utilisateurId">Utilisateur</label>
-<input type="radio" id="trajetId" name="controleur_defaut" value="trajet">
-<label for="trajetId">Trajet</label>
-```
+   ```html
+   <input type="radio" id="voitureId" name="controleur_defaut" value="voiture">
+   <label for="voitureId">Voiture</label>
+   <input type="radio" id="utilisateurId" name="controleur_defaut" value="utilisateur">
+   <label for="utilisateurId">Utilisateur</label>
+   <input type="radio" id="trajetId" name="controleur_defaut" value="trajet">
+   <label for="trajetId">Trajet</label>
+   ```
 
 1. Afin de pouvoir gérer les préférences de contrôleur, créez une classe
    `src/Lib/PreferenceControleur.php` avec le bon espace de nom et le contenu
