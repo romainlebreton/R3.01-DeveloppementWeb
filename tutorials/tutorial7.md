@@ -378,14 +378,14 @@ l'action par défaut plutôt que le contrôleur par défaut.
 
 2. Dans votre menu qui se trouve dans l'en-tête commun de chaque page, ajouter
    une icône cliquable ![cœur]({{site.baseurl}}/assets/TD7/heart.png) qui pointe
-   vers la future action `formulairePreference` (sans contrôleur).
+   vers la future action `afficherFormulairePreference` (sans contrôleur).
 
    Note : Stockez vos images et votre CSS dans un dossier `ressources` accessible
    sur internet (avec le bon fichier `.htaccess`)
 
    ![assets]({{site.baseurl}}/assets/TD7/assets.png){: .blockcenter width="230em"}
 
-3. Créez une action `formulairePreference` dans le contrôleur *générique*, qui
+3. Créez une action `afficherFormulairePreference` dans le contrôleur *générique*, qui
    doit afficher une vue `src/vue/formulairePreference.php`.
    
 4. Créez cette vue et complétez-la avec un formulaire 
