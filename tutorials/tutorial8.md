@@ -297,20 +297,29 @@ Nous allons modifier la création d'un utilisateur.
 
       * Créez une méthode 
       ```php
-      public static function construireDepuisFormulaire (array $tableauFormulaire) : Utilisateur
+      public function construireDepuisFormulaire (array $tableauFormulaire) : Utilisateur
       ```
       dans la classe `Utilisateur`. Elle appelle le constructeur de
       `Utilisateur` en hachant d'abord le mot de passe.
       * Mettez à jour l'action `creerDepuisFormulaire` pour appeler `construireDepuisFormulaire()`.
 
+2. Rajoutons au menu de notre site un lien pour s'inscrire. Dans le menu de la
+   vue générique `vueGenerale.php`, rajoutez une icône cliquable ![icône
+   inscription](../assets/TD8/add-user.png)[^nbpicon] qui pointe vers l'action
+   `creerDepuisFormulaire` (contrôleur utilisateur).
+
+3. Testez l'inscription d'un utilisateur avec mot de passe.
+
 </div>
+
+[^nbpicon]: <a href="https://www.flaticon.com/" title="icones">Les icônes proviennent du site Flaticon</a>
 
 Rajoutons des mots de passe dans la mise à jour d'un utilisateur.
 
 <div class="exercise">
 
 1. Modifier la vue `formulaireMiseAJour.php` pour ajouter trois champs *password* : l'ancien mot de passe, le nouveau qu'il faut écrire 2 fois pour ne pas se tromper.
-1. Modifiez l'action `mettreAJour` :
+2. Modifiez l'action `mettreAJour` :
    * vérifiez que les 2 nouveaux mots de passe coïncident. En cas d'échec,
      appelez à l'action d'erreur `afficherErreur` avec un message *Mots de
      passe distincts*.
@@ -320,7 +329,7 @@ Rajoutons des mots de passe dans la mise à jour d'un utilisateur.
    * Le cas échéant, mettez à jour votre utilisateur en appelant les *setter*.
      N'oubliez pas de hacher le mot de passe. Enfin, effectuez la mise à jour
       dans la base de données.
-
+3. Testez la mise à jour du mot de passe d'un utilisateur.
 </div>
 
 ## Sécurisation d'une page avec les sessions
@@ -385,9 +394,11 @@ Procédons en plusieurs étapes :
 1. Rajoutons au menu de notre site un lien pour se connecter. Dans le menu de la
    vue générique `vueGenerale.php`, rajoutez une icône cliquable
    ![connexion]({{site.baseurl}}/assets/TD8/enter.png) qui pointe vers la future
-   action `formulaireConnexion` (contrôleur *utilisateur*). Ce lien ne doit
-   s'afficher que si aucun utilisateur n'est connecté (utiliser une méthode de
-   la classe `ConnexionUtilisateur`). 
+   action `afficherFormulaireConnexion` (contrôleur *utilisateur*).  
+   Ce lien, ainsi que le lien d'inscription ![icône
+   inscription](../assets/TD8/add-user.png), ne doivent s'afficher que si aucun
+   utilisateur n'est connecté (utiliser une méthode de la classe
+   `ConnexionUtilisateur`). 
    
    *Note* : Il est autorisé de mettre un `if` dans la vue `vueGenerale.php`.
 
@@ -396,7 +407,7 @@ Procédons en plusieurs étapes :
    1. Créer une vue `utilisateur/formulaireConnexion.php` qui comprend un formulaire avec
    deux champs, l'un pour le login, l'autre pour le mot de passe. Ce formulaire
    appelle la future action `connecter` du contrôleur *utilisateur*.
-   1. Ajouter une action `formulaireConnexion` qui affiche ce formulaire.
+   1. Ajouter une action `afficherFormulaireConnexion` qui affiche ce formulaire.
 
 
 1. Créons enfin l'action `connecter()` du contrôleur *utilisateur* :
@@ -590,7 +601,7 @@ donnée.
    sera transmis. Si la case n'est pas cochée, aucune donnée liée au `checkbox`
    n'est rajoutée.
 
-   **Mettez à jour** la méthode la méthode `construireDepuisFormulaire` avec ces
+   **Mettez à jour** la méthode `construireDepuisFormulaire` avec ces
    explications. Vérifiez dans PHPMyAdmin que vous arrivez à créer des
    utilisateurs administrateurs ou non.
 
@@ -606,7 +617,7 @@ Passons au processus de mise-à-jour.
    si l'utilisateur est déjà administrateur (utilisez
    `ConnexionUtilisateur::estAdministrateur()`).
 
-1. Dans l'action `mettreAJour`, rajoutez un appel au setter `setEstAdmin`. Vérifiez
+2. Dans l'action `mettreAJour`, rajoutez un appel au setter `setEstAdmin`. Vérifiez
    que la mise à jour fonctionne.
 
 </div>

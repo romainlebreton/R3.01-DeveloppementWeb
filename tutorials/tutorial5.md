@@ -5,6 +5,8 @@ layout: tutorial
 lang: fr
 ---
 
+<!-- TODO An prochain : changer le nom du dossier Lib -->
+
 <!-- Prévoir une explication écrite de la différence entre chemin de fichier et
 URL.  Notament pour ceux qui mettent du ROOT dans les URL -->
 
