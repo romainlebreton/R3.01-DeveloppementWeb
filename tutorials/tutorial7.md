@@ -389,7 +389,7 @@ l'action par défaut plutôt que le contrôleur par défaut.
    doit afficher une vue `src/vue/formulairePreference.php`.
    
 4. Créez cette vue et complétez-la avec un formulaire 
-   * renvoyant vers la future action `enregistrerPreference` (sans indiquer de contrôleur), 
+   * renvoyant vers la future action `` (sans indiquer de contrôleur), 
    * contenant des *boutons radio* permettant de choisir `voiture`, `trajet` ou
    `utilisateur` comme contrôleur par défaut
 ```html
@@ -434,7 +434,7 @@ l'action par défaut plutôt que le contrôleur par défaut.
 2. Écrire l'action `enregistrerPreference` du contrôleur générique qui 
    * récupère la valeur `controleur_defaut` du formulaire,
    * l'enregistre dans un cookie en utilisant la classe `PreferenceControleur`,
-   * appelle une nouvelle vue `src/vue/enregistrerPreference.php`
+   * appelle une nouvelle vue `src/vue/preferenceEnregistree.php`
      qui affiche *La préférence de contrôleur est enregistrée !*.
 
 3. Vérifier que ce cookie a bien été déposé à l'aide des outils de développement.
