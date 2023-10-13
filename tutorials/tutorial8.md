@@ -724,8 +724,8 @@ Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`.
       {
          $loginURL = rawurlencode($utilisateur->getLogin());
          $nonceURL = rawurlencode($utilisateur->getNonce());
-         $absoluteURL = ConfigurationSite::getAbsoluteURL();
-         $lienValidationEmail = "$absoluteURL?action=validerEmail&controller=utilisateur&login=$loginURL&nonce=$nonceURL";
+         $URLAbsolue = ConfigurationSite::getURLAbsolue();
+         $lienValidationEmail = "$URLAbsolue?action=validerEmail&controleur=utilisateur&login=$loginURL&nonce=$nonceURL";
          $corpsEmail = "<a href=\"$lienValidationEmail\">Validation</a>";
 
          // Temporairement avant d'envoyer un vrai mail
@@ -746,7 +746,7 @@ Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`.
    }
    ```
 
-   **Rajoutez** une méthode `ConfigurationSite::getAbsoluteURL` qui renvoie la base de l'URL
+   **Rajoutez** une méthode `ConfigurationSite::getURLAbsolue` qui renvoie la base de l'URL
    de votre site, par exemple 
    ```text
    http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD8/web/controleurFrontal.php
