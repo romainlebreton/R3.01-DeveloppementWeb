@@ -389,7 +389,7 @@ l'action par défaut plutôt que le contrôleur par défaut.
    doit afficher une vue `src/vue/formulairePreference.php`.
    
 4. Créez cette vue et complétez-la avec un formulaire 
-   * renvoyant vers la future action `` (sans indiquer de contrôleur), 
+   * renvoyant vers la future action `enregistrerPreference` (sans indiquer de contrôleur), 
    * contenant des *boutons radio* permettant de choisir `voiture`, `trajet` ou
    `utilisateur` comme contrôleur par défaut
 ```html
