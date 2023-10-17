@@ -248,8 +248,7 @@ et copiez-le dans l'attribut statique `$poivre` une fois pour toute.
    ``` 
 
 1. Nous allons modifier la structure de données *utilisateur* :
-   1. Modifiez la table utilisateur en lui ajoutant une colonne `VARCHAR(256)
-mdpHache` stockant son mot de passe.
+   1. Modifiez la table utilisateur en lui ajoutant une colonne `VARCHAR(256) mdpHache` non `null` stockant son mot de passe.
    1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Modele/DataObject`) :
       1. ajoutez un attribut `private string $mdpHache`,
       1. mettez à jour le constructeur, 
