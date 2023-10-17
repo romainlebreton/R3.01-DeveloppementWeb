@@ -114,12 +114,13 @@ passe.
 
 Nous allons utiliser l'implémentation suivante de PHP de la fonction de hachage
 `bcrypt` qui a la particularité d'intégrer automatiquement un sel aléatoire.
-Ainsi, nous n'aurons besoin de rajouter qu'un seul champ à notre BDD qui
+Ainsi, nous n'aurons besoin d'ajouter qu'un seul champ à notre BDD qui
 contiendra à la fois le sel et le haché.
 
 ```php
 $mdpClair = 'apple';
-// PASSWORD_DEFAULT utilise l'algorithme bcrypt actuellement
+// PASSWORD_DEFAULT est une constante PHP qui permet de spécifier l'algorithme
+// utilisé par défaut dans le hachage : actuellement c'est l'algorithme bcrypt
 var_dump(password_hash($mdpClair, PASSWORD_DEFAULT));
 // Le hachage d'un même mot de passe donne des résultats différents
 var_dump(password_hash($mdpClair, PASSWORD_DEFAULT));
