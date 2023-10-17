@@ -284,7 +284,7 @@ Nous allons modifier la création d'un utilisateur.
 
    Le deuxième champ mot de passe sert à valider le premier.
 
-1. Modifiez l'action `creerDepuisFormulaire` du contrôleur *utilisateur* :
+1. Modifiez l'action `creerDepuisFormulaire` du  *utilisateur* :
    1. rajoutez la condition que les deux champs mot de passe doivent coïncider
       avant de sauvegarder l'utilisateur. En cas d'échec, appelez à l'action d'erreur `afficherErreur` avec un message *Mots de passe distincts*.
 
@@ -298,7 +298,7 @@ Nous allons modifier la création d'un utilisateur.
 
       * Créez une méthode 
       ```php
-      public function construireDepuisFormulaire (array $tableauFormulaire) : Utilisateur
+      public static function construireDepuisFormulaire (array $tableauFormulaire) : Utilisateur
       ```
       dans la classe `Utilisateur`. Elle appelle le constructeur de
       `Utilisateur` en hachant d'abord le mot de passe.
@@ -307,7 +307,7 @@ Nous allons modifier la création d'un utilisateur.
 2. Rajoutons au menu de notre site un lien pour s'inscrire. Dans le menu de la
    vue générique `vueGenerale.php`, rajoutez une icône cliquable ![icône
    inscription](../assets/TD8/add-user.png)[^nbpicon] qui pointe vers l'action
-   `creerDepuisFormulaire` (contrôleur utilisateur).
+   `afficherFormulaireCreation` (contrôleur utilisateur).
 
 3. Testez l'inscription d'un utilisateur avec mot de passe.
 
