@@ -415,15 +415,15 @@ Procédons en plusieurs étapes :
       première vérification est qu'un login et un mot de passe sont transmis dans le
       *query string*. Sinon, appelez `afficherErreur` avec le message *Login et/ou mot de passe manquant*.
    2. Puis, il faut récupérer l'utilisateur ayant le login transmis. Ceci
-      permettra de vérifier que ce login existe bien et que le mot de passe est
-      transmis correct (utiliser une méthode de la classe `MotDePasse`). Sinon,
-      appelez `afficherErreur` avec le message *Login inconnu*.
+      permettra de vérifier que ce login existe bien et que le mot de passe
+      transmis est correct (utiliser une méthode de la classe `MotDePasse`).
+      Sinon, appelez `afficherErreur` avec le message *Login inconnu*.
    3. Enfin, vous pouvez connecter l'utilisateur (utiliser une méthode de la
       classe `ConnexionUtilisateur`). 
       <!-- ICI TODO Afficher la vue utilisateurConnecte ! -->
       Affichez une nouvelle vue `utilisateur\utilisateurConnecte.php` qui écrit
-      un message *Utilisateur connecté* puis appelle la vue `liste.php` pour
-      lister les utilisateurs. Cette vue est similaire à `utilisateurCree.php`.
+      un message *Utilisateur connecté* puis appelle la vue `detail.php` pour
+      afficher l'utilisateur connecté. Cette vue est similaire à `utilisateurCree.php`.
 
 </div>
 
@@ -442,8 +442,8 @@ Codons maintenant la déconnexion.
 
 2. Ajouter une action `deconnecter` qui déconnecte l'utilisateur (utiliser une
    méthode de la classe `ConnexionUtilisateur`). Affichez une nouvelle vue
-   `utilisateur\utilisateurDeconnecte.php` similaire à
-   `utilisateurConnecte.php`, mais avec le message *Utilisateur déconnecté*.
+   `utilisateur\utilisateurDeconnecte.php` qui affiche le message *Utilisateur
+   déconnecté* puis la liste des utilisateurs.
 
    *Note :* Toutes les vues `utilisateurConnecte.php`,
    `utilisateurDeconnecte.php`, `utilisateurCree.php`, `utilisateurMisAJour.php`
@@ -542,7 +542,7 @@ Commençons par rajouter un attribut `estAdmin` à notre classe métier
 
 <div class="exercise">
 
-1. Ajouter un champ `estAdmin` de type `BOOLEAN` (ou `TINYINT(1)`) à la table
+1. Ajouter un champ `estAdmin` de type `BOOLEAN` (ou `TINYINT(1)`) non `NULL` à la table
    `utilisateur`.
 
 1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Modele/DataObject`) :
@@ -689,9 +689,9 @@ en plus.
 <div class="exercise">
 
 1. Ajouter trois champs à la table `utilisateur` : 
-   * `email` de type `VARCHAR(256)`,
-   * `emailAValider` de type `VARCHAR(256)`,
-   * `nonce` de type `VARCHAR(32)`,
+   * `email` de type `VARCHAR(256)` non `NULL`,
+   * `emailAValider` de type `VARCHAR(256)` non `NULL`,
+   * `nonce` de type `VARCHAR(32)` non `NULL`,
 
 1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Modele/DataObject`) :
    1. ajoutez les attributs,
@@ -768,7 +768,8 @@ Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`.
    qu'elle donne la valeur `""` à l'email, qu'elle stocke l'adresse mail du
    formulaire dans `emailAValider`, et qu'elle crée un nonce aléatoire à
    l'aide de `MotDePasse::genererChaineAleatoire()`.
-   * il faut envoyer l'email de validation : appelez la fonction `VerificationEmail::envoiEmailValidation`.
+   * il faut envoyer l'email de validation en cas de succès de la sauvegarde :
+     appelez la fonction `VerificationEmail::envoiEmailValidation`.
 
 2. Faisons en sorte que le lien envoyé par mail valide bien l'adresse mail. 
    * Ajoutez une action `validerEmail` au contrôleur `Utilisateur` qui récupère
@@ -861,8 +862,7 @@ connecté sans avoir validé, alors on ne peut que valider son email.
 À l'heure actuelle, le mot de passe transite en clair dans l'URL. Vous
 conviendrez facilement que ce n'est pas top. Nous allons donc passer nos
 formulaires en méthode POST si le site est en production, ou en méthode GET si
-le site est en développement (selon [la variable `ConfigurationSite::getDebug()` du
-TD2](tutorial2.html#gestion-des-erreurs)).
+le site est en développement.
 
 Il faudrait donc maintenant récupérer les variables à l'aide de `$_POST` ou
 `$_GET`. Cependant, nos liens internes, tels que 'Détails' ou 'Mettre à jour'
@@ -872,7 +872,9 @@ avons donc besoin d'être capable de récupérer les variables automatiquement d
 
 <div class="exercise">
 
-1. La variable globale `$_REQUEST` est similaire à `$_GET` et `$_POST`, à ceci
+1. Rajoutez une méthode `ConfigurationSite::getDebug()` qui renverra `true` ou `false`.
+
+2. La variable globale `$_REQUEST` est similaire à `$_GET` et `$_POST`, à ceci
    près qu'elle est la fusion de ces tableaux. En cas de conflit, les valeurs de
    `$_POST` écrasent celles de `$_GET`.
 
@@ -881,7 +883,7 @@ avons donc besoin d'être capable de récupérer les variables automatiquement d
    **Aide :** Utiliser la fonction de remplacement globale (sur tous les
    fichiers du dossier `TD8`) pour vous aider.
 
-1. Passez les formulaires `formulaireCreation.php`, `formulaireMiseAJour.php`, `formulaireConnexion.php`
+3. Passez les formulaires `formulaireCreation.php`, `formulaireMiseAJour.php`, `formulaireConnexion.php`
    et `formulairePreference.php` en méthode POST si `ConfigurationSite::getDebug()` est
    `false` ou en méthode GET sinon.
 
@@ -911,7 +913,7 @@ chiffrement de l'ensemble des communications entre le client (browser) et le
 serveur, via l'utilisation du protocole `TLS` sur `http`, à savoir
 `https`. Cependant, la mise en place de cette infrastructure était jusqu'à présent
 compliqué. Même si
-[elle s'est simplifié considérablement récemment](https://letsencrypt.org/),
+[elle s'est simplifiée considérablement récemment](https://letsencrypt.org/),
 cela dépasse le cadre de notre cours.
 
 ### Notes techniques supplémentaires

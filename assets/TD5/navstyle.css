@@ -1,0 +1,76 @@
+nav ul {
+    list-style: none;
+    padding-left: 0;
+    text-align: center;
+    display:flex;
+    justify-content:center;
+}
+
+nav ul li {
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;    
+}
+
+nav ul li:hover {
+    background-color: #c7cef5;
+}
+
+nav ul li:not(:first-child) {
+    border-left-width: 0;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #000000;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+header, footer, main {
+    width: 600px;
+}
+
+footer p {
+    border: 1px solid black;
+    text-align:right;
+    /* width:600px; */
+    padding-right:1em;
+}
+
+/* https://philipwalton.github.io/solved-by-flexbox/demos/input-add-ons/ */
+.InputAddOn {
+    display: flex;
+    margin-bottom: 1.5em;
+}
+
+.InputAddOn-field {
+    flex: 1;
+}
+.InputAddOn-field:not(:first-child) {
+    border-left: 0;
+}
+.InputAddOn-field:not(:last-child) {
+    border-right: 0;
+}
+
+.InputAddOn-item {
+    background-color: rgba(147, 128, 108, 0.1);
+    color: #666666;
+    font: inherit;
+    font-weight: normal;
+}
+
+.InputAddOn-field,
+.InputAddOn-item {
+    border: 1px solid rgba(147, 128, 108, 0.25);
+    padding: 0.5em 0.75em;
+}
+.InputAddOn-field:first-child,
+.InputAddOn-item:first-child {
+    border-radius: 2px 0 0 2px;
+}
+.InputAddOn-field:last-child,
+.InputAddOn-item:last-child {
+    border-radius: 0 2px 2px 0;
+}

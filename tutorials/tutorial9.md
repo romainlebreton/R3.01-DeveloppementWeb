@@ -18,134 +18,86 @@ l'état de la session
 
 -->
 
-## Application des sessions : Redirection HTTP & messages flash
+<!-- Pas de static::redirection -->
 
-### Cahier des charges
+## Ajouter des messages à une vue
 
-<!--  
-Mettre un joli carousel
-https://getbootstrap.com/docs/3.4/javascript/#carousel
--->
+### Bandeau de messages
 
-Le client est sur le formulaire de création d'une voiture
+Au lieu de créer une vue spécifique comme `utilisateurCree.php` pour ajouter un
+message en haut d'une vue existante, nous allons intégrer un système de message
+à nos pages.
 
-![VoitureCreate]({{site.baseurl}}/assets/TD7/VoitureCreate.png){: .blockcenter}
+Les messages pourront être de 4 types : *success* (vert),
+*info* (jaune), *warning* (orange) et *danger* (rouge). Chaque type peut
+comporter plusieurs messages. Voici 2 exemples : 
 
-S'il rentre une immatriculation existante, le site le redirige vers le
-formulaire de création avec un message d'avertissement
-
-![VoitureCreatedWarning]({{site.baseurl}}/assets/TD7/VoitureCreatedWarning.png){: .blockcenter}
-
-De même, s'il oublie un champ du formulaire (ce qui ne devrait *normalement* pas
-arriver puisque les `<input>` ont l'attribut `required`), le site le redirige vers le
-formulaire de création avec un message de danger
-
-![VoitureCreatedDanger]({{site.baseurl}}/assets/TD7/VoitureCreatedDanger.png){: .blockcenter}
-
-Quand le formulaire est valide, le client est redirigé vers la vue qui liste
-toutes les voitures avec un message de succès
+<div style="
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+">
 
 ![VoitureCreatedSuccess]({{site.baseurl}}/assets/TD7/VoitureCreatedSuccess.png){: .blockcenter}
 
-Ce message ne s'affiche qu'une fois ; si le client rafraîchit la page (`F5`),
-alors le message disparait
-
-![VoitureReadAll]({{site.baseurl}}/assets/TD7/VoitureReadAll.png){: .blockcenter}
-
-<div class="exercise">
-
-1. **À l'aide des indications de la section suivante**, implémentez un système de message flash.
-
-1. Utilisez les messages flash pour enlever toutes les vues qui affichaient un
-   message puis appelaient une autre vue. En particulier, supprimez les vues
-   désormais inutiles `utilisateurCree.php`, `utilisateurMisAJour.php` et
-   `utilisateurSupprime.php`. Faites de même pour les vues de voiture.
-
-   *Note* : Par exemple, en cas de succès de création d'un utilisateur, on
-   pourrait ajouter un message flash de succès *L'utilisateur a bien été créé*
-   puis rediriger dans l'action `afficherListe` du contrôleur `utilisateur`.
-   
-1. De plus, l'action `enregistrerPreference()` peut maintenant rediriger
-   l'action par défaut du contrôleur par défaut, que l'on obtient sans indiquer
-   d'action ni de contrôleur dans l'URL, avec un message flash *La préférence de
-   contrôleur est enregistrée !*.
+![VoitureCreatedWarning]({{site.baseurl}}/assets/TD7/VoitureCreatedWarning.png){: .blockcenter}
 
 </div>
 
+Pour stocker les messages Flash, nous utiliserons des tableaux de tableaux de
+`string`, par exemple :
+```php?start_inline=1
+$messagesFlash = [
+    "success" => [
+        0 => "Message succès"
+    ],
+    "danger" => [
+        0 => "Message danger 1",
+        1 => "Message danger 2"
+    ]
+];
+```
 
-### Indications techniques
+<div class="exercise">
 
-1.  Pour la redirection, nous allons utiliser le code suivant (à encapsuler dans
-    une méthode `redirectionVersURL` du contrôleur générique)
-    ```php
-    header("Location: $url");
-    exit();
-    ```
+1. Les messages peuvent s'afficher sur n'importe quelle page qui utilise
+   `vueGenerale.php`, que nous allons mettre à jour pour afficher tous les
+   messages existants. 
 
-    En effet, quand un navigateur reçoit l'en-tête de réponse
-    [`Location`](https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Location),
-    il doit effectuer une redirection temporaire sur l'URL indiquée. Enfin,
-    `exit()` termine l'exécution du script courant. 
+   Dans `vueGenerale.php`, rajouter le `<div>` suivant juste après le `<nav>`
+   dans le `<header>`.
 
-    *Note :* L'utilisation de `exit()` est optionnelle. Nous vous le mentionnons
-    car généralement le script n'a plus rien à faire après avoir demandé une
-    redirection.
+   ```php
+   <div>
+       <?php
+       /** @var string[][] $messagesFlash */
+       foreach($messagesFlash as $type => $messagesFlashPourUnType) {
+           // $type est l'une des valeurs suivantes : "success", "info", "warning", "danger"
+           // $messagesFlashPourUnType est la liste des messages flash d'un type
+           foreach ($messagesFlashPourUnType as $messageFlash) {
+               echo <<< HTML
+               <div class="alert alert-$type">
+                  $messageFlash
+               </div>
+               HTML;
+           }
+       }
+       ?>
+   </div>
+   ```
+   
+2. Dans `ControleurGenerique::afficherVue()`, récupérez les messages dans une variable `$messagesFlash` à partir de l'URL (si présente dans l'URL), juste avant de `require` la vue :
+   ```php
+   // Avec le if/else ternaire
+   $messagesFlash = isset($_REQUEST["messagesFlash"]) ? $_REQUEST["messagesFlash"] : [];
+   // Ou de manière équivalent avec l'opérateur "null coalescent"
+   // https://www.php.net/manual/fr/migration70.new-features.php#migration70.new-features.null-coalesce-op
+   // $messagesFlash = $_REQUEST["messagesFlash"] ?? [];
+   ```
 
-1. Le principe d'un message flash est qu'il est détruit quand il est lu. Du
-   coup, le message ne sera affiché qu'une fois.
-
-1.  Vos messages flash doivent supporter 4 types de messages *success* (vert),
-    *info* (jaune), *warning* (orange) et *danger* (rouge). Chaque type peut
-    comporter plusieurs messages.
-
-1. Ces messages seront stockés en session pour pouvoir être écrits lors d'une
-   requête et lus lors de la requête de redirection suivante.
-
-1. Les messages flash peuvent s'afficher sur n'importe quelle page qui utilise
-   la vue générique `vueGenerale.php`. Il faudra donc mettre à jour `vueGenerale.php` pour
-   afficher tous les messages flash existants. Il faudra aussi penser à ce
-   qu'une variable contenant les messages flash soit donné en paramètre lors de
-   l'affichage de la vue.
-
-1.  Vous devriez coder une classe pour les messages flash. Nous vous proposons
-    l'interface suivante pour le fichier `src/Lib/MessageFlash.php`
-
-    ```php
-    namespace App\Covoiturage\Lib;
-
-    class MessageFlash
-    {
-
-        // Les messages sont enregistrés en session associée à la clé suivante 
-        private static string $cleFlash = "_messagesFlash";
-
-        // $type parmi "success", "info", "warning" ou "danger" 
-        public static function ajouter(string $type, string $message): void
-        {
-            // À compléter
-        }
-
-        public static function contientMessage(string $type): bool
-        {
-            // À compléter
-        }
-
-        // Attention : la lecture doit détruire le message
-        public static function lireMessages(string $type): array
-        {
-            // À compléter
-        }
-
-        public static function lireTousMessages() : array
-        {
-            // À compléter
-        }
-
-    }
-    ```
-
-1.  Pour le CSS des messages d'alerte, vous pouvez reprendre le [composant
-    d'alerte du framework CSS Bootstrap](https://getbootstrap.com/docs/3.4/components/#alerts)
+3.  Pour le CSS des messages d'alerte, rajoutez le code suivant à
+    `navstyles.css`. Le code provient du [composant d'alerte du framework CSS
+    Bootstrap](https://getbootstrap.com/docs/3.4/components/#alerts)
     ```css
     /* Bootstrap alerts */
     /* https://getbootstrap.com/docs/3.4/components/#alerts */
@@ -182,61 +134,261 @@ alors le message disparait
     }
     ```
 
-    On obtient alors un bloc de succès avec le code
+    On obtient alors par exemple un bloc de succès avec le code
     ```html
     <div class="alert alert-success">...</div>
     ```
 
-1.  (Optionnel) Pour des formulaires plus jolis, vous pouvez utiliser les [`Input add-ons`
-    de *Solved by
-    Flexbox*](https://philipwalton.github.io/solved-by-flexbox/demos/input-add-ons/)
-    ```css
-    /* https://philipwalton.github.io/solved-by-flexbox/demos/input-add-ons/ */
-    .InputAddOn {
-        display: flex;
-        margin-bottom: 1.5em;
-    }
+4. Testez les messages Flash. Pour ceci, appelez une vue en rajoutant le tableau des
+   messages dans le *query string* de la manière suivante
+   ```text
+   http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD8/web/controleurFrontal.php?messagesFlash[success][]=Hello+World
+   ```
+   ou
+   ```text
+   http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD8/web/controleurFrontal.php?messagesFlash[danger][]=Message+de+danger+1&messagesFlash[danger][]=Message+de+danger+2
+   ```
 
-    .InputAddOn-field {
-        flex: 1;
-    }
-    .InputAddOn-field:not(:first-child) {
-        border-left: 0;
-    }
-    .InputAddOn-field:not(:last-child) {
-        border-right: 0;
-    }
+</div>
 
-    .InputAddOn-item {
-        background-color: rgba(147, 128, 108, 0.1);
-        color: #666666;
-        font: inherit;
-        font-weight: normal;
-    }
+### Redirection
 
-    .InputAddOn-field,
-    .InputAddOn-item {
-        border: 1px solid rgba(147, 128, 108, 0.25);
-        padding: 0.5em 0.75em;
-    }
-    .InputAddOn-field:first-child,
-    .InputAddOn-item:first-child {
-        border-radius: 2px 0 0 2px;
-    }
-    .InputAddOn-field:last-child,
-    .InputAddOn-item:last-child {
-        border-radius: 0 2px 2px 0;
+Il est pratique pour le site de pouvoir rediriger sur une autre page en cas
+d'erreur ou de succès. Par exemple, le client est sur le formulaire de création d'une voiture
+
+![VoitureCreate]({{site.baseurl}}/assets/TD7/VoitureCreate.png){: .blockcenter}
+
+S'il rentre une immatriculation existante, le site le redirige vers le
+formulaire de création avec un message d'avertissement
+
+![VoitureCreatedWarning]({{site.baseurl}}/assets/TD7/VoitureCreatedWarning.png){: .blockcenter}
+
+De même, s'il oublie un champ du formulaire (ce qui ne devrait *normalement* pas
+arriver puisque les `<input>` ont l'attribut `required`), le site le redirige vers le
+formulaire de création avec un message de danger
+
+![VoitureCreatedDanger]({{site.baseurl}}/assets/TD7/VoitureCreatedDanger.png){: .blockcenter}
+
+Quand le formulaire est valide, le client est redirigé vers la vue qui liste
+toutes les voitures avec un message de succès
+
+![VoitureCreatedSuccess]({{site.baseurl}}/assets/TD7/VoitureCreatedSuccess.png){: .blockcenter}
+
+Le système de redirection est pratique car il évite la duplication de code.
+Précédemment, pour que l'action `creerDepuisFormulaire` affiche la liste des
+voitures en cas de succès, il fallait récupérer la liste des voitures et appeler
+la vue `voitures/liste.php`. Ce code existe déjà dans l'action `afficherListe`. 
+
+À la place, nous allons juste rediriger le client vers l'URL correspondant à
+l'action `afficherListe` sans code supplémentaire.
+
+<div class="exercise">
+
+1.  Pour la redirection, nous allons utiliser le code suivant (à encapsuler dans
+    une méthode `redirectionVersURL` du contrôleur générique)
+    ```php
+    header("Location: $url");
+    exit();
+    ```
+
+    En effet, quand un navigateur reçoit l'en-tête de réponse
+    [`Location`](https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Location),
+    il effectue une redirection, c'est-à-dire qu'il lance une requête vers la
+    nouvelle URL comme si on avait cliqué sur un lien. Enfin, `exit()` termine
+    l'exécution du script courant. 
+
+    *Note :* L'utilisation de `exit()` est optionnelle. Nous vous le mentionnons
+    car généralement le script n'a plus rien à faire après avoir demandé une
+    redirection.
+
+2. Utilisons la redirection dans un premier scénario d'erreur. Dans
+   `ControleurUtilisateur::afficherDetail`, si le `login` ne correspond à aucun
+   utilisateur, utilisez la redirection précédente vers l'URL de l'action
+   `afficherListe` avec le message de type `warning` suivant : `Login inconnu`.
+
+3. Dans `ControleurUtilisateur::supprimer`, si l'utilisateur a bien été
+   supprimé, redirigez-le vers l'action `afficherListe` avec le message de
+   succès `L'utilisateur a bien été supprimé !`.
+
+</div>
+
+## Application des sessions : messages flash
+
+<!--  
+Mettre un joli carousel
+https://getbootstrap.com/docs/3.4/javascript/#carousel
+-->
+
+Le client est sur le formulaire de création d'une voiture
+
+![VoitureCreate]({{site.baseurl}}/assets/TD7/VoitureCreate.png){: .blockcenter}
+
+Quand le formulaire est valide, le client est redirigé vers la vue qui liste
+toutes les voitures avec un message de succès
+
+![VoitureCreatedSuccess]({{site.baseurl}}/assets/TD7/VoitureCreatedSuccess.png){: .blockcenter}
+
+Nous souhaitons maintenant que ce message ne s'affiche qu'une fois ; si le
+client rafraîchit la page (`F5`), alors le message disparait
+
+![VoitureReadAll]({{site.baseurl}}/assets/TD7/VoitureReadAll.png){: .blockcenter}
+
+Le principe d'un message flash est qu'il est détruit quand il est lu. Du coup,
+le message ne sera affiché qu'une fois. 
+
+Les messages Flash seront stockés en session pour pouvoir être écrits lors d'une
+requête et lus lors de la requête de redirection suivante. Prenons un exemple : 
+
+   1. En cliquant sur le bouton `Envoyer` du formulaire de création de voiture,
+      vous faites une requête à l'action `creerDepuisFormulaire`. Si la création
+      se passe bien, vous enregistrez en session un message Flash de succès,
+      puis vous redirigez le client vers l'affichage des voitures.
+
+   2. Sur la page de l'action `afficherListe`, le contrôleur va lire les
+      messages Flash stockés en session. Ces messages sont affichés sur la
+      page. Selon le principe des messages Flash, cette lecture entrainera leur
+      suppression de la session.
+
+   3. Si vous rafraichissez la page, l'action `afficherListe` va toujours lire
+      les messages Flash mais n'en trouvera pas. Le message disparaitra donc.
+
+<div class="exercise">
+
+1. Implémentez un système de message flash en complétant le squelette suivant
+   dans le fichier `src/Lib/MessageFlash.php`
+
+    ```php
+    namespace App\Covoiturage\Lib;
+
+    class MessageFlash
+    {
+
+        // Les messages sont enregistrés en session associée à la clé suivante 
+        private static string $cleFlash = "_messagesFlash";
+
+        // $type parmi "success", "info", "warning" ou "danger" 
+        public static function ajouter(string $type, string $message): void
+        {
+            // À compléter
+        }
+
+        public static function contientMessage(string $type): bool
+        {
+            // À compléter
+        }
+
+        // Attention : la lecture doit détruire le message
+        public static function lireMessages(string $type): array
+        {
+            // À compléter
+        }
+
+        public static function lireTousMessages() : array
+        {
+            // À compléter
+        }
+
     }
     ```
 
-    Un champ de formulaire s'obtient par exemple avec 
-    ```html
-    <p class="InputAddOn">
-        <label class="InputAddOn-item" for="immat_id">Immatriculation&#42;</label>
-        <input class="InputAddOn-field" type="text" placeholder="Ex : 256AB34" name="immatriculation" id="immat_id" required>
-    </p>
-    ```
+2. Modifiez `ControleurGenerique::afficherVue()` pour lire les messages Flash
+   depuis cette classe avec 
+   ```php
+   $messagesFlash = MessageFlash::lireTousMessages();
+   ```
 
+3. Tester vos nouveaux messages Flash. Pour ceci, reprenez les scénarios de
+   l'exercice 2. Au lieu de passer les messages Flash dans l'URL, vous les
+   ajouterez dans la session avec `MessageFlash::ajouter()` avant la
+   redirection.
+
+</div>
+
+### Utilisation des messages flash
+
+Utilisez les messages flash pour enlever toutes les vues qui affichaient un
+message puis appelaient une autre vue.
+
+<div class="exercise">
+
+1. En particulier, supprimez les vues désormais inutiles comme
+   `utilisateurCree.php`, `utilisateurConnecte.php`,
+   `utilisateurDeconnecte.php`, `utilisateurMisAJour.php` et
+   `utilisateurSupprime.php`. Faites de même pour les vues de voiture.
+
+   *Note* : Par exemple, en cas de succès de création d'un utilisateur, on
+   pourrait ajouter un message flash de succès *L'utilisateur a bien été créé*
+   puis rediriger dans l'action `afficherListe` du contrôleur `utilisateur`.
+   
+2. De plus, l'action `enregistrerPreference()` peut maintenant rediriger
+   l'action par défaut du contrôleur par défaut, que l'on obtient sans indiquer
+   d'action ni de contrôleur dans l'URL, avec un message flash de succès *La
+   préférence de contrôleur est enregistrée !*.
+
+</div>
+
+
+Dans votre site, nous allons remplacer tous les appels `afficherErreur` à la vue
+d'erreur par des redirections avec messages flash.
+
+<div class="exercise">
+
+1. action `creerDepuisFormulaire`, si les deux champs mot de passe ne coïncident
+   pas, redirigez vers le formulaire de création avec un message flash *Mots de
+   passe distincts* de type *warning*.
+
+   *Note* : Nous réserverons les messages flash de type *danger* pour les
+   erreurs qui ne sont censées se produire que si le client a essayé de hacker
+   le site (accès à une page qu'on ne lui a pas proposé, donnée de formulaire
+   manquante alors qu'elle était `required`), et les messages flash de type
+   *warning* pour les erreurs de l'utilisateur. 
+
+2. action `mettreAJour`: 
+   * si les 2 nouveaux mots de passe ne coïncident pas, redirigez vers le
+   formulaire de mise à jour en indiquant le login dans l'URL avec un message
+   flash *Mots de passe distincts*.
+   * si l'ancien mot de passe n'est pas correct, redirigez vers le formulaire de
+   mise à jour en indiquant le login dans l'URL avec un message flash *Ancien
+   mot de passe erroné*.
+   <!-- * Le cas échéant, redirigez vers l'action `afficherListe` avec un message
+   flash de succès *Utilisateur mis à jour*. -->
+
+   <!-- **Aide :** Pour pouvoir rediriger vers le formulaire de mise à jour avec
+    l'identifiant d'un utilisateur, modifiez la méthode `redirection` pour qu'elle ajoute
+    une *query string* dans les redirections, -->
+
+3. action `connecter()` :  
+   1. Si le login ou le mot de passe ne sont pas transmis dans le *query
+      string*, redirigez vers le formulaire de connexion avec un message flash
+      *Login et/ou mot de passe manquant* de type `danger`.
+   2. Si le login n'existe pas, redirigez vers le formulaire de connexion avec
+      un message flash *Login inconnu* de type `warning`. 
+   3. Si le mot de passe transmis n'est pas correct, redirigez vers le
+      formulaire de connexion avec un message flash *Mot de passe incorrect* de
+      type `warning`.
+   <!-- 4. Enfin, vous pouvez connecter l'utilisateur (utiliser une méthode de la
+      classe `ConnexionUtilisateur`). Redirigez vers l'action `read` de
+      l'utilisateur connecté avec un message flash *Connexion effectuée* de type
+      `success`. -->
+
+<!-- 4. action `deconnecter` : redirigez vers l'action `readAll` avec un message
+   flash de type `success`. -->
+
+5. action `afficherFormulaireMiseAJour` : 
+   * l'accès au formulaire doit être restreint à l'utilisateur connecté. En cas
+   de problème, redirigez vers l'action `afficherListe` avec un message flash de
+   type *danger*.
+   * si l'utilisateur est inconnu, faites une redirection avec message flash *Login inconnu*.
+
+6. action `validerEmail` : 
+   * `GET` deux valeurs `login` et `nonce` existent, sinon message flash.
+   * En cas de succès, "redirection flash" vers la page de détail de cet
+   utilisateur. 
+   * En cas d'échec, "redirection flash" vers `afficherListe`.
+
+7. Traitez les appels à `afficherErreur` restants.
+
+</div>
 
 <!-- On écrit dans le champ `_messagesFlash` de la session un tableau comme suit :
 

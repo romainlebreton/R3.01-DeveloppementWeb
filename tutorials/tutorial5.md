@@ -632,14 +632,23 @@ avec trois liens vers les différents contrôleurs :
    </p>
    ```
 
-2. Rajoutez un [style CSS minimaliste]({{site.baseurl}}/assets/TD4/navstyle.css)
+2. Rajoutez un [style CSS minimaliste]({{site.baseurl}}/assets/TD5/navstyle.css)
    à votre page Web. Ce style sera mis dans un dossier `css`. Où mettre ce
    dossier `css` sachant que nous interdisons l'accès internet à certaines
    parties du dossier `TD5` ?
    
    Une façon de faire est de créer un dossier `TD5/ressources` qui sera accessible sur
    internet (copiez le `.htaccess` de `web`), et qui contiendra le dossier `css`, mais aussi plus tard des
-   dossiers `img` d'images et `js` pour le JavaScript.  
+   dossiers `img` d'images et `js` pour le JavaScript.
+
+3. Ce fichier CSS rajoute aussi un style pour les formulaires. Pour l'appliquer,
+   changez `formulaireCreation.php` pour qu'un champ de formulaire s'obtienne par exemple avec 
+    ```html
+    <p class="InputAddOn">
+        <label class="InputAddOn-item" for="immat_id">Immatriculation&#42;</label>
+        <input class="InputAddOn-field" type="text" placeholder="Ex : 256AB34" name="immatriculation" id="immat_id" required>
+    </p>
+    ```
 
 </div> 
 
