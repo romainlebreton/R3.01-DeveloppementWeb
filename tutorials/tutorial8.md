@@ -650,6 +650,11 @@ tous les droits.
       *administrateur* que si l'utilisateur connecté est administrateur. De
       plus, un administrateur doit pouvoir modifier n'importe quel utilisateur.
 
+   <!-- 
+   Attention un admin doit pouvoir modifier un utilisateur sans donner son ancien mot de passe
+   Ou plutôt réinitialiser un mot de passe 
+   -->
+
 </div>
 
 Il est courant qu'un site Web sépare ses interfaces administrateur et

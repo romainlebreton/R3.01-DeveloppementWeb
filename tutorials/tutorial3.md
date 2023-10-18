@@ -167,7 +167,7 @@ requêtes préparées, sauf éventuellement des requêtes SQL sans variable comm
 
 <div class="exercise">
 
-2. Créez une fonction `public function sauvegarder() : void` dans la classe `Voiture` qui insère la voiture
+2. Créez une fonction `public function ajouter() : void` dans la classe `Voiture` qui insère la voiture
 courante (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
 
    ```sql
@@ -566,7 +566,7 @@ les méthodes suivantes sont correctement codés :
 * `getVoitureParImmatriculation()` de `Voiture.php` gère une immatriculation inconnue en renvoyant la voiture `null`.
 
 Par contre, vous allez améliorer les méthodes suivantes :
-* `sauvegarder()` de `Voiture.php` ne traite pas :
+* `ajouter()` de `Voiture.php` ne traite pas :
   * le cas d'une voiture existant déjà en base de donnée (`SQLSTATE[23000]: Integrity constraint violation`)
   * le cas d'un problème de données :
     * chaîne de caractères trop longue (`SQLSTATE[22001]: String data, right truncation`)
@@ -575,7 +575,7 @@ Par contre, vous allez améliorer les méthodes suivantes :
 
 <div class="exercise">
 
-1. Pour la méthode `sauvegarder()`, les cas particuliers génèrent une exception de la classe `PDOException`.
+1. Pour la méthode `ajouter()`, les cas particuliers génèrent une exception de la classe `PDOException`.
    Modifiez la déclaration de type de la méthode pour qu'elle retourne un booléen 
    pour indiquer si la sauvegarde s'est bien passée. Modifiez la méthode pour intercepter les `PDOException`
    avec un `try/catch` et retourner `false` en cas de problème.

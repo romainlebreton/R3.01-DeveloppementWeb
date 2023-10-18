@@ -25,7 +25,7 @@ l'état de la session
 ### Bandeau de messages
 
 Au lieu de créer une vue spécifique comme `utilisateurCree.php` pour ajouter un
-message en haut d'une vue existante, nous allons intégrer un système de message
+message flash en haut d'une vue existante, nous allons intégrer un système de message
 à nos pages.
 
 Les messages pourront être de 4 types : *success* (vert),
@@ -44,7 +44,7 @@ comporter plusieurs messages. Voici 2 exemples :
 
 </div>
 
-Pour stocker les messages Flash, nous utiliserons des tableaux de tableaux de
+Pour stocker les messages flash, nous utiliserons des tableaux de tableaux de
 `string`, par exemple :
 ```php?start_inline=1
 $messagesFlash = [
@@ -139,7 +139,7 @@ $messagesFlash = [
     <div class="alert alert-success">...</div>
     ```
 
-4. Testez les messages Flash. Pour ceci, appelez une vue en rajoutant le tableau des
+4. Testez les messages flash. Pour ceci, appelez une vue en rajoutant le tableau des
    messages dans le *query string* de la manière suivante
    ```text
    http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD8/web/controleurFrontal.php?messagesFlash[success][]=Hello+World
@@ -159,18 +159,18 @@ d'erreur ou de succès. Par exemple, le client est sur le formulaire de créatio
 ![VoitureCreate]({{site.baseurl}}/assets/TD7/VoitureCreate.png){: .blockcenter}
 
 S'il rentre une immatriculation existante, le site le redirige vers le
-formulaire de création avec un message d'avertissement
+formulaire de création avec un message flash d'avertissement
 
 ![VoitureCreatedWarning]({{site.baseurl}}/assets/TD7/VoitureCreatedWarning.png){: .blockcenter}
 
 De même, s'il oublie un champ du formulaire (ce qui ne devrait *normalement* pas
 arriver puisque les `<input>` ont l'attribut `required`), le site le redirige vers le
-formulaire de création avec un message de danger
+formulaire de création avec un message flash de danger
 
 ![VoitureCreatedDanger]({{site.baseurl}}/assets/TD7/VoitureCreatedDanger.png){: .blockcenter}
 
 Quand le formulaire est valide, le client est redirigé vers la vue qui liste
-toutes les voitures avec un message de succès
+toutes les voitures avec un message flash de succès
 
 ![VoitureCreatedSuccess]({{site.baseurl}}/assets/TD7/VoitureCreatedSuccess.png){: .blockcenter}
 
@@ -204,10 +204,10 @@ l'action `afficherListe` sans code supplémentaire.
 2. Utilisons la redirection dans un premier scénario d'erreur. Dans
    `ControleurUtilisateur::afficherDetail`, si le `login` ne correspond à aucun
    utilisateur, utilisez la redirection précédente vers l'URL de l'action
-   `afficherListe` avec le message de type `warning` suivant : `Login inconnu`.
+   `afficherListe` avec le message flash de type `warning` suivant : `Login inconnu`.
 
 3. Dans `ControleurUtilisateur::supprimer`, si l'utilisateur a bien été
-   supprimé, redirigez-le vers l'action `afficherListe` avec le message de
+   supprimé, redirigez-le vers l'action `afficherListe` avec le message flash de
    succès `L'utilisateur a bien été supprimé !`.
 
 </div>
@@ -224,33 +224,33 @@ Le client est sur le formulaire de création d'une voiture
 ![VoitureCreate]({{site.baseurl}}/assets/TD7/VoitureCreate.png){: .blockcenter}
 
 Quand le formulaire est valide, le client est redirigé vers la vue qui liste
-toutes les voitures avec un message de succès
+toutes les voitures avec un message flash de succès
 
 ![VoitureCreatedSuccess]({{site.baseurl}}/assets/TD7/VoitureCreatedSuccess.png){: .blockcenter}
 
 Nous souhaitons maintenant que ce message ne s'affiche qu'une fois ; si le
-client rafraîchit la page (`F5`), alors le message disparait
+client rafraîchit la page (`F5`), alors le message flash disparait
 
 ![VoitureReadAll]({{site.baseurl}}/assets/TD7/VoitureReadAll.png){: .blockcenter}
 
-Le principe d'un message flash est qu'il est détruit quand il est lu. Du coup,
-le message ne sera affiché qu'une fois. 
+Le principe du *flash* d'un message flash est qu'il est détruit quand il est lu.
+Du coup, le message ne sera affiché qu'une fois. 
 
-Les messages Flash seront stockés en session pour pouvoir être écrits lors d'une
+Les messages flash seront stockés en session pour pouvoir être écrits lors d'une
 requête et lus lors de la requête de redirection suivante. Prenons un exemple : 
 
    1. En cliquant sur le bouton `Envoyer` du formulaire de création de voiture,
       vous faites une requête à l'action `creerDepuisFormulaire`. Si la création
-      se passe bien, vous enregistrez en session un message Flash de succès,
+      se passe bien, vous enregistrez en session un message flash de succès,
       puis vous redirigez le client vers l'affichage des voitures.
 
    2. Sur la page de l'action `afficherListe`, le contrôleur va lire les
-      messages Flash stockés en session. Ces messages sont affichés sur la
-      page. Selon le principe des messages Flash, cette lecture entrainera leur
+      messages flash stockés en session. Ces messages sont affichés sur la
+      page. Selon le principe des messages flash, cette lecture entrainera leur
       suppression de la session.
 
    3. Si vous rafraichissez la page, l'action `afficherListe` va toujours lire
-      les messages Flash mais n'en trouvera pas. Le message disparaitra donc.
+      les messages flash mais n'en trouvera pas. Le message disparaitra donc.
 
 <div class="exercise">
 
@@ -291,14 +291,14 @@ requête et lus lors de la requête de redirection suivante. Prenons un exemple 
     }
     ```
 
-2. Modifiez `ControleurGenerique::afficherVue()` pour lire les messages Flash
+2. Modifiez `ControleurGenerique::afficherVue()` pour lire les messages flash
    depuis cette classe avec 
    ```php
    $messagesFlash = MessageFlash::lireTousMessages();
    ```
 
-3. Tester vos nouveaux messages Flash. Pour ceci, reprenez les scénarios de
-   l'exercice 2. Au lieu de passer les messages Flash dans l'URL, vous les
+3. Tester vos nouveaux messages flash. Pour ceci, reprenez les scénarios de
+   l'exercice 2. Au lieu de passer les messages flash dans l'URL, vous les
    ajouterez dans la session avec `MessageFlash::ajouter()` avant la
    redirection.
 

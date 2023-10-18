@@ -63,7 +63,7 @@ class Voiture {
 
   public static function getVoitureParImmatriculation(string $immatriculation) { ... }
 
-  public function sauvegarder() { ... }
+  public function ajouter() { ... }
 }
 ?>
 ```
@@ -114,7 +114,7 @@ Dans notre cas, la nouvelle classe `ModeleVoiture` gère la persistance au trave
 des méthodes :
 
 ```php?start_inline=1
- $voiture->sauvegarder();
+ $voiture->ajouter();
  ModeleVoiture::getVoitureParImmatriculation($immatriculation);
  ModeleVoiture::getVoitures();
 ```
@@ -453,7 +453,7 @@ dans la base de données.
 
    1. récupérer les donnés de la voiture à partir de la *query string*,
    2. créer une instance de `ModeleVoiture` avec les données reçues,
-   3. appeler la méthode `sauvegarder` du modèle,
+   3. appeler la méthode `ajouter` du modèle,
    4. appeler la fonction `afficherListe()` pour afficher le tableau de
       toutes les voitures.
 

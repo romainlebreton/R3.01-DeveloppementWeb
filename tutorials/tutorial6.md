@@ -120,13 +120,13 @@ propres aux voitures (méthodes métiers). Voici le diagramme de classe UML modi
 nous allons obtenir à la fin de cette section :
 
 <img alt="Diagramme de classe"
-src="http://www.plantuml.com/plantuml/png/ZLFFJy8m5BxlhtZ7BIB1AmS3mGi7r8ZnH4BUoijIxThPlf8WuN-tRfqRKuC92TdtlUz7NxUPOxJiIvMuDwahj5Y2DZjoLC7DPD93XKBdvinMvfvfAOnUom-2IP9eBCbLA0ZcLRLPcBsHx2qMj5a59qMREsHyo5z9C1mJW0GQCtYf1wa6hm1WkmskZgqNdCgon90bl4AMHe-WHFlkQGJ2U4NUZa3dQqa5kIoehuDwe9Y22q-wW8QE-Y4QtOPmwpq5gHbYlOBuFk9fLZEHSCJBy_1X_QopM3I9QTPcjYOT5KjbBTFB_JvqLsgOtJb3Px2gJvysI-YrYNY_p2av_UDEdwWoJhAnXr_lj4_7jAFZq4-SlcARgMQFQ2qUXZCE_PuAj3koQHo6VVCV9Banwc_NHxINhcCASNRe4bz0QIcDSS-OAq9_9WaB2h-Bcnd_NCRuzl97qigI6UcTBzKd" style="margin-left:auto;margin-right:auto;display:block;">
+src="http://www.plantuml.com/plantuml/png/ZLCzJyCm4DtpAsvCHAdAsW6rAak70gA8gL9rSK-HYsC7-unKglvtJEAGD82Ab2NtFjxpEPavHik-L8bxbRf2YoLeioD75TnC9hsfKEZSdDdAt3CjXT5h-K4mIHAD9RaA1S6ygZOBysuaUui5RLR1IT7c3XaVyZq9XcC2a41Z1YyraUhX5G1ijy7LiVM2KrcM6BA4LyZIw16KQDyyZK0OhyZR4UXyBQaWbmNrTL0F55DmuKqN4E56Fvn6j-6uzPw2r0onNa5y7-TfLYCHSCJBy_1X_QopM3I9QTPcTYOj54jbBTBB_JvqLsgOtJb3Px2gJvysI-YrYVD-cLDo-iUTFb5bd6HZ3x_UQH-EQKV7ePyuVSKsh6QFQ2qUXXpS6yzaqqY49fy2FJT6_UtuYFRILKmXSeSkyUEJbj8Ozuov8lHdah2Sy5pSolZd8iQtbt-GLfRCIEzygJu1" style="margin-left:auto;margin-right:auto;display:block;">
 
 Notez que dans le schéma UML ci-dessus :
 * `ModeleVoiture` est scindé en deux classes `VoitureRepository` et `Voiture`.
 * `VoitureRepository` et `Voiture` ont changés de dossier et de `namespace` par
   rapport à `ModeleVoiture`.
-* `sauvegarder` est maintenant une méthode statique qui prend une `Voiture` en
+* `ajouter` est maintenant une méthode statique qui prend une `Voiture` en
   argument.
 * La classe `VoitureRepository` dépend de `Voiture`, mais pas l'inverse
 (d'où la direction du lien de dépendance entre les deux classes).
@@ -155,16 +155,16 @@ outils professionnels (*ORM Doctrine* par exemple).
    de `Voiture` dans `VoitureRepository` :
    * `getVoitures`
    * `getVoitureParImmatriculation`
-   * `sauvegarder`
+   * `ajouter`
    * `construireDepuisTableau`
    
    Pour la méthode `construireDepuisTableau`, changez si nécessaire le corps de la fonction afin qu'un objet
    `Voiture` soit correctement retourné. Pensez également à adapter le code des autres fonctions
    de la classe `VoitureRepository` afin qu'elles appellent correctement la méthode `construireDepuisTableau`.
    
-   Transformez la méthode `sauvegarder` en une méthode statique prenant en paramètre un objet de type `Voiture`.
-   Cet objet sera la voiture à sauvegarder. Utilisez donc les getters de cette `Voiture`
-   afin de retrouver les données à insérer dans la requête SQL de la méthode `sauvegarder`.
+   Transformez la méthode `ajouter` en une méthode statique prenant en paramètre un objet de type `Voiture`.
+   Cet objet sera la voiture à ajouter. Utilisez donc les getters de cette `Voiture`
+   afin de retrouver les données à insérer dans la requête SQL de la méthode `ajouter`.
 
 4. Déplacer `Voiture` dans le dossier `DataObject` et `ConnexionBaseDeDonnees` dans
    `Repository`. 
@@ -181,8 +181,8 @@ outils professionnels (*ORM Doctrine* par exemple).
    * `afficherDetail` : 
      * `getVoitureParImmatriculation` appartient à la classe `VoitureRepository`.
    * `creerDepuisFormulaire` :
-     * `sauvegarder` et `getVoitures` appartiennent à la classe `VoitureRepository` désormais.
-     * `sauvegarder` sera maintenant statique et prendra en argument un objet de
+     * `ajouter` et `getVoitures` appartiennent à la classe `VoitureRepository` désormais.
+     * `ajouter` sera maintenant statique et prendra en argument un objet de
        la classe `Voiture` ; les getters de `Voiture` servent à construire la requête SQL.
      <!-- * la classe `Voiture` doit implémenter une nouvelle méthode `formatTableau`
        pour créer le tableau qui sera donné à `execute` -->
@@ -292,10 +292,7 @@ formulaire de mise à jour. Pour cela :
    liens HTML qui permettent de mettre à jour une voiture. Ces liens pointent
    donc vers le formulaire de mis-à-jour prérempli.
 
-   *Oubli des TDs précédents :* Ajoutez aussi un lien *Créer une voiture* vers l'action `afficherFormulaireCreation` dans `liste.php`.
-   <!-- Corrigé : TODO à supprimer l'an prochain -->
-
-1. Astuce optionnelle : La vue `afficherFormulaireMiseAJour` peut être raccourcie en utilisant la
+2. Astuce optionnelle : La vue `afficherFormulaireMiseAJour` peut être raccourcie en utilisant la
    syntaxe 
    ```php
    <?= $immatriculationHTML ?>
@@ -317,17 +314,17 @@ formulaire de mise à jour. Pour cela :
    en dessous de ce message la liste des voitures mise à jour (à la manière de
    `voitureSupprimee.php` et `voitureCreee.php`).
 
-1. Ajoutez à `VoitureRepository` une méthode statique `mettreAJour(Voiture
-   $voiture)`. Cette méthode est proche de `sauvegarder(Voiture $voiture)`, à
+1. Ajoutez à `VoitureRepository` une méthode statique `mettreAJour(Voiture $voiture)`. 
+   Cette méthode est proche de `ajouter(Voiture $voiture)`, à
    ceci près qu'elle ne renvoie pas de booléen. En effet, on va considérer
    qu'une mise à jour se passe toujours correctement.
 
-1. Créez l'action `mettreAJour` du contrôleur de voiture pour qu'il mette à
+2. Créez l'action `mettreAJour` du contrôleur de voiture pour qu'il mette à
    jour la voiture dont l'immatriculation est passée en paramètre dans l'URL, puis
    qu'il affiche la vue `src/vue/voiture/voitureMiseAJour.php` après l'avoir correctement
    initialisée.
 
-1. Testez le tout. Quand la fonctionnalité marche, appréciez de nouveau
+3. Testez le tout. Quand la fonctionnalité marche, appréciez de nouveau
    l'instant.
 
 </div>
@@ -755,7 +752,7 @@ Implémentez l'action `mettreAJour` du contrôleur *utilisateur*.
 
 <div class="exercise">
 
-Répétez la question précédente avec la fonction `sauvegarder()` des différents
+Répétez la question précédente avec la fonction `ajouter()` des différents
 modèles. Ajoutez l'action `creerDepuisFormulaire` dans le contrôleur
 *utilisateur*.
 
