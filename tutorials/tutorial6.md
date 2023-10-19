@@ -498,7 +498,7 @@ faire pour avoir un code générique :
 
 1. Déplacez la fonction `getVoitures()` de `VoitureRepository` vers `AbstractRepository` en la renommant `recuperer()`.
 
-   **Astuce** : sur PhpStorm le moyen le plus simple pour déplacer la fonction serait *Clic droit sur la declaration de la méthode* >
+   **Astuce** : sur PhpStorm le moyen le plus simple pour déplacer la fonction serait *Clic droit sur la déclaration de la méthode* >
    *Refactor* > *Move Members* > *Indiquer `AbstractRepository` comme classe de destination*. De même pour le renommage, pensez à utiliser le refactoring.
 
 1. Utilisez `getNomTable()` dans la requête *SQL* de `recuperer()`. Puisque

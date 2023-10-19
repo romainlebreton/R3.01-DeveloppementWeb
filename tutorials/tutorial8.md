@@ -614,8 +614,7 @@ Passons au processus de mise-à-jour.
 1. Rajoutez un bouton `checkbox` au formulaire de mise-à-jour. Faites en sorte
    que le bouton soit pré-coché ([attribut
    `checked`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input/checkbox#attr-checked))
-   si l'utilisateur est déjà administrateur (utilisez
-   `ConnexionUtilisateur::estAdministrateur()`).
+   si l'utilisateur est déjà administrateur.
 
 2. Dans l'action `mettreAJour`, rajoutez un appel au setter `setEstAdmin`. Vérifiez
    que la mise à jour fonctionne.
@@ -643,7 +642,8 @@ tous les droits.
 
 1. Processus de mise-à-jour :
    1. Les liens de mise-à-jour d'un utilisateur doivent apparaître quand un
-      administrateur est connecté.
+      administrateur est connecté (utilisez
+   `ConnexionUtilisateur::estAdministrateur()`).
    1. Le champ *Administrateur ?* du formulaire de mise-à-jour ne doit
    apparaître que si l'utilisateur connecté est administrateur.
    1. Plus important, l'action `mettreAJour` ne doit modifier le statut
