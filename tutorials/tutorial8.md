@@ -349,7 +349,15 @@ authentifié" de pages en pages : nous allons donc utiliser les sessions.
 Procédons en plusieurs étapes :
 
 1. Nous allons regrouper les méthodes liées à la connexion d'un utilisateur dans
-   la classe purement statique suivante :
+   la classe purement statique `ConnexionUtilisateur`. Créez cette classe dans
+   le fichier `src/Lib/ConnexionUtilisateur.php` à partir du code suivant et
+   complétez-la pour que :
+
+   * La connexion enregistre le login d'un utilisateur en session dans le champ
+    `$cleConnexion`.
+   * Le client est connecté si et seulement si la session contient un enregistrement associé à la clé `$cleConnexion`.
+   * La déconnexion consiste à supprimer cet enregistrement de la session.  
+   * `getLoginUtilisateurConnecte()` renvoie `null` si le client n'est pas connecté.
 
    ```php
    namespace App\Covoiturage\Lib;
@@ -380,18 +388,8 @@ Procédons en plusieurs étapes :
        }
    }
    ```
-
-   Créez cette classe dans le fichier `src/Lib/ConnexionUtilisateur.php` et
-   complétez son code. 
    
-   *Indications* : 
-   * La connexion enregistre le login d'un utilisateur en session dans le champ
-    `$cleConnexion`.
-   * Le client est connecté si et seulement si la session contient un enregistrement associé à la clé `$cleConnexion`.
-   * La déconnexion consiste à supprimer cet enregistrement de la session.  
-   * `getLoginUtilisateurConnecte()` renvoie `null` si le client n'est pas connecté.
-   
-1. Rajoutons au menu de notre site un lien pour se connecter. Dans le menu de la
+2. Rajoutons au menu de notre site un lien pour se connecter. Dans le menu de la
    vue générique `vueGenerale.php`, rajoutez une icône cliquable
    ![connexion]({{site.baseurl}}/assets/TD8/enter.png) qui pointe vers la future
    action `afficherFormulaireConnexion` (contrôleur *utilisateur*).  
@@ -402,12 +400,12 @@ Procédons en plusieurs étapes :
    
    *Note* : Il est autorisé de mettre un `if` dans la vue `vueGenerale.php`.
 
-1. Créons une vue pour afficher un formulaire de connexion :
+3. Créons une vue pour afficher un formulaire de connexion :
 
    1. Créer une vue `utilisateur/formulaireConnexion.php` qui comprend un formulaire avec
    deux champs, l'un pour le login, l'autre pour le mot de passe. Ce formulaire
    appelle la future action `connecter` du contrôleur *utilisateur*.
-   1. Ajouter une action `afficherFormulaireConnexion` qui affiche ce formulaire.
+   2. Ajouter une action `afficherFormulaireConnexion` qui affiche ce formulaire.
 
 
 1. Créons enfin l'action `connecter()` du contrôleur *utilisateur* :

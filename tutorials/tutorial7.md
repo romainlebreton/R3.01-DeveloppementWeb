@@ -740,7 +740,8 @@ Rajoutez un mécanisme d'expiration pour les sessions. Le code du mécanisme ser
 codé dans une méthode `verifierDerniereActivite` de la classe `Session`. Cette méthode sera appelée par `getInstance()` après l'appel au constructeur pour ne vérifier l'expiration qu'au démarrage de la session.
 
 *Note :* La durée d'expiration est une donnée qui dépend du site. Il serait donc
-judicieux de la mettre dans un fichier de configuration `ConfigurationSite.php`.
+judicieux de la mettre dans une classe de configuration `ConfigurationSite.php`
+(similaire à `ConfigurationBaseDeDonnees.php`).
 
 </div>
 
