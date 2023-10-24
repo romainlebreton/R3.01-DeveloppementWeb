@@ -120,7 +120,7 @@ propres aux voitures (méthodes métiers). Voici le diagramme de classe UML modi
 nous allons obtenir à la fin de cette section :
 
 <img alt="Diagramme de classe"
-src="http://www.plantuml.com/plantuml/png/ZLCzJyCm4DtpAsvCHAdAsW6rAak70gA8gL9rSK-HYsC7-unKglvtJEAGD82Ab2NtFjxpEPavHik-L8bxbRf2YoLeioD75TnC9hsfKEZSdDdAt3CjXT5h-K4mIHAD9RaA1S6ygZOBysuaUui5RLR1IT7c3XaVyZq9XcC2a41Z1YyraUhX5G1ijy7LiVM2KrcM6BA4LyZIw16KQDyyZK0OhyZR4UXyBQaWbmNrTL0F55DmuKqN4E56Fvn6j-6uzPw2r0onNa5y7-TfLYCHSCJBy_1X_QopM3I9QTPcTYOj54jbBTBB_JvqLsgOtJb3Px2gJvysI-YrYVD-cLDo-iUTFb5bd6HZ3x_UQH-EQKV7ePyuVSKsh6QFQ2qUXXpS6yzaqqY49fy2FJT6_UtuYFRILKmXSeSkyUEJbj8Ozuov8lHdah2Sy5pSolZd8iQtbt-GLfRCIEzygJu1" style="margin-left:auto;margin-right:auto;display:block;">
+src="http://www.plantuml.com/plantuml/png/ZLF1hjem4BpxA_QOg1JHAuSA11SEj5MfUa926xEAJ1qxjTULAEBVwoPs4zBtn9DoySpkp7WtNdb6nw7HmlzGfaM73HXx9ayjV5WiHgZKwFsQsQagCEsaDGVrcs0XXC66V8kIODssnutzPHK7XpKTzr59qt6BZ9-h2qc6cm0Gq8l1zwwGEl0T09nEKTMp2v8BrJGOlMJGoCgQ6JJeVWQQWRH1Kt0pCDL1KKs-503l0M3IiGGVJwQ6daxz4pIhJU6ilGHb65AyclXJmekoOnBXYNUFvjFuvI2nwHsBCdiE8fbAeShCZ7p_NNe8DVKUb64Gs7UtB_eX36aoFWvp5_StxFGhjTOhjkxwuax7T7AxUOxvvFslRL_Lpn6Tm-kq1YysCBaY5KBlJx6yibQ_hlW5tRDLB7F6gKhw-PIZBRL1-MzOQS9G9EzqVEYFauhVqn7D_v_A_EFprvBRn8hCEJJw3m00" style="margin-left:auto;margin-right:auto;display:block;">
 
 Notez que dans le schéma UML ci-dessus :
 * `ModeleVoiture` est scindé en deux classes `VoitureRepository` et `Voiture`.
@@ -516,7 +516,7 @@ faire pour avoir un code générique :
    posséder une méthode `construireDepuisTableau($objetFormatTableau)`.  
    * Ajoutez donc une méthode abstraite dans `AbstractRepository`
    ```php
-   protected abstract function construireDepuisTableau(array $objetFormatTableau) : AbstractDataObject;
+   public abstract function construireDepuisTableau(array $objetFormatTableau) : AbstractDataObject;
    ```
    * Enlevez le `static` du `construireDepuisTableau()` de `VoitureRepository`.
    * Mettez à jour l'appel à `construireDepuisTableau()` de `recuperer()`.

@@ -28,8 +28,10 @@ Nous allons stocker le mot de passe d'un utilisateur dans la base de données.
 Cependant, on ne stocke jamais le mot de passe en clair (de manière directement
 lisible) pour plusieurs raisons :
 1. l'utilisateur souhaite que personne ne connaisse son mot de passe, y compris
-   l'administrateur du site Web. De plus, c'est une règle de la CNIL.
-1. Un attaquant qui arriverait à se connecter à la base de données apprendrait
+   l'administrateur du site Web. C'est une règle de la CNIL (Commission
+   nationale de l'informatique et des libertés) qui veille à la protection des
+   données personnelles.
+2. Un attaquant qui arriverait à se connecter à la base de données apprendrait
    directement tous les mots de passe.
 
 #### Idée 1 : Chiffrement
@@ -76,7 +78,7 @@ var_dump($mdpHache == hash('sha256', $mdpClair));
 * [*Rainbow table*](https://fr.wikipedia.org/wiki/Rainbow_table) : Rapidement,
   c’est une structure de données qui permet de retrouver des mots de passe avec
   un bon compromis stockage/temps. Cette technique est surtout utile pour
-  essayer de d'attaquer de nombreux mots de passes à la fois, par exemple tous
+  essayer d'attaquer de nombreux mots de passes à la fois, par exemple tous
   ceux des utilisateurs d'un site Web. 
 
 <div class="exercise">
@@ -154,6 +156,11 @@ var_dump(password_verify($mdpClair, $mdpHache1)); // True
 var_dump(password_verify($mdpClair, $mdpHache2)); // True
 ```
 
+L'utilisation d'un sel résout le problème "*L’administrateur peut voir si deux
+utilisateurs ont le même mot de passe*". En effet, les hachés de deux
+utilisateurs ayant le même mot de passe sont différents parce qu'ils utilisent
+des sels différents (car tirés au hasard). 
+
 **Problème** :
 * Si un attaquant arrive à lire la base de données (en utilisant une injection
   SQL par exemple), il peut toujours effectuer les attaques suivantes sur les
@@ -186,10 +193,10 @@ var_dump($mdpHache);
 ```
 
 *Explication* : Dans l'esprit, la fonction `hash_hmac` permet d'appliquer un
-salage/hachage en spécifiant le sel. Dans notre cas, on commence par saler avec
-notre poivre secret (*note de l'auteur* : oui cette phrase sonne étrangement
-mais elle est correcte).
-
+salage/hachage en spécifiant le *sel*. Nous l'utiliserons en spécifiant le *sel*
+`$poivre`. En effet, le poivre joue le même rôle qu'un sel, sauf qu'il n'est pas
+stocké en BD et qu'il est unique au site (il ne change pas à chaque hachage de
+mot de passe). 
 
 ### Mise en place de la BDD et des formulaires
 
@@ -302,6 +309,10 @@ Nous allons modifier la création d'un utilisateur.
       dans la classe `Utilisateur`. Elle appelle le constructeur de
       `Utilisateur` en hachant d'abord le mot de passe.
       * Mettez à jour l'action `creerDepuisFormulaire` pour appeler `construireDepuisFormulaire()`.
+      * Puisque `construireDepuisTableau()` n'est présent que dans
+        `AbstractRepository` ou ses classes filles (`UtilisateurRepository`,
+        `VoitureRepository`, ...), passez sa visibilité de `public` à
+        `protected` dans `AbstractRepository` et ses classes filles.
 
 2. Rajoutons au menu de notre site un lien pour s'inscrire. Dans le menu de la
    vue générique `vueGenerale.php`, rajoutez une icône cliquable ![icône
@@ -486,8 +497,8 @@ rentrant manuellement l'action `afficherFormulaireMiseAJour` dans l'URL.
    En cas de problème, utiliser `afficherErreur` pour afficher un message *La
    mise à jour n'est possible que pour l'utilisateur connecté*.
 
-   *Note* : Votre action `afficherFormulaireMiseAJour` doit aussi vérifier que le login donné existe
-   bien ; sinon utiliser `afficherErreur` pour afficher un message *Login inconnu*.
+   *Note :* la succession des `if`, `else`, `if` pourrait être évité en
+   utilisant des `return;` dans chaque cas d'erreur. Ce style de codage est plus sûr car on sait plus facilement dans quel cas on est.
 
 </div>
 
@@ -528,7 +539,7 @@ sont surtout pour améliorer l'ergonomie du site.
 De manière générale, il ne faut **jamais faire confiance au client** ; seule une
 vérification côté serveur est sûre.
 
-### Super administrateur
+### Rôle administrateur
 
 Jusqu'au début de ce TD, le site était codé comme si tout le monde avait le rôle
 d'administrateur. Maintenant, nous allons différencier ceux qui ont ce rôle des
@@ -554,11 +565,12 @@ Commençons par rajouter un attribut `estAdmin` à notre classe métier
       encode `false` avec l'entier `0` et `true` avec l'entier `1`. Il faut donc
       que votre méthode `formatTableau` renvoie `0` ou `1` pour le champ
       `estAdminTag`.
-   1. Nous mettrons à jour `construireDepuisFormulaire` plus tard.
+   2. Mettez à jour `construireDepuisFormulaire` avec `return null;`. Nous
+      complèterons cette fonction correctement plus tard.
 
-1. Mettez à jour la classe de persistance `UtilisateurRepository` :
+2. Mettez à jour la classe de persistance `UtilisateurRepository` :
    1. mettez à jour `construireDepuisTableau` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
-   1. mettez à jour `getNomsColonnes`.
+   2. mettez à jour `getNomsColonnes`.
 
 </div>
 
@@ -645,8 +657,11 @@ tous les droits.
    1. Le champ *Administrateur ?* du formulaire de mise-à-jour ne doit
    apparaître que si l'utilisateur connecté est administrateur.
    1. Plus important, l'action `mettreAJour` ne doit modifier le statut
-      *administrateur* que si l'utilisateur connecté est administrateur. De
-      plus, un administrateur doit pouvoir modifier n'importe quel utilisateur.
+      *administrateur* que si l'utilisateur connecté est administrateur. 
+   2. Enfin, un administrateur doit pouvoir modifier n'importe quel utilisateur.
+      Il ne doit pas avoir à fournir l'ancien mot de passe. Si un administrateur
+      est connecté et que le login fourni n'existe pas, affichez un message
+      d'erreur *Login inconnu*.
 
    <!-- 
    Attention un admin doit pouvoir modifier un utilisateur sans donner son ancien mot de passe
@@ -658,6 +673,12 @@ tous les droits.
 Il est courant qu'un site Web sépare ses interfaces administrateur et
 utilisateur. Vous avez tous les outils pour le mettre en place si vous le
 souhaitez. Le défi est de limiter la duplication du code entre les 2 interfaces. 
+
+Dans un site professionnel, l'administrateur ne pourrait pas modifier
+directement le mot de passe d'un utilisateur. En effet, l'administrateur ne doit
+pas connaître les mots de passe. Le site fournirait plutôt un bouton
+"*Réinitialiser le mot de passe*" à l'administrateur. Ce bouton génèrerait un mot
+de passe aléatoire qui serait envoyé par mail à l'utilisateur.
 
 ## Enregistrement avec une adresse email valide
 
