@@ -812,7 +812,7 @@ Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`.
    chaque étape. 
 
 4. Modifiez la fonction `VerificationEmail::envoiEmailValidation` pour qu'elle
-envoie un mail à l'adresse renseignée contenant avec un lien qui
+envoie un mail à l'adresse renseignée avec un lien qui
 enverra le nonce au site.
 
    Envoyez ce mail en utilisant [la fonction
