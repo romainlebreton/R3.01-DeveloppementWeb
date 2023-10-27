@@ -492,7 +492,7 @@ rentrant manuellement l'action `afficherFormulaireMiseAJour` dans l'URL.
 1. « Hacker » votre site en accédant à la page de mise à jour d'un utilisateur
    quelconque.
 
-2. Modifier l'action `afficherFormulaireMiseAJour` du contrôleur `Utilisateur`
+2. Modifier l'action `afficherFormulaireMiseAJour` du contrôleur *utilisateur* 
    de sorte que l'accès au formulaire soit restreint à l'utilisateur connecté.
    En cas de problème, utiliser `afficherErreur` pour afficher un message *La
    mise à jour n'est possible que pour l'utilisateur connecté*.
@@ -515,7 +515,7 @@ l'action `mettreAJour`.
    traitement. Passez temporairement votre formulaire en cette méthode si
    nécessaire.
 
-2. Mettez à jour l'action `mettreAJour` du contrôleur `Utilisateur` pour qu'il
+2. Mettez à jour l'action `mettreAJour` du contrôleur *utilisateur*  pour qu'il
    effectue toutes les vérifications suivantes, avec `afficherErreur` en cas
    de problème :
    * vérifiez que tous les champs obligatoires du formulaire ont été transmis.
@@ -845,13 +845,13 @@ dans le site.
 
 <div class="exercise">
 
-1. Modifiez l'action `connecter` du contrôleur `Utilisateur` de sorte à accepter
+1. Modifiez l'action `connecter` du contrôleur *utilisateur*  de sorte à accepter
 la connexion uniquement si l'utilisateur a validé un email. 
    * Pour ceci, appelez la méthode `VerificationEmail::aValideEmail()`.
    * Codez cette méthode pour qu'elle regarde si l'utilisateur a un email
      différent de `""`.
 
-1. Dans l'action `creerDepuisFormulaire` du contrôleur `Utilisateur`, vérifiez que l'adresse
+1. Dans l'action `creerDepuisFormulaire` du contrôleur *utilisateur* , vérifiez que l'adresse
    email envoyée par l'utilisateur en est bien une. Pour cela, vous pouvez par
    exemple utiliser la fonction
    [`filter_var()`](http://php.net/manual/en/function.filter-var.php) avec le
