@@ -666,14 +666,21 @@ Nous souhaitons créer une vue `voitureCreee.php` qui affiche le message
 ```
 
 avant de faire un `require` de `liste.php` puisque cette vue sert à écrire la liste
-des voitures.
+des voitures. Ceci donnerait le visuel suivant.
 
-1. Créez la vue `voitureCreee.php` comme expliqué ci-dessus.  
+![VoitureCreate]({{site.baseurl}}/assets/TD5/VoitureCreate.png){: .blockcenter}
+
+1. Créez la vue `voitureCreee.php` comme expliqué ci-dessus, en utilisant le
+   concept de vue modulaire.  
    **Remarque :** La vue `voitureCreee.php` doit faire deux lignes
    maintenant.
 
 2. Changez l'action `creerDepuisFormulaire` du contrôleur pour appeler cette vue.  
    **Attention :** Il faut initialiser la variable `$voitures` contenant le
    tableau de toutes les voitures afin qu'elle puisse être affichée dans la vue.
+
+3. Comme vous développez un site Web, il faut vérifier régulièrement sa
+   [conformité HTML](https://html5.validator.nu/) et
+   [CSS](https://jigsaw.w3.org/css-validator/). Faites-le maintenant. 
 
 </div>
