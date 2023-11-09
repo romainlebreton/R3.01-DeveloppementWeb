@@ -826,7 +826,14 @@ enverra le nonce au site.
    Pour éviter d'être blacklistés des serveurs de mail, nous allons envoyer
    uniquement des emails dans le domaine `yopmail.com`, dont le fonctionnement
    est le suivant : un mail envoyé à `bob@yopmail.com` est immédiatement lisible
-   sur [http://bob.yopmail.com](http://bob.yopmail.com).
+   sur [https://yopmail.com/fr/?"bob"](https://yopmail.com/fr/?"bob"). 
+   
+   Si le lien ne marche pas, allez sur la page https://yopmail.com/fr/ et saisir
+   le nom du mail jetable "bob" en haut à gauche.
+
+Bonne journée,
+
+Romain Lebreton
 
    *Note* : La fonction `mail()` n'est disponible que sur le serveur `webinfo`
    Web de l'IUT. Si vous avez installé un serveur Web local sur votre machine
