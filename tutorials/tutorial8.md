@@ -812,39 +812,48 @@ Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`.
    chaque étape. 
 
 4. Modifiez la fonction `VerificationEmail::envoiEmailValidation` pour qu'elle
-envoie un mail à l'adresse renseignée avec un lien qui
-enverra le nonce au site.
-
-   Envoyez ce mail en utilisant [la fonction
+   envoie un mail à l'adresse renseignée avec un lien qui enverra le nonce au site.
+   Pour vous aider, voici un exemple de code utilisant [la fonction
    `mail()`](http://php.net/manual/en/function.mail.php) de PHP.
+
+   ```php
+   $destinataire = 'bob@yopmail.com';
+   $sujet = "Validation de l'adresse email";
+   $contenuHTML = '<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Un exemple de lien</a>'
+
+   // Pour envoyer un email contenant du HTML
+   $enTete = "MIME-Version: 1.0" . "\r\n";
+   $enTete .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+   // Envoi du mail. Renvoi true/false selon si l'envoi a fonctionné
+   mail($destinataire, $sujet, $contenuHTML, $enTete);
+   ```
    
+   *Note* : La fonction `mail()` n'est disponible que sur le serveur `webinfo`
+   Web de l'IUT. Si vous avez installé un serveur Web local sur votre machine
+   avec MAMP/XAMPP, `mail()` n'est pas configuré par défaut. XAMPP sur Linux
+   permet d'activer l'envoi, *cf.* leur
+   FAQ [Linux](https://www.apachefriends.org/faq_linux.html), 
+   [Windows](https://www.apachefriends.org/faq_windows.html) 
+   ou [Mac OS](https://www.apachefriends.org/faq_osx.html).  
+   La bonne solution
+   multiplateforme nécessite d'installer une [bibliothèque
+   PHP](https://packagist.org/packages/symfony/mailer), ce que nous apprendrons
+   à faire au semestre 4. Autrement, vous pouvez rester avec `mail()`. 
+
+</div>
+
+   Pour éviter d'être blacklistés des serveurs de mail, nous allons envoyer
+   uniquement des emails dans le domaine `yopmail.com`, dont le fonctionnement
+   est le suivant : un mail envoyé à `bob@yopmail.com` est immédiatement lisible
+   sur [https://yopmail.com/fr/?"bob"](https://yopmail.com/fr/?"bob").
+   Si le lien précédent ne marche pas, allez sur la page https://yopmail.com/fr/ et saisir
+   le nom du mail jetable "bob" en haut à gauche.
 
    **Attention : Abuser de cette fonction serait considéré comme une violation
    de la charte d'utilisation des ressources informatiques de l'IUT et vous
    exposerait à des sanctions !**
-   
-   Pour éviter d'être blacklistés des serveurs de mail, nous allons envoyer
-   uniquement des emails dans le domaine `yopmail.com`, dont le fonctionnement
-   est le suivant : un mail envoyé à `bob@yopmail.com` est immédiatement lisible
-   sur [https://yopmail.com/fr/?"bob"](https://yopmail.com/fr/?"bob"). 
-   
-   Si le lien ne marche pas, allez sur la page https://yopmail.com/fr/ et saisir
-   le nom du mail jetable "bob" en haut à gauche.
 
-Bonne journée,
-
-Romain Lebreton
-
-   *Note* : La fonction `mail()` n'est disponible que sur le serveur `webinfo`
-   Web de l'IUT. Si vous avez installé un serveur Web local sur votre machine
-   avec MAMP/XAMP, `mail()` n'est pas configuré par défaut. XAMP sur Linux
-   permet d'activer l'envoie, *cf.* [leur
-   FAQ](https://www.apachefriends.org/faq_linux.html).  
-   La bonne solution
-   multiplateforme nécessite d'installer une [bibliothèque
-   PHP](https://packagist.org/packages/symfony/mailer), ce que nous apprendrons
-   à faire au semestre 4. Autrement, vous pouvez rester avec `var_dump()`. 
-</div>
 
 Nous allons maintenant pouvoir nous servir de la validation de l'email ailleurs
 dans le site.
