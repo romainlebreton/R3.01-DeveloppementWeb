@@ -430,6 +430,19 @@ renvoie
 
 Le remplacement des caractères spéciaux a bien eu lieu.
 
+Du coup, il faut utiliser `htmlspecialchars` à chaque fois que l'on écrit une
+variable non sûre (par ex. provenant de l'utilisateur) comme texte de la page
+HTML ou comme attribut d'une balise.
+
+```php
+$nom = "<h1>Danger ! </h1>";
+echo "Page personnelle de ". $nom; // Danger !  
+echo "Page personnelle de ". htmlspecialchars($nom); // Écriture sécurisée
+$valeurDefaut = '"><script>alert("Danger!");';
+echo '<input type="text" value="' . $valeurDefaut . '">'; // Danger !  
+echo '<input type="text" value="' . htmlspecialchars($valeurDefaut) . '">'; // Écriture sécurisée  
+```
+
 <div class="exercise">
 
 1. Changer donc toutes vos vues pour appliquer la fonction `htmlspecialchars` à
