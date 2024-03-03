@@ -55,6 +55,7 @@ La dernière séance de PHP (fin de la semaine du lundi 23 octobre) sera dédié
 
 ## Notes complémentaires aux TDs
 
+* Pour l'installation d'un serveur Web sur vos machines personnelles, allez voir [la dernière section du TD1](tutorials/tutorial1.html#travailler-depuis-chez-vous-en-local).
 * TD1 -- [Encodage des caractères, serveur HTTP de l'IUT et note sur les URLs]({{site.baseurl}}/assets/tut1-complement.html)
 * TD2 -- [Attributs et méthodes statiques]({{site.baseurl}}/assets/tut2-complement.html)
 * TD3 -- [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)

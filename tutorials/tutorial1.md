@@ -899,11 +899,16 @@ Si vous voulez éviter de vous connecter sur webinfo (en FTP ou SSH) pour travai
 
 #### Installation tout en un
 
-* sous Linux : XAMP  
+Nous vous proposons d'utiliser XAMPP qui est disponible sur Windows, Mac & Linux : 
+
+* Instructions pour Linux  
    [https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-7414761](https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-7414761)
   
-* sous Mac OS X & Windows (MAMP) :  
-  [https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-7426467](https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-7426467)  
+* Instructions pour Windows  
+   [https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-8356749](https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-8356749)
+  
+* Instructions pour macOS  
+  [https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-8356822](https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql/4237816-preparez-votre-environnement-de-travail#/id/r-8356822)  
 
 **Attention**, pensez à modifier le `php.ini` pour mettre `display_errors = On`
 et `error_reporting = E_ALL`, pour avoir les messages d'erreurs. Car par défaut,
