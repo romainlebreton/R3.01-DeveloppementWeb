@@ -14,56 +14,119 @@ http://php.net/manual/en/language.oop5.php
 Need to URL decode $_GET ??
 -->
 
-## IDE pour PHP
+Bienvenus dans le premier TD de PHP, qui vous fera découvrir un serveur Web sous
+Docker, initialiser le dépôt Git de vos TDs, utiliser PhpStorm, apprendre les
+bases du langage PHP et exécuter vos premiers scripts PHP.
+
+## Mettre en place un serveur Web sous Docker
+
+Commençons par vous faire découvrir un serveur Web sous Docker. 
+
+
+<div class="exercise">
+
+Allez sur la page du [dépôt *Serveur Web
+Docker*](https://gitlabinfo.iutmontp.univ-montp2.fr/Enseignants-Web/docker/-/blob/main/README.md),
+et faites le tutoriel d'installation et de configuration qui se trouve dans la
+partie `Tutoriel` > `Premier contact`. Vous ne devez normalement pas y passer
+plus de 30 minutes.
+
+</div>
+
+## Git et IDE pour PHP
+
+### Configuration de Git
+
+Ce cours de PHP est aussi l'occasion de manipuler le gestionnaire de version
+Git, qui conversera la chronologie de toutes vos modifications. Commençons par
+nous assurer que Git est bien configuré sur vos machines.
+
+<div class="exercise">
+
+1. Nous allons configurer Git pour qu'il connaisse votre nom et votre adresse
+   email (**étudiante**), ce qui sera utile quand vous travaillerez en groupe pour savoir qui a
+   enregistré quelle modification :
+
+   ```bash
+   git config --global user.name "Votre Prénom et Nom"
+   git config --global user.email "votreemail@etu.umontpellier.fr"
+   ```
+   
+1. Pour nous simplifier la vie plus tard, veuillez exécuter la commande
+   suivante. Cela change l'éditeur de texte qu'ouvre Git par défaut.
+   
+   ```shell
+   git config --global core.editor "gedit --new-window -w"
+   ```
+
+1.  Au cas où vous utilisez le protocole HTTPS pour vous connecter à un dépôt
+    Git, vous aurez besoin d'exécuter d'abord la commande suivante pour que `git
+    clone` marche.
+      
+      ```bash
+	   # Pour anticiper une erreur due aux certificats de l'IUT
+	   #              "server certificate verification failed"
+	   git config --global http.sslverify false
+      ```
+
+</div>
+
+Vous allez maintenant créer votre copie du dépôt Git des TDs PHP afin de pouvoir
+enregistrer vos modifications dedans.
+
+<div class="exercise">
+
+1. Allez sur la [page web du dépôt Git initial des TDs PHP](https://gitlabinfo.iutmontp.univ-montp2.fr/Enseignants-Web/tds-php).
+2. Créez votre copie du dépôt en cliquant en haut à droite sur le bouton *Fork*.
+3. Dans *Project URL*, changer *Select a namespace* par votre login IUT, puis cliquez sur *Fork project* en bas de la page.
+4. Sur la page de votre fork, copier l'adresse pour cloner le dépôt que l'on trouve en cliquant sur le bouton bleu *Code*.
+
+</div>
+
+### PhpStorm
 
 PHP est un langage de programmation donc utilisez un environnement de
 développement. Vous ne codez pas du Java avec BlocNotes, c'est pareil pour
-PHP. Nous coderons donc notre PHP sous PhpStorm.
+PHP. Nous coderons donc notre PHP sous PhpStorm de la suite logicielle JetBrains (comme Intellij Idea).
 
-* Si vous êtes à l'IUT sous Linux, vous trouverez l'installation dans `/opt/phpstorm/`. Pour le lancer :
+Si vous utilisez un portable fourni par l'IUT, PhpStorm est déjà installé.
+Sinon, installez-le à l'aide de ces [instructions dans les compléments du
+TD1]({{site.baseurl}}/assets/tut1-complement.html#installer-phpstorm-sur-sa-machine).
 
-    ```bash
-    ~/RepertoireCourant$  cd /opt/phpstorm/bin
-    /opt/phpstorm/bin$  ./phpstorm.sh
-    ```
+#### Cloner un dépôt Git sous PhpStorm
 
-* Si vous utilisez votre propre machine, allez voir ces instructions dans les [compléments du TD1]({{site.baseurl}}/assets/tut1-complement.html#installer-phpstorm-sur-sa-machine).
+<div class="exercise">
 
-#### Nouveau projet
+1. Lancez PhpStorm. Sur les portables fournis par l'IUT, vous pouvez exécuter 
+   ```bash
+   ~/RepertoireCourant$  cd /opt/phpstorm/bin
+   /opt/phpstorm/bin$  ./phpstorm.sh
+   ```
+2. Normalement, vous avez obtenu une licence académique l'an dernier. Pour la
+   retrouver, connectez-vous au [site de
+   JetBrains](https://account.jetbrains.com/licenses).  
+   **Sinon**, remplissez [ce formulaire](https://www.jetbrains.com/shop/eform/students) en utilisant votre adresse universitaire pour bénéficier d'une licence académique.  
+   Quelques minutes après, vous recevrez un email de confirmation suivi d'un
+   second email d'activation où vous devrez accepter les conditions
+   d'utilisation et choisir un nom d'utilisateur et un mot de passe. Conservez
+   précieusement ces informations, car c'est grâce à elles que vous pourrez
+   importer votre licence sur toutes les machines que vous allez utiliser (chez
+   vous, à l'IUT etc).
+1. Cliquez en haut à droite sur *Get from VCS* pour créer un projet à partir d'un dépôt Git.
+2. Remplissez l'URL avec l'adresse précédemment copiée pour cloner le dépôt.
+   Indiquez le chemin de fichier de `public_html` dans *Directory*, par exemple
+   `/home/lebreton/public_html`.  
+   **Attention :** Mettez bien l'URL de votre fork, et non l'URL du dépôt
+   originel des TDs PHP.
+3. Cliquez sur *Clone*. Cochez *Trust projects in `~/public_html`* puis cliquez sur `Trust Project`
+</div>
 
-Quand vous ouvrez PhpStorm, créer un nouveau projet vide dans le dossier `public_html/TD1` 
-de votre répertoire personnel. 
-Pour ceci, sélectionnez `New Project`, `PHP Empty Project`, Location: `/home/ann2/votre_login/public_html/TD1`.
-
-#### Obtention de la licence académique Ultimate pour PhpStorm
-
-* Normalement, vous avez obtenu une licence académique l'an dernier. Pour la retrouver, 
-connectez-vous au [site de JetBrains](https://account.jetbrains.com/licenses).
-
-* Sinon, remplissez [ce formulaire](https://www.jetbrains.com/shop/eform/students) en utilisant votre adresse universitaire pour bénéficier d'une licence académique.
-
-  Quelques minutes après, vous recevrez un email de confirmation suivi d'un second email d'activation où vous devrez accepter les conditions d'utilisation et choisir un nom d'utilisateur et un mot de passe. Conservez précieusement ces informations, car c'est grâce à elles que vous pourrez importer votre licence sur toutes les machines que vous allez utiliser (chez vous, à l'IUT etc).
-
-<!-- #### Fonctionnalités utiles
-
-* Indentation automatique : 
-* Ouvrir la page Web : 
-* Activer/désactiver les commentaires :  -->
-
-#### Documentations de PhpStorm
+**Documentations de PhpStorm**
 
 * [Documentation officielle en anglais](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html)
 * [Documentation à l'IUT de Intellij Idea](https://gitlabinfo.iutmontp.univ-montp2.fr/dev-objets/TP2) (proche de PhpStorm)
 
-  <!-- 
-  * [Step 1: Open a project in PhpStorm](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#open-a-project)
-  * [Step 2: Explore the user interface](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#explore-the-user-interface)
-  * [Step 3: Code with smart assistance](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#code-with-smart-assistance)
-  * [Step 4: Keep your code neat](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#keep-your-code-neat)
-  * [Step 5: Generate some code](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html#generate-some-code)
-  * .... -->
-
-#### Autre IDE
+**Autre IDE**
 
 Si vous le souhaitez fortement, vous pouvez aussi utiliser d'autres IDE. 
 VSCode est une bonne alternative, mais il manque des fonctionnalités PHP. 
@@ -72,21 +135,20 @@ Notez cependant que nous n'assurons pas le support d'autres IDE.
 ## Accédez à vos pages web
 
 Nous avons vu lors du [cours 1]({{site.baseurl}}/classes/class1.html) le
-[fonctionnement du WWW sur le modèle de client & serveur HTTP]({{site.baseurl}}/classes/class1.html#le-fonctionnement-du-world-wide-web). Mettons
+[fonctionnement du World Wide Web sur le modèle de client & serveur HTTP]({{site.baseurl}}/classes/class1.html#le-fonctionnement-du-world-wide-web). Mettons
 en pratique tout cela !
 
 ### Une page HTML de base
 
 <div class="exercise">
 
-1. Créez une page **page1.html** avec le contenu suivant et enregistrez la dans
-le répertoire **public_html/TD1** de votre espace personnel.
-
+1. Le dépôt Git contient la page `public_html/tds-php/TD1/page1.html` suivante
    ```html
    <!DOCTYPE html>
    <html>
        <head>
            <title> Insérer le titrer ici </title>
+           <meta charset="utf-8" />
        </head>
    
        <body>
@@ -95,18 +157,23 @@ le répertoire **public_html/TD1** de votre espace personnel.
        </body>
    </html>
    ```
-
-1. Ouvrez cette page dans le navigateur directement en double-cliquant dessus
-   directement depuis votre gestionnaire de fichiers.
-   Notez l'URL du fichier :
-   [file://chemin_de_mon_compte/public_html/TD1/page1.html](file://chemin_de_mon_compte/public_html/TD1/page1.html).
+   
+2. Ouvrez le dossier `public_html/tds-php/TD1` avec le gestionnaire de fichier puis double-cliquez sur `page1.html` pour l'ouvrir dans votre navigateur.
+   Remarquez que l'URL de la page est
+   [file://.../public_html/tds-php/TD1/page1.html](file://.../public_html/tds-php/TD1/page1.html).
 
    **Que fait le gestionnaire de fichier quand on double-clique ?**  
    **Que signifie le *file* au début de l'URL ?**  
-   **Est-ce que la page HTML s'affiche correctement ?**  
+   <!-- **Est-ce que la page HTML s'affiche correctement ?**   -->
    **Est-ce qu'il y a une communication entre un serveur et un client HTTP ?**
    
-   * **Rappel : Un problème avec les accents ?**
+   **Réponses (surlignez le texte caché à droite):** 
+   <span style="color:#FCFCFC">
+   Le gestionnaire de fichier ouvre page1.html dans le navigateur en tant que fichier local. Autrement dit, le navigateur va lire le fichier page1.html directement sur le disque dur. C'est la signification de file au début de l'URL. Du coup, le navigateur n'envoie pas de requête HTTP, et n'attends pas de réponse en retour. 
+   <!-- La page s'affiche correctement. -->
+   </span>
+
+   <!-- * **Rappel : Un problème avec les accents ?**
      Dans l'en-tête du fichier HTML vous devez rajouter la ligne qui spécifie
      l'encodage
    
@@ -115,13 +182,18 @@ le répertoire **public_html/TD1** de votre espace personnel.
      ```
      Il faut que vos fichiers soient enregistrés avec le même encodage. UTF-8 est
      souvent l'encodage par défaut, mais les éditeurs de texte offrent généralement
-     le choix de l'encodage lors du premier enregistrement du fichier.
+     le choix de l'encodage lors du premier enregistrement du fichier. -->
 
-2. **[Vous souvenez-vous]({{site.baseurl}}/classes/class1.html#test-de-la-page-sur-un-serveur-http)
-   comment fait-on pour qu'une page Web soit servie par le serveur HTTP de l'IUT
+3. **[Vous souvenez-vous]({{site.baseurl}}/classes/class1.html#comment-dposer-une-page-web-sur-le-serveur-http-de-liut-)
+   comment fait-on pour qu'une page Web soit servie par 
+   le serveur HTTP de Docker
    (à l'URL
-   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/TD1/page1.html](http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/TD1/page1.html))
+   [http://localhost/tds-php/TD1/page1.html](http://localhost/tds-php/TD1/page1.html))
    ?**
+   <!-- le serveur HTTP de l'IUT
+   (à l'URL
+   [http://locahost_IUT/TD1/page1.html](http://locahost_IUT/TD1/page1.html))
+   ?** -->
 
    **Réponse :**
    <span style="color:#FCFCFC">
@@ -132,47 +204,61 @@ le répertoire **public_html/TD1** de votre espace personnel.
    **Ouvrez donc** `page1.html` depuis le navigateur en tapant l'URL dans la
    barre d'adresse.
    
-   **Est-ce que la page HTML s'affiche correctement ?**  
-   **Est-ce qu'il y a une communication entre un serveur et un client HTTP maintenant ?**
+   **Est-ce qu'il y a une communication entre un serveur et un client HTTP maintenant ?**  
+   **Comment fait-on pour voir la page Web brute (code source), et non son rendu HTML par le navigateur ?**    
+   **Réponses (surlignez le texte caché à droite):** 
+   <span style="color:#FCFCFC">
+   Cette fois-ci, l'URL commence par *http* et donc le navigateur envoie une requête HTTP à l'URL demandée. Le navigateur reçoit une réponse HTTP qui contient une page HTML. Puis, le navigateur affiche le rendu HTML de la page. Pour voir le code source HTML, il faut faire un clic droit sur la page, puis *Affichez le code source* (ou **Ctrl+U**).
+   </span>
+   
+</div>
 
-   <br>
+<!-- ### Droits d'accès des pages Web   
 
-   **Aide : Votre page ne s'affiche pas ?**  
-   Si votre page ne s'affiche pas, c'est peut-être un problème de droit.  Pour
-   pouvoir servir vos pages, le serveur HTTP (Apache) de l'IUT doit avoir le
-   droit de lecture des pages Web (permission `r--`) et le droit de traverser
-   les dossiers menant à la page Web (permission `--x`). À
-   l'IUT, la gestion des droits se fait par les ACL.  
-   Pour donner les droits à l'utilisateur www-data (Apache), utilisez la commande
-   `setfacl` dans un terminal sous Linux :
+Votre page ne s'affiche peut-être pas à cause d'un problème de droit. Pour
+pouvoir servir vos pages, le serveur HTTP doit avoir le droit de lecture des
+pages Web (permission `r--`) et le droit de traverser les dossiers menant à la
+page Web (permission `--x`).
+
+Le conteneur Docker tourne sous Linux donc nous utiliserons les droits Linux. Le
+serveur Web exécute le logiciel Apache avec le nom d'utilisateur `www-data`. Les
+droits Linux de base sont donnés soit à tous les utilisateurs, soit
+spécifiquement à l'utilisateur ou groupe propriétaire du fichier. Plutôt que
+de donner les droits `rwx` sur vos pages Web à tous les utilisateurs, nous allons
+rajouter les droits d'accès uniquement à `www-data` en utilisant un système de
+droits plus avancé de Linux : les Access control lists (ACLs).
+
+1. Pour exécuter une commande dans un terminal au sein d'un conteneur Docker,
+   allez dans l'onglet gauche *Containers* de Docker Desktop, cliquez sur les trois points ⋮ de votre conteneur, puis `>_ Open in terminal`
+
+   ![OpenInTerminal](../assets/TD1/OpenInTerminal.png){: .blockcenter}
+
+1. Exécutez les commandes suivantes : 
 
    ```bash
    # On modifie (-m) récursivement (-R) les droits r-x
    # de l'utilisateur (u:) www-data
-   setfacl -R -m u:www-data:r-x ~/public_html
+   setfacl -R -m u:www-data:r-x /var/www/html
    # On fait de même avec des droits par défaut (d:)
    # (les nouveaux fichiers prendront ces droits)
-   setfacl -R -m d:u:www-data:r-x ~/public_html
+   setfacl -R -m d:u:www-data:r-x /var/www/html
    ```
 
-   **Note :** Les ACL permettent d'avoir des droits spécifiques à plusieurs
-   utilisateurs et à plusieurs groupes quand les droits classiques sont limités
-   à un utilisateur et un groupe. Pour lire les droits ACL d'un fichier ou
-   dossier, on tape `getfacl nom_du_fichier`.
+   Astuce : Exécutez préalablement la commande `bash` pour retrouver votre shell habituel `bash` (autocomplétion avec `Tab`, prompt de la forme `username@hostname:current_path#`).
 
-   <!-- Attention, il peut rester un dernier problème avec les mask -->
+Pour donner les bons droits à l'utilisateur `www-data` du serveur Web Apache,
+utilisez la commande `setfacl` dans un terminal sous Linux :
 
-</div>
+**Note :**  Pour lire les droits ACL d'un fichier ou
+dossier, on tape `getfacl nom_du_fichier`. -->
+
+<!-- Attention, il peut rester un dernier problème avec les mask -->
 
 ### Notre première page PHP
 
 <div class="exercise">
 
-4. Créez une page `public_html/TD1/echo.php` avec le contenu suivant.  
-   <!-- Pour ne pas que votre **public_html** devienne une décharge de pages Web à ciel
-   ouvert, créez des répertoires pour les cours et les TDs. Nous vous
-   conseillons donc d'enregistrer `echo.php` dans
-   `.../public_html/PHP/TD1/echo.php`. -->
+4. Le dépôt Git contient la page `public_html/tds-php/TD1/echo.php` suivante
 
    ```php
    <!DOCTYPE html>
@@ -202,15 +288,19 @@ le répertoire **public_html/TD1** de votre espace personnel.
 
 5. Ouvrez cette page dans le navigateur directement depuis votre gestionnaire de
 fichiers OU de façon équivalente avec une URL en `file://` comme :  
-[file://chemin_de_mon_compte/public_html/TD1/echo.php](file:///home/ann2/mon_login_IUT/public_html/TD1/echo.php).
+[file://.../public_html/TD1/echo.php](file:///.../public_html/TD1/echo.php).
 
    **Que se passe-t-il quand on ouvre un fichier PHP directement dans le navigateur ?**  
    **Pourquoi ?**  
-   *Ça vous rappelle le [cours 1]({{site.baseurl}}/classes/class1.html#le-langage-de-cration-de-pages-web--php) j'espère ?* 
+   *Ça vous rappelle le [cours 1]({{site.baseurl}}/classes/class1.html#le-langage-de-cration-de-pages-web--php) j'espère ?*  
+   **Réponses (surlignez le texte caché à droite):** 
+   <span style="color:#FCFCFC">
+   Un navigateur ne sait que faire d'un script PHP. Du coup, soit il vous demande comment l'ouvrir, soit il le télécharge directement.
+   </span>
 
 6. Ouvrez cette page dans le navigateur dans un second onglet en passant par le
    serveur HTTP de l'IUT :  
-   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD1/echo.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD1/echo.php)
+   [http://localhost/tds-php/TD1/echo.php](http://localhost/tds-php/TD1/echo.php)
 
    **Que se passe-t-il quand on demande un fichier PHP à un serveur HTTP ?**  
    **Regardez les sources de la page Web (Clic droit, code source ou `Ctrl-U`)
@@ -218,117 +308,14 @@ fichiers OU de façon équivalente avec une URL en `file://` comme :
    *N'hésitez pas à relire la partie du
     [cours 1 concernée]({{site.baseurl}}/classes/class1.html#mcanisme-de-gnration-des-pages-dynamiques-22).*
 
-</div>
-
-### Notre premier dépôt Git
-
-Ce cours de PHP est aussi l'occasion de manipuler le gestionnaire de version
-Git. Nous allons débuter en créant un *dépôt Git*, c'est-à-dire un dossier
-dans lequel la chronologie de toutes modifications pourront être enregistrées.
-
-<div class="exercise">
-
-<!-- 1. Pour transformer une fois pour toute notre répertoire PHP en dépôt Git, -->
-<!--    **exécutez** la commande `git init` dans le terminal en étant dans le dossier `PHP`. -->
-
-1. Créons un dépôt Git sur GitLab (ou GitHub si vous y avez vos habitudes).
-
-   1. Allez sur le [GitLab de
-   l'IUT](https://gitlabinfo.iutmontp.univ-montp2.fr/), connectez-vous avec vos
-   login / mot de passe de l'IUT (comme pour accéder aux machines).
-   1. Créez un nouveau projet *blanc* `TD-PHP`. Pour le *groupe ou namespace*, choisissez votre nom d'utilisateur qui est tout en bas de la liste.
-   1. Récupérez l'adresse de votre projet dans le bouton `Clone`.
-
-   **Note :** Vous pouvez utiliser HTTPS ou SSH pour vous connecter. Nous vous
-   recommandons SSH pour ne pas avoir à taper votre login/mot de passe à chaque
-   `git push/pull`. Vous pouvez aller voir les 
-   [notes complémentaires au TD1]({{site.baseurl}}/assets/tut1-complement.html#configuration-des-clés-ssh)
-   pour recréer une clé SSH. Si vous utilisez HTTPS, vous aurez besoin
-   d'exécuter d'abord la commande suivante pour que `git clone` marche.
-   
-     ```bash
-	 # Pour anticiper une erreur due aux certificats de l'IUT
-	 #              "server certificate verification failed"
-	 git config --global http.sslverify false
-     ```
-   
-   1. Dans le terminal dans le dossier `public_html`, faites `git clone` suivi de l'adresse de votre
-   projet. 
-   ```bash
-   # En mode SSH
-   ~/public_html$ git clone git@gitlabinfo.iutmontp.univ-montp2.fr:loginIUT/TD-PHP.git
-   # Ou en mode HTTPS
-   ~/public_html$ git clone https://gitlabinfo.iutmontp.univ-montp2.fr/loginIUT/TD-PHP.git
-   ```
-   1. Enfin déplacez le dossier `TD1` dans le répertoire `TD-PHP` créé par le `git
-   clone`.
-
-
-1. Nous allons configurer Git pour qu'il connaisse votre nom et votre adresse
-   email (**étudiante**), ce qui sera utile quand vous travaillerez en groupe pour savoir qui a
-   enregistré quelle modification :
-
-   ```bash
-   git config --global user.name "Votre Prénom et Nom"
-   git config --global user.email "votreemail@etu.umontpellier.fr"
-   ```
-   
-   Aussi pour nous simplifier la vie plus tard, veuillez exécuter la commande
-   suivante. Cela change l'éditeur de texte qu'ouvre Git par défaut.
-   
-   ```shell
-   git config --global core.editor "gedit --new-window -w"
-   ```
-   
-1. Pour en savoir plus sur l'état de Git, **exécutez** la commande `git status`.
-   
-   La partie qui nous intéresse tout de suite est la suivante
-
-   ```
-   Fichiers non suivis:
-     (utilisez "git add <fichier>..." pour inclure dans ce qui sera validé)
-   
-     TD1/
-   ```
-
-   Elle nous dit que le suivi des modifications n'est pas activé pour le dossier `TD1`.
-
-1. Avant de versionner le dossier `TD1`, demandons à *Git* d'ignorer les
-   fichiers générés par PhpStorm (dossier `.idea`). Pour ceci, créez un fichier `TD1/.gitignore` contenant le texte suivant
-
-   ```
-   /.idea/
-   ```
-
-1. **Exécutez** la commande `git add TD1` pour suivre les modifications de tous
-   les fichiers dans le répertoire `TD1`.
-   
-    **Ré-exécutez** la commande `git status` pour voir le changement :
-   
-   ```
-   Modifications qui seront validées :
-     (utilisez "git rm --cached <fichier>..." pour désindexer)
-   
-   	nouveau fichier : TD1/echo.php
-   ```
-
-1. Git a vu des modifications dans le fichier `TD1/echo.php` mais il reste
-   encore à les enregistrer. Pour ceci, **exécutez** la commande `git commit` et
-   écrivez un petit message de validation pour s'y retrouver plus tard (avant
-   les lignes commentées avec `#`), puis fermez l'éditeur.
-   
-   <!-- **Note :** Vous voulez changer l'éditeur qui s'ouvre pour écrire vos fichiers de -->
-   <!-- commit ?  Pour utiliser SublimeText, exécutez la commande suivante : -->
-
-
-   <!-- ```shell -->
-   <!-- git config --global core.editor "gedit --new-window -w" -->
-   <!-- ``` -->
-   
-1. Une dernière exécution de `git status` nous renseigne que nous avons bien
-   tout validé.
+   **Réponses (surlignez le texte caché à droite):** 
+   <span style="color:#FCFCFC">
+   Quand le serveur Web reçoit une requête HTTP pour un fichier PHP, il exécute le script PHP et renvoie la page Web générée par le script.
+   </span>
 
 </div>
+
+
 
 ## Les bases de PHP
 
@@ -685,9 +672,9 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
    Java, on peut utiliser le mot-clé `$this` mais suivi de `->`) ; -->
 
 5. Testez que votre classe est valide pour PHP : la page générée par le serveur
-   Web `webinfo` à partir de `Voiture.php` ne doit pas afficher d'erreur.  
-   **Demandez donc** votre page à `webinfo`
-   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD1/Voiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD1/Voiture.php).
+   Web Docker à partir de `Voiture.php` ne doit pas afficher d'erreur.  
+   **Demandez donc** votre page au serveur Web
+   [http://localhost/TD-PHP/TD1/Voiture.php](http://localhost/TD-PHP/TD1/Voiture.php).
 
 6. Enregistrez votre travail à l'aide de `git add` et `git commit`. Aidez-vous toujours
    de `git status` pour savoir où vous en êtes.
@@ -732,8 +719,8 @@ n'émettent qu'un warning si le fichier n'est pas trouvé (au lieu d'une erreur)
 
    * Affichez cette voiture avec un `echo`, ce qui appellera implicitement la méthode `__toString()`.
 
-3. Testez votre page sur `webinfo` :  
-   [http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD1/testVoiture.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD1/testVoiture.php)
+3. Testez votre page sur le serveur Web :  
+   [http://locahost/TD-PHP/TD1/testVoiture.php](http://locahost/TD-PHP/TD1/testVoiture.php)
    
 </div>
 
@@ -865,7 +852,7 @@ function ServeurWeb(Requete $requete) : Reponse {
    string*. Pour cela, vérifiez que le tableau `$_GET` n'est pas vide.
    1. En reprenant du code de `testVoiture.php`, faites que `creerVoiture.php`
    affiche les informations de la voiture envoyée par le formulaire.
-   1. Bien sûr, **testez votre page** en la demandant à `webinfo`.
+   2. Bien sûr, **testez votre page** en la demandant au serveur Web.
 
 6. Afin d'éviter que les données du formulaire n'apparaissent dans l'URL, modifiez 
    le formulaire pour qu'il appelle la méthode POST :
@@ -879,12 +866,12 @@ function ServeurWeb(Requete $requete) : Reponse {
    1. Souvenez-vous (ou relisez le
    [cours 1]({{site.baseurl}}/classes/class1.html)) de par où passe
    l'information envoyée par un formulaire de méthode POST ;
-   1. Changez `creerVoiture.php` pour récupérer l'information envoyée par le formulaire ;
-   1. Essayez de
+   2. Changez `creerVoiture.php` pour récupérer l'information envoyée par le formulaire ;
+   3. Essayez de
    [**retrouver l'information envoyée par le formulaire**]({{site.baseurl}}/classes/class1.html#coutons-le-rseau)
    avec les outils de développement (Onglet Réseau).
 
-4. Avez-vous pensé à enregistrer vos modifications sous Git ? Faites le
+7. Avez-vous pensé à enregistrer vos modifications sous Git ? Faites le
    notamment en fin de TD pour retrouver plus facilement où vous en êtes la
    prochaine fois.  
    **Note :** Vous pouvez faire `git diff` à tout moment pour voir les
@@ -893,7 +880,7 @@ function ServeurWeb(Requete $requete) : Reponse {
 </div>
 
 
-## Travailler depuis chez vous en local
+<!-- ## Travailler depuis chez vous en local
 
 Si vous voulez éviter de vous connecter sur webinfo (en FTP ou SSH) pour travailler depuis chez vous, vous pouvez installer un serveur Apache + PhP + MySql + PhpMyAdmin sur votre machine. Vous pourrez alors lancer votre script avec l'URL `localhost`.
 
@@ -931,7 +918,7 @@ sudo /opt/lampp/lampp start
 Pour une [installation depuis les paquets](https://www.google.com/search?q=install+apache+php+phpmyadmin+mysql+ubuntu&tbs=qdr:y) de Apache + MySql + Php + PhpMyAdmin sous Linux, votre `php.ini` se trouve dans `/etc/php/8.1/apache2/` et le redémarrage du serveur se fait avec 
 ```bash
 sudo service apache2 restart
-```
+``` -->
 
 
 <!-- Si ça ne marche pas, c'est que l'on édite pas le bon php.ini . Afficher la
