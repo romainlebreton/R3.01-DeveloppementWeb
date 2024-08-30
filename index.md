@@ -12,8 +12,8 @@ Cours à l'IUT de Montpellier - 2ème année
 ## Cours
 
 * [Cours 1 -- Introduction à PHP](classes/class1.html)  
-   Accéder à l'[amphi à distance via Moodle](https://moodle.umontpellier.fr/mod/bigbluebuttonbn/view.php?id=590930)
-   et à son enregistrement
+   <!-- Accéder à l'[amphi à distance via Moodle](https://moodle.umontpellier.fr/mod/bigbluebuttonbn/view.php?id=590930)
+   et à son enregistrement -->
 
 ## TDs
 
@@ -29,6 +29,8 @@ Cours à l'IUT de Montpellier - 2ème année
 ### Introduction à PHP et relation à la base de données (2 semaines)
 
 * [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html) (durée indicative ≃ 2h) 
+
+<!-- 
 * [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html) (durée indicative ≃ 3h) 
 * [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html) (durée indicative ≃ 3h) 
 
@@ -61,7 +63,8 @@ La dernière séance de PHP (fin de la semaine du lundi 23 octobre) sera dédié
 * TD3 -- [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
 * TD4 -- [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html)
 * TD5 -- [`.htaccess`, namespace et autoloader]({{site.baseurl}}/assets/tut5-complement.html)
-* TD7 -- [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html) 
+* TD7 -- [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html)  
+-->
 
 
 <!-- 

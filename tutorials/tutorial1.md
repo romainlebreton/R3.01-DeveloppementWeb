@@ -335,7 +335,7 @@ fichiers OU de façon équivalente avec une URL en `file://` comme :
 Différentes syntaxes existent en PHP ; selon les délimiteurs que l'on utilise,
 le comportement est différent.
 
-#### Avec guillements simples
+#### Avec guillemets simples
 
 Les chaînes de caractères avec ***simple quote* `'`** sont conservées telles
 quelles (pas de caractères spéciaux `\n`...). Les caractères
@@ -359,7 +359,7 @@ La concaténation de chaînes de caractères se fait avec l'opérateur point `.`
 $texte = 'hello' . 'World !';
 ```
 
-#### Avec guillements doubles
+#### Avec guillemets doubles
 
 Pour simplifier le code suivant
 ```php?start_inline=1
@@ -367,7 +367,7 @@ $prenom="Helmut";
 echo 'Bonjour ' . $prenom . ', ça farte ?';
 ```
 
-PHP propose une syntaxe de chaîne de caractères entourées de ***double quotes* `"`**
+PHP propose une syntaxe de chaîne de caractères entourée de ***double quotes* `"`**
 qui permet d'écrire  
 
 ```php?start_inline=1
@@ -544,100 +544,101 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
 
 <div class="exercise">
 
-1. Dans votre fichier `echo.php`, créez trois variables `$marque`, `$couleur` et
-`$immatriculation` contenant des chaînes de caractères de votre choix, 
-et une variable `$nbSieges` contenant un nombre ;
+1. Dans votre fichier `echo.php`, créez trois variables `$nom`, `$prenom` et
+`$login` contenant des chaînes de caractères de votre choix ;
 
-2. Créez la commande PHP qui écrit dans votre fichier le code HTML suivant (en
-   remplaçant bien sûr la marque par le contenu de la variable `$marque` ...) :
+1. Créez la commande PHP qui écrit dans votre fichier le code HTML suivant (en
+   remplaçant bien sûr le nom par le contenu de la variable `$nom` ...) :
 
    ```html
-   <p> Voiture 256AB34 de marque Renault (couleur bleu, 5 sieges) </p>
+   <p> Utilisateur Juste Leblanc de login leblancj </p>
    ```
 
-3. Faisons maintenant la même chose mais avec un tableau associatif `voiture`:
+2. Faisons maintenant la même chose mais avec un tableau associatif `utilisateur`:
 
-   * Créez un tableau `$voiture` contenant quatre clés `"marque"`, `"couleur"`,
-   `"immatriculation"` et `"nbSieges"` et les valeurs de votre choix ;
+   * Créez un tableau `$utilisateur` contenant trois clés `"nom"`, `"prenom"` et
+   `"login"` avec les valeurs de votre choix ;
 
    * Utilisez l'un des affichages de débogage (*e.g.* `var_dump`) pour vérifier
      que vous avez bien rempli votre tableau ;
 
-   * Affichez le contenu de la "voiture-tableau" au même format HTML 
+   * Affichez le contenu de "l'utilisateur-tableau" au même format HTML 
 
    ```html
-   <p> Voiture 256AB34 de marque Renault (couleur bleu, 5 sieges) </p>
+   <p> Utilisateur Juste Leblanc de login leblancj </p>
    ```
 
-4. Maintenant nous souhaitons afficher une liste de voitures :
+3. Maintenant nous souhaitons afficher une liste d'utilisateurs :
 
-   * Créez une liste (un tableau indexé par des entiers) `$voitures` de quelques
-     "voitures-tableaux" ;
+   * Créez une liste (un tableau indexé par des entiers) `$utilisateurs` de quelques
+     "utilisateurs-tableaux" ;
 
    * Utilisez l'un des affichages de débogage (*e.g.* `var_dump`) pour vérifier
-     que vous avez bien rempli  `$voitures` ;
+     que vous avez bien rempli `$utilisateurs` ;
 
    * Modifier votre code d'affichage pour écrire proprement en HTML un titre
-     "Liste des voitures :" puis une liste (`<ul><li>...</li></ul>`) contenant les informations
-     des voitures.
+     "Liste des utilisateurs :" puis une liste (`<ul><li>...</li></ul>`) contenant les informations
+     des utilisateurs.
 
-   * Rajoutez un cas par défaut qui affiche "Il n'y a aucune voiture." si la
-     liste est vide.  
-     (On vous laisse chercher sur internet la fonction qui teste si un tableau est vide)
+4. Pour déboguer votre script, il est parfois pratique d'afficher la sortie brute du script. Vous souvenez-vous comment faire ?  
+   **Réponse (surlignez à droite):** 
+   <span style="color:#FCFCFC">Affichez donc le code source de la page.</span>
+ 
+5. Rajoutez un cas par défaut qui affiche "Il n'y a aucun utilisateur." si la
+   liste est vide.  
+   (On vous laisse chercher sur internet la fonction qui teste si un tableau est
+   vide)
 
-5. Enregistrez votre travail dans Git :
+6. Enregistrez votre travail dans Git via PhpStorm.
 
-   1. Faites `git status` pour connaître l'état du dépôt Git.
+   <!-- 1. Faites `git status` pour connaître l'état du dépôt Git.
    1. Faites `git add TD1/echo.php` pour lui dire d'enregistrer les
    modifications dans `echo.php`.
-   1. Faites `git commit` pour valider l'enregistrement des modifications et
+   2. Faites `git commit` pour valider l'enregistrement des modifications et
       écrivez un petit message de validation (comme e.g. *"TD1 Exo4 Affichage de
       variables"*).
-   1. Finissez par `git status` pour voir que tout s'est bien passé.
+   3. Finissez par `git status` pour voir que tout s'est bien passé. -->
    
 </div>
 
 ## La programmation objet en PHP
 
-PHP était initialement conçu comme un langage de script, mais est passé Objet à partir de la
-version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitures.
+PHP était initialement conçu comme un langage de script, mais est passé *Orienté Objet* à partir de la
+version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos utilisateurs.
 
 ### Un exemple de classe PHP
 
 <div class="exercise">
 
-1. Créer un fichier **Voiture.php** avec le contenu suivant
+1. Créer un fichier **Utilisateur.php** avec le contenu suivant
 
    ```php
    <?php
-   class Voiture {
+   class Utilisateur {
    
-       private $immatriculation;
-       private $marque;
-       private $couleur;
-       private $nbSieges; // Nombre de places assises
+       private $login;
+       private $nom;
+       private $prenom;
    
        // un getter      
-       public function getMarque() {
-           return $this->marque;
+       public function getNom() {
+           return $this->nom;
        }
    
        // un setter 
-       public function setMarque($marque) {
-           $this->marque = $marque;
+       public function setNom($nom) {
+           $this->nom = $nom;
        }
    
        // un constructeur
        public function __construct(
-         $immatriculation,
-         $marque, 
-         $couleur, 
-         $nbSieges
+         $login,
+         $nom, 
+         $prenom,
       ) {
-           $this->immatriculation = $immatriculation;
-           $this->marque = $marque;
-           $this->couleur = $couleur;
-           $this->nbSieges = $nbSieges;
+           $this->login = $login;
+           $this->nom = $nom;
+           $this->prenom = $prenom;
        } 
               
        // Pour pouvoir convertir un objet en chaîne de caractères
@@ -660,35 +661,34 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos voitur
      ont un nombre d'arguments différent. En particulier, il ne peut y avoir au
      maximum qu'un constructeur.
 
-3. Créez des *getter* et des *setter* pour `$couleur`, `$immatriculation` et `$nbSieges` ;  
+2. Créez des *getter* et des *setter* pour `$prenom` et `$login` ;  
    (PhpStorm peut les générer automatiquement pour vous avec Clic droit > Generate)
 
 3. L'intérêt des *setter* est notamment de vérifier ce qui va être écrit dans
    l'attribut.
-   Comme l'immatriculation est limitée à 8 caractères, codez un *setter* qui 
-   ne stocke que les 8 premiers caractères de l'immatriculation dans l'objet.
-   Mettez aussi à jour le constructeur pour ne garder que les 8 premiers caractères.      
+   Comme le login est limité à 64 caractères, codez un *setter* qui 
+   ne stocke que les 64 premiers caractères du login dans l'objet.
+   Mettez aussi à jour le constructeur pour ne garder que les 64 premiers caractères.      
    (Documentation PHP :
    [fonction `substr` *substring*](http://php.net/manual/fr/function.substr.php)).
 
 
-4. Remplissez `__toString()` qui permet de convertir une voiture en chaine de caractères.
-   <!-- (Regardez le code du constructeur de la classe Voiture : comme en
+4. Remplissez `__toString()` qui permet de convertir un utilisateur en chaine de caractères.
+   <!-- (Regardez le code du constructeur de la classe Utilisateur : comme en
    Java, on peut utiliser le mot-clé `$this` mais suivi de `->`) ; -->
 
 5. Testez que votre classe est valide pour PHP : la page générée par le serveur
-   Web Docker à partir de `Voiture.php` ne doit pas afficher d'erreur.  
+   Web Docker à partir de `Utilisateur.php` ne doit pas afficher d'erreur.  
    **Demandez donc** votre page au serveur Web
-   [http://localhost/TD-PHP/TD1/Voiture.php](http://localhost/TD-PHP/TD1/Voiture.php).
+   [http://localhost/tds-php/TD1/Utilisateur.php](http://localhost/tds-php/TD1/Utilisateur.php).
 
-6. Enregistrez votre travail à l'aide de `git add` et `git commit`. Aidez-vous toujours
-   de `git status` pour savoir où vous en êtes.
+6. Enregistrez votre travail sous Git à l'aide de PhpStorm.
 
 </div>
 
-### Utilisation de la classe `Voiture`
+### Utilisation de la classe `Utilisateur`
 
-Nous voulons utiliser la classe `Voiture` dans un autre script `testVoiture.php`. Il faut donc inclure le fichier `Voiture.php`, qui contient la déclaration de la classe de `Voiture`, dans `testVoiture.php` pour pouvoir l'utiliser.
+Nous voulons utiliser la classe `Utilisateur` dans un autre script `testUtilisateur.php`. Il faut donc inclure le fichier `Utilisateur.php`, qui contient la déclaration de la classe de `Utilisateur`, dans `testUtilisateur.php` pour pouvoir l'utiliser.
 
 #### Require
 
@@ -711,21 +711,21 @@ n'émettent qu'un warning si le fichier n'est pas trouvé (au lieu d'une erreur)
 
 <div class="exercise">
 
-1. Créez un fichier **testVoiture.php** contenant le squelette HTML classique (`<html>`,`<head>`,`<body>` ...)
+1. Créez un fichier **testUtilisateur.php** contenant le squelette HTML classique (`<html>`,`<head>`,`<body>` ...)
 
-2. Dans la balise `<body>`, on va vouloir créer des objets `Voiture` et les afficher :
+2. Dans la balise `<body>`, on va vouloir créer des objets `Utilisateur` et les afficher :
 
-   * Incluez `Voiture.php` à l'aide de `require_once` comme vu précédemment ;
+   * Incluez `Utilisateur.php` à l'aide de `require_once` comme vu précédemment ;
 
-   * Initialisez une variable `$voiture1` de la classe `Voiture` avec la même
+   * Initialisez une variable `$utilisateur1` de la classe `Utilisateur` avec la même
      syntaxe qu'en Java ;
 
-   <!-- $voiture1 = new Voiture('Renault','Bleu','256AB34');  -->
+   <!-- $utilisateur1 = new Utilisateur('Renault','Bleu','256AB34');  -->
 
-   * Affichez cette voiture avec un `echo`, ce qui appellera implicitement la méthode `__toString()`.
+   * Affichez cet utilisateur avec un `echo`, ce qui appellera implicitement la méthode `__toString()`.
 
 3. Testez votre page sur le serveur Web :  
-   [http://locahost/TD-PHP/TD1/testVoiture.php](http://locahost/TD-PHP/TD1/testVoiture.php)
+   [http://locahost/tds-php/TD1/testUtilisateur.php](http://locahost/tds-php/TD1/testUtilisateur.php)
    
 </div>
 
@@ -740,7 +740,7 @@ Optionnellement, on peut déclarer les types de certaines variables PHP :
 Ces types sont vérifiés à l'exécution, contrairement à Java qui les vérifie à la compilation.  
 La déclaration de type est **cruciale** pour que l'IDE devine correctement le type des objets et pour que vous puissiez bénéficier pleinement de l'**autocomplétion** de l'IDE. 
 
-Exemple:
+Exemple :
 ```php
 class Requete {
   // Déclaration de type d'un attribut
@@ -761,24 +761,24 @@ function ServeurWeb(Requete $requete) : Reponse {
 
 [Documentation PHP](https://www.php.net/manual/fr/language.types.declarations.php)
 
-1. Mettez à jour `Voiture.php` pour déclarer `marque`, `couleur` et `immatriculation` comme `string`, et `nbSieges` comme `int` dans
+1. Mettez à jour `Utilisateur.php` pour déclarer `nom`, `prenom` et `login` comme `string` dans
    * les attributs de classes,
    * les arguments des setters,
    * les sorties des getters,
    * les arguments du constructeur,
    * le type de sortie de `__toString()`.
 
-   **Note :** Pour pouvoir utiliser les déclarations de type, il faut indiquer à PhpStorm que vous voulez utiliser la version 8.1 du langage PHP. Pour ceci, cliquez en bas à droite de l'IDE sur `PHP: *.*` pour basculer vers `PHP: 8.1`.
+   **Note :** Pour pouvoir utiliser les déclarations de type, il faut indiquer à PhpStorm que vous voulez utiliser la version 8.3 du langage PHP. Pour ceci, cliquez en bas à droite de l'IDE sur `PHP: *.*` pour basculer vers `PHP: 8.3`.
 
-2. Testez que PHP vérifie bien les types : dans `testVoiture.php`, appelez une fonction qui attend en argument un `string` en lui donnant à la place un tableau (le tableau vide `[]` par exemple). Vous devez recevoir un message comme suit
+2. Testez que PHP vérifie bien les types : dans `testUtilisateur.php`, appelez une fonction qui attend en argument un `string` en lui donnant à la place un tableau (le tableau vide `[]` par exemple). Vous devez recevoir un message comme suit
 
    ```
-   PHP Fatal error:  Uncaught TypeError: Voiture::__construct(): Argument #1 ($marque) must be of type string, array given
+   PHP Fatal error:  Uncaught TypeError: Utilisateur::__construct(): Argument #1 ($nom) must be of type string, array given
    ```
 
    <!-- 3. Testez en donnant une valeur entière à la place d'un `string`. Malheureusement, la vérification de PHP n'échoue pas. En effet, par défaut, PHP convertit automatiquement les types scalaires (`bool`, `int`, `float` et `string`) entre eux.
 
-   4. Rajoutez l'instruction `declare(strict_types=1);` au début de votre fichier PHP. Ceci active la vérification de types, même entre types scalaires.  
+   1. Rajoutez l'instruction `declare(strict_types=1);` au début de votre fichier PHP. Ceci active la vérification de types, même entre types scalaires.  
    Vérifiez que la vérification de type de PHP échoue maintenant.
 
    **Attention :** La déclaration `declare(strict_types=1);` doit être la première instruction de votre script PHP. Il faut donc écrire en ligne 1 
@@ -790,8 +790,7 @@ function ServeurWeb(Requete $requete) : Reponse {
    Aussi, `declare(strict_types=1);` marche fichier par fichier. Il doit donc être mis en haut de chaque fichier pour marcher partout.
    -->
 
-6. Enregistrez votre travail à l'aide de `git add` et `git commit`. Aidez-vous toujours
-   de `git status` pour savoir où vous en êtes.
+3. Enregistrez votre travail sous Git à l'aide de PhpStorm.
 
 </div>
 
@@ -799,16 +798,16 @@ function ServeurWeb(Requete $requete) : Reponse {
 
 <div class="exercise">
 
-1. Créez un fichier **formulaireVoiture.html**, réutilisez l'entête du fichier
-   **echo.php** et dans le body, insérez le formulaire suivant:
+1. Créez un fichier **formulaireUtilisateur.html**, réutilisez l'entête du fichier
+   **echo.php** et dans le body, insérez le formulaire suivant :
 
    ```html
-   <form method="get" action="creerVoiture.php">
+   <form method="get" action="creerUtilisateur.php">
      <fieldset>
        <legend>Mon formulaire :</legend>
        <p>
-         <label for="immatriculation_id">Immatriculation</label> :
-         <input type="text" placeholder="256AB34" name="immatriculation" id="immatriculation_id" required/>
+         <label for="login_id">Login</label> :
+         <input type="text" placeholder="leblancj" name="login" id="login_id" required/>
        </p>
        <p>
          <input type="submit" value="Envoyer" />
@@ -821,19 +820,19 @@ function ServeurWeb(Requete $requete) : Reponse {
    [cours 1]({{site.baseurl}}/classes/class1.html)) de la signification des
    attributs `action` de `<form>` et `name` de `<input>`
 
-   <!-- L'attribut important des `<input type="text">` est `name="marque"` qui indique -->
+   <!-- L'attribut important des `<input type="text">` est `name="nom"` qui indique -->
    <!-- que ce que vous taperez dans ce champ texte sera associé au nom de variable -->
-   <!-- `marque`. -->
+   <!-- `nom`. -->
 
    **Rappels supplémentaires :**
 
    * L'attribut `for` de `<label>` doit contenir l'identifiant d'un champ
-    `<input>` pour que un clic sur le texte du `<label>` vous amène directement
+    `<input>` pour qu'un clic sur le texte du `<label>` vous amène directement
     dans ce champ.
 
    * l'attribut `placeholder` de `<input>` sert à écrire une valeur par défaut pour aider l'utilisateur.
 
-3. Créez des champs dans le formulaire pour pouvoir rentrer la marque, la couleur et le nombre de sièges (`<input type="number">`) de la voiture.
+3. Créez des champs dans le formulaire pour pouvoir rentrer le nom et le prénom de l'utilisateur.
 
 4. Souvenez-vous (ou relisez le
    [cours 1]({{site.baseurl}}/classes/class1.html#les-formulaires-de-mthode-get)) de ce que fait un clic sur le bouton **"Envoyer"**.  
@@ -842,45 +841,45 @@ function ServeurWeb(Requete $requete) : Reponse {
    **Comment sont transmises les informations ?**  
    **Comment s'appelle la partie de l'URL contenant les informations ?**
 
-5. Prenez l'habitude d'enregistrer régulièrement votre travail sous Git. Vous
-   pouvez utiliser la commande `git log` pour voir l'ensemble de vos
-   enregistrements passés.
+5. Prenez l'habitude d'enregistrer régulièrement votre travail sous Git. En
+   cliquant sur l'icône Git en bas à gauche de PhpStorm, vous pouvez retrouver
+   l'historique de vos enregistrements passés.
 
 </div>
 <div class="exercise">
 
-5. Créez un fichier `creerVoiture.php` :
+5. Créez un fichier `creerUtilisateur.php` :
 
    1. Aidez-vous si nécessaire du [cours 1]({{site.baseurl}}/classes/class1.html)
    pour savoir comment récupérer l'information envoyée par le formulaire.
-   1. Vérifiez que `creerVoiture.php` reçoit bien des informations dans le *query
-   string*. Pour cela, vérifiez que le tableau `$_GET` n'est pas vide.
-   1. En reprenant du code de `testVoiture.php`, faites que `creerVoiture.php`
-   affiche les informations de la voiture envoyée par le formulaire.
+   1. Vérifiez que `creerUtilisateur.php` reçoit bien des informations dans le *query
+   string*. Pour cela, vérifiez que le tableau `$_GET` n'est pas vide (comment afficher un tableau facilement ?).
+   1. En reprenant du code de `testUtilisateur.php`, faites que `creerUtilisateur.php`
+   affiche les informations de l'utilisateur envoyée par le formulaire.
    2. Bien sûr, **testez votre page** en la demandant au serveur Web.
 
 6. Afin d'éviter que les données du formulaire n'apparaissent dans l'URL, modifiez 
    le formulaire pour qu'il appelle la méthode POST :
 
    ```html
-   <form method="post" action="creerVoiture.php">
+   <form method="post" action="creerUtilisateur.php">
    ```
    
-   et côté `creerVoiture.php`, mettez à jour la récupération des paramètres :
+   et côté `creerUtilisateur.php`, mettez à jour la récupération des paramètres :
 
    1. Souvenez-vous (ou relisez le
    [cours 1]({{site.baseurl}}/classes/class1.html)) de par où passe
    l'information envoyée par un formulaire de méthode POST ;
-   2. Changez `creerVoiture.php` pour récupérer l'information envoyée par le formulaire ;
+   2. Changez `creerUtilisateur.php` pour récupérer l'information envoyée par le formulaire ;
    3. Essayez de
    [**retrouver l'information envoyée par le formulaire**]({{site.baseurl}}/classes/class1.html#coutons-le-rseau)
    avec les outils de développement (Onglet Réseau).
 
-7. Avez-vous pensé à enregistrer vos modifications sous Git ? Faites le
+7. Avez-vous pensé à enregistrer vos modifications sous Git ? Faites-le
    notamment en fin de TD pour retrouver plus facilement où vous en êtes la
    prochaine fois.  
-   **Note :** Vous pouvez faire `git diff` à tout moment pour voir les
-   modifications que vous avez faites depuis la dernière validation (`commit`).
+   <!-- **Note :** Vous pouvez faire `git diff` à tout moment pour voir les
+   modifications que vous avez faites depuis la dernière validation (`commit`). -->
    <!-- On voit toutes les modifications sauf celles en cours d'enregistrement avec `git add` -->
 </div>
 
@@ -920,7 +919,7 @@ sudo /opt/lampp/lampp start
 
 #### Installation depuis les paquets
 
-Pour une [installation depuis les paquets](https://www.google.com/search?q=install+apache+php+phpmyadmin+mysql+ubuntu&tbs=qdr:y) de Apache + MySql + Php + PhpMyAdmin sous Linux, votre `php.ini` se trouve dans `/etc/php/8.1/apache2/` et le redémarrage du serveur se fait avec 
+Pour une [installation depuis les paquets](https://www.google.com/search?q=install+apache+php+phpmyadmin+mysql+ubuntu&tbs=qdr:y) de Apache + MySql + Php + PhpMyAdmin sous Linux, votre `php.ini` se trouve dans `/etc/php/8.3/apache2/` et le redémarrage du serveur se fait avec 
 ```bash
 sudo service apache2 restart
 ``` -->
