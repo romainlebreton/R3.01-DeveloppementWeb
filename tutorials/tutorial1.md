@@ -37,7 +37,7 @@ plus de 30 minutes.
 
 ### Configuration de Git
 
-Ce cours de PHP est aussi l'occasion de manipuler le gestionnaire de version
+Ce cours de PHP est aussi l'occasion de continuer à manipuler le gestionnaire de version
 Git, qui conversera la chronologie de toutes vos modifications. Commençons par
 nous assurer que Git est bien configuré sur vos machines.
 
@@ -68,6 +68,7 @@ nous assurer que Git est bien configuré sur vos machines.
 	   #              "server certificate verification failed"
 	   git config --global http.sslverify false
       ```
+    **Remarque :** nous vous recommandons de vous connecter à vos dépôts Git par SSH.
 
 </div>
 
