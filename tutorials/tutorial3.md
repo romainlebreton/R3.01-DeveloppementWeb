@@ -306,7 +306,7 @@ On souhaite que le champ `trajet.conducteurLogin` corresponde à tout moment à 
 login de conducteur `utilisateur.login`. Vous souvenez-vous quelle est la
 fonctionnalité des bases de données qui permet ceci ?
 
-**Réponse :** <span style="color:#FCFCFC">Il faut utiliser des clés
+**Réponse (surlignez le texte caché à droite):** <span style="color:#FCFCFC">Il faut utiliser des clés
   étrangères.</span>
 
 <div class="exercise">

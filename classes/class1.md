@@ -5,15 +5,13 @@ layout: slideshow
 lang: fr
 ---
 
-<!-- Rajouter un mot sur HTTP/2 et HTTP/3 -->
-
 <section>
 ## Présentation du cours
 
 **Objectif du cours :**
 
 * Apprendre à faire des pages dynamiques avec PHP et MySQL
-* Stocker les informations en base de données
+* Interagir avec une base de données
 * Organiser son code avec l'architecture MVC
 * Mettre en place un système d'utilisateur connecté 
 
@@ -30,7 +28,7 @@ lang: fr
 * Examen écrit final : 50%
 * Projet PHP : 50%
   * Parcours A : Le projet PHP sera celui de votre SAÉ
-  * Parcours B & D : Le projet PHP sera celui de ce cours
+  * Parcours B & D : Projet PHP spécifique au cours
 </section>
 
 <!-- 
@@ -108,8 +106,11 @@ Le client fait une *requête* au serveur, qui répond en donnant la page Web
 entre un client et un serveur développé pour le Web. L'une de ses fonctions
 principales est ainsi de récupérer des pages Web.
 
+Versions : HTTP 1.1 pour nos besoins, HTTP 2 & 3 (performances)
+
 Le client envoie une requête HTTP.  
 Le serveur retourne une réponse HTTP.
+
 
 <br>
 <br>
@@ -119,9 +120,11 @@ Le serveur retourne une réponse HTTP.
 <!-- Premier problème : plus de serveur Web en HTTP. Ils ont migrés sur HTTPS ! -->
 
 La requête HTTP la plus courante est la requête de méthode GET. Par exemple pour demander
-la page Web
+la page Web  
 [http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html](http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html)
 :
+
+<br>
 
 ```http
 GET /R3.01-DeveloppementWeb/classes/class1.html HTTP/1.1
@@ -189,8 +192,9 @@ Le navigateur interprète alors la page Web et l'affiche.
 **Que se passe-t-il quand on clique sur un lien hypertexte `<a>` ?**
 <div class="incremental">
 <div>
-Cliquer sur un lien fait pareil que demander une page Web par la barre
-d'adresse, cela envoie une requête HTTP de verbe `GET`.
+Cliquer sur un lien est similaire à demander une page Web par la barre
+d'adresse :  
+cela envoie une requête HTTP de verbe `GET`.
 
 </div>
 </div>
@@ -203,26 +207,35 @@ d'adresse, cela envoie une requête HTTP de verbe `GET`.
 <!-- Ouvrir http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html dans le
 navigateur en expliquant la requête et réponse -->
 
-On peut observer le réseau à l'aide des outils de développement (`F12` ou Menu
-Outils/Outils de développement puis onglet Réseau).
+1. Exemple pour observer une communication HTTP brute : 
+   ```bash
+   # Avec cURL (préinstallé)
+   curl -v http://romainlebreton.github.io/helloWorld.html
+   # Avec HTTPie (à installer)
+   http -p HBhb http://romainlebreton.github.io/helloWorld.html
+   ```
+2. Pour observer au sein du navigateur :  
+   outils de développement (`F12` ou Menu
+   Outils/Outils de développement)  
+   puis onglet Réseau.
 
 
-Regardons les communications HTTP quand :
+    Regardons les communications HTTP quand :
 
-* on ouvre l'URL  
-  http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html
-* on clique sur le lien  
-  [http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html](http://romainlebreton.github.io/R3.01-DeveloppementWeb/classes/class1.html)
+    * on ouvre l'URL  
+      https://romainlebreton.github.io/helloWorld.html
+    * on clique sur le lien  
+      [https://romainlebreton.github.io/helloWorld.html](https://romainlebreton.github.io/helloWorld.html)
 
-<!--
-Ouvrir Réseau, recharger la page,
-view source des Request Headers puis
-view source des Response Headers puis
-Response
--->
+    <!--
+    Ouvrir Réseau, recharger la page,
+    view source des Request Headers puis
+    view source des Response Headers puis
+    Response
+    -->
 
-<!-- Nous verrons l'autre type courant (POST) de requêtes HTTP lors de l'envoi de -->
-<!-- formulaires en méthode POST.  -->
+    <!-- Nous verrons l'autre type courant (POST) de requêtes HTTP lors de l'envoi de -->
+    <!-- formulaires en méthode POST.  -->
 
 </section>
 <section>
@@ -244,9 +257,9 @@ Il est souvent associé au port 80 de la machine hôte.
 
 <br>
 
-**En pratique** lors des TDs, nous utiliserons le serveur **HTTP** Apache de
-  l'IUT (`webinfo`) et nous vous ferons installer des serveurs HTTP sur vos
-  ordinateurs portables.
+**En pratique** lors des TDs, nous utiliserons : 
+* principalement un serveur **HTTP** Apache dans un conteneur Docker sur vos portables.
+* sinon, le serveur **HTTP** Apache de l'IUT (`webinfo`)
 
 <!-- La pratique du serveur avec public_html, PB file://, installation chez eux -->
 
@@ -262,25 +275,56 @@ Il est souvent associé au port 80 de la machine hôte.
 </section>
 <section>
 
-## Comment déposer une page Web sur le serveur HTTP de l'IUT ?
+## Serveur Web sous Docker
+
+**Installation du serveur Web :**
+
+* Instructions au début du [TP1](./R3.01-DeveloppementWeb/tutorials/tutorial1.html)
+* Avant votre première séance de TP : 
+  * Installez Docker Desktop au moins 
+  * Si possible, créer le conteneur Docker contenant un serveur Web
+  * Si possible, lancez PhpStorm et activez votre licence `JetBrains`
+* Démo : création du conteneur une fois que Docker Desktop est installé
 
 <br>
 
-Il suffit de déposer vos fichiers HTML/CSS/PHP dans le dossier `public_html`
-de votre répertoire personnel.
+**Utilisation du serveur Web Docker :**
+
+* Déposer vos fichiers HTML/CSS/PHP dans le dossier `public_html` .
+* Quand vous demandez la page  
+[http://localhost/index.html](https://localhost/index.html),  
+le serveur HTTP Docker va rechercher le fichier  
+`/home/lebreton/public_html/index.html`.
+* Idem la page  
+[http://localhost/image/topsecret.jpg](http://localhost/image/topsecret.jpg)  
+renvoie sur le fichier  
+`/home/lebreton/image/topsecret.jpg`.
+
+
+</section>
+<section>
+
+## Serveur Web `webinfo` de l'IUT
+
+**Différence :**
+* Serveur Web Docker pour le développement : pages Web accessibles localement
+* Serveur `webinfo` de l'IUT : pages Web accessibles partout
 
 <br>
+
+**Où déposer vos fichiers HTML/CSS/PHP pour le serveur `webinfo` ?**  
+Dans le dossier `public_html` de votre répertoire personnel **à l'IUT** à l'aide de FTP ou SSH ([instructions sur l'intranet](https://iutdepinfo.iutmontp.univ-montp2.fr/intranet/acces-aux-serveurs/)).
+
 <br>
 
-**Comment ça marche ?**
+**Utilisation du serveur Web Docker :**
 
-Quand vous demandez la page  
+* Quand vous demandez la page  
 [https://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html](https://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html),  
 le serveur HTTP (Apache) de l'IUT va rechercher le fichier  
 `/home/ann2/rletud/public_html/index.html`.
-
-Idem la page  
-[http://webinfo.iutmontp.univ-montp2.fr/~rletud/image/topsecret.jpg](http://webinfo.iutmontp.univ-montp2.fr/~rletud/image/topsecret.jpg)  
+* Idem la page  
+[https://webinfo.iutmontp.univ-montp2.fr/~rletud/image/topsecret.jpg](https://webinfo.iutmontp.univ-montp2.fr/~rletud/image/topsecret.jpg)  
 renvoie sur le fichier  
 `/home/ann2/rletud/public_html/image/topsecret.jpg`.
 
@@ -602,7 +646,7 @@ Deux principales façons d'exécuter un script PHP:
 
 En pratique sur un exemple :
 
-* On écrit le fichier `/home/ann2/public_html/bonjour.php` :
+* On écrit le fichier `/home/lebreton/public_html/bonjour.php` : <!-- `/home/ann2/public_html/bonjour.php` -->
 
   ```php
   <!DOCTYPE html>
@@ -617,7 +661,7 @@ En pratique sur un exemple :
   ```
 
 * On ouvre
-  [http://webinfo/~loginIUT/bonjour.php](http://webinfo.iutmontp.univ-montp2.fr/~rletud/bonjour.php)
+  [http://localhost/bonjour.php](http://localhost/bonjour.php)
   pour voir la page générée
 
   ```text
@@ -1074,6 +1118,40 @@ Elles servent aussi à demander des pages Web. Les principales différences sont
 </section>
 <section>
 
+## Requête POST via le terminal
+
+En utilisant HTTPie (à installer) pour un meilleur affichage
+
+```bash
+# --form pour envoyer une requête POST avec les données à la fin
+# -p pour afficher : H/B request headers/body, h/b response headers/body
+http --form https://webinfo.iutmontp.univ-montp2.fr/~rletud/traitePost.php nom_var='Romain' -p HBhb
+```
+
+**Requête** 
+```http
+POST /~rletud/traitePost.php HTTP/1.1
+Host: webinfo.iutmontp.univ-montp2.fr
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Content-Length: 14
+[...]
+
+nom_var=Romain
+```
+
+**Réponse**
+```http
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=UTF-8
+Content-Length: 39
+[...]
+
+<p>La donnée nom_var est Romain !</p>
+```
+
+</section>
+<section>
+
 ## Avantages et inconvénients des deux méthodes
 
 <br>
@@ -1187,9 +1265,8 @@ suivant :
 * [Documentation officielle de PHP](http://php.net/manual/fr/)
 
 </section>
-<section>
 
-## Bonus : Émuler un client HTTP textuel
+<!-- ## Bonus : Émuler un client HTTP textuel
 
 **Expérience "amusante" :**  
 Même si le client HTTP le plus connu est votre navigateur, il est facile de
@@ -1229,4 +1306,4 @@ Content-Length: 170
 
 Faites de même avec la requête POST précédente.
 
-</section>
+</section> -->
