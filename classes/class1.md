@@ -848,9 +848,8 @@ Quand un client demande `bonjourGet.php?nom=Assin&prenom=Marc` :
 
 ## Exemple de transmission avec la méthode GET
 
-<br>
 
-Une 1ère page avec un lien contenant des informations dans son *query string*.
+Quand on clique sur un lien avec des informations dans son *query string*.
 
 <div style="display:flex;align-items:center;">
 <div style="flex-grow:1">
@@ -865,30 +864,24 @@ Une 1ère page avec un lien contenant des informations dans son *query string*.
 </div>
 </div>
 
-<br>
-<br>
+* PHP rempli le tableau `$_GET` avec
 
-Quand on clique sur ce lien, on est renvoyé sur la page `bonjourGet.php` suivante
+  ```php?start_inline=1
+    $_GET = ["nom" => "Assin", "prenom" => "Marc"];
+  ```
 
-```php
-<p>Bonjour <?php echo $_GET['prenom']; ?> !</p>
-```
+* puis exécute `bonjourGet.php` 
 
-qui va s'exécuter pour créer la page Web
+  ```php
+  <p>Bonjour <?php echo $_GET['prenom']; ?> !</p>
+  ```
 
-```html?start_inline=1
-<p>Bonjour Marc !</p>
-```
+* qui va générer
 
-<br>
+  ```html?start_inline=1
+  <p>Bonjour Marc !</p>
+  ```
 
-**En effet,** PHP aura rempli le tableau `$_GET` avec
-
-```php?start_inline=1
-  $_GET = ["nom" => "Assin", "prenom" => "Marc"];
-```
-
-avant de lancer le script `bonjourGet.php`.
 
 </section>
 <!-- <section> -->
@@ -928,11 +921,12 @@ Considérons le formulaire suivant et supposons que l'utilisateur a tapé `MaDon
 </div>
 
 1. le clic sur le bouton `Valider` :
-  * charge la page `traitement.php` (champ `action` du formulaire)
-  * transmet ses informations dans le *query string*
+   * charge la page `traitement.php` (champ `action` du formulaire)
+   * transmet ses informations dans le *query string*
   
-2. donc le clic sur `Valider` charge l'URL `traitement.php?nom_var=MaDonnee`  
-  On reconnaît l'attribut `name="nom_var"` de `<input>` et la valeur remplie par l'utilisateur.
+   Donc le clic sur `Valider` charge l'URL `traitement.php?nom_var=MaDonnee`
+
+   On reconnaît l'attribut `name="nom_var"` de `<input>` et la valeur remplie par l'utilisateur.
 
 3. la page `traitement.php` suivante s'exécute avec le tableau  
    `$_GET = ["nom_var" => "MaDonnee"];`
@@ -1025,7 +1019,7 @@ Les formulaires **GET** utilisent donc l'envoi de données dans le *query string
 
 **Exemple :**
 
-Quand on clique sur `Valider`,  PHP fait
+Quand on clique sur `Valider`, PHP rempli le tableau
 
 ```php?start_inline=1
 $_POST = ["nom_var" => "valeur"];
