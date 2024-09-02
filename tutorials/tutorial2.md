@@ -48,13 +48,12 @@ Le login est votre login IUT et votre mot de passe initial est soit votre date d
      exemple. Écrivez dès maintenant ce mot de passe dans un fichier.
    * Ou choisissez quelque chose de simple et de pas secret.
 
-2. Créez une table `voiture` (sans majuscule) possédant 4 champs :
+2. Créez une table `utilisateur` (sans majuscule) possédant 3 champs :
 
-   * `immatriculationBaseDeDonnees` de type `VARCHAR` et de longueur maximale 8, défini comme la
+   * `loginBaseDeDonnees` de type `VARCHAR` et de longueur maximale 64, défini comme la
      clé primaire (Index : `Primary`)
-   * `marqueBaseDeDonnees` de type `VARCHAR` est de longueur maximale 25.
-   * `couleurBaseDeDonnees` de type `VARCHAR` est de longueur maximale 12.
-   * `nbSiegesBaseDeDonnees` de type `INT`.
+   * `nomBaseDeDonnees` de type `VARCHAR` est de longueur maximale 64.
+   * `prenomBaseDeDonnees` de type `VARCHAR` est de longueur maximale 64.
 
    **Important :** Pour faciliter la suite du TD, mettez à la création de toutes
      vos tables `InnoDB` comme moteur de stockage, et `utf8_general_ci` comme
@@ -363,10 +362,10 @@ la classe `PDO`
 ### Faire une requête SQL sans paramètres
 
 Commençons par la requête SQL la plus simple, celle qui lit tous les éléments
-d'une table (`voiture` dans notre exemple) :
+d'une table (`utilisateur` dans notre exemple) :
 
 ```sql
-SELECT * FROM voiture
+SELECT * FROM utilisateur
 ```
 
 <!-- 
@@ -376,7 +375,7 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
   -->
 
 <div class="exercise">
-1. Créez un fichier `lireVoiture.php`
+1. Créez un fichier `lireUtilisateur.php`
 
 2. Incluez le fichier contenant la classe `ConnexionBaseDeDonnees` pour pouvoir se connecter à la
    base de données.
@@ -389,26 +388,26 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
    pouvez utiliser
 
    ```php?start_inline=1
-   $voitureFormatTableau = $pdoStatement->fetch()
+   $utilisateurFormatTableau = $pdoStatement->fetch()
    ```
 
-   qui, dans notre exemple, renvoie un tableau avec 8 cases : 
-   * `immatriculationBaseDeDonnees`, `couleurBaseDeDonnees`, `marqueBaseDeDonnees` et `nbSiegesBaseDeDonnees` (les champs de la base de données).
-   * `0`, `1`, `2` et `3` qui correspondent aux champs de la base de données dans l'ordre. Ces cases
+   qui, dans notre exemple, renvoie un tableau avec 6 cases : 
+   * `loginBaseDeDonnees`, `prenomBaseDeDonnees` et `nomBaseDeDonnees` (les champs de la base de données).
+   * `0`, `1` et `2` qui correspondent aux champs de la base de données dans l'ordre. Ces cases
    sont donc un peu redondantes.
 
    Utilisez l’un des affichages de débogage (*e.g.* `var_dump`) pour afficher ce tableau.
 
-1. Créez une `$voiture` de classe `Voiture` à l'aide de `$voitureFormatTableau` 
-en appelant le constructeur. Affichez la voiture en utilisant la méthode adéquate de `Voiture`. 
+1. Créez un `$utilisateur` de classe `Utilisateur` à l'aide de `$utilisateurFormatTableau` 
+en appelant le constructeur. Affichez l'utilisateur en utilisant la méthode adéquate de `Utilisateur`. 
 
-1. On souhaite désormais afficher toutes les voitures dans la base de données. On pourrait
+1. On souhaite désormais afficher tous les utilisateurs dans la base de données. On pourrait
    faire une boucle `while` sur `fetch` tant qu'on n'a pas parcouru toutes les entrées de la base de données.
 
    Heureusement, il existe une syntaxe simplifiée qui fait exactement cela :   
 
    ```php?start_inline=1
-   foreach($pdoStatement as $voitureFormatTableau){
+   foreach($pdoStatement as $utilisateurFormatTableau){
       // ...
    }
    ```
@@ -416,46 +415,46 @@ en appelant le constructeur. Affichez la voiture en utilisant la méthode adéqu
    **Note :**
    * chaque tour de boucle agit comme si on avait fait un fetch
      ```php?start_inline=1
-     $voitureFormatTableau = $pdoStatement->fetch()
+     $utilisateurFormatTableau = $pdoStatement->fetch()
      ```
    * on peut faire foreach car PDOStatement implémente l'interface Traversable.
    C'est similaire à Java qui permettait la boucle `for(xxx : yyy)` pour les objets
    implémentant l'interface `Iterable`.
 
-   **Utilisez** la boucle `foreach` dans `lireVoiture.php` pour afficher toutes les voitures.
+   **Utilisez** la boucle `foreach` dans `lireUtilisateur.php` pour afficher tous les utilisateurs.
 
-1. Avez-vous pensé à enregistrer régulièrement votre travail sous Git ?
+2. Avez-vous pensé à enregistrer régulièrement votre travail sous Git ?
 </div>
 
 <div class="exercise">
 
-Nous allons maintenant isoler le code qui retourne toutes les voitures et en faire une méthode de `Voiture`.
+Nous allons maintenant isoler le code qui retourne tous les utilisateurs et en faire une méthode de `Utilisateur`.
 
-1. Isolez le code qui construit l'objet `Voiture` à partir du tableau donné par `fetch` 
-   (*e.g.* `$voitureFormatTableau`) dans une méthode
+1. Isolez le code qui construit l'objet `Utilisateur` à partir du tableau donné par `fetch` 
+   (*e.g.* `$utilisateurFormatTableau`) dans une méthode
    ```php
-   public static function construireDepuisTableau(array $voitureFormatTableau) : Voiture {
+   public static function construireDepuisTableau(array $utilisateurFormatTableau) : Utilisateur {
    // ...
    }
    ```
 2. Créez une fonction statique
-   `getVoitures()` dans la classe `Voiture` qui ne prend pas d'arguments et
-   renvoie le tableau d'objets de la classe `Voiture` correspondant à la base de données.
+   `getUtilisateurs()` dans la classe `Utilisateur` qui ne prend pas d'arguments et
+   renvoie le tableau d'objets de la classe `Utilisateur` correspondant à la base de données.
 
    **Rappel :** On peut rajouter facilement un élément "à la fin" d'un tableau avec
    ```php?start_inline=1
    $tableau[] = "Nouvelle valeur";
    ```
-3. Mettez à jour `lireVoiture.php` pour appeler directement `getVoitures()`.
+3. Mettez à jour `lireUtilisateur.php` pour appeler directement `getUtilisateurs()`.
 
-4. Maintenant que vous avez bien compris où les noms de colonnes (`immatriculationBaseDeDonnees`, `couleurBaseDeDonnees`, ...)
-   de la table `voiture` interviennent dans le tableau `$voitureFormatTableau`, nous allons leur redonner
+4. Maintenant que vous avez bien compris où les noms de colonnes (`loginBaseDeDonnees`, `prenomBaseDeDonnees`, ...)
+   de la table `utilisateur` interviennent dans le tableau `$utilisateurFormatTableau`, nous allons leur redonner
    des noms plus classiques :
-   1. Changer les noms des colonnes pour `immatriculation`, `couleur`, `marque` et `nbSieges`.
-      Pour ceci, dans PhpMyAdmin, cliquez sur l'onglet "Structure" de la table `voiture`, 
+   1. Changer les noms des colonnes pour `login`, `prenom` et `nom`.
+      Pour ceci, dans PhpMyAdmin, cliquez sur l'onglet "Structure" de la table `utilisateur`, 
       puis "Modifier" sur chaque colonne.
    2. Modifiez le code PHP à l'endroit où interviennent ces noms de colonnes.
-       <!-- dans Voiture::construireDepuisTableau(array $voitureFormatTableau)  -->
+       <!-- dans Utilisateur::construireDepuisTableau(array $utilisateurFormatTableau)  -->
       
 
 </div>
@@ -500,7 +499,7 @@ Le choix du format se fait avec la
 
 Dans les TDs, nous vous recommandons d'utiliser au choix :
 * le format par défaut `PDO::FETCH_BOTH` en appelant `fetch()` sans arguments,
-* le format `PDO::FETCH_ASSOC` pour ne pas avoir de cases redondantes (*e.g* `immatriculationBaseDeDonnees` et `0`).  
+* le format `PDO::FETCH_ASSOC` pour ne pas avoir de cases redondantes (*e.g* `loginBaseDeDonnees` et `0`).  
   Dans ce cas, appelez `$pdoStatement->setFetchMode(PDO::FETCH_ASSOC)` avant d'appeler `fetch()`.
 
 <!-- 
