@@ -34,7 +34,7 @@ plusieurs tables de la BDD.
 <!-- 
 **Attention :** Il est nécessaire d'avoir fini
   [la section 2.1 du TD précédent](tutorial2.html#faire-une-requête-sql-sans-paramètres),
-  qui vous faisait coder votre première requête `SELECT * FROM voiture`, pour
+  qui vous faisait coder votre première requête `SELECT * FROM utilisateur`, pour
   attaquer ce TD. 
   -->
 
@@ -80,12 +80,12 @@ Vous aurez un exercice à la fin du TD pour simuler une injection SQL.
 
 ## Les requêtes préparées
 
-Imaginez que nous ayons codé une fonction `getVoitureParImmatriculation($immatriculation)`
+Imaginez que nous ayons codé une fonction `getUtilisateurParLogin($login)`
 comme suit
 
 ```php?start_inline=1
-function getVoitureParImmatriculation(string $immatriculation) {
-    $sql = "SELECT * from voiture WHERE immatriculation='$immatriculation'";
+function getUtilisateurParLogin(string $login) {
+    $sql = "SELECT * from utilisateur WHERE login='$login'";
     $pdoStatement = ConnexionBaseDeDonnees::getPdo()->query($sql);
     return $pdoStatement->fetch();
 }
@@ -120,23 +120,23 @@ SQL
 Voici toutes ces étapes regroupées dans une fonction :
 
 ```php?start_inline=1
-function getVoitureParImmatriculation(string $immatriculation) : Voiture {
-    $sql = "SELECT * from voiture WHERE immatriculation = :immatriculationTag";
+function getUtilisateurParLogin(string $login) : Utilisateur {
+    $sql = "SELECT * from utilisateur WHERE login = :loginTag";
     // Préparation de la requête
     $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
 
     $values = array(
-        "immatriculationTag" => $immatriculation,
+        "loginTag" => $login,
         //nomdutag => valeur, ...
     );
     // On donne les valeurs et on exécute la requête
     $pdoStatement->execute($values);
 
     // On récupère les résultats comme précédemment
-    // Note: fetch() renvoie false si pas de voiture correspondante
-    $voitureFormatTableau = $pdoStatement->fetch();
+    // Note: fetch() renvoie false si pas d'utilisateur correspondant
+    $utilisateurFormatTableau = $pdoStatement->fetch();
 
-    return Voiture::construireDepuisTableau($voitureFormatTableau);
+    return Utilisateur::construireDepuisTableau($utilisateurFormatTableau);
 }
 ```
 
@@ -148,26 +148,26 @@ d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 
 <div class="exercise">
 1. Copiez/collez dans un nouveau dossier TD3 les fichiers `ConfigurationBaseDeDonnees.php`,
-   `ConnexionBaseDeDonnees.php`, `Voiture.php` et `lireVoiture.php`.
+   `ConnexionBaseDeDonnees.php`, `Utilisateur.php` et `lireUtilisateur.php`.
 
-1. Copiez la fonction précédente `getVoitureParImmatriculation` dans la classe `Voiture`
+1. Copiez la fonction précédente `getUtilisateurParLogin` dans la classe `Utilisateur`
    en la déclarant publique et statique.
 
-2. Testez la fonction `getVoitureParImmatriculation` dans un nouveau fichier `testRequetePrepare.php`.
+2. Testez la fonction `getUtilisateurParLogin` dans un nouveau fichier `testRequetePrepare.php`.
 
-3. On souhaite que `getVoitureParImmatriculation` renvoie `null` s'il n'existe pas
-   de voiture d'immatriculation `$immatriculation`. Mettez à jour le code
+3. On souhaite que `getUtilisateurParLogin` renvoie `null` s'il n'existe pas
+   d'utilisateur de login `$login`. Mettez à jour le code
    et la déclaration de type. Testez votre code.
 
 </div>
 
 **Désormais**, toutes les requêtes SQL doivent être codées en utilisant des
 requêtes préparées, sauf éventuellement des requêtes SQL sans variable comme
-`SELECT * FROM voiture`.
+`SELECT * FROM utilisateur`.
 
 <div class="exercise">
 
-2. Créez une fonction `public function ajouter() : void` dans la classe `Voiture` qui insère la voiture
+2. Créez une fonction `public function ajouter() : void` dans la classe `Utilisateur` qui insère l'utilisateur
 courante (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
 
    ```sql
@@ -179,32 +179,32 @@ courante (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion 
      `SQLSTATE[HY000]: General error`.
 
 3. Testez cette fonction dans `testRequetePrepare.php` en créant un objet de classe
-   `Voiture` et en l'enregistrant.
+   `Utilisateur` et en l'enregistrant.
 </div>
 
 <div class="exercise">
 
-Branchons maintenant notre enregistrement de voiture dans la BDD au formulaire
-de création de voiture du TD1 :
+Branchons maintenant notre enregistrement d'utilisateur dans la BDD au formulaire
+de création d'utilisateur du TD1 :
 
-2. Copiez dans le dossier TD3 les fichiers `creerVoiture.php` et
-   `formulaireVoiture.html` du TD1.
+2. Copiez dans le dossier TD3 les fichiers `creerUtilisateur.php` et
+   `formulaireUtilisateur.html` du TD1.
 
-3. Modifier la page `creerVoiture.php` de sorte qu'elle sauvegarde
-   l'objet `Voiture` reçu (en GET ou POST, au choix).
+3. Modifier la page `creerUtilisateur.php` de sorte qu'elle sauvegarde
+   l'objet `Utilisateur` reçu (en GET ou POST, au choix).
 
-4. Testez l'insertion grâce au formulaire `formulaireVoiture.html`.
+4. Testez l'insertion grâce au formulaire `formulaireUtilisateur.html`.
 
    **Remarque :** Vous aurez sans doute une erreur `Class "ConnexionBaseDeDonnees" not found`.
-   Où inclure `ConnexionBaseDeDonnees.php` : dans `Voiture.php` ou dans `creerVoiture.php` ?  
+   Où inclure `ConnexionBaseDeDonnees.php` : dans `Utilisateur.php` ou dans `creerUtilisateur.php` ?  
    Règle simple : chaque fichier doit inclure les classes dont il a besoin.
-   Comme `Voiture.php` a besoin de la classe `ConnexionBaseDeDonnees` (à cause de l'instruction `ConnexionBaseDeDonnees::getPdo()`),
-   c'est au début de `Voiture.php` qu'il faut faire `require_once "ConnexionBaseDeDonnees.php";`.
+   Comme `Utilisateur.php` a besoin de la classe `ConnexionBaseDeDonnees` (à cause de l'instruction `ConnexionBaseDeDonnees::getPdo()`),
+   c'est au début de `Utilisateur.php` qu'il faut faire `require_once "ConnexionBaseDeDonnees.php";`.
 
-5. Vérifiez dans PhpMyAdmin que les voitures sont bien sauvegardées.
+5. Vérifiez dans PhpMyAdmin que les utilisateurs sont bien sauvegardés.
 
-6. Essayez de rajouter une voiture dont un champ contient un guillemet simple
-   `'`, par exemple une marque `"Roll's Royce"`. Est-ce qu'elle a bien été
+6. Essayez de rajouter un utilisateur dont un champ contient un guillemet simple
+   `'`, par exemple un nom `"D'Artagnan"`. Est-ce qu'elle a bien été
    sauvegardée ? Si ce n'est pas le cas, c'est sûrement que vous n'avez pas
    utilisé les requêtes préparées.
 
@@ -219,7 +219,7 @@ The only exception (pun not intended) is the creation of the PDO instance, which
 -->
 
 <!-- **N'oubliez pas** de protéger tout votre code contenant du PDO
-  (`getVoitures`, ...)  avec des try - catch comme dans `ConnexionBaseDeDonnees`. En effet,
+  (`getUtilisateurs`, ...)  avec des try - catch comme dans `ConnexionBaseDeDonnees`. En effet,
   chaque ligne de code liée à PDO est susceptible de lancer une exception,
   qu'il nous faut capturer et traiter (rôle du `catch`). -->
 
@@ -285,7 +285,7 @@ Créez des tables `utilisateur` et `trajet` comme suit :
 ### Lecture des tables
 
 Au niveau du PHP, nous vous fournissons les classes de base `Utilisateur.php` et `Trajet.php`.
-Elles sont semblables à la classe `Voiture.php` que vous avez déjà codé.
+Elles sont semblables à la classe `Utilisateur.php` que vous avez déjà codé.
 
 
 <div class="exercise">
@@ -294,7 +294,7 @@ Elles sont semblables à la classe `Voiture.php` que vous avez déjà codé.
 [`Utilisateur.php`]({{site.baseurl}}/assets/TD3/Utilisateur.php) et
 [`Trajet.php`]({{site.baseurl}}/assets/TD3/Trajet.php).
 
-1. En vous inspirant de `lireVoiture.php`, créez un script qui liste les
+1. En vous inspirant de `lireUtilisateur.php`, créez un script qui liste les
    utilisateurs et les trajets.
 
 </div>
@@ -438,7 +438,7 @@ pouvez vous rafraîchir la mémoire en lisant
    * Il faut peut-être mettre à jour la classe `Utilisateur` pour qu'elle ait les
    mêmes attributs que la table `utilisateur` de la BDD. Il faut aussi mettre à
    jour le constructeur comme
-   [on l'a fait pour `Voiture`](tutorial2.html#majconst).
+   [on l'a fait pour `Utilisateur`](tutorial2.html#majconst).
    * Comme vous demandez à `fetch` de créer des objets de la classe
      `Utilisateur`, il faut inclure le fichier de classe. De manière générale,
      la bonne pratique est que chaque fichier PHP inclus les fichiers dont il a
@@ -467,42 +467,42 @@ récupère l'identifiant envoyé par le formulaire.
 Si vous êtes en avance sur les TDs, nous vous proposons de créer un exemple
 d'injection SQL. Mettons en place notre attaque SQL :
 
-1. Pour ne pas supprimer une table importante, créons une table `voiture2` qui ne craint rien :
+1. Pour ne pas supprimer une table importante, créons une table `utilisateur2` qui ne craint rien :
     * allez dans PHPMyAdmin et cliquez sur votre base de donnée (celle dont le
      nom est votre login à l'IUT)
    * Dans l'onglet SQL `Importer`, donnez le fichier
-     [`voiture2.sql`]({{site.baseurl}}/assets/TD3/voiture2.sql) qui créera une table
-     `voiture2` avec quelques voitures.
+     [`utilisateur2.sql`]({{site.baseurl}}/assets/TD3/utilisateur2.sql) qui créera une table
+     `utilisateur2` avec quelques utilisateurs.
 1. Nous vous fournissons le fichier PHP que nous allons attaquer :
 [`formGetImmatSQL.php`]({{site.baseurl}}/assets/TD3/formGetImmatSQL.php)  
-Ce fichier contient un formulaire qui affiche les informations d'une voiture
-étant donné son immatriculation.  
-**Testez** ce fichier en donnant une immatriculation existante.  
+Ce fichier contient un formulaire qui affiche les informations d'un utilisateur
+étant donné son login.  
+**Testez** ce fichier en donnant un login existante.  
 **Lisez** le code pour être sûr de bien comprendre le fonctionnement de cette
   page (et demandez au professeur si vous ne comprenez pas tout !).
 
-1. Le point clé de ce fichier est que la fonction `getVoitureParImmatriculation` a été
+1. Le point clé de ce fichier est que la fonction `getUtilisateurParLogin` a été
    codée sans requête préparée et est vulnérable aux injections SQL.
 
    ```php?start_inline=1
-   function getVoitureParImmatriculation(string $immatriculation) : ?Voiture {
-      $sql = "SELECT * from voiture2 WHERE immatriculation='$immatriculation'";
+   function getUtilisateurParLogin(string $login) : ?Utilisateur {
+      $sql = "SELECT * from utilisateur2 WHERE login='$login'";
       echo "<p>J'effectue la requête <pre>\"$sql\"</pre></p>";
       $pdoStatement = ConnexionBaseDeDonnees::getPDO()->query($sql);
-      $voitureTableau = $pdoStatement->fetch();
+      $utilisateurTableau = $pdoStatement->fetch();
 
-      if ($voitureTableau !== false) {
-            return Voiture::construireDepuisTableau($voitureTableau);
+      if ($utilisateurTableau !== false) {
+            return Utilisateur::construireDepuisTableau($utilisateurTableau);
       }
       return null;
    }
    ```
 
    **Trouvez** ce qu'il faut taper dans le formulaire pour que
-     `getVoitureParImmatriculation` vide la table `voiture2` (SQL Truncate).
+     `getUtilisateurParLogin` vide la table `utilisateur2` (SQL Truncate).
 
 <!--
-'; TRUNCATE voiture2; --
+'; TRUNCATE utilisateur2; --
 -->
 
 ### Deux cas concrets
@@ -562,12 +562,12 @@ enlèvera l'utilisateur courant du trajet sélectionné.
 
 Traitons plus systématiquement tous les cas particuliers. Pour l'instant, 
 les méthodes suivantes sont correctement codés :
-* `getVoitures()` de `Voiture.php` n'a pas de cas particulier,
-* `getVoitureParImmatriculation()` de `Voiture.php` gère une immatriculation inconnue en renvoyant la voiture `null`.
+* `getUtilisateurs()` de `Utilisateur.php` n'a pas de cas particulier,
+* `getUtilisateurParLogin()` de `Utilisateur.php` gère un login inconnue en renvoyant l'utilisateur `null`.
 
 Par contre, vous allez améliorer les méthodes suivantes :
-* `ajouter()` de `Voiture.php` ne traite pas :
-  * le cas d'une voiture existant déjà en base de donnée (`SQLSTATE[23000]: Integrity constraint violation`)
+* `ajouter()` de `Utilisateur.php` ne traite pas :
+  * le cas d'un utilisateur existant déjà en base de donnée (`SQLSTATE[23000]: Integrity constraint violation`)
   * le cas d'un problème de données :
     * chaîne de caractères trop longue (`SQLSTATE[22001]: String data, right truncation`)
     * entier trop grand (`SQLSTATE[22003]: Numeric value out of range`)
@@ -604,15 +604,6 @@ Voici une liste d'idées pour compléter notre site :
    comme passager.
 1. Similairement, nous avons oublié le conducteur de la liste des passagers d'un
    trajet. Le rajouter avec un statut à part.
-1. Nous n'avons pas intégré les voitures aux utilisateurs, ni aux trajets dans notre schéma
-   de bases de données.  
-   Que pourriez-vous faire ? À quelles relations pensez-vous entre ces tables ?
-   <!--
-   Un utilisateur possède des voitures
-   Une voiture a un seul propriétaire
-   Un Trajet nécessite une voiture
-   Une voiture peut servir dans plusieurs trajets
-    -->
     
 <!-- 1. Vous pouvez aussi éventuellement mettre en place des `trigger` dans votre SQL
    pour gérer le nombre de passagers par véhicule ... -->
