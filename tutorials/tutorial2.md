@@ -518,7 +518,7 @@ A neat helper function that returns value of the single field of returned row. V
    tous les trajets / utilisateurs. -->
 
 
-## (Optionnel) Pour utiliser une base de données locale
+<!-- ## (Optionnel) Pour utiliser une base de données locale
 
 Actuellement, votre code PHP se connecte au serveur MySql de l'IUT. Cela marche très bien tant que vous avez une connexion internet.
 
@@ -531,4 +531,4 @@ Si vous souhaitez utiliser une base de données `MySQL` en local, voici quelques
   * Pour se connecter à votre base de données dans PHP :
     * Dans `ConfigurationBaseDeDonnees.php`, l'hôte est `localhost`, la base de données est celle que vous venez de créer. Pour le login, indiquez `root`. Le mot de passe ne sera pas nécessaire.
     * Dans `ConnexionBaseDeDonnees.php`, changer l'appel au constructeur `new PDO(...)` pour donner 
-    la valeur `null` à l'argument `password`. Ceci a pour effet de vous connecter sans mot de passe.
+    la valeur `null` à l'argument `password`. Ceci a pour effet de vous connecter sans mot de passe. -->
