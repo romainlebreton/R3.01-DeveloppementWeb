@@ -204,7 +204,7 @@ cela envoie une requête HTTP de verbe `GET`.
 
 ## Écoutons le réseau
 
-<!-- Ouvrir http://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html dans le
+<!-- Ouvrir https://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html dans le
 navigateur en expliquant la requête et réponse -->
 
 1. Exemple pour observer une communication HTTP brute : 
@@ -279,7 +279,7 @@ Il est souvent associé au port 80 de la machine hôte.
 
 **Installation du serveur Web :**
 
-* Instructions au début du [TP1](./R3.01-DeveloppementWeb/tutorials/tutorial1.html)
+* Instructions au début du [TP1]({{site.baseurl}}/tutorials/tutorial1.html)
 * Avant votre première séance de TP : 
   * Installez Docker Desktop au moins 
   * Si possible, créer le conteneur Docker contenant un serveur Web
@@ -860,7 +860,7 @@ Quand on clique sur un lien avec des informations dans son *query string*.
 ```
 </div>
 <div style="flex-grow:1;display:inline;text-align:center;">
-<a href="http://webinfo.iutmontp.univ-montp2.fr/~rletud/bonjourGet.php?nom=Assin&prenom=Marc">Dis-moi bonjour !</a>
+<a href="https://webinfo.iutmontp.univ-montp2.fr/~rletud/bonjourGet.php?nom=Assin&prenom=Marc">Dis-moi bonjour !</a>
 </div>
 </div>
 
@@ -913,7 +913,7 @@ Considérons le formulaire suivant et supposons que l'utilisateur a tapé `MaDon
 ```
 </div>
 <div style="flex-grow:1;text-align:center">
-<form method="get" action="http://webinfo.iutmontp.univ-montp2.fr/~rletud/traitement.php" style="display:inline">
+<form method="get" action="https://webinfo.iutmontp.univ-montp2.fr/~rletud/traitement.php" style="display:inline">
 <input type="text" name="nom_var" value="MaDonnee">
 <input type="submit">
 </form>
