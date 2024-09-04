@@ -198,7 +198,7 @@ en pratique tout cela !
    ?**
    <!-- le serveur HTTP de l'IUT
    (à l'URL
-   [http://locahost_IUT/TD1/page1.html](http://locahost_IUT/TD1/page1.html))
+   [http://localhost_IUT/TD1/page1.html](http://localhost_IUT/TD1/page1.html))
    ?** -->
 
    **Réponse :**
