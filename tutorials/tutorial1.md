@@ -305,7 +305,7 @@ fichiers OU de façon équivalente avec une URL en `file://` comme :
    </span>
 
 6. Ouvrez cette page dans le navigateur dans un second onglet en passant par le
-   serveur HTTP de l'IUT :  
+   serveur HTTP de Docker :  
    [http://localhost/tds-php/TD1/echo.php](http://localhost/tds-php/TD1/echo.php)
 
    **Que se passe-t-il quand on demande un fichier PHP à un serveur HTTP ?**  
