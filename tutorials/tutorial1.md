@@ -384,7 +384,7 @@ Les chaînes de caractères avec ***double quotes* `"`** peuvent contenir :
 un anti-slash `\` comme ceci : `\"`, `\$` et `\\`;
 
 **Astuce :** En cas de problèmes avec le remplacement de variables, rajoutez
-des accolades autour de la variable à remplacer. Cearche aussi bien pour
+des accolades autour de la variable à remplacer. Cela marche aussi bien pour
 les tableaux `"{$tab[0]}"`, les attributs `"{$objet->attribut}"` et les
 fonctions `"{$objet->fonction()}"`.
    
@@ -555,7 +555,7 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
    <p> Utilisateur Juste Leblanc de login leblancj </p>
    ```
 
-2. Faisons maintenant ême chose mais avec un tableau associatif `utilisateur`:
+2. Faisons maintenant la même chose mais avec un tableau associatif `utilisateur`:
 
    * Créez un tableau `$utilisateur` contenant trois clés `"nom"`, `"prenom"` et
    `"login"` avec les valeurs de votre choix ;
