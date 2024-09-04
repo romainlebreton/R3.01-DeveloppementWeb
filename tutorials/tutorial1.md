@@ -124,7 +124,7 @@ TD1]({{site.baseurl}}/assets/tut1-complement.html#installer-phpstorm-sur-sa-mach
    `/home/lebreton/public_html/tds-php` par exemple.  
    **Attention :** Mettez bien l'URL de votre fork, et non l'URL du dépôt
    originel des TDs PHP.
-3. Cliquez sur *Clone*. Cochez *Trust projects in `~/public_html`* puis cliquez sur `Trust Project`.
+3. Cliquez sur *Clone*. Cochez *Trust projects in `~/public_html/tds-php`* puis cliquez sur `Trust Project`.
 </div>
 
 **Documentations de PhpStorm**
