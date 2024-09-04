@@ -725,7 +725,7 @@ n'émettent qu'un warning si le fichier n'est pas trouvé (au lieu d'une erreur)
    * Affichez cet utilisateur avec un `echo`, ce qui appellera implicitement la méthode `__toString()`.
 
 3. Testez votre page sur le serveur Web :  
-   [http://locahost/tds-php/TD1/testUtilisateur.php](http://locahost/tds-php/TD1/testUtilisateur.php)
+   [http://localhost/tds-php/TD1/testUtilisateur.php](http://localhost/tds-php/TD1/testUtilisateur.php)
    
 </div>
 
