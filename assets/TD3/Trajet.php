@@ -1,45 +1,46 @@
 <?php
 
-require_once 'Model.php';
+require_once 'ConnexionBaseDeDonnees.php';
+require_once 'Utilisateur.php';
 
 class Trajet {
 
-    private int $id;
+    private ?int $id;
     private string $depart;
     private string $arrivee;
-    private string $date;
-    private int $nbPlaces;
+    private DateTime $date;
     private int $prix;
-    private string $conducteurLogin;
+    private Utilisateur $conducteur;
+    private bool $nonFumeur;
 
     public function __construct(
-        int $id,
+        ?int $id,
         string $depart,
         string $arrivee,
-        string $date,
-        int $nbPlaces,
+        DateTime $date,
         int $prix,
-        string $conducteurLogin
+        Utilisateur $conducteur,
+        bool $nonFumeur
     )
     {
         $this->id = $id;
         $this->depart = $depart;
         $this->arrivee = $arrivee;
         $this->date = $date;
-        $this->nbPlaces = $nbPlaces;
         $this->prix = $prix;
-        $this->conducteurLogin = $conducteurLogin;
+        $this->conducteur = $conducteur;
+        $this->nonFumeur = $nonFumeur;
     }
 
-    public static function construireDepuisTableau(array $trajetTableau) : Trajet {
+    public static function construireDepuisTableauSQL(array $trajetTableau) : Trajet {
         return new Trajet(
             $trajetTableau["id"],
             $trajetTableau["depart"],
             $trajetTableau["arrivee"],
-            $trajetTableau["date"],
-            $trajetTableau["nbPlaces"],
+            $trajetTableau["date"], // À changer
             $trajetTableau["prix"],
-            $trajetTableau["conducteurLogin"],
+            $trajetTableau["conducteurLogin"], // À changer
+            $trajetTableau["nonFumeur"], // À changer ?
         );
     }
 
@@ -73,24 +74,14 @@ class Trajet {
         $this->arrivee = $arrivee;
     }
 
-    public function getDate(): string
+    public function getDate(): DateTime
     {
         return $this->date;
     }
 
-    public function setDate(string $date): void
+    public function setDate(DateTime $date): void
     {
         $this->date = $date;
-    }
-
-    public function getNbPlaces(): int
-    {
-        return $this->nbPlaces;
-    }
-
-    public function setNbPlaces(int $nbPlaces): void
-    {
-        $this->nbPlaces = $nbPlaces;
     }
 
     public function getPrix(): int
@@ -103,30 +94,43 @@ class Trajet {
         $this->prix = $prix;
     }
 
-    public function getConducteurLogin(): string
+    public function getConducteur(): Utilisateur
     {
-        return $this->conducteurLogin;
+        return $this->conducteur;
     }
 
-    public function setConducteurLogin(string $conducteurLogin): void
+    public function setConducteur(Utilisateur $conducteur): void
     {
-        $this->conducteurLogin = $conducteurLogin;
+        $this->conducteur = $conducteur;
+    }
+
+    public function isNonFumeur(): bool
+    {
+        return $this->nonFumeur;
+    }
+
+    public function setNonFumeur(bool $nonFumeur): void
+    {
+        $this->nonFumeur = $nonFumeur;
     }
 
     public function __toString()
     {
-        return "<p> Ce trajet du {$this->date} partira de {$this->depart} pour aller à {$this->arrivee}. </p>";
+        $nonFumeur = $this->nonFumeur ? " non fumeur" : " ";
+        return "<p>
+            Le trajet$nonFumeur du {$this->date->format("d/m/Y")} partira de {$this->depart} pour aller à {$this->arrivee} (conducteur: {$this->conducteur->getPrenom()} {$this->conducteur->getNom()}).
+        </p>";
     }
 
     /**
      * @return Trajet[]
      */
     public static function getTrajets() : array {
-        $pdoStatement = Model::getPDO()->query("SELECT * FROM trajet");
+        $pdoStatement = ConnexionBaseDeDonnees::getPDO()->query("SELECT * FROM trajet");
 
         $trajets = [];
         foreach($pdoStatement as $trajetFormatTableau) {
-            $trajets[] = Trajet::construireDepuisTableau($trajetFormatTableau);
+            $trajets[] = Trajet::construireDepuisTableauSQL($trajetFormatTableau);
         }
 
         return $trajets;

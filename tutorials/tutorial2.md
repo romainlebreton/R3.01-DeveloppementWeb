@@ -434,7 +434,7 @@ Nous allons maintenant isoler le code qui retourne tous les utilisateurs et en f
 1. Isolez le code qui construit l'objet `Utilisateur` à partir du tableau donné par `fetch` 
    (*e.g.* `$utilisateurFormatTableau`) dans une méthode
    ```php
-   public static function construireDepuisTableau(array $utilisateurFormatTableau) : Utilisateur {
+   public static function construireDepuisTableauSQL(array $utilisateurFormatTableau) : Utilisateur {
    // ...
    }
    ```
@@ -455,7 +455,7 @@ Nous allons maintenant isoler le code qui retourne tous les utilisateurs et en f
       Pour ceci, dans PhpMyAdmin, cliquez sur l'onglet "Structure" de la table `utilisateur`, 
       puis "Modifier" sur chaque colonne.
    2. Modifiez le code PHP à l'endroit où interviennent ces noms de colonnes.
-       <!-- dans Utilisateur::construireDepuisTableau(array $utilisateurFormatTableau)  -->
+       <!-- dans Utilisateur::construireDepuisTableauSQL(array $utilisateurFormatTableau)  -->
       
 
 </div>

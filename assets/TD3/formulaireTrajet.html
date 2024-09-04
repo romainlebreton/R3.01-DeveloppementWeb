@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title> Mon premier php </title>
+</head>
+<body>
+  <div>
+    <form method="get" action="creerTrajet.php">
+      <!-- Remplacer method="get" par method="post" pour changer le format d'envoi des données -->
+      <fieldset>
+        <legend>Mon formulaire :</legend>
+        <p>
+          <label for="depart_id">Depart</label> :
+          <input type="text" placeholder="Montpellier" name="depart" id="depart_id" required/>
+        </p>
+        <p>
+          <label for="arrivee_id">Arrivée</label> :
+          <input type="text" placeholder="Sète" name="arrivee" id="arrivee_id" required/>
+        </p>
+        <p>
+          <label for="date_id">Date</label> :
+          <input type="date" placeholder="JJ/MM/AAAA" name="date" id="date_id"  required/>
+        </p>
+        <p>
+          <label for="prix_id">Prix</label> :
+          <input type="int" placeholder="20" name="prix" id="prix_id"  required/>
+        </p>
+        <p>
+          <label for="conducteurLogin_id">Login du conducteur</label> :
+          <input type="text" placeholder="leblancj" name="conducteurLogin" id="conducteurLogin_id" required/>
+        </p>
+        <p>
+          <label for="nonFumeur_id">Non Fumeur ?</label> :
+          <input type="checkbox" placeholder="leblancj" name="nonFumeur" id="nonFumeur_id"/>
+        </p>
+        <p>
+          <input type="submit" value="Envoyer" />
+        </p>
+      </fieldset> 
+    </form>
+  </div>
+</body>
+</html>

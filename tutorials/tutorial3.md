@@ -136,7 +136,7 @@ function getUtilisateurParLogin(string $login) : Utilisateur {
     // Note: fetch() renvoie false si pas d'utilisateur correspondant
     $utilisateurFormatTableau = $pdoStatement->fetch();
 
-    return Utilisateur::construireDepuisTableau($utilisateurFormatTableau);
+    return Utilisateur::construireDepuisTableauSQL($utilisateurFormatTableau);
 }
 ```
 
@@ -168,7 +168,7 @@ requêtes préparées, sauf éventuellement des requêtes SQL sans variable comm
 <div class="exercise">
 
 2. Créez une fonction `public function ajouter() : void` dans la classe `Utilisateur` qui insère l'utilisateur
-courante (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
+courant (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
 
    ```sql
    INSERT INTO table_name (column1, column2, ...) VALUES (value1, value2, ...)
@@ -241,8 +241,11 @@ https://www.plantuml.com/plantuml/uml/JKv1IWH13BptAy8SXONPQvzMyE9DK1-GxGv3jATxI6
 **Question :** Comment implémenteriez-vous l'association *conducteur* entre
 utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
 
-**Notre solution :** Comme il n'y a qu'un conducteur par trajet, nous allons
-  rajouter un champ `conducteurLogin` à la table `trajet`.
+**Notre solution (surlignez le texte caché à droite):**
+ <span style="color:#FCFCFC">
+Comme il n'y a qu'un conducteur par trajet, nous allons rajouter un champ
+*conducteurLogin* à la table *trajet*.
+</span>
 
 
 ### Création des tables
@@ -251,9 +254,9 @@ utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
 Créez des tables `utilisateur` et `trajet` comme suit :
 
 1. Dans votre PhpMyAdmin, créez une table `utilisateur` avec les champs suivants :
-   * `login` : VARCHAR 32, clé primaire
-   * `nom` : VARCHAR 32
-   * `prenom` : VARCHAR 32
+   * `login` : VARCHAR 64, clé primaire
+   * `nom` : VARCHAR 64
+   * `prenom` : VARCHAR 64
 
    **Important :** Pour faciliter la suite du TD, mettez à la création de toutes
      vos tables `InnoDB` comme moteur de stockage, et `utf8_general_ci` comme
@@ -264,12 +267,13 @@ Créez des tables `utilisateur` et `trajet` comme suit :
 
 3. Créez une table `trajet` avec les champs suivants :
    * `id` : INT, clé primaire, qui s'auto-incrémente (voir en dessous)
-   * `depart` : VARCHAR 32
-   * `arrivee` : VARCHAR 32
+   * `depart` : VARCHAR 64
+   * `arrivee` : VARCHAR 64
    * `date` : DATE
    * `nbPlaces` : INT
    * `prix` : INT
-   * `conducteurLogin` : VARCHAR 32
+   * `conducteurLogin` : VARCHAR 64
+   * `nonFumeur` : BOOLEAN
 
    **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque nouvelle
    insertion dans la table. Pour ce faire, cochez la case `A_I` (auto-increment) pour le champ `id`.
@@ -284,27 +288,41 @@ Créez des tables `utilisateur` et `trajet` comme suit :
 
 ### Lecture des tables
 
-Au niveau du PHP, nous vous fournissons les classes de base `Utilisateur.php` et `Trajet.php`.
-Elles sont semblables à la classe `Utilisateur.php` que vous avez déjà codé.
+Au niveau du PHP, nous vous fournissons la classe de base `Trajet.php`.
+Elle est assez semblable à la classe `Utilisateur.php` que vous avez déjà codée, à quelques détails près : 
+
+1. l'attribut `$date` est stocké en tant qu'objet de la classe PHP `DateTime` ;
+2. l'attribut `$id` peut être `null` pour indiquer que l'on ne connait pas encore l'identifiant d'un trajet ;
+3. l'attribut `$conducteur` est stocké en tant qu'objet de la classe PHP `Utilisateur` ;
 
 
 <div class="exercise">
 
-1. Enregistrez les classes suivantes :
-[`Utilisateur.php`]({{site.baseurl}}/assets/TD3/Utilisateur.php) et
+1. Enregistrez la classe suivante :
+<!-- [`Utilisateur.php`]({{site.baseurl}}/assets/TD3/Utilisateur.php) et -->
 [`Trajet.php`]({{site.baseurl}}/assets/TD3/Trajet.php).
 
 1. En vous inspirant de `lireUtilisateur.php`, créez un script qui liste les
-   utilisateurs et les trajets.
+   trajets. Vous allez devoir modifier la fonction
+   `Trajet::construireDepuisTableauSQL` car
+
+   * la date renvoyée par MySQL est un `string`, alors que `Trajet` attend un
+     `DateTime`. Pour transformer une date `string` en `DateTime`, utilisez le
+     constructeur `new DateTime($dateString)`.
+   * MySQL ne renvoie que le login du conducteur tandis que `Trajet` attend un
+     `Utilisateur`. Utilisez la méthode `Utilisateur::getUtilisateurParLogin`.
+   * MySQL renvoie le booléen `nonFumeur` comme un entier 0 ou 1. Par chance,
+     PHP converti automatiquement les entiers en booléen donc il n'y a rien à
+     faire.
 
 </div>
 
 
 ### Contrainte sur le conducteur
 
-On souhaite que le champ `trajet.conducteurLogin` corresponde à tout moment à un
-login de conducteur `utilisateur.login`. Vous souvenez-vous quelle est la
-fonctionnalité des bases de données qui permet ceci ?
+On souhaite que le champ `trajet.conducteurLogin` corresponde à tout moment au
+login `utilisateur.login` d'un conducteur existant. Vous souvenez-vous quelle
+est la fonctionnalité des bases de données qui permet ceci ?
 
 **Réponse (surlignez le texte caché à droite):** <span style="color:#FCFCFC">Il faut utiliser des clés
   étrangères.</span>
@@ -350,6 +368,43 @@ Plutôt que le texte: "Reprendre les classes du TP précédent sur le covoiturag
 -> Il faudrait donner soit le diagramme de classe, soit mieux entités/associations de trajet (annonce), voiture et utilisateur.
 -->
 
+### Création d'un trajet
+
+La création d'un trajet à partir d'un formulaire va nous permettre qu'un
+formulaire HTML, une classe PHP et une base de donnée ne stockent pas certaines
+données de la même façon.
+
+<div class="exercise">
+
+1. Nous vous fournissons le formulaire de création de trajets. Enregistrez [`formulaireTrajet.php`]({{site.baseurl}}/assets/TD3/formulaireTrajet.php).  
+   **Notez** que la date est un `<input type="date">`, et que le booléen `nonFumeur` est un `<input type="checkbox">`.
+2. En vous inspirant de `creerUtilisateur.php`, créez le script
+   `creerTrajet.php` qui traite les données du formulaire précédent. Les 2 étapes clés sont la création d'un objet `Trajet` et l'appel à la méthode `Trajet::ajouter()`. Voici comment faire : 
+
+   1. À la création de l'objet `Trajet`
+      * mettez `id` à `null` pour indiquer que vous ne connaissez pas son identifiant ;
+      * le formulaire renvoie une date sous forme de `string` alors que la date du
+        trajet doit être un objet `DateTime`. Appliquez la transformation de l'exercice sur la lecture des tables.
+      * le formulaire ne renvoie que le login du conducteur tandis que `Trajet` attend un
+        `Utilisateur`. Appliquez la transformation de l'exercice sur la lecture des tables.
+      * le formulaire indique le booléen `nonFumeur` en remplissant, ou pas, la
+        case `$_GET["nonFumeur"]`. Utilisez donc `isset($_GET["nonFumeur"])` pour
+        lire le booléen envoyé par le formulaire.
+   
+   2. Créez la méthode `Trajet::ajouter()`.  
+      La requête `INSERT` doit remplir tous les champs sauf `id`, qui sera
+      rempli automatiquement par MySQL.  
+      Pour le tableau de valeurs donné à la requête préparée
+      * MySQL attend une date `string`. Si `$date` est un `DateTime`, alors
+        `$date->format("Y-m-d")` permet de la convertir en `string` ;
+      * MySQL attend seulement le login du conducteur ;
+      * MySQL stocke le booléen `nonFumeur` comme un entier. Il faut ainsi
+        donner à MySQL `1` si le trajet est non-fumeur, ou `0` sinon.
+3. Testez l'enchainement du formulaire de création et du script
+   `creerUtilisateur.php`. Vérifiez dans votre base de données que le trajet est
+   bien créé.
+
+</div>
 
 ## Association entre utilisateurs et trajets
 
@@ -358,7 +413,10 @@ Plutôt que le texte: "Reprendre les classes du TP précédent sur le covoiturag
 **Question :** Comment implémenteriez-vous l'association *passager* entre
 utilisateurs et trajets dans la BDD en tenant compte de ses multiplicités ?
 
-**Réponse :** <span style="color:#FCFCFC">Comme la relation *passager* est non
+<img alt="Diagramme entité association"
+src="https://www.plantuml.com/plantuml/png/JKv1IWH13BptAy8SXONPQvzMyE9DK1-GxGv3jATxI6T451_aE_oOcTqToA7fLAKgLQUkABhE9VHthWiApb1RfauB7CVHiQbWx_UgmkTLwJ6r-inV16C8bmsyAXVkgBGAV8S3b3PnZT3DK2V3jSqEBK8RSSC_-v4NmJVIYvypHE2gDcQo2WhEZYByyVTBdike6twmRuixFnLCrFSZbiYVDs1nlkrmDnpixU4H5gk24ubNnNYj3CFHgsDqGQdLlAPD7Kvaurp-0G00" style="margin-left:auto;margin-right:auto;display:block;">
+
+**Réponse (surlignez le texte caché à droite) :** <span style="color:#FCFCFC">Comme la relation *passager* est non
 bornée (on ne limite pas le nombre d'utilisateurs d'un trajet et inversement), on
 utilise une table de jointure.</span>
 
@@ -366,7 +424,7 @@ utilise une table de jointure.</span>
 Nous choisissons donc de créer une table `passager` qui contiendra deux champs :
 
 * l'identifiant INT `trajetId` d'un trajet et
-* l'identifiant VARCHAR(32) `passagerLogin` d'un utilisateur.
+* l'identifiant VARCHAR(64) `passagerLogin` d'un utilisateur.
 
 Pour inscrire un utilisateur à un trajet, il suffit d'écrire la ligne
 correspondante dans la table `passager` avec leur `passagerLogin` et leur
@@ -375,9 +433,9 @@ correspondante dans la table `passager` avec leur `passagerLogin` et leur
 **Question :** Quelle est la clé primaire de la table `passager` ?
 
 **Réponse :** <span style="color:#FCFCFC">Le couple
-  (trajetId,passagerLogin). Si vous choisissez trajetId seul comme clé
+  (*trajetId*, *passagerLogin*). Si vous choisissez *trajetId* seul comme clé
   primaire, un trajet aura au plus un passager, et si vous choisissez
-  passagerLogin, chaque utilisateur ne pourra être passager que sur un
+  *passagerLogin*, chaque utilisateur ne pourra être passager que sur un
   unique trajet.</span>
 
 <div class="exercise">
@@ -492,7 +550,7 @@ Ce fichier contient un formulaire qui affiche les informations d'un utilisateur
       $utilisateurTableau = $pdoStatement->fetch();
 
       if ($utilisateurTableau !== false) {
-            return Utilisateur::construireDepuisTableau($utilisateurTableau);
+            return Utilisateur::construireDepuisTableauSQL($utilisateurTableau);
       }
       return null;
    }
