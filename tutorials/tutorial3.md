@@ -376,7 +376,7 @@ données de la même façon.
 
 <div class="exercise">
 
-1. Nous vous fournissons le formulaire de création de trajets. Enregistrez [`formulaireTrajet.php`]({{site.baseurl}}/assets/TD3/formulaireTrajet.php).  
+1. Nous vous fournissons le formulaire de création de trajets. Enregistrez [`formulaireTrajet.html`]({{site.baseurl}}/assets/TD3/formulaireTrajet.html).  
    **Notez** que la date est un `<input type="date">`, et que le booléen `nonFumeur` est un `<input type="checkbox">`.
 2. En vous inspirant de `creerUtilisateur.php`, créez le script
    `creerTrajet.php` qui traite les données du formulaire précédent. Les 2 étapes clés sont la création d'un objet `Trajet` et l'appel à la méthode `Trajet::ajouter()`. Voici comment faire : 
