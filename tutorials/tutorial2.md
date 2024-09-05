@@ -272,15 +272,14 @@ class ConnexionBaseDeDonnees {
 
 1. Mettez à jour votre classe `ConnexionBaseDeDonnees` pour qu'elle suive le design pattern *Singleton*.
 2. Mettez à jour `testConnexionBaseDeDonnees.php` et vérifiez que tout marche bien.
-3. Pour que PhpStorm comprenne que `ConnexionBaseDeDonnees::getPdo()` renvoie un objet de la classe `PDO`,
+<!-- 3. Pour que PhpStorm comprenne que `ConnexionBaseDeDonnees::getPdo()` renvoie un objet de la classe `PDO`,
    et qu'il puisse nous proposer l'autocomplétion des méthodes de cette classe, nous devons déclarer
    le type de retour.  
    Si ce n'est pas déjà fait, **déclarez** que l'attribut `$pdo` et la valeur de retour de `ConnexionBaseDeDonnees::getPdo()` sont de type
    `PDO`.  
    **Vérifiez** que l'autocomplétion de PhpStorm s'est améliorée dans `testConnexionBaseDeDonnees.php`.
-
-4. **Déclarez** que l'attribut `$instance` et la valeur de retour de `ConnexionBaseDeDonnees::getInstance()` sont de type
-   `ConnexionBaseDeDonnees`.  
+-->
+3. **Déclarez** que l'attribut `$instance` est de type `ConnexionBaseDeDonnees`.  
    L'IDE indique un problème : L'attribut `$instance` est initialisé à `null`, qui n'est pas de type
    `ConnexionBaseDeDonnees` en PHP (contrairement à Java), mais de type `null`.  
    **Corrigez** ce problème en indiquant le type `?ConnexionBaseDeDonnees` pour l'attribut `$instance`. En effet, `?ConnexionBaseDeDonnees` est un raccourci pour le type `ConnexionBaseDeDonnees|null`, qui veut dire `ConnexionBaseDeDonnees` ou `null`.
