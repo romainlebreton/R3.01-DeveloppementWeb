@@ -317,7 +317,7 @@ récupérer et traiter. Placez donc votre `new PDO(...)` au sein d'un try - catc
    Dans un vrai site web "en production", il faudrait indiquer à l'utilisateur
    qu'il a fait une erreur de saisie ou que le site est actuellement
    indisponible, ceci en fonction du détail de l'exception qui est levée.  
-   Il est important que toutes lignes de codes utilisant `PDO` soit dans un `try` -
+   Il est important que toutes lignes de codes utilisant `PDO` soient dans un `try` -
    `catch` afin de capturer les exceptions. -->
 
 Pour avoir plus de messages d'erreur de `PDO` et qu'il gère mieux l'UTF-8,
@@ -326,7 +326,7 @@ Pour avoir plus de messages d'erreur de `PDO` et qu'il gère mieux l'UTF-8,
 ```php?start_inline=1
 // Connexion à la base de données            
 // Le dernier argument sert à ce que toutes les chaines de caractères 
-// en entrée et sortie de MySql soit dans le codage UTF-8
+// en entrée et sortie de MySql soient dans le codage UTF-8
 $this->pdo = new PDO("mysql:host=$nomHote;port=$port;dbname=$nomBaseDeDonnees", $login, $motDePasse,
                      array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 
