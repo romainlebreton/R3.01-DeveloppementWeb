@@ -28,12 +28,11 @@ Cours à l'IUT de Montpellier - 2ème année
 
 ### Introduction à PHP et relation à la base de données (2 semaines)
 
-* [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html) (durée indicative ≃ 2h) 
-* [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html) (durée indicative ≃ 3h) 
-* TD 3 -- Requêtes préparées et association de classes (durée indicative ≃ 3h) 
+* [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html) (durée indicative ≃ 3h) 
+* [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html) (durée indicative ≃ 2h) 
+* [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html) (durée indicative ≃ 3h) 
 
 <!--
-* [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html) (durée indicative ≃ 3h) 
 
 ### Architecture Modèle - Vue - Contrôleur (3 semaines)
 
@@ -56,12 +55,16 @@ La dernière séance de PHP (fin de la semaine du lundi 23 octobre) sera dédié
 * [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html) (durée indicative ≃ 4h) 
 * [TD 9 -- Messages Flash](tutorials/tutorial9.html) (durée indicative ≃ 2h) 
 
+-->
+
+
 ## Notes complémentaires aux TDs
 
-* Pour l'installation d'un serveur Web sur vos machines personnelles, allez voir [la dernière section du TD1](tutorials/tutorial1.html#travailler-depuis-chez-vous-en-local).
 * TD1 -- [Encodage des caractères, serveur HTTP de l'IUT et note sur les URLs]({{site.baseurl}}/assets/tut1-complement.html)
 * TD2 -- [Attributs et méthodes statiques]({{site.baseurl}}/assets/tut2-complement.html)
 * TD3 -- [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
+
+<!--
 * TD4 -- [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html)
 * TD5 -- [`.htaccess`, namespace et autoloader]({{site.baseurl}}/assets/tut5-complement.html)
 * TD7 -- [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html)  

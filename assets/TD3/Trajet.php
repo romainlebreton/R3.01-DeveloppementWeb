@@ -125,7 +125,7 @@ class Trajet {
     /**
      * @return Trajet[]
      */
-    public static function getTrajets() : array {
+    public static function recupererTrajets() : array {
         $pdoStatement = ConnexionBaseDeDonnees::getPDO()->query("SELECT * FROM trajet");
 
         $trajets = [];

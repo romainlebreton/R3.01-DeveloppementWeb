@@ -795,7 +795,7 @@ function ServeurWeb(Requete $requete) : Reponse {
 
 <div class="exercise">
 
-1. Créez un fichier **formulaireUtilisateur.html**, réutilisez l'entête du fichier
+1. Créez un fichier **formulaireCreationUtilisateur.html**, réutilisez l'entête du fichier
    **echo.php** et dans le body, insérez le formulaire suivant :
 
    ```html

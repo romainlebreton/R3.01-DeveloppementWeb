@@ -9,36 +9,33 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Structure de la table `voiture2`
+-- Structure de la table `utilisateur2`
 --
 
-CREATE TABLE `voiture2` (
-  `immatriculation` varchar(8) NOT NULL,
-  `marque` varchar(25) NOT NULL,
-  `couleur` varchar(12) NOT NULL,
-  `nbSieges` int NOT NULL
+CREATE TABLE `utilisateur2` (
+  `login` varchar(64) NOT NULL,
+  `nom` varchar(64) NOT NULL,
+  `prenom` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Déchargement des données de la table `voiture2`
+-- Déchargement des données de la table `utilisateur2`
 --
 
-INSERT INTO `voiture2` (`immatriculation`, `marque`, `couleur`, `nbSieges`) VALUES
-('12345678', 'Ferrari', 'vert', 2),
-('259641', 'Renault', 'Noire', 5),
-('710097', 'Tesla', 'Bleu nuit', 4),
-('8369210', 'Tesla', 'Bleu nuit', 4),
-('abc124az', 'Renault', 'bleu', 5);
+INSERT INTO `utilisateur2` (`login`, `nom`, `prenom`) VALUES
+('leblancj', 'Leblanc', 'Juste'),
+('assinm', 'Assin', 'Marc'),
+('pennec', 'Penneflamme', 'Cathy');
 
 --
 -- Index pour les tables déchargées
 --
 
 --
--- Index pour la table `voiture2`
+-- Index pour la table `utilisateur2`
 --
-ALTER TABLE `voiture2`
-  ADD PRIMARY KEY (`immatriculation`);
+ALTER TABLE `utilisateur2`
+  ADD PRIMARY KEY (`login`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

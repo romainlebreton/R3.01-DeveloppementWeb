@@ -80,11 +80,11 @@ Vous aurez un exercice à la fin du TD pour simuler une injection SQL.
 
 ## Les requêtes préparées
 
-Imaginez que nous ayons codé une fonction `getUtilisateurParLogin($login)`
+Imaginez que nous ayons codé une fonction `recupererUtilisateurParLogin($login)`
 comme suit
 
 ```php?start_inline=1
-function getUtilisateurParLogin(string $login) {
+function recupererUtilisateurParLogin(string $login) {
     $sql = "SELECT * from utilisateur WHERE login='$login'";
     $pdoStatement = ConnexionBaseDeDonnees::getPdo()->query($sql);
     return $pdoStatement->fetch();
@@ -120,7 +120,7 @@ SQL
 Voici toutes ces étapes regroupées dans une fonction :
 
 ```php?start_inline=1
-function getUtilisateurParLogin(string $login) : Utilisateur {
+function recupererUtilisateurParLogin(string $login) : Utilisateur {
     $sql = "SELECT * from utilisateur WHERE login = :loginTag";
     // Préparation de la requête
     $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
@@ -148,14 +148,14 @@ d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 
 <div class="exercise">
 1. Copiez/collez dans un nouveau dossier TD3 les fichiers `ConfigurationBaseDeDonnees.php`,
-   `ConnexionBaseDeDonnees.php`, `Utilisateur.php` et `lireUtilisateur.php`.
+   `ConnexionBaseDeDonnees.php`, `Utilisateur.php` et `lireUtilisateurs.php`.
 
-1. Copiez la fonction précédente `getUtilisateurParLogin` dans la classe `Utilisateur`
+1. Copiez la fonction précédente `recupererUtilisateurParLogin` dans la classe `Utilisateur`
    en la déclarant publique et statique.
 
-2. Testez la fonction `getUtilisateurParLogin` dans un nouveau fichier `testRequetePrepare.php`.
+2. Testez la fonction `recupererUtilisateurParLogin` dans un nouveau fichier `testRequetePrepare.php`.
 
-3. On souhaite que `getUtilisateurParLogin` renvoie `null` s'il n'existe pas
+3. On souhaite que `recupererUtilisateurParLogin` renvoie `null` s'il n'existe pas
    d'utilisateur de login `$login`. Mettez à jour le code
    et la déclaration de type. Testez votre code.
 
@@ -188,12 +188,12 @@ Branchons maintenant notre enregistrement d'utilisateur dans la BDD au formulair
 de création d'utilisateur du TD1 :
 
 2. Copiez dans le dossier TD3 les fichiers `creerUtilisateur.php` et
-   `formulaireUtilisateur.html` du TD1.
+   `formulaireCreationUtilisateur.html` du TD1.
 
 3. Modifier la page `creerUtilisateur.php` de sorte qu'elle sauvegarde
    l'objet `Utilisateur` reçu (en GET ou POST, au choix).
 
-4. Testez l'insertion grâce au formulaire `formulaireUtilisateur.html`.
+4. Testez l'insertion grâce au formulaire `formulaireCreationUtilisateur.html`.
 
    **Remarque :** Vous aurez sans doute une erreur `Class "ConnexionBaseDeDonnees" not found`.
    Où inclure `ConnexionBaseDeDonnees.php` : dans `Utilisateur.php` ou dans `creerUtilisateur.php` ?  
@@ -219,7 +219,7 @@ The only exception (pun not intended) is the creation of the PDO instance, which
 -->
 
 <!-- **N'oubliez pas** de protéger tout votre code contenant du PDO
-  (`getUtilisateurs`, ...)  avec des try - catch comme dans `ConnexionBaseDeDonnees`. En effet,
+  (`recupererUtilisateurs`, ...)  avec des try - catch comme dans `ConnexionBaseDeDonnees`. En effet,
   chaque ligne de code liée à PDO est susceptible de lancer une exception,
   qu'il nous faut capturer et traiter (rôle du `catch`). -->
 
@@ -241,7 +241,7 @@ https://www.plantuml.com/plantuml/uml/JKv1IWH13BptAy8SXONPQvzMyE9DK1-GxGv3jATxI6
 **Question :** Comment implémenteriez-vous l'association *conducteur* entre
 utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
 
-**Notre solution (surlignez le texte caché à droite):**
+**Notre solution (surlignez le texte caché à droite) :**
  <span style="color:#FCFCFC">
 Comme il n'y a qu'un conducteur par trajet, nous allons rajouter un champ
 *conducteurLogin* à la table *trajet*.
@@ -302,7 +302,7 @@ Elle est assez semblable à la classe `Utilisateur.php` que vous avez déjà cod
 <!-- [`Utilisateur.php`]({{site.baseurl}}/assets/TD3/Utilisateur.php) et -->
 [`Trajet.php`]({{site.baseurl}}/assets/TD3/Trajet.php).
 
-1. En vous inspirant de `lireUtilisateur.php`, créez un script qui liste les
+1. En vous inspirant de `lireUtilisateurs.php`, créez un script qui liste les
    trajets. Vous allez devoir modifier la fonction
    `Trajet::construireDepuisTableauSQL` car
 
@@ -310,7 +310,7 @@ Elle est assez semblable à la classe `Utilisateur.php` que vous avez déjà cod
      `DateTime`. Pour transformer une date `string` en `DateTime`, utilisez le
      constructeur `new DateTime($dateString)`.
    * MySQL ne renvoie que le login du conducteur tandis que `Trajet` attend un
-     `Utilisateur`. Utilisez la méthode `Utilisateur::getUtilisateurParLogin`.
+     `Utilisateur`. Utilisez la méthode `Utilisateur::recupererUtilisateurParLogin`.
    * MySQL renvoie le booléen `nonFumeur` comme un entier 0 ou 1. Par chance,
      PHP converti automatiquement les entiers en booléen donc il n'y a rien à
      faire.
@@ -324,7 +324,7 @@ On souhaite que le champ `trajet.conducteurLogin` corresponde à tout moment au
 login `utilisateur.login` d'un conducteur existant. Vous souvenez-vous quelle
 est la fonctionnalité des bases de données qui permet ceci ?
 
-**Réponse (surlignez le texte caché à droite):** <span style="color:#FCFCFC">Il faut utiliser des clés
+**Réponse (surlignez le texte caché à droite) :** <span style="color:#FCFCFC">Il faut utiliser des clés
   étrangères.</span>
 
 <div class="exercise">
@@ -351,7 +351,7 @@ Voici les étapes pour faire ce lien :
    gestion des clés étrangères.
 
    Nous allons utiliser le comportement `ON DELETE CASCADE` pour qu'une
-   association soit supprimé si la clé étrangère est supprimée, et le
+   association soit supprimée si la clé étrangère est supprimée, et le
    comportement `ON UPDATE CASCADE` pour qu'une association soit mise à jour si
    la clé étrangère est mise à jour.
 
@@ -376,7 +376,7 @@ stockent pas certaines données de la même façon.
 
 <div class="exercise">
 
-1. Nous vous fournissons le formulaire de création de trajets. Enregistrez [`formulaireTrajet.html`]({{site.baseurl}}/assets/TD3/formulaireTrajet.html).  
+1. Nous vous fournissons le formulaire de création de trajets. Enregistrez [`formulaireCreationTrajet.html`]({{site.baseurl}}/assets/TD3/formulaireCreationTrajet.html).  
    **Notez** que la date est un `<input type="date">`, et que le booléen `nonFumeur` est un `<input type="checkbox">`.
 2. En vous inspirant de `creerUtilisateur.php`, créez le script
    `creerTrajet.php` qui traite les données du formulaire précédent. Les 2 étapes clés sont la création d'un objet `Trajet` et l'appel à la méthode `Trajet::ajouter()`. Voici comment faire : 
@@ -406,7 +406,7 @@ stockent pas certaines données de la même façon.
 
 </div>
 
-## Association entre utilisateurs et trajets
+## L'association `passager` entre utilisateurs et trajets
 
 ### Dans la base de donnée
 
@@ -432,7 +432,7 @@ correspondante dans la table `passager` avec leur `passagerLogin` et leur
 
 **Question :** Quelle est la clé primaire de la table `passager` ?
 
-**Réponse :** <span style="color:#FCFCFC">Le couple
+**Réponse (surlignez à droite) :** <span style="color:#FCFCFC">Le couple
   (*trajetId*, *passagerLogin*). Si vous choisissez *trajetId* seul comme clé
   primaire, un trajet aura au plus un passager, et si vous choisissez
   *passagerLogin*, chaque utilisateur ne pourra être passager que sur un
@@ -467,8 +467,6 @@ testant le comportement `ON DELETE CASCADE`. Pour cela :
 
 ### Au niveau du PHP
 
-#### Liste des utilisateurs d'un trajet et inversement
-
 Nous allons maintenant pouvoir compléter le code PHP de notre site pour gérer
 l'association. Commençons par rajouter des fonctions à nos classes `Utilisateur`
 et `Trajet`.
@@ -481,48 +479,77 @@ pouvez vous rafraîchir la mémoire en lisant
 
 <div class="exercise">
 
-1. Créer une fonction `public static function getPassagers(int $id): array` dans `Trajet.php` qui
-   prendra en entrée un identifiant de trajet. Cette fonction devra retourner un
-   tableau d'objets de classe `Utilisateur` correspondant aux utilisateurs
-   inscrits au trajet d'identifiant `$id` en faisant la requête adéquate.
+1. Codez une fonction `recupererPassagers()` dans `Trajet.php` qui retournera un
+   tableau d'`Utilisateur` correspondant aux passagers du trajet courant en
+   faisant la requête adéquate. Voici la signature de la fonction.
 
-   <!-- Si on avait codé getTrajetById avant, on pourrait coder $t->getPassagers() ? -->
+   <!-- Si on avait codé getTrajetById avant, on pourrait coder $t->recupererPassagers() ? -->
+
+   ```php
+    /**
+     * @return Utilisateur[]
+     */
+    private function recupererPassagers() : array {
+      // À coder
+    }
+    ```   
 
    **Indices :**
 
    * Utiliser une requête à base d'`INNER JOIN`. Une bonne stratégie
    pour développer la bonne requête est d'essayer des requêtes dans l'onglet SQL de
    PhpMyAdmin jusqu'à tenir la bonne.
-   * Il faut peut-être mettre à jour la classe `Utilisateur` pour qu'elle ait les
-   mêmes attributs que la table `utilisateur` de la BDD. Il faut aussi mettre à
-   jour le constructeur comme
-   [on l'a fait pour `Utilisateur`](tutorial2.html#majconst).
+   * Inspirez-vous de `Utilisateur::recupererUtilisateurs` pour la création d'objets
+     `Utilisateurs` depuis une réponse SQL.
    * Comme vous demandez à `fetch` de créer des objets de la classe
      `Utilisateur`, il faut inclure le fichier de classe. De manière générale,
      la bonne pratique est que chaque fichier PHP inclus les fichiers dont il a
      besoin. C'est plus sûr que de compter sur les autres fichiers. Et le `once`
-     du `require_once` vous mets à l'abri d'une inclusion multiple du même
+     du `require_once` vous met à l'abri d'une inclusion multiple du même
      fichier de déclaration de classe.
+   * **Avez-vous** bien utilisé une requête préparée dans `recupererPassagers` ?
 
-2. Testons votre fonction. Créez une page `testGetPassagers.php` qui
+2. Nous allons stocker la liste des passagers comme un attribut de la classe
+   `Trajet`. 
+   1.  Rajoutez l'attribut
+      ```php
+      /**
+      * @var Utilisateur[]
+      */
+      private array $passagers;
+      ```
+   2. Mettez à jour le constructeur pour qu'il gère cet attribut.
+   3. Générez à l'aide de PHPStorm les accesseurs `getPassagers` et
+      `setPassagers`. 
+   3. Modifiez la fonction `construireDepuisTableauSQL` pour qu'elle instancie
+      le nouveau `$trajet` avec une liste des passagers vide, qu'elle récupère
+      les passagers de ce trajet, et qu'elle stocke ces passagers dans
+      l'attribut. 
 
-   1. charge les classes nécessaires,
-   3. appelle la fonction `getPassagers($id)` avec un identifiant de trajet
-      existant,
-   4. affiche les utilisateurs renvoyés.
-
-3. Créez un formulaire `formGetPassagers.php` de méthode `GET` avec un champ texte
-où l'on rentrera l'identifiant d'un trajet. La page de traitement de ce
-formulaire sera `testGetPassagers.php`. Modifiez `testGetPassagers.php` pour qu'il
-récupère l'identifiant envoyé par le formulaire.
-
-**Avez-vous** bien utilisé une requête préparée dans `getPassagers` ?
+3. Testez votre code en modifiant `lireTrajets.php` pour qu'il affiche pour
+   chaque trajet sa liste des passagers.
 
 </div>
 
+**Remarque :** L'annotation avant la fonction `recupererPassagers`
+```php
+ /**
+  * @return Utilisateur[]
+  */
+```
+est de la documentation PHP ([PHPDoc](https://www.phpdoc.org/)). Elle permet
+d'indiquer à l'IDE que la fonction renverra un tableau d'`Utilisateur`. PHPDoc
+est dans ce cas plus précis que le type de retour de la fonction : `array`. Idem pour 
+```php
+/**
+* @var Utilisateur[]
+*/
+```
+qui indique que la variable suivante sera un tableau d'`Utilisateur`.
+
 ## Créez une injection SQL
 
-Si vous êtes en avance sur les TDs, nous vous proposons de créer un exemple
+Nous vous proposons de créer un exemple
 d'injection SQL. Mettons en place notre attaque SQL :
 
 1. Pour ne pas supprimer une table importante, créons une table `utilisateur2` qui ne craint rien :
@@ -532,20 +559,24 @@ d'injection SQL. Mettons en place notre attaque SQL :
      [`utilisateur2.sql`]({{site.baseurl}}/assets/TD3/utilisateur2.sql) qui créera une table
      `utilisateur2` avec quelques utilisateurs.
 1. Nous vous fournissons le fichier PHP que nous allons attaquer :
-[`formGetImmatSQL.php`]({{site.baseurl}}/assets/TD3/formGetImmatSQL.php)  
+[`formulaireLectureUtilisateur.php`]({{site.baseurl}}/assets/TD3/formulaireLectureUtilisateur.php)  
 Ce fichier contient un formulaire qui affiche les informations d'un utilisateur
 étant donné son login.  
-**Testez** ce fichier en donnant un login existante.  
+**Testez** ce fichier en donnant un login existant.  
 **Lisez** le code pour être sûr de bien comprendre le fonctionnement de cette
   page (et demandez au professeur si vous ne comprenez pas tout !).
 
-1. Le point clé de ce fichier est que la fonction `getUtilisateurParLogin` a été
-   codée sans requête préparée et est vulnérable aux injections SQL.
+1. **Trouvez** ce qu'il faut taper dans le formulaire pour que
+   `recupererUtilisateurParLogin` vide la table `utilisateur2` (SQL Truncate).
+     
+   **Aide :**  Le point clé de ce fichier est que la fonction
+   `recupererUtilisateurParLogin` a été codée sans requête préparée et est
+   vulnérable aux injections SQL.
 
    ```php?start_inline=1
-   function getUtilisateurParLogin(string $login) : ?Utilisateur {
+   function recupererUtilisateurParLogin(string $login) : ?Utilisateur {
       $sql = "SELECT * from utilisateur2 WHERE login='$login'";
-      echo "<p>J'effectue la requête <pre>\"$sql\"</pre></p>";
+      echo "<p>J'effectue la requête <pre>$sql</pre></p>";
       $pdoStatement = ConnexionBaseDeDonnees::getPDO()->query($sql);
       $utilisateurTableau = $pdoStatement->fetch();
 
@@ -556,11 +587,10 @@ Ce fichier contient un formulaire qui affiche les informations d'un utilisateur
    }
    ```
 
-   **Trouvez** ce qu'il faut taper dans le formulaire pour que
-     `getUtilisateurParLogin` vide la table `utilisateur2` (SQL Truncate).
+   
 
 <!--
-'; TRUNCATE utilisateur2; --
+'; TRUNCATE TABLE utilisateur2; --
 -->
 
 ### Deux cas concrets
@@ -579,23 +609,73 @@ Ou un petit XKCD
 
 ## Et si le temps le permet...
 
-Si vous êtes bien avancés sur les TDs, voici une liste d'idées pour compléter notre
-site.
+Si vous êtes bien avancés sur les TDs, voici une liste d'idées pour compléter
+notre site. Certaines de ces idées pourraient être particulièrement utiles pour
+la SAE3A.
 
-### Liste des trajets d'un utilisateur
+### Chargement paresseux des trajets d'un utilisateur en tant que passager
 
-De la même manière que dans l'exercice sur `getPassagers()`, utilisons une jointure SQL pour trouver tous les trajets d'un utilisateur.
+De la même manière que dans l'exercice sur `recupererPassagers()`, utilisons une
+jointure SQL pour trouver tous les trajets d'un utilisateur.
+
+La nouveauté de cet exercice est que nous ne récupèrerons pas les passagers d'un
+utilisateur systématiquement lors d'un appel à `construireDepuisTableauSQL`
+(chargement hâtif). Nous récupèrerons les passagers uniquement si
+l'accesseur `getTrajetsCommePassager` est appelé. De plus, nous stockerons les
+passagers dans un attribut afin de ne pas les récupérer plusieurs fois. Du coup,
+la liste des passagers sera initialisée à `null` pour indiquer que la liste n'a
+pas encore été chargée.
 
 <div class="exercise">
 
-1. Créez une `public static function getTrajets(string $login): array`
-dans `Utilisateur.php` qui prendra en entrée un login d'utilisateur `$login` et
-retourne les trajets auxquels il est inscrit en tant que passager.
+1. Créez une fonction `recupererTrajetsCommePassager()` dans `Utilisateur.php`
+   qui retournera les trajets auxquels l'utilisateur courant est inscrit en tant
+   que passager. Voici la signature de la fonction :
 
-2. Créez une page de test `testGetTrajets.php` et un
-formulaire `formGetTrajets.php`.
+   ```php
+   /**
+    * @return Trajet[]
+    */
+   private function recupererTrajetsCommePassager() : array
+   ```
 
+2. Nous allons stocker la liste des trajets comme un attribut de la classe
+   `Utilisateur`. 
+   1.  Rajoutez l'attribut
+      ```php
+      /**
+      * @var Trajet[]|null
+      */
+      private ?array $trajetsCommePassager;
+      ```
+   2. Mettez à jour le constructeur pour qu'il initialise cet attribut à `null`.
+   3. Générez à l'aide de PHPStorm les accesseurs `getTrajetsCommePassager` et
+      `setTrajetsCommeConducteur`.  
+   4. Modifiez le code de `getTrajetsCommePassager` pour que, si
+      `$trajetsCommePassager` est `null`, alors on l'initialise à l'aide de `recupererTrajetsCommePassager`. 
+
+3. Testez votre code en modifiant `lireUtilisateurs.php` pour qu'il affiche pour
+   chaque utilisateur la liste de ses trajets en tant que passager.
 </div>
+
+**Attention :** 
+* Si on code la liste des trajets d'un utilisateur en chargement hâtif, on
+  risque de causer une boucle infinie. En effet, le chargement d'un trajet, va
+  impliquer le chargement de tous ses passagers (chargement hâtif), qui va
+  charger les trajets (chargement hâtif) de tous ces passagers, qui va charger
+  les passagers de tous les trajets de tous les passagers...
+* Deux solutions existent : 
+  * Éviter que les associations en chargement hâtif forment une boucle entre
+    plusieurs classes comme précédemment. Pour cela, codez assez d'associations
+    en chargement paresseux pour éviter les boucles. Ou ne codez pas que les
+    associations dont vous aurez besoin dans l'une de vos pages Web.
+  * (hors programme) Mettre en place un cache au niveau de l'accès à la base de
+    données. Cette solution est utilisée dans les solutions professionnelles de
+    gestion des bases de données appelées
+    [*ORM*](https://fr.wikipedia.org/wiki/Mapping_objet-relationnel) (*cf.*
+    Hibernate au semestre 3, ou Doctrine au semestre 5). Cette stratégie est par
+    exemple expliqué dans la [documentation de
+    Doctrine](https://www.doctrine-project.org/projects/doctrine-orm/en/3.2/reference/unitofwork.html#how-doctrine-keeps-track-of-objects).
 
 ### Désinscrire un utilisateur d'un trajet et inversement
 
@@ -605,30 +685,31 @@ enlèvera l'utilisateur courant du trajet sélectionné.
 
 <div class="exercise">
 
-1. Créer une `public static function supprimerPassager(int $trajetId, string $passagerLogin):void` dans `Trajet.php`.
-   Cette fonction devra désinscrire l'utilisateur `passagerLogin` du trajet `trajetId`.
+1. Créer une `public function supprimerPassager(string $passagerLogin): bool` dans `Trajet.php`.
+   Cette fonction devra désinscrire l'utilisateur `passagerLogin` du trajet courant.
 
-2. Créez une page de test `testSupprimerPassager.php` et un formulaire
-   `formSupprimerPassager.php` de sorte que l'on puisse rentrer un identifiant de
-   trajet et un login d'utilisateur dans le formulaire, et que l'envoi du
-   formulaire redirige sur `testSupprimerPassager.php` qui supprimera le passager dans
-   la BDD.
+2. Créez une page `supprimerPassager.php` qui reçoit un `login` d'utilisateur et
+   un `trajet_id` via le *query string* de l'URL, et qui désinscrit cet
+   utilisateur comme passager de ce trajet.
+
+3. Rajoutez à `lireTrajets.php` de liens `<a>` de désinscription pour chaque
+   passager de chaque trajet qui renvoient sur `supprimerPassager.php` en transmettant via le *query string* de l'URL les bons `login` et `trajet_id`. 
+
+4. Testez la désinscription.
 
 </div>
 
 ### Gestion des erreurs
 
 Traitons plus systématiquement tous les cas particuliers. Pour l'instant, 
-les méthodes suivantes sont correctement codés :
-* `getUtilisateurs()` de `Utilisateur.php` n'a pas de cas particulier,
-* `getUtilisateurParLogin()` de `Utilisateur.php` gère un login inconnue en renvoyant l'utilisateur `null`.
+les méthodes suivantes sont correctement codées :
+* `recupererUtilisateurs()` de `Utilisateur.php` n'a pas de cas particulier,
+* `recupererUtilisateurParLogin()` de `Utilisateur.php` gère un login inconnu en renvoyant l'utilisateur `null`.
 
 Par contre, vous allez améliorer les méthodes suivantes :
 * `ajouter()` de `Utilisateur.php` ne traite pas :
   * le cas d'un utilisateur existant déjà en base de donnée (`SQLSTATE[23000]: Integrity constraint violation`)
-  * le cas d'un problème de données :
-    * chaîne de caractères trop longue (`SQLSTATE[22001]: String data, right truncation`)
-    * entier trop grand (`SQLSTATE[22003]: Numeric value out of range`)
+  * le cas d'un problème de données, par exemple : chaîne de caractères trop longue (`SQLSTATE[22001]: String data, right truncation`)
 * `supprimerPassager()` de `Trajet.php` ne traite pas le cas d'un passage inexistant.
 
 <div class="exercise">
@@ -638,9 +719,18 @@ Par contre, vous allez améliorer les méthodes suivantes :
    pour indiquer si la sauvegarde s'est bien passée. Modifiez la méthode pour intercepter les `PDOException`
    avec un `try/catch` et retourner `false` en cas de problème.
 
-1. Pour la méthode `supprimerPassager()`, utilisez la méthode
-   [`rowCount()`](https://www.php.net/manual/fr/pdostatement.rowcount.php)
-   de la classe `PDOStatement` pour vérifier que la requête de suppression a bien supprimé une ligne de la BDD.
+2. Pour la méthode `supprimerPassager()`, utilisez la méthode
+   [`rowCount()`](https://www.php.net/manual/fr/pdostatement.rowcount.php) de la
+   classe `PDOStatement` pour vérifier que la requête de suppression a bien
+   supprimé une ligne de la BDD. Modifiez la déclaration de type de la méthode
+   pour qu'elle retourne un booléen pour indiquer si la suppression s'est bien
+   passée.
+
+3. Lors de l'insertion dans la base de données avec `ajouter()`, il est possible
+   de récupérer l'identifiant auto-incrémenté généré par la base de données et
+   le renseigner dans l'objet courant. Pour ceci, utilisez
+   `$pdoStatement->lastInsertId()` après l'exécution de
+   `$pdoStatement->execute(...)`.
 
 </div>
 
@@ -652,7 +742,7 @@ Documentation :
    Message: Duplicate entry '%s' for key %d -->
 
 
-### (Optionnel) Quelques idées complémentaires
+### Quelques idées complémentaires
 
 Voici une liste d'idées pour compléter notre site :
 
@@ -660,9 +750,7 @@ Voici une liste d'idées pour compléter notre site :
    trajets dont il est conducteur (et non passager). La page qui liste les
    trajets d'un utilisateur pourrait donner les deux listes comme conducteur et
    comme passager.
-1. Similairement, nous avons oublié le conducteur de la liste des passagers d'un
-   trajet. Le rajouter avec un statut à part.
-1. Pour tester votre compréhension de la transmission de données entre MySQL,
+2. Pour tester votre compréhension de la transmission de données entre MySQL,
    PHP et un formulaire, créer un formulaire `mettreAJourTrajet.php` qui lira
    l'identifiant du trajet depuis la *query string*, chargera le trajet depuis
    MySQL puis préremplira un formulaire de modification du trajet avec les

@@ -376,7 +376,7 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
   -->
 
 <div class="exercise">
-1. Créez un fichier `lireUtilisateur.php`
+1. Créez un fichier `lireUtilisateurs.php`
 
 2. Incluez le fichier contenant la classe `ConnexionBaseDeDonnees` pour pouvoir se connecter à la
    base de données.
@@ -425,7 +425,7 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
    C'est similaire à Java qui permettait la boucle `for(xxx : yyy)` pour les objets
    implémentant l'interface `Iterable`.
 
-   **Utilisez** la boucle `foreach` dans `lireUtilisateur.php` pour afficher tous les utilisateurs.
+   **Utilisez** la boucle `foreach` dans `lireUtilisateurs.php` pour afficher tous les utilisateurs.
 
 2. Avez-vous pensé à enregistrer régulièrement votre travail sous Git ?
 </div>
@@ -442,14 +442,14 @@ Nous allons maintenant isoler le code qui retourne tous les utilisateurs et en f
    }
    ```
 2. Créez une fonction statique
-   `getUtilisateurs()` dans la classe `Utilisateur` qui ne prend pas d'arguments et
+   `recupererUtilisateurs()` dans la classe `Utilisateur` qui ne prend pas d'arguments et
    renvoie le tableau d'objets de la classe `Utilisateur` correspondant à la base de données.
 
    **Rappel :** On peut rajouter facilement un élément "à la fin" d'un tableau avec
    ```php?start_inline=1
    $tableau[] = "Nouvelle valeur";
    ```
-3. Mettez à jour `lireUtilisateur.php` pour appeler directement `getUtilisateurs()`.
+3. Mettez à jour `lireUtilisateurs.php` pour appeler directement `recupererUtilisateurs()`.
 
 4. Maintenant que vous avez bien compris où les noms de colonnes (`loginBaseDeDonnees`, `prenomBaseDeDonnees`, ...)
    de la table `utilisateur` interviennent dans le tableau `$utilisateurFormatTableau`, nous allons leur redonner
@@ -517,21 +517,12 @@ A neat helper function that returns value of the single field of returned row. V
 
 
 
-<!-- 1. Créez les fonctions statiques `getTrajets()` et `getUtilisateurs()` qui listent
+<!-- 1. Créez les fonctions statiques `recupererTrajets()` et `recupererUtilisateurs()` qui listent
    tous les trajets / utilisateurs. -->
 
 
 <!-- ## (Optionnel) Pour utiliser une base de données locale
 
-Actuellement, votre code PHP se connecte au serveur MySql de l'IUT. Cela marche très bien tant que vous avez une connexion internet.
+Actuellement, votre code PHP se connecte au serveur MySql de l'IUT. Cela marche très bien tant que vous avez une connexion internet. Cependant, une base de données `MySQL` en local vous permettrait d'être `root`, de créer plusieurs bases de données dessus (une par projet ou SAE)...
 
-Si vous souhaitez utiliser une base de données `MySQL` en local, voici quelques instructions : 
-* Dans une installation XAMPP sous Linux, il y a un compte `root` sans mot de passe pour 
-  la base de données et PhpMyAdmin. Voici comment configurer le tout : 
-  * PhpMyAdmin est accessible à l'adresse [http://localhost/phpmyadmin](http://localhost/phpmyadmin).
-    Normalement, il ne nécessite pas de connexion par login / mdp. En effet, vous êtes directement connecté en tant que `root`.  
-    Pour avoir la même configuration qu'à l'IUT, vous pouvez créer une base de données portant votre nom qui servira pour les TDs de PHP.
-  * Pour se connecter à votre base de données dans PHP :
-    * Dans `ConfigurationBaseDeDonnees.php`, l'hôte est `localhost`, la base de données est celle que vous venez de créer. Pour le login, indiquez `root`. Le mot de passe ne sera pas nécessaire.
-    * Dans `ConnexionBaseDeDonnees.php`, changer l'appel au constructeur `new PDO(...)` pour donner 
-    la valeur `null` à l'argument `password`. Ceci a pour effet de vous connecter sans mot de passe. -->
+Si vous souhaitez utiliser une base de données `MySQL` en local, voici quelques instructions :  -->
