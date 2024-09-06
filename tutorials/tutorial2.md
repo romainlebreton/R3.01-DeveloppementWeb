@@ -258,8 +258,7 @@ class ConnexionBaseDeDonnees {
     // appelé qu'une seule fois.
     // L'unique instance crée est stockée dans l'attribut $instance
     private static function getInstance() : ConnexionBaseDeDonnees {
-        // L'attribut statique $pdo s'obtient avec la syntaxe ConnexionBaseDeDonnees::$pdo 
-        // au lieu de $this->pdo pour un attribut non statique
+        // L'attribut statique $instance s'obtient avec la syntaxe ConnexionBaseDeDonnees::$instance 
         if (is_null(ConnexionBaseDeDonnees::$instance))
             // Appel du constructeur
             ConnexionBaseDeDonnees::$instance = new ConnexionBaseDeDonnees();
@@ -275,15 +274,14 @@ class ConnexionBaseDeDonnees {
 
 1. Mettez à jour votre classe `ConnexionBaseDeDonnees` pour qu'elle suive le design pattern *Singleton*.
 2. Mettez à jour `testConnexionBaseDeDonnees.php` et vérifiez que tout marche bien.
-3. Pour que PhpStorm comprenne que `ConnexionBaseDeDonnees::getPdo()` renvoie un objet de la classe `PDO`,
+<!-- 3. Pour que PhpStorm comprenne que `ConnexionBaseDeDonnees::getPdo()` renvoie un objet de la classe `PDO`,
    et qu'il puisse nous proposer l'autocomplétion des méthodes de cette classe, nous devons déclarer
    le type de retour.  
    Si ce n'est pas déjà fait, **déclarez** que l'attribut `$pdo` et la valeur de retour de `ConnexionBaseDeDonnees::getPdo()` sont de type
    `PDO`.  
    **Vérifiez** que l'autocomplétion de PhpStorm s'est améliorée dans `testConnexionBaseDeDonnees.php`.
-
-4. **Déclarez** que l'attribut `$instance` et la valeur de retour de `ConnexionBaseDeDonnees::getInstance()` sont de type
-   `ConnexionBaseDeDonnees`.  
+-->
+3. **Déclarez** que l'attribut `$instance` est de type `ConnexionBaseDeDonnees`.  
    L'IDE indique un problème : L'attribut `$instance` est initialisé à `null`, qui n'est pas de type
    `ConnexionBaseDeDonnees` en PHP (contrairement à Java), mais de type `null`.  
    **Corrigez** ce problème en indiquant le type `?ConnexionBaseDeDonnees` pour l'attribut `$instance`. En effet, `?ConnexionBaseDeDonnees` est un raccourci pour le type `ConnexionBaseDeDonnees|null`, qui veut dire `ConnexionBaseDeDonnees` ou `null`.
@@ -321,7 +319,7 @@ récupérer et traiter. Placez donc votre `new PDO(...)` au sein d'un try - catc
    Dans un vrai site web "en production", il faudrait indiquer à l'utilisateur
    qu'il a fait une erreur de saisie ou que le site est actuellement
    indisponible, ceci en fonction du détail de l'exception qui est levée.  
-   Il est important que toutes lignes de codes utilisant `PDO` soit dans un `try` -
+   Il est important que toutes lignes de codes utilisant `PDO` soient dans un `try` -
    `catch` afin de capturer les exceptions. -->
 
 Pour avoir plus de messages d'erreur de `PDO` et qu'il gère mieux l'UTF-8,
@@ -330,7 +328,7 @@ Pour avoir plus de messages d'erreur de `PDO` et qu'il gère mieux l'UTF-8,
 ```php?start_inline=1
 // Connexion à la base de données            
 // Le dernier argument sert à ce que toutes les chaines de caractères 
-// en entrée et sortie de MySql soit dans le codage UTF-8
+// en entrée et sortie de MySql soient dans le codage UTF-8
 $this->pdo = new PDO("mysql:host=$nomHote;port=$port;dbname=$nomBaseDeDonnees", $login, $motDePasse,
                      array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 
