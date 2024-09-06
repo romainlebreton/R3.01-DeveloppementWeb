@@ -52,12 +52,14 @@ nous assurer que Git est bien configuré sur vos machines.
    git config --global user.email "votreemail@etu.umontpellier.fr"
    ```
    
-1. Pour nous simplifier la vie plus tard, veuillez exécuter la commande
+   <!-- 
+   1. Pour nous simplifier la vie plus tard, veuillez exécuter la commande
    suivante. Cela change l'éditeur de texte qu'ouvre Git par défaut.
    
    ```shell
    git config --global core.editor "gedit --new-window -w"
-   ```
+   ``` 
+   -->
 
 1.  Au cas où vous utilisez le protocole HTTPS pour vous connecter à un dépôt
     Git, vous aurez besoin d'exécuter d'abord la commande suivante pour que `git
@@ -80,11 +82,12 @@ enregistrer vos modifications dedans.
 1. Allez sur la [page web du dépôt Git initial des TDs PHP](https://gitlabinfo.iutmontp.univ-montp2.fr/Enseignants-Web/tds-php).
 2. Créez votre copie du dépôt en cliquant en haut à droite sur le bouton *Fork*.
 3. Dans *Project URL*, changer *Select a namespace* par votre login IUT, puis cliquez sur *Fork project* en bas de la page.
-4. Sur la page de votre fork, copier l'adresse pour cloner le dépôt que l'on trouve en cliquant sur le bouton bleu *Code*.
 4. (Optionnel mais recommandé) Si vous êtes sur une nouvelle machine, recréez
    une clé SSH et déposez-la sur GitLab en reprenant [le tout début du tutoriel
    Git de 1ère
    année](https://gitlabinfo.iutmontp.univ-montp2.fr/valicov/tutoGit1ereAnnee#cr%C3%A9ation-dun-compte-gitlab). 
+4. Sur la page de votre fork, copiez l'adresse pour cloner le dépôt que l'on trouve en cliquant sur le bouton bleu *Code*.
+5. Depuis un terminal dans le dossier `~/public_html`, faites `git clone` de l'adresse de la question précédente.
 
 </div>
 
@@ -118,13 +121,7 @@ TD1]({{site.baseurl}}/assets/tut1-complement.html#installer-phpstorm-sur-sa-mach
    précieusement ces informations, car c'est grâce à elles que vous pourrez
    importer votre licence sur toutes les machines que vous allez utiliser (chez
    vous, à l'IUT etc).
-1. Cliquez en haut à droite sur *Get from VCS* pour créer un projet à partir d'un dépôt Git.
-2. Remplissez l'URL avec l'adresse précédemment copiée pour cloner le dépôt et
-   arrangez-vous pour que le dépôt soit cloné dans le *Directory*
-   `/home/lebreton/public_html/tds-php` par exemple.  
-   **Attention :** Mettez bien l'URL de votre fork, et non l'URL du dépôt
-   originel des TDs PHP.
-3. Cliquez sur *Clone*. Cochez *Trust projects in `~/public_html/tds-php`* puis cliquez sur `Trust Project`.
+3. Cliquez en haut à droite sur *Open* puis sélectionnez le dossier `tds-php/TD1` (qui deviendra un projet PHPStorm).
 </div>
 
 **Documentations de PhpStorm**

@@ -89,6 +89,8 @@ serveur du reste du code PHP.
 <!--      * qu'il prenne en charge la coloration syntaxique -->
 <!--      * qu'il sache indenter automatiquement votre code -->
 
+1. Commencez par créer un dossier `tds-php/TD2` dans l'explorateur de fichier, puis ouvrez ce dossier dans PHPStorm. 
+
 1. Créez un fichier `ConfigurationBaseDeDonnees.php`. Ce fichier contiendra une classe
    `ConfigurationBaseDeDonnees` possédant un attribut statique `$configurationBaseDeDonnees` comme suit
    (changez bien sûr les `a_remplir`).
@@ -399,8 +401,11 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
 
    Utilisez l’un des affichages de débogage (*e.g.* `var_dump`) pour afficher ce tableau.
 
-1. Créez un `$utilisateur` de classe `Utilisateur` à l'aide de `$utilisateurFormatTableau` 
-en appelant le constructeur. Affichez l'utilisateur en utilisant la méthode adéquate de `Utilisateur`. 
+1. Créez un `$utilisateur` de classe `Utilisateur` à l'aide de
+   `$utilisateurFormatTableau` en appelant le constructeur. Affichez
+   l'utilisateur en utilisant la méthode adéquate de `Utilisateur`. Copiez le
+   fichier `tds-php/TD1/Utilisateur.php` dans `tds-php/TD2` pour pouvoir
+   utiliser la classe `Utilisateur` dans le TD2.
 
 1. On souhaite désormais afficher tous les utilisateurs dans la base de données. On pourrait
    faire une boucle `while` sur `fetch` tant qu'on n'a pas parcouru toutes les entrées de la base de données.
