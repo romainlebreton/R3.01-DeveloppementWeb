@@ -370,9 +370,9 @@ Plutôt que le texte: "Reprendre les classes du TP précédent sur le covoiturag
 
 ### Création d'un trajet
 
-La création d'un trajet à partir d'un formulaire va nous permettre qu'un
-formulaire HTML, une classe PHP et une base de donnée ne stockent pas certaines
-données de la même façon.
+La création d'un trajet à partir d'un formulaire va nous permettre d'apprendre à
+gérer le fait qu'un formulaire HTML, une classe PHP et une base de donnée ne
+stockent pas certaines données de la même façon.
 
 <div class="exercise">
 
@@ -662,6 +662,14 @@ Voici une liste d'idées pour compléter notre site :
    comme passager.
 1. Similairement, nous avons oublié le conducteur de la liste des passagers d'un
    trajet. Le rajouter avec un statut à part.
-    
+1. Pour tester votre compréhension de la transmission de données entre MySQL,
+   PHP et un formulaire, créer un formulaire `mettreAJourTrajet.php` qui lira
+   l'identifiant du trajet depuis la *query string*, chargera le trajet depuis
+   MySQL puis préremplira un formulaire de modification du trajet avec les
+   valeurs du trajet actuel. Ce formulaire est proche de celui de création, à
+   ceci près qu'il rajoute des valeurs par défaut dans les `<input>`.  
+   Créez ensuite un script de traitement du formulaire de mise à jour (proche du
+   script de création) et vérifiez dans la base de donnée que la modification a
+   bien marchée.
 <!-- 1. Vous pouvez aussi éventuellement mettre en place des `trigger` dans votre SQL
    pour gérer le nombre de passagers par véhicule ... -->
