@@ -271,7 +271,7 @@ La table `utilisateur` avec quelques utilisateurs a déjà été créée dans vo
    insertion dans la table. Pour ce faire, cochez la case `A_I` (auto-increment) pour le champ `id`.
 
    **Note :** Observez qu'à l'enregistrement de votre table dans PhpMyAdmin le type BOOLEAN est remplacé
-   par `tinyint` : 0 pour "faux" et 1 pour "vrai".
+   par `tinyint`, où `0` correspond à` "faux" et `1` correspond à "vrai".
 
    **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
 
@@ -306,7 +306,7 @@ Elle est assez semblable à la classe `Utilisateur.php` que vous avez déjà cod
      constructeur `new DateTime($dateString)`.
    * MySQL ne renvoie que le login du conducteur tandis que `Trajet` attend un
      `Utilisateur`. Utilisez la méthode `Utilisateur::recupererUtilisateurParLogin`.
-   * MySQL renvoie le booléen `nonFumeur` comme un entier 0 ou 1. Par chance,
+   * MySQL renvoie le booléen `nonFumeur` comme un entier `0` ou `1`. Par chance,
      PHP converti automatiquement les entiers en booléen donc il n'y a rien à
      faire.
 
@@ -340,7 +340,7 @@ Voici les étapes pour faire ce lien :
    a besoin de ce genre de recherches pour tester rapidement la contrainte de clé
    étrangère.
 
-2. Rajoutez la contrainte de **clé étrangère** entre `trajet.conducteurLogin` et
+2. Ajoutez la contrainte de **clé étrangère** entre `trajet.conducteurLogin` et
    `utilisateur.login`. Pour ceci, allez dans l'onglet `Structure` de la table
    `trajet` et cliquez sur `Vue relationnelle` pour accéder à la
    gestion des clés étrangères.
@@ -395,8 +395,8 @@ stockent pas certaines données de la même façon.
       * MySQL attend seulement le login du conducteur ;
       * MySQL stocke le booléen `nonFumeur` comme un entier. Il faut ainsi
         donner à MySQL `1` si le trajet est non-fumeur, ou `0` sinon.
-3. Testez l'enchainement du formulaire de création et de
-   `creerUtilisateur.php`. Vérifiez dans votre base de données que le trajet est
+3. Testez l'enchaînement du formulaire de création et de
+   `creerTrajet.php`. Vérifiez dans votre base de données que le trajet est
    bien créé.
 
 </div>
