@@ -140,8 +140,8 @@ boucle `for` est toutefois autorisée pour les vues qui affichent une liste
 d'éléments. **La vue n'effectue pas de traitement, de calcul**.
 
 Dans notre exemple, la vue serait le fichier `vue/utilisateur/liste.php`
-suivant. Le code de ce fichier permet d'afficher une page Web contenant toutes
-les utilisateurs contenues dans la variable `$utilisateurs`.
+suivant. Le code de ce fichier permet d'afficher une page Web contenant tous
+les utilisateurs contenus dans la variable `$utilisateurs`.
 
 ```php
 <!DOCTYPE html>
@@ -205,7 +205,7 @@ require ('../vue/utilisateur/liste.php');  //copie la vue ici
 Notre contrôleur se décompose donc en plusieurs parties :
 
 1. On charge la déclaration de la classe `ModeleUtilisateur` ;
-3. on se sert du modèle pour récupérer le tableau de toutes les utilisateurs avec
+3. on se sert du modèle pour récupérer le tableau de tous les utilisateurs avec
 `$utilisateurs = Utilisateur::recupererUtilisateurs();`
 4. on appelle alors la vue qui va nous générer la page Web avec
 `require ('../vue/utilisateur/liste.php');`
@@ -240,7 +240,7 @@ code de chaque page Web dans une fonction, et on met le tout dans une classe
 contrôleur.
 
 Voici à quoi va ressembler notre contrôleur `ControleurUtilisateur.php`. On
-reconnaît dans la fonction `afficherListe` le code précédent qui affiche toutes les
+reconnaît dans la fonction `afficherListe` le code précédent qui affiche tous les
 utilisateurs.
 
 ```php
@@ -262,7 +262,7 @@ généralement à une page Web. Dans notre exemple du contrôleur
 `ControleurUtilisateur`, nous allons bientôt rajouter les actions qui correspondent
 aux pages suivantes :
 
-1. afficher toutes les utilisateurs : action `afficherListe`
+1. afficher tous les utilisateurs : action `afficherListe`
 2. afficher les détails d'un utilisateur : action `afficherDetail`
 3. afficher le formulaire de création d'un utilisateur : action `afficherFormulaireCreation`
 3. créer un utilisateur dans la base de données et afficher un message de confirmation : action `creerDepuisFormulaire`
@@ -342,7 +342,7 @@ Voici le déroulé de l'exécution du routeur pour l'action `afficherListe` :
 1. Le routeur récupère l'action donnée par l'utilisateur dans l'URL avec
    `$action = $_GET['action'];` (donc `$action="afficherListe"`)
 2. le routeur appelle la méthode statique `afficherListe` de `ControleurUtilisateur.php`
-3. `ControleurUtilisateur.php` se sert du modèle pour récupérer le tableau de toutes les utilisateurs ;
+3. `ControleurUtilisateur.php` se sert du modèle pour récupérer le tableau de tous les utilisateurs ;
 4. `ControleurUtilisateur.php` appelle alors la vue qui va nous générer la page Web.
 
 
@@ -350,17 +350,17 @@ Voici le déroulé de l'exécution du routeur pour l'action `afficherListe` :
 
 ### Vue "détail d'un utilisateur"
 
-Comme la page qui liste toutes les utilisateurs (action `afficherListe`) ne donne pas
+Comme la page qui liste tous les utilisateurs (action `afficherListe`) ne donne pas
 toutes les informations, nous souhaitons créer une page de détail dont le rôle
 sera d'afficher toutes les informations de l'utilisateur. Cette action aura besoin
-de connaître le login de l'utilisateur visée ; on utilisera encore le
+de connaître le login de l'utilisateur visé ; on utilisera encore le
 *query string* pour passer l'information dans l'URL en même temps que l'action :
 [.../routeur.php?action=afficherDetail&login=AAA111BB](http://webinfo/~mon_login/PHP/TD4/Controleur/routeur.php?action=afficherDetail&login=AAA11BB)
 
 <div class="exercise">
 
 1. Créez une vue `./vue/utilisateur/detail.php` qui doit afficher tous les
-   détails de l'utilisateur stockée dans `$utilisateur` de la même manière que l'ancienne
+   détails de l'utilisateur stocké dans `$utilisateur` de la même manière que l'ancienne
    fonction `__toString()` (encore commentée dans `ModeleUtilisateur`).
    **Note :** La variable `$utilisateur` sera initialisée dans le contrôleur plus tard,
    *cf.* `$utilisateurs` dans l'exemple précédent.
@@ -458,14 +458,14 @@ dans la base de données.
 
 3. Créez l'action `creerDepuisFormulaire` dans le contrôleur qui devra
 
-   1. récupérer les donnés de l'utilisateur à partir de la *query string*,
+   1. récupérer les données de l'utilisateur à partir de la *query string*,
    2. créer une instance de `ModeleUtilisateur` avec les données reçues,
    3. appeler la méthode `ajouter` du modèle,
    4. appeler la fonction `afficherListe()` pour afficher le tableau de
-      toutes les utilisateurs.
+      tous les utilisateurs.
 
 4. Testez l'action `creerDepuisFormulaire` de `routeur.php` en donnant
-   le login, la nom, la prenom et le nombre de sièges dans l'URL.
+   le login, le nom et le prénom.
 
 5. Nous souhaitons maintenant relier l'envoi du formulaire de création à
    l'action `creerDepuisFormulaire` pour l'utilisateur soit bien créée : 
