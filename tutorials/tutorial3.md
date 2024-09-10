@@ -270,9 +270,12 @@ La table `utilisateur` avec quelques utilisateurs a déjà été créée dans vo
    **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque nouvelle
    insertion dans la table. Pour ce faire, cochez la case `A_I` (auto-increment) pour le champ `id`.
 
+   **Note :** Observez qu'à l'enregistrement de votre table dans PhpMyAdmin le type BOOLEAN est remplacé
+   par `tinyint` : 0 pour "faux" et 1 pour "vrai".
+
    **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
 
-2. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
+3. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
    que l'auto-incrément marche) et en mettant dans `conducteurLogin` un login
    d'utilisateur valide (pour éviter des problèmes par la suite).
 
