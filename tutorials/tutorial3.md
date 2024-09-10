@@ -155,6 +155,12 @@ d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 
 2. Testez la fonction `recupererUtilisateurParLogin` dans un nouveau fichier `testRequetePrepare.php`.
 
+   **Remarque :** Vous aurez sans doute une erreur `Class "ConnexionBaseDeDonnees" not found`.
+   Où inclure `ConnexionBaseDeDonnees.php` : dans `Utilisateur.php` ou dans `creerUtilisateur.php` ?  
+   Règle simple : chaque fichier doit inclure les classes dont il a besoin.
+   Comme `Utilisateur.php` a besoin de la classe `ConnexionBaseDeDonnees` (à cause de l'instruction `ConnexionBaseDeDonnees::getPdo()`),
+   c'est au début de `Utilisateur.php` qu'il faut faire `require_once "ConnexionBaseDeDonnees.php";`.
+   
 3. On souhaite que `recupererUtilisateurParLogin` renvoie `null` s'il n'existe pas
    d'utilisateur de login `$login`. Mettez à jour le code
    et la déclaration de type. Testez votre code.
@@ -199,12 +205,6 @@ de création d'utilisateur du TD1 :
    l'objet `Utilisateur` reçu (en GET ou POST, au choix).
 
 4. Testez l'insertion grâce au formulaire `formulaireCreationUtilisateur.html`.
-
-   **Remarque :** Vous aurez sans doute une erreur `Class "ConnexionBaseDeDonnees" not found`.
-   Où inclure `ConnexionBaseDeDonnees.php` : dans `Utilisateur.php` ou dans `creerUtilisateur.php` ?  
-   Règle simple : chaque fichier doit inclure les classes dont il a besoin.
-   Comme `Utilisateur.php` a besoin de la classe `ConnexionBaseDeDonnees` (à cause de l'instruction `ConnexionBaseDeDonnees::getPdo()`),
-   c'est au début de `Utilisateur.php` qu'il faut faire `require_once "ConnexionBaseDeDonnees.php";`.
 
 5. Vérifiez dans PhpMyAdmin que les utilisateurs sont bien sauvegardés.
 
@@ -270,9 +270,12 @@ La table `utilisateur` avec quelques utilisateurs a déjà été créée dans vo
    **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque nouvelle
    insertion dans la table. Pour ce faire, cochez la case `A_I` (auto-increment) pour le champ `id`.
 
+   **Note :** Observez qu'à l'enregistrement de votre table dans PhpMyAdmin le type BOOLEAN est remplacé
+   par `tinyint`, où `0` correspond à` "faux" et `1` correspond à "vrai".
+
    **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
 
-2. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
+3. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
    que l'auto-incrément marche) et en mettant dans `conducteurLogin` un login
    d'utilisateur valide (pour éviter des problèmes par la suite).
 
@@ -303,7 +306,7 @@ Elle est assez semblable à la classe `Utilisateur.php` que vous avez déjà cod
      constructeur `new DateTime($dateString)`.
    * MySQL ne renvoie que le login du conducteur tandis que `Trajet` attend un
      `Utilisateur`. Utilisez la méthode `Utilisateur::recupererUtilisateurParLogin`.
-   * MySQL renvoie le booléen `nonFumeur` comme un entier 0 ou 1. Par chance,
+   * MySQL renvoie le booléen `nonFumeur` comme un entier `0` ou `1`. Par chance,
      PHP converti automatiquement les entiers en booléen donc il n'y a rien à
      faire.
 
@@ -337,7 +340,7 @@ Voici les étapes pour faire ce lien :
    a besoin de ce genre de recherches pour tester rapidement la contrainte de clé
    étrangère.
 
-2. Rajoutez la contrainte de **clé étrangère** entre `trajet.conducteurLogin` et
+2. Ajoutez la contrainte de **clé étrangère** entre `trajet.conducteurLogin` et
    `utilisateur.login`. Pour ceci, allez dans l'onglet `Structure` de la table
    `trajet` et cliquez sur `Vue relationnelle` pour accéder à la
    gestion des clés étrangères.
@@ -392,8 +395,8 @@ stockent pas certaines données de la même façon.
       * MySQL attend seulement le login du conducteur ;
       * MySQL stocke le booléen `nonFumeur` comme un entier. Il faut ainsi
         donner à MySQL `1` si le trajet est non-fumeur, ou `0` sinon.
-3. Testez l'enchainement du formulaire de création et de
-   `creerUtilisateur.php`. Vérifiez dans votre base de données que le trajet est
+3. Testez l'enchaînement du formulaire de création et de
+   `creerTrajet.php`. Vérifiez dans votre base de données que le trajet est
    bien créé.
 
 </div>
