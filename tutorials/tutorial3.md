@@ -271,8 +271,8 @@ Créez des tables `utilisateur` et `trajet` comme suit :
    * `arrivee` : VARCHAR 64
    * `date` : DATE
    * `prix` : INT
-   * `nonFumeur` : BOOLEAN
    * `conducteurLogin` : VARCHAR 64
+   * `nonFumeur` : BOOLEAN
 
    **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque nouvelle
    insertion dans la table. Pour ce faire, cochez la case `A_I` (auto-increment) pour le champ `id`.
@@ -690,6 +690,13 @@ enlèvera l'utilisateur courant du trajet sélectionné.
 2. Créez une page `supprimerPassager.php` qui reçoit un `login` d'utilisateur et
    un `trajet_id` via le *query string* de l'URL, et qui désinscrit cet
    utilisateur comme passager de ce trajet.
+
+   **Remarque :** Vous aurez besoin de créer un `$trajet` pour pouvoir appeler la méthode `$trajet->supprimerPassager()`. Deux possibilités : 
+   * Soit vous rajoutez une méthode `Trajet::recupererTrajetParId` similaire à `Utilisateur::recupererUtilisateurParLogin`.
+   * Soit vous créez un `$trajet` avec des fausses données, sauf l'`id` qui est
+     correct. Une manière propre de procéder est de mettre les autres attributs
+     à `null`, ce qui implique de changer les types pour autoriser `null`.
+
 
 3. Rajoutez à `lireTrajets.php` de liens `<a>` de désinscription pour chaque
    passager de chaque trajet qui renvoient sur `supprimerPassager.php` en transmettant via le *query string* de l'URL les bons `login` et `trajet_id`. 
