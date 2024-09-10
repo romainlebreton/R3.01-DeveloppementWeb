@@ -180,6 +180,11 @@ courant (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
 
 3. Testez cette fonction dans `testRequetePrepare.php` en créant un objet de classe
    `Utilisateur` et en l'enregistrant.
+   
+**Remarque :** Le nom de la fonction `ajouter()` peut prêter à confusion. En effet, lorsqu'on voit une fonction `ajouter()`
+ dans une classe `Utilisateur`, on ne s'attend pas forcément à ce qu'il y ait un enregistrement en BD.
+Pour le moment nous allons garder le nom de cette méthode tel quel, car dans quelques semaines le code de celle-ci sera migré ailleurs (dans une classe de persistance)
+et le nom `ajouter()` prendra tout son sens.
 </div>
 
 <div class="exercise">
