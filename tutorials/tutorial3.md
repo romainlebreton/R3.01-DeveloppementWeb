@@ -155,6 +155,12 @@ d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 
 2. Testez la fonction `recupererUtilisateurParLogin` dans un nouveau fichier `testRequetePrepare.php`.
 
+   **Remarque :** Vous aurez sans doute une erreur `Class "ConnexionBaseDeDonnees" not found`.
+   Où inclure `ConnexionBaseDeDonnees.php` : dans `Utilisateur.php` ou dans `creerUtilisateur.php` ?  
+   Règle simple : chaque fichier doit inclure les classes dont il a besoin.
+   Comme `Utilisateur.php` a besoin de la classe `ConnexionBaseDeDonnees` (à cause de l'instruction `ConnexionBaseDeDonnees::getPdo()`),
+   c'est au début de `Utilisateur.php` qu'il faut faire `require_once "ConnexionBaseDeDonnees.php";`.
+   
 3. On souhaite que `recupererUtilisateurParLogin` renvoie `null` s'il n'existe pas
    d'utilisateur de login `$login`. Mettez à jour le code
    et la déclaration de type. Testez votre code.
@@ -199,12 +205,6 @@ de création d'utilisateur du TD1 :
    l'objet `Utilisateur` reçu (en GET ou POST, au choix).
 
 4. Testez l'insertion grâce au formulaire `formulaireCreationUtilisateur.html`.
-
-   **Remarque :** Vous aurez sans doute une erreur `Class "ConnexionBaseDeDonnees" not found`.
-   Où inclure `ConnexionBaseDeDonnees.php` : dans `Utilisateur.php` ou dans `creerUtilisateur.php` ?  
-   Règle simple : chaque fichier doit inclure les classes dont il a besoin.
-   Comme `Utilisateur.php` a besoin de la classe `ConnexionBaseDeDonnees` (à cause de l'instruction `ConnexionBaseDeDonnees::getPdo()`),
-   c'est au début de `Utilisateur.php` qu'il faut faire `require_once "ConnexionBaseDeDonnees.php";`.
 
 5. Vérifiez dans PhpMyAdmin que les utilisateurs sont bien sauvegardés.
 
