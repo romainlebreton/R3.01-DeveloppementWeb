@@ -161,8 +161,8 @@ d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 
 </div>
 
-**Désormais**, toutes les requêtes SQL doivent être codées en utilisant des
-requêtes préparées, sauf éventuellement des requêtes SQL sans variable comme
+**Désormais, toutes les requêtes SQL doivent être codées en utilisant des
+requêtes préparées**, sauf éventuellement des requêtes SQL sans variable comme
 `SELECT * FROM utilisateur`.
 
 <div class="exercise">
@@ -517,7 +517,7 @@ pouvez vous rafraîchir la mémoire en lisant
       */
       private array $passagers;
       ```
-   2. Mettez à jour le constructeur pour qu'il gère cet attribut.
+   2. Mettez à jour le constructeur pour qu'il gère cet attribut avec la valeur par défaut `[]`.
    3. Générez à l'aide de PHPStorm les accesseurs `getPassagers` et
       `setPassagers`. 
    3. Modifiez la fonction `construireDepuisTableauSQL` pour qu'elle instancie
@@ -549,7 +549,10 @@ qui indique que la variable suivante sera un tableau d'`Utilisateur`.
 ## Créez une injection SQL
 
 Nous vous proposons de créer un exemple
-d'injection SQL. Mettons en place notre attaque SQL :
+d'injection SQL. 
+
+<div class="exercise">
+Mettons en place notre attaque SQL :
 
 1. Pour ne pas supprimer une table importante, créons une table `utilisateur2` qui ne craint rien :
     * allez dans PHPMyAdmin et cliquez sur votre base de donnée (celle dont le
@@ -585,7 +588,7 @@ Ce fichier contient un formulaire qui affiche les informations d'un utilisateur
       return null;
    }
    ```
-
+</div>
    
 
 <!--
@@ -735,7 +738,7 @@ Par contre, vous allez améliorer les méthodes suivantes :
 3. Lors de l'insertion dans la base de données avec `ajouter()`, il est possible
    de récupérer l'identifiant auto-incrémenté généré par la base de données et
    le renseigner dans l'objet courant. Pour ceci, utilisez
-   `$pdoStatement->lastInsertId()` après l'exécution de
+   `ConnexionBaseDeDonnees::getPdo()->lastInsertId()` après l'exécution de
    `$pdoStatement->execute(...)`.
 
 </div>
