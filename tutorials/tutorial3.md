@@ -723,7 +723,7 @@ Par contre, vous allez améliorer les méthodes suivantes :
    pour qu'elle retourne un booléen pour indiquer si la suppression s'est bien
    passée.
 
-3. Lors de l'insertion dans la base de données avec `ajouter()`, il est possible
+3. Lors de l'insertion dans la base de données avec `Trajet::ajouter()`, il est possible
    de récupérer l'identifiant auto-incrémenté généré par la base de données et
    le renseigner dans l'objet courant. Pour ceci, utilisez
    `ConnexionBaseDeDonnees::getPdo()->lastInsertId()` après l'exécution de
