@@ -190,7 +190,7 @@ de création d'utilisateur du TD1 :
 2. Copiez dans le dossier TD3 les fichiers `creerUtilisateur.php` et
    `formulaireCreationUtilisateur.html` du TD1.
 
-3. Modifier la page `creerUtilisateur.php` de sorte qu'elle sauvegarde
+3. Modifiez la page `creerUtilisateur.php` de sorte qu'elle sauvegarde
    l'objet `Utilisateur` reçu (en GET ou POST, au choix).
 
 4. Testez l'insertion grâce au formulaire `formulaireCreationUtilisateur.html`.
@@ -203,7 +203,7 @@ de création d'utilisateur du TD1 :
 
 5. Vérifiez dans PhpMyAdmin que les utilisateurs sont bien sauvegardés.
 
-6. Essayez de rajouter un utilisateur dont un champ contient un guillemet simple
+6. Essayez d'ajouter un utilisateur dont un champ contient un guillemet simple
    `'`, par exemple un nom `"D'Artagnan"`. Est-ce qu'elle a bien été
    sauvegardée ? Si ce n'est pas le cas, c'est sûrement que vous n'avez pas
    utilisé les requêtes préparées.
@@ -251,21 +251,9 @@ Comme il n'y a qu'un conducteur par trajet, nous allons rajouter un champ
 ### Création des tables
 
 <div class="exercise">
-Créez des tables `utilisateur` et `trajet` comme suit :
+La table `utilisateur` avec quelques utilisateurs a déjà été créée dans votre PhpMyAdmin. Créez la table `trajet` comme suit :
 
-1. Dans votre PhpMyAdmin, créez une table `utilisateur` avec les champs suivants :
-   * `login` : VARCHAR 64, clé primaire
-   * `nom` : VARCHAR 64
-   * `prenom` : VARCHAR 64
-
-   **Important :** Pour faciliter la suite du TD, mettez à la création de toutes
-     vos tables `InnoDB` comme moteur de stockage, et `utf8_general_ci` comme
-     interclassement (c’est l’encodage des données, et donc des accents,
-     caractères spéciaux...).
-
-2. Insérez quelques utilisateurs.
-
-3. Créez une table `trajet` avec les champs suivants :
+1. Créez une table `trajet` avec les champs suivants :
    * `id` : INT, clé primaire, qui s'auto-incrémente (voir en dessous)
    * `depart` : VARCHAR 64
    * `arrivee` : VARCHAR 64
@@ -279,7 +267,7 @@ Créez des tables `utilisateur` et `trajet` comme suit :
 
    **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
 
-4. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
+2. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
    que l'auto-incrément marche) et en mettant dans `conducteurLogin` un login
    d'utilisateur valide (pour éviter des problèmes par la suite).
 
