@@ -496,12 +496,6 @@ pouvez vous rafraîchir la mémoire en lisant
    PhpMyAdmin jusqu'à tenir la bonne.
    * Inspirez-vous de `Utilisateur::recupererUtilisateurs` pour la création d'objets
      `Utilisateurs` depuis une réponse SQL.
-   * Comme vous demandez à `fetch` de créer des objets de la classe
-     `Utilisateur`, il faut inclure le fichier de classe. De manière générale,
-     la bonne pratique est que chaque fichier PHP inclus les fichiers dont il a
-     besoin. C'est plus sûr que de compter sur les autres fichiers. Et le `once`
-     du `require_once` vous met à l'abri d'une inclusion multiple du même
-     fichier de déclaration de classe.
    * **Avez-vous** bien utilisé une requête préparée dans `recupererPassagers` ?
 
 2. Nous allons stocker la liste des passagers comme un attribut de la classe
