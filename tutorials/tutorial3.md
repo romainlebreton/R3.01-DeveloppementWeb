@@ -232,10 +232,10 @@ les diagrammes de classes. Ce type de diagramme est utile pour
 penser la base de donnée d'une application Web. Voici le nôtre :
 
 <img alt="Diagramme entité association"
-src="https://www.plantuml.com/plantuml/png/JKv1IWH13BptAy8SXONPQvzMyE9DK1-GxGv3jATxI6T451_aE_oOcTqToA7fLAKgLQUkABhE9VHthWiApb1RfauB7CVHiQbWx_UgmkTLwJ6r-inV16C8bmsyAXVkgBGAV8S3b3PnZT3DK2V3jSqEBK8RSSC_-v4NmJVIYvypHE2gDcQo2WhEZYByyVTBdike6twmRuixFnLCrFSZbiYVDs1nlkrmDnpixU4H5gk24ubNnNYj3CFHgsDqGQdLlAPD7Kvaurp-0G00" style="margin-left:auto;margin-right:auto;display:block;">
+src="https://www.plantuml.com/plantuml/png/JOv1IyGm48Nl-HL3Zy92zvhJ2Y9u4rn_m3GPocWoASb4HF6_crIxv50wx-MzcUzI5BFM64nvPzamOmH9dWfjS9xdmNK1IxbNpRnKfIUNv8M_26PZzXTuLGvSKAbc-3Od26bbiL1QGTQc9SL1RPcwyQz_ZYNNZ6-aUvyzM63HDdfg20f37NFc3wBHygXTFxJVbIFjD_ZpjaEIFDROuImiAOL-SqIUxgPJ-mu22rlZmPNocBBsZnkcyvYsLfRdW8vAwxaalhgUDXTgOmo_" style="margin-left:auto;margin-right:auto;display:block;">
 
 <!-- Source code:
-https://www.plantuml.com/plantuml/uml/JKv1IWH13BptAy8SXONPQvzMyE9DK1-GxGv3jATxI6T451_aE_oOcTqToA7fLAKgLQUkABhE9VHthWiApb1RfauB7CVHiQbWx_UgmkTLwJ6r-inV16C8bmsyAXVkgBGAV8S3b3PnZT3DK2V3jSqEBK8RSSC_-v4NmJVIYvypHE2gDcQo2WhEZYByyVTBdike6twmRuixFnLCrFSZbiYVDs1nlkrmDnpixU4H5gk24ubNnNYj3CFHgsDqGQdLlAPD7Kvaurp-0G00
+https://www.plantuml.com/plantuml/uml/JOv1IyGm48Nl-HL3Zy92zvhJ2Y9u4rn_m3GPocWoASb4HF6_crIxv50wx-MzcUzI5BFM64nvPzamOmH9dWfjS9xdmNK1IxbNpRnKfIUNv8M_26PZzXTuLGvSKAbc-3Od26bbiL1QGTQc9SL1RPcwyQz_ZYNNZ6-aUvyzM63HDdfg20f37NFc3wBHygXTFxJVbIFjD_ZpjaEIFDROuImiAOL-SqIUxgPJ-mu22rlZmPNocBBsZnkcyvYsLfRdW8vAwxaalhgUDXTgOmo_
  -->
 
 **Question :** Comment implémenteriez-vous l'association *conducteur* entre
@@ -270,10 +270,9 @@ Créez des tables `utilisateur` et `trajet` comme suit :
    * `depart` : VARCHAR 64
    * `arrivee` : VARCHAR 64
    * `date` : DATE
-   * `nbPlaces` : INT
    * `prix` : INT
-   * `conducteurLogin` : VARCHAR 64
    * `nonFumeur` : BOOLEAN
+   * `conducteurLogin` : VARCHAR 64
 
    **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque nouvelle
    insertion dans la table. Pour ce faire, cochez la case `A_I` (auto-increment) pour le champ `id`.
@@ -302,7 +301,7 @@ Elle est assez semblable à la classe `Utilisateur.php` que vous avez déjà cod
 <!-- [`Utilisateur.php`]({{site.baseurl}}/assets/TD3/Utilisateur.php) et -->
 [`Trajet.php`]({{site.baseurl}}/assets/TD3/Trajet.php).
 
-1. En vous inspirant de `lireUtilisateurs.php`, créez un script qui liste les
+1. En vous inspirant de `lireUtilisateurs.php`, créez `lireTrajets.php` qui liste les
    trajets. Vous allez devoir modifier la fonction
    `Trajet::construireDepuisTableauSQL` car
 
@@ -378,7 +377,7 @@ stockent pas certaines données de la même façon.
 
 1. Nous vous fournissons le formulaire de création de trajets. Enregistrez [`formulaireCreationTrajet.html`]({{site.baseurl}}/assets/TD3/formulaireCreationTrajet.html).  
    **Notez** que la date est un `<input type="date">`, et que le booléen `nonFumeur` est un `<input type="checkbox">`.
-2. En vous inspirant de `creerUtilisateur.php`, créez le script
+2. En vous inspirant de `creerUtilisateur.php`, créez 
    `creerTrajet.php` qui traite les données du formulaire précédent. Les 2 étapes clés sont la création d'un objet `Trajet` et l'appel à la méthode `Trajet::ajouter()`. Voici comment faire : 
 
    1. À la création de l'objet `Trajet`
@@ -400,7 +399,7 @@ stockent pas certaines données de la même façon.
       * MySQL attend seulement le login du conducteur ;
       * MySQL stocke le booléen `nonFumeur` comme un entier. Il faut ainsi
         donner à MySQL `1` si le trajet est non-fumeur, ou `0` sinon.
-3. Testez l'enchainement du formulaire de création et du script
+3. Testez l'enchainement du formulaire de création et de
    `creerUtilisateur.php`. Vérifiez dans votre base de données que le trajet est
    bien créé.
 
@@ -414,7 +413,7 @@ stockent pas certaines données de la même façon.
 utilisateurs et trajets dans la BDD en tenant compte de ses multiplicités ?
 
 <img alt="Diagramme entité association"
-src="https://www.plantuml.com/plantuml/png/JKv1IWH13BptAy8SXONPQvzMyE9DK1-GxGv3jATxI6T451_aE_oOcTqToA7fLAKgLQUkABhE9VHthWiApb1RfauB7CVHiQbWx_UgmkTLwJ6r-inV16C8bmsyAXVkgBGAV8S3b3PnZT3DK2V3jSqEBK8RSSC_-v4NmJVIYvypHE2gDcQo2WhEZYByyVTBdike6twmRuixFnLCrFSZbiYVDs1nlkrmDnpixU4H5gk24ubNnNYj3CFHgsDqGQdLlAPD7Kvaurp-0G00" style="margin-left:auto;margin-right:auto;display:block;">
+src="https://www.plantuml.com/plantuml/png/JOv1IyGm48Nl-HL3Zy92zvhJ2Y9u4rn_m3GPocWoASb4HF6_crIxv50wx-MzcUzI5BFM64nvPzamOmH9dWfjS9xdmNK1IxbNpRnKfIUNv8M_26PZzXTuLGvSKAbc-3Od26bbiL1QGTQc9SL1RPcwyQz_ZYNNZ6-aUvyzM63HDdfg20f37NFc3wBHygXTFxJVbIFjD_ZpjaEIFDROuImiAOL-SqIUxgPJ-mu22rlZmPNocBBsZnkcyvYsLfRdW8vAwxaalhgUDXTgOmo_" style="margin-left:auto;margin-right:auto;display:block;">
 
 **Réponse (surlignez le texte caché à droite) :** <span style="color:#FCFCFC">Comme la relation *passager* est non
 bornée (on ne limite pas le nombre d'utilisateurs d'un trajet et inversement), on
