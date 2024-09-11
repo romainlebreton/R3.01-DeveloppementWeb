@@ -374,7 +374,7 @@ stockent pas certaines données de la même façon.
 1. Nous vous fournissons le formulaire de création de trajets. Enregistrez [`formulaireCreationTrajet.html`]({{site.baseurl}}/assets/TD3/formulaireCreationTrajet.html).  
    **Notez** que la date est un `<input type="date">`, et que le booléen `nonFumeur` est un `<input type="checkbox">`.
 2. En vous inspirant de `creerUtilisateur.php`, créez 
-   `creerTrajet.php` qui traite les données du formulaire précédent. Les 2 étapes clés sont la création d'un objet `Trajet` et l'appel à la méthode `Trajet::ajouter()`. Voici comment faire : 
+   `creerTrajet.php` qui traite les données du formulaire précédent. Les 2 étapes clés sont la création d'un objet `Trajet` et l'appel à la méthode `ajouter()` de `Trajet`. Voici comment faire : 
 
    1. À la création de l'objet `Trajet`
       * mettez `id` à `null` pour indiquer que vous ne connaissez pas son identifiant ;
@@ -386,7 +386,7 @@ stockent pas certaines données de la même façon.
         case `$_GET["nonFumeur"]`. Utilisez donc `isset($_GET["nonFumeur"])` pour
         lire le booléen envoyé par le formulaire.
    
-   2. Créez la méthode `Trajet::ajouter()`.  
+   2. Créez la méthode dynamique `ajouter()` de `Trajet`.  
       La requête `INSERT` doit remplir tous les champs sauf `id`, qui sera
       rempli automatiquement par MySQL.  
       Pour le tableau de valeurs donné à la requête préparée
@@ -731,7 +731,7 @@ Par contre, vous allez améliorer les méthodes suivantes :
    pour qu'elle retourne un booléen pour indiquer si la suppression s'est bien
    passée.
 
-3. Lors de l'insertion dans la base de données avec `Trajet::ajouter()`, il est possible
+3. Lors de l'insertion dans la base de données avec `ajouter()` de `Trajet`, il est possible
    de récupérer l'identifiant auto-incrémenté généré par la base de données et
    le renseigner dans l'objet courant. Pour ceci, utilisez
    `ConnexionBaseDeDonnees::getPdo()->lastInsertId()` après l'exécution de
