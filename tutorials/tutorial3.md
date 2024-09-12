@@ -671,14 +671,14 @@ pas encore été chargée.
 
 ### Désinscrire un utilisateur d'un trajet et inversement
 
-Rajoutons une fonctionnalité : dans une future vue qui listera les
+Ajoutons une fonctionnalité : dans une future vue qui listera les
 trajets d'un utilisateur, nous voudrions avoir un lien 'Désinscrire' qui
 enlèvera l'utilisateur courant du trajet sélectionné.
 
 <div class="exercise">
 
-1. Créer une `public function supprimerPassager(string $passagerLogin): bool` dans `Trajet.php`.
-   Cette fonction devra désinscrire l'utilisateur `passagerLogin` du trajet courant.
+1. Créer une méthode `public function supprimerPassager(string $passagerLogin): bool` dans `Trajet.php`.
+   Cette fonction devra désinscrire l'utilisateur `passagerLogin` du trajet courant. Laissons cette fonction retourner `true` pour le moment.
 
 2. Créez une page `supprimerPassager.php` qui reçoit un `login` d'utilisateur et
    un `trajet_id` via le *query string* de l'URL, et qui désinscrit cet
