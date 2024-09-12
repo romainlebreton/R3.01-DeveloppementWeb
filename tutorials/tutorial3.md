@@ -441,7 +441,7 @@ correspondante dans la table `passager` avec leur `passagerLogin` et leur
 1. Assurez-vous que vous avez bien le bon couple en tant que clé primaire. Cela
    se voit dans la section `Index` de l'onglet `Structure`.
 
-2. Rajoutez la contrainte de **clé étrangère** entre `passager.trajetId` et
+2. Ajoutez la contrainte de **clé étrangère** entre `passager.trajetId` et
 `trajet.id`, puis entre `passager.passagerLogin` et
 `utilisateur.login`. Utiliser encore les comportements `ON DELETE CASCADE` et
 `ON UPDATE CASCADE` pour qu'une association soit mise à jour si la clé étrangère
@@ -500,7 +500,7 @@ pouvez vous rafraîchir la mémoire en lisant
 
 2. Nous allons stocker la liste des passagers comme un attribut de la classe
    `Trajet`. 
-   1.  Rajoutez l'attribut
+   1.  Ajoutez l'attribut
       ```php
       /**
       * @var Utilisateur[]
@@ -633,7 +633,7 @@ pas encore été chargée.
 
 2. Nous allons stocker la liste des trajets comme un attribut de la classe
    `Utilisateur`. 
-   1.  Rajoutez l'attribut
+   1.  Ajoutez l'attribut
       ```php
       /**
       * @var Trajet[]|null
@@ -641,8 +641,8 @@ pas encore été chargée.
       private ?array $trajetsCommePassager;
       ```
    2. Mettez à jour le constructeur pour qu'il initialise cet attribut à `null`.
-   3. Générez à l'aide de PHPStorm les accesseurs `getTrajetsCommePassager` et
-      `setTrajetsCommeConducteur`.  
+   3. Générez à l'aide de PHPStorm l'accesseur `getTrajetsCommePassager` et le modifieur
+      `stTrajetsCommePassager`.  
    4. Modifiez le code de `getTrajetsCommePassager` pour que, si
       `$trajetsCommePassager` est `null`, alors on l'initialise à l'aide de `recupererTrajetsCommePassager`. 
 
@@ -691,7 +691,7 @@ enlèvera l'utilisateur courant du trajet sélectionné.
      à `null`, ce qui implique de changer les types pour autoriser `null`.
 
 
-3. Rajoutez à `lireTrajets.php` de liens `<a>` de désinscription pour chaque
+3. Ajoutez à `lireTrajets.php` de liens `<a>` de désinscription pour chaque
    passager de chaque trajet qui renvoient sur `supprimerPassager.php` en transmettant via le *query string* de l'URL les bons `login` et `trajet_id`. 
 
 4. Testez la désinscription.
