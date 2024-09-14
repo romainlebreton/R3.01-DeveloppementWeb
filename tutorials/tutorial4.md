@@ -22,7 +22,7 @@ traitement (PHP), accès aux données (SQL) et présentation (balises HTML). Nou
 allons maintenant séparer toutes ces parties pour plus de clarté.
 
 L'objectif de ce TD est donc de réorganiser le code du TD3 pour finalement y
-rajouter plus facilement de nouvelles fonctionnalités. Nous allons vous
+ajouter plus facilement de nouvelles fonctionnalités. Nous allons vous
 expliquer le fonctionnement sur l'exemple de la page `lireUtilisateurs.php` du TD2 :
 
 ```php
@@ -110,7 +110,7 @@ lors des TDs précédents (sauf la fonction `__toString()`).
 5. Corrigez le chemin relatif du `require_once` du fichier `ConfigurationBaseDeDonnees.php` dans `ConnexionBaseDeDonnees.php`.
 6. Assurez-vous que PHPStorm n'a pas créé de ligne `namespace ...`, ni `use ...` en haut de
    vos scripts PHP. Sinon, supprimez ces lignes. Les différentes utilisations de la classe `ConnexionBaseDeDonnees` dans votre code
-   risquent d'être souligné en "warning" par votre IDE. Ignorez pour le moment ces avertissements.
+   risquent d'être soulignées en "warning" par votre IDE. Ignorez pour le moment ces avertissements.
 </div>
 
 **N.B. :** Il est vraiment conseillé de renommer les fichiers et non de les
@@ -179,8 +179,8 @@ une variable dont l'existence n'est pas garantie ! Cependant, si vous savez ce q
 
 Le contrôleur gère la logique du code qui prend des décisions. C'est en quelque
 sorte l'intermédiaire entre le modèle et la vue : le contrôleur va demander au
-modèle les données, les analyser, prendre des décisions et appelle la vue
-adéquate en lui donnant le texte à afficher à la vue. Le contrôleur contient
+modèle les données, les analyser, prendre des décisions et appeler la vue
+adéquate en lui donnant le texte à afficher. Le contrôleur contient
 exclusivement du PHP.
 
 Il existe une multitude d'implémentations du **MVC** :
@@ -260,7 +260,7 @@ class ControleurUtilisateur {
 
 On appelle *action* une fonction du contrôleur ; une action correspond
 généralement à une page Web. Dans notre exemple du contrôleur
-`ControleurUtilisateur`, nous allons bientôt rajouter les actions qui correspondent
+`ControleurUtilisateur`, nous allons bientôt ajouter les actions qui correspondent
 aux pages suivantes :
 
 1. afficher tous les utilisateurs : action `afficherListe`
@@ -324,7 +324,7 @@ ControleurUtilisateur::$action();
    1.]({{site.baseurl}}/classes/class1.html#les-query-strings-dans-lurl)
 1. Testez la nouvelle architecture en appelant la page
    [.../Controleur/routeur.php](http://webinfo/~mon_login/PHP/TD4/Controleur/routeur.php)
-   en rajoutant l'information que `action` est égal à `afficherListe` dans l'URL au
+   en ajoutant l'information que `action` est égal à `afficherListe` dans l'URL au
    format *query string*.
 3. Prenez le temps de comprendre le **MVC** sur cet exemple.
    Avez-vous compris l'ordre dans lequel PHP exécute votre code ?
@@ -366,7 +366,7 @@ de connaître le login de l'utilisateur visé ; on utilisera encore le
    **Note :** La variable `$utilisateur` sera initialisée dans le contrôleur plus tard,
    *cf.* `$utilisateurs` dans l'exemple précédent.
 
-1. Rajoutez une action `afficherDetail` au contrôleur `ControleurUtilisateur.php`. Cette
+1. Ajoutez une action `afficherDetail` au contrôleur `ControleurUtilisateur.php`. Cette
    action devra récupérer le login donné dans l'URL, appeler la
    fonction `recupererUtilisateurParLogin()` du modèle, mettre l'utilisateur visée dans la
    variable `$utilisateur` et appeler la vue précédente.
@@ -374,7 +374,7 @@ de connaître le login de l'utilisateur visé ; on utilisera encore le
 2. Testez cette vue en appelant la page du routeur avec les bons paramètres dans
 l'URL.
 
-3. Rajoutez des liens cliquables `<a>` sur les logins de la vue `liste.php`
+3. Ajoutez des liens cliquables `<a>` sur les logins de la vue `liste.php`
    qui renvoient sur la vue de détail de l'utilisateur concernée.
 
 4. On souhaite gérer les logins non reconnus : Créez une vue
@@ -448,7 +448,7 @@ dans la base de données.
    1. Créez la vue `./vue/utilisateur/formulaireCreation.php` qui reprend le code de
       `formulaireCreationUtilisateur.html` du TD3.  
       Repasser le formulaire en méthode `GET` pour faciliter son débogage.  
-   2. Rajoutez une action `afficherFormulaireCreation` à `ControleurUtilisateur.php` qui affiche cette
+   2. Ajoutez une action `afficherFormulaireCreation` à `ControleurUtilisateur.php` qui affiche cette
       vue.
 2. Testez votre page en appelant l'action `afficherFormulaireCreation` de `routeur.php`.
 3. Ajoutez aussi un lien *Créer un utilisateur* vers l’action
@@ -474,7 +474,7 @@ dans la base de données.
    devra renvoyer vers `routeur.php`;
    2. Afin d'envoyer l'information `action=creerDepuisFormulaire` en plus des
       informations saisies dans le formulaire, la bonne façon de faire
-      est de rajouter un champ caché à votre formulaire :
+      est d'ajouter un champ caché à votre formulaire :
 
       ```html?start_inline=1
       <input type='hidden' name='action' value='creerDepuisFormulaire'>
