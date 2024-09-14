@@ -109,7 +109,8 @@ lors des TDs précédents (sauf la fonction `__toString()`).
 4. Déplacez la classe `ConfigurationBaseDeDonnees` dans le dossier `Configuration`.
 5. Corrigez le chemin relatif du `require_once` du fichier `ConfigurationBaseDeDonnees.php` dans `ConnexionBaseDeDonnees.php`.
 6. Assurez-vous que PHPStorm n'a pas créé de ligne `namespace ...`, ni `use ...` en haut de
-   vos scripts PHP. Sinon, supprimez ces lignes.
+   vos scripts PHP. Sinon, supprimez ces lignes. Les différentes utilisations de la classe `ConnexionBaseDeDonnees` dans votre code
+   risquent d'être souligné en "warning" par votre IDE. Ignorez pour le moment ces avertissements.
 </div>
 
 **N.B. :** Il est vraiment conseillé de renommer les fichiers et non de les
