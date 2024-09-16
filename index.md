@@ -37,6 +37,7 @@ Cours à l'IUT de Montpellier - 2ème année
 
 * [TD 4 -- Architecture MVC simple](tutorials/tutorial4.html) (durée indicative ≃ 3h) 
   
+  
 <!--
 
 * [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html) (durée indicative ≃ 4h) 
