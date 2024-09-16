@@ -32,11 +32,13 @@ Cours à l'IUT de Montpellier - 2ème année
 * [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html) (durée indicative ≃ 2h) 
 * [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html) (durée indicative ≃ 3h) 
 
-<!--
 
 ### Architecture Modèle - Vue - Contrôleur (3 semaines)
 
 * [TD 4 -- Architecture MVC simple](tutorials/tutorial4.html) (durée indicative ≃ 3h) 
+  
+<!--
+
 * [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html) (durée indicative ≃ 4h) 
 * [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html) (durée indicative ≃ 5h) 
 
