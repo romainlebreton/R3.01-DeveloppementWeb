@@ -397,7 +397,8 @@ de "copier/coller" les instructions du `liste.php` dans la méthode `ControleurU
 
 Cela pose plusieurs problèmes :
 1. la vue a accès à toutes les variables accessibles dans `ControleurUtilisateur::afficherListe()`,
-1. la manière de procéder du `require` est très éloignée d'un code orienté-objet propre.
+1. la manière de procéder du `require` est très éloignée d'un code orienté-objet propre,
+1. une duplication de code commence à se dessiner avec les multiples instructions "*require ('../vue*"
 
 <div class="exercise">
 
