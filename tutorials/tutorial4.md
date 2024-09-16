@@ -451,7 +451,7 @@ dans la base de données.
       Repasser le formulaire en méthode `GET` pour faciliter son débogage.  
    2. Ajoutez une action `afficherFormulaireCreation` à `ControleurUtilisateur.php` qui affiche cette
       vue.
-2. Testez votre page en appelant l'action `afficherFormulaireCreation` de `routeur.php`.
+2. Testez la page d'affichage du formulaire en appelant l'action `afficherFormulaireCreation` de `routeur.php`.
 3. Ajoutez aussi un lien *Créer un utilisateur* vers l’action
    `afficherFormulaireCreation` dans `liste.php`.
 </div>
@@ -470,7 +470,7 @@ dans la base de données.
    le login, le nom et le prénom.
 
 5. Nous souhaitons maintenant relier l'envoi du formulaire de création à
-   l'action `creerDepuisFormulaire` pour l'utilisateur soit bien créée : 
+   l'action `creerDepuisFormulaire` pour que l'utilisateur soit bien créé : 
    1. La page de traitement du formulaire (l'attribut `action` de `<form>`)
    devra renvoyer vers `routeur.php`;
    2. Afin d'envoyer l'information `action=creerDepuisFormulaire` en plus des
