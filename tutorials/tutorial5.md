@@ -54,6 +54,7 @@ contrôleur qui s'en servira comme d'un outil pour générer la page Web ;
       appelle le modèle pour récupérer/enregistrer des données, on traite ces
       données, on appelle les vues pour écrire la page Web...
 
+<!--
 <div class="exercise">
 
 Dessinez sur papier un schéma qui explique comment le contrôleur (le routeur et
@@ -63,6 +64,7 @@ correspond par exemple à l'action `afficherDetail`. Ce schéma doit représente
 Préparez-vous à l'expliquer à votre chargé de TD quand il passera le corriger.
 
 </div>
+-->
 
 ## Réorganisation du site
 

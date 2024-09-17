@@ -495,14 +495,43 @@ dans la base de données.
 Voici le **diagramme de séquence** UML (simplifié) du cas d'utilisation "*Afficher les détails d'un utilisateur*".
 
 <img alt="Diagramme entité association"
-src="https://www.plantuml.com/plantuml/png/ZLPBRjim4Dtp58IpQB8GNA0x8H0ILq2xS10tIRjdgB72HYPLVWAVe0VeAUgkUmFTf2VfIAPhCIPTBmoBv7ipRnu_v9MnJ5ktQeXv5h9bcgseWMyE98SRC8RLSDs8Mb8Eqe8UeMPglM1L9MHDtxqbX76hD9syRmG2wSU7XyM4CaDz-qn3HGWIhU2YPTWpkGVz0axJwvRn9-Z1_fEGBIahjksStg6WxfU58MoVIRmm2pluzezcXU-WELqg_Pp0POLMpcBYdCAwst1dXPBKS2rQkwTu327aKQsnAYMjxduts3MXPtDHFzbPuo2io7E2le6eUjvdAnfXM8-WbvUyOSOK1IN4ix8Y2iqHQop3U0XcowN02dJPRImJpVd5Nc-KJ0Z8Yc81kp9kLDNzR01BM0Zv70Z58MWW8JASkEdK6T3JASqFMSCqtZv-1HleYChB2azFbAk1kxRRQ1YJ5apFLItakFY3C8Hm3TuM2MkXv8mPAA7ics08EM1aHHoQqnhiebBd5_JFzn-Kwsx3XWLJ0MtU28bY9GSl9PtmzPfOYjffPb_Znfx78sL5cftJ4bPCeZ9HWRHYAJ2R2RGbc2GzbAMTkGEhd0wJLP1EbxOZ4ZxjM1gsA6zVj-yjIbcXmD5My6kZHrVCiaUCHsTbIKdISuJIF3dvE9eL600XtGRZDSAO8UU0OvJlelR8f9_8rjvG7tXGI9Agejid5YASanFtWw-vrO2EmdYtuO2tC3Hui67SSyIo08QLz94Y1WJnUzA0FH3xFsO5WVXujO5kM0DtDYWxY3Xk37CVN2PwTrtTVveJ7Cp2-3b5LrebXsM7ug8fJX2v1CkVJfDut3KtwbmglMAMziiOc4kgYyYBfGZESuubM-s4XX9Q9yp3DWUQTD9X7hbM8Y8EK4TMuG4qwXDwa1ONaP2yoRtRk-ip5VVubVd5GMzglyI41dIrycV-zd70Qi2UVOv_6P17y3UKU1ZQ-wIg_ebrCwUjLfKJmSv1idz5uDVk4VH10yZWpErX_gXDrR1_WUqpZZD5MSHpWcTUbEw1uwxTkv9iFr31zeM9TvZVYSFBCaAvmbhSglaB" style="margin-left:auto;margin-right:auto;display:block;">
+src="https://www.plantuml.com/plantuml/png/ZLPBZkCs4Dtp58MUHMOMGWV8JXW8Cnq1oQ8RuqntigUfifffcLJuQVW4EK1E4MUT6_WcEKbAD1s9RTBnmh18lbVrwl53VhAE6-Ut0xClKetSy2rO_CsZ4lY0rl8UFm-oLo1GEJGBr9tUhNZNITN3TzyoneNJ1cw-7oG1uSUdfzKDS0kn_SvWnnWHdHHovDHpyuZc5Rs1poCNppY1uoTZHrBL7DirV2L1XxySXh1J9ldA7PxWnp-ecjW1DMoqUIdWgiPexoXn3RWxx8LtKYkmmiZHpPI8OOojzOwgqigPmzy3TTt0ktlPFxkxmMDQKUGaVO6e9zxFJWxIyWa17p-AWLlRDC1OP5LD5beJrZfEyGZCDnj95PZsi7TS3ky_p7gpPCPGTK05dCfuqDtXpm6fX9LKBubG6i81IoAJYRkzzHRDxItKvwmmZL_Mlw9BT6JbLKsa5yerAFnus1jSabRStEjUgcNnPs4O4mQZBGftKgixRh75TcgYPUoCKJLvQ0qzkbMdtt-0Vtx_0uGvx7bOC1t2y8rK95O9Z5BA2T-kYOtilU7kBMxfUJvIrPJPDRIuvOgKoGwLanj9sMoYhS1avQ6gxCnNTDgRD5c7vNHbEpBXouwLOQlsozlseoCfMn8uRuMuDWAwuuwlAHxSjIsmekS4XReu-JHQDHI08DF6N0_Isf0pu3Y8KzI0BFb9R1CDZO63GbPKbTq-kH3fd5ov7sBDeq5o59UxZGQYXQd1mOPbpmNB4XXLCaNA6934dqW1UoRs_vWT9kBprIQwSOV2kwJi9EAo4UO-kKpCwRfw_EcUqM2Lng-1N1cr2iik5JU3hX2vGIUUhvDusJM_wDnei-KEfcMCt1VLvUHbKYJdkQ2IdV7IO8kZb_Rfc8DCkkemprmh6H5dg0khy0oQzOayA8lBI2ZUvD7jq_LvEMxfolp5usJgjCIaGNArYsV-yN70UwIUEST_6OZ7w1TAp8KEFf4AUc8ztCDeTETbidE875yHz7Lw1FrW45LovawmUDIMQfXVO7F6PQOiYqKELFCxhy2Fo6NNwM79ZXyKu_Z4f4iiRiNmjCnGFb4nVZly2m00" style="margin-left:auto;margin-right:auto;display:block;">
 
 <!-- Source code:
-https://www.plantuml.com/plantuml/uml/ZLPBRjim4Dtp58IpQB8GNA0x8H0ILq2xS10tIRjdgB72HYPLVWAVe0VeAUgkUmFTf2VfIAPhCIPTBmoBv7ipRnu_v9MnJ5ktQeXv5h9bcgseWMyE98SRC8RLSDs8Mb8Eqe8UeMPglM1L9MHDtxqbX76hD9syRmG2wSU7XyM4CaDz-qn3HGWIhU2YPTWpkGVz0axJwvRn9-Z1_fEGBIahjksStg6WxfU58MoVIRmm2pluzezcXU-WELqg_Pp0POLMpcBYdCAwst1dXPBKS2rQkwTu327aKQsnAYMjxduts3MXPtDHFzbPuo2io7E2le6eUjvdAnfXM8-WbvUyOSOK1IN4ix8Y2iqHQop3U0XcowN02dJPRImJpVd5Nc-KJ0Z8Yc81kp9kLDNzR01BM0Zv70Z58MWW8JASkEdK6T3JASqFMSCqtZv-1HleYChB2azFbAk1kxRRQ1YJ5apFLItakFY3C8Hm3TuM2MkXv8mPAA7ics08EM1aHHoQqnhiebBd5_JFzn-Kwsx3XWLJ0MtU28bY9GSl9PtmzPfOYjffPb_Znfx78sL5cftJ4bPCeZ9HWRHYAJ2R2RGbc2GzbAMTkGEhd0wJLP1EbxOZ4ZxjM1gsA6zVj-yjIbcXmD5My6kZHrVCiaUCHsTbIKdISuJIF3dvE9eL600XtGRZDSAO8UU0OvJlelR8f9_8rjvG7tXGI9Agejid5YASanFtWw-vrO2EmdYtuO2tC3Hui67SSyIo08QLz94Y1WJnUzA0FH3xFsO5WVXujO5kM0DtDYWxY3Xk37CVN2PwTrtTVveJ7Cp2-3b5LrebXsM7ug8fJX2v1CkVJfDut3KtwbmglMAMziiOc4kgYyYBfGZESuubM-s4XX9Q9yp3DWUQTD9X7hbM8Y8EK4TMuG4qwXDwa1ONaP2yoRtRk-ip5VVubVd5GMzglyI41dIrycV-zd70Qi2UVOv_6P17y3UKU1ZQ-wIg_ebrCwUjLfKJmSv1idz5uDVk4VH10yZWpErX_gXDrR1_WUqpZZD5MSHpWcTUbEw1uwxTkv9iFr31zeM9TvZVYSFBCaAvmbhSglaB
+https://www.plantuml.com/plantuml/uml/ZLPBZkCs4Dtp58MUHMOMGWV8JXW8Cnq1oQ8RuqntigUfifffcLJuQVW4EK1E4MUT6_WcEKbAD1s9RTBnmh18lbVrwl53VhAE6-Ut0xClKetSy2rO_CsZ4lY0rl8UFm-oLo1GEJGBr9tUhNZNITN3TzyoneNJ1cw-7oG1uSUdfzKDS0kn_SvWnnWHdHHovDHpyuZc5Rs1poCNppY1uoTZHrBL7DirV2L1XxySXh1J9ldA7PxWnp-ecjW1DMoqUIdWgiPexoXn3RWxx8LtKYkmmiZHpPI8OOojzOwgqigPmzy3TTt0ktlPFxkxmMDQKUGaVO6e9zxFJWxIyWa17p-AWLlRDC1OP5LD5beJrZfEyGZCDnj95PZsi7TS3ky_p7gpPCPGTK05dCfuqDtXpm6fX9LKBubG6i81IoAJYRkzzHRDxItKvwmmZL_Mlw9BT6JbLKsa5yerAFnus1jSabRStEjUgcNnPs4O4mQZBGftKgixRh75TcgYPUoCKJLvQ0qzkbMdtt-0Vtx_0uGvx7bOC1t2y8rK95O9Z5BA2T-kYOtilU7kBMxfUJvIrPJPDRIuvOgKoGwLanj9sMoYhS1avQ6gxCnNTDgRD5c7vNHbEpBXouwLOQlsozlseoCfMn8uRuMuDWAwuuwlAHxSjIsmekS4XReu-JHQDHI08DF6N0_Isf0pu3Y8KzI0BFb9R1CDZO63GbPKbTq-kH3fd5ov7sBDeq5o59UxZGQYXQd1mOPbpmNB4XXLCaNA6934dqW1UoRs_vWT9kBprIQwSOV2kwJi9EAo4UO-kKpCwRfw_EcUqM2Lng-1N1cr2iik5JU3hX2vGIUUhvDusJM_wDnei-KEfcMCt1VLvUHbKYJdkQ2IdV7IO8kZb_Rfc8DCkkemprmh6H5dg0khy0oQzOayA8lBI2ZUvD7jq_LvEMxfolp5usJgjCIaGNArYsV-yN70UwIUEST_6OZ7w1TAp8KEFf4AUc8ztCDeTETbidE875yHz7Lw1FrW45LovawmUDIMQfXVO7F6PQOiYqKELFCxhy2Fo6NNwM79ZXyKu_Z4f4iiRiNmjCnGFb4nVZly2m00
 -->
 
-Notez la communication entre les 3 entités Modèle, Vue, Contrôleur :
-* le Contrôleur interroge le Modèle afin de récupérer les différents éléments concernant les utilisateurs
-* le Modèle encapsule les informations de connexion à la base de données et plus généralement gère la **persistance des données** (cette partie sera approfondie et améliorée dans les TDs suivants)
-* le Contrôleur transmets les éléments à afficher à la Vue ; ces éléments sont préalablement traités, simplifiés afin de ne pas trop exposer la logique du code métier à la Vue
+Concernant le PHP, notez la communication entre les 3 entités Modèle, Vue, Contrôleur :
+* le Contrôleur interroge le Modèle afin de récupérer les différents éléments concernant les utilisateurs ;
+* le Modèle encapsule les informations de connexion à la base de données et plus généralement gère la **persistance des données** (cette partie sera approfondie et améliorée dans le TD6) ;
+* le Contrôleur transmet les éléments à afficher à la Vue ; ces éléments sont préalablement traités, simplifiés afin de ne pas trop exposer la logique du code métier à la Vue
 * le rôle de la Vue est d'afficher les informations transmises ; idéalement la Vue ne gère pas les objets métiers de l'application et se contente uniquement d'afficher les infos
+* Il n'y a pas d'interactions entre la vue et le modèle dans l'optique d'encourager une bonne séparation des tâches.
+
+Plus globalement :
+
+* Le serveur Web (Apache) existe avant la requête et continuera de vivre après :
+  c'est un *démon*, c'est-à-dire qu'il tourne en continu pour écouter les
+  requêtes HTTP. Quand il reçoit une requête, il crée un nouveau processus à
+  l'aide d'un fork. C'est ce nouveau processus qui traitera la requête,
+  notamment en exécutant PHP.
+* Les scripts PHP sont donc exécutés indépendamment. Ceci implique par exemple
+  que la connexion à la base de donnée est refaite à chaque exécution.
+* Le script PHP renvoie le code HTML de la page Web, ce qui constituera le corps
+  de la réponse HTTP. Le serveur Web Apache crée en renvoie au client une réponse HTTP complète en
+  rajoutant des en-têtes HTTP.
+* On voit que le serveur de base de données est un autre *démon*.
+
+Quelques détails de lecture des diagrammes de séquence :
+
+* Quand un acteur (bulle grise) apparait au milieu du diagramme, cela signifie
+  qu'il est créé à ce moment-là.
+* Un acteur *<<class>> NomDeClasse* fait référence aux méthodes statiques de la
+  classe. Donc cet acteur existe tout le temps et n'est pas créé par un appel de
+  constructeur.
+
+<!--
+
+* On a l'impression que la vue appelle le modèle avec $user->getLogin(). Au TD5, on verra que la vue n'a accès qu'aux classes de transfert de données (DataObjects), et donc pas aux méthodes de manipulation de la base de données (qui seront dans le repository, et non accessible depuis la vue)
+
+-->
