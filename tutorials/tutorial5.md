@@ -194,7 +194,7 @@ Les principaux avantages du chargement automatique de classe sont :
   quand on a besoin d'elle. Pour de gros sites Web, cette économie est substantielle.
 * Ce mécanisme sera indispensable pour pouvoir utiliser des bibliothèques
   externes PHP avec [`composer`](https://getcomposer.org/). Les élèves du
-  parcours A le verront lors du semestre 4.
+  parcours A le verront lors du semestre 4, et ceux du parcours D au semestre 5.
 * On évite les problèmes de chemins relatifs.
 * On évite l'erreur de charger deux fois une classe (que l'on traitait avec
   `require_once` avant).
@@ -377,7 +377,7 @@ injections SQL.
 Prenons l'exemple de notre vue `detail.php` qui écrit entre autre
 
 ```php?start_inline=1
-echo "<p> Utilisateur {$v->getLogin()} </p>";
+echo "<p> Utilisateur {$u->getLogin()} </p>";
 ```
 
 Que se passe-t-il si l'utilisateur a rentré du code HTML à la place d'un
@@ -535,8 +535,7 @@ le *header* et le *footer* sont communs à toutes nos pages.
 style="vertical-align:top">
 </p>
 
-Au niveau du HTML, le *header* correspond à la partie suivante (nous créerons
-l'en-tête et le pied de page plus tard).
+Au niveau du HTML, l'en-tête de la page (*header*) correspond à la partie : 
 
 ```html
 <!DOCTYPE html>
@@ -553,7 +552,7 @@ l'en-tête et le pied de page plus tard).
         </header>
 ```
 
-le *body* à la partie :
+le corps de la page (*body*) à la partie :
 
 ```html?start_inline=1
         <main>
@@ -565,7 +564,7 @@ le *body* à la partie :
         </main>
 ```
 
-et le *footer* à la partie :
+et le pied de page (*footer*) à la partie :
 
 ```html?start_inline=1
         <footer>
@@ -583,15 +582,15 @@ vues "corps" en l'incluant dans l'en-tête et le pied de page communs.
 
 1. Créer une vue générique `TD5/vue/vueGenerale.php` avec le code suivant. La fonction
    de `vueGenerale.php` est de charger un en-tête et un pied de page communs, ainsi
-   que la vue dont le nom de fichier est stocké dans la variable `$cheminVueBody` (et le titre de
-   page contenu dans `$pagetitle`).
+   que la vue dont le nom de fichier est stocké dans la variable `$cheminCorpsVue` (et le titre de
+   page contenu dans `$titre`).
 
    ```php
    <!DOCTYPE html>
    <html>
       <head>
          <meta charset="UTF-8">
-         <title><?php echo $pagetitle; ?></title>
+         <title><?php echo $titre; ?></title>
       </head>
       <body>
          <header>
@@ -601,7 +600,7 @@ vues "corps" en l'incluant dans l'en-tête et le pied de page communs.
          </header>
          <main>
                <?php
-               require __DIR__ . "/{$cheminVueBody}";
+               require __DIR__ . "/{$cheminCorpsVue}";
                ?>
          </main>
          <footer>
@@ -614,8 +613,8 @@ vues "corps" en l'incluant dans l'en-tête et le pied de page communs.
    *header* et *footer*.
 
 3. Reprendre l'action `afficherListe` du contrôleur pour afficher la vue `vueGenerale.php`
-   avec les paramètres supplémentaires `"pagetitle" => "Liste des utilisateurs"`,
-   `"cheminVueBody" => "utilisateur/liste.php"`.
+   avec les paramètres supplémentaires `"titre" => "Liste des utilisateurs"`,
+   `"cheminCorpsVue" => "utilisateur/liste.php"`.
 
 4. **Testez** votre action `afficherListe`. Regardez le code source de la page Web
    pour vérifier que le HTML généré est correct.
@@ -637,8 +636,6 @@ avec trois liens vers les différents contrôleurs :
    <nav>
       <ul>
          <li>
-            <a href="controleurFrontal.php?action=afficherListe&controleur=utilisateur">Gestion des utilisateurs</a>
-         </li><li>
             <a href="controleurFrontal.php?action=afficherListe&controleur=utilisateur">Gestion des utilisateurs</a>
          </li><li>
             <a href="controleurFrontal.php?action=afficherListe&controleur=trajet">Gestion des trajets</a>
@@ -663,6 +660,11 @@ avec trois liens vers les différents contrôleurs :
    Une façon de faire est de créer un dossier `TD5/ressources` qui sera accessible sur
    internet (copiez le `.htaccess` de `web`), et qui contiendra le dossier `css`, mais aussi plus tard des
    dossiers `img` d'images et `js` pour le JavaScript.
+
+   N'oubliez pas de rajouter la balise d'inclusion du CSS dans la vue générale
+   ```html
+   <link rel="stylesheet" href="...">
+   ```
 
 3. Ce fichier CSS rajoute aussi un style pour les formulaires. Pour l'appliquer,
    changez `formulaireCreation.php` pour qu'un champ de formulaire s'obtienne par exemple avec 
