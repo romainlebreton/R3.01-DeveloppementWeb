@@ -642,7 +642,7 @@ pas encore été chargée.
       ```
    2. Mettez à jour le constructeur pour qu'il initialise cet attribut à `null`.
    3. Générez à l'aide de PHPStorm l'accesseur `getTrajetsCommePassager` et le modifieur
-      `stTrajetsCommePassager`.  
+      `setTrajetsCommePassager`.  
    4. Modifiez le code de `getTrajetsCommePassager` pour que, si
       `$trajetsCommePassager` est `null`, alors on l'initialise à l'aide de `recupererTrajetsCommePassager`. 
 
