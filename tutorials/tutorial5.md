@@ -22,7 +22,7 @@ mesure que le projet grandit, nous allons bénéficier du patron d'architecture
 MVC qui va nous faciliter la tâche.
 
 Le but des TDs 5 & 6 est donc d'avoir un site qui propose une gestion minimale
-des voitures, utilisateurs et trajets proposés en covoiturage. En attendant de
+des utilisateurs et des trajets proposés en covoiturage. En attendant de
 pouvoir gérer les sessions d'utilisateur, nous allons développer l'interface
 "administrateur" du site.
 
@@ -31,11 +31,11 @@ pouvoir gérer les sessions d'utilisateur, nous allons développer l'interface
 Lors du [TD4](https://romainlebreton.github.io/R3.01-DeveloppementWeb/tutorials/tutorial4.html),
 nous avons commencé à utiliser l'architecture MVC. Le code était découpé en trois parties :
 
-3. Le modèle (*e.g.* `Modele/ModeleVoiture.php`) est une bibliothèque des
+3. Le modèle (*e.g.* `Modele/ModeleUtilisateur.php`) est une bibliothèque des
 fonctions permettant de gérer les données, *i.e.* l'interaction avec la base de données dans
 notre cas. Cette bibliothèque sera utilisée par le contrôleur.
 
-2. Les vues (*e.g.* `vue/voiture/liste.php`) ne doivent contenir que
+2. Les vues (*e.g.* `vue/utilisateur/liste.php`) ne doivent contenir que
 les parties du code qui écrivent la page Web. Ces scripts seront appelés par le
 contrôleur qui s'en servira comme d'un outil pour générer la page Web ;
 
@@ -48,8 +48,8 @@ contrôleur qui s'en servira comme d'un outil pour générer la page Web ;
       avec la demande de la page et d'appeler le bon code du contrôleur
       correspondant.
 
-   1. la partie `Voiture` du contrôleur (*e.g.*
-      `Controleur/ControleurVoiture.php`) contient le code source des
+   1. la partie `Utilisateur` du contrôleur (*e.g.*
+      `Controleur/ControleurUtilisateur.php`) contient le code source des
       actions. C'est donc ici qu'est présente la logique du site Web : on y
       appelle le modèle pour récupérer/enregistrer des données, on traite ces
       données, on appelle les vues pour écrire la page Web...
@@ -57,7 +57,7 @@ contrôleur qui s'en servira comme d'un outil pour générer la page Web ;
 <div class="exercise">
 
 Dessinez sur papier un schéma qui explique comment le contrôleur (le routeur et
-la partie Voiture), le modèle et la vue interagissent pour créer la page qui
+la partie Utilisateur), le modèle et la vue interagissent pour créer la page qui
 correspond par exemple à l'action `afficherDetail`. Ce schéma doit représenter les différents fichiers exécutés par PHP, les regrouper par composant MVC, et indiquer à l'aide de flèches l'ordre d'exécution.
 
 Préparez-vous à l'expliquer à votre chargé de TD quand il passera le corriger.
@@ -338,7 +338,7 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
    * suppression des `require_once`.  
 
    Nous vous conseillons de procéder classe par classe, dans l'ordre suivant :
-   `ConnexionBaseDeDonnees`, `ModeleVoiture` puis `ControleurVoiture`.
+   `ConnexionBaseDeDonnees`, `ModeleUtilisateur` puis `ControleurUtilisateur`.
 
    **Attention :** La classe `PDO` dans `ConnexionBaseDeDonnees.php` est
    comprise comme `App\Covoiturage\Modele\PDO` à cause du `namespace
@@ -367,21 +367,21 @@ injections SQL.
 Prenons l'exemple de notre vue `detail.php` qui écrit entre autre
 
 ```php?start_inline=1
-echo "<p> Voiture {$v->getImmatriculation()} </p>";
+echo "<p> Utilisateur {$v->getLogin()} </p>";
 ```
 
-Que se passe-t-il si l'utilisateur a rentré du code HTML à la place d'une
-immatriculation ?
+Que se passe-t-il si l'utilisateur a rentré du code HTML à la place d'un
+login ?
 
 <div class="exercise">
 
-Créez une voiture d'immatriculation `<h1>Hack` et regardez comment elle
+Créez un utilisateur de login `<h1>Hack` et regardez comment elle
 s'affiche. Inspectez le code source HTML correspondant pour comprendre ce qu'il
 s'est passé.
 
 </div>
 
-L'immatriculation est comprise comme du code HTML et est donc interprétée. Ce
+Le login est compris comme du code HTML et est donc interprétée. Ce
 comportement est non désiré et peut carrément être dangereux, notamment si
 l'utilisateur se met à écrire du JavaScript. 
 
@@ -449,11 +449,11 @@ echo '<input type="text" value="' . htmlspecialchars($valeurDefaut) . '">'; // �
 toutes les variables PHP qui se trouvent à un endroit où du code HTML pourrait
 être interprété. L'endroit typique est dans les zones de texte.  
 Nous vous conseillons de créer des variables temporaires pour stocker le texte
-échappé, par exemple `$immatriculationHTML`, puis d'afficher ces variables.
+échappé, par exemple `$loginHTML`, puis d'afficher ces variables.
 
-2. Vérifiez que votre voiture d'immatriculation `<h1>Hack` s'affiche maintenant
-   correctement et ne créé plus de balise HTML `<h1>`. Allez voir dans le code
-   source comme l'immatriculation a été échappée.
+2. Vérifiez que votre utilisateur de login `<h1>Hack` s'affiche maintenant
+   correctement et ne crée plus de balise HTML `<h1>`. Allez voir dans le code
+   source comment le login a été échappé.
 
 </div>
 
@@ -472,21 +472,21 @@ Pour information, la liste des caractères réservés des URLs sont
 
 <div class="exercise">
 
-1. Créez une voiture d'immatriculation `&a=b` en utilisant votre action
+1. Créez un utilisateur de login `&a=b` en utilisant votre action
    `afficherFormulaireCreation` ;
 
-1. Observez que le lien vers la vue de détail de cette voiture ne marche
+2. Observez que le lien vers la vue de détail de cet utilisateur ne marche
    pas. Pourquoi ?
 
-   <!-- On change la signification de l'URL l'immatriculation ne correspond plus -->
+   <!-- On change la signification de l'URL, le login ne correspond plus -->
 
-1. Changer la vue `liste.php` pour qu'elle encode à l'aide de `rawurlencode` la
-   variable PHP correspondant à l'immatriculation.  
-   **Attention :** Il ne faut pas encoder l'immatriculation déjà échappée pour
-   le HTML. Il faut créer deux variables : une immatriculation pour le HTML et
-   une pour les URLs.
+3. Changer la vue `liste.php` pour qu'elle encode à l'aide de `rawurlencode` la
+   variable PHP correspondant au login.  
+   **Attention :** Il ne faut pas encoder le login déjà échappé pour
+   le HTML. Il faut créer deux variables : un login `$loginHTML` pour le HTML et
+   un `$loginURL` pour les URLs.
 
-1. Testez que le lien vers la vue de détail remarche.
+4. Testez que le lien vers la vue de détail remarche.
 
 </div>
 
@@ -510,8 +510,8 @@ jusqu'au
 bout. Voyons cela sur un exemple.
 
 Supposez que l'on souhaite que notre vue de création (action `creerDepuisFormulaire`) de
-*voiture* affiche *"Votre voiture a bien été créée"* puis la liste des
-voitures. Il serait donc naturel d'écrire le message puis d'appeler la vue
+*utilisateur* affiche *"Votre utilisateur a bien été créé"* puis la liste des
+utilisateurs. Il serait donc naturel d'écrire le message puis d'appeler la vue
 `liste.php`. Mais comme cette dernière vue écrivait la page HTML du début à la
 fin, on ne pouvait rien y rajouter au milieu !
 
@@ -604,8 +604,8 @@ vues "corps" en l'incluant dans l'en-tête et le pied de page communs.
    *header* et *footer*.
 
 3. Reprendre l'action `afficherListe` du contrôleur pour afficher la vue `vueGenerale.php`
-   avec les paramètres supplémentaires `"pagetitle" => "Liste des voitures"`,
-   `"cheminVueBody" => "voiture/liste.php"`.
+   avec les paramètres supplémentaires `"pagetitle" => "Liste des utilisateurs"`,
+   `"cheminVueBody" => "utilisateur/liste.php"`.
 
 4. **Testez** votre action `afficherListe`. Regardez le code source de la page Web
    pour vérifier que le HTML généré est correct.
@@ -627,7 +627,7 @@ avec trois liens vers les différents contrôleurs :
    <nav>
       <ul>
          <li>
-            <a href="controleurFrontal.php?action=afficherListe&controleur=voiture">Gestion des voitures</a>
+            <a href="controleurFrontal.php?action=afficherListe&controleur=utilisateur">Gestion des utilisateurs</a>
          </li><li>
             <a href="controleurFrontal.php?action=afficherListe&controleur=utilisateur">Gestion des utilisateurs</a>
          </li><li>
@@ -658,8 +658,8 @@ avec trois liens vers les différents contrôleurs :
    changez `formulaireCreation.php` pour qu'un champ de formulaire s'obtienne par exemple avec 
     ```html
     <p class="InputAddOn">
-        <label class="InputAddOn-item" for="immat_id">Immatriculation&#42;</label>
-        <input class="InputAddOn-field" type="text" placeholder="Ex : 256AB34" name="immatriculation" id="immat_id" required>
+        <label class="InputAddOn-item" for="login_id">Login&#42;</label>
+        <input class="InputAddOn-field" type="text" placeholder="Ex : leblancj" name="login" id="login_id" required>
     </p>
     ```
 
@@ -668,29 +668,29 @@ avec trois liens vers les différents contrôleurs :
 ### Concaténer des vues
 
 Notre réorganisation nous permet aussi de résoudre le problème soulevé plus tôt
-à propos de la vue de création d'une voiture.
+à propos de la vue de création d'un utilisateur.
 
 <div class="exercise">
 
-Nous souhaitons créer une vue `voitureCreee.php` qui affiche le message
+Nous souhaitons créer une vue `utilisateurCree.php` qui affiche le message
 
 ```html
-<p>La voiture a bien été créée !</p>
+<p>L'utilisateur a bien été créé !</p>
 ```
 
 avant de faire un `require` de `liste.php` puisque cette vue sert à écrire la liste
-des voitures. Ceci donnerait le visuel suivant.
+des utilisateurs. Ceci donnerait le visuel suivant.
 
-![VoitureCreate]({{site.baseurl}}/assets/TD5/VoitureCreate.png){: .blockcenter}
+![UtilisateurCreate]({{site.baseurl}}/assets/TD5/UtilisateurCreate.png){: .blockcenter}
 
-1. Créez la vue `voitureCreee.php` comme expliqué ci-dessus, en utilisant le
+1. Créez la vue `utilisateurCree.php` comme expliqué ci-dessus, en utilisant le
    concept de vue modulaire.  
-   **Remarque :** La vue `voitureCreee.php` doit faire deux lignes
+   **Remarque :** La vue `utilisateurCree.php` doit faire deux lignes
    maintenant.
 
 2. Changez l'action `creerDepuisFormulaire` du contrôleur pour appeler cette vue.  
-   **Attention :** Il faut initialiser la variable `$voitures` contenant le
-   tableau de toutes les voitures afin qu'elle puisse être affichée dans la vue.
+   **Attention :** Il faut initialiser la variable `$utilisateurs` contenant le
+   tableau de tous les utilisateurs afin qu'elle puisse être affichée dans la vue.
 
 3. Comme vous développez un site Web, il faut vérifier régulièrement sa
    [conformité HTML](https://html5.validator.nu/) et
