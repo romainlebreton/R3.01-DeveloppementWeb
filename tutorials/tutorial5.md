@@ -76,13 +76,18 @@ fonction de s'ils doivent être accessibles sur le Web.
 
 <div class="exercise">
 
-   1. Renommez et déplacez le fichier `Controleur/routeur.php` pour qu'il devienne `web/controleurFrontal.php`.
+   1. Renommez et déplacez le fichier `Controleur/routeur.php` pour qu'il
+   devienne `web/controleurFrontal.php` **en évitant d'utiliser PHPStorm**. En
+   effet, *PHPStorm* vous rajouterait des lignes `namespace ...` et `use ...` en
+   haut de vos scripts PHP qu'il faudrait supprimer.
 
       **Note :** Ce script s'appelle contrôleur frontal (*front controller* en
       anglais) puisque c'est la partie visible de notre site.
 
    2. Déplacez les dossiers `Configuration`, `Controleur`, `Modele` et `vue` dans un
-      dossier `src`. Ce déplacement casse le site Web. Nous allons le réparer
+      dossier `src` **en évitant d'utiliser PHPStorm**. 
+      
+      Ce déplacement casse quand même le site Web, mais nous allons le réparer
       dans le prochain exercice.
 
 </div>
@@ -122,9 +127,14 @@ pas de slash final (sauf si c'est le dossier racine `/`). -->
 
 <div class="exercise">
 
-Corrigez tous les `require_once` pour que le site remarche. Si besoin, changez
-les liens de `liste.php` et l'attribut `action` du formulaire
-`formulaireCreation.php`.
+Corrigez tous les `require_once` pour que le site remarche : 
+
+1. Changez tous les `require_once` qui chargent des classes ;
+2. Changez le `require` dans `ControleurUtilisateur::afficherVue` qui charge les
+   vues ; 
+3. Si besoin, changez les liens de `liste.php` et l'attribut `action` du
+   formulaire `formulaireCreation.php` pour qu'ils renvoient sur
+   `controleurFrontal.php` au lieu de `routeur.php`.
 
 </div>
 
