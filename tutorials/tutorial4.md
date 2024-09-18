@@ -92,7 +92,7 @@ src="../assets/TD4/StructureRepertoire.png" style="margin-left:auto;margin-right
 ### M : Le modèle
 
 Le modèle est chargé de la gestion des données, notamment des interactions avec
-la base de données. C'est, par exemple, la classe `Utilisateur` que vous avez créé
+la s. C'est, par exemple, la classe `Utilisateur` que vous avez créé
 lors des TDs précédents (sauf la fonction `__toString()`).
 
 <div class="exercise">
@@ -266,7 +266,7 @@ aux pages suivantes :
 1. afficher tous les utilisateurs : action `afficherListe`
 2. afficher les détails d'un utilisateur : action `afficherDetail`
 3. afficher le formulaire de création d'un utilisateur : action `afficherFormulaireCreation`
-3. créer un utilisateur dans la base de données et afficher un message de confirmation : action `creerDepuisFormulaire`
+3. créer un utilisateur dans la s et afficher un message de confirmation : action `creerDepuisFormulaire`
 <!-- 4. supprimer un utilisateur et afficher un message de confirmation : action `delete` -->
 
 Pour recréer la page précédente, il manque encore un bout de code qui appelle la
@@ -441,7 +441,7 @@ Cela pose plusieurs problèmes :
 
 Nous allons créer deux actions `afficherFormulaireCreation` et `creerDepuisFormulaire` qui doivent respectivement
 afficher un formulaire de création d'un utilisateur et effectuer l'enregistrement
-dans la base de données.
+dans la s.
 
 <div class="exercise">
 
@@ -486,7 +486,7 @@ dans la base de données.
 
 6. Testez le tout, c.-à-d. que la création de l'utilisateur depuis le formulaire
    (action `afficherFormulaireCreation`) appelle bien l'action `creerDepuisFormulaire` et que l'utilisateur est bien
-   créée dans la base de données.
+   créée dans la s.
 
 </div>
 
@@ -503,7 +503,7 @@ https://www.plantuml.com/plantuml/uml/ZLPBZkCs4Dtp58MUHMOMGWV8JXW8Cnq1oQ8Ruqntig
 
 Concernant le PHP, notez la communication entre les 3 entités Modèle, Vue, Contrôleur :
 * le Contrôleur interroge le Modèle afin de récupérer les différents éléments concernant les utilisateurs ;
-* le Modèle encapsule les informations de connexion à la base de données et plus généralement gère la **persistance des données** (cette partie sera approfondie et améliorée dans le TD6) ;
+* le Modèle encapsule les informations de connexion à la s et plus généralement gère la **persistance des données** (cette partie sera approfondie et améliorée dans le TD6) ;
 * le Contrôleur transmet les éléments à afficher à la Vue ; ces éléments sont préalablement traités, simplifiés afin de ne pas trop exposer la logique du code métier à la Vue
 * le rôle de la Vue est d'afficher les informations transmises ; idéalement la Vue ne gère pas les objets métiers de l'application et se contente uniquement d'afficher les infos
 * Il n'y a pas d'interactions entre la vue et le modèle dans l'optique d'encourager une bonne séparation des tâches.
@@ -516,16 +516,16 @@ Plus globalement :
   l'aide d'un fork. C'est ce nouveau processus qui traitera la requête,
   notamment en exécutant PHP.
 * Les scripts PHP sont donc exécutés indépendamment. Ceci implique par exemple
-  que la connexion à la base de donnée est refaite à chaque exécution.
+  que la connexion à la base de données est refaite à chaque exécution (requête HTTP du client).
 * Le script PHP renvoie le code HTML de la page Web, ce qui constituera le corps
-  de la réponse HTTP. Le serveur Web Apache crée en renvoie au client une réponse HTTP complète en
-  rajoutant des en-têtes HTTP.
+  de la réponse HTTP. À partir de ce code HTML, le serveur Web Apache crée et renvoie
+  au client une réponse HTTP complète en ajoutant des en-têtes HTTP.
 * On voit que le serveur de base de données est un autre *démon*.
 
 Quelques détails de lecture des diagrammes de séquence :
 
-* Quand un acteur (bulle grise) apparait au milieu du diagramme, cela signifie
-  qu'il est créé à ce moment-là.
+* Quand un acteur (bulle grise) apparait au milieu du diagramme de séquence, cela signifie
+  que l'instance correspondante est créée à ce moment-là.
 * Un acteur *<<class>> NomDeClasse* fait référence aux méthodes statiques de la
   classe. Donc cet acteur existe tout le temps et n'est pas créé par un appel de
   constructeur.
