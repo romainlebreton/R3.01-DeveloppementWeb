@@ -526,9 +526,9 @@ Quelques détails de lecture des diagrammes de séquence :
 
 * Quand un acteur (bulle grise) apparait au milieu du diagramme de séquence, cela signifie
   que l'instance correspondante est créée à ce moment-là.
-* Un acteur *<<class>> NomDeClasse* fait référence aux méthodes statiques de la
-  classe. Donc cet acteur existe tout le temps et n'est pas créé par un appel de
-  constructeur.
+* Un acteur *<<class>> NomDeClasse* fait référence au `NomDeClasse` en tant que classe (et pas une instance particulière de celle-ci).
+  Donc cet acteur existe tout le temps et n'est pas créé par un appel de
+  constructeur. Ainsi, sur cet acteur, seules les méthodes statiques peuvent être invoquées. 
 
 <!--
 
