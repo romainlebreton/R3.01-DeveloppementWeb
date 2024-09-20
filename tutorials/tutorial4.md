@@ -92,7 +92,7 @@ src="../assets/TD4/StructureRepertoire.png" style="margin-left:auto;margin-right
 ### M : Le modèle
 
 Le modèle est chargé de la gestion des données, notamment des interactions avec
-la s. C'est, par exemple, la classe `Utilisateur` que vous avez créé
+la base de données. C'est, par exemple, la classe `Utilisateur` que vous avez créé
 lors des TDs précédents (sauf la fonction `__toString()`).
 
 <div class="exercise">
@@ -266,7 +266,7 @@ aux pages suivantes :
 1. afficher tous les utilisateurs : action `afficherListe`
 2. afficher les détails d'un utilisateur : action `afficherDetail`
 3. afficher le formulaire de création d'un utilisateur : action `afficherFormulaireCreation`
-3. créer un utilisateur dans la s et afficher un message de confirmation : action `creerDepuisFormulaire`
+3. créer un utilisateur dans la base de données et afficher un message de confirmation : action `creerDepuisFormulaire`
 <!-- 4. supprimer un utilisateur et afficher un message de confirmation : action `delete` -->
 
 Pour recréer la page précédente, il manque encore un bout de code qui appelle la
@@ -441,7 +441,7 @@ Cela pose plusieurs problèmes :
 
 Nous allons créer deux actions `afficherFormulaireCreation` et `creerDepuisFormulaire` qui doivent respectivement
 afficher un formulaire de création d'un utilisateur et effectuer l'enregistrement
-dans la s.
+dans la base de données.
 
 <div class="exercise">
 
@@ -451,7 +451,7 @@ dans la s.
       Repasser le formulaire en méthode `GET` pour faciliter son débogage.  
    2. Ajoutez une action `afficherFormulaireCreation` à `ControleurUtilisateur.php` qui affiche cette
       vue.
-2. Testez la page d'affichage du formulaire en appelant l'action `afficherFormulaireCreation` de `routeur.php`.
+2. Testez la page d'affichage du formulaire en appelant l'action `afficherFormulaireCreation` depuis `routeur.php`.
 3. Ajoutez aussi un lien *Créer un utilisateur* vers l’action
    `afficherFormulaireCreation` dans `liste.php`.
 </div>
@@ -466,7 +466,7 @@ dans la s.
    4. appeler la fonction `afficherListe()` pour afficher le tableau de
       tous les utilisateurs.
 
-4. Testez l'action `creerDepuisFormulaire` de `routeur.php` en donnant
+4. Testez en appelant l'action `creerDepuisFormulaire` depuis `routeur.php` en donnant
    le login, le nom et le prénom.
 
 5. Nous souhaitons maintenant relier l'envoi du formulaire de création à
@@ -486,7 +486,7 @@ dans la s.
 
 6. Testez le tout, c.-à-d. que la création de l'utilisateur depuis le formulaire
    (action `afficherFormulaireCreation`) appelle bien l'action `creerDepuisFormulaire` et que l'utilisateur est bien
-   créée dans la s.
+   créée dans la base de données.
 
 </div>
 
@@ -503,7 +503,7 @@ https://www.plantuml.com/plantuml/uml/ZLPBZkCs4Dtp58MUHMOMGWV8JXW8Cnq1oQ8Ruqntig
 
 Concernant le PHP, notez la communication entre les 3 entités Modèle, Vue, Contrôleur :
 * le Contrôleur interroge le Modèle afin de récupérer les différents éléments concernant les utilisateurs ;
-* le Modèle encapsule les informations de connexion à la s et plus généralement gère la **persistance des données** (cette partie sera approfondie et améliorée dans le TD6) ;
+* le Modèle encapsule les informations de connexion à la base de données et plus généralement gère la **persistance des données** (cette partie sera approfondie et améliorée dans le TD6) ;
 * le Contrôleur transmet les éléments à afficher à la Vue ; ces éléments sont préalablement traités, simplifiés afin de ne pas trop exposer la logique du code métier à la Vue
 * le rôle de la Vue est d'afficher les informations transmises ; idéalement la Vue ne gère pas les objets métiers de l'application et se contente uniquement d'afficher les infos
 * Il n'y a pas d'interactions entre la vue et le modèle dans l'optique d'encourager une bonne séparation des tâches.
