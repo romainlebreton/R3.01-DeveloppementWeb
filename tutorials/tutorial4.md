@@ -98,6 +98,19 @@ lors des TDs précédents (sauf la fonction `__toString()`).
 <div class="exercise">
 
 1. Créez les répertoires `Configuration`, `Controleur`, `Modele`, `vue` et `vue/utilisateur`.
+3. Déplacez vos fichiers `Utilisateur.php` et `ConnexionBaseDeDonnees.php` dans le répertoire `Modele/` **en évitant d'utiliser PHPStorm**. 
+   
+   En effet, *PHPStorm* vous rajouterait des lignes `namespace ...` et `use ...`
+   en haut de vos scripts PHP qu'il faudrait supprimer. 
+   
+   **Remarque :** Vous pourrez enfin utiliser PhpStorm pour déplacer des classes
+   quand vous aurez appris les `namespace ...` et `use ...` dans de TD5.
+4. Déplacez la classe `ConfigurationBaseDeDonnees` dans le dossier
+   `Configuration` **en évitant d'utiliser PHPStorm**.
+5. Corrigez le chemin relatif du `require_once` du fichier `ConfigurationBaseDeDonnees.php` dans `ConnexionBaseDeDonnees.php`.
+
+
+
 2. Utilisez l'outil de refactoring de votre IDE pour renommer la classe
    `Utilisateur` en `ModeleUtilisateur`. 
    
@@ -105,9 +118,7 @@ lors des TDs précédents (sauf la fonction `__toString()`).
    Mettez en commentaire la fonction `__toString()` pour la désactiver.
 
    **Aide pour le *refactoring*** : Clic droit sur le fichier de déclaration de classe à renommer à PhpStorm, puis *Refactor* → *Rename*.
-3. Déplacez vos fichiers `ModeleUtilisateur.php` et `ConnexionBaseDeDonnees.php` dans le répertoire `Modele/`.
-4. Déplacez la classe `ConfigurationBaseDeDonnees` dans le dossier `Configuration`.
-5. Corrigez le chemin relatif du `require_once` du fichier `ConfigurationBaseDeDonnees.php` dans `ConnexionBaseDeDonnees.php`.
+
 6. Assurez-vous que PHPStorm n'a pas créé de ligne `namespace ...`, ni `use ...` en haut de
    vos scripts PHP. Sinon, supprimez ces lignes. **Attention :** si l'utilisation de certaines classes dans votre code
    est soulignée en avertissement par votre IDE, alors des `namespace ...` et/ou `use ...` persistent quelque part dans vos classes.
