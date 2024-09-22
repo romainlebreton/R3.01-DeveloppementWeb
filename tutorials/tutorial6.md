@@ -392,28 +392,50 @@ travail, commençons par créer l'action `afficherListe` de `Trajet`.
 
 1. Créez un contrôleur `controleur/ControleurTrajet.php` similaire à celui
    des utilisateurs qui reprend les méthodes `afficherListe()`, `afficherVue()` et
-   `afficherErreur()`.
+   `afficherErreur()` (et commente éventuellement les autres méthodes).
 
    **Astuce :** Vous pouvez utiliser la fonction de remplacement (`Ctrl+R` sous
-     PHPStorm) pour remplacer tous les `voiture` par `trajet`. En cochant
+     PHPStorm) pour remplacer tous les `utilisateur` par `trajet`. En cochant
      `Préserver la casse` (`Preserve case`), vous pouvez faire en sorte de
      respecter les majuscules lors du remplacement.
 
-2. Créez une classe `DataObject/Trajet.php` basé sur votre classe
-   `Trajet` des TDs 2 & 3. Ce modèle ne contiendra que les *getter*, les
-   *setter* et le constructeur.
+2. Créez deux classes `DataObject/Trajet.php` et
+   `Repository/TrajetRepository.php`.
+
+3. À partir de votre classe `Trajet` des TDs 2 & 3, copiez/collez : 
    
-1. Créez une classe `Repository/TrajetRepository.php` qui reprend la
-   fonction `getTrajets()` et `construireDepuisTableauSQL($trajetTableau)` de votre
-   ancienne classe `Trajet`.
+   * dans `DataObject/Trajet.php` : les attributs, les *getter*, les *setter* et le
+   constructeur.
+   * dans `Repository/TrajetRepository.php` : les fonctions
+     `construireDepuisTableauSQL($trajetTableau)`, `recupererTrajets()` et
+     `recupererPassagers()`.
 
-   Corrigez l'erreur : il manque un alias avec `use` pour la classe `Trajet`.
+   Enlevez les `require_once`, indiquez les bons `namespace` correspondant aux
+   dossiers et importez les classes nécessaires avec `use`.
 
-2. Créez une vue `src/vue/trajet/liste.php` similaire à celle des voitures
+4. Corrigeons les appels aux méthodes : 
+   1. Dans `TrajetRepository.php` : 
+      * `Utilisateur::recupererUtilisateurParLogin` → `UtilisateurRepository::recupererUtilisateurParLogin`
+      * `Utilisateur::construireDepuisTableauSQL` → `UtilisateurRepository::construireDepuisTableauSQL`
+      * `Trajet::construireDepuisTableauSQL` → `TrajetRepository::construireDepuisTableauSQL`
+      * changez la signature de la fonction `recupererPassagers` pour 
+        ```php
+        static public function recupererPassagers(Trajet $trajet): array
+        ```
+        et corrigez le tableau de valeurs donné à la requête préparée.
+      * `$trajet->recupererPassagers()` → `TrajetRepository::recupererPassagers($trajet)`
+   2. Si vous aviez codé l'attribut `trajetsCommePassager` de `Utilisateur` au
+      TD3 : 
+      * Dans `UtilisateurRepository.php` :  
+        `Trajet::construireDepuisTableauSQL` → `TrajetRepository::construireDepuisTableauSQL`
+      * Dans `Utilisateur.php` : importez la classe `Trajet` dans `Utilisateur`
+      (utilisé au niveau du PHPDoc du getter et du setter de l'attribut `trajetsCommePassager`).
+
+5. Créez une vue `src/vue/trajet/liste.php` similaire à celle des utilisateurs
    (sans nécessairement de lien pour l'instant).  
    Idem pour `trajet/erreur.php`.
 
-3. **Testez** votre action en appelant l'action `afficherListe` du contrôleur
+6. **Testez** votre action en appelant l'action `afficherListe` du contrôleur
    `Trajet` (qui est accessible dans la barre de menu de votre site
    normalement).
 
@@ -422,8 +444,8 @@ travail, commençons par créer l'action `afficherListe` de `Trajet`.
 ## Modèle générique
 
 L'implémentation du CRUD pour les trajets est un code très
-similaire à celui pour les voitures. Nous pourrions donc copier/coller le code
-des voitures et changer les (nombreux) endroits nécessaires. Et cela contredit
+similaire à celui pour les utilisateurs. Nous pourrions donc copier/coller le code
+des utilisateurs et changer les (nombreux) endroits nécessaires. Et cela contredit
 le principe [DRY](https://fr.wikipedia.org/wiki/Ne_vous_r%C3%A9p%C3%A9tez_pas)
 que vous connaissez depuis l'an dernier.
 
@@ -451,18 +473,18 @@ src="http://www.plantuml.com/plantuml/png/SoWkIImgAStDuN9CAYufIamk2Kejo2_EBCalgb
 
 Nous allons détailler ces changements dans les prochaines sections.
 
-Déplaçons de `VoitureRepository` vers un modèle générique `AbstractRepository`
-toutes les requêtes SQL qui ne sont pas spécifiques aux voitures.
+Déplaçons de `UtilisateurRepository` vers un modèle générique `AbstractRepository`
+toutes les requêtes SQL qui ne sont pas spécifiques aux utilisateurs.
 
 <!-- 
 
 TODO : rewrite l'an prochain. Le nouveau factoring marche mieux mais émet des messages de warning
 
-1. getVoitures plus statiques
+1. recupererUtilisateurs plus statiques
    4 changements dans Contr (Ctrl+R ou Alt+J)
    Pour pouvoir utiliser héritage
    
-1. getVoitureParImmatriculation plus statique
+1. recupererUtilisateurParLogin plus statique
    2 changements dans Contr (Ctrl+R ou Alt+J)
    Pour pouvoir utiliser héritage
 
@@ -473,38 +495,38 @@ TODO : rewrite l'an prochain. Le nouveau factoring marche mieux mais émet des m
    créer interface avec type de retour AbstractDataObject
    
 1. getNomTable
-   interface + implémentation + utilisation dans getVoitures
+   interface + implémentation + utilisation dans recupererUtilisateurs
 
-2. getVoitures -> abstract recuperer
+2. recupererUtilisateurs -> abstract recuperer
    Pull member Up (skip le message de warning)
 
  -->
 
 <div class="exercise">
 
-Commençons par la fonction `getVoitures()` de `VoitureRepository`. Les seules
-différences entre `getVoitures()` et `recupererUtilisateurs()` sont le nom de la table
+Commençons par la fonction `recupererUtilisateurs()` de `UtilisateurRepository`. Les seules
+différences entre `recupererUtilisateurs()` et `recupererTrajets()` sont le nom de la table
 et le nom de la classe des objets en sortie. Voici donc comment nous allons
 faire pour avoir un code générique :
 
 1. Créez une nouvelle classe *abstraite* `abstract class AbstractRepository` et
-   faites hériter la classe `VoitureRepository` de `AbstractRepository` (mot
+   faites hériter la classe `UtilisateurRepository` de `AbstractRepository` (mot
    clé `extends` comme en Java).
 
-1. Pour qu'on puisse migrer la fonction `getVoitures()` de `VoitureRepository` vers
+1. Pour qu'on puisse migrer la fonction `recupererUtilisateurs()` de `UtilisateurRepository` vers
    `AbstractRepository`, il faudrait que cette dernière puisse accèder au nom de la table.
    Pour cela elle va demander à toutes ses classes filles de posséder une méthode `getNomTable()`.  
    Ajoutez donc une méthode abstraite `getNomTable()` dans `AbstractRepository`
    ```php
    protected abstract function getNomTable(): string;
    ```
-   et une implémentation de `getNomTable()` dans `VoitureRepository`.
+   et une implémentation de `getNomTable()` dans `UtilisateurRepository`.
 
    **Question** : pourquoi la visibilité de cette fonction est `protected` ?
 
    <!-- getNomTable n'est pas statique car PHP déconseille l'utilisation de méthode statique et abstraite (PHP émet un warning) -->
 
-1. Déplacez la fonction `getVoitures()` de `VoitureRepository` vers `AbstractRepository` en la renommant `recuperer()`.
+1. Déplacez la fonction `recupererUtilisateurs()` de `UtilisateurRepository` vers `AbstractRepository` en la renommant `recuperer()`.
 
    **Astuce** : sur PhpStorm le moyen le plus simple pour déplacer la fonction serait *Clic droit sur la déclaration de la méthode* >
    *Refactor* > *Move Members* > *Indiquer `AbstractRepository` comme classe de destination*. De même pour le renommage, pensez à utiliser le refactoring.
@@ -526,10 +548,10 @@ faire pour avoir un code générique :
    ```php
    public abstract function construireDepuisTableauSQL(array $objetFormatTableau) : AbstractDataObject;
    ```
-   * Enlevez le `static` du `construireDepuisTableauSQL()` de `VoitureRepository`.
+   * Enlevez le `static` du `construireDepuisTableauSQL()` de `UtilisateurRepository`.
    * Mettez à jour l'appel à `construireDepuisTableauSQL()` de `recuperer()`.
    * Pensez à vérifier que l'implémentation de la méthode `construireDepuisTableauSQL()` de
-     `VoitureRepository` déclare bien le type de retour `Voiture` (sous-classe
+     `UtilisateurRepository` déclare bien le type de retour `Utilisateur` (sous-classe
      de `AbstractDataObject`).
    * La méthode `construireDepuisTableauSQL()` devient `protected` dans les classes filles.
 
@@ -538,34 +560,34 @@ faire pour avoir un code générique :
 
    <!-- construireDepuisTableauSQL($objetFormatTableau): AbstractDataObject; -->
 
-3. Corrigez l'action `afficherListe` du `ControleurVoiture` pour faire appel à la
-   méthode `recuperer()` de `VoitureRepository`. Ici nous vous conseillons pour
+3. Corrigez l'action `afficherListe` du `ControleurUtilisateur` pour faire appel à la
+   méthode `recuperer()` de `UtilisateurRepository`. Ici nous vous conseillons pour
    le moment de construire un objet anonyme afin de pouvoir appeler les
-   fonctions dynamiques de `VoitureRepository`. Par exemple, si vous souhaitez
+   fonctions dynamiques de `UtilisateurRepository`. Par exemple, si vous souhaitez
    appeler la fonction `recuperer`, vous pouvez faire ceci :
 
    ```php
-   (new VoitureRepository())->recuperer();
+   (new UtilisateurRepository())->recuperer();
    ```
 
-   L'action `afficherListe` du contrôleur *voiture* doit remarcher.
+   L'action `afficherListe` du contrôleur *utilisateur* doit remarcher.
 
-4. Mettez à jour tous vos appels à `getVoitures()` (ou `recuperer()` si la
-   méthode `getVoitures()` a été correctement renommé par le *refactoring* de la
+4. Mettez à jour tous vos appels à `recupererUtilisateurs()` (ou `recuperer()` si la
+   méthode `recupererUtilisateurs()` a été correctement renommé par le *refactoring* de la
    question 3).
 
 </div>
 
 <div class="exercise">
 
-1. Faites de même pour `UtilisateurRepository` :
-   * commentez `recupererUtilisateurs()`,
+1. Faites de même pour `TrajetRepository` :
+   * commentez `recupererTrajets()`,
    * enlevez le `static` de `construireDepuisTableauSQL()`,
    * implémentez `getNomTable()`,
-   * `UtilisateurRepository` doit hériter de `AbstractRepository`.
+   * `TrajetRepository` doit hériter de `AbstractRepository`.
 
-1. Corrigez l'action `afficherListe` du `ControleurUtilisateur` pour faire appel à la
-   méthode `recuperer()` de `UtilisateurRepository`. L'action doit remarcher.
+1. Corrigez l'action `afficherListe` du `ControleurTrajet` pour faire appel à la
+   méthode `recuperer()` de `TrajetRepository`. L'action doit remarcher.
 
 </div>
 
@@ -585,7 +607,7 @@ demander aux implémentations de `AbstractRepository` de fournir une méthode
    public function recupererParClePrimaire(string $valeurClePrimaire): ?AbstractDataObject
    ```
    
-   Copiez/collez le corps de la fonction `getVoitureParImmatriculation($immatriculation)`
+   Copiez/collez le corps de la fonction `recupererUtilisateurParLogin($login)`
    vers `recupererParClePrimaire($valeurClePrimaire)` de `AbstractRepository`. Nous allons
    le *refactoriser* dans les questions suivantes pour qu'il devienne générique.
 
@@ -593,7 +615,7 @@ demander aux implémentations de `AbstractRepository` de fournir une méthode
    ```php
    protected abstract function getNomClePrimaire(): string;
    ```
-   et une implémentation de `getNomClePrimaire()` dans `VoitureRepository`.
+   et une implémentation de `getNomClePrimaire()` dans `UtilisateurRepository`.
 
 1. Utilisez `getNomTable()` et `getNomClePrimaire()` pour construire la requête
    *SQL* de `recupererParClePrimaire()`.
@@ -602,18 +624,18 @@ demander aux implémentations de `AbstractRepository` de fournir une méthode
    * Changez les valeurs dans le tableau donné à `execute()`
    * Corrigez l'appel à `construireDepuisTableauSQL()` qui est une méthode dynamique maintenant.
 
-1. Corrigez l'action `afficherDetail` du `ControleurVoiture` pour faire appel à la méthode
-   `recupererParClePrimaire()` de `VoitureRepository`. L'action doit remarcher.
+1. Corrigez l'action `afficherDetail` du `ControleurUtilisateur` pour faire appel à la méthode
+   `recupererParClePrimaire()` de `UtilisateurRepository`. L'action doit remarcher.
 
 </div>
 
 <div class="exercise">
 
-1. Faites de même pour `UtilisateurRepository` : implémentez
+1. Faites de même pour `TrajetRepository` : implémentez
    `getNomClePrimaire()`.
 
-1. Créez l'action `afficherDetail` du `ControleurUtilisateur` en vous basant sur celle de
-   `ControleurVoiture`.
+1. Créez l'action `afficherDetail` du `ControleurTrajet` en vous basant sur celle de
+   `ControleurUtilisateur`.
 
    **Rappel :** Utilisez le remplacement `Ctrl+R` en préservant la casse pour vous faciliter le travail.
 
@@ -630,10 +652,10 @@ Pas de nouveautés.
 <div class="exercise">
 
 Nous vous laissons migrer la fonction
-`supprimerParImmatriculation($immatriculation)` de `VoitureRepository` vers
+`supprimerParLogin($login)` de `UtilisateurRepository` vers
 `AbstractRepository` en la renommant `supprimer($valeurClePrimaire)` et adapter
 sa requête *SQL*. Adaptez également l'action `supprimer` des contrôleurs
-*voiture* et *utilisateur*, ainsi que leur vue associée `voitureSupprime.php` et
+*trajet* et *utilisateur*, ainsi que leur vue associée `trajetSupprime.php` et
 `utilisateurSupprime.php`. 
 </div>
 
@@ -644,8 +666,8 @@ Pas de nouveautés.
 <div class="exercise">
 
 Nous vous laissons adapter les actions `afficherFormulaireCreation` et `afficherFormulaireMiseAJour` de
-`ControleurVoiture` (et `ControleurUtilisateur`), leurs vues associées `formulaireCreation.php` et
-`formulaireMiseJour.php` et à ajouter les liens pour mettre à jour un utilisateur dans
+`ControleurTrajet` et `ControleurUtilisateur`), leurs vues associées `formulaireCreation.php` et
+`formulaireMiseJour.php` et à ajouter les liens pour mettre à jour un trajet et un utilisateur dans
 `detail.php`.
 
 </div>
@@ -661,7 +683,7 @@ fonction correspondante dans le modèle générique.
 
 TODO : À changer l'an prochain
 
-Faire déjà les changements dans VoitureRepository pour la rendre générique et que cela marche
+Faire déjà les changements dans UtilisateurRepository pour la rendre générique et que cela marche
 
 Après on la déplacera dans AbstractRepository
 
@@ -669,14 +691,14 @@ Après on la déplacera dans AbstractRepository
 
 Pour reconstituer la requête
 ```sql
-UPDATE voiture SET marque= :marqueTag, couleur= :couleurTag, immatriculation= :immatriculationTag WHERE immatriculation= :immatriculationTag;
+UPDATE utilisateur SET nom= :nomTag, prenom= :prenomTag, login= :loginTag WHERE login= :loginTag;
 ```
 il est nécessaire de pouvoir lister les champs de la table `voiture`. De même, il sera nécessaire de lister
 les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans `AbstractRepository`.
 
 <div class="exercise">
 
-1. Déplacez la fonction `mettreAJour($immatriculation)` de
+1. Déplacez la fonction `mettreAJour($utilisateur)` de
    `VoitureRepository.php` vers `AbstractRepository` en la renommant
    ```php
    public function mettreAJour(AbstractDataObject $object): void
@@ -691,27 +713,26 @@ les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans
    ```php
    protected function getNomsColonnes(): array
    {
-       return ["immatriculation", "marque", "couleur", "nbSieges"];
+       return ["login", "nom", "prenom"];
    }
     ```
 
 3. Utilisez `getNomTable()`, `getNomClePrimaire()` et `getNomsColonnes()` pour
    construire la requête *SQL* de `mettreAJour()` : 
    ```sql
-   UPDATE voiture SET marque= :marqueTag, couleur= :couleurTag, immatriculation= :immatriculationTag WHERE immatriculation= :immatriculationTag;
+   UPDATE utilisateur SET nom= :nomTag, prenom= :prenomTag, login= :loginTag WHERE login= :loginTag;
    ```
 
    **Aide :** N'hésitez pas à afficher la requête générée pour vérifier votre
    code.
 
 4. Pour les besoins de `execute()`, nous avons besoin de transformer l'objet
-   `Voiture $voiture` en un tableau 
+   `Utilisateur $utilisateur` en un tableau 
    ```php
    array(
-       "immatriculationTag" => $voiture->getImmatriculation(),
-       "marqueTag" => $voiture->getMarque(),
-       "couleurTag" => $voiture->getCouleur(),
-       "nbSiegesTag" => $voiture->getNbSieges(),
+       "loginTag" => $utilisateur->getLogin(),
+       "nomTag" => $utilisateur->getNom(),
+       "prenomTag" => $utilisateur->getPrenom(),
    );
    ```
 
@@ -723,15 +744,14 @@ les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans
    ```php
    public abstract function formatTableau(): array;
    ```
-   Implémentez cette fonction dans `Voiture` avec
+   Implémentez cette fonction dans `Utilisateur` avec
    ```php
    public function formatTableau(): array
    {
        return array(
-           "immatriculationTag" => $this->immatriculation,
-           "marqueTag" => $this->marque,
-           "couleurTag" => $this->couleur,
-           "nbSiegesTag" => $this->nbSieges,
+           "loginTag" => $this->login,
+           "nomTag" => $this->nom,
+           "prenomTag" => $this->prenom,
        );
    }
    ```
@@ -739,8 +759,8 @@ les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans
 5. Utilisez `formatTableau()` dans `mettreAJour()` pour obtenir le tableau donné à
    `execute()`.
 
-6. Corrigez l'action `mettreAJour` du `ControleurVoiture` pour faire appel aux
-   méthodes de `VoitureRepository`. L'action doit remarcher.
+6. Corrigez l'action `mettreAJour` du `ControleurUtilisateur` pour faire appel aux
+   méthodes de `UtilisateurRepository`. L'action doit remarcher.
 
 <!-- 1. Grâce à la classe `AbstractDataObject`, vous pouvez ajouter des déclarations
    de type dans `AbstractRepository` :
@@ -750,7 +770,7 @@ les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans
 
 <div class="exercise">
 
-Implémentez l'action `mettreAJour` du contrôleur *utilisateur*.
+Implémentez l'action `mettreAJour` du contrôleur *trajet*.
 
 </div>
 
@@ -762,7 +782,7 @@ Implémentez l'action `mettreAJour` du contrôleur *utilisateur*.
 
 Répétez la question précédente avec la fonction `ajouter()` des différents
 modèles. Ajoutez l'action `creerDepuisFormulaire` dans le contrôleur
-*utilisateur*.
+*trajet*.
 
 </div>
 
@@ -783,7 +803,7 @@ jointure `passager`, cf. fin TD3).
 <!-- * Faire en sorte que la méthode d'erreur prenne en argument un message d'erreur. Chaque appel à cette méthode doit maintenant fournir un message d'erreur personnalisé. -->
 * Factoriser le code des contrôleurs dans un contrôleur générique, au moins pour
   la méthode `afficherVue()` 
-* Ajouter les actions spécifiques aux requêtes SQL `getTrajets()` et
+* Ajouter les actions spécifiques aux requêtes SQL `recupererTrajets()` et
   `supprimerPassager()` du TD3 non utilisées :
   * qui liste les trajets d'un utilisateur,
   * qui désinscrit un passager d'un trajet.
