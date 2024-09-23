@@ -350,7 +350,7 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
 
    Nous vous conseillons de procéder classe par classe, dans l'ordre suivant :
    `ConnexionBaseDeDonnees`, `ModeleUtilisateur` puis `ControleurUtilisateur`.
-   B'oubliez pas d'importez la classe `ControleurUtilisateur` dans le contrôleur frontal pour pouvoir l'utiliser.
+   N'oubliez pas d'importez la classe `ControleurUtilisateur` dans le contrôleur frontal pour pouvoir l'utiliser.
 
    **Attention :** La classe `PDO` dans `ConnexionBaseDeDonnees.php` est
    comprise comme `App\Covoiturage\Modele\PDO` à cause du `namespace
@@ -360,6 +360,7 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
      global.
    * Ou spécifiez que `PDO` est dans l'espace de nom global en appelant la
      classe `\PDO`.
+   La même remarque est pour toutes les autres classes de la librairie standard de PHP (comme `DateTime` dans `Trajet` par exemple).
 
    Le site doit maintenant fonctionner à nouveau.
 7. Maintenant que vous avez compris le principe de `Psr4AutoloaderClass`, vous
