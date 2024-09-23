@@ -123,7 +123,7 @@ propres aux utilisateurs (méthodes métiers). Voici le diagramme de classe UML 
 nous allons obtenir à la fin de cette section :
 
 <img alt="Diagramme de classe"
-src="http://www.plantuml.com/plantuml/png/ZLF1hjem4BpxA_QOg1JHAuSA11SEj5MfUa926xEAJ1qxjTULAEBVwoPs4zBtn9DoySpkp7WtNdb6nw7HmlzGfaM73HXx9ayjV5WiHgZKwFsQsQagCEsaDGVrcs0XXC66V8kIODssnutzPHK7XpKTzr59qt6BZ9-h2qc6cm0Gq8l1zwwGEl0T09nEKTMp2v8BrJGOlMJGoCgQ6JJeVWQQWRH1Kt0pCDL1KKs-503l0M3IiGGVJwQ6daxz4pIhJU6ilGHb65AyclXJmekoOnBXYNUFvjFuvI2nwHsBCdiE8fbAeShCZ7p_NNe8DVKUb64Gs7UtB_eX36aoFWvp5_StxFGhjTOhjkxwuax7T7AxUOxvvFslRL_Lpn6Tm-kq1YysCBaY5KBlJx6yibQ_hlW5tRDLB7F6gKhw-PIZBRL1-MzOQS9G9EzqVEYFauhVqn7D_v_A_EFprvBRn8hCEJJw3m00" style="margin-left:auto;margin-right:auto;display:block;">
+src="//www.plantuml.com/plantuml/png/ZP91Qy9048Nl-HLpZDIAlNeeIhqKR6jhUnDa4eUmThExpCuMhFZVksfAbjIY44XuyxqtuUsElI1Bg7NcFvLno5Y3iMlovE1kE4pKKgFt4n5MHH1wBArPg6-2OPOPhCaxB0acpYqVx9TL4XWhMZx594tBAGg-51ig1NOPG0QdCFWGfPL7eS37mGq0h5OnsGk7Kd9jAsNwO6pT1ySKtxr8tKRgE1b1v9Ife17Zl2j5LwesEpp9x11mMj1hrEfNxPtXvyUW_9JNEXgzjRIEvoYdR5Gwu3xRNr7U6pdhbLZU_bjUYZJhTbvGLBa7fZ8uOkA4zuVVG6RSTcdSs234UG93QB-ZhR1MNxDZZfnsF89arlKt9wwOfkI2ykzOQCAmU9tboV96_HCLIupFnVO6vmiRt5--jQar6vDPXrh_0000" style="margin-left:auto;margin-right:auto;display:block;">
 
 Notez que dans le schéma UML ci-dessus :
 * `ModeleUtilisateur` est scindé en deux classes `UtilisateurRepository` et `Utilisateur`.
@@ -191,8 +191,6 @@ outils professionnels (*ORM Doctrine* par exemple).
      * `ajouter` et `recupererUtilisateurs` appartiennent à la classe `UtilisateurRepository` désormais.
      * `ajouter` sera maintenant statique et prendra en argument un objet de
        la classe `Utilisateur` ; les getters de `Utilisateur` servent à construire la requête SQL.
-     <!-- * la classe `Utilisateur` doit implémenter une nouvelle méthode `formatTableau`
-       pour créer le tableau qui sera donné à `execute` -->
 
 </div>
 
@@ -413,23 +411,22 @@ travail, commençons par créer l'action `afficherListe` de `Trajet`.
    Enlevez les `require_once`, indiquez les bons `namespace` correspondant aux
    dossiers et importez les classes nécessaires avec `use`.
 
-4. Corrigeons les appels aux méthodes : 
-   1. Dans `TrajetRepository.php` : 
-      * `Utilisateur::recupererUtilisateurParLogin` → `UtilisateurRepository::recupererUtilisateurParLogin`
-      * `Utilisateur::construireDepuisTableauSQL` → `UtilisateurRepository::construireDepuisTableauSQL`
-      * `Trajet::construireDepuisTableauSQL` → `TrajetRepository::construireDepuisTableauSQL`
-      * changez la signature de la fonction `recupererPassagers` pour 
-        ```php
-        static public function recupererPassagers(Trajet $trajet): array
-        ```
-        et corrigez le tableau de valeurs donné à la requête préparée.
-      * `$trajet->recupererPassagers()` → `TrajetRepository::recupererPassagers($trajet)`
-   2. Si vous aviez codé l'attribut `trajetsCommePassager` de `Utilisateur` au
-      TD3 : 
-      * Dans `UtilisateurRepository.php` :  
-        `Trajet::construireDepuisTableauSQL` → `TrajetRepository::construireDepuisTableauSQL`
-      * Dans `Utilisateur.php` : importez la classe `Trajet` dans `Utilisateur`
-      (utilisé au niveau du PHPDoc du getter et du setter de l'attribut `trajetsCommePassager`).
+4. Corrigeons les appels aux méthodes dans `TrajetRepository.php` : 
+   * `Utilisateur::recupererUtilisateurParLogin` → `UtilisateurRepository::recupererUtilisateurParLogin`
+   * `Utilisateur::construireDepuisTableauSQL` → `UtilisateurRepository::construireDepuisTableauSQL`
+   * `Trajet::construireDepuisTableauSQL` → `TrajetRepository::construireDepuisTableauSQL`
+   * changez la signature de la fonction `recupererPassagers` pour 
+     ```php
+     static public function recupererPassagers(Trajet $trajet): array
+     ```
+     et corrigez le tableau de valeurs donné à la requête préparée.
+   * `$trajet->recupererPassagers()` → `TrajetRepository::recupererPassagers($trajet)`
+   
+   Si vous aviez codé l'attribut `trajetsCommePassager` de `Utilisateur` au TD3 : 
+   * Dans `UtilisateurRepository.php` :  
+     `Trajet::construireDepuisTableauSQL` → `TrajetRepository::construireDepuisTableauSQL`
+   * Dans `Utilisateur.php` : importez la classe `Trajet` dans `Utilisateur`
+   (utilisé au niveau du PHPDoc du getter et du setter de l'attribut `trajetsCommePassager`).
 
 5. Créez une vue `src/vue/trajet/liste.php` similaire à celle des utilisateurs
    (sans nécessairement de lien pour l'instant).  
@@ -445,7 +442,7 @@ travail, commençons par créer l'action `afficherListe` de `Trajet`.
 
 L'implémentation du CRUD pour les trajets est un code très
 similaire à celui pour les utilisateurs. Nous pourrions donc copier/coller le code
-des utilisateurs et changer les (nombreux) endroits nécessaires. Et cela contredit
+des utilisateurs et changer les (nombreux) endroits nécessaires, mais cela contredirait
 le principe [DRY](https://fr.wikipedia.org/wiki/Ne_vous_r%C3%A9p%C3%A9tez_pas)
 que vous connaissez depuis l'an dernier.
 
@@ -456,7 +453,7 @@ développer le CRUD pour chaque nouvel objet, nous allons mettre en commun le
 code autant que possible. Commençons par abstraire les 2 classes métiers `Utilisateur` et `Trajet`.
 
 <img alt="Diagramme de classe"
-src="http://www.plantuml.com/plantuml/png/SoWkIImgAStDuN9CAYufIamkSKaiIVHFoafDBb6mgT7LLGZBpomfBKh5AHzIb9YLMe9JEhGaCoUpEB4ajRI8oo4rBmLe5G00" style="margin-left:auto;margin-right:auto;display:block;">
+src="https://www.plantuml.com/plantuml/png/SoWkIImgAStDuN9CAYufIamkSKaiIVHFoafDBb6mgT7LLGWfIinABS4f7LgIcPDPd5YIMbh4vP2Qbm8q2W00" style="margin-left:auto;margin-right:auto;display:block;">
 
 <div class="exercise">
 
@@ -469,7 +466,7 @@ correspondre au diagramme de classe ci-dessus.
 Également, nous allons abstraire les classes *Repository* de façon à obtenir le schéma suivant :   
 
 <img alt="Diagramme de classe"
-src="http://www.plantuml.com/plantuml/png/SoWkIImgAStDuN9CAYufIamk2Kejo2_EBCalgbImgT7LLGZBpomfBKf52EDK6LAKc9LQGeJ2q9BCdCpYn9BKqY8arGwfUIb0Xm00" style="margin-left:auto;margin-right:auto;display:block;">
+src="https://www.plantuml.com/plantuml/png/SoWkIImgAStDuN9CAYufIamk2Kejo2_EBCalgbImgT7LLGWfIinAHHB5gJ2q93CdipYn9BMq24crGsfU2j1u0000" style="margin-left:auto;margin-right:auto;display:block;">
 
 Nous allons détailler ces changements dans les prochaines sections.
 
@@ -522,16 +519,20 @@ faire pour avoir un code générique :
    ```
    et une implémentation de `getNomTable()` dans `UtilisateurRepository`.
 
-   **Question** : pourquoi la visibilité de cette fonction est `protected` ?
+   **Question** : pourquoi la visibilité de cette fonction est `protected` ?  
+   **Réponse (surlignez le texte caché à droite):**
+   <span style="color:#FCFCFC">
+   Pour rendre accessible cette méthode uniquement à la classe *AbstractRepository* et à ses classes filles.
+   </span>
 
    <!-- getNomTable n'est pas statique car PHP déconseille l'utilisation de méthode statique et abstraite (PHP émet un warning) -->
 
-1. Déplacez la fonction `recupererUtilisateurs()` de `UtilisateurRepository` vers `AbstractRepository` en la renommant `recuperer()`.
+2. Déplacez la fonction `recupererUtilisateurs()` de `UtilisateurRepository` vers `AbstractRepository` en la renommant `recuperer()`.
 
    **Astuce** : sur PhpStorm le moyen le plus simple pour déplacer la fonction serait *Clic droit sur la déclaration de la méthode* >
    *Refactor* > *Move Members* > *Indiquer `AbstractRepository` comme classe de destination*. De même pour le renommage, pensez à utiliser le refactoring.
 
-1. Utilisez `getNomTable()` dans la requête *SQL* de `recuperer()`. Puisque
+3. Utilisez `getNomTable()` dans la requête *SQL* de `recuperer()`. Puisque
    `getNomTable()` est une méthode dynamique, enlevez le `static` de
    `recuperer()`.
 
@@ -542,11 +543,11 @@ faire pour avoir un code générique :
    public function recuperer(): array
    ```
 
-2. De même, `AbstractRepository` va demander à toutes ses classes filles de
+4. De même, `AbstractRepository` va demander à toutes ses classes filles de
    posséder une méthode `construireDepuisTableauSQL($objetFormatTableau)`.  
    * Ajoutez donc une méthode abstraite dans `AbstractRepository`
    ```php
-   public abstract function construireDepuisTableauSQL(array $objetFormatTableau) : AbstractDataObject;
+   protected abstract function construireDepuisTableauSQL(array $objetFormatTableau) : AbstractDataObject;
    ```
    * Enlevez le `static` du `construireDepuisTableauSQL()` de `UtilisateurRepository`.
    * Mettez à jour l'appel à `construireDepuisTableauSQL()` de `recuperer()`.
@@ -560,7 +561,7 @@ faire pour avoir un code générique :
 
    <!-- construireDepuisTableauSQL($objetFormatTableau): AbstractDataObject; -->
 
-3. Corrigez l'action `afficherListe` du `ControleurUtilisateur` pour faire appel à la
+5. Corrigez l'action `afficherListe` du `ControleurUtilisateur` pour faire appel à la
    méthode `recuperer()` de `UtilisateurRepository`. Ici nous vous conseillons pour
    le moment de construire un objet anonyme afin de pouvoir appeler les
    fonctions dynamiques de `UtilisateurRepository`. Par exemple, si vous souhaitez
@@ -572,7 +573,7 @@ faire pour avoir un code générique :
 
    L'action `afficherListe` du contrôleur *utilisateur* doit remarcher.
 
-4. Mettez à jour tous vos appels à `recupererUtilisateurs()` (ou `recuperer()` si la
+6. Mettez à jour tous vos appels à `recupererUtilisateurs()` (ou `recuperer()` si la
    méthode `recupererUtilisateurs()` a été correctement renommé par le *refactoring* de la
    question 3).
 
@@ -582,11 +583,12 @@ faire pour avoir un code générique :
 
 1. Faites de même pour `TrajetRepository` :
    * commentez `recupererTrajets()`,
-   * enlevez le `static` de `construireDepuisTableauSQL()`,
+   * `construireDepuisTableauSQL()` passe de `public static` à `protected`. Mettez aussi à jour ses appels.
    * implémentez `getNomTable()`,
    * `TrajetRepository` doit hériter de `AbstractRepository`.
+   * l'appel à `UtilisateurRepository::construireDepuisTableauSQL()` n'est plus statique.
 
-1. Corrigez l'action `afficherListe` du `ControleurTrajet` pour faire appel à la
+2. Corrigez l'action `afficherListe` du `ControleurTrajet` pour faire appel à la
    méthode `recuperer()` de `TrajetRepository`. L'action doit remarcher.
 
 </div>
@@ -639,8 +641,9 @@ demander aux implémentations de `AbstractRepository` de fournir une méthode
 
    **Rappel :** Utilisez le remplacement `Ctrl+R` en préservant la casse pour vous faciliter le travail.
 
-1. Il ne vous reste plus qu'à créer la vue associée `detail.php` et à ajouter
-   les liens vers la vue de détail dans `liste.php`. L'action `afficherDetail` doit maintenant fonctionner.
+1. Créer la vue associée `detail.php` en repartant de l'ancien code de
+   `Trajet::toString()`. Ajouter les liens vers la vue de détail dans
+   `liste.php`. L'action `afficherDetail` doit maintenant fonctionner.
 
 </div>
 
@@ -651,11 +654,13 @@ Pas de nouveautés.
 
 <div class="exercise">
 
-Nous vous laissons migrer la fonction
-`supprimerParLogin($login)` de `UtilisateurRepository` vers
-`AbstractRepository` en la renommant `supprimer($valeurClePrimaire)` et adapter
-sa requête *SQL*. Adaptez également l'action `supprimer` des contrôleurs
-*trajet* et *utilisateur*, ainsi que leur vue associée `trajetSupprime.php` et
+Nous vous laissons migrer la fonction `supprimerParLogin($login)` de
+`UtilisateurRepository` vers `AbstractRepository` en la renommant
+`supprimer($valeurClePrimaire)`. La méthode devient statique. Adapter sa requête
+*SQL*. 
+
+Adaptez également l'action `supprimer` des contrôleurs *trajet* et
+*utilisateur*, ainsi que leur vue associée `trajetSupprime.php` et
 `utilisateurSupprime.php`. 
 </div>
 
