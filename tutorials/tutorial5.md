@@ -317,7 +317,7 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
    `require_once`. Utilisez un chemin de fichier absolu avec `__DIR__` comme vu
    précédemment. 
 
-3. Rajoutez le code suivant dans le contrôleur frontal juste avant de traiter
+3. Ajoutez le code suivant dans le contrôleur frontal juste avant de traiter
    les actions :
    ```php
    // initialisation en activant l'affichage de débogage
@@ -329,16 +329,15 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
 
    *En résumé*, ce code dit au système d'autoloading de PHP que les classes dont
    l'espace de nom commence par `App\Covoiturage` se trouvent dans le dossier
-   `src`.  
+   `src`. 
 
 4. Nous allons enfin pouvoir utiliser l'autoloader. Comme expliqué précédemment,
    la classe `App\Covoiturage\Configuration\ConfigurationBaseDeDonnees` sera cherchée dans le
    fichier `src/Configuration/ConfigurationBaseDeDonnees.php`.  
    <!-- **Renommez** le dossier `Configuration` avec une majuscule `Configuration`.  -->
-   Dans
-   `ConnexionBaseDeDonnees.php`, enlevez le `require_once` de la classe `Configuration`.  
-   Le site Web doit refonctionner.
-
+   Dans `ConnexionBaseDeDonnees.php`, enlevez le `require_once` de la classe `ConfigurationBaseDeDonnees`
+   et importez correctement la classe  `ConfigurationBaseDeDonnees` avec `use`.  
+   
    <!-- **Besoin d'aide pour débugger `Psr4AutoloaderClass` ?** Rajoutez une ligne à
    la méthode `requireFile` de `Psr4AutoloaderClass` pour afficher le nom du fichier
    que l'*autoloader* essaye de charger. -->
@@ -351,6 +350,7 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
 
    Nous vous conseillons de procéder classe par classe, dans l'ordre suivant :
    `ConnexionBaseDeDonnees`, `ModeleUtilisateur` puis `ControleurUtilisateur`.
+   N'oubliez pas d'importez la classe `ControleurUtilisateur` dans le contrôleur frontal pour pouvoir l'utiliser.
 
    **Attention :** La classe `PDO` dans `ConnexionBaseDeDonnees.php` est
    comprise comme `App\Covoiturage\Modele\PDO` à cause du `namespace
@@ -360,8 +360,10 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
      global.
    * Ou spécifiez que `PDO` est dans l'espace de nom global en appelant la
      classe `\PDO`.
-   
-6. Maintenant que vous avez compris le principe de `Psr4AutoloaderClass`, vous
+   La même remarque est pour toutes les autres classes de la librairie standard de PHP (comme `DateTime` dans `Trajet` par exemple).
+
+   Le site doit maintenant fonctionner à nouveau.
+7. Maintenant que vous avez compris le principe de `Psr4AutoloaderClass`, vous
    pouvez si vous le souhaitez désactiver son affichage de débogage :
    ```php
    $loader = new App\Covoiturage\Lib\Psr4AutoloaderClass(false);
