@@ -350,7 +350,7 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
 
    Nous vous conseillons de procéder classe par classe, dans l'ordre suivant :
    `ConnexionBaseDeDonnees`, `ModeleUtilisateur` puis `ControleurUtilisateur`.
-   N'oubliez pas d'importez la classe `ControleurUtilisateur` dans le contrôleur frontal pour pouvoir l'utiliser.
+   N'oubliez pas d'importer la classe `ControleurUtilisateur` dans le contrôleur frontal pour pouvoir l'utiliser.
 
    **Attention :** La classe `PDO` dans `ConnexionBaseDeDonnees.php` est
    comprise comme `App\Covoiturage\Modele\PDO` à cause du `namespace
@@ -478,7 +478,7 @@ lorsque l'on insère une donnée fournie par l'utilisateur. Par exemple, nous
 allons devoir échapper les caractères `?` et `=` puisqu'ils permettent de passer
 de l'information dans l'URL avec le format *query string*.
 
-Pour information, la liste des caractères réservés des URLs sont
+Pour information, la liste des caractères réservés des URLs est
 `:/?#[]@!$&'()*+,;=`. Nous allons donc utiliser la fonction
 [`rawurlencode`](http://php.net/manual/fr/function.rawurlencode.php) pour
 échapper les variables PHP qui interviennent dans des URLs.
@@ -511,11 +511,11 @@ Pour information, la liste des caractères réservés des URLs sont
 En l'état, certains bouts de code de nos vues se retrouvent dupliqués à de
 multiples endroits. Les prochaines questions vont vous aider à réorganiser le
 code pour éviter les redondances en vue d'améliorer la maintenance du code et
-son debuggage.
+son débogage.
 
 ### Mise en commun de l'en-tête et du pied de page
 
-Actuellement, les scripts de vues sont chargées d'écrire l'ensemble de la page
+Actuellement, les scripts de vues sont chargés d'écrire l'ensemble de la page
 Web, du
 <code><!DOCTYPE HTML><html>...</code>
 jusqu'au
@@ -523,11 +523,12 @@ jusqu'au
 . C'est problématique car cela nous empêche de mettre facilement deux vues bout à
 bout. Voyons cela sur un exemple.
 
-Supposez que l'on souhaite que notre vue de création (action `creerDepuisFormulaire`) de
-*utilisateur* affiche *"Votre utilisateur a bien été créé"* puis la liste des
-utilisateurs. Il serait donc naturel d'écrire le message puis d'appeler la vue
-`liste.php`. Mais comme cette dernière vue écrivait la page HTML du début à la
-fin, on ne pouvait rien y rajouter au milieu !
+Supposez que l'on souhaite que notre vue de création (action
+`creerDepuisFormulaire`) d'utilisateur affiche *"Votre utilisateur a bien été
+créé"* puis la liste des utilisateurs. Il serait donc naturel d'écrire le
+message puis d'appeler la vue `liste.php`. Mais comme cette dernière vue
+écrivait la page HTML du début à la fin, on ne pouvait rien y rajouter au milieu
+!
 
 Décomposons nos pages Web en trois parties : le *header* (en-tête), le *body*
 (corps ou fil d'Ariane) et le *footer* (pied de page). Dans le site final de
