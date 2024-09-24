@@ -99,9 +99,9 @@ vers une page d'erreur.
 ## Séparation des données et de leur persistance
 
 Une bonne pratique de la programmation orientée objet est de suivre des
-principes de conception, notamment *SOLID* dont vous avez entendu parler l'an
-dernier en cours de *Développement Orienté Objet* et que vous allez également
-aborder dans le cours *Qualité de développement*. Le `S` de *SOLID* signifie
+principes de conception, notamment [https://fr.wikipedia.org/wiki/SOLID_(informatique)](*SOLID*).
+Vous en avez entendu parler l'an dernier en cours de *Développement Orienté Objet* et vous allez également
+les aborder dans le cours *Qualité de développement* de Semestre 3. Le `S` de *SOLID* signifie
 *Single responsibility principle* (ou principe de responsabilité unique en
 français) : chaque classe doit faire une seule tâche.
 
