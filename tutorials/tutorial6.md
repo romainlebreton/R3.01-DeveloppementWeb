@@ -19,14 +19,9 @@ Ajouter dispatcher
 Ou est-ce qu'ils codent vraiment utilisateurs et trajets ?
 -->
 
-Aujourd'hui nous continuons de développer notre site-école de covoiturage. Au
-fur et à mesure que le projet grandit, nous allons bénéficier du modèle MVC qui
-va nous faciliter la tâche de conception. En attendant de pouvoir gérer les
+Nous continuons de développer notre site-école de covoiturage. En attendant de pouvoir gérer les
 sessions d'utilisateur, nous allons développer l'interface "administrateur" du
 site.
-
-Le but des TDs 5 & 6 est donc d'avoir un site qui propose une gestion minimale
-des utilisateurs et trajets proposés en covoiturage.
 
 Ce TD présuppose que vous avez fini [le TD précédent](tutorial5.html).
 
