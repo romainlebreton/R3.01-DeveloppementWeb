@@ -360,7 +360,9 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
      global.
    * Ou spécifiez que `PDO` est dans l'espace de nom global en appelant la
      classe `\PDO`.
-   La même remarque est pour toutes les autres classes de la librairie standard de PHP (comme `DateTime` dans `Trajet` par exemple).
+     
+   La même remarque tient pour toutes les autres classes de la librairie standard de PHP
+   (comme `DateTime` utilisée dans `Trajet` par exemple).
 
    Le site doit maintenant fonctionner à nouveau.
 7. Maintenant que vous avez compris le principe de `Psr4AutoloaderClass`, vous
@@ -613,18 +615,26 @@ vues "corps" en l'incluant dans l'en-tête et le pied de page communs.
       </body>
    </html>
    ```
+   **Remarque :** Notez que l'IDE pourrait signaler une erreur/warning indiquant que
+   les variables `$titre` et `$cheminCorpsVue` sont non-définies. Vous pouvez ajouter une
+   documentation en format PHDoc avant l'utilisation de la variable. Par exemple, pour `$titre` :
+   ```php
+   /**
+    * @var string $titre
+    */
+   ```
    
-2. Dans vos vues existantes, supprimer les parties du code correspondant aux
+3. Dans vos vues existantes, supprimer les parties du code correspondant aux
    *header* et *footer*.
 
-3. Reprendre l'action `afficherListe` du contrôleur pour afficher la vue `vueGenerale.php`
+4. Reprendre l'action `afficherListe` du contrôleur pour afficher la vue `vueGenerale.php`
    avec les paramètres supplémentaires `"titre" => "Liste des utilisateurs"`,
    `"cheminCorpsVue" => "utilisateur/liste.php"`.
 
-4. **Testez** votre action `afficherListe`. Regardez le code source de la page Web
+5. **Testez** votre action `afficherListe`. Regardez le code source de la page Web
    pour vérifier que le HTML généré est correct.
 
-5. Modifiez les autres actions et testez votre site.
+6. Modifiez les autres actions et testez votre site.
 
 </div> 
 
