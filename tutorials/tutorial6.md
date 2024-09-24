@@ -19,14 +19,9 @@ Ajouter dispatcher
 Ou est-ce qu'ils codent vraiment utilisateurs et trajets ?
 -->
 
-Aujourd'hui nous continuons de développer notre site-école de covoiturage. Au
-fur et à mesure que le projet grandit, nous allons bénéficier du modèle MVC qui
-va nous faciliter la tâche de conception. En attendant de pouvoir gérer les
+Nous continuons de développer notre site-école de covoiturage. En attendant de pouvoir gérer les
 sessions d'utilisateur, nous allons développer l'interface "administrateur" du
 site.
-
-Le but des TDs 5 & 6 est donc d'avoir un site qui propose une gestion minimale
-des utilisateurs et trajets proposés en covoiturage.
 
 Ce TD présuppose que vous avez fini [le TD précédent](tutorial5.html).
 
@@ -55,9 +50,7 @@ contrôleur frontal. Nous allons faire en sorte qu'un utilisateur qui arrive sur
 
 </div>
 
-Désormais, la page
-[http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/controleurFrontal.php](http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/controleurFrontal.php)
-doit marcher sans paramètre.
+Désormais, la page [http://localhost/tds-php/TD6/web/controleurFrontal.php](http://localhost/tds-php/TD6/web/controleurFrontal.php) doit marcher sans paramètre ([http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/controleurFrontal.php](http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/controleurFrontal.php) si vous hébérgez le site sur le serveur de l'IUT).
 
 <!-- **Note :** que vous pouvez aussi y accéder avec l'adresse
 [http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD5/](http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD5/) :
@@ -73,11 +66,12 @@ On souhaite que le routeur vérifie que `action` est le nom d'une méthode de
 vers une page d'erreur.
 
 1. Créez une action `afficherErreur(string $messageErreur = "")` dans le contrôleur
-   *utilisateur* qui affiche une vue d'erreur `src/vue/utilisateur/erreur.php` contenant
+   *utilisateur* qui affiche la vue d'erreur `src/vue/utilisateur/erreur.php` contenant
    le message d'erreur *Problème avec l'utilisateur : `$messageErreur`*, ou juste
-   *Problème avec l'utilisateur* si le message est vide.
+   *Problème avec l'utilisateur* si le message est vide. Pour ce faire il faudra adapter la vue
+   `erreur.php` créée dans les TDs précédents.
 
-2. **Modifiez** le code du routeur pour implémenter la vérification de l'action.
+3. **Modifiez** le code du routeur pour implémenter la vérification de l'action.
    Si l'action n'existe pas, appelez l'action `afficherErreur`.
 
    **Notes :** 
@@ -97,7 +91,7 @@ vers une page d'erreur.
    // Affiche App\Covoiturage\Controleur\ControleurUtilisateur
    ``` -->
 
-3. Modifiez tous les appels à `afficherVue` vers `'utilisateur/erreur.php'` pour
+4. Modifiez tous les appels à `afficherVue` vers `'utilisateur/erreur.php'` pour
    qu'ils utilisent `afficherErreur` avec un message adéquat.
 
 </div>
