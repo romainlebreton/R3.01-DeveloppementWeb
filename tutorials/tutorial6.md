@@ -388,15 +388,6 @@ travail, commençons par créer l'action `afficherListe` de `Trajet`.
 
 <div class="exercise">
 
-1. Créez un contrôleur `controleur/ControleurTrajet.php` similaire à celui
-   des utilisateurs qui reprend les méthodes `afficherListe()`, `afficherVue()` et
-   `afficherErreur()` (et commente éventuellement les autres méthodes).
-
-   **Astuce :** Vous pouvez utiliser la fonction de remplacement (`Ctrl+R` sous
-     PHPStorm) pour remplacer tous les `utilisateur` par `trajet`. En cochant
-     `Préserver la casse` (`Preserve case`), vous pouvez faire en sorte de
-     respecter les majuscules lors du remplacement.
-
 2. Créez deux classes `DataObject/Trajet.php` et
    `Repository/TrajetRepository.php`.
 
@@ -425,12 +416,22 @@ travail, commençons par créer l'action `afficherListe` de `Trajet`.
    Si vous aviez codé l'attribut `trajetsCommePassager` de `Utilisateur` au TD3 : 
    * Dans `UtilisateurRepository.php` :  
      `Trajet::construireDepuisTableauSQL` → `TrajetRepository::construireDepuisTableauSQL`
-   * Dans `Utilisateur.php` : importez la classe `Trajet` dans `Utilisateur`
+   * Dans `Utilisateur.php` : importez la classe `Trajet` dans `Utilisateur.php`
    (utilisé au niveau du PHPDoc du getter et du setter de l'attribut `trajetsCommePassager`).
 
 5. Créez une vue `src/vue/trajet/liste.php` similaire à celle des utilisateurs
-   (sans nécessairement de lien pour l'instant).  
+   (en commentant les liens pour l'instant).  
    Idem pour `trajet/erreur.php`.
+
+1. Créez un contrôleur `controleur/ControleurTrajet.php` similaire à celui
+   des utilisateurs qui reprend les méthodes `afficherListe()`, `afficherVue()` et
+   `afficherErreur()` (et commente éventuellement les autres méthodes).  
+   Importez les classes nécessaires.
+
+   **Astuce :** Vous pouvez utiliser la fonction de remplacement (`Ctrl+R` sous
+     PHPStorm) pour remplacer tous les `utilisateur` par `trajet`. En cochant
+     `Préserver la casse` (`Preserve case`), vous pouvez faire en sorte de
+     respecter les majuscules lors du remplacement.
 
 6. **Testez** votre action en appelant l'action `afficherListe` du contrôleur
    `Trajet` (qui est accessible dans la barre de menu de votre site
@@ -511,8 +512,8 @@ faire pour avoir un code générique :
    clé `extends` comme en Java).
 
 1. Pour qu'on puisse migrer la fonction `recupererUtilisateurs()` de `UtilisateurRepository` vers
-   `AbstractRepository`, il faudrait que cette dernière puisse accèder au nom de la table.
-   Pour cela elle va demander à toutes ses classes filles de posséder une méthode `getNomTable()`.  
+   `AbstractRepository`, il faudrait que cette dernière puisse accéder au nom de la table.
+   Pour cela, elle va demander à toutes ses classes filles de posséder une méthode `getNomTable()`.  
    Ajoutez donc une méthode abstraite `getNomTable()` dans `AbstractRepository`
    ```php
    protected abstract function getNomTable(): string;
@@ -550,11 +551,11 @@ faire pour avoir un code générique :
    protected abstract function construireDepuisTableauSQL(array $objetFormatTableau) : AbstractDataObject;
    ```
    * Enlevez le `static` du `construireDepuisTableauSQL()` de `UtilisateurRepository`.
-   * Mettez à jour l'appel à `construireDepuisTableauSQL()` de `recuperer()`.
+   * Mettez à jour les appels à `construireDepuisTableauSQL()` de `UtilisateurRepository`.
    * Pensez à vérifier que l'implémentation de la méthode `construireDepuisTableauSQL()` de
      `UtilisateurRepository` déclare bien le type de retour `Utilisateur` (sous-classe
      de `AbstractDataObject`).
-   * La méthode `construireDepuisTableauSQL()` devient `protected` dans les classes filles.
+   * La méthode `construireDepuisTableauSQL()` devient `protected` dans `UtilisateurRepository`.
 
    <!-- attention déclaration de type correspondante entre méthode et 
    implémentation -->
@@ -604,6 +605,33 @@ demander aux implémentations de `AbstractRepository` de fournir une méthode
 
 <div class="exercise">
 
+1. Commençons par déclarer la fonction `recupererUtilisateurParLogin` dans la
+   classe `AbstractRepository` en la renommant :
+   1. utilisez PHPStorm sur la fonction
+      `UtilisateurRepository::recupererUtilisateurParLogin`, clic droit >
+      *Refactor* > *Pull Members Up* : ceci aura pour effet de déplacer la
+      fonction dans `AbstractRepository`.
+   2. utilisez PHPStorm sur la fonction
+      `AbstractRepository::recupererUtilisateurParLogin`, clic droit >
+      *Refactor* > *Rename* > indiquez `recupererParClePrimaire` : ceci
+      renommera la méthode ainsi que tous ses appels.
+   3. enlevez le `static` de la méthode `AbstractRepository::recupererUtilisateurParLogin`.  
+      Corrigez tous les appels à la méthode avec PHPStorm : Faites `Ctlr+Maj+R`
+      pour remplacer dans tous les fichiers
+      `UtilisateurRepository::recupererParClePrimaire` par 
+      `(new UtilisateurRepository())->recupererParClePrimaire`.
+   4. Testez que la page de détail d'un utilisateur marche toujours.
+2. Transformons `recupererParClePrimaire` en une méthode générique : 
+   1. Utilisez `getNomTable` et `getNomClePrimaire` pour rendre la requête générique,
+   2. `construireDepuisTableauSQL` doit être appelé sur l'objet courant `$this`,
+   3. Le type de retour de la méthode est `?AbstractDataObject`,
+   4. (Optionnel) Changez les noms de variables pour avoir l'air d'une méthode
+      générique, par exemple `utilisateur` → `objet` et `login` → `clePrimaire`.
+   5. Testez que la page de détail d'un utilisateur marche toujours.
+</div>
+
+<!-- <div class="exercise">
+
 1. Commençons par déclarer la fonction suivante dans la classe `AbstractRepository` :
    ```php
    public function recupererParClePrimaire(string $valeurClePrimaire): ?AbstractDataObject
@@ -613,37 +641,43 @@ demander aux implémentations de `AbstractRepository` de fournir une méthode
    vers `recupererParClePrimaire($valeurClePrimaire)` de `AbstractRepository`. Nous allons
    le *refactoriser* dans les questions suivantes pour qu'il devienne générique.
 
-1. Ajoutez la méthode suivante dans `AbstractRepository`
+2. Ajoutez la méthode suivante dans `AbstractRepository`
    ```php
    protected abstract function getNomClePrimaire(): string;
    ```
    et une implémentation de `getNomClePrimaire()` dans `UtilisateurRepository`.
 
-1. Utilisez `getNomTable()` et `getNomClePrimaire()` pour construire la requête
+3. Utilisez `getNomTable()` et `getNomClePrimaire()` pour construire la requête
    *SQL* de `recupererParClePrimaire()`.
 
-1. Finissez de corriger `recupererParClePrimaire()` :
+4. Finissez de corriger `recupererParClePrimaire()` :
    * Changez les valeurs dans le tableau donné à `execute()`
    * Corrigez l'appel à `construireDepuisTableauSQL()` qui est une méthode dynamique maintenant.
 
-1. Corrigez l'action `afficherDetail` du `ControleurUtilisateur` pour faire appel à la méthode
+5. Corrigez l'action `afficherDetail` du `ControleurUtilisateur` pour faire appel à la méthode
    `recupererParClePrimaire()` de `UtilisateurRepository`. L'action doit remarcher.
 
-</div>
+</div> -->
 
 <div class="exercise">
 
-1. Faites de même pour `TrajetRepository` : implémentez
-   `getNomClePrimaire()`.
+Faites de même pour les trajets.
 
-1. Créez l'action `afficherDetail` du `ControleurTrajet` en vous basant sur celle de
+1. Implémentez `TrajetRepository::getNomClePrimaire()`.
+
+2. Créez l'action `afficherDetail` du `ControleurTrajet` en vous basant sur celle de
    `ControleurUtilisateur`.
 
    **Rappel :** Utilisez le remplacement `Ctrl+R` en préservant la casse pour vous faciliter le travail.
 
-1. Créer la vue associée `detail.php` en repartant de l'ancien code de
+3. Créer la vue associée `detail.php` en repartant de l'ancien code de
    `Trajet::toString()`. Ajouter les liens vers la vue de détail dans
    `liste.php`. L'action `afficherDetail` doit maintenant fonctionner.
+4. *Question innocente :* Avez-vous pensé à échapper vos variables dans vos vues
+   pour le HTML et les URLS ?  
+   Ayez toujours un utilisateur et un trajet avec des caractères spéciaux pour
+   le HTML et les URLS dans votre base de données. Comme ça, vous pourrez tester
+   plus facilement que vous avez sécurisé cet aspect.
 
 </div>
 
