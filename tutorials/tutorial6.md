@@ -50,9 +50,7 @@ contrôleur frontal. Nous allons faire en sorte qu'un utilisateur qui arrive sur
 
 </div>
 
-Désormais, la page
-[http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/controleurFrontal.php](http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/controleurFrontal.php)
-doit marcher sans paramètre.
+Désormais, la page [http://localhost/tds-php/TD6/web/controleurFrontal.php](http://localhost/tds-php/TD6/web/controleurFrontal.php) doit marcher sans paramètre ([http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/controleurFrontal.php](http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/controleurFrontal.php) si vous hébérgez le site sur le serveur de l'IUT).
 
 <!-- **Note :** que vous pouvez aussi y accéder avec l'adresse
 [http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD5/](http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD5/) :
