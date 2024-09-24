@@ -233,7 +233,7 @@ la vue ne fait que lire cette variable pour générer la page Web.
 
 1. Créez le contrôleur `Controleur/ControleurUtilisateur.php` avec le code précédent.
 2. Testez votre page en appelant l'URL
-[.../Controleur/ControleurUtilisateur.php](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/PHP/TD4/Controleur/ControleurUtilisateur.php)
+[.../Controleur/ControleurUtilisateur.php](http://localhost/tds-php/TD4/Controleur/ControleurUtilisateur.php)
 3. Prenez le temps de comprendre le **MVC** sur cet exemple.
    Avez-vous compris l'ordre dans lequel PHP exécute votre code ?
    Est-ce que ce code vous semble similaire à l'ancien fichier
@@ -296,7 +296,7 @@ ControleurUtilisateur::afficherListe(); // Appel de la méthode statique $action
 1. Modifiez le code de `ControleurUtilisateur.php` et créez le fichier
    `Controleur/routeur.php` pour correspondre au code ci-dessus ;
 2. Testez la nouvelle architecture en appelant la page
-[.../Controleur/routeur.php](http://webinfo/~mon_login/PHP/TD4/Controleur/routeur.php).
+[.../Controleur/routeur.php](http://localhost/tds-php/TD4/Controleur/routeur.php).
 3. Prenez le temps de comprendre le **MVC** sur cet exemple.
    Avez-vous compris l'ordre dans lequel PHP exécute votre code ?
 </div>
@@ -334,7 +334,7 @@ ControleurUtilisateur::$action();
    [relisez la partie sur le query string dans le cours
    1.]({{site.baseurl}}/classes/class1.html#les-query-strings-dans-lurl)
 1. Testez la nouvelle architecture en appelant la page
-   [.../Controleur/routeur.php](http://webinfo/~mon_login/PHP/TD4/Controleur/routeur.php)
+   [.../Controleur/routeur.php](http://localhost/tds-php/TD4/Controleur/routeur.php)
    en ajoutant l'information que `action` est égal à `afficherListe` dans l'URL au
    format *query string*.
 3. Prenez le temps de comprendre le **MVC** sur cet exemple.
@@ -350,7 +350,7 @@ ControleurUtilisateur::$action();
 Voici le déroulé de l'exécution du routeur pour l'action `afficherListe` :
 
 1. Le client demande l'URL
-[.../Controleur/routeur.php?action=afficherListe](http://webinfo/~mon_login/PHP/TD4/Controleur/routeur.php?action=afficherListe).
+[.../Controleur/routeur.php?action=afficherListe](http://localhost/tds-php/TD4/Controleur/routeur.php?action=afficherListe).
 1. Le routeur récupère l'action donnée par l'utilisateur dans l'URL avec
    `$action = $_GET['action'];` (donc `$action="afficherListe"`)
 2. le routeur appelle la méthode statique `afficherListe` de `ControleurUtilisateur.php`
@@ -367,7 +367,7 @@ toutes les informations, nous souhaitons créer une page de détail dont le rôl
 sera d'afficher toutes les informations de l'utilisateur. Cette action aura besoin
 de connaître le login de l'utilisateur visé ; on utilisera encore le
 *query string* pour passer l'information dans l'URL en même temps que l'action :
-[.../routeur.php?action=afficherDetail&login=AAA111BB](http://webinfo/~mon_login/PHP/TD4/Controleur/routeur.php?action=afficherDetail&login=AAA11BB)
+[.../routeur.php?action=afficherDetail&login=AAA111BB](http://localhost/tds-php/TD4/Controleur/routeur.php?action=afficherDetail&login=AAA11BB)
 
 <div class="exercise">
 
