@@ -66,11 +66,12 @@ On souhaite que le routeur vérifie que `action` est le nom d'une méthode de
 vers une page d'erreur.
 
 1. Créez une action `afficherErreur(string $messageErreur = "")` dans le contrôleur
-   *utilisateur* qui affiche une vue d'erreur `src/vue/utilisateur/erreur.php` contenant
+   *utilisateur* qui affiche la vue d'erreur `src/vue/utilisateur/erreur.php` contenant
    le message d'erreur *Problème avec l'utilisateur : `$messageErreur`*, ou juste
-   *Problème avec l'utilisateur* si le message est vide.
+   *Problème avec l'utilisateur* si le message est vide. Pour ce faire il faudra adapter la vue
+   `erreur.php` créée dans les TDs précédents.
 
-2. **Modifiez** le code du routeur pour implémenter la vérification de l'action.
+3. **Modifiez** le code du routeur pour implémenter la vérification de l'action.
    Si l'action n'existe pas, appelez l'action `afficherErreur`.
 
    **Notes :** 
@@ -90,7 +91,7 @@ vers une page d'erreur.
    // Affiche App\Covoiturage\Controleur\ControleurUtilisateur
    ``` -->
 
-3. Modifiez tous les appels à `afficherVue` vers `'utilisateur/erreur.php'` pour
+4. Modifiez tous les appels à `afficherVue` vers `'utilisateur/erreur.php'` pour
    qu'ils utilisent `afficherErreur` avec un message adéquat.
 
 </div>
