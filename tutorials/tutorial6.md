@@ -245,7 +245,7 @@ chemin dans le serveur (?)
 
 -->
 
-#### Action `afficherFormulaireMiseAJour` et `mettreAJour`
+#### Actions `afficherFormulaireMiseAJour` et `mettreAJour`
 
 <div class="exercise">
 
@@ -311,19 +311,27 @@ formulaire de mise à jour, aux utilisateurs. Pour cela :
 1. Maintenant, passons à l'action `mettreAJour` qui effectue la mise à jour dans la
    BDD.
 
-   Créez la vue `src/vue/utilisateur/utilisateurMisAJour.php` pour qu'elle affiche *"L'utilisateur de login `$login` a bien été mis à jour*". Affichez
-   en dessous de ce message la liste des utilisateurs mise à jour (à la manière de
-   `utilisateurSupprime.php` et `utilisateurCreee.php`).
+   Créez la vue `src/vue/utilisateur/utilisateurMisAJour.php` pour qu'elle
+   affiche *"L'utilisateur de login `$login` a bien été mis à jour*". Affichez
+   en dessous de ce message la liste des utilisateurs mise à jour (à la manière
+   de `utilisateurSupprime.php` et `utilisateurCreee.php`).
 
-2. Ajoutez à `UtilisateurRepository` une méthode statique `mettreAJour(Utilisateur $utilisateur)`. 
-   Cette méthode est proche de `ajouter(Utilisateur $utilisateur)`, à
-   ceci près qu'elle ne renvoie pas de booléen. En effet, on va considérer
-   qu'une mise à jour se passe toujours correctement.
+2. Ajoutez à `UtilisateurRepository` une méthode statique
+   `mettreAJour(Utilisateur $utilisateur)`. Cette méthode est proche de
+   `ajouter(Utilisateur $utilisateur)`, à ceci près qu'elle utilise une requête
+   SQL `UPDATE` et que son type de retour est `void`. En effet, on va
+   considérer qu'une mise à jour se passe toujours correctement.
 
-3. Créez l'action `mettreAJour` du contrôleur d'utilisateur pour qu'il mette à
-   jour l'utilisateur dont le login est passé en paramètre dans l'URL, puis
-   qu'il affiche la vue `src/vue/utilisateur/utilisateurMisAJour.php` après l'avoir correctement
-   initialisée.
+3. Créez l'action `mettreAJour` du contrôleur d'utilisateur. Cette action
+   instancie l'utilisateur avec les données provenant du formulaire, appelle
+   ensuite `UtilisateurRepository::mettreAJour`, puis affiche la vue
+   `src/vue/utilisateur/utilisateurMisAJour.php`.
+
+   **Remarque :** N'utilisez pas la méthode `construireDepuisTableauSQL` même si
+   cela marcherait actuellement. En effet, la fonction
+   `construireDepuisTableauSQL` est codée pour recevoir une réponse à une
+   requête SQL au format tableau, et non les données d'un formulaire, ce qui
+   sera notamment différent pour les trajets...
 
 4. Testez le tout. Quand la fonctionnalité marche, appréciez de nouveau
    l'instant.
@@ -483,7 +491,7 @@ TODO : rewrite l'an prochain. Le nouveau factoring marche mieux mais émet des m
 1. public static function construireDepuisTableauSQL
    plus statique
    2 change Repo: $this-> 
-   1 change Contr: new VoitureRepos->
+   1 change Contr: new UtilisateurRepos->
    créer interface avec type de retour AbstractDataObject
    
 1. getNomTable
@@ -666,12 +674,14 @@ Faites de même pour les trajets.
 
 3. Créer la vue associée `detail.php` en repartant de l'ancien code de
    `Trajet::toString()`. Ajouter les liens vers la vue de détail dans
-   `liste.php`. L'action `afficherDetail` doit maintenant fonctionner.
+   `liste.php` en spécifiant bien `controleur=trajet` dans le *query string*.  
+   L'action `afficherDetail` doit maintenant fonctionner.
 4. *Question innocente :* Avez-vous pensé à échapper vos variables dans vos vues
    pour le HTML et les URLS ?  
    Ayez toujours un utilisateur et un trajet avec des caractères spéciaux pour
-   le HTML et les URLS dans votre base de données. Comme ça, vous pourrez tester
-   plus facilement que vous avez sécurisé cet aspect.
+   le HTML (par ex. `<h1>Hack`) et les URLS (par ex. `a&b=c`) dans votre base de
+   données. Comme ça, vous pourrez tester plus facilement que vous avez sécurisé
+   cet aspect.
 
 </div>
 
@@ -682,68 +692,46 @@ Pas de nouveautés.
 
 <div class="exercise">
 
-Nous vous laissons migrer la fonction `supprimerParLogin($login)` de
-`UtilisateurRepository` vers `AbstractRepository` en la renommant
-`supprimer($valeurClePrimaire)`. La méthode devient statique. Adapter sa requête
-*SQL*. 
+1. Nous vous laissons migrer la fonction `supprimerParLogin($login)` de
+   `UtilisateurRepository` vers `AbstractRepository` en la renommant
+   `supprimer($valeurClePrimaire)`. La méthode devient dynamique. Adapter sa
+   requête *SQL*.  
+   La suppression d'un utilisateur doit continuer à marcher après la modification. 
 
-Adaptez également l'action `supprimer` des contrôleurs *trajet* et
-*utilisateur*, ainsi que leur vue associée `trajetSupprime.php` et
-`utilisateurSupprime.php`. 
-</div>
-
-### Action `afficherFormulaireCreation` et `afficherFormulaireMiseAJour`
-
-Pas de nouveautés.
-
-<div class="exercise">
-
-Nous vous laissons adapter les actions `afficherFormulaireCreation` et `afficherFormulaireMiseAJour` de
-`ControleurTrajet` et `ControleurUtilisateur`), leurs vues associées `formulaireCreation.php` et
-`formulaireMiseJour.php` et à ajouter les liens pour mettre à jour un trajet et un utilisateur dans
-`detail.php`.
+2. Créez l'action `supprimer` du contrôleur *trajet*, ainsi que
+   sa vue associée `trajetSupprime.php` et son lien dans `liste.php`.  
+   Testez que la suppression d'un trajet marche dorénavant.
 
 </div>
 
-### Action `creerDepuisFormulaire` et `mettreAJour`
+### Actions `afficherFormulaireCreation` et `creerDepuisFormulaire`
 
-Pour ces dernières actions, il faut un peu plus travailler pour créer la
-fonction correspondante dans le modèle générique. 
-
-#### Action `mettreAJour`
-
-<!-- 
-
-TODO : À changer l'an prochain
-
-Faire déjà les changements dans UtilisateurRepository pour la rendre générique et que cela marche
-
-Après on la déplacera dans AbstractRepository
-
- -->
-
-Pour reconstituer la requête
+Commençons par rendre générique la méthode de création d'entités. Pour
+reconstituer la requête
 ```sql
-UPDATE utilisateur SET nom= :nomTag, prenom= :prenomTag, login= :loginTag WHERE login= :loginTag;
+INSERT INTO utilisateur (login,  nom,  prenom) VALUES (:loginTag, :nomTag, :prenomTag)
 ```
-il est nécessaire de pouvoir lister les champs de la table `voiture`. De même, il sera nécessaire de lister
+il est nécessaire de pouvoir lister les champs de la table `utilisateur`. De même, il sera nécessaire de lister
 les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans `AbstractRepository`.
 
 <div class="exercise">
 
 1. Déplacez la fonction `mettreAJour($utilisateur)` de
-   `VoitureRepository.php` vers `AbstractRepository` en la renommant
+   `UtilisateurRepository.php` vers `AbstractRepository`. Changez la signature
+   de la fonction par
    ```php
-   public function mettreAJour(AbstractDataObject $object): void
+   public function ajouter(AbstractDataObject $objet): bool
    ```
 
 2. Ajoutez une méthode abstraite `getNomsColonnes()` dans
    `AbstractRepository`
    ```php
+   /** @return string[] */
    protected abstract function getNomsColonnes(): array;
    ```
-   et une implémentation de `getNomsColonnes()` dans `VoitureRepository`
+   et une implémentation de `getNomsColonnes()` dans `UtilisateurRepository`
    ```php
+   /** @return string[] */
    protected function getNomsColonnes(): array
    {
        return ["login", "nom", "prenom"];
@@ -753,7 +741,7 @@ les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans
 3. Utilisez `getNomTable()`, `getNomClePrimaire()` et `getNomsColonnes()` pour
    construire la requête *SQL* de `mettreAJour()` : 
    ```sql
-   UPDATE utilisateur SET nom= :nomTag, prenom= :prenomTag, login= :loginTag WHERE login= :loginTag;
+   INSERT INTO utilisateur (login,  nom,  prenom) VALUES (:loginTag, :nomTag, :prenomTag)
    ```
 
    **Aide :** N'hésitez pas à afficher la requête générée pour vérifier votre
@@ -769,76 +757,241 @@ les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans
    );
    ```
 
-   Nous allons demander à tous les `AbstractDataObject` d'implémenter une
-   méthode `formatTableau()` qui transforme un `AbstractDataObject` en tableau, qui pourrait
-   être utilisé dans les différents appels à `execute()`.
-   Ainsi, nous pouvons imposer cette méthode directement par contrat dans
-   `AbstractDataObject` : 
+   Ajoutez une méthode abstraite `getNomsColonnes()` dans `AbstractRepository`
    ```php
-   public abstract function formatTableau(): array;
+   protected abstract function formatTableauSQL(AbstractDataObject $objet): array;
    ```
-   Implémentez cette fonction dans `Utilisateur` avec
+   Implémentez cette fonction dans `UtilisateurRepository` avec
    ```php
-   public function formatTableau(): array
+   protected function formatTableauSQL(AbstractDataObject $utilisateur): array
    {
+       /** @var Utilisateur $utilisateur */
        return array(
-           "loginTag" => $this->login,
-           "nomTag" => $this->nom,
-           "prenomTag" => $this->prenom,
+           "loginTag" => $utilisateur->getLogin(),
+           "nomTag" => $utilisateur->getNom(),
+           "prenomTag" => $utilisateur->getPrenom(),
        );
    }
    ```
 
-5. Utilisez `formatTableau()` dans `mettreAJour()` pour obtenir le tableau donné à
+5. Utilisez `formatTableauSQL()` dans `mettreAJour()` pour obtenir le tableau donné à
    `execute()`.
 
 6. Corrigez l'action `mettreAJour` du `ControleurUtilisateur` pour faire appel aux
    méthodes de `UtilisateurRepository`. L'action doit remarcher.
-
-<!-- 1. Grâce à la classe `AbstractDataObject`, vous pouvez ajouter des déclarations
-   de type dans `AbstractRepository` :
-   * type de retour de `mettreAJour`,
-   * type d'entrée de `mettreAJour`.-->
 </div>
+
+Passons à la création de trajet. Grâce à l'exercice précédent, la méthode
+`ajouter` de `TrajetRepository` est quasiment fonctionnelle. Finissons cette
+méthode.
+
 
 <div class="exercise">
 
-Implémentez l'action `mettreAJour` du contrôleur *trajet*.
+1. Implémentez la méthode `getNomsColonnes` dans `TrajetRepository`. Indiquez
+   bien tous les champs, même `id`. 
+   
+   PHPStorm peut vous générer le squelette de la méthode avec Clic droit dans la
+   classe `TrajetRepository` > *Generate* > *Implement Methods* >
+   `getNomsColonnes`.
+2. Implémentez la méthode `formatTableauSQL` dans `TrajetRepository` en vous
+   basant sur le tableau de valeurs de la requête de création de trajets du TD3
+   qui se trouvait dans `Trajet::ajouter()`.  
+   Ajoutez aussi une case `"idTag" => $trajet->getId()` dans le tableau renvoyé.
 
 </div>
 
-
-
-#### Action `creerDepuisFormulaire`
+Mais il reste à gérer les actions de contrôleur et les vues de création.
+Démarrons par le formulaire de création.
 
 <div class="exercise">
 
-Répétez la question précédente avec la fonction `ajouter()` des différents
-modèles. Ajoutez l'action `creerDepuisFormulaire` dans le contrôleur
-*trajet*.
+1. Créez la vue `vue/trajet/formulaireCreation.php` en vous basant sur votre
+   formulaire de création de trajets du TD3.  
+   Modifiez l'`action` de `<form>` et rajoutez deux `<input type="hidden">` pour
+   indiquer le contrôleur et l'action souhaités (inspirez-vous du formulaire de
+   création des utilisateurs).
+2. Créez l'action `afficherFormulaireCreation` dans `ControleurTrajet` en vous
+   inspirant du MVC *utilisateur*.
+3. Rajoutez dans `vue/trajet/liste.php` un lien vers le formulaire de création.
+4. Testez que le lien vous amène bien vers un formulaire de création de trajet.
 
 </div>
+
+Passons à l'action de création de trajet.
+
+<div class="exercise">
+
+1. Créez l'action `creerDepuisFormulaire` dans `ControleurTrajet` en vous
+   inspirant du script `creerTrajet.php` du TD3, et de l'action similaire des utilisateurs.
+
+   Ne traitez pas spécialement les cas d'erreur pour l'instant. Donnez un identifiant `null` au trajet.
+2. Créez la vue `vue/trajet/trajetCree.php` similaire à celle des utilisateurs.
+3. Testez la création d'un trajet à partir du formulaire.
+
+   **Aide :** Si vous avez une erreur 
+   ```text
+   Fatal error: Uncaught TypeError: ...\Trajet::getId(): Return value must be of type int, null returned
+   ```
+   il faut modifier le type de retour de `Trajet::getId()` avec `?int`, ce qui
+   acceptera la valeur `null`.
+   <!-- Supprimer cet aide  l'an prochain car j'ai corrigé Trajet.php du TD3 -->
+   
+</div>
+
+Maintenant que cela marche enfin et que vous vous êtes autocongratulé,
+comprenons pourquoi la création d'un nouveau trajet en BDD nécessite un
+identifiant `null`. La raison est que MySQL génère la valeur auto-incrémentée
+d'une colonne (déclarée `NOT NULL`) si on lui donne la valeur `null`. Pratique !
+
+
+### Actions `afficherFormulaireMiseAJour` et `mettreAJour`
+
+Commençons par rendre générique la méthode de mise à jour des données. 
+
+<div class="exercise">
+
+1. Déplacez la fonction `mettreAJour($utilisateur)` de
+   `UtilisateurRepository.php` vers `AbstractRepository`. Changez la signature de la fonction par
+   ```php
+   public function mettreAJour(AbstractDataObject $objet): void
+   ```
+
+2. Utilisez `getNomTable()`, `getNomClePrimaire()` et `getNomsColonnes()` pour
+   construire la requête *SQL* de `mettreAJour()` : 
+   ```sql
+   UPDATE utilisateur SET nom= :nomTag, prenom= :prenomTag, login= :loginTag WHERE login= :loginTag;
+   ```
+
+   **Aide :** N'hésitez pas à afficher la requête générée pour vérifier votre
+   code.
+
+3. Utilisez `formatTableauSQL()` dans `mettreAJour()` pour obtenir le tableau donné à
+   `execute()`.
+
+4. Corrigez l'action `mettreAJour` du `ControleurUtilisateur` pour faire appel aux
+   méthodes de `UtilisateurRepository`. L'action doit remarcher.
+
+</div>
+
+Passons à la mise à jour de trajet. Grâce à l'exercice précédent, la méthode
+`mettreAJour` de `TrajetRepository` est directement fonctionnelle ! Mais il reste à
+gérer les actions de contrôleur et les vues de mise à jour. Démarrons par le
+formulaire de mise à jour.
+
+<div class="exercise">
+
+1. Créez la vue `vue/trajet/formulaireMiseAJour.php` en vous basant sur votre
+   formulaire de création des trajets. Modifiez le `<input type="hidden">`
+   correspondant à l'action pour transmettre l'action de mise à jour.
+
+2. On souhaite que le formulaire de mise à jour des trajets soit prérempli,
+   comme c'est le cas pour celui des utilisateurs. Inspirez-vous de ce dernier.
+
+   **Notes :**
+   * la valeur d'un `<input type="date">` doit être une date au format "Y-m-d",
+   * on peut cocher un `<input type="checkbox">` en lui ajoutant l'attribut `checked`.
+3. Rajoutez un `<input type="hidden">` pour transmettre l'`id` du trajet.
+4. Créez l'action `afficherFormulaireMiseAJour` dans `ControleurTrajet` en vous
+   inspirant du MVC *utilisateur*.
+5. Rajoutez dans `vue/trajet/liste.php` un lien vers le formulaire de mise à jour.
+6. Testez que le lien vous amène bien vers un formulaire de mise à jour de trajet prérempli.
+7. *Question innocente* 😇 : Avez-vous pensé à échapper vos variables dans vos
+   vues pour le HTML et les URLS ? Avez-vous testé avec un trajet contenant des
+   caractères spéciaux pour le HTML et les URLS ?
+
+   *Rappel :* Les attributs HTML, comme la *value* d'un `<input>`, doivent être
+   échappés par rapport aux caractères spéciaux du HTML.
+
+</div>
+
+Passons à l'action de mise à jour de trajet. Cette action va commencer par créer
+un `Trajet` à partir des données transmises par le formulaire. Ce code est
+identique au début de l'action `creerDepuisFormulaire`, donc nous allons
+l'isoler dans une méthode pour ne pas le dupliquer.
+
+<div class="exercise">
+
+1. PHPStorm permet d'isoler le code dans une méthode automatiquement : surlignez
+   les lignes complètes de `ControleurTrajet::creerDepuisFormulaire` qui lisent
+   `$_GET` et construisent le trajet, puis Clic droit > *Refactor* > *Extract
+   Method*. Indiquez `construireDepuisFormulaire` comme nom de méthode. Modifiez
+   sa signature par 
+   ```php
+   private static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Trajet
+   ```
+   où `$tableauDonneesFormulaire` jouera le rôle de `$_GET`.
+2. Actuellement, le trajet créé par `construireDepuisFormulaire` a un
+   identifiant `null`, ce qui va bien pour la création mais pas pour la mise à
+   jour d'un trajet. Initialisez l'`id` du trajet pour qu'il contienne
+   `$tableauDonneesFormulaire["id"]`, ou `null` si cette case n'existe pas dans
+   le tableau.
+
+   **Astuce :** PHP fournit [une syntaxe
+   raccourcie](https://www.php.net/manual/fr/migration70.new-features.php#migration70.new-features.null-coalesce-op)
+   pour donner une valeur par défaut si une variable n'existe pas. Pour nos
+   besoins, nous pourrons utiliser
+   ```php
+   $id = $tableauDonneesFormulaire["id"] ?? null;
+   ```
+3. Créez de la même manière la méthode `construireDepuisFormulaire` dans
+   `ControleurUtilisateur`. Cette méthode doit être utilisée deux fois : dans
+   `mettreAJour` et dans `creerDepuisFormulaire`.
+
+   **Remarque :** Cette méthode semble peu utile pour les utilisateurs
+   actuellement. Elle prendra toute son importance au TD8 quand la création de
+   l'utilisateur se complexifiera avec un mot de passe, une adresse email
+   qui doit être vérifiée...
+4. Créez l'action `mettreAJour` dans `ControleurTrajet` en vous basant sur
+   l'action similaire des utilisateurs.
+5. Créez la vue `vue/trajet/trajetMisAJour.php` similaire à `trajetCree.php`.
+6. Testez la mise à jour d'un trajet à partir du formulaire.
+   
+</div>
+
+<!-- 
+Limiter les contrôleurs aux actions autant que possible
+ -->
+
+### Diagramme de classe final de la partie `Repository`
+
+<img alt="Diagramme de classe"
+src="https://www.plantuml.com/plantuml/png/pLHDIyD04BtlhnZmO4GAzIg2BIs28bfj_G6JT2nRTxDXTbQefV_TTDEFG9hsKi5UTfbvy_hcxICzByWIh57-I-S5Cbh8tPGy5N3JxQfBsDSpWzxtHLYdGUWnS_bO_n1qbOeTwATU63Dvfy9vBOuNi5G0S05BtBHMC2DvSNQ2gQ7awXRAiivdBQY1eH5hYvfFO_t06PVdvDT8PCP50rWABgz1Cmsf2Df74HZ6Ryz9702NpaaU75kKJQ_ascurHC7N4f19W_YpDXBfcZFWuj7ATmrCMIY8YUiBrEiZvBeXbHlmZOP2lL5EtxVz1yvT4E83-dRoKkTC1ROamjH_Se6FB5HXVIWArfRuYAn83MgrISk4SKxDh1mBoAbKd8Z2MT__p8y-GkznHkoJoXUGU6mNsBds8TfeZqA1_xzrVs5KPK-fqrhQcfRKN86mlwybh9Gwy5swwtIQ0Oo_5dIByQ1wb4-3DRy0" style="margin-left:auto;margin-right:auto;display:block;">
+
 
 ## Bonus
 
-### Contrôleur trajet
+### Contrôleur passager
 
-Adaptez chacune des actions de `ControleurTrajet.php` et les tester une à
-une. Nous vous conseillons de faire dans l'ordre les actions `afficherDetail`, `supprimer`,
-`afficherFormulaireCreation`, `afficherFormulaireMiseAJour`, `creerDepuisFormulaire` et `mettreAJour`.
+On voudrait pouvoir inscrire et désinscrire des passagers aux trajets (*cf.
+TD3*). La page de détail d'un trajet listerait la liste des passagers avec un
+lien de désinscription par passager, ainsi qu'un formulaire pour inscrire un
+passager à partir de son login.
 
-Vous pouvez aussi ajouter des actions pour afficher la liste des passagers pour
-un trajet, et inversement la liste des trajets pour un passager (table de
-jointure `passager`, cf. fin TD3).
+Ces actions seraient traitées par un MVC *passager* qui aurait deux actions :
+inscrire et désinscrire. 
+
+Le modèle générique fournit directement l'inscription via la méthode `ajouter`.
+Par contre, il est nécessaire d'adapter la méthode générique `supprimer` pour
+pouvoir gérer une clé primaire constituée d'un couple.
+
+Les vues *passager* affichent un bref message et fournissent un lien pour
+retourner au détail du trajet modifié.
 
 ### Autres idées
 
 <!-- * Faire en sorte que la méthode d'erreur prenne en argument un message d'erreur. Chaque appel à cette méthode doit maintenant fournir un message d'erreur personnalisé. -->
-* Factoriser le code des contrôleurs dans un contrôleur générique, au moins pour
-  la méthode `afficherVue()` 
-* Ajouter les actions spécifiques aux requêtes SQL `recupererTrajets()` et
-  `supprimerPassager()` du TD3 non utilisées :
-  * qui liste les trajets d'un utilisateur,
-  * qui désinscrit un passager d'un trajet.
+<!-- * Factoriser le code des contrôleurs dans un contrôleur générique, au moins pour
+  la méthode `afficherVue()`  -->
+* Faire en sorte que les formulaires de création et de mise à jour d'un trajet
+  ne propose que les logins des conducteurs existants, via un champ `<select>`.
+* `construireDepuisFormulaire` devrait gérer ses erreurs avec un `throw new
+  Exception("message personnalisé")`. L'action du contrôleur aurait donc un
+  `try` / `catch` qui appellerait `afficherErreur` en cas d'exception. Les
+  erreurs possibles sont des données manquantes dans
+  `$tableauDonneesFormulaire`, ou le `conducteurLogin` qui ne correspond pas à
+  un conducteur existant.
+* Gérer que la méthode générique `ajouter` renvoie l'identifiant auto-généré
+  s'il en existe un (*cf.* exercice bonus TD3 avec `lastInsertId`).
 
 <!-- * Violation de SRP : le contrôleur frontal et le routeur devrait être séparés -->
