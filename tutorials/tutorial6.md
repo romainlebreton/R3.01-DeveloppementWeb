@@ -50,7 +50,7 @@ contrôleur frontal. Nous allons faire en sorte qu'un utilisateur qui arrive sur
 
 </div>
 
-Désormais, la page [http://localhost/tds-php/TD6/web/controleurFrontal.php](http://localhost/tds-php/TD6/web/controleurFrontal.php) doit marcher sans paramètre ([http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/controleurFrontal.php](http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/controleurFrontal.php) si vous hébérgez le site sur le serveur de l'IUT).
+Désormais, la page [http://localhost/tds-php/TD6/web/controleurFrontal.php](http://localhost/tds-php/TD6/web/controleurFrontal.php) doit marcher sans paramètre ([http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/controleurFrontal.php](http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/controleurFrontal.php) si vous hébergez le site sur le serveur de l'IUT).
 
 <!-- **Note :** que vous pouvez aussi y accéder avec l'adresse
 [http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD5/](http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD5/) :
@@ -68,7 +68,7 @@ vers une page d'erreur.
 1. Créez une action `afficherErreur(string $messageErreur = "")` dans le contrôleur
    *utilisateur* qui affiche la vue d'erreur `src/vue/utilisateur/erreur.php` contenant
    le message d'erreur *Problème avec l'utilisateur : `$messageErreur`*, ou juste
-   *Problème avec l'utilisateur* si le message est vide. Pour ce faire il faudra adapter la vue
+   *Problème avec l'utilisateur* si le message est vide. Pour ce faire, il faudra adapter la vue
    `erreur.php` créée dans les TDs précédents.
 
 3. **Modifiez** le code du routeur pour implémenter la vérification de l'action.
@@ -975,7 +975,7 @@ Le modèle générique fournit directement l'inscription via la méthode `ajoute
 Par contre, il est nécessaire d'adapter la méthode générique `supprimer` pour
 pouvoir gérer une clé primaire constituée d'un couple.
 
-Les vues *passager* affichent un bref message et fournissent un lien pour
+Les vues *passagers* affichent un bref message et fournissent un lien pour
 retourner au détail du trajet modifié.
 
 ### Autres idées
