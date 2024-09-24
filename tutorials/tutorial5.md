@@ -615,14 +615,16 @@ vues "corps" en l'incluant dans l'en-tête et le pied de page communs.
       </body>
    </html>
    ```
-   **Remarque :** Notez que l'IDE pourrait signaler une erreur/warning indiquant que
-   les variables `$titre` et `$cheminCorpsVue` sont non-définies. Vous pouvez ajouter une
-   documentation en format PHDoc avant l'utilisation de la variable. Par exemple, pour `$titre` :
+   **Rappel :** L'IDE devrait signaler une erreur/warning indiquant que
+   les variables `$titre` et `$cheminCorpsVue` sont non-définies. Pensez à ajouter une
+   documentation en format PHDoc avant l'utilisation de la variable pour avoir un code propre.
+   <!-- Par exemple, pour `$titre` :
    ```php
    /**
     * @var string $titre
     */
    ```
+   -->
    
 3. Dans vos vues existantes, supprimer les parties du code correspondant aux
    *header* et *footer*.
