@@ -391,7 +391,7 @@ travail, commençons par créer l'action `afficherListe` de `Trajet`.
 <div class="exercise">
 
 2. Créez deux classes `DataObject/Trajet.php` et
-   `Repository/TrajetRepository.php`.
+   `Repository/TrajetRepository.php` (indépendamment de la classe `Trajet.php` que vous avez fait précédemment)
 
 3. À partir de votre classe `Trajet` des TDs 2 & 3, copiez/collez : 
    
