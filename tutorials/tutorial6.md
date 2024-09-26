@@ -561,7 +561,7 @@ faire pour avoir un code générique :
    * Pensez à vérifier que l'implémentation de la méthode `construireDepuisTableauSQL()` de
      `UtilisateurRepository` déclare bien le type de retour `Utilisateur` (sous-classe
      de `AbstractDataObject`).
-   * La méthode `construireDepuisTableauSQL()` devient `protected` dans `UtilisateurRepository`.
+   * La méthode `construireDepuisTableauSQL()` devient **dynamique** et `protected` dans `UtilisateurRepository`.
 
    <!-- attention déclaration de type correspondante entre méthode et 
    implémentation -->
