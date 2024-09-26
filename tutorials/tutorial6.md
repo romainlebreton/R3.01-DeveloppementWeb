@@ -599,7 +599,9 @@ faire pour avoir un code générique :
    * l'appel à `UtilisateurRepository::construireDepuisTableauSQL()` n'est plus statique.
 
 2. Corrigez l'action `afficherListe` du `ControleurTrajet` pour faire appel à la
-   méthode `recuperer()` de `TrajetRepository`. L'action doit remarcher.
+   méthode `recuperer()` de `TrajetRepository`. <!-- L'action doit remarcher. -->
+   **Remarque : ** pour le moment l'action d'affichage des trajets ne devrait pas fonctionner encore
+    car le passage des méthodes statiques aux méthodes dynamiques, n'est pas encore finalisé.
 
 </div>
 
