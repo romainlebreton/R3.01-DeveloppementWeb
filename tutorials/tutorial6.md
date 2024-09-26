@@ -380,6 +380,9 @@ valeur à partir de l'URL, et en mettant le contrôleur *utilisateur* par défau
 
 3. Testez votre code en appelant vos anciennes pages du contrôleur *utilisateur*.
 
+   **Attention :** les liens URL de vos différentes vues risquent de ne plus fonctionner.
+   Si oui, trouvez pourquoi et corrigez.
+
 </div>
 
 ### Début du nouveau contrôleur
@@ -401,8 +404,10 @@ travail, commençons par créer l'action `afficherListe` de `Trajet`.
      `construireDepuisTableauSQL($trajetTableau)`, `recupererTrajets()` et
      `recupererPassagers()`.
 
+
    <!-- Enlevez les `require_once`, indiquez les bons `namespace` correspondant aux
    dossiers et importez les classes nécessaires avec `use`. -->
+
 
 4. Corrigeons les appels aux méthodes dans `TrajetRepository.php` : 
    * `Utilisateur::recupererUtilisateurParLogin` → `UtilisateurRepository::recupererUtilisateurParLogin`
