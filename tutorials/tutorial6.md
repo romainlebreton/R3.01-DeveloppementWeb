@@ -467,7 +467,7 @@ src="https://www.plantuml.com/plantuml/png/SoWkIImgAStDuN9CAYufIamkSKaiIVHFoafDB
 
 Créer une classe abstraite `AbstractDataObject` dans le dossier `DataObject`.
 Faites hériter les autres classes de ce répertoire de `AbstractDataObject` pour
-correspondre au diagramme de classe ci-dessus.
+correspondre au diagramme de classe ci-dessus (mot clé `extends` comme en Java).
 
 </div>
 
@@ -515,8 +515,7 @@ et le nom de la classe des objets en sortie. Voici donc comment nous allons
 faire pour avoir un code générique :
 
 1. Créez une nouvelle classe *abstraite* `abstract class AbstractRepository` et
-   faites hériter la classe `UtilisateurRepository` de `AbstractRepository` (mot
-   clé `extends` comme en Java).
+   faites hériter la classe `UtilisateurRepository` de `AbstractRepository`.
 
 1. Pour qu'on puisse migrer la fonction `recupererUtilisateurs()` de `UtilisateurRepository` vers
    `AbstractRepository`, il faudrait que cette dernière puisse accéder au nom de la table.
