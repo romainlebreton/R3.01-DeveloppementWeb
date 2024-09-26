@@ -391,7 +391,7 @@ travail, commençons par créer l'action `afficherListe` de `Trajet`.
 <div class="exercise">
 
 2. Créez deux classes `DataObject/Trajet.php` et
-   `Repository/TrajetRepository.php` (indépendamment de la classe `Trajet.php` que vous avez fait précédemment)
+   `Repository/TrajetRepository.php` (indépendamment de la classe `Trajet` que vous avez fait dans les TDs 2 & 3)
 
 3. À partir de votre classe `Trajet` des TDs 2 & 3, copiez/collez : 
    
@@ -401,8 +401,8 @@ travail, commençons par créer l'action `afficherListe` de `Trajet`.
      `construireDepuisTableauSQL($trajetTableau)`, `recupererTrajets()` et
      `recupererPassagers()`.
 
-   Enlevez les `require_once`, indiquez les bons `namespace` correspondant aux
-   dossiers et importez les classes nécessaires avec `use`.
+   <!-- Enlevez les `require_once`, indiquez les bons `namespace` correspondant aux
+   dossiers et importez les classes nécessaires avec `use`. -->
 
 4. Corrigeons les appels aux méthodes dans `TrajetRepository.php` : 
    * `Utilisateur::recupererUtilisateurParLogin` → `UtilisateurRepository::recupererUtilisateurParLogin`
