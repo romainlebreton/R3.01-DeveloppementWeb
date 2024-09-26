@@ -580,7 +580,10 @@ faire pour avoir un code générique :
 
    L'action `afficherListe` du contrôleur *utilisateur* doit remarcher.
 
-6. Mettez à jour tous vos appels à `recupererUtilisateurs()` (ou `recuperer()` si la
+   **Attention :** pour les autres actions le code ne marche plus pour l'instant car la migration des appels
+   statiques vers des appels dynamiques n'est pas encore terminée...
+
+7. Mettez à jour tous vos appels à `recupererUtilisateurs()` (ou `recuperer()` si la
    méthode `recupererUtilisateurs()` a été correctement renommé par le *refactoring* de la
    question 3).
 
