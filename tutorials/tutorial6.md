@@ -562,6 +562,8 @@ faire pour avoir un code générique :
      ```php
      (new UtilisateurRepository())->construireDepuisTableauSQL();
      ```
+     Ceci construit un objet anonyme afin de pouvoir appeler les fonctions
+     dynamiques de `UtilisateurRepository`.
      
    * Pensez à vérifier que l'implémentation de la méthode `construireDepuisTableauSQL()` de
      `UtilisateurRepository` déclare bien le type de retour `Utilisateur` (sous-classe
@@ -574,10 +576,7 @@ faire pour avoir un code générique :
    <!-- construireDepuisTableauSQL($objetFormatTableau): AbstractDataObject; -->
 
 5. Corrigez l'action `afficherListe` du `ControleurUtilisateur` pour faire appel à la
-   méthode `recuperer()` de `UtilisateurRepository`. Ici, nous vous conseillons pour
-   le moment de construire un objet anonyme afin de pouvoir appeler les
-   fonctions dynamiques de `UtilisateurRepository`. Par exemple, si vous souhaitez
-   appeler la fonction `recuperer`, vous pouvez faire ceci :
+   méthode d'instance `recuperer()` de `UtilisateurRepository` avec :
 
    ```php
    (new UtilisateurRepository())->recuperer();
