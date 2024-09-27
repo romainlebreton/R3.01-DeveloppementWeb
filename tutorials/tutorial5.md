@@ -454,7 +454,7 @@ HTML ou comme attribut d'une balise.
 $nom = "<h1>Danger ! </h1>";
 echo "Page personnelle de ". $nom; // Danger !  
 echo "Page personnelle de ". htmlspecialchars($nom); // Écriture sécurisée
-$valeurDefaut = '"><script>alert("Danger!");';
+$valeurDefaut = '"><script>alert("Danger!");</script>';
 echo '<input type="text" value="' . $valeurDefaut . '">'; // Danger !  
 echo '<input type="text" value="' . htmlspecialchars($valeurDefaut) . '">'; // Écriture sécurisée  
 ```
