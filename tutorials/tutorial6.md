@@ -556,12 +556,17 @@ faire pour avoir un code générique :
    ```php
    protected abstract function construireDepuisTableauSQL(array $objetFormatTableau) : AbstractDataObject;
    ```
-   * Enlevez le `static` du `construireDepuisTableauSQL()` de `UtilisateurRepository`.
-   * Mettez à jour les appels à `construireDepuisTableauSQL()` de `UtilisateurRepository`.
+   * Enlevez le `static` de la signature de la fonction `construireDepuisTableauSQL()` de `UtilisateurRepository`.
+   * Passez tous les appels à `construireDepuisTableauSQL()` de
+     `UtilisateurRepository` en appel de méthode d'instance (dynamique) avec  
+     ```php
+     (new UtilisateurRepository())->construireDepuisTableauSQL();
+     ```
+     
    * Pensez à vérifier que l'implémentation de la méthode `construireDepuisTableauSQL()` de
      `UtilisateurRepository` déclare bien le type de retour `Utilisateur` (sous-classe
      de `AbstractDataObject`).
-   * La méthode `construireDepuisTableauSQL()` devient **dynamique** et `protected` dans `UtilisateurRepository`.
+   <!-- * La méthode `construireDepuisTableauSQL()` devient **dynamique** et `protected` dans `UtilisateurRepository`. -->
 
    <!-- attention déclaration de type correspondante entre méthode et 
    implémentation -->
@@ -569,7 +574,7 @@ faire pour avoir un code générique :
    <!-- construireDepuisTableauSQL($objetFormatTableau): AbstractDataObject; -->
 
 5. Corrigez l'action `afficherListe` du `ControleurUtilisateur` pour faire appel à la
-   méthode `recuperer()` de `UtilisateurRepository`. Ici nous vous conseillons pour
+   méthode `recuperer()` de `UtilisateurRepository`. Ici, nous vous conseillons pour
    le moment de construire un objet anonyme afin de pouvoir appeler les
    fonctions dynamiques de `UtilisateurRepository`. Par exemple, si vous souhaitez
    appeler la fonction `recuperer`, vous pouvez faire ceci :
@@ -583,7 +588,7 @@ faire pour avoir un code générique :
    **Attention :** pour les autres actions le code ne marche plus pour l'instant car la migration des appels
    statiques vers des appels dynamiques n'est pas encore terminée...
 
-7. Mettez à jour tous vos appels à `recupererUtilisateurs()` (ou `recuperer()` si la
+6. Mettez à jour tous vos appels à `recupererUtilisateurs()` (ou `recuperer()` si la
    méthode `recupererUtilisateurs()` a été correctement renommé par le *refactoring* de la
    question 3).
 
@@ -599,9 +604,7 @@ faire pour avoir un code générique :
    * l'appel à `UtilisateurRepository::construireDepuisTableauSQL()` n'est plus statique.
 
 2. Corrigez l'action `afficherListe` du `ControleurTrajet` pour faire appel à la
-   méthode `recuperer()` de `TrajetRepository`. <!-- L'action doit remarcher. -->
-   **Remarque : ** pour le moment l'action d'affichage des trajets ne devrait pas fonctionner encore
-    car le passage des méthodes statiques aux méthodes dynamiques, n'est pas encore finalisé.
+   méthode `recuperer()` de `TrajetRepository`. L'action doit remarcher.
 
 </div>
 
