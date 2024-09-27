@@ -368,7 +368,7 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
 7. Maintenant que vous avez compris le principe de `Psr4AutoloaderClass`, vous
    pouvez si vous le souhaitez désactiver son affichage de débogage :
    ```php
-   $loader = new App\Covoiturage\Lib\Psr4AutoloaderClass(false);
+   $chargeurDeClasse = new App\Covoiturage\Lib\Psr4AutoloaderClass(false);
    ```
 
 </div>
