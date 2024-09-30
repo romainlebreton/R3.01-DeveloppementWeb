@@ -197,7 +197,7 @@ implémenté nos premières actions :
 
 1. *Read* -- afficher tous les utilisateurs : action `afficherListe`
 2. *Read* -- afficher les détails d'un utilisateur : action `afficherDetail`
-3. *Create* -- afficher le formulaire de création d'un utilisateur : action `afficherFormulaireCreation`
+3. *Create* -- afficher le formulaire de création d'un utilisateur : action `eation`
 4. *Create* -- créer un utilisateur dans la BDD : action `creerDepuisFormulaire`
 
 Nous allons compléter ces opérations avec la mise à jour et une version
@@ -697,14 +697,14 @@ Faites de même pour les trajets.
    données. Comme ça, vous pourrez tester plus facilement que vous avez sécurisé
    cet aspect.
 
-**Remarque :** Observez que dans l'appel du constructeur de `Trajet` dans la fonction `construireDepuisTableauSQL`
-de la classe `TrajetRepository`, vous passez la référence obtenue à partir de `recupererParClePrimaire`.
-La fonction `recupererParClePrimaire` est "générique" et retourne un objet de type `AbstractDataObject` ou `null`.
+**Remarque :** Observez que lors de l'appel du constructeur de `Trajet` dans la fonction `construireDepuisTableauSQL`
+de `TrajetRepository`, vous passez en paramètres la référence obtenue à partir de `recupererParClePrimaire()`.
+La fonction `recupererParClePrimaire()` est "générique" et retourne un objet de type `AbstractDataObject` ou `null`.
 Or, la signature du constructeur de `Trajet` demande une réference de type `Utilisateur` et pas n'importe quel `AbstractDataObject` !
-À l'exécution ce code fonctionne, car la liaison dynamique fait que le type effectif retourné par `recupererParClePrimaire` est bel et bien
+À l'exécution ce code fonctionne, car la liaison dynamique fait que le type effectif retourné par `recupererParClePrimaire()` est bel et bien
 `Utilisateur`. Mais la vérification de type ne peut pas être garantie par votre IDE en amont et vous pouvez obtenir un warning.
-On touche là aux limites d'un langage non fortement typé : la vérification que les types sont correctement définies et respectés est une
-tâche du développeur, contrairement aux langages fortement typés où cette vérification est faite à la compilation.
+On touche là aux limites d'un langage non fortement typé : la vérification que les types sont correctement définis et respectés est une
+tâche du développeur, contrairement aux langages fortement typés où cette vérification est faite davantage lors de la phase de compilation.
 
 
 
@@ -741,7 +741,7 @@ les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans
 
 <div class="exercise">
 
-1. Déplacez la fonction `mettreAJour($utilisateur)` de
+1. Déplacez la fonction `ajouter($utilisateur)` de
    `UtilisateurRepository.php` vers `AbstractRepository`. Changez la signature
    de la fonction par
    ```php
@@ -764,7 +764,7 @@ les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans
     ```
 
 3. Utilisez `getNomTable()`, `getNomClePrimaire()` et `getNomsColonnes()` pour
-   construire la requête *SQL* de `mettreAJour()` : 
+   construire la requête *SQL* de `ajouter()` : 
    ```sql
    INSERT INTO utilisateur (login,  nom,  prenom) VALUES (:loginTag, :nomTag, :prenomTag)
    ```
