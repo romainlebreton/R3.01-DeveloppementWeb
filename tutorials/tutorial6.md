@@ -782,7 +782,7 @@ les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans
    );
    ```
 
-   Ajoutez une méthode abstraite `getNomsColonnes()` dans `AbstractRepository`
+   Ajoutez une méthode abstraite `formatTableauSQL()` dans `AbstractRepository`
    ```php
    protected abstract function formatTableauSQL(AbstractDataObject $objet): array;
    ```
