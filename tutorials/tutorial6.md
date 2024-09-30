@@ -689,12 +689,24 @@ Faites de même pour les trajets.
    `Trajet::toString()`. Ajouter les liens vers la vue de détail dans
    `liste.php` en spécifiant bien `controleur=trajet` dans le *query string*.  
    L'action `afficherDetail` doit maintenant fonctionner.
-4. *Question innocente :* Avez-vous pensé à échapper vos variables dans vos vues
+
+5. *Question innocente :* Avez-vous pensé à échapper vos variables dans vos vues
    pour le HTML et les URLS ?  
    Ayez toujours un utilisateur et un trajet avec des caractères spéciaux pour
    le HTML (par ex. `<h1>Hack`) et les URLS (par ex. `a&b=c`) dans votre base de
    données. Comme ça, vous pourrez tester plus facilement que vous avez sécurisé
    cet aspect.
+
+**Remarque :** Observez que dans l'appel du constructeur de `Trajet` dans la fonction `construireDepuisTableauSQL`
+de la classe `TrajetRepository`, vous passez la référence obtenue à partir de `recupererParClePrimaire`.
+La fonction `recupererParClePrimaire` est "générique" et retourne un objet de type `AbstractDataObject` ou `null`.
+Or, la signature du constructeur de `Trajet` demande une réference de type `Utilisateur` et pas n'importe quel `AbstractDataObject` !
+À l'exécution ce code fonctionne, car la liaison dynamique fait que le type effectif retourné par `recupererParClePrimaire` est bel et bien
+`Utilisateur`. Mais la vérification de type ne peut pas être garantie par votre IDE en amont et vous pouvez obtenir un warning.
+On touche là aux limites d'un langage non fortement typé : la vérification que les types sont correctement définies et respectés est une
+tâche du développeur, contrairement aux langages fortement typés où cette vérification est faite à la compilation.
+
+
 
 </div>
 
