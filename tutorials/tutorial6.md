@@ -611,10 +611,7 @@ faire pour avoir un code générique :
 
 Pour faciliter les actions `afficherDetail` des différents contrôleurs, nous allons créer
 une fonction `recupererParClePrimaire($valeurClePrimaire)` générique dans `AbstractRepository`
-qui permet de faire une recherche par clé primaire dans une table. Cette
-fonction a besoin de connaître le *nom de la clé primaire*. Nous allons donc
-demander aux implémentations de `AbstractRepository` de fournir une méthode
-`getNomClePrimaire()`.
+qui permet de faire une recherche par clé primaire dans une table.
 
 <div class="exercise">
 
@@ -628,17 +625,20 @@ demander aux implémentations de `AbstractRepository` de fournir une méthode
       `AbstractRepository::recupererUtilisateurParLogin`, clic droit >
       *Refactor* > *Rename* > indiquez `recupererParClePrimaire` : ceci
       renommera la méthode ainsi que tous ses appels.
-   3. enlevez le `static` de la méthode `AbstractRepository::recupererUtilisateurParLogin`.  
+   3. enlevez le `static` de la méthode `AbstractRepository::recupererParClePrimaire`.  
       Corrigez tous les appels à la méthode avec PHPStorm : Faites `Ctlr+Maj+R`
       pour remplacer dans tous les fichiers
       `UtilisateurRepository::recupererParClePrimaire` par 
       `(new UtilisateurRepository())->recupererParClePrimaire`.
    4. Testez que la page de détail d'un utilisateur marche toujours.
-2. Transformons `recupererParClePrimaire` en une méthode générique : 
+2.  Pour que la fonction `recupererParClePrimaire(string)` puisse être générique, il faut récupérer
+   *nom de la clé primaire* du type effectif de `$this`. Demander aux implémentations de `AbstractRepository`
+    de fournir une méthode `getNomClePrimaire() : string`.
+3. Transformons `recupererParClePrimaire` en une méthode générique : 
    1. Utilisez `getNomTable` et `getNomClePrimaire` pour rendre la requête générique,
    2. `construireDepuisTableauSQL` doit être appelé sur l'objet courant `$this`,
    3. Le type de retour de la méthode est `?AbstractDataObject`,
-   4. (Optionnel) Changez les noms de variables pour avoir l'air d'une méthode
+   4. Changez les noms de variables pour avoir l'air d'une méthode
       générique, par exemple `utilisateur` → `objet` et `login` → `clePrimaire`.
    5. Testez que la page de détail d'un utilisateur marche toujours.
 </div>
