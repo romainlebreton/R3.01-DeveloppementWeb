@@ -197,7 +197,7 @@ implémenté nos premières actions :
 
 1. *Read* -- afficher tous les utilisateurs : action `afficherListe`
 2. *Read* -- afficher les détails d'un utilisateur : action `afficherDetail`
-3. *Create* -- afficher le formulaire de création d'un utilisateur : action `eation`
+3. *Create* -- afficher le formulaire de création d'un utilisateur : action `afficherFormulaireCreation`
 4. *Create* -- créer un utilisateur dans la BDD : action `creerDepuisFormulaire`
 
 Nous allons compléter ces opérations avec la mise à jour et une version
@@ -280,7 +280,7 @@ formulaire de mise à jour, aux utilisateurs. Pour cela :
       -->
 
    4. Pensez bien à échapper vos variables PHP avant de les écrire dans l'HTML
-     et dans les URLs.
+     et dans les URL.
 
    5. Astuce optionnelle : La vue `formulaireMiseAJour.php` peut être
    raccourcie en utilisant la syntaxe 
@@ -691,16 +691,16 @@ Faites de même pour les trajets.
    L'action `afficherDetail` doit maintenant fonctionner.
 
 5. *Question innocente :* Avez-vous pensé à échapper vos variables dans vos vues
-   pour le HTML et les URLS ?  
+   pour le HTML et les URL ?  
    Ayez toujours un utilisateur et un trajet avec des caractères spéciaux pour
-   le HTML (par ex. `<h1>Hack`) et les URLS (par ex. `a&b=c`) dans votre base de
+   le HTML (par ex. `<h1>Hack`) et les URL (par ex. `a&b=c`) dans votre base de
    données. Comme ça, vous pourrez tester plus facilement que vous avez sécurisé
    cet aspect.
 
 **Remarque :** Observez que lors de l'appel du constructeur de `Trajet` dans la fonction `construireDepuisTableauSQL`
 de `TrajetRepository`, vous passez en paramètres la référence obtenue à partir de `recupererParClePrimaire()`.
 La fonction `recupererParClePrimaire()` est "générique" et retourne un objet de type `AbstractDataObject` ou `null`.
-Or, la signature du constructeur de `Trajet` demande une réference de type `Utilisateur` et pas n'importe quel `AbstractDataObject` !
+Or, la signature du constructeur de `Trajet` demande une référence de type `Utilisateur` et pas n'importe quel `AbstractDataObject` !
 À l'exécution ce code fonctionne, car la liaison dynamique fait que le type effectif retourné par `recupererParClePrimaire()` est bel et bien
 `Utilisateur`. Mais la vérification de type ne peut pas être garantie par votre IDE en amont et vous pouvez obtenir un warning.
 On touche là aux limites d'un langage non fortement typé : la vérification que les types sont correctement définis et respectés est une
@@ -742,7 +742,7 @@ les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans
 <div class="exercise">
 
 1. Déplacez la fonction `ajouter($utilisateur)` de
-   `UtilisateurRepository.php` vers `AbstractRepository`. Changez la signature
+   `UtilisateurRepository` vers `AbstractRepository`. Changez la signature
    de la fonction par
    ```php
    public function ajouter(AbstractDataObject $objet): bool
@@ -763,16 +763,20 @@ les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans
    }
     ```
 
-3. Utilisez `getNomTable()`, `getNomClePrimaire()` et `getNomsColonnes()` pour
+3. Utilisez `getNomTable()` et `getNomsColonnes()` pour
    construire la requête *SQL* de `ajouter()` : 
    ```sql
    INSERT INTO utilisateur (login,  nom,  prenom) VALUES (:loginTag, :nomTag, :prenomTag)
    ```
 
-   **Aide :** N'hésitez pas à afficher la requête générée pour vérifier votre
-   code.
+   **Aide :**
+   * La [fonction `join(string $separator, array
+     $array)`](https://www.php.net/manual/fr/function.join.php) pourrait vous
+     faire gagner du temps. Elle concatène les éléments de `$array` en insérant
+     `$separator` entre chaque case. 
+   * N'hésitez pas à afficher la requête générée pour vérifier votre code.
 
-4. Pour les besoins de `execute()`, nous avons besoin de transformer l'objet
+4. Pour les besoins de `execute()`, nous devons transformer l'objet
    `Utilisateur $utilisateur` en un tableau 
    ```php
    array(
@@ -877,7 +881,7 @@ Commençons par rendre générique la méthode de mise à jour des données.
 <div class="exercise">
 
 1. Déplacez la fonction `mettreAJour($utilisateur)` de
-   `UtilisateurRepository.php` vers `AbstractRepository`. Changez la signature de la fonction par
+   `UtilisateurRepository` vers `AbstractRepository`. Changez la signature de la fonction par
    ```php
    public function mettreAJour(AbstractDataObject $objet): void
    ```
@@ -922,8 +926,8 @@ formulaire de mise à jour.
 5. Rajoutez dans `vue/trajet/liste.php` un lien vers le formulaire de mise à jour.
 6. Testez que le lien vous amène bien vers un formulaire de mise à jour de trajet prérempli.
 7. *Question innocente* 😇 : Avez-vous pensé à échapper vos variables dans vos
-   vues pour le HTML et les URLS ? Avez-vous testé avec un trajet contenant des
-   caractères spéciaux pour le HTML et les URLS ?
+   vues pour le HTML et les URL ? Avez-vous testé avec un trajet contenant des
+   caractères spéciaux pour le HTML et les URL ?
 
    *Rappel :* Les attributs HTML, comme la *value* d'un `<input>`, doivent être
    échappés par rapport aux caractères spéciaux du HTML.
