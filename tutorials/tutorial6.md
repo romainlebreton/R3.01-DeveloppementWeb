@@ -616,7 +616,7 @@ qui permet de faire une recherche par clé primaire dans une table.
 <div class="exercise">
 
 1. Commençons par déclarer la fonction `recupererUtilisateurParLogin` dans la
-   classe `AbstractRepository` en généralisant la méthode correspondante déjà existanted dans `UtilisateurRepository` :
+   classe `AbstractRepository` en généralisant la méthode correspondante déjà existante dans `UtilisateurRepository` :
    1. utilisez PHPStorm sur la fonction
       `UtilisateurRepository::recupererUtilisateurParLogin`, clic droit >
       *Refactor* > *Pull Members Up* : ceci aura pour effet de déplacer la
