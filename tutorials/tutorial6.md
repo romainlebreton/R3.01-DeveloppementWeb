@@ -799,10 +799,10 @@ les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans
    }
    ```
 
-5. Utilisez `formatTableauSQL()` dans `mettreAJour()` pour obtenir le tableau donné à
+5. Utilisez `formatTableauSQL()` dans `ajouter()` pour obtenir le tableau donné à
    `execute()`.
 
-6. Corrigez l'action `mettreAJour` du `ControleurUtilisateur` pour faire appel aux
+6. Corrigez l'action `ajouter` du `ControleurUtilisateur` pour faire appel aux
    méthodes de `UtilisateurRepository`. L'action doit remarcher.
 </div>
 
