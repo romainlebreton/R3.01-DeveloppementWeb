@@ -616,7 +616,7 @@ qui permet de faire une recherche par clé primaire dans une table.
 <div class="exercise">
 
 1. Commençons par déclarer la fonction `recupererUtilisateurParLogin` dans la
-   classe `AbstractRepository` en la renommant :
+   classe `AbstractRepository` en généralisant la méthode correspondante déjà existanted dans `UtilisateurRepository` :
    1. utilisez PHPStorm sur la fonction
       `UtilisateurRepository::recupererUtilisateurParLogin`, clic droit >
       *Refactor* > *Pull Members Up* : ceci aura pour effet de déplacer la
@@ -631,10 +631,12 @@ qui permet de faire une recherche par clé primaire dans une table.
       `UtilisateurRepository::recupererParClePrimaire` par 
       `(new UtilisateurRepository())->recupererParClePrimaire`.
    4. Testez que la page de détail d'un utilisateur marche toujours.
+      
 2.  Pour que la fonction `recupererParClePrimaire(string)` puisse être générique, il faut récupérer
-   *nom de la clé primaire* du type effectif de `$this`. Demander aux implémentations de `AbstractRepository`
-    de fournir une méthode `getNomClePrimaire() : string`.
-3. Transformons `recupererParClePrimaire` en une méthode générique : 
+   *nom de la clé primaire* du type effectif de `$this`. De la même manière qu'avec `getNomTable()`,
+    demandez aux implémentations de `AbstractRepository` de fournir une méthode `getNomClePrimaire() : string`.
+
+4. Transformons `recupererParClePrimaire` en une méthode générique : 
    1. Utilisez `getNomTable` et `getNomClePrimaire` pour rendre la requête générique,
    2. `construireDepuisTableauSQL` doit être appelé sur l'objet courant `$this`,
    3. Le type de retour de la méthode est `?AbstractDataObject`,
