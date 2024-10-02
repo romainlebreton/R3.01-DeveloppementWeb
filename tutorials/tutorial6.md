@@ -560,7 +560,7 @@ faire pour avoir un code générique :
    * Passez tous les appels à `construireDepuisTableauSQL()` de
      `UtilisateurRepository` en appel de méthode d'instance (dynamique) avec  
      ```php
-     (new UtilisateurRepository())->construireDepuisTableauSQL();
+     (new UtilisateurRepository())->construireDepuisTableauSQL($objetFormatTableau);
      ```
      Ceci construit un objet anonyme afin de pouvoir appeler les fonctions
      dynamiques de `UtilisateurRepository`.
@@ -600,7 +600,7 @@ faire pour avoir un code générique :
    * `construireDepuisTableauSQL()` passe de `public static` à `protected`. Mettez aussi à jour ses appels.
    * implémentez `getNomTable()`,
    * `TrajetRepository` doit hériter de `AbstractRepository`.
-   * l'appel à `UtilisateurRepository::construireDepuisTableauSQL()` n'est plus statique.
+   * l'appel à `UtilisateurRepository::construireDepuisTableauSQL(...)` n'est plus statique.
 
 2. Corrigez l'action `afficherListe` du `ControleurTrajet` pour faire appel à la
    méthode `recuperer()` de `TrajetRepository`. L'action doit remarcher.
