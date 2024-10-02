@@ -264,7 +264,7 @@ et copiez-le dans l'attribut statique `$poivre` une fois pour toute.
       3. mettez à jour la méthode `formatTableau` (qui fournit les données des
          requêtes SQL préparées).
    2. Mettez à jour la classe de persistance `UtilisateurRepository` :
-      1. mettez à jour `construireDepuisTableau` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
+      1. mettez à jour `construireDepuisTableauSQL` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
       2. mettez à jour `getNomsColonnes`.
 
    *Note* : L'utilisation d'un framework PHP professionnel nous éviterait ces
@@ -297,7 +297,7 @@ Nous allons modifier la création d'un utilisateur.
    2. Nous allons changer la manière de construire un objet métier
       *utilisateur* à partir des données `$_GET` du formulaire. Jusqu'à
       présent, nous appelions `Utilisateur::__construct()` ou de manière
-      équivalente `UtilisateurRepository::construireDepuisTableau()`. Mais ces méthodes
+      équivalente `UtilisateurRepository::construireDepuisTableauSQL()`. Mais ces méthodes
       sont faites pour prendre en entrée un résultat SQL (sous forme de
       tableau). À cause du mot de passe qui est en clair dans le formulaire,
       mais haché dans la BDD, il faut changer le code.
@@ -309,9 +309,9 @@ Nous allons modifier la création d'un utilisateur.
       dans la classe `Utilisateur`. Elle appelle le constructeur de
       `Utilisateur` en hachant d'abord le mot de passe.
       * Mettez à jour l'action `creerDepuisFormulaire` pour appeler `construireDepuisFormulaire()`.
-      * Puisque `construireDepuisTableau()` n'est présent que dans
+      * Puisque `construireDepuisTableauSQL()` n'est présent que dans
         `AbstractRepository` ou ses classes filles (`UtilisateurRepository`,
-        `VoitureRepository`, ...), passez sa visibilité de `public` à
+        `TrajetRepository`, ...), passez sa visibilité de `public` à
         `protected` dans `AbstractRepository` et ses classes filles.
 
 2. Rajoutons au menu de notre site un lien pour s'inscrire. Dans le menu de la
@@ -569,7 +569,7 @@ Commençons par rajouter un attribut `estAdmin` à notre classe métier
       complèterons cette fonction correctement plus tard.
 
 2. Mettez à jour la classe de persistance `UtilisateurRepository` :
-   1. mettez à jour `construireDepuisTableau` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
+   1. mettez à jour `construireDepuisTableauSQL` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
    2. mettez à jour `getNomsColonnes`.
 
 </div>
@@ -725,7 +725,7 @@ en plus.
    1. vous mettrez à jour la méthode `construireDepuisFormulaire` plus tard.
 
 1. Mettez à jour la classe de persistance `UtilisateurRepository` :
-   1. mettez à jour `construireDepuisTableau` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
+   1. mettez à jour `construireDepuisTableauSQL` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
    1. mettez à jour `getNomsColonnes`.
 
 </div>
@@ -773,7 +773,7 @@ Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`.
    **Rajoutez** une méthode `ConfigurationSite::getURLAbsolue` qui renvoie la base de l'URL
    de votre site, par exemple 
    ```text
-   http://webinfo.iutmontp.univ-montp2.fr/~mon_login/TD-PHP/TD8/web/controleurFrontal.php
+   http://localhost/tds-php/TD8/web/controleurFrontal.php
    ```
 
 1. Dans votre formulaire de création d'un utilisateur, rajoutez un champ pour

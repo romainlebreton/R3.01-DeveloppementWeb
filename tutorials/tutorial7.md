@@ -45,13 +45,13 @@ des cookies pour identifier ses clients, les serveurs PHP peuvent stocker côté
 serveur des informations spécifiques à un client : c'est le mécanisme des
 sessions.
 
-Les prochains TDs nécessitent que votre contrôleur utilisateur puisse créer,
-lire, mettre à jour et supprimer des utilisateurs. Il faut donc finir d'abord le
-[TD6]({{site.baseurl}}/tutorials/tutorial6). Si vous bloquez sur la section
-[*Modèle générique* du
-TD6]({{site.baseurl}}/tutorials/tutorial6#modèle-et-contrôleur-générique), vous
-pouvez soit demander de l'aide à votre enseignant, soit adapter
-`VoitureRepository` pour que `UtilisateurRepository` fonctionne. 
+Les prochains TDs nécessitent que votre contrôleur *utilisateur* puisse créer,
+lire, mettre à jour et supprimer des utilisateurs, et de même pour les trajets.
+Il faut donc finir d'abord le [TD6]({{site.baseurl}}/tutorials/tutorial6). Si
+vous bloquez sur la section [*Modèle générique* du
+TD6]({{site.baseurl}}/tutorials/tutorial6#modèle-générique), vous pouvez soit
+demander de l'aide à votre enseignant, soit adapter `UtilisateurRepository` pour
+que `TrajetRepository` fonctionne. 
 
 ## Les cookies
 
@@ -348,7 +348,7 @@ public static function supprimer($cle) : void
 
 ### Exercice sur l'utilisation des cookies
 
-Dans le site de covoiturage, vous avez défini que c'est le contrôleur *voiture*
+Dans le site de covoiturage, vous avez défini que c'est le contrôleur *utilisateur*
 qui est affiché par défaut. Dans cet exercice, nous allons permettre à chaque
 visiteur du site de configurer son contrôleur par défaut.
 
@@ -359,7 +359,7 @@ l'action par défaut plutôt que le contrôleur par défaut.
 <div class="exercise">
 
 1. Pour préparer la suite de l'exercice, nous allons mettre en place un
-   contrôleur générique (si vous ne l'avez pas déjà fait au TD6). En effet, la
+   contrôleur générique. En effet, la
    future action de préférence de contrôleur par défaut n'est spécifique à aucun
    contrôleur en particulier. On va donc la rendre accessible à tous les
    contrôleurs.
@@ -369,8 +369,6 @@ l'action par défaut plutôt que le contrôleur par défaut.
    * Déplacez la méthode `afficherVue` commune à tous les contrôleurs dans
      `ControleurGenerique`. Sa visibilité passe de `private` à `protected` pour
      être accessible dans ses classes filles.
-   * Si vous n'avez de contrôleur trajet `src/Controleur/ControleurTrajet.php`,
-     créez un contrôleur vide qui hérite seulement du contrôleur générique.
 
    *Note* : Le contrôleur générique pourrait implémenter une méthode `afficherErreur()`
    générique. Cette méthode du contrôleur générique serait notamment appelée par
@@ -380,28 +378,23 @@ l'action par défaut plutôt que le contrôleur par défaut.
    une icône cliquable ![cœur]({{site.baseurl}}/assets/TD7/heart.png) qui pointe
    vers la future action `afficherFormulairePreference` (sans contrôleur).
 
-   Note : Stockez vos images et votre CSS dans un dossier `ressources` accessible
-   sur internet (avec le bon fichier `.htaccess`)
-
-   ![assets]({{site.baseurl}}/assets/TD7/assets.png){: .blockcenter width="230em"}
+   Note : Stockez vos images dans un dossier `ressources/img`.
 
 3. Créez une action `afficherFormulairePreference` dans le contrôleur *générique*, qui
    doit afficher une vue `src/vue/formulairePreference.php`.
    
 4. Créez cette vue et complétez-la avec un formulaire 
    * renvoyant vers la future action `enregistrerPreference` (sans indiquer de contrôleur), 
-   * contenant des *boutons radio* permettant de choisir `voiture`, `trajet` ou
+   * contenant des *boutons radio* permettant de choisir `trajet` ou
    `utilisateur` comme contrôleur par défaut
    ```html
-   <input type="radio" id="voitureId" name="controleur_defaut" value="voiture">
-   <label for="voitureId">Voiture</label>
    <input type="radio" id="utilisateurId" name="controleur_defaut" value="utilisateur">
    <label for="utilisateurId">Utilisateur</label>
    <input type="radio" id="trajetId" name="controleur_defaut" value="trajet">
    <label for="trajetId">Trajet</label>
    ```
 
-1. Afin de pouvoir gérer les préférences de contrôleur, créez une classe
+5. Afin de pouvoir gérer les préférences de contrôleur, créez une classe
    `src/Lib/PreferenceControleur.php` avec le bon espace de nom et le contenu
    suivant que vous complèterez
    ```php
@@ -431,24 +424,28 @@ l'action par défaut plutôt que le contrôleur par défaut.
    }
    ```
 
-2. Écrire l'action `enregistrerPreference` du contrôleur générique qui 
+6. Écrire l'action `enregistrerPreference` du contrôleur générique qui 
    * récupère la valeur `controleur_defaut` du formulaire,
    * l'enregistre dans un cookie en utilisant la classe `PreferenceControleur`,
    * appelle une nouvelle vue `src/vue/preferenceEnregistree.php`
      qui affiche *La préférence de contrôleur est enregistrée !*.
 
-3. Vérifier que ce cookie a bien été déposé à l'aide des outils de développement.
+7. Vérifier que ce cookie a bien été déposé à l'aide des outils de développement.
 
-4. Dans le contrôleur frontal, le contrôleur par défaut est `voiture`. Faites en
+8. Dans le contrôleur frontal, le contrôleur par défaut est `utilisateur`. Faites en
    sorte d'utiliser la préférence de contrôleur par défaut si elle existe.
 
-5. Testez le bon fonctionnement de cette personnalisation de la page d'accueil en
-choisissant autre chose que `voiture` dans le formulaire.
+9. Testez le bon fonctionnement de cette personnalisation de la page d'accueil en
+choisissant autre chose que `utilisateur` dans le formulaire.
 
-1. Il est possible que vos anciens liens du contrôleur voiture (vues `liste` et
+1. Il est possible que vos anciens liens du contrôleur *utilisateur* (vues `liste` et
    `detail`) et de la barre de menu (`vueGenerale.php`) n'indiquait pas le contrôleur
-   voiture, car c'était le contrôleur par défaut. Si nécessaire, rajoutez
+   *utilisateur*, car c'était le contrôleur par défaut. Si nécessaire, rajoutez
    l'indication du contrôleur dans ces liens.
+
+   De même, il est possible que les formulaires de création et de mise à jour
+   d'un utilisateur ne transmettait pas le contrôleur *utilisateur*. Rajoutez un
+   `<input type="hidden">` si nécessaire.
 
 2. On souhaite que le formulaire de préférence soit déjà coché si la préférence
    existe déjà. Implémentez cette fonctionnalité. Vous utiliserez l'attribut
@@ -618,7 +615,7 @@ Présentons maintenant les opérations fondamentales sur les sessions :
             session_destroy();   // destroy session data in storage
             Cookie::supprimer(session_name()); // deletes the session cookie
             // Il faudra reconstruire la session au prochain appel de getInstance()
-            $instance = null;
+            Session::$instance = null;
         }        
     }
     ```
