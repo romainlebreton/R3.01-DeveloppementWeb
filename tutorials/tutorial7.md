@@ -99,13 +99,13 @@ des lignes `Set-Cookie` dans l'en-tête de sa réponse HTTP
 
 ```http
 HTTP/1.1 200 OK
-Date:Thu, 22 Oct 2015 15:43:27 GMT
+Date:Thu, 03 Oct 2024 15:43:27 GMT
 Server: Apache/2.2.14 (Ubuntu)
 Accept-Ranges: bytes
 Content-Length: 5781
 Content-Type: text/html
-Set-Cookie: TestCookie1=valeur1; expires=Thu, 22-Oct-2015 16:43:27 GMT; Max-Age=3600
-Set-Cookie: TestCookie2=valeur2; expires=Thu, 22-Oct-2015 16:43:27 GMT; Max-Age=3600
+Set-Cookie: TestCookie1=valeur1; expires=Thu, 03-Oct-2024 16:43:27 GMT; Max-Age=3600
+Set-Cookie: TestCookie2=valeur2; expires=Thu, 03-Oct-2024 16:43:27 GMT; Max-Age=3600
 
 <html><head>...
 ```
@@ -205,10 +205,6 @@ devrait afficher `valeur1`.
    récupérer la variable PHP à partir de sa chaîne de caractère *sérialisée*. On
    applique donc `unserialize` lorsque l'on récupère la valeur stockée dans le
    cookie.
-   
-   **Avertissement** : La fonction `unserialize` peut poser des [problèmes de
-   sécurité](https://www.php.net/manual/fr/function.unserialize#refsect1-function.unserialize-description).
-   Il ne faut donc pas l'utiliser telle quelle dans un site professionnel. 
 
    <!-- Solutions :
    * signer le cookie utilisateur
@@ -225,7 +221,7 @@ devrait afficher `valeur1`.
    * json_decode ne reconstruit que des objets de la classe stdClass
    -->
 
-1. Si vous ne spécifiez pas le temps d'expiration d'un cookie (3ème paramètre de
+2. Si vous ne spécifiez pas le temps d'expiration d'un cookie (3ème paramètre de
    `setcookie`) ou que vous le mettez à `0` alors le cookie sera supprimé à la
    fin de la session (lorsque le navigateur sera fermé).
 
@@ -245,7 +241,7 @@ public static function enregistrer(string $cle, mixed $valeur, ?int $dureeExpira
    * `$dureeExpiration` indique dans combien de secondes est-ce que le cookie doit expirer.
    * Il faut traiter séparément le cas où `$dureeExpiration` vaut `null` qui
      indique que l'on veut une expiration à la fin de la session.
-   * Le type de retour `mixed` nécessite la version 8 de PHP. En cas de problème, vous pouvez retirer les `mixed`.
+   <!-- * Le type de retour `mixed` nécessite la version 8 de PHP. En cas de problème, vous pouvez retirer les `mixed`. -->
 
 1. Codez la méthode
 ```php
@@ -341,9 +337,25 @@ public static function supprimer($cle) : void
    Il est possible de préciser ce comportement en donnant plus de paramètres à
    la fonction [`setcookie`](http://php.net/manual/fr/function.setcookie.php). On peut ainsi restreindre l'envoi des cookies à certains noms de domaine, à certains chemins (partie après le nom d'hôte dans l'URL), ou seulement aux URL utilisant le protocole sécurisé `https`.
 
-<!-- The Max-Age attribute defines the lifetime of the  cookie, in seconds. -->
-<!-- The Expires attribute indicates the maximum lifetime of the cookie, -->
-<!-- represented as the date and time at which the cookie expires. -->
+   <!-- The Max-Age attribute defines the lifetime of the  cookie, in seconds. -->
+   <!-- The Expires attribute indicates the maximum lifetime of the cookie, -->
+   <!-- represented as the date and time at which the cookie expires. -->
+
+3. La fonction `unserialize` peut poser des [problèmes de
+   sécurité](https://www.php.net/manual/fr/function.unserialize#refsect1-function.unserialize-description).
+   Il ne faut donc pas l'utiliser telle quelle dans un site professionnel. Voici quelques solutions : 
+   1. utilisez `json_encode()` et `json_decode()` comme fonction de
+      sérialisation/désérialisation.  
+      Inconvénients : 
+      * seules les propriétés visibles publiquement d'un objet seront incluses.
+        Une classe peut également implémenter `JsonSerializable` pour contrôler la
+        façon dont ses valeurs sont sérialisées en JSON (*cf.* semestre 4 Parcours A).
+      * `json_decode` ne reconstruit que des objets de la classe `stdClass`
+   2. vérifiez que l'utilisateur n'a pas mis de données malicieuses dans les
+      cookies. Vous pouvez valider que les données du cookie ont été écrites par
+      le serveur avec `hash_hmac`.
+   3. Les frameworks Web comme Symfony (*cf.* semestre 5 pour les parcours A et
+      D) fournissent leurs propres méthodes de sérialisation/désérialisation.
 **Référence :** [La RFC des cookies](https://tools.ietf.org/html/rfc6265)
 
 ### Exercice sur l'utilisation des cookies
@@ -748,10 +760,13 @@ judicieux de la mettre dans une classe de configuration `ConfigurationSite.php`
 
 #### Où sont stockées les sessions ?
 
-Les sessions sont stockées sur le disque dur du serveur web, par exemple avec
+<!-- Les sessions sont stockées sur le disque dur du serveur web, par exemple avec
 LAMP dans le dossier `/var/lib/php/sessions` (il faut être `root` pour y
-accéder). Reportez-vous à la partie `session` de la fonction `phpinfo()` pour
-connaître ce chemin.
+accéder).  -->
+Les sessions sont stockées sur le disque dur du serveur web, dans le dossier
+`/tmp` dans le cas de notre serveur sous Docker. Reportez-vous à la partie
+`session` de la fonction `phpinfo()` pour connaître ce chemin.
+
 
 **Exemple :** Si mon identifiant de session est `PHPSESSID=aapot` et si mon code
 PHP est le suivant
@@ -789,12 +804,12 @@ la stocker avec des sessions.
    `index.php` pour que toutes les pages puissent l'utiliser et que le démarrage
    intervienne avant que l'on écrive du HTML.
 
-1. Passez toute l'information du panier dans la session.
+2. Passez toute l'information du panier dans la session.
 
-1. Calculez le prix du panier à chaque appel de la page et inscrivez-le dans la
+3. Calculez le prix du panier à chaque appel de la page et inscrivez-le dans la
    session.
 
-1. Faites en sorte que le panier s'efface de lui-même après un temps donné. Ce
+4. Faites en sorte que le panier s'efface de lui-même après un temps donné. Ce
    délai sera d'abord de 10 secondes à des fins de test puis passez-le à 10 minutes
    quand cela marche.
 
