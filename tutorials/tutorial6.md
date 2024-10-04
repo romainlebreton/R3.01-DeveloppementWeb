@@ -457,7 +457,7 @@ que vous connaissez depuis l'an dernier.
 ### Création d'un modèle générique
 
 Pour éviter la duplication de code et la perte d'un temps conséquent à
-développer le CRUD pour chaque nouvel type d'objet, nous allons mettre en commun le
+développer le CRUD pour chaque nouveau type d'objet, nous allons mettre en commun le
 code autant que possible. Commençons par abstraire les 2 classes métiers `Utilisateur` et `Trajet`.
 
 <img alt="Diagramme de classe"
