@@ -40,23 +40,24 @@ Cours à l'IUT de Montpellier - 2ème année
 * [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html) (durée indicative ≃ 5h) 
   
   
-<!--
-
-
 ### Lancement des projets
 
-La première séance de la semaine du lundi 9 octobre sera dédiée aux projets PHP :
+La première séance de la semaine du lundi 7 octobre sera dédiée aux projets PHP (si vous avez fini le TD6) :
 
 * [Parcours A -- SAÉ](https://moodle.umontpellier.fr/course/view.php?id=31828)
-* [Parcours B & D -- Instructions du projet -- Date de rendu : vendredi 24/11 à 23h59](projet.html)
+* [Parcours B & D -- Instructions du projet -- Date de rendu : samedi 23/11 à 23h59](projet.html)
 
-La dernière séance de PHP (fin de la semaine du lundi 23 octobre) sera dédiée au suivi des projets.
+La dernière séance de PHP (fin de la semaine du lundi 21 octobre) sera dédiée au suivi des projets.
   
 ### Authentification (2 semaines)
 
 * [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) (durée indicative ≃ 2h) 
+
+<!--
+
 * [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html) (durée indicative ≃ 4h) 
 * [TD 9 -- Messages Flash](tutorials/tutorial9.html) (durée indicative ≃ 2h) 
+* Suivi des projets / SAE si vous avez fini les TDs
 
 -->
 
@@ -66,19 +67,16 @@ La dernière séance de PHP (fin de la semaine du lundi 23 octobre) sera dédié
 * TD1 -- [Encodage des caractères, serveur HTTP de l'IUT et note sur les URLs]({{site.baseurl}}/assets/tut1-complement.html)
 * TD2 -- [Attributs et méthodes statiques]({{site.baseurl}}/assets/tut2-complement.html)
 * TD3 -- [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
-
-<!--
 * TD4 -- [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html)
 * TD5 -- [`.htaccess`, namespace et autoloader]({{site.baseurl}}/assets/tut5-complement.html)
 * TD7 -- [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html)  
--->
 
 
 <!-- 
 1. [Syntaxe simple & avancée de PHP 8.1]({{site.baseurl}}/assets/complement1-PHPSyntax.html)
 -->
 
-<!-- ## Instructions du projet
+## Instructions du projet
 
 * [Parcours A -- SAÉ](https://moodle.umontpellier.fr/course/view.php?id=28067)
-* [Parcours B & D -- Instructions du projet](projet.html)  -->
+* [Parcours B & D -- Instructions du projet](projet.html)
