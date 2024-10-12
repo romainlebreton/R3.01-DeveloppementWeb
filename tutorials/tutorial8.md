@@ -260,12 +260,12 @@ et copiez-le dans l'attribut statique `$poivre` une fois pour toute.
    1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Modele/DataObject`) :
       1. ajoutez un attribut `private string $mdpHache`,
       1. mettez à jour le constructeur, 
-      2. rajoutez un getter et un setter,
-      3. mettez à jour la méthode `formatTableau` (qui fournit les données des
-         requêtes SQL préparées).
+      2. rajoutez un getter et un setter.
    2. Mettez à jour la classe de persistance `UtilisateurRepository` :
-      1. mettez à jour `construireDepuisTableauSQL` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
-      2. mettez à jour `getNomsColonnes`.
+      1. mettez à jour `getNomsColonnes`,
+      2. mettez à jour `construireDepuisTableauSQL` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
+      3. mettez à jour la méthode `formatTableauSQL` (qui fournit les données des
+         requêtes SQL préparées).
 
    *Note* : L'utilisation d'un framework PHP professionnel nous éviterait ces
    tâches répétitives.
@@ -294,25 +294,10 @@ Nous allons modifier la création d'un utilisateur.
    1. rajoutez la condition que les deux champs mot de passe doivent coïncider
       avant de sauvegarder l'utilisateur. En cas d'échec, appelez à l'action d'erreur `afficherErreur` avec un message *Mots de passe distincts*.
 
-   2. Nous allons changer la manière de construire un objet métier
-      *utilisateur* à partir des données `$_GET` du formulaire. Jusqu'à
-      présent, nous appelions `Utilisateur::__construct()` ou de manière
-      équivalente `UtilisateurRepository::construireDepuisTableauSQL()`. Mais ces méthodes
-      sont faites pour prendre en entrée un résultat SQL (sous forme de
-      tableau). À cause du mot de passe qui est en clair dans le formulaire,
-      mais haché dans la BDD, il faut changer le code.
-
-      * Créez une méthode 
-      ```php
-      public static function construireDepuisFormulaire (array $tableauFormulaire) : Utilisateur
-      ```
-      dans la classe `Utilisateur`. Elle appelle le constructeur de
-      `Utilisateur` en hachant d'abord le mot de passe.
-      * Mettez à jour l'action `creerDepuisFormulaire` pour appeler `construireDepuisFormulaire()`.
-      * Puisque `construireDepuisTableauSQL()` n'est présent que dans
-        `AbstractRepository` ou ses classes filles (`UtilisateurRepository`,
-        `TrajetRepository`, ...), passez sa visibilité de `public` à
-        `protected` dans `AbstractRepository` et ses classes filles.
+   2. Modifiez la méthode `ControleurUtilisateur::construireDepuisFormulaire`
+      qui construit un objet métier *utilisateur* à partir des données `$_GET`
+      du formulaire pour qu'elle appelle le constructeur de `Utilisateur` en
+      hachant d'abord le mot de passe.
 
 2. Rajoutons au menu de notre site un lien pour s'inscrire. Dans le menu de la
    vue générique `vueGenerale.php`, rajoutez une icône cliquable ![icône
@@ -330,17 +315,10 @@ Rajoutons des mots de passe dans la mise à jour d'un utilisateur.
 <div class="exercise">
 
 1. Modifier la vue `formulaireMiseAJour.php` pour ajouter trois champs *password* : l'ancien mot de passe, le nouveau qu'il faut écrire 2 fois pour ne pas se tromper.
-2. Modifiez l'action `mettreAJour` :
-   * vérifiez que les 2 nouveaux mots de passe coïncident. En cas d'échec,
-     appelez à l'action d'erreur `afficherErreur` avec un message *Mots de
-     passe distincts*.
-   * Vérifiez que l'ancien mot de passe est correct. En cas d'échec, appelez à
-     l'action d'erreur `afficherErreur` avec un message *Ancien mot de passe
-     erroné*.
-   * Le cas échéant, mettez à jour votre utilisateur en appelant les *setter*.
-     N'oubliez pas de hacher le mot de passe. Enfin, effectuez la mise à jour
-      dans la base de données.
-3. Testez la mise à jour du mot de passe d'un utilisateur.
+2. Testez la mise à jour du mot de passe d'un utilisateur (qui doit marcher car elle appelle `construireDepuisFormulaire` que nous avons mis à jour).  
+   **Note :** Nous ferons prochainement les vérifications de l'ancien mot de passe, de l'égalité des 2 nouveaux mots de passe.
+
+   <!-- L'utilisation des setter pour modifier l'utilisateur aurait permis que le formulaire ne renvoie pas toutes les données -->
 </div>
 
 ## Sécurisation d'une page avec les sessions
@@ -426,13 +404,13 @@ Procédons en plusieurs étapes :
    2. Puis, il faut récupérer l'utilisateur ayant le login transmis. Ceci
       permettra de vérifier que ce login existe bien et que le mot de passe
       transmis est correct (utiliser une méthode de la classe `MotDePasse`).
-      Sinon, appelez `afficherErreur` avec le message *Login inconnu*.
+      Sinon, appelez `afficherErreur` avec le message *Login et/ou mot de passe incorrect*.
    3. Enfin, vous pouvez connecter l'utilisateur (utiliser une méthode de la
       classe `ConnexionUtilisateur`). 
       <!-- ICI TODO Afficher la vue utilisateurConnecte ! -->
       Affichez une nouvelle vue `utilisateur\utilisateurConnecte.php` qui écrit
       un message *Utilisateur connecté* puis appelle la vue `detail.php` pour
-      afficher l'utilisateur connecté. Cette vue est similaire à `utilisateurCree.php`.
+      afficher l'utilisateur connecté.
 
 </div>
 
@@ -457,6 +435,12 @@ Codons maintenant la déconnexion.
    *Note :* Toutes les vues `utilisateurConnecte.php`,
    `utilisateurDeconnecte.php`, `utilisateurCree.php`, `utilisateurMisAJour.php`
    et `utilisateurSupprime.php` sont bien sûr redondantes. Nous résoudrons ce problème lors du TD9 sur les messages Flash.
+
+3. Testez qu'un clic sur vos deux nouvelles icônes
+   ![user]({{site.baseurl}}/assets/TD8/user.png) et
+   ![deconnexion]({{site.baseurl}}/assets/TD8/logout.png) marche bien.
+
+   *Question innocente* 👼 : Est-ce que le clic sur ![user]({{site.baseurl}}/assets/TD8/user.png) pour un utilisateur de login `&a=b` marche bien ?
 
 </div>
 
@@ -515,10 +499,10 @@ l'action `mettreAJour`.
    traitement. Passez temporairement votre formulaire en cette méthode si
    nécessaire.
 
-2. Mettez à jour l'action `mettreAJour` du contrôleur *utilisateur*  pour qu'il
+2. Mettez à jour l'action `mettreAJour` du contrôleur *utilisateur* pour qu'il
    effectue toutes les vérifications suivantes, avec `afficherErreur` en cas
    de problème :
-   * vérifiez que tous les champs obligatoires du formulaire ont été transmis.
+   * vérifiez que tous les champs obligatoires du formulaire ont été transmis ;
    * Vérifiez que le login existe ;
    * Vérifiez que les 2 nouveaux mots de passe coïncident ;
    * Vérifiez que l'ancien mot de passe est correct ;
@@ -556,23 +540,79 @@ Commençons par rajouter un attribut `estAdmin` à notre classe métier
 
 1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Modele/DataObject`) :
    1. ajoutez un attribut `private bool $estAdmin`,
-   1. mettez à jour le constructeur, 
-   1. rajoutez un getter et un setter,
-   1. mettez à jour la méthode `formatTableau` (qui fournit les données des
-      requêtes SQL préparées).
-
-      **Attention** : SQL stocke différemment les booléens que PHP. En SQL, on
-      encode `false` avec l'entier `0` et `true` avec l'entier `1`. Il faut donc
-      que votre méthode `formatTableau` renvoie `0` ou `1` pour le champ
-      `estAdminTag`.
-   2. Mettez à jour `construireDepuisFormulaire` avec `return null;`. Nous
-      complèterons cette fonction correctement plus tard.
+   2. mettez à jour le constructeur, 
+   3. rajoutez un getter et un setter,
 
 2. Mettez à jour la classe de persistance `UtilisateurRepository` :
-   1. mettez à jour `construireDepuisTableauSQL` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
-   2. mettez à jour `getNomsColonnes`.
+   1. mettez à jour `getNomsColonnes`,
+   2. mettez à jour la méthode `formatTableauSQL` (qui fournit les données des
+      requêtes SQL préparées).
+
+      **Rappel** : SQL stocke différemment les booléens que PHP (*cf.*
+      `nonFumeur` des trajets). En SQL, on encode `false` avec l'entier `0` et
+      `true` avec l'entier `1`. Il faut donc que votre méthode
+      `formatTableauSQL` renvoie `0` ou `1` pour le champ `estAdminTag`.
+   3. mettez à jour `construireDepuisTableauSQL` (qui permet de construire un
+      utilisateur à partir de la sortie d'une requête SQL).
+
+      **Note :** Pas besoin ici de convertir le booléen SQL (0 ou 1) vers un
+      booléen PHP car PHP le fait automatiquement.
 
 </div>
+
+
+#### Rôle administrateur lors de la création d'un utilisateur
+
+
+Modifions le processus de création d'un utilisateur pour intégrer cette nouvelle
+donnée.
+
+<div class="exercise">
+
+1. Rajoutez un bouton `checkbox` au formulaire de création 
+   ```html
+   <p class="InputAddOn">
+         <label class="InputAddOn-item" for="estAdmin_id">Administrateur</label>
+         <input class="InputAddOn-field" type="checkbox" placeholder="" name="estAdmin" id="estAdmin_id">
+   </p>
+   ```
+2. Mettez à jour `construireDepuisFormulaire` de `ControleurUtilisateur`.
+
+   **Rappel** : Les formulaires transmettent le booléen associé à une
+   `checkbox` de manière spécifique (*cf.* `nonFumeur` des trajets). Si la
+   case est cochée, alors `estAdmin=on` sera transmis. Si la case n'est pas
+   cochée, aucune donnée n'est transmise.
+
+3. Vérifiez dans PHPMyAdmin que vous arrivez à créer des utilisateurs
+   administrateurs ou non.
+
+</div>
+
+#### Rôle administrateur lors de la mise à jour d'un utilisateur
+
+Passons au processus de mise-à-jour.
+
+<div class="exercise">
+
+1. Rajoutez un bouton `checkbox` au formulaire de mise-à-jour
+   ```html
+   <p class="InputAddOn">
+         <label class="InputAddOn-item" for="estAdmin_id">Administrateur</label>
+         <input class="InputAddOn-field" type="checkbox" placeholder="" name="estAdmin" id="estAdmin_id">
+   </p>
+   ``` 
+   Faites en sorte que le bouton soit pré-coché ([attribut
+   `checked`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input/checkbox#attr-checked))
+   si l'utilisateur est déjà administrateur.
+
+2. Vérifiez que la mise à jour fonctionne.
+
+</div>
+
+#### Sécurisation du rôle administrateur
+
+Nous allons modifier la sécurité de notre site pour qu'un *administrateur* ait
+tous les droits.
 
 Mettons à jour la classe utilitaire `ConnexionUtilisateur`.
 
@@ -592,47 +632,7 @@ Mettons à jour la classe utilitaire `ConnexionUtilisateur`.
 
 </div>
 
-Modifions le processus de création d'un utilisateur pour intégrer cette nouvelle
-donnée.
-
-<div class="exercise">
-
-1. Rajoutez un bouton `checkbox` au formulaire de création 
-   ```html
-   <p class="InputAddOn">
-         <label class="InputAddOn-item" for="estAdmin_id">Administrateur</label>
-         <input class="InputAddOn-field" type="checkbox" placeholder="" name="estAdmin" id="estAdmin_id">
-   </p>
-   ```
-
-1. Pour que l'action `creerDepuisFormulaire` arrive à construire un utilisateur et à le
-   sauvegarder en base de données, il ne manque que la mise à jour de la méthode
-   `construireDepuisFormulaire`. Si la case est cochée, alors `estAdmin=on`
-   sera transmis. Si la case n'est pas cochée, aucune donnée liée au `checkbox`
-   n'est rajoutée.
-
-   **Mettez à jour** la méthode `construireDepuisFormulaire` avec ces
-   explications. Vérifiez dans PHPMyAdmin que vous arrivez à créer des
-   utilisateurs administrateurs ou non.
-
-</div>
-
-Passons au processus de mise-à-jour.
-
-<div class="exercise">
-
-1. Rajoutez un bouton `checkbox` au formulaire de mise-à-jour. Faites en sorte
-   que le bouton soit pré-coché ([attribut
-   `checked`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input/checkbox#attr-checked))
-   si l'utilisateur est déjà administrateur.
-
-2. Dans l'action `mettreAJour`, rajoutez un appel au setter `setEstAdmin`. Vérifiez
-   que la mise à jour fonctionne.
-
-</div>
-
-Nous allons modifier la sécurité de notre site pour qu'un *administrateur* ait
-tous les droits.
+Nous pouvons maintenant coder la logique d'autorisation d'accès.
 
 <div class="exercise">
 
@@ -650,18 +650,42 @@ tous les droits.
       valeur reçue par le formulaire.
 
 
-1. Processus de mise-à-jour :
-   1. Les liens de mise-à-jour d'un utilisateur doivent apparaître quand un
-      administrateur est connecté (utilisez
-   `ConnexionUtilisateur::estAdministrateur()`).
-   1. Le champ *Administrateur ?* du formulaire de mise-à-jour ne doit
-   apparaître que si l'utilisateur connecté est administrateur.
-   1. Plus important, l'action `mettreAJour` ne doit modifier le statut
-      *administrateur* que si l'utilisateur connecté est administrateur. 
-   2. Enfin, un administrateur doit pouvoir modifier n'importe quel utilisateur.
-      Il ne doit pas avoir à fournir l'ancien mot de passe. Si un administrateur
-      est connecté et que le login fourni n'existe pas, affichez un message
-      d'erreur *Login inconnu*.
+1. Processus de mise-à-jour : 
+   1. Vue `liste.php` : Les liens de mise-à-jour d'un utilisateur doivent
+      apparaître quand un administrateur est connecté (utilisez
+      `ConnexionUtilisateur::estAdministrateur()`).
+   2. Action `afficherFormulaireMiseAJour` : 
+      * L'accès au formulaire de mise à jour d'un utilisateur est autorisé soit
+        si c'est l'utilisateur connecté, soit si l'utilisateur connecté est
+        administrateur et qu'il existe bien un utilisateur avec ce login.  
+        En cas d'accès refusé, affichez le message d'erreur *Login inconnu* si
+        un admin est connecté ou *La mise à jour n'est possible que pour
+        l'utilisateur connecté* sinon.
+      * Le champ *Administrateur ?* du formulaire de mise-à-jour ne doit
+         apparaître que si l'utilisateur connecté est administrateur.
+   3. Action `mettreAJour` : 
+      * L'accès à l'action `mettreAJour` d'un utilisateur est autorisé soit
+        si c'est l'utilisateur connecté, soit si l'utilisateur connecté est
+        administrateur et qu'il existe bien un utilisateur avec ce login.  
+        En cas d'accès refusé, affichez le message d'erreur *Login inconnu* si
+        un admin est connecté ou *La mise à jour n'est possible que pour
+        l'utilisateur connecté* sinon. 
+      * On ne vérifie pas l'ancien mot de passe si un admin est connecté.
+      * Plus important, l'action `mettreAJour` ne doit modifier le rôle
+        *administrateur* que si l'utilisateur connecté est administrateur.  
+        Pour appliquer cette règle, nous allons changer la manière dont nous
+        créons l'objet *utilisateur* modifié. Plutôt que de le construire à
+        partir des données du formulaire, nous allons récupérer l'utilisateur
+        courant de la base de donnée puis le modifier avec des mutateurs
+        (*setters*). Cette façon de faire facilite les logiques plus complexes,
+        comme modifier l'attribut `estAdmin` sous condition, et plus tard la
+        validation de l'adresse email.
+  
+        **Modifiez** donc l'action `mettreAJour` pour appeler des mutateurs
+        plutôt que `construireDepuisFormulaire`. N'oubliez pas de hacher le mot
+        de passe avant de le modifier. Changez le statut administrateur que si
+        l'utilisateur connecté est administrateur (faites attention à la manière
+        de lire la case à cocher du formulaire).
 
    <!-- 
    Attention un admin doit pouvoir modifier un utilisateur sans donner son ancien mot de passe
@@ -720,7 +744,7 @@ en plus.
 1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Modele/DataObject`) :
    1. ajoutez les attributs,
    1. mettez à jour le constructeur, les getter et les setter,
-   1. mettez à jour la méthode `formatTableau` (qui fournit les données des
+   1. mettez à jour la méthode `formatTableauSQL` (qui fournit les données des
       requêtes SQL préparées),
    1. vous mettrez à jour la méthode `construireDepuisFormulaire` plus tard.
 
