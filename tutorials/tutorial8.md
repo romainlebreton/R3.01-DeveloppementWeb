@@ -958,7 +958,7 @@ Nous allons utiliser 2 outils :
 
 Une solution professionnelle serait d'utiliser une bibliothèque PHP, comme le
 [composant `Mailer` du framework
-Symfony](https://packagist.org/packages/symfony/mailer), ou
+Symfony](https://symfony.com/doc/current/mailer.html), ou
 [`PHPMailer`](https://github.com/PHPMailer/PHPMailer).
 
 La façon la plus simple de les installer est d'utiliser le gestionnaire de
