@@ -771,7 +771,7 @@ mail sur la page Web.
    {
       public static function envoiEmailValidation(Utilisateur $utilisateur): void
       {
-         $destinataire = 'bob@yopmail.com';
+         $destinataire = $utilisateur->getEmailAValider();
          $sujet = "Validation de l'adresse email";
          // Pour envoyer un email contenant du HTML
          $enTete = "MIME-Version: 1.0\r\n";
