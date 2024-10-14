@@ -246,7 +246,7 @@ class MotDePasse
 ```php
 var_dump(MotDePasse::genererChaineAleatoire());
 ```
-et copiez-le dans l'attribut statique `$poivre` une fois pour toute.
+et copiez-le dans l'attribut statique `$poivre` une fois pour toutes.
 
    *Note* : Une façon simple d'exécuter la commande est de décommenter
    temporairement cette ligne dans `MotDePasse.php` puis d'exécuter la commande
@@ -290,7 +290,7 @@ Nous allons modifier la création d'un utilisateur.
 
    Le deuxième champ mot de passe sert à valider le premier.
 
-1. Modifiez l'action `creerDepuisFormulaire` du  *utilisateur* :
+1. Modifiez l'action `creerDepuisFormulaire` du *utilisateur* :
    1. rajoutez la condition que les deux champs mot de passe doivent coïncider
       avant de sauvegarder l'utilisateur. En cas d'échec, appelez à l'action d'erreur `afficherErreur` avec un message *Mots de passe distincts*.
 
@@ -722,7 +722,7 @@ Expliquons brièvement le mécanisme de validation par adresse email que nous
 allons mettre en place. À la création d'un utilisateur, nous lui associons une
 chaîne secrète de caractères aléatoires appelée [nonce
 cryptographique](https://fr.wiktionary.org/wiki/nonce). Nous envoyons ce nonce
-par email à l'adresse indiqué. La connaissance de ce nonce sert de preuve que
+par email à l'adresse indiquée. La connaissance de ce nonce sert de preuve que
 l'adresse email existe et que l'utilisateur y a accès. Il suffit alors à
 l'utilisateur de renvoyer le nonce au site pour que ce dernier valide l'adresse
 email (en mettant la valeur du nonce à la chaîne de caractère vide `""` dans
@@ -743,18 +743,19 @@ en plus.
 
 1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Modele/DataObject`) :
    1. ajoutez les attributs,
-   1. mettez à jour le constructeur, les getter et les setter,
-   1. mettez à jour la méthode `formatTableauSQL` (qui fournit les données des
-      requêtes SQL préparées),
-   1. vous mettrez à jour la méthode `construireDepuisFormulaire` plus tard.
+   1. mettez à jour le constructeur, les *getters* et les *setters*.
 
-1. Mettez à jour la classe de persistance `UtilisateurRepository` :
+2. Mettez à jour la classe de persistance `UtilisateurRepository` :
    1. mettez à jour `construireDepuisTableauSQL` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
-   1. mettez à jour `getNomsColonnes`.
+   2. mettez à jour `getNomsColonnes`,
+   1. mettez à jour la méthode `formatTableauSQL` (qui fournit les données des
+      requêtes SQL préparées).
 
 </div>
 
-Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`.
+Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`. Cette
+classe n'enverra pas encore de mail pour l'instant, mais affichera le contenu du
+mail sur la page Web.
 
 <div class="exercise">
 
@@ -770,14 +771,24 @@ Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`.
    {
       public static function envoiEmailValidation(Utilisateur $utilisateur): void
       {
+         $destinataire = 'bob@yopmail.com';
+         $sujet = "Validation de l'adresse email";
+         // Pour envoyer un email contenant du HTML
+         $enTete = "MIME-Version: 1.0\r\n";
+         $enTete .= "Content-type:text/html;charset=UTF-8\r\n";
+
+         // Corps de l'email
          $loginURL = rawurlencode($utilisateur->getLogin());
          $nonceURL = rawurlencode($utilisateur->getNonce());
          $URLAbsolue = ConfigurationSite::getURLAbsolue();
          $lienValidationEmail = "$URLAbsolue?action=validerEmail&controleur=utilisateur&login=$loginURL&nonce=$nonceURL";
-         $corpsEmail = "<a href=\"$lienValidationEmail\">Validation</a>";
+         $corpsEmailHTML = "<a href=\"$lienValidationEmail\">Validation</a>";
 
          // Temporairement avant d'envoyer un vrai mail
-         var_dump($corpsEmail);
+         echo "Simulation d'envoi d'un mail<br> Destinataire : $destinataire<br> Sujet : $sujet<br> Corps : <br>$corpsEmailHTML";
+
+         // Quand vous aurez configué l'envoi de mail via PHP
+         // mail($destinataire, $sujet, $corpsEmailHTML, $enTete);
       }
 
       public static function traiterEmailValidation($login, $nonce): bool
@@ -832,52 +843,10 @@ Créons maintenant une classe utilitaire `src/Lib/VerificationEmail.php`.
    l'email à valider dans l'email et passez à `""` le champ `nonce` de la BDD.
 
 3. Testez que la validation de l'email marche bien après la création d'un
-   utilisateur. Pour ceci, regarder dans la BDD que les données évoluent bien à
-   chaque étape. 
-
-4. Modifiez la fonction `VerificationEmail::envoiEmailValidation` pour qu'elle
-   envoie un mail à l'adresse renseignée avec un lien qui enverra le nonce au site.
-   Pour vous aider, voici un exemple de code utilisant [la fonction
-   `mail()`](http://php.net/manual/en/function.mail.php) de PHP.
-
-   ```php
-   $destinataire = 'bob@yopmail.com';
-   $sujet = "Validation de l'adresse email";
-   $contenuHTML = '<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Un exemple de lien</a>'
-
-   // Pour envoyer un email contenant du HTML
-   $enTete = "MIME-Version: 1.0" . "\r\n";
-   $enTete .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-
-   // Envoi du mail. Renvoi true/false selon si l'envoi a fonctionné
-   mail($destinataire, $sujet, $contenuHTML, $enTete);
-   ```
-   
-   *Note* : La fonction `mail()` n'est disponible que sur le serveur `webinfo`
-   Web de l'IUT. Si vous avez installé un serveur Web local sur votre machine
-   avec MAMP/XAMPP, `mail()` n'est pas configuré par défaut. XAMPP sur Linux
-   permet d'activer l'envoi, *cf.* leur
-   FAQ [Linux](https://www.apachefriends.org/faq_linux.html), 
-   [Windows](https://www.apachefriends.org/faq_windows.html) 
-   ou [Mac OS](https://www.apachefriends.org/faq_osx.html).  
-   La bonne solution
-   multiplateforme nécessite d'installer une [bibliothèque
-   PHP](https://packagist.org/packages/symfony/mailer), ce que nous apprendrons
-   à faire au semestre 4. Autrement, vous pouvez rester avec `mail()`. 
+   utilisateur en cliquant sur le lien de validation. Vérifiez dans
+   la BDD que les données évoluent bien à chaque étape. 
 
 </div>
-
-   Pour éviter d'être blacklistés des serveurs de mail, nous allons envoyer
-   uniquement des emails dans le domaine `yopmail.com`, dont le fonctionnement
-   est le suivant : un mail envoyé à `bob@yopmail.com` est immédiatement lisible
-   sur [https://yopmail.com/fr/?"bob"](https://yopmail.com/fr/?"bob").
-   Si le lien précédent ne marche pas, allez sur la page https://yopmail.com/fr/ et saisir
-   le nom du mail jetable "bob" en haut à gauche.
-
-   **Attention : Abuser de cette fonction serait considéré comme une violation
-   de la charte d'utilisation des ressources informatiques de l'IUT et vous
-   exposerait à des sanctions !**
-
 
 Nous allons maintenant pouvoir nous servir de la validation de l'email ailleurs
 dans le site.
@@ -885,13 +854,13 @@ dans le site.
 
 <div class="exercise">
 
-1. Modifiez l'action `connecter` du contrôleur *utilisateur*  de sorte à accepter
+1. Modifiez l'action `connecter` du contrôleur *utilisateur* de sorte à accepter
 la connexion uniquement si l'utilisateur a validé un email. 
    * Pour ceci, appelez la méthode `VerificationEmail::aValideEmail()`.
    * Codez cette méthode pour qu'elle regarde si l'utilisateur a un email
      différent de `""`.
 
-1. Dans l'action `creerDepuisFormulaire` du contrôleur *utilisateur* , vérifiez que l'adresse
+1. Dans l'action `creerDepuisFormulaire` du contrôleur *utilisateur*, vérifiez que l'adresse
    email envoyée par l'utilisateur en est bien une. Pour cela, vous pouvez par
    exemple utiliser la fonction
    [`filter_var()`](http://php.net/manual/en/function.filter-var.php) avec le
@@ -901,7 +870,7 @@ la connexion uniquement si l'utilisateur a validé un email.
 
 1. Mise à jour d'un utilisateur : 
    * rajoutez un champ *Email* prérempli,
-   * dans l'action `mettreAJour`, vérifiez le format de l'email puis écrivez-le dans
+   * dans l'action `mettreAJour`, si l'email a changé, vérifiez le format de l'email puis écrivez-le dans
      le champ `emailAValider`. Créez aussi un nonce aléatoire et envoyez le mail de validation.
 
 </div>
@@ -916,6 +885,86 @@ nonce.
 Donc il faut un champ email_validated dans la session qui fait que quand on est
 connecté sans avoir validé, alors on ne peut que valider son email.
 -->
+
+### Configuration pour l'envoi de mail
+
+L'envoi d'email par PHP nécessite une configuration. Voici trois options possibles.
+
+#### Sur `webinfo`
+
+Si vous déployez votre site sur le serveur web de l'IUT `webinfo` (*cf.* [Cours
+1]({{site.baseurl}}/classes/class1.html#serveur-web-webinfo-de-liut)), la
+fonction `mail()` est déjà configurée.
+
+Pour éviter que le serveur mail de l'IUT ne soit blacklisté des serveurs de
+mail, vous n'avez l'autorisation d'envoyer des emails uniquement vers le domaine
+`yopmail.com`, dont le fonctionnement est le suivant : un mail envoyé à
+`bob@yopmail.com` est immédiatement lisible sur
+[https://yopmail.com/fr/?"bob"](https://yopmail.com/fr/?"bob"). Si le lien
+précédent ne marche pas, allez sur la page https://yopmail.com/fr/ et saisir le
+nom du mail jetable "bob" en haut à gauche.
+
+#### Sous Docker
+
+Nous allons utiliser 2 outils : 
+* [MSMTP](https://marlam.de/msmtp/) : un client de mail (SMTP) qui permet de demander à un serveur SMTP
+  d'envoyer des mails en ligne de commande. PHP appellera cette ligne de commande.
+* [Mailpit](https://mailpit.axllent.org/) : un serveur de mail (SMTP) simpliste et une interface Web pour
+  voir les mails envoyés. Le serveur de mail n'enverra pas vraiment de mail au
+  destinataire mais permettra de les afficher via son interface web.
+
+<div class="exercise">
+
+1. Ouvrez un terminal `bash` dans votre conteneur Docker (en tapant d'abord la
+   commande `bash`) puis exécutez les commandes suivantes : 
+   
+   ```bash
+   # Installer msmtp en désactivant AppArmor
+   echo "msmtp	msmtp/apparmor	boolean	false" | debconf-set-selections
+   DEBIAN_FRONTEND=noninteractive apt-get install -y msmtp
+   
+   # Configuration de msmtp
+   echo "account default
+   host host.docker.internal
+   port 1025
+   from ton_adresse@example.com
+   auth off" > /var/www/html/.msmtprc
+   
+   # Configuration de PHP
+   echo "sendmail_path = \"/usr/bin/msmtp -C /var/www/html/.msmtprc -t\"" >> /usr/local/etc/php/conf.d/php.ini
+   ```
+
+   Remarques : 1025 est le port du serveur SMTP (*cf.* plus bas),
+   `host.docker.internal` est le nom d'hôte de votre machine depuis un conteneur
+   Docker.  
+
+2. Redémarrer votre conteneur serveur Web pour qu'Apache recharge le fichier de configuration de PHP.
+
+3. Dans votre machine hôte (pas sous Docker), ouvrez un terminal et exécutez la
+   commande suivante pour créer un nouveau conteneur Docker qui contiendra Mailpit.
+
+   ```bash
+   docker run -d --name=mailpit -p 8025:8025 -p 1025:1025 axllent/mailpit
+   ``` 
+
+4. Ouvrez votre navigateur à l'URL
+   [http://localhost:8025/](http://localhost:8025/) pour ouvrir l'interface Web
+   de Mailpit.
+</div>
+
+<!-- docker run -d --name serveurTestMSMTP2 -p 8081:80 --volume /home/lebreton/public_html:/var/www/html serveur.web.docker.iut -->
+
+#### Alternative sous Docker
+
+Une solution professionnelle serait d'utiliser une bibliothèque PHP, comme le
+[composant `Mailer` du framework
+Symfony](https://packagist.org/packages/symfony/mailer), ou
+[`PHPMailer`](https://github.com/PHPMailer/PHPMailer).
+
+La façon la plus simple de les installer est d'utiliser le gestionnaire de
+bibliothèques PHP `composer`, que nous verrons au semestre 4 pour les Parcours A.
+
+À noter que PHPMailer propose aussi une façon de s'installer sans `composer`.
 
 ## Autres sécurisations
 
@@ -944,8 +993,8 @@ avons donc besoin d'être capable de récupérer les variables automatiquement d
 
    Remplacez tous les `$_GET` par des appels à `$_REQUEST`.
 
-   **Aide :** Utiliser la fonction de remplacement globale (sur tous les
-   fichiers du dossier `TD8`) pour vous aider.
+   **Aide :** Utiliser la fonction de remplacement globale avec `Ctrl+Shift+R`
+   (sur tous les fichiers du dossier `TD8`) pour vous aider.
 
 3. Passez les formulaires `formulaireCreation.php`, `formulaireMiseAJour.php`, `formulaireConnexion.php`
    et `formulairePreference.php` en méthode POST si `ConfigurationSite::getDebug()` est
@@ -955,7 +1004,7 @@ avons donc besoin d'être capable de récupérer les variables automatiquement d
 
 ### Sécurité avancée
 
-Remarquez que les mots de passe envoyés en POST sont toujours visible car envoyé
+Remarquez que les mots de passe envoyés en POST sont toujours visibles car envoyé
 en clair. Vous pouvez par exemple les voir dans l'onglet réseau des outils de
 développement (raccourci `F12`) dans la section paramètres sous Firefox (ou Form
 data sous Chrome).
