@@ -295,8 +295,8 @@ Nous allons modifier la création d'un utilisateur.
       avant de sauvegarder l'utilisateur. En cas d'échec, appelez à l'action d'erreur `afficherErreur` avec un message *Mots de passe distincts*.
 
    2. Modifiez la méthode `ControleurUtilisateur::construireDepuisFormulaire`
-      qui construit un objet métier *utilisateur* à partir des données `$_GET`
-      du formulaire pour qu'elle appelle le constructeur de `Utilisateur` en
+      qui construit un objet métier *utilisateur* à partir d'un tableau `$tableauDonneesFormulaire`
+      (voir fin du [TD6](https://romainlebreton.github.io/R3.01-DeveloppementWeb/tutorials/tutorial6.html)) pour qu'elle appelle le constructeur de `Utilisateur` en
       hachant d'abord le mot de passe.
 
 2. Rajoutons au menu de notre site un lien pour s'inscrire. Dans le menu de la
