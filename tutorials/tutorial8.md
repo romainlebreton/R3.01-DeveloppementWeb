@@ -839,7 +839,7 @@ mail sur la page Web.
    utilisateur. En cas d'échec, on appelle `afficherErreur`.
    * Codez `traiterEmailValidation()` :    
    Si le login correspond à un utilisateur présent dans la base et que le
-   `nonce` passé en `GET` correspond au `nonce` de la BDD, alors coupez/collez
+   `nonce` passé en paramètres correspond au `nonce` de la BDD, alors coupez/collez
    l'email à valider dans l'email et passez à `""` le champ `nonce` de la BDD.
 
 3. Testez que la validation de l'email marche bien après la création d'un
