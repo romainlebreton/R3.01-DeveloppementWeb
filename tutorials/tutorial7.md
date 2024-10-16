@@ -692,7 +692,7 @@ aux données qui lui sont associées.
 	sessions soit conservé disons 30 minutes, même en cas de fermeture du
 	navigateur.
 
-1.  **Comment rajouter un timeout sur les sessions :**
+1. **Comment rajouter un timeout sur les sessions :**
 
    Il peut être intéressant de rajouter un timeout sur les sessions pour forcer
    un utilisateur à se reconnecter au bout de quelques minutes d'activités. En
