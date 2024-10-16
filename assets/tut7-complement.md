@@ -9,10 +9,10 @@ layout: tutorial
 Pour bien comprendre en profondeur les cookies, il faut savoir que tout est basé
 sur deux mécanismes assez indépendants:
 
-1. le serveur peut enregistrer/modifier un cookie chez le client avec un ligne
+1. le serveur peut enregistrer/modifier un cookie chez le client avec une ligne
    `Set-Cookie` dans la réponse HTTP (commande PHP `setcookie`).
-1. les cookies sont envoyées à chaque requête par le client au serveur. PHP
-   traite les cookie et remplissant la variable en lecture seule `$_COOKIE`.
+1. les cookies sont envoyés à chaque requête par le client au serveur. PHP
+   traite les cookies en remplissant la variable en lecture seule `$_COOKIE`.
    
 **Quizz de compréhension:**
 
@@ -47,8 +47,8 @@ sur deux mécanismes assez indépendants:
    <span style="color:#FCFCFC">
    Non, si on ne fait pas <code style="color:#FCFCFC">setcookie()</code> alors aucune
    action d'écriture/mise-à-jour n'a lieu sur le cookie. Les cookies ne sont pas 
-   nécessairement réécrit à chaque fois et il reste donc sur l'ordinateur du client 
-   jusqu'à son expiration.  
+   nécessairement réécrits à chaque fois et ils restent donc sur l'ordinateur du client 
+   jusqu'à leur expiration.  
    </span>
 
 
@@ -99,7 +99,7 @@ Afin d'éviter ces désagréments, deux solutions :
    
 ### Sessions et sécurité
 
-Comme vous l'aurez devinez, on peut se faire passer pour quelqu'un si on connaît
+Comme vous l'aurez deviné, on peut se faire passer pour quelqu'un si on connaît
 son cookie `PHPSESSID`. Il est donc important que l'on essaye de protéger cette
 information. Or, comme on peut le voir avec les outils de développement, onglet
 Réseaux, l'information des cookies passent sur le réseau sans être cachée.
