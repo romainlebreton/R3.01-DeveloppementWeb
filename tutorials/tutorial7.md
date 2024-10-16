@@ -694,6 +694,11 @@ aux données qui lui sont associées.
 
 1.  **Comment rajouter un timeout sur les sessions :**
 
+   Il peut être intéressant de rajouter un timeout sur les sessions pour forcer
+   un utilisateur à se reconnecter au bout de quelques minutes d'activités. En
+   attendant de gérer la connexion des utilisateurs dans le TD prochain, voyons
+   comment mettre en place un timeout sur les sessions.
+
 	La durée de vie d'une session est liée à deux paramètres. D'une part, le
 	délai d'expiration du cookie permet d'effacer l'identifiant unique côté
 	client (sans garantie). D'autre part, une variable de PHP permet de définir
