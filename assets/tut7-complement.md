@@ -99,7 +99,7 @@ Afin d'éviter ces désagréments, deux solutions :
    
 ### Sessions et sécurité
 
-Comme vous l'aurez devinez, on peut se faire passer pour quelqu'un si on connaît
+Comme vous l'aurez deviné, on peut se faire passer pour quelqu'un si on connaît
 son cookie `PHPSESSID`. Il est donc important que l'on essaye de protéger cette
 information. Or, comme on peut le voir avec les outils de développement, onglet
 Réseaux, l'information des cookies passent sur le réseau sans être cachée.
