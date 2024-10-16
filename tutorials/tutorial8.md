@@ -454,8 +454,8 @@ l'utilisateur actuellement authentifié. Commençons par limiter les liens.
 1. Assurez-vous que la vue `utilisateur/liste.php` n'affiche que les liens vers
    la vue de détail, pas les liens de modification ou de suppression.
 
-1. Modifier la vue de détail pour qu'elle n'affiche les liens vers la mise à
-jour ou la suppression que si le login de l'utilisateur concorde avec celui
+1. Modifier la vue de détail pour qu'elle affiche les liens vers la mise à
+jour ou la suppression seulement si le login de l'utilisateur concorde avec celui
 stocké en session.
 
    Pour vous aider dans cette tâche, rajoutez la méthode suivante à
