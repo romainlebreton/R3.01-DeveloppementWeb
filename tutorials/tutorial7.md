@@ -710,29 +710,28 @@ aux données qui lui sont associées.
 	La seule manière sûre de bien gérer la durée de vie d'une session est de
 	stocker la date de dernière activité dans la session :
 	
-    ```php?start_inline=1
-    if (isset($_SESSION['derniereActivite']) && (time() - $_SESSION['derniereActivite'] > ($dureeExpiration)))
-        session_unset();     // unset $_SESSION variable for the run-time
-
-    $_SESSION['derniereActivite'] = time(); // update last activity time stamp
-    ```
-    
-    <!-- Ancien code : Problèmes : 
-    * Ce qu'on écrit dans $_SESSION n'est plus enregistré après session_detroy()
-      -> rajouter un session_start() ?
-    * Problème aussi avec détruire : l'utilisateur qui a déjà récupéré une session avec getInstance
-      se retrouve avec une session qui ne marche pas *sans le savoir*
-      -> Tant pis pour lui, il le sait quand il appelle detruire ?
-    ```php?start_inline=1
-    if (isset($_SESSION['derniereActivite']) && (time() - $_SESSION['derniereActivite'] > (30*60))) {
-        // if last request was more than 30 minutes ago
-        session_unset();     // unset $_SESSION variable for the run-time 
-        session_destroy();   // destroy session data in storage
-    } else {
-        $_SESSION['derniereActivite'] = time(); // update last activity time stamp
-    }
-    ``` -->
-
+   ```php?start_inline=1
+   if (isset($_SESSION['derniereActivite']) && (time() - $_SESSION['derniereActivite'] > ($dureeExpiration)))
+       session_unset();     // unset $_SESSION variable for the run-time
+   $_SESSION['derniereActivite'] = time(); // update last activity time stamp
+   ```
+   
+   <!-- Ancien code : Problèmes : 
+   * Ce qu'on écrit dans $_SESSION n'est plus enregistré après session_detroy()
+     -> rajouter un session_start() ?
+   * Problème aussi avec détruire : l'utilisateur qui a déjà récupéré une session avec getInstance
+     se retrouve avec une session qui ne marche pas *sans le savoir*
+     -> Tant pis pour lui, il le sait quand il appelle detruire ?
+   ```php?start_inline=1
+   if (isset($_SESSION['derniereActivite']) && (time() - $_SESSION['derniereActivite'] > (30*60))) {
+       // if last request was more than 30 minutes ago
+       session_unset();     // unset $_SESSION variable for the run-time 
+       session_destroy();   // destroy session data in storage
+   } else {
+       $_SESSION['derniereActivite'] = time(); // update last activity time stamp
+   }
+   ``` -->
+   
 	<!-- Nous recommandons de mettre un délai d'expiration correspondant au cookie
     d'identifiant de session à l'aide de la méthode
     [`session_set_cookie_params`](https://www.php.net/manual/fr/function.session-set-cookie-params.php). -->

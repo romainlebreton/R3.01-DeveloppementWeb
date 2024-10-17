@@ -915,13 +915,14 @@ Nous allons utiliser 2 outils :
 
 <div class="exercise">
 
-1. Ouvrez un terminal `bash` dans votre conteneur Docker (en tapant d'abord la
-   commande `bash`) puis exécutez les commandes suivantes : 
+1. Ouvrez un terminal dans votre conteneur Docker : dans Docker Desktop, ouvrez
+   votre conteneur, puis cliquez sur l'onglet `Exec`. Dans le terminal qui
+   apparait, tapez `bash` pour retrouver votre shell habituel. Enfin, exécutez les commandes suivantes : 
    
    ```bash
    # Installer msmtp en désactivant AppArmor
    echo "msmtp	msmtp/apparmor	boolean	false" | debconf-set-selections
-   DEBIAN_FRONTEND=noninteractive apt-get install -y msmtp
+   DEBIAN_FRONTEND=noninteractive apt install -y msmtp
    
    # Configuration de msmtp
    echo "account default
@@ -938,16 +939,16 @@ Nous allons utiliser 2 outils :
    `host.docker.internal` est le nom d'hôte de votre machine depuis un conteneur
    Docker.  
 
-2. Redémarrer votre conteneur serveur Web pour qu'Apache recharge le fichier de configuration de PHP.
+3. Redémarrer votre conteneur serveur Web pour qu'Apache recharge le fichier de configuration de PHP.
 
-3. Dans votre machine hôte (pas sous Docker), ouvrez un terminal et exécutez la
+4. Dans votre machine hôte (pas sous Docker), ouvrez un terminal et exécutez la
    commande suivante pour créer un nouveau conteneur Docker qui contiendra Mailpit.
 
    ```bash
    docker run -d --name=mailpit -p 8025:8025 -p 1025:1025 axllent/mailpit
    ``` 
 
-4. Ouvrez votre navigateur à l'URL
+5. Ouvrez votre navigateur à l'URL
    [http://localhost:8025/](http://localhost:8025/) pour ouvrir l'interface Web
    de Mailpit.
 </div>

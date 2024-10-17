@@ -678,7 +678,7 @@ qui permet de faire une recherche par clé primaire dans une table.
 
 Faites de même pour les trajets.
 
-1. Implémentez `TrajetRepository::getNomClePrimaire()`.
+1. Implémentez la méthode `getNomClePrimaire()` de `TrajetRepository`.
 
 2. Créez l'action `afficherDetail` du `ControleurTrajet` en vous basant sur celle de
    `ControleurUtilisateur`.
