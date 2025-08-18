@@ -765,9 +765,9 @@ function ServeurWeb(Requete $requete) : Reponse {
    * les arguments du constructeur,
    * le type de sortie de `__toString()`.
 
-   **Note :** Pour pouvoir utiliser les déclarations de type, il faut indiquer à PhpStorm que vous voulez utiliser la version 8.3 du langage PHP. Pour ceci, cliquez en bas à droite de l'IDE sur `PHP: *.*` pour basculer vers `PHP: 8.3`.
+   **Note :** Pour pouvoir utiliser les déclarations de type, il faut indiquer à PhpStorm que vous voulez utiliser la version 8.4 du langage PHP. Pour ceci, cliquez en bas à droite de l'IDE sur `PHP: *.*` pour basculer vers `PHP: 8.4`.
 
-2. Testez que PHP vérifie bien les types : dans `testUtilisateur.php`, appelez une fonction qui attend en argument un `string` en lui donnant à la place un tableau (le tableau vide `[]` par exemple). Vous devez recevoir un message comme suit
+2. Testez que PHP vérifie bien les types : dans `testUtilisateur.php`, instanciez un objet `Utilisateur` en donnant un tableau (le tableau vide `[]` par exemple) à un argument qui attend un `string` (par exemple, le nom). Vous devez recevoir un message comme suit :
 
    ```
    PHP Fatal error:  Uncaught TypeError: Utilisateur::__construct(): Argument #1 ($nom) must be of type string, array given
@@ -880,6 +880,10 @@ function ServeurWeb(Requete $requete) : Reponse {
    <!-- On voit toutes les modifications sauf celles en cours d'enregistrement avec `git add` -->
 </div>
 
+## Notes complémentaires
+
+Après avoir fini chaque TD, il est fortement recommandé d'en parcourir la **note complémentaire** qui permet
+de préciser et/ou développer certains points. Par exemple, la [note complémentaire du TD1]({{site.baseurl}}/assets/tut1-complement.html#installer-phpstorm-sur-sa-machine) se focalise sur l'encodage des caractères, le concept de promotion de propriétés (qui permet d'alléger l'écriture d'une classe), le serveur HTTP de l'IUT, les URLs et Git.
 
 <!-- ## Travailler depuis chez vous en local
 
@@ -916,7 +920,7 @@ sudo /opt/lampp/lampp start
 
 #### Installation depuis les paquets
 
-Pour une [installation depuis les paquets](https://www.google.com/search?q=install+apache+php+phpmyadmin+mysql+ubuntu&tbs=qdr:y) de Apache + MySql + Php + PhpMyAdmin sous Linux, votre `php.ini` se trouve dans `/etc/php/8.3/apache2/` et le redémarrage du serveur se fait avec 
+Pour une [installation depuis les paquets](https://www.google.com/search?q=install+apache+php+phpmyadmin+mysql+ubuntu&tbs=qdr:y) de Apache + MySql + Php + PhpMyAdmin sous Linux, votre `php.ini` se trouve dans `/etc/php/8.4/apache2/` et le redémarrage du serveur se fait avec 
 ```bash
 sudo service apache2 restart
 ``` -->

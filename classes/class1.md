@@ -25,43 +25,12 @@ lang: fr
 
 **Évaluation :**
 
+* Deux interros écrites : 20% (10% chacune)
 * Examen écrit final : 50%
-* Projet PHP : 50%
-  * Parcours A : Le projet PHP sera celui de votre SAÉ
-  * Parcours B & D : Projet PHP spécifique au cours
+* Projet PHP : 30%
+  * Parcours A (RACDV) : Le projet PHP sera celui de votre SAÉ (découpé en deux rendus, un intermédiaire et un final)
+  * Parcours B (DACS) & D (IAMSI) : Projet PHP spécifique au cours
 </section>
-
-<!-- 
-<section>
-
-## Emploi du temps prévisionnel
-
-1. Mardi 6 septembre 2022 -- Cours d'introduction à PHP
-
-**1er bloc de TDs -- Bases de PHP :**
-
-1. Semaine du lundi 5 septembre 2022 -- TD 1 -- Introduction aux objets en PHP
-1. Semaine du lundi 12 septembre 2022 -- TD 2 -- La persistance des données en PHP
-1. Semaine du lundi 19 septembre 2022 -- TD 3 -- Requêtes préparées et association de classes
-1. Semaine du lundi 26 septembre 2022 -- TD 4 -- Architecture MVC simple
-1. Semaine du lundi 3 octobre 2022 -- TD 5 -- Architecture MVC avancée 1/2
-1. Semaine du lundi 10 octobre 2022 -- TD 6 -- Architecture MVC avancée 2/2
-
-**2ème bloc de TDs -- Mise en application sur le projet + TDs complémentaires :**
-
-1. Semaine du lundi 17 octobre 2022 -- fin du TD 6 -- Architecture MVC avancée 2/2 (puis éventuellement projet)
-1. Semaine du lundi 24 octobre 2022 -- Parcours A : Séance SAÉ S3.A.01, autres parcours (B & D): Séance projet
-1. Semaine du lundi 7 novembre 2022 -- TD 7 -- Cookies & Sessions
-1. Semaine du lundi 14 novembre 2022 -- TD 8 -- Authentification & Validation par email
-1. Semaine du lundi 21 novembre 2022 -- SAÉ ou Projet
-
-**Évaluation**
-
-1. Semaine du lundi 2 janvier 2023 -- Évaluation SAÉ ou Projet
-1. Semaine du lundi 9 janvier 2023 -- Examen final écrit
-
-</section> 
--->
 
 <section>
 

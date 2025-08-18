@@ -560,7 +560,7 @@ faire pour avoir un code générique :
    * Passez tous les appels à `construireDepuisTableauSQL()` de
      `UtilisateurRepository` en appel de méthode d'instance (dynamique) avec  
      ```php
-     (new UtilisateurRepository())->construireDepuisTableauSQL($objetFormatTableau);
+     new UtilisateurRepository()->construireDepuisTableauSQL($objetFormatTableau);
      ```
      Ceci construit un objet anonyme afin de pouvoir appeler les fonctions
      dynamiques de `UtilisateurRepository`.
@@ -579,7 +579,7 @@ faire pour avoir un code générique :
    méthode d'instance `recuperer()` de `UtilisateurRepository` avec :
 
    ```php
-   (new UtilisateurRepository())->recuperer();
+   new UtilisateurRepository()->recuperer();
    ```
 
    L'action `afficherListe` du contrôleur *utilisateur* doit remarcher.
@@ -629,7 +629,7 @@ qui permet de faire une recherche par clé primaire dans une table.
       Corrigez tous les appels à la méthode avec PHPStorm : Faites `Ctlr+Maj+R`
       pour remplacer dans tous les fichiers
       `UtilisateurRepository::recupererParClePrimaire` par 
-      `(new UtilisateurRepository())->recupererParClePrimaire`.
+      `new UtilisateurRepository()->recupererParClePrimaire`.
    4. Testez que la page de détail d'un utilisateur marche toujours.
       
 2.  Pour que la fonction `recupererParClePrimaire(string)` puisse être générique, il faut récupérer

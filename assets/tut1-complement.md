@@ -1,6 +1,6 @@
 ---
 title: TD1 &ndash; Quelques compléments et rappels
-subtitle: Encodage, serveur HTTP, URL, Git
+subtitle: Encodage, promotion de propriétés, serveur HTTP, URL, Git
 layout: tutorial
 ---
 
@@ -28,6 +28,64 @@ La commande `iconv` est utile pour changer l'encodage des caractères d'un fichi
 % Tuto NetBeans
 -->
 
+## La promotion de propriétés
+
+La promotion de propriétés est un concept plutôt récent introduit dans la version 8 de PHP.
+Le but de cette fonctionnalité est de permettre d'alléger l'écriture d'une classe en déclarant 
+directement via le constructeur certains attributs dont les valeurs sont initialisées par 
+passage de paramètre lors de l'instanciation de l'objet. De plus, l'affectation des valeurs 
+aux différents attributs est automatiquement réalisée, il n'y a pas de code à écrire à ce niveau.
+
+Prenons l'exemple suivant :
+
+```php
+class Produit {
+
+   private string $nom;
+
+   private int $prix;
+
+   public __construct(string $nom, int $prix) {
+      $this->$nom = $nom;
+      $this->prix = $prix;
+   }
+
+   //Getters et setters...
+
+}
+```
+
+Ce code peut être simplifié avec la syntaxe suivante :
+
+```php
+class Produit {
+
+   public __construct(private string $nom, private int $prix) {}
+
+   //Getters et setters...
+
+}
+```
+
+On note les changements suivants :
+
+* On ne déclare plus directement les attributs `$nom` et `$prix` dans le corps de la classe.
+* Dans le constructeur, on ajoute la visibilité souhaitée pour les attributs au niveau de chaque 
+paramètre (on peut donc préciser `public`, `private`, `protected`...).
+* Il est possible d'ajouter d'autres mots-clés comme `readonly` (pour un attribut en lecture seule,
+dont la valeur ne doit pas changer après la première affectation).
+* Le code du constructeur est vide : l'affectation des valeurs est faite automatiquement.
+* Les deux attributs `$nom` et `$prix` sont bien déclarés et accessibles à l'intérieur de la classe.
+
+Même si on utilise cette syntaxe, il est toujours possible d'écrire du code dans le constructeur (au besoin) 
+et de déclarer d'autres attributs dans le corps de la classe en dehors du constructeur.
+
+Vous pouvez essayer de mettre en pratique ainsi :
+
+1. Utilisez cette nouvelle syntaxe pour alléger la classe `Utilisateur` en déclarant les différents attributs
+directement via le constructeur.
+
+2. Vérifiez que tout fonctionne toujours en vous rendant sur [http://localhost/tds-php/TD1/testUtilisateur.php](http://localhost/tds-php/TD1/testUtilisateur.php).
 
 ## Comment faire pour qu'une page Web soit servie par le serveur HTTP sur webinfo ?
 
