@@ -28,6 +28,7 @@ Cours à l'IUT de Montpellier - 2ème année
 
 * [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html) (durée indicative ≃ 3h)
 * [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html) (durée indicative ≃ 2h)
+
 <!--
 * [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html) (durée indicative ≃ 3h) 
 -->
@@ -64,6 +65,7 @@ La dernière séance de PHP (fin de la semaine du 20 octobre) sera dédiée au s
 
 * TD1 -- [Encodage des caractères, promotion de propriétés, serveur HTTP de l'IUT, note sur les URLs et Git]({{site.baseurl}}/assets/tut1-complement.html)
 * TD2 -- [Attributs et méthodes statiques]({{site.baseurl}}/assets/tut2-complement.html)
+
 <!--
 * TD3 -- [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
 * TD4 -- [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html)
