@@ -259,15 +259,15 @@ Il est souvent associé au port 80 de la machine hôte.
 
 **Utilisation du serveur Web Docker :**
 
-* Déposer vos fichiers HTML/CSS/PHP dans le dossier `public_html` .
+* Déposer vos fichiers HTML/CSS/PHP dans le dossier `public_html`.
 * Quand vous demandez la page  
 [http://localhost/index.html](https://localhost/index.html),  
 le serveur HTTP Docker va rechercher le fichier  
-`/home/lebreton/public_html/index.html`.
+`C:\Users\Gasquet\WebA2\public_html\index.html`.
 * Idem la page  
 [http://localhost/image/topsecret.jpg](http://localhost/image/topsecret.jpg)  
 renvoie sur le fichier  
-`/home/lebreton/image/topsecret.jpg`.
+`C:\Users\Gasquet\WebA2\public_html\topsecret.jpg`.
 
 
 </section>
@@ -286,14 +286,14 @@ Dans le dossier `public_html` de votre répertoire personnel **à l'IUT** à l'a
 
 <br>
 
-**Utilisation du serveur Web Docker :**
+**Utilisation du serveur Web de l'IUT :**
 
 * Quand vous demandez la page  
 [https://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html](https://webinfo.iutmontp.univ-montp2.fr/~rletud/index.html),  
 le serveur HTTP (Apache) de l'IUT va rechercher le fichier  
 `/home/ann2/rletud/public_html/index.html`.
 * Idem la page  
-[https://webinfo.iutmontp.univ-montp2.fr/~rletud/image/topsecret.jpg](https://webinfo.iutmontp.univ-montp2.fr/~rletud/image/topsecret.jpg)  
+[https://webinfo.iutmontp.univ-montp2.fr/~rletud/image/topsecret.jpg](https://webinfo.iutmontp.univ-montp2.fr/~rletud/image/topsecret.jpg)
 renvoie sur le fichier  
 `/home/ann2/rletud/public_html/image/topsecret.jpg`.
 
@@ -615,7 +615,7 @@ Deux principales façons d'exécuter un script PHP:
 
 En pratique sur un exemple :
 
-* On écrit le fichier `/home/lebreton/public_html/bonjour.php` : <!-- `/home/ann2/public_html/bonjour.php` -->
+* On écrit le fichier `C:\Users\Gasquet\WebA2\public_html\bonjour.php` : <!-- `/home/ann2/public_html/bonjour.php` -->
 
   ```php
   <!DOCTYPE html>
