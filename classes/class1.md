@@ -651,11 +651,8 @@ En pratique sur un exemple :
 ## Les tableaux associatifs
 
 Vous connaissez déjà les *tableaux classiques*, ceux qui sont indexés par
-`0,1,2,...`.
-
-<br>
-
-Les tableaux en PHP peuvent aussi s'indexer par des chaînes de caractères :
+`0,1,2,...`. Les tableaux en PHP peuvent aussi s'indexer par des chaînes
+de caractères :
 
 <p style="text-align:center;">
 Ce sont les **tableaux associatifs**
