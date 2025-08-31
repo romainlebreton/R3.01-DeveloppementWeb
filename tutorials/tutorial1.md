@@ -883,7 +883,7 @@ function ServeurWeb(Requete $requete) : Reponse {
 ## Notes complémentaires
 
 Après avoir fini chaque TD, il est fortement recommandé d'en parcourir la **note complémentaire** qui permet
-de préciser et/ou développer certains points. Par exemple, la [note complémentaire du TD1]({{site.baseurl}}/assets/tut1-complement.html#installer-phpstorm-sur-sa-machine) se focalise sur l'encodage des caractères, le concept de promotion de propriétés (qui permet d'alléger l'écriture d'une classe), le serveur HTTP de l'IUT, les URLs et Git.
+de préciser et/ou développer certains points. Par exemple, la [note complémentaire du TD1]({{site.baseurl}}/assets/tut1-complement.html) se focalise sur l'encodage des caractères, le concept de promotion de propriétés (qui permet d'alléger l'écriture d'une classe), le serveur HTTP de l'IUT, les URLs et Git.
 
 <!-- ## Travailler depuis chez vous en local
 
