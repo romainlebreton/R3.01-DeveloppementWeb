@@ -590,6 +590,10 @@ Ce qui est en dehors des balises PHP est écrit tel quel dans la page
 Web générée (comme si on avait fait `echo`).
 
 <br>
+
+On aurait aussi pu utiliser la syntaxe raccourcie `<?=date("H:i");?>` 
+qui réalise automatiquement un `echo`.
+
 <br>
 
 Remarquez aussi la différence :
@@ -674,6 +678,9 @@ Ce sont les **tableaux associatifs**
     'prenom' => 'Marc'   
   ];
   ```
+
+* On peut accéder aux valeurs avec `$coordonnees['nom']`
+  et `$coordonnees['prenom']`.
 
 * Notez l'existence des boucles
   [`foreach`](http://php.net/manual/fr/control-structures.foreach.php) pour
@@ -793,6 +800,9 @@ PHP est capable de récupérer les données saisies dans les URLs.
 PHP va automatiquement remplir le tableau associatif `$_GET` avec les
 informations contenues dans le *query string*.
 
+On peut alors accéder aux données transmissent dans le script `PHP` 
+avec `$_GET['cle']`
+
 <br>
 
 <br>
@@ -833,7 +843,7 @@ Quand on clique sur un lien avec des informations dans son *query string*.
 </div>
 </div>
 
-* PHP rempli le tableau `$_GET` avec
+* PHP remplit le tableau `$_GET` avec
 
   ```php?start_inline=1
     $_GET = ["nom" => "Assin", "prenom" => "Marc"];
@@ -988,7 +998,7 @@ Les formulaires **GET** utilisent donc l'envoi de données dans le *query string
 
 **Exemple :**
 
-Quand on clique sur `Valider`, PHP rempli le tableau
+Quand on clique sur `Valider`, PHP remplit le tableau
 
 ```php?start_inline=1
 $_POST = ["nom_var" => "valeur"];
@@ -1126,6 +1136,8 @@ Content-Length: 39
   
   * Il est facile de créer un lien `<a>` vers une page traitant un formulaire en
   méthode GET et d'y envoyer des données via le *query string.*
+
+  * Ne doit pas être utilisé pour transmettre des données sensibles.
  
   <br>
  
@@ -1135,6 +1147,8 @@ Content-Length: 39
 
   * **Attention :**  
   ces informations **ne sont pas vraiment cachées** pour autant.
+
+  * Pour réellement sécuriser les informations transmisses, il faut utiliser le protocole `HTTPS`.
 
 <!--
 Note sur où met-on le dollar 
