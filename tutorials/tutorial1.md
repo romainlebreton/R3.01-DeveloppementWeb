@@ -585,7 +585,30 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
 5. Rajoutez un cas par défaut qui affiche "Il n'y a aucun utilisateur." si la
    liste est vide.  
    (On vous laisse chercher sur internet la fonction qui teste si un tableau est
-   vide)
+   vide). En `PHP` l'instruction `if` fonctionne comme dans la plupart des langages de programmation :
+
+   ```php
+   if(...) {
+      ...
+   }
+
+   if(...) {
+      ...
+   }
+   else {
+      ...
+   }
+
+   if(...) {
+      ...
+   }
+   else if(...) {
+      ...
+   }
+   else {
+      ...
+   }
+   ```
 
 6. Enregistrez votre travail dans Git via PhpStorm.
 
@@ -644,7 +667,6 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos utilis
          // À compléter dans le prochain exercice
        }
    }
-   ?>
    ```
 
    Notez les **différences avec Java** :
@@ -658,6 +680,15 @@ version 5. Plutôt que d'utiliser un tableau, créons une classe pour nos utilis
    * En PHP, on ne peut pas avoir deux fonctions avec le même nom, même si elles
      ont un nombre d'arguments différent. En particulier, il ne peut y avoir au
      maximum qu'un constructeur.
+
+   Vous remarquerez aussi que dans ce fichier, il n'y a pas de balise fermante `?>`.
+   Ce n'est pas un oubli : dans un fichier ne contenant que du PHP, il faut toujours
+   débuter le bloc de code par `<?php`, mais il n'est pas utile de le fermer avec 
+   une balise `?>`. Par contre, si l'on souhaite mélanger des blocs PHP avec du code HTML 
+   (comme nous l'avons fait dans le TD1) il faut correctement fermer les différents blocs 
+   (sauf éventuellement le dernier s'il n'y a rien après lui...). 
+   Dans le cas d'une **classe**, il n'y a qu'un seul bloc de code PHP. Ainsi, il est inutile de 
+   terminer le fichier par `?>` (mais cela ne provoque pas d'erreur de le faire quand même).
 
 2. Créez des *getter* et des *setter* pour `$prenom` et `$login` ;  
    (PhpStorm peut les générer automatiquement pour vous avec Clic droit > Generate)

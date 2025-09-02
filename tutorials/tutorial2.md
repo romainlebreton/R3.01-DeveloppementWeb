@@ -12,7 +12,7 @@ lang: fr
 
 <!-- fetchAll(..._CLASS, "nom de la classe") -->
 
-Dans le TD1 vous avez appris à créer des classes et à instancier des objets de
+Dans le TD1, vous avez appris à créer des classes et à instancier des objets de
 ces classes. Mais, comme vous l'avez constaté, la durée de vie des objets ainsi
 créés ne dépassait pas la durée de l'exécution du programme.
 
@@ -30,7 +30,7 @@ objets d'une visite à l'autre du site web.
    PhpMyAdmin
    [http://webinfo.iutmontp.univ-montp2.fr/my](http://webinfo.iutmontp.univ-montp2.fr/my)
    Le login est votre login IUT et votre mot de passe initial est votre numéro INE (avec les lettres en majuscule).  
-   **Si cela ne marche pas**, c'est que vous n'êtes probablement pas inscrit administrativement. Dans ce cas, demandez à votre chargé de TD ou allez voir le service informatique (même bureau que le secrétariat au bâtiment 4).
+   **Si cela ne marche pas**, c'est que vous n'êtes probablement pas inscrit administrativement. Dans ce cas, demandez à votre chargé de TD ou allez voir le service informatique (bâtiment K, premier étage).
    
 
 2. Changez votre mot de passe (Page d'accueil > Paramètres généraux > Modifier le mot de passe) et reconnectez-vous.
@@ -89,11 +89,29 @@ serveur du reste du code PHP.
 <!--      * qu'il prenne en charge la coloration syntaxique -->
 <!--      * qu'il sache indenter automatiquement votre code -->
 
-1. Commencez par créer un dossier `tds-php/TD2` dans l'explorateur de fichier, puis ouvrez ce dossier dans PHPStorm. 
+1. Commencez par créer un dossier `tds-php/TD2` dans l'explorateur de fichier, puis ouvrez ce dossier dans PHPStorm.
 
-1. Créez un fichier `ConfigurationBaseDeDonnees.php`. Ce fichier contiendra une classe
-   `ConfigurationBaseDeDonnees` possédant un attribut statique `$configurationBaseDeDonnees` comme suit
-   (changez bien sûr les `a_remplir`).
+2. Créez un fichier `ConfigurationBaseDeDonnees.php`. Ce fichier contiendra une classe
+   `ConfigurationBaseDeDonnees` possédant un attribut statique `$configurationBaseDeDonnees` (copiez le squelette de code plus bas).
+
+   Voici à quoi correspondent les zones `a_remplir` (dans le squelette de code) et comment les compléter :
+
+   * `nomHote` : adresse du serveur qui héberge la base de données. Quand on crée une base de données en local, il s'agit 
+   généralement de `localhost`, mais dans notre cas, on souhaite utiliser le serveur de base de données mis à disposition à l'IUT 
+   (auquel vous venez de vous connecter), donc `webinfo.iutmontp.univ-montp2.fr`.
+
+   * `nomBaseDeDonnees` : le nom de la base de données à laquelle on souhaite accéder. Quand on crée une base de données en local,
+   c'est le développeur qui choisit son nom. Comme nous utilisons le serveur de bases de données de l'IUT, 
+   une base de données vous est attribuée (vous ne pouvez pas en créer vous-même). **Cette base de données est nommée comme votre login**
+   (celui que vous avez utilisé pour vous connecter à phpMyAdmin).
+
+   * `port` : numéro de port correspondant au service de base de données sur le serveur. Par défaut pour une base de données `MySQL`, ce port est 3306, mais sur le serveur de l'IUT, le port à utiliser est `3316`. 
+
+   * `login` : afin d'accéder au système de gestion de bases de données (SGBD), il faut généralement un compte. Quand on crée une base de données en local, on crée aussi des utilisateurs, ou on peut aussi utiliser un compte administrateur par défaut nommé root. 
+   **Sur le serveur de l'IUT, il faut utiliser votre login** (celui que vous avez utilisé pour vous connecter à phpMyAdmin).
+
+   * `motDePasse` : le mot de passe du compte de l'utilisateur. À l'IUT, il s'agit du mot de passe que vous avez utilisé pour vous connecter
+   à phpMyAdmin plus tôt.
    
    <!-- Sont-ils à l'aise avec les attributs statiques ? -->
 
@@ -108,23 +126,10 @@ serveur du reste du code PHP.
    class ConfigurationBaseDeDonnees {
    
      static private array $configurationBaseDeDonnees = array(
-       // Le nom d'hote est webinfo a l'IUT
-       // ou localhost sur votre machine
-       // 
-       // ou webinfo.iutmontp.univ-montp2.fr
-       // pour accéder à webinfo depuis l'extérieur
        'nomHote' => 'a_remplir',
-       // A l'IUT, vous avez une base de données nommee comme votre login
-       // Sur votre machine, vous devrez creer une base de données
        'nomBaseDeDonnees' => 'a_remplir',
-       // À l'IUT, le port de MySQL est particulier : 3316
-       // Ailleurs, on utilise le port par défaut : 3306
        'port' => 'a_remplir',
-       // A l'IUT, c'est votre login
-       // Sur votre machine, vous avez surement un compte 'root'
        'login' => 'a_remplir',
-       // A l'IUT, c'est le même mdp que PhpMyAdmin
-       // Sur votre machine personelle, vous avez creez ce mdp a l'installation
        'motDePasse' => 'a_remplir'
      );
    
@@ -136,7 +141,6 @@ serveur du reste du code PHP.
      }
    
    }
-   ?>
    ```
 
 2. Pour tester notre classe `ConfigurationBaseDeDonnees`, créons un fichier `testConfigurationBaseDeDonnees.php` que l'on
@@ -163,7 +167,7 @@ ouvrira dans le navigateur.
    ```
 
 3. Complétez `ConfigurationBaseDeDonnees.php` avec des méthodes statiques `getNomHote()`, `getPort()`,
-   `getNomBaseDeDonnees()` et `getPassword()`. Testez ces méthodes dans `testConfigurationBaseDeDonnees.php`.
+   `getNomBaseDeDonnees()` et `getMotDePasse()`. Testez ces méthodes dans `testConfigurationBaseDeDonnees.php`.
      
 
    **Remarque :** Notez qu'en PHP, on appelle une méthode statique à partir du nom de
@@ -171,7 +175,7 @@ ouvrira dans le navigateur.
    Java. Souvenez-vous que les méthodes dynamiques (c'est-à-dire pas `static`)
    s'appellent avec `->` en PHP.
 
-1. Enregistrez votre travail à l'aide de `git add` et `git commit`. Nous
+4. Enregistrez votre travail à l'aide de `git add` et `git commit`. Nous
    comptons sur vous pour penser à faire cet enregistrement régulièrement.
 </div>
 
@@ -204,17 +208,17 @@ de donnée.
    
       Stockez ce nouvel objet `PDO` dans l'attribut `$pdo`.
 
-   1. Le code précédent a besoin que les variables `$nomHote`, `$port`,
+   2. Le code précédent a besoin que les variables `$nomHote`, `$port`,
    `$nomBaseDeDonnees`, `$login` et `$motDePasse` contiennent les chaînes
    de caractères correspondant à l'hôte, au nom, au login et au mot de
    passe de notre base de données. Créez donc ces variables avant le `new PDO` en
    récupérant les informations à l'aide des fonctions de la classe
    `ConfigurationBaseDeDonnees`.
    
-   4. Comme notre classe `ConnexionBaseDeDonnees` dépend de `ConfigurationBaseDeDonnees.php`, ajoutez un `require_once 'ConfigurationBaseDeDonnees.php'` 
+   3. Comme notre classe `ConnexionBaseDeDonnees` dépend de `ConfigurationBaseDeDonnees.php`, ajoutez un `require_once 'ConfigurationBaseDeDonnees.php'` 
    au début du fichier.
 
-   6. Testons dès à présent notre nouvelle classe. Créez le fichier
+   4. Testons dès à présent notre nouvelle classe. Créez le fichier
    `testConnexionBaseDeDonnees.php` suivant. Vérifiez que l'exécution de `testConnexionBaseDeDonnees.php` ne donne
    pas de messages d'erreur.
 
@@ -356,9 +360,11 @@ la classe `PDO`
    [méthode `fetch()`](http://php.net/manual/fr/pdostatement.fetch.php)
    de la classe `PDOStatement` s'appelle sur les réponses de requêtes et renvoie
    la réponse de la requête dans un format lisible par PHP. Plus précisément,
-   elle renvoie une entrée SQL formatée comme un tableau. Ce tableau est indexé par les noms
-   des champs de la table de données, et aussi par les numéros des champs. 
-   Les valeurs du tableau sont celles de l'entrée SQL.
+   elle renvoie **une entrée SQL** (une ligne de la réponse) formatée comme un tableau.
+   Ce tableau est indexé par les noms des champs de la table de données, et aussi par les numéros des champs. 
+   Les valeurs du tableau sont celles de l'entrée SQL. Si la requête renvoie plusieurs lignes (plusieurs entrées),
+   il faut exécuter `fetch` autant de fois que nécessaire pour traiter chaque entrée. On peut aussi passer par une 
+   boucle `foreach` comme nous le verrons bientôt.
 
 ### Faire une requête SQL sans paramètres
 
@@ -376,7 +382,8 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
   -->
 
 <div class="exercise">
-1. Créez un fichier `lireUtilisateurs.php`
+
+1. Créez un fichier `lireUtilisateurs.php`.
 
 2. Incluez le fichier contenant la classe `ConnexionBaseDeDonnees` pour pouvoir se connecter à la
    base de données.
@@ -399,13 +406,13 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
 
    Utilisez l’un des affichages de débogage (*e.g.* `var_dump`) pour afficher ce tableau.
 
-1. Créez un `$utilisateur` de classe `Utilisateur` à l'aide de
+5. Créez un `$utilisateur` de classe `Utilisateur` à l'aide de
    `$utilisateurFormatTableau` en appelant le constructeur. Affichez
    l'utilisateur en utilisant la méthode adéquate de `Utilisateur`. Copiez le
    fichier `tds-php/TD1/Utilisateur.php` dans `tds-php/TD2` pour pouvoir
    utiliser la classe `Utilisateur` dans le TD2.
 
-1. On souhaite désormais afficher tous les utilisateurs dans la base de données. On pourrait
+6. On souhaite désormais afficher tous les utilisateurs dans la base de données. On pourrait
    faire une boucle `while` sur `fetch` tant qu'on n'a pas parcouru toutes les entrées de la base de données.
 
    Heureusement, il existe une syntaxe simplifiée qui fait exactement cela :   
@@ -427,7 +434,10 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
 
    **Utilisez** la boucle `foreach` dans `lireUtilisateurs.php` pour afficher tous les utilisateurs.
 
-2. Avez-vous pensé à enregistrer régulièrement votre travail sous Git ?
+7. Si ce n'est pas déjà fait, reprenez votre code pour inclure une structure HTML classique (`<html>`,`<head>`,`<body>` ...)
+et présenter plus proprement les utilisateurs (vous pouvez vous inspirer de ce que vous aviez fait lors du TD1).
+
+8. Avez-vous pensé à enregistrer régulièrement votre travail sous Git ?
 </div>
 
 <div class="exercise">
@@ -444,6 +454,7 @@ Nous allons maintenant isoler le code qui retourne tous les utilisateurs et en f
 2. Créez une fonction statique
    `recupererUtilisateurs()` dans la classe `Utilisateur` qui ne prend pas d'arguments et
    renvoie le tableau d'objets de la classe `Utilisateur` correspondant à la base de données.
+   Le type de retour de cette fonction est `array`.
 
    **Rappel :** On peut rajouter facilement un élément "à la fin" d'un tableau avec
    ```php?start_inline=1
