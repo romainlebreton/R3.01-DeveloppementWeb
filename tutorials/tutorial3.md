@@ -160,6 +160,8 @@ d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
    Règle simple : chaque fichier doit inclure les classes dont il a besoin.
    Comme `Utilisateur.php` a besoin de la classe `ConnexionBaseDeDonnees` (à cause de l'instruction `ConnexionBaseDeDonnees::getPdo()`),
    c'est au début de `Utilisateur.php` qu'il faut faire `require_once "ConnexionBaseDeDonnees.php";`.
+
+   "Mais pourquoi cela fonctionnait avant alors que `recupererUtilisateurParLogin` utilisait déjà `ConnexionBaseDeDonnees::getPdo()` ?!". C'est une très bonne question ! En fait, dans votre fichier `lireUtilisateurs.php`, la classe `ConnexionBaseDeDonnees` était chargée par ce fichier (avant d'appeler la fonction `recupererUtilisateurParLogin`). Maintenant que l'inclusion du fichier est faite au bon endroit, vous pouvez également supprimer le `require_once` important `ConnexionBaseDeDonnees.php` dans `lireUtilisateurs.php`.
    
 3. On souhaite que `recupererUtilisateurParLogin` renvoie `null` s'il n'existe pas
    d'utilisateur de login `$login`. Mettez à jour le code
@@ -259,21 +261,21 @@ Comme il n'y a qu'un conducteur par trajet, nous allons rajouter un champ
 La table `utilisateur` avec quelques utilisateurs a déjà été créée dans votre PhpMyAdmin. Créez la table `trajet` comme suit :
 
 1. Créez une table `trajet` avec les champs suivants :
-   * `id` : INT, clé primaire, qui s'auto-incrémente (voir en dessous)
-   * `depart` : VARCHAR 64
-   * `arrivee` : VARCHAR 64
+   * `id` : INT, clé primaire (champ Index, puis `PRIMARY`), qui s'auto-incrémente (voir en dessous)
+   * `depart` : VARCHAR (taille 64)
+   * `arrivee` : VARCHAR (taille 64)
    * `date` : DATE
    * `prix` : INT
    * `conducteurLogin` : VARCHAR 64
    * `nonFumeur` : BOOLEAN
 
+   **Important :** Comme précédemment, le moteur de stockage doit être `InnoDB` et l'interclassement `utf8_general_ci`!
+
    **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque nouvelle
    insertion dans la table. Pour ce faire, cochez la case `A_I` (auto-increment) pour le champ `id`.
 
    **Note :** Observez qu'à l'enregistrement de votre table dans PhpMyAdmin le type BOOLEAN est remplacé
-   par `tinyint`, où `0` correspond à` "faux" et `1` correspond à "vrai".
-
-   **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
+   par `tinyint`, où `0` correspond à `"faux"` et `1` correspond à `"vrai"`.
 
 3. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
    que l'auto-incrément marche) et en mettant dans `conducteurLogin` un login
@@ -287,9 +289,8 @@ Au niveau du PHP, nous vous fournissons la classe de base `Trajet.php`.
 Elle est assez semblable à la classe `Utilisateur.php` que vous avez déjà codée, à quelques détails près : 
 
 1. l'attribut `$date` est stocké en tant qu'objet de la classe PHP `DateTime` ;
-2. l'attribut `$id` peut être `null` pour indiquer que l'on ne connait pas encore l'identifiant d'un trajet ;
+2. l'attribut `$id` peut être `null` pour indiquer que l'on ne connaît pas encore l'identifiant d'un trajet ;
 3. l'attribut `$conducteur` est stocké en tant qu'objet de la classe PHP `Utilisateur` ;
-
 
 <div class="exercise">
 
@@ -329,9 +330,9 @@ Voici les étapes pour faire ce lien :
 1. À l'aide de l'interface de PhpMyAdmin, faites de `trajet.conducteurLogin` un
    **index**.
 
-   **Aide :** Dans l'onglet `Structure` de la table `trajet`, cliquez sur l'icône de
-   l'action `index` en face du champ `conducteurLogin`.
-
+   **Aide :** Dans l'onglet `Structure` de la table `trajet`, cliquez sur e bouton
+   `PLus` puis `Index` en face du champ `conducteurLogin`. Validez la boîte de
+   dialogue qui s'ouvre.
 
    **Plus de détails :** Dire que le champ `conducteurLogin` est un **index** revient à
    dire à MySql que l'on veut trouver rapidement les lignes qui ont un `conducteurLogin`
@@ -345,15 +346,25 @@ Voici les étapes pour faire ce lien :
    `trajet` et cliquez sur `Vue relationnelle` pour accéder à la
    gestion des clés étrangères.
 
-   Nous allons utiliser le comportement `ON DELETE CASCADE` pour qu'une
+   * Vous n'avez pas besoin de proposer de nom de contrainte (il sera généré).
+
+   * Nous allons utiliser le comportement `ON DELETE CASCADE` pour qu'une
    association soit supprimée si la clé étrangère est supprimée, et le
    comportement `ON UPDATE CASCADE` pour qu'une association soit mise à jour si
    la clé étrangère est mise à jour.
 
+   * Ensuite, précisez :
+      * Pour la colonne (clé étrangère) : `conducteurLogin`.
+      * Pour la table à référencer : `utilisateur`.
+      * Et la colonne à référencer dans la table : `login`.
+
    **Attention :** Pour supporter les clés étrangères, il faut que le moteur de
    stockage de toutes vos tables impliqués soit `InnoDB`. Vous pouvez choisir ce
    paramètre à la création de la table ou le changer après coup dans l'onglet
-   `Opérations`.
+   `Opérations`. Il faut aussi que les colonnes en questions aient le même interclassement
+   (normalement, `utf8_general_ci`) et la même taille (64). Si vous vous êtes trompés, vous
+   pouvez modifier la configuration d'une colonne dans l'onglet "Structure" de la table en
+   cliquant sur le bouton `Modifier` en face de la colonne.
 
 </div>
 
@@ -419,7 +430,7 @@ utilise une table de jointure.</span>
 Nous choisissons donc de créer une table `passager` qui contiendra deux champs :
 
 * l'identifiant INT `trajetId` d'un trajet et
-* l'identifiant VARCHAR(64) `passagerLogin` d'un utilisateur.
+* l'identifiant VARCHAR (taille 64) `passagerLogin` d'un utilisateur.
 
 Pour inscrire un utilisateur à un trajet, il suffit d'écrire la ligne
 correspondante dans la table `passager` avec leur `passagerLogin` et leur
@@ -434,23 +445,29 @@ correspondante dans la table `passager` avec leur `passagerLogin` et leur
   unique trajet.</span>
 
 <div class="exercise">
-1. Créer la table `passager` en utilisant l'interface de PhpMyAdmin.
 
-   **Important :** Avez-vous bien pensé à `InnoDB` et `utf8_general_ci` comme précédemment ?
+1. Créer la table `passager` en utilisant l'interface de PhpMyAdmin. Pensez à bien 
+   sélectionner la valeur `PRIMARY` dans la section **Index** pour les deux colonnes
+   (vu que c'est un couple de clé primaire).
 
-1. Assurez-vous que vous avez bien le bon couple en tant que clé primaire. Cela
-   se voit dans la section `Index` de l'onglet `Structure`.
+   **Important :** Il faut encore une fois préciser `InnoDB` et `utf8_general_ci`.
 
-2. Ajoutez la contrainte de **clé étrangère** entre `passager.trajetId` et
-`trajet.id`, puis entre `passager.passagerLogin` et
+2. Assurez-vous que vous avez bien le bon couple en tant que clé primaire. Si c'est
+bien le cas, les deux colonnes ont une petite icône de clé jaune à côté de leur nom.
+Si ce n'est pas le cas, vous pouvez corriger en activant la checkbox à 
+côté de chaque colonne (dans l'onglet `Structure` de la table) puis en cliquant sur
+le bouton "Primaire" un peu plus bas.
+
+3. Ajoutez la contrainte de **clé étrangère** entre `passager.trajetId` et
+`trajet.id`, puis celle entre `passager.passagerLogin` et
 `utilisateur.login`. Utiliser encore les comportements `ON DELETE CASCADE` et
 `ON UPDATE CASCADE` pour qu'une association soit mise à jour si la clé étrangère
 est mise à jour.
 
-3. À l'aide de l'interface de PhpMyAdmin, insérer quelques associations pour que
+4. À l'aide de l'interface de PhpMyAdmin, insérer quelques associations pour que
 la table `passager` ne soit pas vide.
 
-4. Vous allez maintenant vous assurer de la bonne gestion des clés étrangères en
+5. Vous allez maintenant vous assurer de la bonne gestion des clés étrangères en
 testant le comportement `ON DELETE CASCADE`. Pour cela :
    1. créez un trajet correspondant à un certain conducteur,
    1. puis inscrivez des passagers pour ce trajet

@@ -118,7 +118,7 @@ class Trajet {
     {
         $nonFumeur = $this->nonFumeur ? " non fumeur" : " ";
         return "<p>
-            Le trajet$nonFumeur du {$this->date->format("d/m/Y")} partira de {$this->depart} pour aller à {$this->arrivee} (conducteur: {$this->conducteur->getPrenom()} {$this->conducteur->getNom()}).
+            Le trajet$nonFumeur du {$this->date->format("d/m/Y")} partira de {$this->depart} pour aller à {$this->arrivee} (conducteur: {$this->conducteur->getPrenom()} {$this->conducteur->getNom()}, prix: {$this->prix}€).
         </p>";
     }
 
