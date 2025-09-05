@@ -330,8 +330,8 @@ Voici les étapes pour faire ce lien :
 1. À l'aide de l'interface de PhpMyAdmin, faites de `trajet.conducteurLogin` un
    **index**.
 
-   **Aide :** Dans l'onglet `Structure` de la table `trajet`, cliquez sur e bouton
-   `PLus` puis `Index` en face du champ `conducteurLogin`. Validez la boîte de
+   **Aide :** Dans l'onglet `Structure` de la table `trajet`, cliquez sur le bouton
+   `Plus` puis `Index` en face du champ `conducteurLogin`. Validez la boîte de
    dialogue qui s'ouvre.
 
    **Plus de détails :** Dire que le champ `conducteurLogin` est un **index** revient à
