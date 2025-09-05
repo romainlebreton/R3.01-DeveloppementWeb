@@ -51,7 +51,7 @@ objets d'une visite à l'autre du site web.
 
 2. Créez une table `utilisateur` (sans majuscule) possédant 3 champs :
 
-   * `loginBaseDeDonnees` de type `VARCHAR` et de **taille de** 64 (il s'agit de la longueur 
+   * `loginBaseDeDonnees` de type `VARCHAR` et de **taille** 64 (il s'agit de la longueur 
       maximale), défini comme la clé primaire (champ **Index** puis sélectionner `Primary` et 
       valider la boîte de dialogue qui s'ouvre).
    * `nomBaseDeDonnees` de type `VARCHAR` est de longueur maximale 64.
