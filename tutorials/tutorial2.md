@@ -54,8 +54,8 @@ objets d'une visite à l'autre du site web.
    * `loginBaseDeDonnees` de type `VARCHAR` et de **taille** 64 (il s'agit de la longueur 
       maximale), défini comme la clé primaire (champ **Index** puis sélectionner `Primary` et 
       valider la boîte de dialogue qui s'ouvre).
-   * `nomBaseDeDonnees` de type `VARCHAR` est de longueur maximale 64.
-   * `prenomBaseDeDonnees` de type `VARCHAR` est de longueur maximale 64.
+   * `nomBaseDeDonnees` de type `VARCHAR` et de taille 64.
+   * `prenomBaseDeDonnees` de type `VARCHAR` et de taille 64.
 
    **Important :** Pour faciliter la suite du TD, mettez à la création de toutes
      vos tables `InnoDB` comme moteur de stockage, et `utf8_general_ci` comme
