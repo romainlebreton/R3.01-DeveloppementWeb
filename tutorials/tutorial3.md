@@ -627,12 +627,12 @@ la SAE3A.
 De la même manière que dans l'exercice sur `recupererPassagers()`, utilisons une
 jointure SQL pour trouver tous les trajets d'un utilisateur.
 
-La nouveauté de cet exercice est que nous ne récupèrerons pas les passagers d'un
-utilisateur systématiquement lors d'un appel à `construireDepuisTableauSQL`
-(chargement hâtif). Nous récupèrerons les passagers uniquement si
-l'accesseur `getTrajetsCommePassager` est appelé. De plus, nous stockerons les
-passagers dans un attribut afin de ne pas les récupérer plusieurs fois. Du coup,
-la liste des passagers sera initialisée à `null` pour indiquer que la liste n'a
+La nouveauté de cet exercice est que nous ne récupérerons pas les trajets d'un
+utilisateur (en tant que passager) systématiquement lors d'un appel à 
+`construireDepuisTableauSQL`(chargement hâtif). Nous récupérerons les passagers 
+uniquement si l'accesseur `getTrajetsCommePassager` est appelé. De plus, nous 
+stockerons les passagers dans un attribut afin de ne pas les récupérer plusieurs fois. 
+Du coup, la liste des passagers sera initialisée à `null` pour indiquer que la liste n'a
 pas encore été chargée.
 
 <div class="exercise">

@@ -93,7 +93,8 @@ src="../assets/TD4/StructureRepertoire.png" style="margin-left:auto;margin-right
 
 Le modèle est chargé de la gestion des données, notamment des interactions avec
 la base de données. C'est, par exemple, la classe `Utilisateur` que vous avez créé
-lors des TDs précédents (sauf la fonction `__toString()`).
+lors des TDs précédents (sauf la méthode `__toString()` qui correspond plutôt
+à la partie `vue` car utilisée pour de l'affichage...).
 
 <div class="exercise">
 
