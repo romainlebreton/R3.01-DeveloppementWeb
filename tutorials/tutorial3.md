@@ -382,7 +382,7 @@ stockent pas certaines données de la même façon.
 
 <div class="exercise">
 
-1. Nous vous fournissons le formulaire de création de trajets. Enregistrez [`formulaireCreationTrajet.html`]({{site.baseurl}}/assets/TD3/formulaireCreationTrajet.html).  
+1. Nous vous fournissons le formulaire de création de trajets. Téléchargez le script [`formulaireCreationTrajet.html`]({{site.baseurl}}/assets/TD3/formulaireCreationTrajet.html) dans votre projet (clic droit, enregistrer la cible du lien).  
    **Notez** que la date est un `<input type="date">`, et que le booléen `nonFumeur` est un `<input type="checkbox">`.
 2. En vous inspirant de `creerUtilisateur.php`, créez 
    `creerTrajet.php` qui traite les données du formulaire précédent. Les 2 étapes clés sont la création d'un objet `Trajet` et l'appel à la méthode `ajouter()` de `Trajet`. Voici comment faire : 
@@ -576,7 +576,7 @@ Ce fichier contient un formulaire qui affiche les informations d'un utilisateur
   page (et demandez au professeur si vous ne comprenez pas tout !).
 
 1. **Trouvez** ce qu'il faut taper dans le formulaire pour que
-   `recupererUtilisateurParLogin` vide la table `utilisateur2` (SQL Truncate).
+   `recupererUtilisateurParLogin` vide la table `utilisateur2` [(TRUNCATE TABLE)](https://sql.sh/cours/truncate-table).
      
    **Aide :**  Le point clé de ce fichier est que la fonction
    `recupererUtilisateurParLogin` a été codée sans requête préparée et est
@@ -702,11 +702,12 @@ enlèvera l'utilisateur courant du trajet sélectionné.
    utilisateur comme passager de ce trajet.
 
    **Remarque :** Vous aurez besoin de créer un `$trajet` pour pouvoir appeler la méthode `$trajet->supprimerPassager()`. Deux possibilités : 
-   * Soit vous rajoutez une méthode `Trajet::recupererTrajetParId` similaire à `Utilisateur::recupererUtilisateurParLogin`.
+   * Soit vous rajoutez une méthode `Trajet::recupererTrajetParId` similaire à `Utilisateur::recupererUtilisateurParLogin` (recommandé).
    * Soit vous créez un `$trajet` avec des fausses données, sauf l'`id` qui est
      correct. Une manière propre de procéder est de mettre les autres attributs
      à `null`, ce qui implique de changer les types pour autoriser `null`.
 
+   La première méthode a l'avantage de permettre de vérifier l'existence du trajet sélectionné dans l'application avant d'essayer de faire la mise à jour au niveau de la base de données (avec la seconde solution, dans le cas où le trajet n'existe pas, on aura quand même une erreur à gérer, mais émise par la base de données).
 
 3. Ajoutez à `lireTrajets.php` de liens `<a>` de désinscription pour chaque
    passager de chaque trajet qui renvoient sur `supprimerPassager.php` en transmettant via le *query string* de l'URL les bons `login` et `trajet_id`. 
@@ -726,11 +727,24 @@ Par contre, vous allez améliorer les méthodes suivantes :
 * `ajouter()` de `Utilisateur.php` ne traite pas :
   * le cas d'un utilisateur existant déjà en base de donnée (`SQLSTATE[23000]: Integrity constraint violation`)
   * le cas d'un problème de données, par exemple : chaîne de caractères trop longue (`SQLSTATE[22001]: String data, right truncation`)
-* `supprimerPassager()` de `Trajet.php` ne traite pas le cas d'un passage inexistant.
+* `supprimerPassager()` de `Trajet.php` ne traite pas le cas d'un passager inexistant.
+
+Comme en **Java** (ou d'autres langages orientés objets) un appel de méthode peut lever des **exceptions** qu'il est possible
+d'intercepter et de traiter. En `PHP`, cela se fait de manière similaire à Java avec un bloc `try/catch` :
+
+```php
+try {
+   //La méthode "exemple" est susceptible de lever une exception MonException.
+   $obj->exemple();
+   //Code si l'exception n'a pas été levée.
+} catch(MonException $e) {
+   //Code si l'exception a été levée (gestion des erreurs).
+}
+```
 
 <div class="exercise">
 
-1. Pour la méthode `ajouter()`, les cas particuliers génèrent une exception de la classe `PDOException`.
+1. Pour la méthode `ajouter()`, les cas particuliers lèvent une exception de la classe `PDOException`.
    Modifiez la déclaration de type de la méthode pour qu'elle retourne un booléen 
    pour indiquer si la sauvegarde s'est bien passée. Modifiez la méthode pour intercepter les `PDOException`
    avec un `try/catch` et retourner `false` en cas de problème.
@@ -738,9 +752,9 @@ Par contre, vous allez améliorer les méthodes suivantes :
 2. Pour la méthode `supprimerPassager()`, utilisez la méthode
    [`rowCount()`](https://www.php.net/manual/fr/pdostatement.rowcount.php) de la
    classe `PDOStatement` pour vérifier que la requête de suppression a bien
-   supprimé une ligne de la BDD. Modifiez la déclaration de type de la méthode
-   pour qu'elle retourne un booléen pour indiquer si la suppression s'est bien
-   passée.
+   supprimé une ligne de la BDD. Modifiez la méthode afin qu'elle retourne `true`
+   si la suppression a bien effectuée (une ligne ou plus affectée par la requête) et
+   `false` dans le cas contraire.
 
 3. Lors de l'insertion dans la base de données avec `ajouter()` de `Trajet`, il est possible
    de récupérer l'identifiant auto-incrémenté généré par la base de données et
@@ -767,13 +781,25 @@ Voici une liste d'idées pour compléter notre site :
    trajets d'un utilisateur pourrait donner les deux listes comme conducteur et
    comme passager.
 2. Pour tester votre compréhension de la transmission de données entre MySQL,
-   PHP et un formulaire, créer un formulaire `mettreAJourTrajet.php` qui lira
-   l'identifiant du trajet depuis la *query string*, chargera le trajet depuis
-   MySQL puis préremplira un formulaire de modification du trajet avec les
+   PHP et un formulaire, créer un formulaire `formulaireMiseAJourTrajet.php` 
+   qui lira l'identifiant du trajet depuis la *query string*, chargera le trajet
+   depuis MySQL puis préremplira un formulaire de modification du trajet avec les
    valeurs du trajet actuel. Ce formulaire est proche de celui de création, à
-   ceci près qu'il rajoute des valeurs par défaut dans les `<input>`.  
-   Créez ensuite un script de traitement du formulaire de mise à jour (proche du
-   script de création) et vérifiez dans la base de donnée que la modification a
-   bien marchée.
+   ceci près qu'il rajoute des valeurs préchargées dans les `<input>` (via l'attribut `value`).  
+   Créez ensuite un script de traitement du formulaire de mise à jour `mettreAJourTrajet.php` 
+   (proche du script de création) et vérifiez dans la base de donnée que la modification a
+   bien été effectuée.
+
+   **Astuce** : vous aurez également besoin de renvoyer l'identifiant du trajet via
+   le formulaire (pour récupérer le trajet correspondant dans `mettreAJourTrajet.php`). 
+   Il faut donc que cet identifiant soit inclus dans ce dernier. Cependant, on ne souhaite 
+   pas que cela soit un input éditable ou même visible. On peut alors utiliser le 
+   type `hidden` pour masquer un champ dans les données seront quand même envoyées 
+   vers le serveur lors de la soumission du formulaire.
+
+   ```html
+   <input type="hidden" name="champCache" value="valeur"/>
+   ```
+
 <!-- 1. Vous pouvez aussi éventuellement mettre en place des `trigger` dans votre SQL
    pour gérer le nombre de passagers par véhicule ... -->

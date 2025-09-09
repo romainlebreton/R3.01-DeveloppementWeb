@@ -207,7 +207,7 @@ de donnée.
       new PDO("mysql:host=$nomHote;port=$port;dbname=$nomBaseDeDonnees",$login,$motDePasse);
       ```
    
-      Stockez ce nouvel objet `PDO` dans l'attribut `$pdo`.
+      Stockez ce nouvel objet `PDO` dans l'attribut `$pdo` de l'objet.
 
    2. Le code précédent a besoin que les variables `$nomHote`, `$port`,
    `$nomBaseDeDonnees`, `$login` et `$motDePasse` contiennent les chaînes
