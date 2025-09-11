@@ -98,7 +98,9 @@ lors des TDs précédents (sauf la méthode `__toString()` qui correspond plutô
 
 <div class="exercise">
 
-1. Créez les répertoires `Configuration`, `Controleur`, `Modele`, `vue` et `vue/utilisateur`.
+1. Copiez/collez dans un nouveau dossier `TD4` les fichiers `ConfigurationBaseDeDonnees.php`,
+   `ConnexionBaseDeDonnees.php` et `Utilisateur.php`.
+2. Créez les répertoires `Configuration`, `Controleur`, `Modele`, `vue` et `vue/utilisateur`.
 3. Déplacez vos fichiers `Utilisateur.php` et `ConnexionBaseDeDonnees.php` dans le répertoire `Modele/` **en évitant d'utiliser PHPStorm**. 
    
    En effet, *PHPStorm* vous rajouterait des lignes `namespace ...` et `use ...`
@@ -106,21 +108,22 @@ lors des TDs précédents (sauf la méthode `__toString()` qui correspond plutô
    
    **Remarque :** Vous pourrez enfin utiliser PhpStorm pour déplacer des classes
    quand vous aurez appris les `namespace ...` et `use ...` dans de TD5.
-4. Déplacez la classe `ConfigurationBaseDeDonnees` dans le dossier
+
+4. Si vous aviez une instruction `require_once` pour importer le fichier `Trajet.php` dans `Utilisateur.php`, supprimez-la.
+
+5. Déplacez la classe `ConfigurationBaseDeDonnees` dans le dossier
    `Configuration` **en évitant d'utiliser PHPStorm**.
-5. Corrigez le chemin relatif du `require_once` du fichier `ConfigurationBaseDeDonnees.php` dans `ConnexionBaseDeDonnees.php`.
 
+6. Corrigez le chemin relatif du `require_once` du fichier `ConfigurationBaseDeDonnees.php` dans `ConnexionBaseDeDonnees.php`.
 
-
-2. Utilisez l'outil de refactoring de votre IDE pour renommer la classe
+7. Utilisez l'outil de refactoring de votre IDE pour renommer la classe
    `Utilisateur` en `ModeleUtilisateur`. 
    
    Vérifiez que les déclarations de type ont bien été mises à jour partout dans votre code.  
    Mettez en commentaire la fonction `__toString()` pour la désactiver.
 
    **Aide pour le *refactoring*** : Clic droit sur le fichier de déclaration de classe à renommer à PhpStorm, puis *Refactor* → *Rename*.
-
-6. Assurez-vous que PHPStorm n'a pas créé de ligne `namespace ...`, ni `use ...` en haut de
+8. Assurez-vous que PHPStorm n'a pas créé de ligne `namespace ...`, ni `use ...` en haut de
    vos scripts PHP. Sinon, supprimez ces lignes. **Attention :** si l'utilisation de certaines classes dans votre code
    est soulignée en avertissement par votre IDE, alors des `namespace ...` et/ou `use ...` persistent quelque part dans vos classes.
 </div>
@@ -177,7 +180,7 @@ les utilisateurs contenus dans la variable `$utilisateurs`.
 Créez la vue `vue/utilisateur/liste.php` avec le code précédent.
 
 **Remarque :** Pour ce fichier, votre IDE risque de souligner l'utilisation de la variable `$utilisateurs`
-comme étant non-définie. C'est un comportement tout à fait normal, car il n'est jamais sûr d'utiliser
+comme étant non définie. C'est un comportement tout à fait normal, car il n'est jamais sûr d'utiliser
 une variable dont l'existence n'est pas garantie ! Cependant, si vous savez ce que vous faites, vous pouvez
 "aider" l'IDE en lui fournissant une documentation sous forme de PHPDOC. Dans notre cas :
 
@@ -294,12 +297,14 @@ ControleurUtilisateur::afficherListe(); // Appel de la méthode statique $action
 ```
 
 <div class="exercise">
+
 1. Modifiez le code de `ControleurUtilisateur.php` et créez le fichier
    `Controleur/routeur.php` pour correspondre au code ci-dessus ;
 2. Testez la nouvelle architecture en appelant la page
 [.../Controleur/routeur.php](http://localhost/tds-php/TD4/Controleur/routeur.php).
 3. Prenez le temps de comprendre le **MVC** sur cet exemple.
    Avez-vous compris l'ordre dans lequel PHP exécute votre code ?
+
 </div>
 
 #### Maintenant un vrai routeur
@@ -358,7 +363,6 @@ Voici le déroulé de l'exécution du routeur pour l'action `afficherListe` :
 3. `ControleurUtilisateur.php` se sert du modèle pour récupérer le tableau de tous les utilisateurs ;
 4. `ControleurUtilisateur.php` appelle alors la vue qui va nous générer la page Web.
 
-
 ## À vous de jouer
 
 ### Vue "détail d'un utilisateur"
@@ -410,7 +414,7 @@ de "copier/coller" les instructions du `liste.php` dans la méthode `ControleurU
 Cela pose plusieurs problèmes :
 1. la vue a accès à toutes les variables accessibles dans `ControleurUtilisateur::afficherListe()`,
 1. la manière de procéder du `require` est très éloignée d'un code orienté-objet propre,
-1. une duplication de code commence à se dessiner avec les multiples instructions "*require ('../vue*"
+1. une duplication de code commence à se dessiner avec les multiples instructions "*require ('../vue')*"
 
 <div class="exercise">
 
@@ -536,7 +540,7 @@ Plus globalement :
 
 Quelques détails de lecture des diagrammes de séquence :
 
-* Quand un acteur (bulle grise) apparait au milieu du diagramme de séquence, cela signifie
+* Quand un acteur (bulle grise) apparaît au milieu du diagramme de séquence, cela signifie
   que l'instance correspondante est créée à ce moment-là.
 * Un acteur *<<class>> NomDeClasse* fait référence au `NomDeClasse` en tant que classe (et pas une instance particulière de celle-ci).
   Donc cet acteur existe tout le temps et n'est pas créé par un appel de
