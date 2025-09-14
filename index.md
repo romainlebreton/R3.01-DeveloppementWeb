@@ -60,10 +60,10 @@ La dernière séance de PHP (fin de la semaine du 20 octobre) sera dédiée au s
 * TD1 -- [Encodage des caractères, promotion de propriétés, serveur HTTP de l'IUT, note sur les URLs et Git]({{site.baseurl}}/assets/tut1-complement.html)
 * TD2 -- [Attributs et méthodes statiques]({{site.baseurl}}/assets/tut2-complement.html)
 * TD3 -- [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
-
-{% comment %}
 * TD4 -- [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html)
 * TD5 -- [`.htaccess`, namespace et autoloader]({{site.baseurl}}/assets/tut5-complement.html)
+
+{% comment %}
 * TD7 -- [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html)
 {% endcomment %}
 
