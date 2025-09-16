@@ -14,6 +14,7 @@ Pourquoi est-ce que les ACL ne permettent pas de faire notre comportement ?
 > On veut qu'Apache puisse exécuter tous les scripts PHP, donc on ne peut pas toucher les ACL.
 > Par contre, il ne doit pas répondre à certaines requêtes, donc on a besoin du fichier `.htaccess`.
 
+{% comment %}
 ### Si le fichier .htaccess ne marche pas
 
 Normalement, les fichiers `.htaccess` marchent à l'IUT sur `webinfo`, et dans
@@ -43,6 +44,7 @@ Cependant, si cela ne marche pas sur votre installation, voici 2 pistes de solut
   </IfVersion>
   ```
   Note : La version d'Apache peut se voir dans les en-têtes de réponse HTTP. Utilisez l'outil de développement `Network` pour y accéder.
+{% endcomment %}
 
 ## `namespace`
 

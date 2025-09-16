@@ -78,7 +78,10 @@ fonction de s'ils doivent être accessibles sur le Web.
 
 <div class="exercise">
 
-   1. Renommez et déplacez le fichier `Controleur/routeur.php` pour qu'il
+   1. Copiez/collez dans un nouveau dossier `TD5` tous les fichiers
+   du dossier `TD4`.
+
+   2. Renommez et déplacez le fichier `Controleur/routeur.php` pour qu'il
    devienne `web/controleurFrontal.php` **en évitant d'utiliser PHPStorm**. En
    effet, *PHPStorm* vous rajouterait des lignes `namespace ...` et `use ...` en
    haut de vos scripts PHP qu'il faudrait supprimer.
@@ -86,7 +89,7 @@ fonction de s'ils doivent être accessibles sur le Web.
       **Note :** Ce script s'appelle contrôleur frontal (*front controller* en
       anglais) puisque c'est la partie visible de notre site.
 
-   2. Déplacez les dossiers `Configuration`, `Controleur`, `Modele` et `vue` dans un
+   3. Déplacez les dossiers `Configuration`, `Controleur`, `Modele` et `vue` dans un
       dossier `src` **en évitant d'utiliser PHPStorm**. 
       
       Ce déplacement casse quand même le site Web, mais nous allons le réparer
@@ -146,13 +149,13 @@ restriction d'accès.
 
 <div class="exercise">
 
-2. Nous allons indiquer au serveur Web Apache que les fichiers ne sont pas accessibles sur internet par défaut. Pour ceci, créez un fichier `.htaccess` à la racine de votre site `TD5` avec le contenu suivant
+2. Nous allons indiquer au serveur Web Apache que les fichiers ne sont pas accessibles sur internet par défaut. Pour ceci, créez un fichier `.htaccess` à la racine de votre site `TD5` avec le contenu suivant :
 
    ```apache
    Require all denied
    ```
 
-3. Pour indiquer que les fichiers du dossier `web` sont accessibles, créez un fichier `web/.htaccess` avec le contenu suivant
+3. Pour indiquer que les fichiers du dossier `web` sont accessibles, créez un fichier `web/.htaccess` avec le contenu suivant :
 
    ```apache
    Require all granted
@@ -161,9 +164,11 @@ restriction d'accès.
 4. Vérifiez que l'accès par internet aux scripts autres que `web/controleurFrontal.php`
    affiche une page Web `Forbidden You don't have permission to access this resource`.
 
+   {% comment %}
    Note : Si votre fichier `.htaccess` n'a pas d'effet et que vous êtes sur
    votre machine, il se peut qu'il faille 
    [configurer Apache autrement]({{site.baseurl}}/assets/tut5-complement.html#si-le-fichier-htaccess-ne-marche-pas).
+   {% endcomment %}
    
 </div>
 
@@ -228,7 +233,7 @@ l'équivalent des `package` en Java.
    **Attention :** Les espaces de nom utilisent des antislashs `\`, tandis que 
    les chemins de fichiers Linux/Mac utilisent des slashs `/`.
 
-2. Le site est de nouveau cassé : `ConnexionBaseDeDonnees.php` ne connait pas la classe `ConfigurationBaseDeDonnees`.
+2. Le site est de nouveau cassé : `ConnexionBaseDeDonnees.php` ne connaît pas la classe `ConfigurationBaseDeDonnees`.
    En effet, cette classe s'appelle désormais `App\Covoiturage\Configuration\ConfigurationBaseDeDonnees`.  
    **Complétez** le nom de la classe `ConfigurationBaseDeDonnees` dans `ConnexionBaseDeDonnees.php`. Le site Web doit refonctionner.
 
@@ -246,13 +251,19 @@ l'équivalent des `package` en Java.
    use App\Covoiturage\Configuration\ConfigurationBaseDeDonnees;
    ```
 
-   **Raccourcissez** les noms de classe dans `ConnexionBaseDeDonnees.php` grâce à cet alias.
+   **Raccourcissez** les noms de classe dans `ConnexionBaseDeDonnees.php` grâce à cet alias (à placer au début du fichier).
+
+   Le site est encore cassé, car l'application ne sait pas où chercher la classe pointée par le `use` (et la charger). 
+   Nous allons régler cela dans le prochain exercice.
 
    **Remarques :**
-   * `use` est similaire à `import` en Java. 
+   * `use` est similaire à `import` en Java.
+   * Si une classe utilise une autre classe et si ces deux classes se trouvent 
+   dans le même `namespace`, il n'y a pas besoin de faire d'import explicite avec `use`
+   (par exemple, `ModeleUtilisateur` n'aura pas à importer explicitement `ConnexionBaseDeDonnees`).
    * PhpStorm peut faire ce travail à votre place. Par exemple, quand il ne
-     connait pas la classe `Configuration`, il la surligne pour indiquer un *warning*.
-     Lorsque votre curseur est sur la ligne du *warning*, une ampoule apparait
+     connaît pas la classe `Configuration`, il la surligne pour indiquer un *warning*.
+     Lorsque votre curseur est sur la ligne du *warning*, une ampoule apparaît
      pour vous proposer des solutions rapides (ou faites `Alt+Entrée`).
      Choisissez la solution *Import Class*.
    
@@ -330,43 +341,47 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
    *En résumé*, ce code dit au système d'autoloading de PHP que les classes dont
    l'espace de nom commence par `App\Covoiturage` se trouvent dans le dossier
    `src`. 
-
-4. Nous allons enfin pouvoir utiliser l'autoloader. Comme expliqué précédemment,
-   la classe `App\Covoiturage\Configuration\ConfigurationBaseDeDonnees` sera cherchée dans le
-   fichier `src/Configuration/ConfigurationBaseDeDonnees.php`.  
-   <!-- **Renommez** le dossier `Configuration` avec une majuscule `Configuration`.  -->
-   Dans `ConnexionBaseDeDonnees.php`, enlevez le `require_once` de la classe `ConfigurationBaseDeDonnees`
-   et importez correctement la classe  `ConfigurationBaseDeDonnees` avec `use`.  
    
    <!-- **Besoin d'aide pour débugger `Psr4AutoloaderClass` ?** Rajoutez une ligne à
    la méthode `requireFile` de `Psr4AutoloaderClass` pour afficher le nom du fichier
    que l'*autoloader* essaye de charger. -->
 
-5. Répétez ce processus pour enlever tous les `require_once` de fichier de
-   déclaration de classe (sauf pour `Psr4AutoloaderClass`) :
+4.  Nous allons enfin pouvoir utiliser l’autoloader. Avec les changements effectués dans l'exercice précédent, la classe `App\Covoiturage\Configuration\ConfigurationBaseDeDonnees` sera cherchée dans le fichier `src/Configuration/ConfigurationBaseDeDonnees.php`.
+   
+   Répétez le processus de l'exercice précédent afin d'enlever tous les 
+   `require_once` de fichier de déclaration de classe (sauf pour 
+   `Psr4AutoloaderClass` dans `controleurFrontal.php`) :
    * ajout de `namespace` dans chaque classe,
    * utilisation d'alias pour faire référence à cette classe,
-   * suppression des `require_once`.  
+   * suppression des `require_once` (utilisation d'un `use` à la place).  
 
    Nous vous conseillons de procéder classe par classe, dans l'ordre suivant :
    `ConnexionBaseDeDonnees`, `ModeleUtilisateur` puis `ControleurUtilisateur`.
    N'oubliez pas d'importer la classe `ControleurUtilisateur` dans le contrôleur frontal pour pouvoir l'utiliser.
 
-   **Attention :** La classe `PDO` dans `ConnexionBaseDeDonnees.php` est
+   Nous n'enlèverons pas le `require` de la fonction `afficherVue` du contrôleur, car nous l'utilisons pour
+   charger un script (et pas une classe) de manière dynamique (le nom du script à charger est passé en paramètre).
+
+   **Remarque :** Il n'y a pas besoin d'utiliser `use App\Covoiturage\Configuration\ConnexionBaseDeDonnees;` dans
+   la classe `ModeleUtilisateur` car ces classes se trouvent dans le même `namespace`.
+
+5. **Attention :** La classe `PDO` dans `ConnexionBaseDeDonnees.php` est
    comprise comme `App\Covoiturage\Modele\PDO` à cause du `namespace
    App\Covoiturage\Modele`. Or son nom complet est `\PDO`. Deux solutions
    possibles :
+
    * Ajoutez `use \PDO as PDO;` pour que PHP sache que `PDO` est dans l'espace de nom
      global.
    * Ou spécifiez que `PDO` est dans l'espace de nom global en appelant la
      classe `\PDO`.
      
    La même remarque tient pour toutes les autres classes de la librairie standard de PHP
-   (comme `DateTime` utilisée dans `Trajet` par exemple).
+   (comme `DateTime` que nous avions utilisée dans `Trajet` dans un précédent TD, par exemple).
 
    Le site doit maintenant fonctionner à nouveau.
-7. Maintenant que vous avez compris le principe de `Psr4AutoloaderClass`, vous
-   pouvez si vous le souhaitez désactiver son affichage de débogage :
+
+6. Maintenant que vous avez compris le principe de `Psr4AutoloaderClass`, vous
+   pouvez si vous le souhaitez désactiver son affichage de débogage dans `controleurFrontal.php`:
    ```php
    $chargeurDeClasse = new App\Covoiturage\Lib\Psr4AutoloaderClass(false);
    ```
@@ -616,15 +631,15 @@ vues "corps" en l'incluant dans l'en-tête et le pied de page communs.
    </html>
    ```
    **Rappel :** L'IDE devrait signaler une erreur/warning indiquant que
-   les variables `$titre` et `$cheminCorpsVue` sont non-définies. Pensez à ajouter une
+   les variables `$titre` et `$cheminCorpsVue` sont non définies. Pensez à ajouter une
    documentation en format PHDoc avant l'utilisation de la variable pour avoir un code propre.
-   <!-- Par exemple, pour `$titre` :
+   
+   Par exemple, pour `$titre` :
    ```php
    /**
     * @var string $titre
     */
    ```
-   -->
    
 3. Dans vos vues existantes, supprimer les parties du code correspondant aux
    *header* et *footer*.
@@ -670,24 +685,32 @@ avec trois liens vers les différents contrôleurs :
    ```
 
 2. Rajoutez un [style CSS minimaliste]({{site.baseurl}}/assets/TD5/navstyle.css)
-   à votre page Web. Ce style sera mis dans un dossier `css`. Où mettre ce
-   dossier `css` sachant que nous interdisons l'accès internet à certaines
-   parties du dossier `TD5` ?
+   à votre page Web (clic droit puis "enregistrer la cible du lien sous..."). 
+   Ce style sera mis dans un dossier `css`. Où mettre ce dossier `css` sachant que 
+   nous interdisons l'accès internet à certaines parties du dossier `TD5` ?
    
    Une façon de faire est de créer un dossier `TD5/ressources` qui sera accessible sur
    internet (copiez le `.htaccess` de `web`), et qui contiendra le dossier `css`, mais aussi plus tard des
    dossiers `img` d'images et `js` pour le JavaScript.
 
-   N'oubliez pas de rajouter la balise d'inclusion du CSS dans la vue générale
+   N'oubliez pas de rajouter la balise d'inclusion du CSS dans la section `head` de la vue générale 
+   afin de charger le fichier `navstyle.css`.
    ```html
    <link rel="stylesheet" href="...">
    ```
+
+   Déterminez le chemin à placer dans `href` : le navigateur charge le fichier `controleurFrontal.php` depuis le
+   dossier `web`. Le fichier css se trouve **un dossier plus haut**, dans `ressources`, puis `css`.
+
+   **Remarque :** il est probable que votre IDE affiche un warning car il ne connaît pas le chemin ciblé.
+   C'est normal, de son point de vue, vous vous trouvez dans `src/vue/vueGenerale.php`. Mais en réalité, le
+   navigateur chargera la page web depuis `web`.
 
 3. Ce fichier CSS rajoute aussi un style pour les formulaires. Pour l'appliquer,
    changez `formulaireCreation.php` pour qu'un champ de formulaire s'obtienne par exemple avec 
     ```html
     <p class="InputAddOn">
-        <label class="InputAddOn-item" for="login_id">Login&#42;</label>
+        <label class="InputAddOn-item" for="login_id">Login</label>
         <input class="InputAddOn-field" type="text" placeholder="Ex : leblancj" name="login" id="login_id" required>
     </p>
     ```
@@ -712,7 +735,7 @@ des utilisateurs. Ceci donnerait le visuel suivant.
 
 ![UtilisateurCreate]({{site.baseurl}}/assets/TD5/UtilisateurCreate.png){: .blockcenter}
 
-1. Créez la vue `utilisateurCree.php` comme expliqué ci-dessus, en utilisant le
+1. Créez la vue `src/vue/utilisateur/utilisateurCree.php` comme expliqué ci-dessus, en utilisant le
    concept de vue modulaire.  
    **Remarque :** La vue `utilisateurCree.php` doit faire deux lignes
    maintenant.
@@ -722,7 +745,7 @@ des utilisateurs. Ceci donnerait le visuel suivant.
    tableau de tous les utilisateurs afin qu'elle puisse être affichée dans la vue.
 
 3. Comme vous développez un site Web, il faut vérifier régulièrement sa
-   [conformité HTML](https://html5.validator.nu/) et
+   [conformité HTML](https://validator.w3.org/#validate_by_input) et
    [CSS](https://jigsaw.w3.org/css-validator/). Faites-le maintenant. 
 
 </div>

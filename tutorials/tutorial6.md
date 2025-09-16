@@ -36,13 +36,16 @@ contrôleur frontal. Nous allons faire en sorte qu'un utilisateur qui arrive sur
 
 <div class="exercise">
 
-1. Si aucun paramètre n'est donné dans l'URL, initialisons la variable `action`
+1. Copiez/collez dans un nouveau dossier `TD6` tous les fichiers
+   du dossier `TD5`.
+
+2. Si aucun paramètre n'est donné dans l'URL, initialisons la variable `action`
    avec la chaîne de caractères `"afficherListe"` dans `controleurFrontal.php`.
    Utilisez la fonction `isset($_GET['action'])` qui teste si la variable
    `$_GET['action']` a été initialisée, ce qui est le cas si et seulement si une
    variable `action` a été donnée dans l'URL.
 
-1. Testez votre site en appelant `controleurFrontal.php` sans action.
+3. Testez votre site en appelant `controleurFrontal.php` sans action.
 
 **Note :** De manière générale, il ne faut jamais lire la case d'un tableau
   avant d'avoir vérifié qu'elle était bien définie avec un `isset(...)` sous peine

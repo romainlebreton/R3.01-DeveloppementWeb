@@ -99,8 +99,10 @@ lors des TDs précédents (sauf la méthode `__toString()` qui correspond plutô
 <div class="exercise">
 
 1. Copiez/collez dans un nouveau dossier `TD4` les fichiers `ConfigurationBaseDeDonnees.php`,
-   `ConnexionBaseDeDonnees.php` et `Utilisateur.php`.
+   `ConnexionBaseDeDonnees.php` et `Utilisateur.php` du dossier `TD3`.
+
 2. Créez les répertoires `Configuration`, `Controleur`, `Modele`, `vue` et `vue/utilisateur`.
+
 3. Déplacez vos fichiers `Utilisateur.php` et `ConnexionBaseDeDonnees.php` dans le répertoire `Modele/` **en évitant d'utiliser PHPStorm**. 
    
    En effet, *PHPStorm* vous rajouterait des lignes `namespace ...` et `use ...`
