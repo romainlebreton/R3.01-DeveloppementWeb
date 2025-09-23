@@ -360,15 +360,24 @@ Désormais, nous devons donc spécifier le contrôleur demandé dans le *query
 string*. Par exemple, l'ancienne page `controleurFrontal.php?action=afficherListe` du contrôleur
 *utilisateur* devra s'obtenir avec `controleurFrontal.php?controleur=utilisateur&action=afficherListe`.
 
+Afin d'exécuter l'action récupérée dans le contrôleur correspondant au nom donné
+dans le *query string*, on peut procéder ainsi :
+
+```php
+<?php
+$nomDeClasseControleur::$action();
+?>
+```
+
 <div class="exercise">
 
 1. Définissez une variable `controleur` dans `controleurFrontal.php` en récupérant sa
-valeur à partir de l'URL, et en mettant le contrôleur *utilisateur* par défaut.
+valeur à partir de l'URL.
 
    **Aide :** Ce bout de code est similaire à celui concernant `action` dans
   `controleurFrontal.php`.
 
-1. On souhaite créer le nom de la classe à partir de `controleur`. Par exemple,
+2. On souhaite créer le nom de la classe à partir de `controleur`. Par exemple,
    quand `$controleur="utilisateur"`, nous souhaitons créer une variable
    `$nomDeClasseControleur` qui vaut `"App\Covoiturage\Controleur\ControleurUtilisateur"`.  
    **Créez** la variable `$nomDeClasseControleur` à l'aide de la fonction
@@ -376,15 +385,21 @@ valeur à partir de l'URL, et en mettant le contrôleur *utilisateur* par défau
    FIRST letter) qui sert à mettre en majuscule la première lettre d'une chaîne
    de caractère.
 
-2. Testez si la classe de nom `$nomDeClasseControleur` existe à l'aide de la
-   fonction [`class_exists`](http://php.net/manual/fr/function.class-exists.php)
-   et appelez l'action `action` de la classe `$nomDeClasseControleur` le cas
-   échéant. Autrement appelez l'action `afficherErreur` de `ControleurUtilisateur`.
+3. Reprenez le code du contrôleur afin de :
+      * Tester si la classe de nom `$nomDeClasseControleur` existe à l'aide de la
+      fonction [`class_exists`](http://php.net/manual/fr/function.class-exists.php), et appeler l'action `afficherErreur` de `ControleurUtilisateur` si ce n'est pas le cas.
+      * Si le contrôleur existe bien, vérifier que l'action visée existe bien dans ce contrôleur et afficher un message
+      d'erreur si ce n'est pas le cas (comme nous le faisions avant).
+      * Si tout est bon (contrôleur et action existent), appeler l'action `action` de la classe `$nomDeClasseControleur`.
 
-3. Testez votre code en appelant vos anciennes pages du contrôleur *utilisateur*.
+4. Testez votre code en appelant vos anciennes pages du contrôleur *utilisateur* avec la bonne URL.
 
-   **Attention :** les liens URL de vos différentes vues risquent de ne plus fonctionner.
-   Si oui, trouvez pourquoi et corrigez.
+5. Les liens URL de vos différentes vues (`<a href="...">` et formulaires...) ne fonctionnent plus. C'est normal, il faut maintenant spécifier dans quel contrôleur se trouve l'action désirée. Mettez donc à jour adéquatement les éléments suivants :
+   
+   * Les liens dans la vue `liste.php` (afficher les détails, mettre à jour, supprimer).
+   * Les deux vues contenant un formulaire : `formulaireCreation` et `formulaireMiseAJour`. Ici, il faudra ajouter un champ de type `hidden` comme nous l'avons fait précédemment, afin d'indiquer le contrôleur adéquat.
+
+6. Dans `controleurFrontal.php`, faites en sorte de donner la valeur `utilisateur` par défaut à la variable `controleur` si aucun contrôleur n'est précisé par l'utilisateur (de manière similaire à ce que nous avons déjà pour `$action`). Testez en essayant de charger [http://localhost/TD6/web/controleurFrontal.php](http://localhost/TD6/web/controleurFrontal.php) (donc, sans spécifier de nom de contrôleur et d'action). Vous devriez alors arriver sur la page listant les utilisateurs (contrôleur par défaut `utiliseur`, action par défaut `afficherListe`).
 
 </div>
 
@@ -407,6 +422,10 @@ travail, commençons par créer l'action `afficherListe` de `Trajet`.
      `construireDepuisTableauSQL($trajetTableau)`, `recupererTrajets()` et
      `recupererPassagers()`.
 
+   **Attention** : il faudra probablement importer la classe `DateTime` (`use DateTime`). Aussi, de manière générale, comme nous allons changer beaucoup de choses au fil du TD, certains imports risquent d'être cassés au fur et à mesure. Mais pas de panique, grâce au système d'autoloading mis en place dans le dernier TP et à PHPStorm, il est facile de corriger les imports cassés/manquants. 
+   PHPStorm vous signale les classes qui ne sont pas importées par un warning (nom de la classe
+   souligné en jaune). En survolant le nom de la classe manquante, l'IDE vous propose certaines solutions comme notamment ajouter les lignes `use ...` nécessaires (**Import Class**). 
+   Vous pouvez aussi utiliser le raccourci `Alt+Entrée`.
 
    <!-- Enlevez les `require_once`, indiquez les bons `namespace` correspondant aux
    dossiers et importez les classes nécessaires avec `use`. -->
@@ -539,8 +558,8 @@ faire pour avoir un code générique :
 
 2. Déplacez la fonction `recupererUtilisateurs()` de `UtilisateurRepository` vers `AbstractRepository` en la renommant `recuperer()`.
 
-   **Astuce** : sur PhpStorm le moyen le plus simple pour déplacer la fonction serait *Clic droit sur la déclaration de la méthode* >
-   *Refactor* > *Move Members* > *Indiquer `AbstractRepository` comme classe de destination*. De même pour le renommage, pensez à utiliser le refactoring.
+   **Astuce** : sur PhpStorm le moyen le plus simple pour déplacer la fonction vers sa classe parente serait *Clic droit sur la déclaration de la méthode* >
+   *Refactor* > *Pull Members Up*. De même pour le **renommage**, pensez à utiliser le **refactoring**.
 
 3. Utilisez `getNomTable()` dans la requête *SQL* de `recuperer()`. Puisque
    `getNomTable()` est une méthode dynamique, enlevez le `static` de
@@ -592,17 +611,17 @@ faire pour avoir un code générique :
 
 6. Mettez à jour tous vos appels à `recupererUtilisateurs()` (ou `recuperer()` si la
    méthode `recupererUtilisateurs()` a été correctement renommé par le *refactoring* de la
-   question 3).
+   question 3) dans toutes les classes qui utilisaient cette méthode.
 
 </div>
 
 <div class="exercise">
 
 1. Faites de même pour `TrajetRepository` :
-   * commentez `recupererTrajets()`,
+   * commentez la méthode `recupererTrajets()`,
+   * `TrajetRepository` doit hériter de `AbstractRepository`,
    * `construireDepuisTableauSQL()` passe de `public static` à `protected`. Mettez aussi à jour ses appels.
    * implémentez `getNomTable()`,
-   * `TrajetRepository` doit hériter de `AbstractRepository`.
    * l'appel à `UtilisateurRepository::construireDepuisTableauSQL(...)` n'est plus statique.
 
 2. Corrigez l'action `afficherListe` du `ControleurTrajet` pour faire appel à la
@@ -622,8 +641,7 @@ qui permet de faire une recherche par clé primaire dans une table.
    classe `AbstractRepository` en généralisant la méthode correspondante déjà existante dans `UtilisateurRepository` :
    1. utilisez PHPStorm sur la fonction
       `UtilisateurRepository::recupererUtilisateurParLogin`, clic droit >
-      *Refactor* > *Pull Members Up* : ceci aura pour effet de déplacer la
-      fonction dans `AbstractRepository`.
+      *Refactor* > *Pull Members Up*.
    2. utilisez PHPStorm sur la fonction
       `AbstractRepository::recupererUtilisateurParLogin`, clic droit >
       *Refactor* > *Rename* > indiquez `recupererParClePrimaire` : ceci
@@ -707,9 +725,8 @@ Or, la signature du constructeur de `Trajet` demande une référence de type `Ut
 À l'exécution ce code fonctionne, car la liaison dynamique fait que le type effectif retourné par `recupererParClePrimaire()` est bel et bien
 `Utilisateur`. Mais la vérification de type ne peut pas être garantie par votre IDE en amont et vous pouvez obtenir un warning.
 On touche là aux limites d'un langage non fortement typé : la vérification que les types sont correctement définis et respectés est une
-tâche du développeur, contrairement aux langages fortement typés où cette vérification est faite davantage lors de la phase de compilation.
-
-
+tâche du développeur, contrairement aux langages fortement typés où cette vérification est faite davantage lors de la phase de compilation. Ce qu'il faudrait ici, c'est pouvoir paramétrer la classe
+avec un type générique `class AbstractRepository <T extends DataObject>` et faire en sorte que `UtilisateurRepository` soit définit ainsi `class UtilisateurRepository extends AbstractRepository<Utilisateur>` et utiliser `T` au lieu de `DataObject` comme type. C'est ce que vous faisiez l'année dernière en `Java`. Cependant, cela n'est pas possible en PHP... Du moins pour le moment ! L'inclusion du typage générique dans PHP est une demande qui revient régulièrement, donc, il est possible que dans l'avenir PHP évolue pour l'inclure dans une future version... 
 
 </div>
 
@@ -1005,7 +1022,9 @@ inscrire et désinscrire.
 
 Le modèle générique fournit directement l'inscription via la méthode `ajouter`.
 Par contre, il est nécessaire d'adapter la méthode générique `supprimer` pour
-pouvoir gérer une clé primaire constituée d'un couple.
+pouvoir gérer une clé primaire constituée d'un couple. Ou alors de définir
+une méthode `supprimerPassager` spécifique au nouveau repository
+traitant les passagers...
 
 Les vues *passagers* affichent un bref message et fournissent un lien pour
 retourner au détail du trajet modifié.
