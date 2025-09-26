@@ -662,7 +662,7 @@ Nous allons bénéficier de notre changement d'organisation pour rajouter un
 <div class="exercise"> 
 
 1. Modifier la vue `vueGenerale.php` pour ajouter en en-tête de page une barre de menu,
-avec trois liens vers les différents contrôleurs :
+avec deux liens vers les différents contrôleurs :
 
    ```html
    <nav>
