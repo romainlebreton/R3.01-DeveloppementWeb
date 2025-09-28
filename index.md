@@ -71,9 +71,7 @@ La dernière séance de PHP (fin de la semaine du 20 octobre) sera dédiée au s
 1. [Syntaxe simple & avancée de PHP 8.1]({{site.baseurl}}/assets/complement1-PHPSyntax.html)
 {% endcomment %}
 
-{% comment %}
 ## Instructions du projet
 
-* [Parcours A -- SAÉ](https://moodle.umontpellier.fr/course/view.php?id=28067)
+* **Parcours A -- SAÉ**.
 * [Parcours B & D -- Instructions du projet](projet.html)
-{% endcomment %}

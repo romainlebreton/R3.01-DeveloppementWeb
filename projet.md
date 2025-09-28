@@ -13,7 +13,7 @@ de restriction particulière. Pensez néanmoins que ce projet Web fait partie de
 vos réalisations qui pourraient être mises en avant lors d'un entretien pour un
 stage, par exemple.
 
-À la fin de la première séance de la semaine du lundi 7 octobre, vous devrez
+À la fin de la première séance de la semaine du lundi 6 octobre, vous devrez
 donner à votre encadrant : 
 * la liste des membres de votre groupe, 
 * le thème de votre site (quels produits votre site vend-il ?),
@@ -28,7 +28,7 @@ seront évalués de manière plus stricte et l'on attendra 1/3 de boulot en plus
 
 ### Rendu
 
-**Date de rendu du projet :** samedi 23 novembre à 23h59.
+**Date de rendu du projet :** samedi 22 novembre à 23h59.
 
 Le projet sera à rendre [sur
 Moodle](https://moodle.umontpellier.fr/course/view.php?id=27615). Un seul membre
@@ -38,14 +38,13 @@ du trinôme dépose une archive zip nommée selon le format :
 Cette archive devra contenir :
 * Les sources de votre projet,
 * l'URL où le site est déployé sur `webinfo`,
-* Un fichier README qui contient :
+* Un fichier `README` qui contient :
   * Le lien du dépôt git où le code source de l’application est hébergé.
   * Un pourcentage et un récapitulatif de l’investissement de chaque membre du groupe dans le projet (globalement, qui a fait quoi).
 
-
 ### Soutenance
 
-**Date de *soutenance* des projets** : mercredi 27 novembre 
+**Date de *soutenance* des projets** : mercredi 26 novembre 
 
 Le jour de la soutenance, **le site devra être déployé sur `webinfo`** sous l'un
 de vos comptes. Le code source du site doit être accessible à votre enseignant :
@@ -55,20 +54,6 @@ de l'IUT), et lui donner le rôle *maintainer* ou *owner*.
 Il n'y a **pas** de rapport à écrire, ni de présentation à préparer. Vous devrez
 juste répondre à une série de questions sur votre code qui nous permettra
 d'évaluer ce qui a été implémenté.
-
-<!-- Il n'y a pas de date de rendu : votre site Web devront juste
-être disponibles au moment de la soutenance. **Attention** cependant aux
-modifications de dernière minute qui ont tendance à casser le site ! -->
-
-<!-- **Emploi du temps prévisionnel :**
-
-1. Semaine du lundi 24 octobre 2022 -- Séance projet
-2. Semaine du lundi 7 novembre 2022 -- TD 7 -- Cookies & Sessions puis projet
-3. Semaine du lundi 14 novembre 2022 -- TD 8 -- Authentification & Validation par email
-4. Semaine du lundi 21 novembre 2022 -- Projet
-5. Semaine du lundi 2 janvier 2023 -- Évaluation Projet
-6. Semaine du lundi 9 janvier 2023 -- Examen final écrit -->
-
 
 ### Critères de notation
 
@@ -136,10 +121,10 @@ Des sources complémentaires sur comment se connecter en FTP et en SSH à `publi
 ## Par où commencer ?
 
 1. Définir les produits que vous souhaitez vendre.
-1. Créer la table SQL correspondante.  
+2. Créer la table SQL correspondante.  
    **Conseil:** Préfixez vos noms de tables de projet, e.g. `p_utilisateur`,
    `p_produit`, pour ne pas mélanger vos tables MySQL de projet et celles des TDs.
-2. La première séance doit vous permettre d'implémenter quelques actions du MVC
+3. La première séance doit vous permettre d'implémenter quelques actions du MVC
    Produit.
 
 ### Ce que ce projet n'est pas :
@@ -161,7 +146,8 @@ Dans la suite de ce cours, plusieurs séances seront consacrées à
 
 En conséquence, ne pas attaquer ces parties pour le moment. 
 
-<!-- ### Où héberger ce site? Comment partager votre code PHP ? Comment travailler à distance de l'IUT ?
+{% comment %}
+### Où héberger ce site? Comment partager votre code PHP ? Comment travailler à distance de l'IUT ?
 
 Pour travailler à distance, vous pouvez soit installer un serveur Web sur votre
 ordinateur (cf. [la fin du
@@ -184,12 +170,11 @@ même partie de code, ils risquent d'avoir des conflits lors du `git pull`. Une
 bonne pratique est d'utiliser le système de branches de Git à chaque fois que
 l'on veut développer une nouvelle fonctionnalité.
 
-Pour plus d'informations sur Git, la création d'une clé SSH, les commandes `git
-pull/add/commit/push` et autres `git log/status`, la gestion des conflits, je
-vous renvoie sur le [tutoriel d'introduction à
+Pour plus d'informations sur Git, la création d'une clé SSH, les commandes `git pull/add/commit/push` 
+et autres `git log/status`, la gestion des conflits, je vous renvoie sur le [tutoriel d'introduction à
 Git](https://gitlabinfo.iutmontp.univ-montp2.fr/valicov/tutoGit1ereAnnee/blob/master/README.md). -->
 
-<!-- #### Répertoire partagé à l'IUT
+#### Répertoire partagé à l'IUT
 
 L'étudiant 1 doit donc créer le répertoire `eCommerce` dans son dossier `public_html`
 puis donner les droits aux autres étudiants de son groupe sur ce répertoire :
@@ -210,3 +195,4 @@ défaut : les nouveaux fichiers créés prendront ces droits)
 
 **Référence :**
   [La page Côté Technique > Site Web > Partager public_html de intradepinfo](https://iutdepinfo.iutmontp.univ-montp2.fr/intranet/partager-public_html/) -->
+{% endcomment %}
