@@ -88,6 +88,10 @@ setcookie("TestCookie", "OK", time() + 3600);
 /* expire dans 1 heure = 3600 secondes */
 ```
 
+**Explication** : la fonction [`time`](http://php.net/manual/fr/function.time.php) renvoie l'horodatage
+actuel, mesurée en nombre de secondes écoulé depuis le 1er janvier 1970 (l'époque UNIX). Cette unité
+temporelle permet aux divers systèmes de calculer la date actuelle. Le code `time() + 3600` rajoute
+donc 3600 secondes (une heure) à ce nombre de secondes, donc le cookie expirera dans une heure.
 
 #### Que fait `setcookie` ? Comment fait le serveur pour demander au client d'enregistrer un cookie ?
 
@@ -114,14 +118,20 @@ Remarquons que le serveur écrit une ligne `Set-Cookie` par paire nom/valeur. Ic
 nous avons un cookie `"TestCookie1"` de valeur `"valeur1"` et un cookie
 `"TestCookie2"` de valeur `"valeur2"`.
 
-
+**Attention** : la date d'expiration du cookie (comme la date de la réponse) est affichée 
+sous le fuseau horaire `GMT` qui est donc "décalé" de 2 heures (en arrière) par rapport au
+fuseau horaire (d'été) Français. Dans l'exemple ci-dessus, le cookie expire à 18:43:27, 
+heure (d'été) française.
 
 <div class="exercise">
 
-1. Créez une action `deposerCookie` dans le contrôleur *utilisateur*. Cette action
+1. Copiez/collez dans un nouveau dossier `TD7` tous les fichiers
+   du dossier `TD6`.
+
+2. Créez une action `deposerCookie` dans le contrôleur *utilisateur*. Cette action
    doit déposer un cookie de votre choix.
 
-1. Vous allez inspecter la réponse HTTP de votre serveur pour observer l'explication
+3. Vous allez inspecter la réponse HTTP de votre serveur pour observer l'explication
    précédente : 
    
    * Allez dans les outils développeurs (avec `F12`) &#8594; Onglet Réseau (ou
@@ -132,7 +142,7 @@ nous avons un cookie `"TestCookie1"` de valeur `"valeur1"` et un cookie
    réponse](https://developer.chrome.com/docs/devtools/network/reference/#headers)
    et y observer la ligne `Set-Cookie: ...`.
 
-1. Observez le cookie déposé chez le client :
+4. Observez le cookie déposé chez le client :
 
    * sous Firefox, allez dans les outils développeurs (avec `F12`) &#8594; Onglet
      Stockage (ou Application) &#8594; Cookies.
@@ -184,7 +194,7 @@ devrait afficher `valeur1`.
 1. Créez une action `lireCookie` dans le contrôleur *utilisateur*. Cette action
    doit lire le cookie précédemment déposé et l'afficher.
 
-1. Inspectez la requête HTTP de votre client pour observer l'explication
+2. Inspectez la requête HTTP de votre client pour observer l'explication
    précédente. Dans l'onglet *Réseau* des outils développeurs, regarder [les
    en-têtes (ou Headers) de la requête](https://developer.chrome.com/docs/devtools/network/reference/#headers) et y observer la ligne `Cookie: ...`.
 
@@ -250,7 +260,8 @@ public static function lire(string $cle): mixed
 
 1. Modifiez les actions `deposerCookie` et `lireCookie` pour utiliser la classe
    `Cookie`. Testez votre code, en particulier l'enregistrement d'une valeur
-   qui n'est pas un `string`, et l'expiration des cookies. 
+   qui n'est pas un `string`, comme un objet (par exemple un objet `DateTime`), 
+   et l'expiration des cookies.
 
 1. Codez la méthode
 ```php
@@ -349,13 +360,13 @@ public static function supprimer($cle) : void
       Inconvénients : 
       * seules les propriétés visibles publiquement d'un objet seront incluses.
         Une classe peut également implémenter `JsonSerializable` pour contrôler la
-        façon dont ses valeurs sont sérialisées en JSON (*cf.* semestre 4 Parcours A).
+        façon dont ses valeurs sont sérialisées en JSON (*cf.* semestre 4 Parcours RACDV).
       * `json_decode` ne reconstruit que des objets de la classe `stdClass`
    2. vérifiez que l'utilisateur n'a pas mis de données malicieuses dans les
       cookies. Vous pouvez valider que les données du cookie ont été écrites par
       le serveur avec `hash_hmac`.
-   3. Les frameworks Web comme Symfony (*cf.* semestre 5 pour les parcours A et
-      D) fournissent leurs propres méthodes de sérialisation/désérialisation.
+   3. Les frameworks Web comme Symfony (*cf.* semestre 5 pour les parcours RACDV et
+      IAMSI) fournissent leurs propres méthodes de sérialisation/désérialisation.
 **Référence :** [La RFC des cookies](https://tools.ietf.org/html/rfc6265)
 
 ### Exercice sur l'utilisation des cookies
@@ -450,6 +461,11 @@ l'action par défaut plutôt que le contrôleur par défaut.
 9. Testez le bon fonctionnement de cette personnalisation de la page d'accueil en
 choisissant autre chose que `utilisateur` dans le formulaire.
 
+10. On souhaite que le formulaire de préférence soit déjà coché si la préférence
+   existe déjà. Implémentez cette fonctionnalité. Vous utiliserez l'attribut
+   `checked` pour cocher un `<input type="radio">`.
+
+<!--
 1. Il est possible que vos anciens liens du contrôleur *utilisateur* (vues `liste` et
    `detail`) et de la barre de menu (`vueGenerale.php`) n'indiquait pas le contrôleur
    *utilisateur*, car c'était le contrôleur par défaut. Si nécessaire, rajoutez
@@ -458,10 +474,7 @@ choisissant autre chose que `utilisateur` dans le formulaire.
    De même, il est possible que les formulaires de création et de mise à jour
    d'un utilisateur ne transmettait pas le contrôleur *utilisateur*. Rajoutez un
    `<input type="hidden">` si nécessaire.
-
-2. On souhaite que le formulaire de préférence soit déjà coché si la préférence
-   existe déjà. Implémentez cette fonctionnalité. Vous utiliserez l'attribut
-   `checked` pour cocher un `<input type="radio">`.
+-->
 
 </div>
 
@@ -657,7 +670,13 @@ Présentons maintenant les opérations fondamentales sur les sessions :
 
 Vous appliquerez les sessions dans le prochain TD8 pour gérer l'authentification
 des utilisateurs. Nous vous proposons une autre application au TD9 avec les
-messages Flash. 
+messages Flash.
+
+**Note** : à priori, nous ne nous servirons pas directement de la méthode `detruire`
+par la suite, même pour déconnecter un utilisateur (TD8). On préférera plutôt garder
+sa session active et simplement vider `$_SESSION` des données qui indique qu'il est
+connecté ou non, voir vider entièrement `$_SESSION` (avec `session_unset`)
+pour effectuer un **timeout** comme nous allons le faire dans le prochain exercice.
 
 ### Notes techniques
 
@@ -694,10 +713,10 @@ aux données qui lui sont associées.
 
 1. **Comment rajouter un timeout sur les sessions :**
 
-   Il peut être intéressant de rajouter un timeout sur les sessions pour forcer
+   Il peut être intéressant de rajouter un **timeout** sur les sessions pour forcer
    un utilisateur à se reconnecter au bout de quelques minutes d'activités. En
    attendant de gérer la connexion des utilisateurs dans le TD prochain, voyons
-   comment mettre en place un timeout sur les sessions.
+   comment mettre en place un **timeout** sur les sessions.
 
 	La durée de vie d'une session est liée à deux paramètres. D'une part, le
 	délai d'expiration du cookie permet d'effacer l'identifiant unique côté
@@ -749,12 +768,47 @@ cf http://defeo.lu/aws/lessons/session-fixation
 
 <div class="exercise">
 
-Rajoutez un mécanisme d'expiration pour les sessions. Le code du mécanisme sera
-codé dans une méthode `verifierDerniereActivite` de la classe `Session`. Cette méthode sera appelée par `getInstance()` après l'appel au constructeur pour ne vérifier l'expiration qu'au démarrage de la session.
-
-*Note :* La durée d'expiration est une donnée qui dépend du site. Il serait donc
+1. Nous allons ajouter un mécanisme d'expiration pour les sessions.
+La durée d'expiration est une donnée qui dépend du site. Il serait donc
 judicieux de la mettre dans une classe de configuration `ConfigurationSite.php`
-(similaire à `ConfigurationBaseDeDonnees.php`).
+(similaire à `ConfigurationBaseDeDonnees.php`). Créez donc la classe `ConfigurationSite`
+dans `src/Configuration/ConfigurationSite.php` qui définit la méthode suivante :
+
+   ```php
+    static public function getDureeExpirationSession(): int
+    {
+        return 300;
+    }
+   ```
+
+   Le `300` correspond au temps d'inactivité maximal avant que les données de la
+   session soient supprimées (avant le timeout). Vous pourrez l'augmenter au besoin.
+
+2. Dans la classe `Session` ajoutez et complétez la méthode suivante :
+
+   ```php
+   public function verifierDerniereActivite(): void
+   ```
+
+   Cette méthode doit :
+
+   * Ne rien faire si la durée d'expiration de session est fixée est 0
+   (pas de système de timeout).
+
+   * Sinon, vérifier si la session a expirée et supprimer les données de `$_SESSION` si
+   c'est le cas. Puis, dans tous les cas, met à jour le temps correspondant à la
+   dernière activité de la session.
+
+   Vous pouvez reprendre le code donné en exemple un peu plus haut...
+
+3. Appelez cette nouvelle méthode dans `getInstance()` après l'appel au constructeur 
+(afin de ne vérifier l'expiration qu'au démarrage de la session).
+
+4. Testez votre nouveau mécanisme de timeout en réglant le temps sur une 
+courte période (par exemple, 30 secondes). Pour cela, enregistrez une donnée
+dans la session via une action temporaire (dans un contrôleur quelconque), 
+et affichez-la via une autre action. Attendez que la session expire puis réessayez
+d'afficher la donnée en question : elle doit avoir disparue. 
 
 </div>
 
@@ -821,7 +875,6 @@ la stocker avec des sessions.
 
 
 ## (Optionnel) Au-delà des cookies et des sessions
-
 
 Pour approfondir votre compréhension des cookies et des sessions, vous avez
 aussi accès aux [notes complémentaires à ce

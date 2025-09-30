@@ -253,9 +253,6 @@ l'équivalent des `package` en Java.
 
    **Raccourcissez** les noms de classe dans `ConnexionBaseDeDonnees.php` grâce à cet alias (à placer au début du fichier).
 
-   Le site est encore cassé, car l'application ne sait pas où chercher la classe pointée par le `use` (et la charger). 
-   Nous allons régler cela dans le prochain exercice.
-
    **Remarques :**
    * `use` est similaire à `import` en Java.
    * Si une classe utilise une autre classe et si ces deux classes se trouvent 
@@ -266,6 +263,11 @@ l'équivalent des `package` en Java.
      Lorsque votre curseur est sur la ligne du *warning*, une ampoule apparaît
      pour vous proposer des solutions rapides (ou faites `Alt+Entrée`).
      Choisissez la solution *Import Class*.
+
+4. Supprimez le `require_once` qui charge et exécute le fichier `ConfigurationBaseDeDonnees.php`.
+
+   Le site est de nouveau cassé : l'application ne sait pas où chercher la classe pointée par le `use` (et la charger). 
+   Nous allons régler cela dans le prochain exercice.
    
 </div>
 
