@@ -481,16 +481,16 @@ rentrant manuellement l'action `afficherFormulaireMiseAJour` dans l'URL.
 
 <div class="exercise">
 
-1. « Hacker » votre site en accédant à la page de mise à jour d'un utilisateur
+1. « Hackez » votre site en accédant à la page de mise à jour d'un utilisateur
    quelconque (qui n'est pas vous) en manipulant le query string.
 
-2. Modifier l'action `afficherFormulaireMiseAJour` du contrôleur *utilisateur* 
+2. Modifiez l'action `afficherFormulaireMiseAJour` du contrôleur *utilisateur* 
    de sorte que l'accès au formulaire soit restreint à l'utilisateur connecté.
    En cas de problème, utiliser `afficherErreur` pour afficher un message *La
    mise à jour n'est possible que pour l'utilisateur connecté*.
 
    *Note :* la succession des `if`, `else`, `if` pourrait être évité en
-   utilisant des `return;` dans chaque cas d'erreur. Ce style de codage est plus sûr
+   utilisant des `return;` dans chaque cas d'erreur. Ce style de codage est plus sûr,
    car on sait plus facilement dans quel cas on est. Par exemple :
 
    ```php
@@ -507,6 +507,9 @@ rentrant manuellement l'action `afficherFormulaireMiseAJour` dans l'URL.
    //Traitement normal
    ```
 
+3. Vérifiez qu'il n'est plus possible d'accèder à la page de mise à jour d'un
+   autre utilisateur.
+
 </div>
 
 **Attention :** Restreindre l'accès au formulaire de mise à jour n'est toujours pas 
@@ -515,7 +518,7 @@ l'action `mettreAJour`.
 
 <div class="exercise">
 
-1. « Hacker » votre site en effectuant une mise à jour d'un utilisateur
+1. « Hackez » votre site en effectuant une mise à jour d'un utilisateur
    quelconque sans changer de code PHP[^nbp].
    **Note :** Ce « hack » sera bien plus simple à réaliser si le formulaire de
    mise à jour est en méthode `GET`, et pareil pour sa page de
@@ -530,7 +533,9 @@ l'action `mettreAJour`.
    * Vérifiez que l'ancien mot de passe est correct ;
    * Vérifiez que l'utilisateur mis-à-jour correspond à l'utilisateur connecté. 
 
-3. Sécurisez de manière similaire l'accès à l'action `supprimer` d'un utilisateur. 
+3. Sécurisez de manière similaire l'accès à l'action `supprimer` d'un utilisateur.
+
+4. Vérifiez qu'il n'est plus possible de "hacker" le site comme dans la première question.
 
 </div>
 
@@ -721,6 +726,12 @@ Nous pouvons maintenant coder la logique d'autorisation d'accès.
         En cas d'accès refusé, affichez le message d'erreur *Login inconnu* si
         un admin est connecté ou *La suppression n'est possible que pour
         l'utilisateur connecté* sinon.
+
+4. Vérifiez que tout fonctionne comme attendu. Vérifiez notamment que l'administrateur
+   peut bien réaliser toutes les actions (et qu'il voit bien les liens de mise à jour
+   et de suppression sur la page listant les utilisateurs) et qu'un utilisateur qui
+   n'est pas administrateur ne puisse toujours pas "hacker" le site en effectuant
+   les actions de modification et de suppression sur un autre utilisateur que lui-même.
 
 </div>
 
