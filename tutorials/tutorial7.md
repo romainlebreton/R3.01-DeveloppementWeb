@@ -382,10 +382,8 @@ l'action par défaut plutôt que le contrôleur par défaut.
 <div class="exercise">
 
 1. Pour préparer la suite de l'exercice, nous allons mettre en place un
-   contrôleur générique. En effet, la
-   future action de préférence de contrôleur par défaut n'est spécifique à aucun
-   contrôleur en particulier. On va donc la rendre accessible à tous les
-   contrôleurs.
+   contrôleur générique afin de factoriser le code en commun (pour l'instant, 
+   l'affichage des vues).
 
    * Créez une classe `src/Controleur/ControleurGenerique.php`.
    * Les autres contrôleurs doivent hériter de `ControleurGenerique`.
@@ -399,15 +397,25 @@ l'action par défaut plutôt que le contrôleur par défaut.
 
 2. Dans votre menu qui se trouve dans l'en-tête commun de chaque page, ajouter
    une icône cliquable ![cœur]({{site.baseurl}}/assets/TD7/heart.png) qui pointe
-   vers la future action `afficherFormulairePreference` (sans contrôleur).
+   vers la future action `afficherFormulairePreference` du futur contrôleur `preference`.
 
    Note : Stockez vos images dans un dossier `ressources/img`.
 
-3. Créez une action `afficherFormulairePreference` dans le contrôleur *générique*, qui
-   doit afficher une vue `src/vue/formulairePreference.php`.
+   Pour avoir une icône cliquable, vous pouvez inclure l'image dans une balise `<a>...</a>` :
+
+   ```html
+   <a href="..."><img src="..." alt="..." width="18"/></a>
+   ```
+
+   Le paramètre `width` permet d'ajuster la taille de l'image.
+
+3. Créez une nouvelle classe ``src/Controleur/ControleurPreference.php`` qui hérite de `ControleurGenerique`.
+
+4. Créez une action `afficherFormulairePreference` dans ce nouveau contrôleur, qui
+   doit afficher la future vue `src/vue/preference/formulairePreference.php`.
    
-4. Créez cette vue et complétez-la avec un formulaire 
-   * renvoyant vers la future action `enregistrerPreference` (sans indiquer de contrôleur), 
+5. Créez cette vue et complétez-la avec un formulaire 
+   * renvoyant vers la future action `enregistrerPreference` du contrôleur `preference`, 
    * contenant des *boutons radio* permettant de choisir `trajet` ou
    `utilisateur` comme contrôleur par défaut
    ```html
@@ -417,16 +425,16 @@ l'action par défaut plutôt que le contrôleur par défaut.
    <label for="trajetId">Trajet</label>
    ```
 
-5. Afin de pouvoir gérer les préférences de contrôleur, créez une classe
-   `src/Lib/PreferenceControleur.php` avec le bon espace de nom et le contenu
+6. Afin de pouvoir gérer les préférences de contrôleur, créez une classe
+   `src/Lib/GestionPreferenceControleur.php` avec le bon espace de nom et le contenu
    suivant que vous complèterez
    ```php
-   class PreferenceControleur {
+   class GestionPreferenceControleur {
       private static string $clePreference = "preferenceControleur";
 
       public static function enregistrer(string $preference) : void
       {
-         Cookie::enregistrer(PreferenceControleur::$clePreference, $preference);
+         Cookie::enregistrer(GestionPreferenceControleur::$clePreference, $preference);
       }
 
       public static function lire() : string
@@ -447,21 +455,21 @@ l'action par défaut plutôt que le contrôleur par défaut.
    }
    ```
 
-6. Écrire l'action `enregistrerPreference` du contrôleur générique qui 
+7. Écrire l'action `enregistrerPreference` du contrôleur préférence qui 
    * récupère la valeur `controleur_defaut` du formulaire,
-   * l'enregistre dans un cookie en utilisant la classe `PreferenceControleur`,
-   * appelle une nouvelle vue `src/vue/preferenceEnregistree.php`
+   * l'enregistre dans un cookie en utilisant la classe `GestionPreferenceControleur`,
+   * appelle une nouvelle vue `src/vue/preference/preferenceEnregistree.php`
      qui affiche *La préférence de contrôleur est enregistrée !*.
 
-7. Vérifier que ce cookie a bien été déposé à l'aide des outils de développement.
+8. Vérifier que ce cookie a bien été déposé à l'aide des outils de développement.
 
-8. Dans le contrôleur frontal, le contrôleur par défaut est `utilisateur`. Faites en
+9. Dans le contrôleur frontal, le contrôleur par défaut est `utilisateur`. Faites en
    sorte d'utiliser la préférence de contrôleur par défaut si elle existe.
 
-9. Testez le bon fonctionnement de cette personnalisation de la page d'accueil en
+10. Testez le bon fonctionnement de cette personnalisation de la page d'accueil en
 choisissant autre chose que `utilisateur` dans le formulaire.
 
-10. On souhaite que le formulaire de préférence soit déjà coché si la préférence
+11. On souhaite que le formulaire de préférence soit déjà coché si la préférence
    existe déjà. Implémentez cette fonctionnalité. Vous utiliserez l'attribut
    `checked` pour cocher un `<input type="radio">`.
 

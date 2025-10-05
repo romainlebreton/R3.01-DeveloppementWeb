@@ -15,8 +15,8 @@ sessions]({{site.baseurl}}/tutorials/tutorial7.html) et prendra donc comme
 acquis l'utilisation des cookies et des sessions. Dans ce TD, nous allons :
 
 1. mettre en place l'authentification par mot de passe des utilisateurs du site ;
-3. mettre en place une validation par email de l'inscription des utilisateurs ;
-2. verrouiller l'accès à certaines pages ou actions à certains utilisateurs. Par
+2. mettre en place une validation par email de l'inscription des utilisateurs ;
+3. verrouiller l'accès à certaines pages ou actions à certains utilisateurs. Par
    exemple, un utilisateur ne peut modifier que ses données. Ou encore,
    l'administrateur a tous les droits sur les utilisateurs.
 
@@ -79,22 +79,25 @@ var_dump($mdpHache == hash('sha256', $mdpClair));
   c’est une structure de données qui permet de retrouver des mots de passe avec
   un bon compromis stockage/temps. Cette technique est surtout utile pour
   essayer d'attaquer de nombreux mots de passes à la fois, par exemple tous
-  ceux des utilisateurs d'un site Web. 
+  ceux des utilisateurs d'un site Web.
+* Si le mot de passe est trop commun (par exemple, un mot du dictionnaire), il
+  est très facile de le déchiffrer à l'aide un site dédié (prochain exercice).
 
 <div class="exercise">
 
    Créez à partir du code précédent le haché `Sha-256` d'un mot du dictionnaire
-   français. Utilisez un site comme [md5decrypt](http://md5decrypt.net/Sha256/)
+   français (placez par exemple le code dans un fichier PHP temporaire et accédez-y 
+   via le navigateur). 
+   Utilisez un site comme [dcode](https://www.dcode.fr/sha256-hash)
    pour retrouver le mot de passe originel à partir de son haché.
    <!-- http://reverse-hash-lookup.online-domain-tools.com/ -->
 
 </div>
 
 
-**Explication :** Ce site annonce qu'il stocke le haché de `15 183 605 161 ≃
-10^10` mots de passe communs. Si votre mot de passe est l'un de ceux-là, sa
-sécurité est compromise.  
-Heureusement il existe beaucoup plus de mot de passe possible ! Par exemple,
+**Explication :** Ce site annonce stocke le haché de mots de passe communs. 
+Si votre mot de passe est l'un de ceux-là, sa sécurité est compromise.  
+Heureusement, il existe beaucoup plus de mot de passe possible ! Par exemple,
 rien qu'en utilisant des mots de passe de longueur 10 écrits à partir des 64
 caractères `0,1,...,9,A,B,...,Z,a,...,z,+,/`, vous avez `(64)^10 = 2^60 ≃ 10^18`
 possibilités.
@@ -185,9 +188,9 @@ En pratique, nous stockerons un unique poivre par site, qui est choisi aléatoir
 $poivre = "M7UKGv9fkptxwbSmZvlr1U";
 // Le client envoie son mot de passe en clair au serveur
 $mdpClair = 'apple';
-// Le serveur transforme le mot de passe à l'aide d'un secret appelé poivre
+// Le serveur hache le mot de passe une première fois puis le transforme à l'aide d'un secret appelé poivre
 $mdpPoivre = hash_hmac("sha256", $mdpClair, $poivre);
-// Le mot de passe poivré peut alors être salé/haché avant d'être enregistré en BDD
+// Le mot de passe poivré peut alors être salé/haché avec l'algorithme BCRYPT avant d'être enregistré en BDD
 $mdpHache = password_hash($mdpPoivre, PASSWORD_DEFAULT);
 var_dump($mdpHache);
 ```
@@ -200,7 +203,8 @@ mot de passe).
 
 ### Mise en place de la BDD et des formulaires
 
-On vous donne la classe `MotDePasse` qui reprend les explications précédentes. 
+On vous donne la classe `MotDePasse` qui reprend les explications précédentes.
+Prenez le temps de bien comprendre les deux fonctions `hacher` et `verifier`.
 
 ```php
 namespace App\Covoiturage\Lib;
@@ -238,30 +242,33 @@ class MotDePasse
 // var_dump(MotDePasse::genererChaineAleatoire());
 ```
 
-
-
 <div class="exercise">
 
-1. Copiez cette classe dans le fichier `src/Lib/MotDePasse.php`. Exécutez la commande
-```php
-var_dump(MotDePasse::genererChaineAleatoire());
-```
-et copiez-le dans l'attribut statique `$poivre` une fois pour toutes.
+1. Copiez/collez dans un nouveau dossier `TD8` tous les fichiers du dossier `TD7`.
 
-   *Note* : Une façon simple d'exécuter la commande est de décommenter
-   temporairement cette ligne dans `MotDePasse.php` puis d'exécuter la commande
-   suivante dans le terminal (avec pour dossier courant `src/Lib`)
+2. Copiez le code de la classe présentée au-dessus dans le fichier `src/Lib/MotDePasse.php`.
+
+3. Ouvrez un terminal dans votre conteneur Docker : dans Docker Desktop, ouvrez
+   votre conteneur, puis cliquez sur l'onglet `Exec`. Dans le terminal qui
+   apparaît, tapez `bash` pour retrouver votre shell habituel. Via ce terminal,
+   rendez-vous dans le dossier `tds-php/TD8/src/Lib`. 
+
+3. Décommentez la dernière ligne du fichier `MotDePasse.php`, puis, dans le terminal (sous
+Docker), exécutez ce fichier : 
+
    ```bash
    php MotDePasse.php
    ``` 
+   
+   Puis copiez le résultat dans l'attribut statique `$poivre` une fois pour toutes.
 
-1. Nous allons modifier la structure de données *utilisateur* :
-   1. Modifiez la table utilisateur en lui ajoutant une colonne `VARCHAR(256) mdpHache` non `null` stockant son mot de passe.
-   1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Modele/DataObject`) :
+4. Nous allons modifier la structure de données *utilisateur* :
+   1. Modifiez la table utilisateur en lui ajoutant une colonne `VARCHAR mdpHache (taille 256)` non `null` stockant son mot de passe.
+   2. Mettez à jour la classe métier `Utilisateur` (dossier `src/Modele/DataObject`) :
       1. ajoutez un attribut `private string $mdpHache`,
-      1. mettez à jour le constructeur, 
-      2. rajoutez un getter et un setter.
-   2. Mettez à jour la classe de persistance `UtilisateurRepository` :
+      2. mettez à jour le constructeur, 
+      3. rajoutez un getter et un setter.
+   3. Mettez à jour la classe de persistance `UtilisateurRepository` :
       1. mettez à jour `getNomsColonnes`,
       2. mettez à jour `construireDepuisTableauSQL` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
       3. mettez à jour la méthode `formatTableauSQL` (qui fournit les données des
@@ -290,21 +297,20 @@ Nous allons modifier la création d'un utilisateur.
 
    Le deuxième champ mot de passe sert à valider le premier.
 
-1. Modifiez l'action `creerDepuisFormulaire` du *utilisateur* :
+2. Modifiez l'action `creerDepuisFormulaire` du *utilisateur* :
    1. rajoutez la condition que les deux champs mot de passe doivent coïncider
       avant de sauvegarder l'utilisateur. En cas d'échec, appelez à l'action d'erreur `afficherErreur` avec un message *Mots de passe distincts*.
 
    2. Modifiez la méthode `ControleurUtilisateur::construireDepuisFormulaire`
       qui construit un objet métier *utilisateur* à partir d'un tableau `$tableauDonneesFormulaire`
-      (voir fin du [TD6](https://romainlebreton.github.io/R3.01-DeveloppementWeb/tutorials/tutorial6.html)) pour qu'elle appelle le constructeur de `Utilisateur` en
-      hachant d'abord le mot de passe.
+      (voir fin du [TD6](https://romainlebreton.github.io/R3.01-DeveloppementWeb/tutorials/tutorial6.html)) pour qu'elle appelle le constructeur de `Utilisateur` en hachant d'abord le mot de passe.
 
-2. Rajoutons au menu de notre site un lien pour s'inscrire. Dans le menu de la
+3. Rajoutons au menu de notre site un lien pour s'inscrire. Dans le menu de la
    vue générique `vueGenerale.php`, rajoutez une icône cliquable ![icône
    inscription](../assets/TD8/add-user.png)[^nbpicon] qui pointe vers l'action
    `afficherFormulaireCreation` (contrôleur utilisateur).
 
-3. Testez l'inscription d'un utilisateur avec mot de passe.
+4. Testez l'inscription d'un utilisateur avec mot de passe (vérifiez la ligne correspondant au mot de passe dans la base de données).
 
 </div>
 
@@ -396,8 +402,7 @@ Procédons en plusieurs étapes :
    appelle la future action `connecter` du contrôleur *utilisateur*.
    2. Ajouter une action `afficherFormulaireConnexion` qui affiche ce formulaire.
 
-
-1. Créons enfin l'action `connecter()` du contrôleur *utilisateur* :
+4. Créons enfin l'action `connecter()` du contrôleur *utilisateur* :
    1. Commençons par les vérifications à faire avant de se connecter. La
       première vérification est qu'un login et un mot de passe sont transmis dans le
       *query string*. Sinon, appelez `afficherErreur` avec le message *Login et/ou mot de passe manquant*.
@@ -406,11 +411,12 @@ Procédons en plusieurs étapes :
       transmis est correct (utiliser une méthode de la classe `MotDePasse`).
       Sinon, appelez `afficherErreur` avec le message *Login et/ou mot de passe incorrect*.
    3. Enfin, vous pouvez connecter l'utilisateur (utiliser une méthode de la
-      classe `ConnexionUtilisateur`). 
-      <!-- ICI TODO Afficher la vue utilisateurConnecte ! -->
-      Affichez une nouvelle vue `utilisateur\utilisateurConnecte.php` qui écrit
-      un message *Utilisateur connecté* puis appelle la vue `detail.php` pour
-      afficher l'utilisateur connecté.
+      classe `ConnexionUtilisateur`). Affichez une nouvelle vue `utilisateur\utilisateurConnecte.php` 
+      qui écrit un message *Utilisateur connecté* puis appelle la vue `detail.php` pour
+      afficher les informations de l'utilisateur connecté.
+
+5. Tentez de vous connecter et vérifiez que le menu de navigation s'affiche correctement 
+   (sans les boutons de connexion et d'inscription).
 
 </div>
 
@@ -418,8 +424,8 @@ Codons maintenant la déconnexion.
 
 <div class="exercise">
 
-1. Quand un utilisateur est connecté, ajoutez au menu de la vue générique
-   `vueGenerale.php` deux cases : 
+1. Ajoutez au menu de navigation de la vue générique `vueGenerale.php` deux icônes,
+   **seulement visibles quand l'utilisateur est connecté** : 
    * la première contient une icône cliquable
      ![user]({{site.baseurl}}/assets/TD8/user.png) qui renvoie vers la vue de
      détail de l'utilisateur connecté.
@@ -451,15 +457,17 @@ l'utilisateur actuellement authentifié. Commençons par limiter les liens.
 
 <div class="exercise">
 
-1. Assurez-vous que la vue `utilisateur/liste.php` n'affiche que les liens vers
-   la vue de détail, pas les liens de modification ou de suppression.
+1. Faites en sorte que la vue `utilisateur/liste.php` n'affiche que les liens vers
+   la vue de détail des utilisateurs, mais pas les liens de modification ou de suppression
+   (vous pouvez néanmoins garder le code correspondant quelque part, car nous nous en 
+   resservirons plus tard.).
 
-1. Modifier la vue de détail pour qu'elle affiche les liens vers la mise à
-jour ou la suppression seulement si le login de l'utilisateur concorde avec celui
-stocké en session.
+2. Modifier la vue de **détail** pour qu'elle affiche les liens vers la mise à
+jour ou la suppression de l'utilisateur seulement si le login de l'utilisateur 
+concorde avec celui stocké en session.
 
    Pour vous aider dans cette tâche, rajoutez la méthode suivante à
-   `ConnexionUtilisateur`
+   `ConnexionUtilisateur` :
    ```php
    public static function estUtilisateur($login): bool
    ```
@@ -467,14 +475,14 @@ stocké en session.
 
 </div>
 
-**Attention :** Supprimer le lien n'est pas suffisant car un petit malin
+**Attention :** Supprimer le lien n'est pas suffisant, car un petit malin
 pourrait accéder au formulaire de mise à jour d'un utilisateur quelconque en
 rentrant manuellement l'action `afficherFormulaireMiseAJour` dans l'URL.
 
 <div class="exercise">
 
 1. « Hacker » votre site en accédant à la page de mise à jour d'un utilisateur
-   quelconque.
+   quelconque (qui n'est pas vous) en manipulant le query string.
 
 2. Modifier l'action `afficherFormulaireMiseAJour` du contrôleur *utilisateur* 
    de sorte que l'accès au formulaire soit restreint à l'utilisateur connecté.
@@ -482,22 +490,36 @@ rentrant manuellement l'action `afficherFormulaireMiseAJour` dans l'URL.
    mise à jour n'est possible que pour l'utilisateur connecté*.
 
    *Note :* la succession des `if`, `else`, `if` pourrait être évité en
-   utilisant des `return;` dans chaque cas d'erreur. Ce style de codage est plus sûr car on sait plus facilement dans quel cas on est.
+   utilisant des `return;` dans chaque cas d'erreur. Ce style de codage est plus sûr
+   car on sait plus facilement dans quel cas on est. Par exemple :
+
+   ```php
+   if(!isset($_GET["attribut"])) {
+      //Cas d'erreur 1
+      self::afficherErreur("...");
+      return;
+   }
+   if(!Service::verification()) {
+      //Cas d'erreur 2
+      self::afficherErreur("...");
+      return;
+   }
+   //Traitement normal
+   ```
 
 </div>
 
-**Attention :** Restreindre l'accès au formulaire de mise à jour n'est pas suffisant
-car un petit malin pourrait exécuter une mise à jour en demandant manuellement
+**Attention :** Restreindre l'accès au formulaire de mise à jour n'est toujours pas 
+suffisant car un petit malin pourrait exécuter une mise à jour en demandant manuellement
 l'action `mettreAJour`.
 
 <div class="exercise">
 
 1. « Hacker » votre site en effectuant une mise à jour d'un utilisateur
-   quelconque sans changer de code PHP[^nbp].  
+   quelconque sans changer de code PHP[^nbp].
    **Note :** Ce « hack » sera bien plus simple à réaliser si le formulaire de
    mise à jour est en méthode `GET`, et pareil pour sa page de
-   traitement. Passez temporairement votre formulaire en cette méthode si
-   nécessaire.
+   traitement.
 
 2. Mettez à jour l'action `mettreAJour` du contrôleur *utilisateur* pour qu'il
    effectue toutes les vérifications suivantes, avec `afficherErreur` en cas
@@ -512,16 +534,17 @@ l'action `mettreAJour`.
 
 </div>
 
-[^nbp]: Mais vous pouvez changer le code HTML avec les outils de développement
-    car cette manipulation se fait du côté client.
+[^nbp]: Mais vous pouvez changer le code HTML avec les outils de développement 
+(clic droit puis inspecter un élément, ou bien `F12`) car cette manipulation 
+se fait du côté client.
 
 
-**Note générale importante :** Les seules pages qu'il est vital de sécuriser
+**Note générale importante :** les seules pages qu'il est vital de sécuriser
 sont celles dont le script effectue vraiment l'action de mise à jour ou de
 suppression, *c.-à-d.* les actions `mettreAJour` et `supprimer`. Les autres sécurisations
 sont surtout pour améliorer l'ergonomie du site.  
 De manière générale, il ne faut **jamais faire confiance au client** ; seule une
-vérification côté serveur est sûre.
+vérification **côté serveur** est sûre.
 
 ### Rôle administrateur
 
@@ -563,7 +586,6 @@ Commençons par rajouter un attribut `estAdmin` à notre classe métier
 
 #### Rôle administrateur lors de la création d'un utilisateur
 
-
 Modifions le processus de création d'un utilisateur pour intégrer cette nouvelle
 donnée.
 
@@ -581,11 +603,10 @@ donnée.
    **Rappel** : Les formulaires transmettent le booléen associé à une
    `checkbox` de manière spécifique (*cf.* `nonFumeur` des trajets). Si la
    case est cochée, alors `estAdmin=on` sera transmis. Si la case n'est pas
-   cochée, aucune donnée n'est transmise.
+   cochée, aucune donnée n'est transmise (on vérifie donc avec la fonction `isset`).
 
-3. Vérifiez dans PHPMyAdmin que vous arrivez à créer des utilisateurs
-   administrateurs ou non.
-
+3. Testez de créer des utilisateurs administrateurs puis vérifiez dans PHPMyAdmin que la colonne
+`estAdmin` vaut bien 1 (true) pour ces utilisateurs.
 </div>
 
 #### Rôle administrateur lors de la mise à jour d'un utilisateur
@@ -608,6 +629,9 @@ Passons au processus de mise-à-jour.
 2. Vérifiez que la mise à jour fonctionne.
 
 </div>
+
+Bien sûr, nous allons bientôt renforcer la sécurité du site afin que seul un administrateur puisse 
+donner le rôle d'administrateur à un autre utilisateur.
 
 #### Sécurisation du rôle administrateur
 
@@ -642,7 +666,7 @@ Nous pouvons maintenant coder la logique d'autorisation d'accès.
 
       *Note* : Vous pouvez mettre un `if` dans la vue.
 
-   1. Plus important, l'action `creerDepuisFormulaire` ne doit créer des administrateurs que si
+   2. Plus important, l'action `creerDepuisFormulaire` ne doit créer des administrateurs que si
       l'utilisateur connecté est administrateur.
 
       *Aide* : si l'utilisateur connecté n'est pas administrateur, forcez
@@ -650,7 +674,7 @@ Nous pouvons maintenant coder la logique d'autorisation d'accès.
       valeur reçue par le formulaire.
 
 
-1. Processus de mise-à-jour : 
+2. Processus de mise-à-jour : 
    1. Vue `liste.php` : Les liens de mise-à-jour d'un utilisateur doivent
       apparaître quand un administrateur est connecté (utilisez
       `ConnexionUtilisateur::estAdministrateur()`).
@@ -687,10 +711,16 @@ Nous pouvons maintenant coder la logique d'autorisation d'accès.
         l'utilisateur connecté est administrateur (faites attention à la manière
         de lire la case à cocher du formulaire).
 
-   <!-- 
-   Attention un admin doit pouvoir modifier un utilisateur sans donner son ancien mot de passe
-   Ou plutôt réinitialiser un mot de passe 
-   -->
+3. Processus de suppression :
+   1. Vue `liste.php` : Les liens de suppression d'un utilisateur doivent
+      apparaître quand un administrateur est connecté.
+   2. Action `supprimer` : 
+      * L'accès à l'action `supprimer` d'un utilisateur est autorisé soit
+        si c'est l'utilisateur connecté, soit si l'utilisateur connecté est
+        administrateur et qu'il existe bien un utilisateur avec ce login.  
+        En cas d'accès refusé, affichez le message d'erreur *Login inconnu* si
+        un admin est connecté ou *La suppression n'est possible que pour
+        l'utilisateur connecté* sinon.
 
 </div>
 
@@ -701,13 +731,20 @@ souhaitez. Le défi est de limiter la duplication du code entre les 2 interfaces
 Dans un site professionnel, l'administrateur ne pourrait pas modifier
 directement le mot de passe d'un utilisateur. En effet, l'administrateur ne doit
 pas connaître les mots de passe. Le site fournirait plutôt un bouton
-"*Réinitialiser le mot de passe*" à l'administrateur. Ce bouton génèrerait un mot
+"*Réinitialiser le mot de passe*" à l'administrateur. Ce bouton générerait un mot
 de passe aléatoire qui serait envoyé par mail à l'utilisateur.
+
+Aussi, dans une application plus avancée, on pourrait modifier certaines
+informations de l'utilisateur sans avoir besoin d'envoyer toutes les informations.
+Par exemple, le fait de passer un utilisateur administrateur se ferait plutôt
+par une action dédiée, sans toucher au reste du profil. Ou aussi, l'utilisateur
+ne devrait pas à avoir à modifier son mot de passe chaque fois qu'il souhaite
+éditer son profil.
 
 ## Enregistrement avec une adresse email valide
 
 Dans beaucoup de sites Web, il est important de savoir si un utilisateur est
-bien réel. Pour ce faire on peut utiliser une vérification de son numéro de
+bien réel. Pour ce faire, on peut utiliser une vérification de son numéro de
 portable, de sa carte bancaire, ou de la validation d'un captcha. Nous allons
 ici nous baser sur la vérification de l'adresse email.
 
@@ -737,9 +774,9 @@ en plus.
 <div class="exercise">
 
 1. Ajouter trois champs à la table `utilisateur` : 
-   * `email` de type `VARCHAR(256)` non `NULL`,
-   * `emailAValider` de type `VARCHAR(256)` non `NULL`,
-   * `nonce` de type `VARCHAR(32)` non `NULL`,
+   * `email` de type `VARCHAR` (taille **256**) non `NULL`,
+   * `emailAValider` de type `VARCHAR` (taille **256**) non `NULL`,
+   * `nonce` de type `VARCHAR` (taille **32**) non `NULL`,
 
 1. Mettez à jour la classe métier `Utilisateur` (dossier `src/Modele/DataObject`) :
    1. ajoutez les attributs,
@@ -748,8 +785,7 @@ en plus.
 2. Mettez à jour la classe de persistance `UtilisateurRepository` :
    1. mettez à jour `construireDepuisTableauSQL` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
    2. mettez à jour `getNomsColonnes`,
-   1. mettez à jour la méthode `formatTableauSQL` (qui fournit les données des
-      requêtes SQL préparées).
+   1. mettez à jour la méthode `formatTableauSQL` (qui fournit les données des requêtes SQL préparées).
 
 </div>
 
@@ -759,7 +795,17 @@ mail sur la page Web.
 
 <div class="exercise">
 
-1. Créez la classe avec le code suivant, que nous complèterons plus tard
+1. Dans la classe `src/Configuration/ConfigurationSite.php` ajoutez une 
+   fonction publique et statique `getURLAbsolue` qui renvoie la base de 
+   l'URL de votre site, par exemple :
+   ```php
+   public static function getURLAbsolue() : string {
+      return "http://localhost/tds-php/TD8/web/controleurFrontal.php";
+   }
+   ```
+
+2. Créez la classe `src/Lib/VerificationEmail.php` avec le code suivant, que 
+   nous compléterons plus tard :
 
    ```php
    namespace App\Covoiturage\Lib;
@@ -805,13 +851,7 @@ mail sur la page Web.
    }
    ```
 
-   **Rajoutez** une méthode `ConfigurationSite::getURLAbsolue` qui renvoie la base de l'URL
-   de votre site, par exemple 
-   ```text
-   http://localhost/tds-php/TD8/web/controleurFrontal.php
-   ```
-
-1. Dans votre formulaire de création d'un utilisateur, rajoutez un champ pour
+2. Dans votre formulaire de création d'un utilisateur, rajoutez un champ pour
    l'adresse email
    ```php
    <p class="InputAddOn">
@@ -820,7 +860,7 @@ mail sur la page Web.
    </p>
    ```
 
-1. Pour faire fonctionner l'action `creerDepuisFormulaire` :
+3. Pour faire fonctionner l'action `creerDepuisFormulaire` :
    * il faut que l'utilisateur créé avec `construireDepuisFormulaire` soit
    correct :   
    Mettez à jour la méthode `construireDepuisFormulaire` pour
@@ -830,27 +870,26 @@ mail sur la page Web.
    * il faut envoyer l'email de validation en cas de succès de la sauvegarde :
      appelez la fonction `VerificationEmail::envoiEmailValidation`.
 
-2. Faisons en sorte que le lien envoyé par mail valide bien l'adresse mail. 
-   * Ajoutez une action `validerEmail` au contrôleur `Utilisateur` qui récupère
-   en `GET` deux valeurs `login` et `nonce` (si elle existe sinon on appelle
-   `afficherErreur`) et appelle `VerificationEmail::traiterEmailValidation()`
-   avec ces valeurs.  
-   En cas de succès, on affiche la page de détail de cet
-   utilisateur. En cas d'échec, on appelle `afficherErreur`.
-   * Codez `traiterEmailValidation()` :    
+4. Faisons en sorte que le lien envoyé par mail valide bien l'adresse mail :
+   * Codez la méthode `traiterEmailValidation()` de `VerificationEmail` :    
    Si le login correspond à un utilisateur présent dans la base et que le
    `nonce` passé en paramètres correspond au `nonce` de la BDD, alors coupez/collez
    l'email à valider dans l'email et passez à `""` le champ `nonce` de la BDD.
+   * Ajoutez une action `validerEmail` au contrôleur `Utilisateur` qui récupère
+   en `GET` deux valeurs `login` et `nonce` (si elle existe sinon on appelle
+   `afficherErreur`) et appelle `VerificationEmail::traiterEmailValidation()`
+   avec ces valeurs. En cas de succès, on affiche la page de détail de cet
+   utilisateur. En cas d'échec, on appelle `afficherErreur`.
 
-3. Testez que la validation de l'email marche bien après la création d'un
-   utilisateur en cliquant sur le lien de validation. Vérifiez dans
-   la BDD que les données évoluent bien à chaque étape. 
+5. Testez que la validation de l'email marche bien après la création d'un
+   utilisateur en cliquant sur le lien de validation (qui, pour le moment, 
+   apparaît sur la page web après la création de l'utilisateur). Vérifiez 
+   dans la BDD que les données évoluent bien à chaque étape.
 
 </div>
 
 Nous allons maintenant pouvoir nous servir de la validation de l'email ailleurs
 dans le site.
-
 
 <div class="exercise">
 
@@ -860,22 +899,23 @@ la connexion uniquement si l'utilisateur a validé un email.
    * Codez cette méthode pour qu'elle regarde si l'utilisateur a un email
      différent de `""`.
 
-1. Dans l'action `creerDepuisFormulaire` du contrôleur *utilisateur*, vérifiez que l'adresse
+2. Dans l'action `creerDepuisFormulaire` du contrôleur *utilisateur*, vérifiez que l'adresse
    email envoyée par l'utilisateur en est bien une. Pour cela, vous pouvez par
    exemple utiliser la fonction
-   [`filter_var()`](http://php.net/manual/en/function.filter-var.php) avec le
+   [`filter_var`](http://php.net/manual/en/function.filter-var.php) avec le
    filtre
    [`FILTER_VALIDATE_EMAIL`](http://www.php.net/manual/en/filter.filters.validate.php).
+   Cette fonction renverra `false` si la donnée passée en paramètre ne valide pas le filtre spécifié.
 
 
-1. Mise à jour d'un utilisateur : 
+3. Mise à jour d'un utilisateur : 
    * rajoutez un champ *Email* prérempli,
    * dans l'action `mettreAJour`, si l'email a changé, vérifiez le format de l'email puis écrivez-le dans
      le champ `emailAValider`. Créez aussi un nonce aléatoire et envoyez le mail de validation.
 
 </div>
 
-<!--
+{% comment %}
 Si l'utilisateur fait une faute de frappe dans l'email, le nonce sera envoyé à
 la mauvaise adresse et donc il ne faut pas qu'un autre utilisateur puisse
 valider le mail avec le nonce. En pratique, nous demanderons donc à
@@ -884,17 +924,21 @@ nonce.
 
 Donc il faut un champ email_validated dans la session qui fait que quand on est
 connecté sans avoir validé, alors on ne peut que valider son email.
--->
+{% endcomment %}
 
 ### Configuration pour l'envoi de mail
 
-L'envoi d'email par PHP nécessite une configuration. Voici trois options possibles.
+L'envoi d'email par PHP nécessite une configuration. Voici diverses options possibles.
 
 #### Sur `webinfo`
 
 Si vous déployez votre site sur le serveur web de l'IUT `webinfo` (*cf.* [Cours
 1]({{site.baseurl}}/classes/class1.html#serveur-web-webinfo-de-liut)), la
 fonction `mail()` est déjà configurée.
+
+Cela vous servira notamment dans le cadre du site web développé dans la **SAE**
+(pour le parcours `RACDV`) ou pour le projet (pour le parcours `DACS` et `IAMSI`),
+où le site devra être déployé sur `webinfo`, à terme.
 
 Pour éviter que le serveur mail de l'IUT ne soit blacklisté des serveurs de
 mail, vous n'avez l'autorisation d'envoyer des emails uniquement vers le domaine
@@ -906,20 +950,26 @@ nom du mail jetable "bob" en haut à gauche.
 
 #### Sous Docker
 
+Dans le cadre du TD, nous allons mettre en place un client et un serveur **SMTP** en local, 
+dans le conteneur docker qui fait tourner notre serveur web.
+
 Nous allons utiliser 2 outils : 
 * [MSMTP](https://marlam.de/msmtp/) : un client de mail (SMTP) qui permet de demander à un serveur SMTP
   d'envoyer des mails en ligne de commande. PHP appellera cette ligne de commande.
 * [Mailpit](https://mailpit.axllent.org/) : un serveur de mail (SMTP) simpliste et une interface Web pour
   voir les mails envoyés. Le serveur de mail n'enverra pas vraiment de mail au
-  destinataire mais permettra de les afficher via son interface web.
+  destinataire, mais permettra de les afficher via son interface web.
 
 <div class="exercise">
 
 1. Ouvrez un terminal dans votre conteneur Docker : dans Docker Desktop, ouvrez
    votre conteneur, puis cliquez sur l'onglet `Exec`. Dans le terminal qui
-   apparait, tapez `bash` pour retrouver votre shell habituel. Enfin, exécutez les commandes suivantes : 
+   apparaît, tapez `bash` pour retrouver votre shell habituel. Enfin, exécutez les commandes suivantes : 
    
    ```bash
+   # Mise à jour des paquets
+   apt-get update
+
    # Installer msmtp en désactivant AppArmor
    echo "msmtp	msmtp/apparmor	boolean	false" | debconf-set-selections
    DEBIAN_FRONTEND=noninteractive apt install -y msmtp
@@ -939,16 +989,16 @@ Nous allons utiliser 2 outils :
    `host.docker.internal` est le nom d'hôte de votre machine depuis un conteneur
    Docker.  
 
-3. Redémarrer votre conteneur serveur Web pour qu'Apache recharge le fichier de configuration de PHP.
+2. Redémarrer votre conteneur serveur Web pour qu'Apache recharge le fichier de configuration de PHP.
 
-4. Dans votre machine hôte (pas sous Docker), ouvrez un terminal et exécutez la
+3. Dans votre machine hôte (pas sous Docker), ouvrez un terminal et exécutez la
    commande suivante pour créer un nouveau conteneur Docker qui contiendra Mailpit.
 
    ```bash
    docker run -d --name=mailpit -p 8025:8025 -p 1025:1025 axllent/mailpit
    ``` 
 
-5. Ouvrez votre navigateur à l'URL
+4. Ouvrez votre navigateur à l'URL
    [http://localhost:8025/](http://localhost:8025/) pour ouvrir l'interface Web
    de Mailpit.
 </div>
@@ -963,7 +1013,7 @@ Symfony](https://symfony.com/doc/current/mailer.html), ou
 [`PHPMailer`](https://github.com/PHPMailer/PHPMailer).
 
 La façon la plus simple de les installer est d'utiliser le gestionnaire de
-bibliothèques PHP `composer`, que nous verrons au semestre 4 pour les Parcours A.
+bibliothèques PHP `composer`, que nous verrons au semestre 4 pour les Parcours `RACDV`.
 
 À noter que PHPMailer propose aussi une façon de s'installer sans `composer`.
 
@@ -975,18 +1025,20 @@ bibliothèques PHP `composer`, que nous verrons au semestre 4 pour les Parcours 
 
 À l'heure actuelle, le mot de passe transite en clair dans l'URL. Vous
 conviendrez facilement que ce n'est pas top. Nous allons donc passer nos
-formulaires en méthode POST si le site est en production, ou en méthode GET si
+formulaires en méthode `POST` si le site est en production, ou en méthode `GET` si
 le site est en développement.
 
 Il faudrait donc maintenant récupérer les variables à l'aide de `$_POST` ou
 `$_GET`. Cependant, nos liens internes, tels que 'Détails' ou 'Mettre à jour'
-fonctionnent en passant les variables dans l'URL comme un formulaire GET. Nous
+fonctionnent en passant les variables dans l'URL comme un formulaire `GET`. Nous
 avons donc besoin d'être capable de récupérer les variables automatiquement dans
 `$_POST` ou le cas échéant dans `$_GET`.
 
 <div class="exercise">
 
-1. Rajoutez une méthode `ConfigurationSite::getDebug()` qui renverra `true` ou `false`.
+1. Dans la classe `src/Configuration/ConfigurationSite.php` ajoutez une fonction publique et statique 
+   `getDebug` qui renvoie un booléen (**bool**) `true` ou `false` (selon si le site est en mode **debug** ou non).
+   Pour l'instant, renvoyez `true` (debug activé), par exemple.
 
 2. La variable globale `$_REQUEST` est similaire à `$_GET` et `$_POST`, à ceci
    près qu'elle est la fusion de ces tableaux. En cas de conflit, les valeurs de
@@ -997,9 +1049,13 @@ avons donc besoin d'être capable de récupérer les variables automatiquement d
    **Aide :** Utiliser la fonction de remplacement globale avec `Ctrl+Shift+R`
    (sur tous les fichiers du dossier `TD8`) pour vous aider.
 
-3. Passez les formulaires `formulaireCreation.php`, `formulaireMiseAJour.php`, `formulaireConnexion.php`
-   et `formulairePreference.php` en méthode POST si `ConfigurationSite::getDebug()` est
-   `false` ou en méthode GET sinon.
+3. Modifiez les vues contenant des formulaires liés à la gestion des utilisateurs (`formulaireCreation.php`, `formulaireMiseAJour.php`, 
+   `formulaireConnexion.php`) et `preference/formulairePreference.php` pour faire en sorte que la méthode `post` soit utilisée si `ConfigurationSite::getDebug()` renvoie `false` ou en méthode `get` sinon. De la même manière, mettez aussi à jour 
+   les formulaires liés à la gestion des trajets.
+
+4. Vérifiez que tout fonctionne toujours en utilisant un des formulaires du site pendant en changeant la valeur retournée par          
+   `ConfigurationSite::getDebug()`. Vérifiez notamment que quand `ConfigurationSite::getDebug()` renvoie `false`, la méthode `POST` 
+   est bien utilisée (pas de données du formulaire dans le query string...).
 
 </div>
 
@@ -1054,6 +1110,7 @@ Source :
 * [Recommandations du NIST](https://cdn2.hubspot.net/hubfs/3791228/NIST_Best_Practices_Guide_SpyCloudADG.pdf)
 * [Recommandations OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
 
+{% comment %}
 <!-- https://cdn2.hubspot.net/hubfs/3791228/NIST_Best_Practices_Guide_SpyCloudADG.pdf
 
 
@@ -1087,9 +1144,6 @@ hash-then-encrypt
 
 TODO : Parler de  vol de mdp ou phpsessid ? -->
 
-
-
-
 <!-- Preventing session hijacking -->
 
 <!-- When SSL is not a possibility, you can further authenticate users by storing -->
@@ -1108,3 +1162,4 @@ TODO : Parler de  vol de mdp ou phpsessid ? -->
 <!-- that you simply delete the current session and ask the user to log in again due -->
 <!-- to a technical error. Don’t say any more than that, or you’re giving away -->
 <!-- potentially useful information. -->
+{% endcomment %}

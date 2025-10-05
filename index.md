@@ -37,7 +37,6 @@ Semaine 8 - lundi 20 octobre
 * [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html) (durée indicative ≃ 4h)
 * [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html) (durée indicative ≃ 5h)
 
-{% comment %}
 ### Lancement des projets
 
 La première séance de la semaine du 6 octobre sera dédiée aux projets PHP (si vous avez fini le TD6) :
@@ -49,7 +48,9 @@ La dernière séance de PHP (fin de la semaine du 20 octobre) sera dédiée au s
 
 ### Authentification (2 semaines)
 
-* [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) (durée indicative ≃ 2h) 
+* [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) (durée indicative ≃ 2h)
+
+{% comment %}
 * [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html) (durée indicative ≃ 4h) 
 * [TD 9 -- Messages Flash](tutorials/tutorial9.html) (durée indicative ≃ 2h) 
 * Suivi des projets / SAE si vous avez fini les TDs
@@ -62,10 +63,7 @@ La dernière séance de PHP (fin de la semaine du 20 octobre) sera dédiée au s
 * TD3 -- [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
 * TD4 -- [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html)
 * TD5 -- [`.htaccess`, namespace et autoloader]({{site.baseurl}}/assets/tut5-complement.html)
-
-{% comment %}
 * TD7 -- [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html)
-{% endcomment %}
 
 {% comment %}
 1. [Syntaxe simple & avancée de PHP 8.1]({{site.baseurl}}/assets/complement1-PHPSyntax.html)
