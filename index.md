@@ -41,8 +41,8 @@ Semaine 8 - lundi 20 octobre
 
 La première séance de la semaine du 6 octobre sera dédiée aux projets PHP (si vous avez fini le TD6) :
 
-* [Parcours A -- SAÉ](https://moodle.umontpellier.fr/course/view.php?id=31828)
-* [Parcours B & D -- Instructions du projet -- Date de rendu : samedi 22/11 à 23h59](projet.html)
+* **Parcours RACDV -- SAÉ**.
+* [Parcours DACS & IAMSI -- Instructions du projet -- Date de rendu : samedi 22/11 à 23h59](projet.html)
 
 La dernière séance de PHP (fin de la semaine du 20 octobre) sera dédiée au suivi des projets.
 
@@ -71,5 +71,5 @@ La dernière séance de PHP (fin de la semaine du 20 octobre) sera dédiée au s
 
 ## Instructions du projet
 
-* **Parcours A -- SAÉ**.
-* [Parcours B & D -- Instructions du projet](projet.html)
+* **Parcours RACDV -- SAÉ**.
+* [Parcours DACS & IAMSI -- Instructions du projet](projet.html)
