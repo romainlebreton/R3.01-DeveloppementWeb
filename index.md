@@ -50,11 +50,8 @@ La dernière séance de PHP (fin de la semaine du 20 octobre) sera dédiée au s
 
 * [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) (durée indicative ≃ 2h)
 * [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html) (durée indicative ≃ 4h)
-
-{% comment %}
 * [TD 9 -- Messages Flash](tutorials/tutorial9.html) (durée indicative ≃ 2h) 
 * Suivi des projets / SAE si vous avez fini les TDs
-{% endcomment %}
 
 ## Notes complémentaires aux TDs
 
