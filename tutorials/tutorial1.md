@@ -14,7 +14,7 @@ http://php.net/manual/en/language.oop5.php
 Need to URL decode $_GET ??
 -->
 
-Bienvenus dans le premier TD de PHP, qui vous fera découvrir un serveur Web sous
+Bienvenue dans le premier TD de PHP, qui vous fera découvrir un serveur Web sous
 Docker, initialiser le dépôt Git de vos TDs, utiliser PhpStorm, apprendre les
 bases du langage PHP et exécuter vos premiers scripts PHP.
 
@@ -38,7 +38,7 @@ plus de 30 minutes.
 ### Configuration de Git
 
 Ce cours de PHP est aussi l'occasion de continuer à manipuler le gestionnaire de version
-Git, qui conversera la chronologie de toutes vos modifications. Commençons par
+Git, qui conservera la chronologie de toutes vos modifications. Commençons par
 nous assurer que Git est bien configuré sur vos machines.
 
 <div class="exercise">
@@ -71,6 +71,7 @@ nous assurer que Git est bien configuré sur vos machines.
 	   git config --global http.sslverify false
       ```
     **Remarque :** nous vous recommandons de vous connecter à vos dépôts Git par SSH.
+    Désactiver la vérification des certificats comme ci-dessus est une mauvaise pratique de sécurité.
 
 </div>
 
@@ -127,7 +128,7 @@ TD1]({{site.baseurl}}/assets/tut1-complement.html#installer-phpstorm-sur-sa-mach
 **Documentations de PhpStorm**
 
 * [Documentation officielle en anglais](https://www.jetbrains.com/help/phpstorm/quick-start-guide-phpstorm.html)
-* [Documentation à l'IUT de Intellij Idea](https://gitlabinfo.iutmontp.univ-montp2.fr/dev-objets/TP2) (proche de PhpStorm)
+* [Documentation à l'IUT de IntelliJ IDEA](https://gitlabinfo.iutmontp.univ-montp2.fr/dev-objets/TP2) (proche de PhpStorm)
 
 **Autre IDE**
 
@@ -150,7 +151,7 @@ en pratique tout cela !
    <!DOCTYPE html>
    <html>
        <head>
-           <title> Insérer le titrer ici </title>
+           <title> Insérer le titre ici </title>
            <meta charset="utf-8" />
        </head>
    
@@ -172,7 +173,7 @@ en pratique tout cela !
    
    **Réponses (surlignez le texte caché à droite):** 
    <span style="color:#FCFCFC">
-   Le gestionnaire de fichier ouvre page1.html dans le navigateur en tant que fichier local. Autrement dit, le navigateur va lire le fichier page1.html directement sur le disque dur. C'est la signification de file au début de l'URL. Du coup, le navigateur n'envoie pas de requête HTTP, et n'attends pas de réponse en retour. 
+   Le gestionnaire de fichier ouvre page1.html dans le navigateur en tant que fichier local. Autrement dit, le navigateur va lire le fichier page1.html directement sur le disque dur. C'est la signification de file au début de l'URL. Du coup, le navigateur n'envoie pas de requête HTTP, et n'attend pas de réponse en retour. 
    <!-- La page s'affiche correctement. -->
    </span>
 
@@ -748,7 +749,7 @@ n'émettent qu'un warning si le fichier n'est pas trouvé (au lieu d'une erreur)
 
    * Initialisez une variable `$utilisateur1` de la classe `Utilisateur` ;
 
-   <!-- $utilisateur1 = new Utilisateur('Renault','Bleu','256AB34');  -->
+   <!-- $utilisateur1 = new Utilisateur('rlebreton','Lebreton','Romain');  -->
 
    * Affichez cet utilisateur avec un `echo`, ce qui appellera implicitement la méthode `__toString()`.
 
@@ -799,10 +800,10 @@ function ServeurWeb(Requete $requete) : Reponse {
 
    **Note :** Pour pouvoir utiliser les déclarations de type, il faut indiquer à PhpStorm que vous voulez utiliser la version 8.4 du langage PHP. Pour ceci, cliquez en bas à droite de l'IDE sur `PHP: *.*` pour basculer vers `PHP: 8.4`.
 
-2. Testez que PHP vérifie bien les types : dans `testUtilisateur.php`, instanciez un objet `Utilisateur` en donnant un tableau (le tableau vide `[]` par exemple) à un argument qui attend un `string` (par exemple, le nom). Vous devez recevoir un message comme suit :
+2. Testez que PHP vérifie bien les types : dans `testUtilisateur.php`, instanciez un objet `Utilisateur` en donnant un tableau (le tableau vide `[]` par exemple) à un argument qui attend un `string` (par exemple, le login). Vous devez recevoir un message comme suit :
 
    ```
-   PHP Fatal error:  Uncaught TypeError: Utilisateur::__construct(): Argument #1 ($nom) must be of type string, array given
+   PHP Fatal error:  Uncaught TypeError: Utilisateur::__construct(): Argument #1 ($login) must be of type string, array given
    ```
 
    <!-- 3. Testez en donnant une valeur entière à la place d'un `string`. Malheureusement, la vérification de PHP n'échoue pas. En effet, par défaut, PHP convertit automatiquement les types scalaires (`bool`, `int`, `float` et `string`) entre eux.
@@ -880,7 +881,7 @@ function ServeurWeb(Requete $requete) : Reponse {
 5. Créez un fichier `creerUtilisateur.php` :
 
    1. Aidez-vous si nécessaire du [cours 1]({{site.baseurl}}/classes/class1.html)
-   pour savoir comment récupérer l'information envoyée par le formulaire.
+   pour savoir comment récupérer les informations envoyées par le formulaire.
    1. Vérifiez que `creerUtilisateur.php` reçoit bien des informations dans le *query
    string*. Pour cela, vérifiez que le tableau `$_GET` n'est pas vide (comment afficher un tableau facilement ?).
    1. En reprenant du code de `testUtilisateur.php`, faites que `creerUtilisateur.php`
