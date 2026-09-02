@@ -23,13 +23,15 @@ lang: fr
 * site Web : 
   [http://romainlebreton.github.io/R3.01-DeveloppementWeb](http://romainlebreton.github.io/R3.01-DeveloppementWeb)
 
+<!-- 
 **Évaluation :**
 
 * Deux interros écrites : 20% (10% chacune)
 * Examen écrit final : 50%
 * Projet PHP : 30%
   * Parcours A (RACDV) : Le projet PHP sera celui de votre SAÉ (découpé en deux rendus, un intermédiaire et un final)
-  * Parcours B (DACS) & D (IAMSI) : Projet PHP spécifique au cours
+  * Parcours B (DACS) & D (IAMSI) : Projet PHP spécifique au cours 
+-->
 </section>
 
 <section>
