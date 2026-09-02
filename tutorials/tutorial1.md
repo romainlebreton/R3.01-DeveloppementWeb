@@ -775,6 +775,7 @@ class Requete {
   string $url;
   string $methode; // GET ou POST
 }
+
 class Reponse {
   int $code; // 200 OK ou 404 Not Found
   string $corps; // <html>...

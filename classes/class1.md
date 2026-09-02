@@ -114,7 +114,7 @@ Content-Length: 13231
 
 <!DOCTYPE html>
 <html>
-  <head lang="en">
+  <head lang="fr">
     <meta charset="utf-8">
     <title>Cours 1  Introduction au Web dynamique</title>
   </head>
@@ -261,13 +261,13 @@ Il est souvent associé au port 80 de la machine hôte.
 
 * Déposer vos fichiers HTML/CSS/PHP dans le dossier `public_html`.
 * Quand vous demandez la page  
-[http://localhost/index.html](https://localhost/index.html),  
+[http://localhost/index.html](http://localhost/index.html),  
 le serveur HTTP Docker va rechercher le fichier  
-`C:\Users\Gasquet\WebA2\public_html\index.html`.
+`/home/lebreton/index.html`.
 * Idem la page  
 [http://localhost/image/topsecret.jpg](http://localhost/image/topsecret.jpg)  
 renvoie sur le fichier  
-`C:\Users\Gasquet\WebA2\public_html\topsecret.jpg`.
+`/home/lebreton/image/topsecret.jpg`.
 
 
 </section>
@@ -481,7 +481,7 @@ les professionnels (Wikipédia, Tumblr et Facebook).
 **PHP va nous servir à créer des documents HTML :**
 
 * Il prend donc en entrée un fichier `.php` <!-- qui contient de l'HTML et du PHP -->
-* Il exécute les instructions PHP sans compilation (langage interprété)
+* Il exécute les instructions PHP
 * Il affiche en sortie un document HTML  
   (comme un programme C écrirait dans sa sortie standard).
 
@@ -591,8 +591,8 @@ Web générée (comme si on avait fait `echo`).
 
 <br>
 
-On aurait aussi pu utiliser la syntaxe raccourcie `<?=date("H:i");?>` 
-qui réalise automatiquement un `echo`.
+On aurait aussi pu utiliser la syntaxe raccourcie `<?= date("H:i"); ?>`,
+sachant que `<?= expr ?>` équivaut à `<?= echo expr ?>`.
 
 <br>
 
@@ -619,7 +619,7 @@ Deux principales façons d'exécuter un script PHP:
 
 En pratique sur un exemple :
 
-* On écrit le fichier `C:\Users\Gasquet\WebA2\public_html\bonjour.php` : <!-- `/home/ann2/public_html/bonjour.php` -->
+* On écrit le fichier `/home/lebreton/bonjour.php` : <!-- `/home/ann2/public_html/bonjour.php` -->
 
   ```php
   <!DOCTYPE html>
@@ -680,7 +680,7 @@ Ce sont les **tableaux associatifs**
   et `$coordonnees['prenom']`.
 
 * Notez l'existence des boucles
-  [`foreach`](http://php.net/manual/fr/control-structures.foreach.php) pour
+  [`foreach`](https://php.net/manual/fr/control-structures.foreach.php) pour
   parcourir ces tableaux :
 
   ```php?start_inline=1
@@ -797,7 +797,7 @@ PHP est capable de récupérer les données saisies dans les URLs.
 PHP va automatiquement remplir le tableau associatif `$_GET` avec les
 informations contenues dans le *query string*.
 
-On peut alors accéder aux données transmissent dans le script `PHP` 
+On peut alors accéder aux données transmises dans le script `PHP` 
 avec `$_GET['cle']`
 
 <br>
@@ -1236,7 +1236,7 @@ suivant :
 **Sources :**
 
 * [Open Classrooms - Concevez votre site web avec PHP et MySQL](https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql)
-* [Documentation officielle de PHP](http://php.net/manual/fr/)
+* [Documentation officielle de PHP](https://php.net/manual/fr/)
 
 </section>
 
