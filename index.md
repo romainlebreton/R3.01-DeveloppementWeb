@@ -25,9 +25,11 @@ Semaine 6 - lundi 6 octobre
 Semaine 7 - lundi 13 octobre
 Semaine 8 - lundi 20 octobre
 {% endcomment %}
+
 ### Introduction à PHP et relation à la base de données (2 semaines)
 
 * [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html) (durée indicative ≃ 3h)
+{% comment %}
 * [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html) (durée indicative ≃ 2h)
 * [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html) (durée indicative ≃ 3h) 
 
@@ -62,11 +64,14 @@ La dernière séance de PHP (fin de la semaine du 20 octobre) sera dédiée au s
 * TD5 -- [`.htaccess`, namespace et autoloader]({{site.baseurl}}/assets/tut5-complement.html)
 * TD7 -- [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html)
 
+{% endcomment %}
 {% comment %}
 1. [Syntaxe simple & avancée de PHP 8.1]({{site.baseurl}}/assets/complement1-PHPSyntax.html)
 {% endcomment %}
+{% comment %}
 
 ## Instructions du projet
 
 * **Parcours RACDV -- SAÉ**.
 * [Parcours DACS & IAMSI -- Instructions du projet](projet.html)
+{% endcomment %}
