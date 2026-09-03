@@ -42,6 +42,11 @@ Cette archive devra contenir :
   * Le lien du dépôt git où le code source de l’application est hébergé.
   * Un pourcentage et un récapitulatif de l’investissement de chaque membre du groupe dans le projet (globalement, qui a fait quoi).
 
+
+<!-- 
+Prévoir des règles pour l'IA et demander de déclarer son utilisation.
+-->
+
 ### Soutenance
 
 **Date de *soutenance* des projets** : mercredi 26 novembre 

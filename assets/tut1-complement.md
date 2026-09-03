@@ -217,17 +217,17 @@ Si vous utilisez votre propre machine :
     sudo snap install phpstorm --classic
     ```
 
-* sur Windows, Mac OS, ou Linux on peut faire l'installation depuis un exécutable. Suivez les instructions de la 
-[documentation de PhpStorm](https://www.jetbrains.com/help/phpstorm/installation-guide.html#standalone).
-
-Pour Linux, la documentation vous dit 
-* de [télécharger l'archive](https://www.jetbrains.com/phpstorm/download/),
-* de l'extraire dans un endroit qui va bien (dans votre `$HOME` par exemple)    
-    ```bash
-    tar -xzf PhpStorm-***.tar.gz --directory ~/
-    ```
-* et de lancer l'exécutable se trouvant dans le répertoire `PhpStorm-***.tar.gz/bin/`. Depuis un terminal :
-    ```bash
-    cd ~/PhpStorm-***/bin/
-    ./phpstorm.sh
-    ```
+* sur Windows, Mac OS, ou une autre distribution Linux on peut faire l'installation depuis un exécutable. 
+  Suivez les instructions de la 
+  [documentation de PhpStorm](https://www.jetbrains.com/help/phpstorm/installation-guide.html#standalone).  
+  Pour une autre distribution Linux, la documentation vous dit 
+  * de [télécharger l'archive](https://www.jetbrains.com/phpstorm/download/),
+  * de l'extraire dans un endroit qui va bien (dans votre `$HOME` par exemple)    
+     ```bash
+     tar -xzf PhpStorm-***.tar.gz --directory ~/
+     ```
+  * et de lancer l'exécutable se trouvant dans le répertoire `PhpStorm-***.tar.gz/bin/`. Depuis un terminal :
+     ```bash
+     cd ~/PhpStorm-***/bin/
+     ./phpstorm.sh
+     ```

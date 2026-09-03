@@ -23,7 +23,17 @@ lang: fr
 * site Web : 
   [http://romainlebreton.github.io/R3.01-DeveloppementWeb](http://romainlebreton.github.io/R3.01-DeveloppementWeb)
 
+
+**Évaluation :**
+
+* Deux interros écrites 
+* Examen écrit final
+* Projet PHP
+  * Parcours A (RACDV) : Le projet PHP sera celui de votre SAÉ (découpé en deux rendus, un intermédiaire et un final)
+  * Parcours B (DACS) & D (IAMSI) : Projet PHP spécifique au cours 
+
 <!-- 
+
 **Évaluation :**
 
 * Deux interros écrites : 20% (10% chacune)
@@ -31,7 +41,9 @@ lang: fr
 * Projet PHP : 30%
   * Parcours A (RACDV) : Le projet PHP sera celui de votre SAÉ (découpé en deux rendus, un intermédiaire et un final)
   * Parcours B (DACS) & D (IAMSI) : Projet PHP spécifique au cours 
+
 -->
+
 </section>
 
 <section>
@@ -265,11 +277,11 @@ Il est souvent associé au port 80 de la machine hôte.
 * Quand vous demandez la page  
 [http://localhost/index.html](http://localhost/index.html),  
 le serveur HTTP Docker va rechercher le fichier  
-`/home/lebreton/index.html`.
+`/home/lebreton/public_html/index.html`.
 * Idem la page  
 [http://localhost/image/topsecret.jpg](http://localhost/image/topsecret.jpg)  
 renvoie sur le fichier  
-`/home/lebreton/image/topsecret.jpg`.
+`/home/lebreton/public_html/image/topsecret.jpg`.
 
 
 </section>
@@ -594,7 +606,7 @@ Web générée (comme si on avait fait `echo`).
 <br>
 
 On aurait aussi pu utiliser la syntaxe raccourcie `<?= date("H:i"); ?>`,
-sachant que `<?= expr ?>` équivaut à `<?= echo expr ?>`.
+sachant que `<?= expr ?>` équivaut à `<?php echo expr ?>`.
 
 <br>
 
@@ -621,7 +633,7 @@ Deux principales façons d'exécuter un script PHP:
 
 En pratique sur un exemple :
 
-* On écrit le fichier `/home/lebreton/bonjour.php` : <!-- `/home/ann2/public_html/bonjour.php` -->
+* On écrit le fichier `/home/lebreton/public_html/bonjour.php` : <!-- `/home/ann2/public_html/bonjour.php` -->
 
   ```php
   <!DOCTYPE html>

@@ -43,35 +43,22 @@ nous assurer que Git est bien configuré sur vos machines.
 
 <div class="exercise">
 
-1. Nous allons configurer Git pour qu'il connaisse votre nom et votre adresse
-   email (**étudiante**), ce qui sera utile quand vous travaillerez en groupe pour savoir qui a
-   enregistré quelle modification :
+Nous allons configurer Git pour qu'il connaisse votre nom et votre adresse
+email (**étudiante**), ce qui sera utile quand vous travaillerez en groupe pour savoir qui a
+enregistré quelle modification :
+```bash
+git config --global user.name "Votre Prénom et Nom"
+git config --global user.email "votreemail@etu.umontpellier.fr"
+```
 
-   ```bash
-   git config --global user.name "Votre Prénom et Nom"
-   git config --global user.email "votreemail@etu.umontpellier.fr"
-   ```
-   
-   <!-- 
-   1. Pour nous simplifier la vie plus tard, veuillez exécuter la commande
-   suivante. Cela change l'éditeur de texte qu'ouvre Git par défaut.
-   
-   ```shell
-   git config --global core.editor "gedit --new-window -w"
-   ``` 
-   -->
+<!-- 
+1. Pour nous simplifier la vie plus tard, veuillez exécuter la commande
+suivante. Cela change l'éditeur de texte qu'ouvre Git par défaut.
 
-1.  Au cas où vous utilisez le protocole HTTPS pour vous connecter à un dépôt
-    Git, vous aurez besoin d'exécuter d'abord la commande suivante pour que `git
-    clone` marche.
-      
-      ```bash
-	   # Pour anticiper une erreur due aux certificats de l'IUT
-	   #              "server certificate verification failed"
-	   git config --global http.sslverify false
-      ```
-    **Remarque :** nous vous recommandons de vous connecter à vos dépôts Git par SSH.
-    Désactiver la vérification des certificats comme ci-dessus est une mauvaise pratique de sécurité.
+```shell
+git config --global core.editor "gedit --new-window -w"
+``` 
+-->
 
 </div>
 
@@ -83,12 +70,22 @@ enregistrer vos modifications dedans.
 1. Allez sur la [page web du dépôt Git initial des TDs PHP](https://gitlabinfo.iutmontp.univ-montp2.fr/Enseignants-Web/tds-php).
 2. Créez votre copie du dépôt en cliquant en haut à droite sur le bouton *Fork*.
 3. Dans *Project URL*, changer *Select a namespace* par votre login IUT, puis cliquez sur *Fork project* en bas de la page.
-4. (Optionnel mais recommandé) Si vous êtes sur une nouvelle machine, recréez
-   une clé SSH et déposez-la sur GitLab en reprenant [le tout début du tutoriel
-   Git de 1ère
-   année](https://gitlabinfo.iutmontp.univ-montp2.fr/valicov/tutoGit1ereAnnee#cr%C3%A9ation-dun-compte-gitlab). 
 4. Sur la page de votre fork, copiez l'adresse pour cloner le dépôt que l'on trouve en cliquant sur le bouton bleu *Code*.
-5. Depuis un terminal dans le dossier `~/public_html`, faites `git clone` de l'adresse de la question précédente.
+   Nous vous recommandons d'utiliser l'URL qui se connecte à vos dépôts Git par SSH (*"Clone with SSH"*).
+   Depuis un terminal dans le dossier `~/public_html`, faites `git clone` de l'adresse de la question précédente.  
+   **Note :** 
+   * Si vous n'avez pas de clé SSH déposée sur Gitlab, reprenez [le tout début du tutoriel
+     Git de 1ère
+     année](https://gitlabinfo.iutmontp.univ-montp2.fr/valicov/tutoGit1ereAnnee#cr%C3%A9ation-dun-compte-gitlab). 
+   * Au cas où vous utilisiez le protocole HTTPS pour vous connecter à un dépôt
+     Git, vous aurez besoin d'exécuter d'abord la commande suivante pour que `git
+     clone` marche.
+     ```bash
+	  # Pour anticiper une erreur due aux certificats de l'IUT
+	  #              "server certificate verification failed"
+	  git config --global http.sslverify false
+     ```
+     **Attention :** Désactiver la vérification des certificats comme ci-dessus est une mauvaise pratique de sécurité.
 
 </div>
 
@@ -96,13 +93,13 @@ enregistrer vos modifications dedans.
 
 PHP est un langage de programmation donc utilisez un environnement de
 développement. Vous ne codez pas du Java avec BlocNotes, c'est pareil pour
-PHP. Nous coderons donc notre PHP sous PhpStorm de la suite logicielle JetBrains (comme Intellij Idea).
+PHP. Nous coderons donc notre PHP sous PhpStorm de la suite logicielle JetBrains (comme IntelliJ IDEA).
 
 Si vous utilisez un portable fourni par l'IUT, PhpStorm est déjà installé.
 Sinon, installez-le à l'aide de ces [instructions dans les compléments du
 TD1]({{site.baseurl}}/assets/tut1-complement.html#installer-phpstorm-sur-sa-machine).
 
-#### Cloner un dépôt Git sous PhpStorm
+#### Ouvrir votre projet PHP dans PhpStorm
 
 <div class="exercise">
 
@@ -171,7 +168,7 @@ en pratique tout cela !
    <!-- **Est-ce que la page HTML s'affiche correctement ?**   -->
    **Est-ce qu'il y a une communication entre un serveur et un client HTTP ?**
    
-   **Réponses (surlignez le texte caché à droite):** 
+   **Réponses (surlignez le texte caché à droite) :** 
    <span style="color:#FCFCFC">
    Le gestionnaire de fichier ouvre page1.html dans le navigateur en tant que fichier local. Autrement dit, le navigateur va lire le fichier page1.html directement sur le disque dur. C'est la signification de file au début de l'URL. Du coup, le navigateur n'envoie pas de requête HTTP, et n'attend pas de réponse en retour. 
    <!-- La page s'affiche correctement. -->
@@ -210,7 +207,7 @@ en pratique tout cela !
    
    **Est-ce qu'il y a une communication entre un serveur et un client HTTP maintenant ?**  
    **Comment fait-on pour voir la page Web brute (code source), et non son rendu HTML par le navigateur ?**    
-   **Réponses (surlignez le texte caché à droite):** 
+   **Réponses (surlignez le texte caché à droite) :** 
    <span style="color:#FCFCFC">
    Cette fois-ci, l'URL commence par *http* et donc le navigateur envoie une requête HTTP à l'URL demandée. Le navigateur reçoit une réponse HTTP qui contient une page HTML. Puis, le navigateur affiche le rendu HTML de la page. Pour voir le code source HTML, il faut faire un clic droit sur la page, puis *Affichez le code source* (ou **Ctrl+U**).
    </span>
@@ -297,7 +294,7 @@ fichiers OU de façon équivalente avec une URL en `file://` comme :
    **Que se passe-t-il quand on ouvre un fichier PHP directement dans le navigateur ?**  
    **Pourquoi ?**  
    *Ça vous rappelle le [cours 1]({{site.baseurl}}/classes/class1.html#le-langage-de-cration-de-pages-web--php) j'espère ?*  
-   **Réponses (surlignez le texte caché à droite):** 
+   **Réponses (surlignez le texte caché à droite) :** 
    <span style="color:#FCFCFC">
    Un navigateur ne sait que faire d'un script PHP. Du coup, soit il vous demande comment l'ouvrir, soit il le télécharge directement.
    </span>
@@ -312,7 +309,7 @@ fichiers OU de façon équivalente avec une URL en `file://` comme :
    *N'hésitez pas à relire la partie du
     [cours 1 concernée]({{site.baseurl}}/classes/class1.html#mcanisme-de-gnration-des-pages-dynamiques-22).*
 
-   **Réponses (surlignez le texte caché à droite):** 
+   **Réponses (surlignez le texte caché à droite) :** 
    <span style="color:#FCFCFC">
    Quand le serveur Web reçoit une requête HTTP pour un fichier PHP, il exécute le script PHP et renvoie la page Web générée par le script.
    </span>
@@ -406,7 +403,15 @@ echo "$prenom";
 
 Testez votre réponse en rajoutant ce code dans `echo.php`.
 
-**Astuce:** 
+**Pourquoi ne voit-on pas les sauts de ligne `\n` dans le navigateur ?**  
+**Où peut-on voir ces sauts de ligne ?**   
+**Réponses (surlignez le texte caché à droite) :** 
+<span style="color:#FCFCFC">
+Les sauts de ligne se voient dans le code source produit par PHP, auquel on peut accéder avec un clic droit sur la page, puis *Affichez le code source* (ou **Ctrl+U**).
+Les sauts de ligne dans un code HTML ne produisent pas de saut de ligne à l'affichage. Il faut ajouter par exemple une balise <p> pour afficher un saut de ligne dans le rendu HTML.
+</span>
+
+**Astuce :** 
 * Vous pouvez aussi tester ce code dans le terminal (sans passer par un serveur Web et un navigateur). Pour cela, écrivez votre script dans `echo.php` (n'oubliez pas la balise ouvrante `<?php` en début de fichier). Puis, dans le terminal, exécutez `php echo.php`.
 
    Ce fonctionnement est plus proche de ce que vous auriez fait en Python avec `python script.py`, ou en Java avec `javac program.java` puis `java program` .
@@ -466,9 +471,7 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
   ```php
   // Syntaxe avec {$...}
   echo "Je m'appelle {$utilisateur['nom']}";
-  echo "Je m'appelle {$utilisateur["nom"]}";
-  // Syntaxe simplifiée
-  // Attention, pas de guillemets autour de la clé "nom"
+  // Syntaxe simplifiée sans guillemets autour de la clé "nom"
   echo "Je m'appelle  $utilisateur[nom]";
   ```
 
@@ -543,8 +546,8 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
 
 <div class="exercise">
 
-1. Dans votre fichier `echo.php`, créez trois variables `$nom`, `$prenom` et
-`$login` contenant des chaînes de caractères de votre choix ;
+1. Dans votre fichier `echo.php`, créez trois variables `$login`, `$nom` et `$prenom`
+   contenant des chaînes de caractères de votre choix ;
 
 1. Créez la commande PHP qui écrit dans votre fichier le code HTML suivant (en
    remplaçant bien sûr le nom par le contenu de la variable `$nom` ...) :
@@ -553,10 +556,10 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
    <p> Utilisateur Juste Leblanc de login leblancj </p>
    ```
 
-2. Faisons maintenant la même chose mais avec un tableau associatif `utilisateur`:
+2. Faisons maintenant la même chose mais avec un tableau associatif `utilisateur` :
 
-   * Créez un tableau `$utilisateur` contenant trois clés `"nom"`, `"prenom"` et
-   `"login"` avec les valeurs de votre choix ;
+   * Créez un tableau `$utilisateur` contenant trois clés `"login"`, `"nom"` et `"prenom"`
+    avec les valeurs de votre choix ;
 
    * Utilisez l'un des affichages de débogage (*e.g.* `var_dump`) pour vérifier
      que vous avez bien rempli votre tableau ;
@@ -580,7 +583,7 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
      des utilisateurs.
 
 4. Pour déboguer votre script, il est parfois pratique d'afficher la sortie brute du script. Vous souvenez-vous comment faire ?  
-   **Réponse (surlignez à droite):** 
+   **Réponse (surlignez à droite) :** 
    <span style="color:#FCFCFC">Affichez donc le code source de la page.</span>
  
 5. Rajoutez un cas par défaut qui affiche "Il n'y a aucun utilisateur." si la
@@ -769,7 +772,7 @@ Optionnellement, on peut déclarer les types de certaines variables PHP :
 Ces types sont vérifiés à l'exécution, contrairement à Java qui les vérifie à la compilation.  
 La déclaration de type est **cruciale** pour que l'IDE devine correctement le type des objets et pour que vous puissiez bénéficier pleinement de l'**autocomplétion** de l'IDE. 
 
-Exemple :
+Exemple :
 ```php
 class Requete {
   // Déclaration de type d'un attribut
@@ -791,7 +794,7 @@ function ServeurWeb(Requete $requete) : Reponse {
 
 [Documentation PHP](https://www.php.net/manual/fr/language.types.declarations.php)
 
-1. Mettez à jour `Utilisateur.php` pour déclarer `nom`, `prenom` et `login` comme `string` dans
+1. Mettez à jour `Utilisateur.php` pour déclarer `login`, `nom` et `prenom` comme `string` dans
    * les attributs de classes,
    * les arguments des setters,
    * les sorties des getters,
@@ -829,7 +832,7 @@ function ServeurWeb(Requete $requete) : Reponse {
 <div class="exercise">
 
 1. Créez un fichier **formulaireCreationUtilisateur.html**, réutilisez l'entête du fichier
-   **echo.php** et dans le body, insérez le formulaire suivant :
+   **echo.php** et dans le body, insérez le formulaire suivant :
 
    ```html
    <form method="get" action="creerUtilisateur.php">
