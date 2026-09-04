@@ -12,6 +12,8 @@ Cours à l'IUT de Montpellier - 2ème année
 ## Cours
 
 * [Cours 1 -- Introduction à PHP](classes/class1.html)
+   Accéder à l'[amphi à distance via Moodle](https://moodle.umontpellier.fr/mod/bigbluebuttonbn/view.php?id=590930)
+   et à son [enregistrement](https://umontpellier.scalelite.bbb.numerique-esr.fr/video/87f663bf6835d8b611e977ee9bb38410b7127ed1-1788528512702/)
    
 ## TDs
 
