@@ -1109,7 +1109,8 @@ En utilisant HTTPie (à installer) pour un meilleur affichage
 ```bash
 # --form pour envoyer une requête POST avec les données à la fin
 # -p pour afficher : H/B request headers/body, h/b response headers/body
-http --form https://webinfo.iutmontp.univ-montp2.fr/~rletud/traitePost.php nom_var='Romain' -p HBhb
+# --verify=no to skip checking the host's SSL certificate.
+http --form https://webinfo.iutmontp.univ-montp2.fr/~rletud/traitePost.php nom_var='Romain' -p HBhb --verify=no
 ```
 
 **Requête** 
