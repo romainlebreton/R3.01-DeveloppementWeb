@@ -19,23 +19,26 @@ créés ne dépassait pas la durée de l'exécution du programme.
 Dans ce TD, nous allons apprendre à rendre les objets persistants, en les
 sauvegardant dans une base de données. Ainsi, il sera possible de retrouver les
 objets d'une visite à l'autre du site web.
-
+À la fin, vous saurez accéder aux
+bases de données en PHP grâce à PDO (PHP Data Objects), ouvrir une connexion à une base de
+données, lire des lignes et construire des objets PHP à partir de ces
+données.
 
 ## Connexion à la base de données
 
 ### Les bases de PhpMyAdmin
 
 <div class="exercise">
-1. Connectez vous à votre base de données MySQL, à l'aide de l'interface
+1. Connectez-vous à votre base de données MySQL, à l'aide de l'interface
    PhpMyAdmin
-   [http://webinfo.iutmontp.univ-montp2.fr/my](http://webinfo.iutmontp.univ-montp2.fr/my)
+   [http://webinfo.iutmontp.univ-montp2.fr/my](http://webinfo.iutmontp.univ-montp2.fr/my).
    Le login est votre login IUT et votre mot de passe initial est votre numéro INE (avec les lettres en majuscule).  
    **Si cela ne marche pas**, c'est que vous n'êtes probablement pas inscrit administrativement. Dans ce cas, demandez à votre chargé de TD ou allez voir le service informatique (bâtiment K, premier étage).
    
 
 2. Changez votre mot de passe (Page d'accueil > Paramètres généraux > Modifier le mot de passe) et reconnectez-vous.
    Si vous n'arrivez pas à vous
-   connecter après avoir changé le mot de passe, essayer avec un autre navigateur
+   connecter après avoir changé le mot de passe, essayez avec un autre navigateur
    ou bien videz le cache du navigateur (`Ctrl+F5`).
 
 
@@ -199,12 +202,12 @@ de donnée.
 2. Dans le constructeur, nous allons initialiser l'attribut `$pdo` en lui
    assignant un objet `PDO`. Procédons par étapes :
    
-   1. Pour créer la connexion à notre base de donnée, il faut utiliser le
+   1. Pour créer la connexion à notre base de données, il faut utiliser le
    [constructeur de `PDO`](http://php.net/manual/fr/pdo.construct.php) de la
    façon suivante
    
       ```php?start_inline=1
-      new PDO("mysql:host=$nomHote;port=$port;dbname=$nomBaseDeDonnees",$login,$motDePasse);
+      new PDO("mysql:host=$nomHote;port=$port;dbname=$nomBaseDeDonnees", $login, $motDePasse);
       ```
    
       Stockez ce nouvel objet `PDO` dans l'attribut `$pdo` de l'objet.
@@ -261,7 +264,7 @@ class ConnexionBaseDeDonnees {
 
     // getInstance s'assure que le constructeur ne sera 
     // appelé qu'une seule fois.
-    // L'unique instance crée est stockée dans l'attribut $instance
+    // L'unique instance créée est stockée dans l'attribut $instance
     private static function getInstance() : ConnexionBaseDeDonnees {
         // L'attribut statique $instance s'obtient avec la syntaxe ConnexionBaseDeDonnees::$instance 
         if (is_null(ConnexionBaseDeDonnees::$instance))
@@ -333,7 +336,7 @@ Pour avoir plus de messages d'erreur de `PDO` et qu'il gère mieux l'UTF-8,
 ```php?start_inline=1
 // Connexion à la base de données            
 // Le dernier argument sert à ce que toutes les chaines de caractères 
-// en entrée et sortie de MySql soient dans le codage UTF-8
+// en entrée et sortie de MySQL soient dans l'encodage UTF-8
 $this->pdo = new PDO("mysql:host=$nomHote;port=$port;dbname=$nomBaseDeDonnees", $login, $motDePasse,
                      array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 
@@ -400,12 +403,12 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
    $utilisateurFormatTableau = $pdoStatement->fetch()
    ```
 
-   qui, dans notre exemple, renvoie un tableau avec 6 cases : 
+   qui, dans notre exemple, renvoie un tableau avec 6 entrées : 
    * `loginBaseDeDonnees`, `prenomBaseDeDonnees` et `nomBaseDeDonnees` (les champs de la base de données).
-   * `0`, `1` et `2` qui correspondent aux champs de la base de données dans l'ordre. Ces cases
+   * `0`, `1` et `2` qui correspondent aux champs de la base de données dans l'ordre. Ces entrées
    sont donc un peu redondantes.
 
-   Utilisez l’un des affichages de débogage (*e.g.* `var_dump`) pour afficher ce tableau.
+   Utilisez l’un des affichages de débogage (par exemple `var_dump`) pour afficher ce tableau.
 
 5. Créez un `$utilisateur` de classe `Utilisateur` à l'aide de
    `$utilisateurFormatTableau` en appelant le constructeur. Affichez
@@ -515,7 +518,7 @@ Le choix du format se fait avec la
 
 Dans les TDs, nous vous recommandons d'utiliser au choix :
 * le format par défaut `PDO::FETCH_BOTH` en appelant `fetch()` sans arguments,
-* le format `PDO::FETCH_ASSOC` pour ne pas avoir de cases redondantes (*e.g* `loginBaseDeDonnees` et `0`).  
+* le format `PDO::FETCH_ASSOC` pour ne pas avoir d'entrées redondantes (*e.g* `loginBaseDeDonnees` et `0`).  
   Dans ce cas, appelez `$pdoStatement->setFetchMode(PDO::FETCH_ASSOC)` avant d'appeler `fetch()`.
 
 <!-- 
@@ -535,6 +538,19 @@ A neat helper function that returns value of the single field of returned row. V
 
 <!-- ## (Optionnel) Pour utiliser une base de données locale
 
-Actuellement, votre code PHP se connecte au serveur MySql de l'IUT. Cela marche très bien tant que vous avez une connexion internet. Cependant, une base de données `MySQL` en local vous permettrait d'être `root`, de créer plusieurs bases de données dessus (une par projet ou SAE)...
+Actuellement, votre code PHP se connecte au serveur MySQL de l'IUT. Cela marche très bien tant que vous avez une connexion internet. Cependant, une base de données `MySQL` en local vous permettrait d'être `root`, de créer plusieurs bases de données dessus (une par projet ou SAE)...
 
 Si vous souhaitez utiliser une base de données `MySQL` en local, voici quelques instructions :  -->
+
+## Remarques finales
+
+#### Identifiants exposés
+
+Dans ce TD, le mot de passe de connexion à la base de données est écrit en clair dans un fichier PHP qui sera ensuite versionné avec Git. C'est une mauvaise pratique : si ce dépôt est partagé ou rendu public, votre mot de passe (et potentiellement l'accès à toute la base de données) se retrouve exposé à n'importe qui. Il ne faut donc **jamais committer un vrai mot de passe** dans un dépôt Git, même privé. En pratique, on préfère isoler les informations sensibles (identifiants, mots de passe, clés d'API...) dans un fichier de configuration dédié, explicitement ignoré par Git (via `.gitignore`), ou bien les fournir via des variables d'environnement lues au moment de l'exécution.
+
+Dans un prochain TD, nous corrigerons ce problème en plaçant le mot de passe dans un fichier séparé qui ne sera pas versionné.
+
+#### PhpMyAdmin
+
+Il faut distinguer trois choses : la base de données, le serveur MySQL, et phpMyAdmin. La base de données est l'endroit où les informations sont réellement stockées : tables, colonnes et enregistrements. Le serveur MySQL est le logiciel qui gère cette base de données, reçoit les requêtes SQL et les exécute. phpMyAdmin est seulement une interface web d'administration qui permet d'interagir plus facilement avec MySQL, par exemple pour visualiser les tables, créer des données ou exécuter des requêtes, mais il ne remplace ni la base de données ni le serveur lui-même.
+
