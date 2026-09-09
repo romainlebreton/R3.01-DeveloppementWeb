@@ -130,7 +130,7 @@ exclu du suivi de version.
    motDePasse = a_remplir
    ```
 
-   Certains caractères ont un sens spécial dans un fichier `.ini` et peuvent, s'ils ne sont
+   **Remarque :** Certains caractères ont un sens spécial dans un fichier `.ini` et peuvent, s'ils ne sont
    pas protégés, tronquer votre mot de passe, le transformer silencieusement, voire faire
    échouer la lecture de **tout** le fichier : `;` (démarre un commentaire), `=` (sépare la clé
    de la valeur), ainsi que `$`, `?`, `{`, `}`, `|`, `&`, `~`, `!`, `(`, `)`, `^` (interprétés comme des
