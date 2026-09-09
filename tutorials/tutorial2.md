@@ -79,7 +79,10 @@ données.
 ### Fichier de configuration en PHP
 
 Pour avoir un code portable, il est préférable de séparer les informations du
-serveur du reste du code PHP.
+serveur du reste du code PHP. Nous en profitons aussi pour éviter une mauvaise pratique
+courante : écrire un mot de passe en clair dans un fichier versionné par Git. Les
+informations de connexion seront donc placées dans un fichier à part, explicitement
+exclu du suivi de version.
 
 <div class="exercise">
 
@@ -95,10 +98,10 @@ serveur du reste du code PHP.
 
 1. Commencez par créer un dossier `tds-php/TD2` dans l'explorateur de fichier, puis ouvrez ce dossier dans PHPStorm.
 
-2. Créez un fichier `ConfigurationBaseDeDonnees.php`. Ce fichier contiendra une classe
-   `ConfigurationBaseDeDonnees` possédant un attribut statique `$configurationBaseDeDonnees` (copiez le squelette de code plus bas).
+2. Créez un fichier `ConfigurationBaseDeDonnees.ini`. Un fichier `.ini` est un simple fichier texte
+   contenant des paires `cle = valeur`, une par ligne, que PHP sait lire nativement.
 
-   Voici à quoi correspondent les zones `a_remplir` (dans le squelette de code) et comment les compléter :
+   Voici à quoi correspondent les clés à renseigner :
 
    * `nomHote` : adresse du serveur qui héberge la base de données. Quand on crée une base de données en local, il s'agit 
    généralement de `localhost`, mais dans notre cas, on souhaite utiliser le serveur de base de données mis à disposition à l'IUT 
@@ -116,68 +119,31 @@ serveur du reste du code PHP.
 
    * `motDePasse` : le mot de passe du compte de l'utilisateur. À l'IUT, il s'agit du mot de passe que vous avez utilisé pour vous connecter
    à phpMyAdmin plus tôt.
-   
-   <!-- Sont-ils à l'aise avec les attributs statiques ? -->
 
-   **Notes :**
+   Voici le squelette du fichier `ConfigurationBaseDeDonnees.ini`, à compléter avec vos propres informations :
 
-   * Où doit-on enregistrer une page Web ? (Souvenez-vous du TD précédent)
-   * Qu'est-ce qu'un attribut ou une méthode **statique** ? (Cours de Programmation
-   Orientée Objet de l'an dernier ; voir aussi [les compléments]({{site.baseurl}}/assets/tut2-complement.html#les-attributs-et-méthodes-static))
-
-   ```php
-   <?php
-   class ConfigurationBaseDeDonnees {
-   
-     static private array $configurationBaseDeDonnees = array(
-       'nomHote' => 'a_remplir',
-       'nomBaseDeDonnees' => 'a_remplir',
-       'port' => 'a_remplir',
-       'login' => 'a_remplir',
-       'motDePasse' => 'a_remplir'
-     );
-   
-     static public function getLogin() : string {
-       // L'attribut statique $configurationBaseDeDonnees 
-       // s'obtient avec la syntaxe ConfigurationBaseDeDonnees::$configurationBaseDeDonnees 
-       // au lieu de $this->configurationBaseDeDonnees pour un attribut non statique
-       return ConfigurationBaseDeDonnees::$configurationBaseDeDonnees['login'];
-     }
-   
-   }
+   ```ini
+   nomHote = a_remplir
+   nomBaseDeDonnees = a_remplir
+   port = a_remplir
+   login = a_remplir
+   motDePasse = a_remplir
    ```
 
-2. Pour tester notre classe `ConfigurationBaseDeDonnees`, créons un fichier `testConfigurationBaseDeDonnees.php` que l'on
-ouvrira dans le navigateur.
+3. Ce fichier contient désormais votre mot de passe en clair : il ne doit **jamais** être
+   versionné avec Git. Créez, à la racine de votre dépôt `tds-php`, un fichier `.gitignore`
+   (ou complétez-le, s'il existe déjà) en y ajoutant la ligne :
 
-   **Souvenez-vous le TD dernier :** Quelle est la bonne et la mauvaise URL
-   pour ouvrir une page PHP ? 
-   
-   <!-- 
-   file:// versus http://
-   Toujours passer par le serveur HTTP
-   -->
-   
-   ```php
-   <?php
-     // On inclut les fichiers de classe PHP pour pouvoir se servir de la classe ConfigurationBaseDeDonnees. 
-     // require_once évite que ConfigurationBaseDeDonnees.php soit inclus plusieurs fois, 
-     // et donc que la classe ConfigurationBaseDeDonnees soit déclaré plus d'une fois. 
-     require_once 'ConfigurationBaseDeDonnees.php';
-
-     // On affiche le login de la base de donnees
-     echo ConfigurationBaseDeDonnees::getLogin();
-   ?>
+   ```
+   ConfigurationBaseDeDonnees.ini
    ```
 
-3. Complétez `ConfigurationBaseDeDonnees.php` avec des méthodes statiques `getNomHote()`, `getPort()`,
-   `getNomBaseDeDonnees()` et `getMotDePasse()`. Testez ces méthodes dans `testConfigurationBaseDeDonnees.php`.
-     
+   Cette ligne indique à Git d'ignorer tout fichier nommé `ConfigurationBaseDeDonnees.ini`,
+   quel que soit le dossier du dépôt où il se trouve. Ainsi, même avec `git add .`, ce fichier
+   ne sera jamais ajouté au suivi de version.
 
-   **Remarque :** Notez qu'en PHP, on appelle une méthode statique à partir du nom de
-   la classe comme en Java, mais en utilisant `::` au lieu du `.` en
-   Java. Souvenez-vous que les méthodes dynamiques (c'est-à-dire pas `static`)
-   s'appellent avec `->` en PHP.
+   **Vérifiez** avec `git status` que `ConfigurationBaseDeDonnees.ini` n'apparaît pas parmi les
+   fichiers proposés au commit.
 
 4. Enregistrez votre travail à l'aide de `git add` et `git commit`. Nous
    comptons sur vous pour penser à faire cet enregistrement régulièrement.
@@ -201,8 +167,20 @@ de donnée.
 
 2. Dans le constructeur, nous allons initialiser l'attribut `$pdo` en lui
    assignant un objet `PDO`. Procédons par étapes :
-   
-   1. Pour créer la connexion à notre base de données, il faut utiliser le
+
+   1. Récupérez le contenu du fichier `ConfigurationBaseDeDonnees.ini` grâce à la fonction
+   [`parse_ini_file`](http://php.net/manual/fr/function.parse-ini-file.php), qui renvoie un
+   tableau associatif indexé par les clés du fichier `.ini` :
+
+      ```php?start_inline=1
+      $configurationBaseDeDonnees = parse_ini_file('ConfigurationBaseDeDonnees.ini');
+      ```
+
+      Créez ensuite les variables `$nomHote`, `$port`, `$nomBaseDeDonnees`, `$login` et
+      `$motDePasse` en lisant les entrées correspondantes du tableau `$configurationBaseDeDonnees`
+      (par exemple `$configurationBaseDeDonnees['nomHote']`).
+
+   2. Pour créer la connexion à notre base de données, il faut utiliser le
    [constructeur de `PDO`](http://php.net/manual/fr/pdo.construct.php) de la
    façon suivante
    
@@ -212,17 +190,7 @@ de donnée.
    
       Stockez ce nouvel objet `PDO` dans l'attribut `$pdo` de l'objet.
 
-   2. Le code précédent a besoin que les variables `$nomHote`, `$port`,
-   `$nomBaseDeDonnees`, `$login` et `$motDePasse` contiennent les chaînes
-   de caractères correspondant à l'hôte, au nom, au login et au mot de
-   passe de notre base de données. Créez donc ces variables avant le `new PDO` en
-   récupérant les informations à l'aide des fonctions de la classe
-   `ConfigurationBaseDeDonnees`.
-   
-   3. Comme notre classe `ConnexionBaseDeDonnees` dépend de `ConfigurationBaseDeDonnees.php`, ajoutez un `require_once 'ConfigurationBaseDeDonnees.php'` 
-   au début du fichier.
-
-   4. Testons dès à présent notre nouvelle classe. Créez le fichier
+   3. Testons dès à présent notre nouvelle classe. Créez le fichier
    `testConnexionBaseDeDonnees.php` suivant. Vérifiez que l'exécution de `testConnexionBaseDeDonnees.php` ne donne
    pas de messages d'erreur.
 
@@ -546,9 +514,17 @@ Si vous souhaitez utiliser une base de données `MySQL` en local, voici quelques
 
 #### Identifiants exposés
 
-Dans ce TD, le mot de passe de connexion à la base de données est écrit en clair dans un fichier PHP qui sera ensuite versionné avec Git. C'est une mauvaise pratique : si ce dépôt est partagé ou rendu public, votre mot de passe (et potentiellement l'accès à toute la base de données) se retrouve exposé à n'importe qui. Il ne faut donc **jamais committer un vrai mot de passe** dans un dépôt Git, même privé. En pratique, on préfère isoler les informations sensibles (identifiants, mots de passe, clés d'API...) dans un fichier de configuration dédié, explicitement ignoré par Git (via `.gitignore`), ou bien les fournir via des variables d'environnement lues au moment de l'exécution.
+Le mot de passe de connexion à la base de données est une information sensible. S'il est écrit
+en clair dans un fichier versionné par Git, et que ce dépôt est un jour partagé ou rendu public,
+votre mot de passe (et potentiellement l'accès à toute la base de données) se retrouve exposé à
+n'importe qui. Il ne faut donc **jamais committer un vrai mot de passe** dans un dépôt Git, même
+privé.
 
-Dans un prochain TD, nous corrigerons ce problème en plaçant le mot de passe dans un fichier séparé qui ne sera pas versionné.
+C'est pourquoi, dans ce TD, nous avons isolé les informations sensibles (hôte, login, mot de
+passe...) dans un fichier de configuration dédié, `ConfigurationBaseDeDonnees.ini`, explicitement
+ignoré par Git via `.gitignore`. Une autre approche courante, que vous pourrez rencontrer dans
+d'autres projets, consiste à fournir ces informations via des variables d'environnement lues au
+moment de l'exécution.
 
 #### PhpMyAdmin
 

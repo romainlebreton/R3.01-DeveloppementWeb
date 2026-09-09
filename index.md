@@ -30,8 +30,8 @@ Semaine 8 - lundi 20 octobre
 ### Introduction à PHP et relation à la base de données (2 semaines)
 
 * [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html) (durée indicative ≃ 3h)
-{% comment %}
 * [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html) (durée indicative ≃ 2h)
+{% comment %}
 * [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html) (durée indicative ≃ 3h) 
 
 ### Architecture Modèle - Vue - Contrôleur (3 semaines)
