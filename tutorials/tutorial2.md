@@ -130,6 +130,26 @@ exclu du suivi de version.
    motDePasse = a_remplir
    ```
 
+   Certains caractères ont un sens spécial dans un fichier `.ini` et peuvent, s'ils ne sont
+   pas protégés, tronquer votre mot de passe, le transformer silencieusement, voire faire
+   échouer la lecture de **tout** le fichier : `;` (démarre un commentaire), `=` (sépare la clé
+   de la valeur), ainsi que `$`, `?`, `{`, `}`, `|`, `&`, `~`, `!`, `(`, `)`, `^` (interprétés comme des
+   opérateurs ou utilisés pour l'interpolation de variables). Un mot de passe qui serait
+   exactement l'un des mots `null`, `yes`, `no`, `true`, `false`, `on`, `off`, `none` (mots réservés)
+   serait lui aussi silencieusement remplacé par une autre valeur.
+
+   Pour éviter tous ces problèmes, **entourez systématiquement votre mot de passe (et plus
+   généralement toute valeur) de guillemets doubles** dans le fichier `.ini` :
+
+   ```ini
+   motDePasse = "mon mot de passe;secret"
+   ```
+
+   Si le mot de passe contient lui-même un guillemet double ou une barre oblique inverse,
+   faites-les précéder d'une barre oblique inverse : `\"` pour `"` et `\\` pour `\`.
+
+   
+
 3. Ce fichier contient désormais votre mot de passe en clair : il ne doit **jamais** être
    versionné avec Git. Créez, à la racine de votre dépôt `tds-php`, un fichier `.gitignore`
    (ou complétez-le, s'il existe déjà) en y ajoutant la ligne :
@@ -173,8 +193,16 @@ de donnée.
    tableau associatif indexé par les clés du fichier `.ini` :
 
       ```php?start_inline=1
-      $configurationBaseDeDonnees = parse_ini_file('ConfigurationBaseDeDonnees.ini');
+      $configurationBaseDeDonnees = parse_ini_file('ConfigurationBaseDeDonnees.ini', false, INI_SCANNER_RAW);
       ```
+
+      Le troisième argument `INI_SCANNER_RAW` indique à `parse_ini_file` de lire les valeurs
+      telles quelles, sans interpréter les caractères spéciaux vus précédemment (opérateurs,
+      interpolation, mots réservés). C'est le mode recommandé pour lire un fichier de
+      configuration contenant des informations sensibles comme un mot de passe.  
+      **Remarque :** même avec `INI_SCANNER_RAW`, un point-virgule `;` non protégé démarre
+      toujours un commentaire : continuez donc à entourer vos valeurs de guillemets doubles
+      dès qu'elles contiennent des caractères spéciaux.
 
       Créez ensuite les variables `$nomHote`, `$port`, `$nomBaseDeDonnees`, `$login` et
       `$motDePasse` en lisant les entrées correspondantes du tableau `$configurationBaseDeDonnees`
