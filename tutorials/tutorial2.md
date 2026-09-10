@@ -61,9 +61,9 @@ données.
    * `prenomBaseDeDonnees` de type `VARCHAR` et de taille 64.
 
    **Important :** Pour faciliter la suite du TD, mettez à la création de toutes
-     vos tables `InnoDB` comme moteur de stockage, et `utf8_general_ci` comme
-     **interclassement** (c’est l’encodage des données, et donc des accents,
-     caractères spéciaux...).
+   vos tables `InnoDB` comme moteur de stockage, et `utf8mb4_unicode_ci` comme
+   **interclassement** (ce sont les règles utilisées pour comparer et trier les
+   chaînes de caractères, notamment en tenant compte des accents et de la casse).
 
    **Attention** : Les noms des champs sont comme des noms de variables, ils ne
    doivent pas contenir d'accents. Par ailleurs, et contrairement à Oracle,
@@ -334,7 +334,7 @@ Pour avoir plus de messages d'erreur de `PDO` et qu'il gère mieux l'UTF-8,
 // Le dernier argument sert à ce que toutes les chaines de caractères 
 // en entrée et sortie de MySQL soient dans l'encodage UTF-8
 $this->pdo = new PDO("mysql:host=$nomHote;port=$port;dbname=$nomBaseDeDonnees", $login, $motDePasse,
-                     array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+                     array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"));
 
 // On active le mode d'affichage des erreurs, et le lancement d'exception en cas d'erreur
 $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

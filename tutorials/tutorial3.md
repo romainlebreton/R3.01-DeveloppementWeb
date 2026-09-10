@@ -269,7 +269,7 @@ La table `utilisateur` avec quelques utilisateurs a déjà été créée dans vo
    * `conducteurLogin` : VARCHAR 64
    * `nonFumeur` : BOOLEAN
 
-   **Important :** Comme précédemment, le moteur de stockage doit être `InnoDB` et l'interclassement `utf8_general_ci`!
+   **Important :** Comme précédemment, le moteur de stockage doit être `InnoDB` et l'interclassement `utf8mb4_unicode_ci`!
 
    **Note :** On souhaite que le champ primaire `id` s'incrémente à chaque nouvelle
    insertion dans la table. Pour ce faire, cochez la case `A_I` (auto-increment) pour le champ `id`.
@@ -362,7 +362,7 @@ Voici les étapes pour faire ce lien :
    stockage de toutes vos tables impliqués soit `InnoDB`. Vous pouvez choisir ce
    paramètre à la création de la table ou le changer après coup dans l'onglet
    `Opérations`. Il faut aussi que les colonnes en questions aient le même interclassement
-   (normalement, `utf8_general_ci`) et la même taille (64). Si vous vous êtes trompés, vous
+   (normalement, `utf8mb4_unicode_ci`) et la même taille (64). Si vous vous êtes trompés, vous
    pouvez modifier la configuration d'une colonne dans l'onglet "Structure" de la table en
    cliquant sur le bouton `Modifier` en face de la colonne.
 
@@ -450,7 +450,7 @@ correspondante dans la table `passager` avec leur `passagerLogin` et leur
    sélectionner la valeur `PRIMARY` dans la section **Index** pour les deux colonnes
    (vu que c'est un couple de clé primaire).
 
-   **Important :** Il faut encore une fois préciser `InnoDB` et `utf8_general_ci`.
+   **Important :** Il faut encore une fois préciser `InnoDB` et `utf8mb4_unicode_ci`.
 
 2. Assurez-vous que vous avez bien le bon couple en tant que clé primaire. Si c'est
 bien le cas, les deux colonnes ont une petite icône de clé jaune à côté de leur nom.
