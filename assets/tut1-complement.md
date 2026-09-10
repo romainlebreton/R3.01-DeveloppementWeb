@@ -183,18 +183,18 @@ Vous en avez assez de devoir taper votre mot de passe à chaque `git push` ou
      # Creer un repertoire .ssh dans votre home si necessaire
      mkdir ~/.ssh
      cd ~/.ssh
-     # Creation d'une cle publique (id_rsa.pub) et privee (id_rsa)
-     # Nom du fichier ou enregistrer la clé -> Entrée pour garder le nom par defaut id_rsa
+     # Creation d'une cle publique (id_ed25519.pub) et privee (id_ed25519)
+     # Nom du fichier ou enregistrer la clé -> Entrée pour garder le nom par defaut id_ed25519
      # Entrez deux fois un mot de passe
      ssh-keygen
      ```
 
-     <!-- Besoin de ssh-agent ? ssh-add ~/.ssh/id_rsa (id_rsa optionnel) ? -->
+     <!-- Besoin de ssh-agent ? ssh-add ~/.ssh/id_ed25519 (id_ed25519 optionnel) ? -->
 
   1. Déposez votre clé SSH sur Gitlab.  
      Sur [Gitlab Info](https://gitlabinfo.iutmontp.univ-montp2.fr/), allez dans les
      paramètres utilisateurs puis dans l'onglet latéral SSH Keys. Recopiez le contenu
-     de `id_rsa.pub` (clé publique) dans le champ clé.
+     de `id_ed25519.pub` (clé publique) dans le champ clé.
 
   1. **Si et seulement si** vous avez déjà cloné votre dépôt Git en mode HTTPs, 
      il faut changer l'adresse du dépôt distant sur Github. En effet les

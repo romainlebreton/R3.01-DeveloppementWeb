@@ -56,17 +56,17 @@ La dernière séance de PHP (fin de la semaine du 20 octobre) sera dédiée au s
 * [TD 9 -- Messages Flash](tutorials/tutorial9.html) (durée indicative ≃ 2h) 
 * Suivi des projets / SAE si vous avez fini les TDs
 
+
+{% endcomment %}
 ## Notes complémentaires aux TDs
 
 * TD1 -- [Encodage des caractères, promotion de propriétés, serveur HTTP de l'IUT, note sur les URLs et Git]({{site.baseurl}}/assets/tut1-complement.html)
+{% comment %}
 * TD2 -- [Attributs et méthodes statiques]({{site.baseurl}}/assets/tut2-complement.html)
 * TD3 -- [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
 * TD4 -- [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html)
 * TD5 -- [`.htaccess`, namespace et autoloader]({{site.baseurl}}/assets/tut5-complement.html)
 * TD7 -- [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html)
-
-{% endcomment %}
-{% comment %}
 1. [Syntaxe simple & avancée de PHP 8.1]({{site.baseurl}}/assets/complement1-PHPSyntax.html)
 {% endcomment %}
 {% comment %}
