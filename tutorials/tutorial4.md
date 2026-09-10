@@ -192,6 +192,19 @@ une variable dont l'existence n'est pas garantie ! Cependant, si vous savez ce q
 
 </div>
 
+**Remarque :** Comme vu dans le [cours 1]({{site.baseurl}}/classes/class1.html), la syntaxe courte `<?= ?>` permet d'afficher directement une expression PHP, sans écrire `echo`. Il existe également une syntaxe alternative pour `if`, `else` et `foreach`, qui permet de mélanger du code HTML et du code PHP : on remplace l'accolade ouvrante `{` par deux points `:`, puis on ferme la structure avec `endif;` ou `endforeach;`. Consultez la [documentation officielle de PHP](https://www.php.net/manual/fr/control-structures.alternative-syntax.php) pour plus d'informations. Voici un code d'exemple :
+```php
+<?php if(empty($utilisateurs)): ?>
+    <p>Pas d'utilisateurs!</p>
+<?php else: ?>
+    <ul>
+        <?php foreach($utilisateurs as $utilisateur): ?>
+            <li> Utilisateur de login <?= $utilisateur->getLogin() ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
+```
+
 ### C : le contrôleur
 
 Le contrôleur gère la logique du code qui prend des décisions. C'est en quelque
@@ -513,7 +526,7 @@ dans la base de données.
 Voici le **diagramme de séquence** UML (simplifié) du cas d'utilisation "*Afficher les détails d'un utilisateur*".
 
 <img alt="Diagramme entité association"
-src="https://www.plantuml.com/plantuml/png/ZLPBZkCs4Dtp58MUHMOMGWV8JXW8Cnq1oQ8RuqntigUfifffcLJuQVW4EK1E4MUT6_WcEKbAD1s9RTBnmh18lbVrwl53VhAE6-Ut0xClKetSy2rO_CsZ4lY0rl8UFm-oLo1GEJGBr9tUhNZNITN3TzyoneNJ1cw-7oG1uSUdfzKDS0kn_SvWnnWHdHHovDHpyuZc5Rs1poCNppY1uoTZHrBL7DirV2L1XxySXh1J9ldA7PxWnp-ecjW1DMoqUIdWgiPexoXn3RWxx8LtKYkmmiZHpPI8OOojzOwgqigPmzy3TTt0ktlPFxkxmMDQKUGaVO6e9zxFJWxIyWa17p-AWLlRDC1OP5LD5beJrZfEyGZCDnj95PZsi7TS3ky_p7gpPCPGTK05dCfuqDtXpm6fX9LKBubG6i81IoAJYRkzzHRDxItKvwmmZL_Mlw9BT6JbLKsa5yerAFnus1jSabRStEjUgcNnPs4O4mQZBGftKgixRh75TcgYPUoCKJLvQ0qzkbMdtt-0Vtx_0uGvx7bOC1t2y8rK95O9Z5BA2T-kYOtilU7kBMxfUJvIrPJPDRIuvOgKoGwLanj9sMoYhS1avQ6gxCnNTDgRD5c7vNHbEpBXouwLOQlsozlseoCfMn8uRuMuDWAwuuwlAHxSjIsmekS4XReu-JHQDHI08DF6N0_Isf0pu3Y8KzI0BFb9R1CDZO63GbPKbTq-kH3fd5ov7sBDeq5o59UxZGQYXQd1mOPbpmNB4XXLCaNA6934dqW1UoRs_vWT9kBprIQwSOV2kwJi9EAo4UO-kKpCwRfw_EcUqM2Lng-1N1cr2iik5JU3hX2vGIUUhvDusJM_wDnei-KEfcMCt1VLvUHbKYJdkQ2IdV7IO8kZb_Rfc8DCkkemprmh6H5dg0khy0oQzOayA8lBI2ZUvD7jq_LvEMxfolp5usJgjCIaGNArYsV-yN70UwIUEST_6OZ7w1TAp8KEFf4AUc8ztCDeTETbidE875yHz7Lw1FrW45LovawmUDIMQfXVO7F6PQOiYqKELFCxhy2Fo6NNwM79ZXyKu_Z4f4iiRiNmjCnGFb4nVZly2m00" style="margin-left:auto;margin-right:auto;display:block;">
+src="https://cdn-0.plantuml.com/plantuml/png/ZLPBRjim4Dtp50DdqMGXk41tGY0ahe5suI1katPFKsE7ZKof_0G-GG_GKzHTzmQ-IK_I4IrMT4J7MHGrgVTctdjaI5uPoxLrwugPHwaQhlaQ37vtg0JUe35yXTULN2aGg2pg23MfDtDUbbAjuDrRnhYmjORH-qeI43xUtyz7m0rqupED9MD4j5B8XjFCw0xr4peDrmqN3-Z1-v-CxKbPiH_dy9a4xNvRz6NRJlA9Mmpm_N-G5Tq4vB2izUCHN5Resbbgd0DkTblXhAmL6A5bOtjAXs6CBUeDkQgLrRi_5KsDu6mcLmzsKZayT1GuyPmdrYtlYvMLDBn5mEMbgBWnHG6CTQoiI49pmXhBgHw1-N8foO6UxhQMo-hyejUR93E6gWGo46pSrENkLuLaOIxLuu5G-eGLfaK-MxZns1dKup7aGvPVnjl5DxG7EfBoiYBGqtOr2jVijXfZqfphMRsIAZ8_LC6OqDZ5ed132ppX1gSuROTe61imiY8DpM65TbxMvnVmzyTF47gtvNx3b0ZL6wb8h18Of1nl60UOnXn0vjFRv-CxYWNNg6o_gC5bYowvvGkg1vFf51XBzyWAWa9-r0PzpGegG91sYoqe7UDxUXm74QfwvB7CYAtHrav3AEmLigEg4XiXNQB4aq4FAWNFZKPA5EDzGnz2X770-nZYcPSYYs7afAsK2Y2ktv8yTY3s5BF4M7p2xK0tRb0u6zaUUEq7VkqFZaKT3jwxJpD67xF3-ZbGAasj_BOZSUaMfqKkqOg7LqayaPgB9kaEM7CBxJP6xewgIybBjOXF9a6MhNPIunGR9ytzlWU5zAfZAN509aGCK2_imW4qcLF882ak8U7OdHJI3XT1kkwfm_-hmpRKTej9ZPHgYMkkIkokERv2ckbx_Ez0F4R_lCLKQPyJgQ37miqC6bsNJjfO8f6x-v1-XUlyWqPKyPdRmlgZDksXVqlq7UDEIHRhE935BvOalqF6K-6955upMR5_BD4ZAVmfje-a1EMApD0xxny0" style="margin-left:auto;margin-right:auto;display:block;">
 
 <!-- Source code:
 https://www.plantuml.com/plantuml/uml/ZLPBZkCs4Dtp58MUHMOMGWV8JXW8Cnq1oQ8RuqntigUfifffcLJuQVW4EK1E4MUT6_WcEKbAD1s9RTBnmh18lbVrwl53VhAE6-Ut0xClKetSy2rO_CsZ4lY0rl8UFm-oLo1GEJGBr9tUhNZNITN3TzyoneNJ1cw-7oG1uSUdfzKDS0kn_SvWnnWHdHHovDHpyuZc5Rs1poCNppY1uoTZHrBL7DirV2L1XxySXh1J9ldA7PxWnp-ecjW1DMoqUIdWgiPexoXn3RWxx8LtKYkmmiZHpPI8OOojzOwgqigPmzy3TTt0ktlPFxkxmMDQKUGaVO6e9zxFJWxIyWa17p-AWLlRDC1OP5LD5beJrZfEyGZCDnj95PZsi7TS3ky_p7gpPCPGTK05dCfuqDtXpm6fX9LKBubG6i81IoAJYRkzzHRDxItKvwmmZL_Mlw9BT6JbLKsa5yerAFnus1jSabRStEjUgcNnPs4O4mQZBGftKgixRh75TcgYPUoCKJLvQ0qzkbMdtt-0Vtx_0uGvx7bOC1t2y8rK95O9Z5BA2T-kYOtilU7kBMxfUJvIrPJPDRIuvOgKoGwLanj9sMoYhS1avQ6gxCnNTDgRD5c7vNHbEpBXouwLOQlsozlseoCfMn8uRuMuDWAwuuwlAHxSjIsmekS4XReu-JHQDHI08DF6N0_Isf0pu3Y8KzI0BFb9R1CDZO63GbPKbTq-kH3fd5ov7sBDeq5o59UxZGQYXQd1mOPbpmNB4XXLCaNA6934dqW1UoRs_vWT9kBprIQwSOV2kwJi9EAo4UO-kKpCwRfw_EcUqM2Lng-1N1cr2iik5JU3hX2vGIUUhvDusJM_wDnei-KEfcMCt1VLvUHbKYJdkQ2IdV7IO8kZb_Rfc8DCkkemprmh6H5dg0khy0oQzOayA8lBI2ZUvD7jq_LvEMxfolp5usJgjCIaGNArYsV-yN70UwIUEST_6OZ7w1TAp8KEFf4AUc8ztCDeTETbidE875yHz7Lw1FrW45LovawmUDIMQfXVO7F6PQOiYqKELFCxhy2Fo6NNwM79ZXyKu_Z4f4iiRiNmjCnGFb4nVZly2m00
