@@ -98,7 +98,7 @@ lors des TDs précédents (sauf la méthode `__toString()` qui correspond plutô
 
 <div class="exercise">
 
-1. Copiez/collez dans un nouveau dossier `TD4` les fichiers `ConfigurationBaseDeDonnees.php`,
+1. Copiez/collez dans un nouveau dossier `TD4` les fichiers `ConfigurationBaseDeDonnees.ini`,
    `ConnexionBaseDeDonnees.php` et `Utilisateur.php` du dossier `TD3`.
 
 2. Créez les répertoires `Configuration`, `Controleur`, `Modele`, `vue` et `vue/utilisateur`.
@@ -113,10 +113,10 @@ lors des TDs précédents (sauf la méthode `__toString()` qui correspond plutô
 
 4. Si vous aviez une instruction `require_once` pour importer le fichier `Trajet.php` dans `Utilisateur.php`, supprimez-la.
 
-5. Déplacez la classe `ConfigurationBaseDeDonnees` dans le dossier
-   `Configuration` **en évitant d'utiliser PHPStorm**.
+5. Déplacez le fichier de configuration `ConfigurationBaseDeDonnees.ini` dans le dossier
+   `Configuration`**.
 
-6. Corrigez le chemin relatif du `require_once` du fichier `ConfigurationBaseDeDonnees.php` dans `ConnexionBaseDeDonnees.php`.
+6. Corrigez le chemin relatif du fichier `ConfigurationBaseDeDonnees.ini` dans `ConnexionBaseDeDonnees.php`.
 
 7. Utilisez l'outil de refactoring de votre IDE pour renommer la classe
    `Utilisateur` en `ModeleUtilisateur`. 

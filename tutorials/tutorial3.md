@@ -147,7 +147,7 @@ PDO (qui permet de donner le type de la valeur). Cependant, nous vous conseillon
 d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 
 <div class="exercise">
-1. Copiez/collez dans un nouveau dossier TD3 les fichiers `ConfigurationBaseDeDonnees.php`,
+1. Copiez/collez dans un nouveau dossier TD3 les fichiers `ConfigurationBaseDeDonnees.ini`,
    `ConnexionBaseDeDonnees.php`, `Utilisateur.php` et `lireUtilisateurs.php`.
 
 1. Copiez la fonction précédente `recupererUtilisateurParLogin` dans la classe `Utilisateur`
