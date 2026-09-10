@@ -99,45 +99,46 @@ fonction de s'ils doivent être accessibles sur le Web.
 
 #### Réparer les inclusions de fichiers du site
 
-Lorsque l'on a déplacé la page d'accueil vers `controleurFrontal.php`, **tous nos
-`require_once` ont été décalés**. En effet, le problème quand on utilise des chemins de fichiers 
-relatifs dans nos
-`require_once`, c'est que comme ils sont tous copiés/collés dans `routeur.php`, ils
-utilisent le dossier du routeur comme base.
+Lorsque l'on a déplacé la page d'accueil vers `controleurFrontal.php`, **tous nos chemins relatifs de fichiers ont été décalés**. En effet, commes tous les fichiers PHP sont copiés/collés dans `controleurFrontal.php`, les chemins relatifs de fichiers sont interprétés par rapport au dossier du contrôleur frontal. Ce problème se produit dans les `require`, `require_once` et `parse_ini_file`.
 
-Prenons l'exemple de `require_once '../Configuration/ConfigurationBaseDeDonnees.php'` dans `ConnexionBaseDeDonnees.php` :
-* Avant cette adresse était relative à `/chemin_du_site/Controleur/routeur.php`, donc elle 
-  pointait vers `/chemin_du_site/Controleur/../Configuration/ConfigurationBaseDeDonnees.php`, donc sur
-`/chemin_du_site/Configuration/ConfigurationBaseDeDonnees.php`
+Prenons l'exemple du `parse_ini_file` de  `../Configuration/ConfigurationBaseDeDonnees.ini` dans `ConnexionBaseDeDonnees.php` :
+* Dans le TD4, cette adresse était relative à `/chemin_du_site/Controleur/routeur.php`, donc elle pointait vers  
+  `/chemin_du_site/Controleur/../Configuration/ConfigurationBaseDeDonnees.ini`, donc sur  
+  `/chemin_du_site/Configuration/ConfigurationBaseDeDonnees.ini`
 * Désormais, cette adresse est relative à `/chemin_du_site/web/controleurFrontal.php`. Elle
-va renvoyer vers l'adresse inconnue `/chemin_du_site/web/../Configuration/ConfigurationBaseDeDonnees.php`, c.-à-d. `/chemin_du_site/Configuration/ConfigurationBaseDeDonnees.php`.
+  va renvoyer vers l'adresse inconnue  
+  `/chemin_du_site/web/../Configuration/ConfigurationBaseDeDonnees.ini`, c.-à-d.  
+  `/chemin_du_site/Configuration/ConfigurationBaseDeDonnees.ini`. Or la bonne adresse est  
+  `/chemin_du_site/src/Configuration/ConfigurationBaseDeDonnees.ini`.
 
 Pour éviter ce comportement qui porte à confusion, nous allons utiliser des chemins
 de fichiers absolus. Pour ce faire, nous utiliserons la constante [`__DIR__`](https://www.php.net/manual/fr/language.constants.magic.php) qui contient le chemin absolu du dossier contenant le fichier actuel. Par exemple, nous pouvons écrire dans `ConnexionBaseDeDonnees.php`
 ```php
 // __DIR__ renvoie vers le dossier contenant ConnexionBaseDeDonnees.php
-// c-à-d ici __DIR__ égal "/chemin_du_site/Modele"
-require_once __DIR__ . '/../Configuration/ConfigurationBaseDeDonnees.php';
+// c-à-d ici __DIR__ égal "/chemin_du_site/src/Modele"
+$configurationBaseDeDonnees = parse_ini_file(
+   __DIR__ . '/../Configuration/ConfigurationBaseDeDonnees.ini',
+   false, 
+   INI_SCANNER_RAW
+);
+// On obtient "/chemin_du_site/src/Modele/../Configuration/ConfigurationBaseDeDonnees.ini"
+// c-à-d "/chemin_du_site/src/Configuration/ConfigurationBaseDeDonnees.ini" 
 ```
 
-À partir de maintenant, nous n'utiliserons plus de `require_once` avec des
-chemins relatifs. Il va donc falloir changer ceux qui existent déjà.
+À partir de maintenant, nous n'utiliserons plus de chemins relatifs dans `require`, `require_once` et `parse_ini_file`. Il va donc falloir changer ceux qui existent déjà.
 
 <!-- 
 `__DIR__` donne le dossier du fichier. Si utilisé dans une inclusion, le
 dossier du fichier inclus sera retourné. Ce nom de dossier ne contiendra
 pas de slash final (sauf si c'est le dossier racine `/`). -->
 
-
-
 <div class="exercise">
 
-Corrigez tous les `require_once` pour que le site remarche : 
-
-1. Changez tous les `require_once` qui chargent des classes ;
-2. Changez le `require` dans `ControleurUtilisateur::afficherVue` qui charge les
+1. Changez le `parse_ini_file` dans `ConnexionBaseDeDonnees.php` pour qu'il utilise un chemin absolu ;
+2. Changez tous les `require_once` qui chargent des classes ;
+3. Changez le `require` dans `ControleurUtilisateur::afficherVue` qui charge les
    vues ; 
-3. Si besoin, changez les liens de `liste.php` et l'attribut `action` du
+4. Si besoin, changez les liens de `liste.php` et l'attribut `action` du
    formulaire `formulaireCreation.php` pour qu'ils renvoient sur
    `controleurFrontal.php` au lieu de `routeur.php`.
 
@@ -149,19 +150,18 @@ restriction d'accès.
 
 <div class="exercise">
 
-2. Nous allons indiquer au serveur Web Apache que les fichiers ne sont pas accessibles sur internet par défaut. Pour ceci, créez un fichier `.htaccess` à la racine de votre site `TD5` avec le contenu suivant :
+1. Nous allons indiquer au serveur Web Apache que les fichiers ne sont pas accessibles sur internet par défaut. Pour ceci, créez un fichier `.htaccess` à la racine de votre site `TD5` avec le contenu suivant :
 
    ```apache
    Require all denied
    ```
-
-3. Pour indiquer que les fichiers du dossier `web` sont accessibles, créez un fichier `web/.htaccess` avec le contenu suivant :
+2. Pour indiquer que les fichiers du dossier `web` sont accessibles, créez un fichier `web/.htaccess` avec le contenu suivant :
 
    ```apache
    Require all granted
    ```
 
-4. Vérifiez que l'accès par internet aux scripts autres que `web/controleurFrontal.php`
+3. Vérifiez que l'accès par internet aux scripts autres que `web/controleurFrontal.php`
    affiche une page Web `Forbidden You don't have permission to access this resource`.
 
    {% comment %}
@@ -218,53 +218,62 @@ l'équivalent des `package` en Java.
 
 1. Rajoutez
    ```php
-   namespace App\Covoiturage\Configuration;
+   namespace App\Covoiturage\Modele;
    ```
-   au début de `src/Configuration/ConfigurationBaseDeDonnees.php`.
+   au début de `src/Modele/ConnexionBaseDeDonnees.php`.
 
    **Explication :** La déclaration `namespace` regroupe toutes les classes (et
      fonctions) déclarées dans le fichier dans l'espace de nom
-     `App\Covoiturage\Configuration`, ce qui a pour effet de rajouter un préfixe
-     à leur nom. Ainsi, la classe déclarée dans `ConfigurationBaseDeDonnees.php`
+     `App\Covoiturage\Modele`, ce qui a pour effet de rajouter un préfixe
+     à leur nom. Ainsi, la classe déclarée dans `ConnexionBaseDeDonnees.php`
      s'appelle maintenant
-     `App\Covoiturage\Configuration\ConfigurationBaseDeDonnees`. 
+     `App\Covoiturage\Modele\ConnexionBaseDeDonnees`. 
 
 
    **Attention :** Les espaces de nom utilisent des antislashs `\`, tandis que 
    les chemins de fichiers Linux/Mac utilisent des slashs `/`.
 
-2. Le site est de nouveau cassé : `ConnexionBaseDeDonnees.php` ne connaît pas la classe `ConfigurationBaseDeDonnees`.
-   En effet, cette classe s'appelle désormais `App\Covoiturage\Configuration\ConfigurationBaseDeDonnees`.  
-   **Complétez** le nom de la classe `ConfigurationBaseDeDonnees` dans `ConnexionBaseDeDonnees.php`. Le site Web doit refonctionner.
+2. Le site est de nouveau cassé : `ModeleUtilisateur.php` ne connaît pas la classe `ConnexionBaseDeDonnees`.
+   En effet, cette classe s'appelle désormais `App\Covoiturage\Modele\ConnexionBaseDeDonnees`.  
+   **Complétez** le nom de la classe `ConnexionBaseDeDonnees` dans `ModeleUtilisateur.php`.
 
-   **Note :** Vous ne devez pas toucher aux noms de fichiers dans les
-   `require_once`, mais plutôt changer le nom de classe
-   `ConfigurationBaseDeDonnees` dans les appels à des méthodes statiques. 
+   **Note :** 
+   * Vous ne devez pas toucher aux noms de fichiers dans les `require_once`, mais plutôt changer le nom de classe `ConnexionBaseDeDonnees` dans les appels à des méthodes statiques.
+   * Utilisez la recherche/remplacement de PHPStorm avec `Ctrl+R`.
+
+3. Le site est toujours cassé : La classe `PDO` dans `ConnexionBaseDeDonnees.php` est comprise comme `App\Covoiturage\Modele\PDO` à cause du `namespace App\Covoiturage\Modele`. Or son nom complet est `\PDO`.  
+   **Spécifiez** que `PDO` est dans l'espace de nom global en appelant la classe `\PDO`.
+     
+   La même remarque tient pour toutes les autres classes de la librairie standard de PHP
+   (comme `DateTime` que nous avions utilisée dans `Trajet` dans un précédent TD, par exemple).
 
 3. Vous conviendrez volontiers que ce nom de classe à rallonge est pénible. Nous
    allons utiliser un alias à la place :
 
    ```php
-   // ConfigurationBaseDeDonnees est un raccourci pour App\Covoiturage\Configuration\ConfigurationBaseDeDonnees
-   use App\Covoiturage\Configuration\ConfigurationBaseDeDonnees as ConfigurationBaseDeDonnees; 
+   // ConnexionBaseDeDonnees est un raccourci pour App\Covoiturage\Modele\ConnexionBaseDeDonnees
+   use App\Covoiturage\Modele\ConnexionBaseDeDonnees as ConnexionBaseDeDonnees; 
+   // PDO est un raccourci pour \PDO
+   use \PDO as PDO;
    // ou syntaxe équivalente plus rapide 
-   use App\Covoiturage\Configuration\ConfigurationBaseDeDonnees;
+   use App\Covoiturage\Modele\ConnexionBaseDeDonnees;
+   use \PDO;
    ```
-
-   **Raccourcissez** les noms de classe dans `ConnexionBaseDeDonnees.php` grâce à cet alias (à placer au début du fichier).
+  
+   **Raccourcissez** les noms de classe de `ConnexionBaseDeDonnees`, `PDO` et `PDOException` dans `ModeleUtilisateur.php` grâce à cet alias (à placer au début du fichier).
 
    **Remarques :**
    * `use` est similaire à `import` en Java.
    * Si une classe utilise une autre classe et si ces deux classes se trouvent 
-   dans le même `namespace`, il n'y a pas besoin de faire d'import explicite avec `use`
-   (par exemple, `ModeleUtilisateur` n'aura pas à importer explicitement `ConnexionBaseDeDonnees`).
+     dans le même `namespace`, il n'y a pas besoin de faire d'import explicite avec `use`, 
+     ce qui est notre cas avec `ConnexionBaseDeDonnees` dans `ModeleUtilisateur`.
    * PhpStorm peut faire ce travail à votre place. Par exemple, quand il ne
      connaît pas la classe `Configuration`, il la surligne pour indiquer un *warning*.
      Lorsque votre curseur est sur la ligne du *warning*, une ampoule apparaît
      pour vous proposer des solutions rapides (ou faites `Alt+Entrée`).
      Choisissez la solution *Import Class*.
 
-4. Supprimez le `require_once` qui charge et exécute le fichier `ConfigurationBaseDeDonnees.php`.
+4. Supprimez le `require_once` qui charge et exécute le fichier `ConnexionBaseDeDonnees.php` dans `ModeleUtilisateur.php`.
 
    Le site est de nouveau cassé : l'application ne sait pas où chercher la classe pointée par le `use` (et la charger). 
    Nous allons régler cela dans le prochain exercice.
@@ -303,19 +312,19 @@ $chargeurDeClasse->addNamespace('App\Covoiturage', __DIR__ . '/../src');
 Vous pouvez maintenant utiliser n'importe quelle classe dont l'espace nom
 commence par `App\Covoiturage` et `Psr4AutoloaderClass` chargera le fichier de
 déclaration de classe correspondant avec un `require_once`. Par exemple, si vous
-exécutez maintenant
+exécutez maintenant dans `ModeleUtilisateur.php`
 ```php
-use App\Covoiturage\Configuration\ConfigurationBaseDeDonnees;
-echo ConfigurationBaseDeDonnees::getPort();
+use App\Covoiturage\Modele\ConnexionBaseDeDonnees;
+$pdo = ConnexionBaseDeDonnees::getPdo();
 ```
 alors `Psr4AutoloaderClass` exécutera pour vous
 ```php
-require_once(__DIR__ . '/../src/Configuration/ConfigurationBaseDeDonnees.php')
+require_once(__DIR__ . '/../src/Modele/ConnexionBaseDeDonnees.php')
 ```
 Le chemin de fichier est déterminé par `Psr4AutoloaderClass` en utilisant
 l'association déclarée précédemment avec `addNamespace` pour remplacer
 `'App\Covoiturage'` par `__DIR__ . '/../src'` dans le nom de classe qualifié de
-``ConfigurationBaseDeDonnees``.
+`ConnexionBaseDeDonnees`.
 
 
 <div class="exercise">
@@ -348,7 +357,7 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
    la méthode `requireFile` de `Psr4AutoloaderClass` pour afficher le nom du fichier
    que l'*autoloader* essaye de charger. -->
 
-4.  Nous allons enfin pouvoir utiliser l’autoloader. Avec les changements effectués dans l'exercice précédent, la classe `App\Covoiturage\Configuration\ConfigurationBaseDeDonnees` sera cherchée dans le fichier `src/Configuration/ConfigurationBaseDeDonnees.php`.
+4. Nous allons enfin pouvoir utiliser l’autoloader. Avec les changements effectués dans l'exercice précédent, la classe `App\Covoiturage\Modele\ConnexionBaseDeDonnees` sera cherchée dans le fichier `src/Modele/ConnexionBaseDeDonnees.php`.
    
    Répétez le processus de l'exercice précédent afin d'enlever tous les 
    `require_once` de fichier de déclaration de classe (sauf pour 
@@ -358,32 +367,20 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
    * suppression des `require_once` (utilisation d'un `use` à la place).  
 
    Nous vous conseillons de procéder classe par classe, dans l'ordre suivant :
-   `ConnexionBaseDeDonnees`, `ModeleUtilisateur` puis `ControleurUtilisateur`.
-   N'oubliez pas d'importer la classe `ControleurUtilisateur` dans le contrôleur frontal pour pouvoir l'utiliser.
-
+   * `ModeleUtilisateur`, 
+   * puis `ControleurUtilisateur`, 
+   * puis `controleurFrontal.php` (pour la classe `ControleurUtilisateur`, pas pour `Psr4AutoloaderClass`).
+   
    Nous n'enlèverons pas le `require` de la fonction `afficherVue` du contrôleur, car nous l'utilisons pour
    charger un script (et pas une classe) de manière dynamique (le nom du script à charger est passé en paramètre).
 
    **Remarque :** Il n'y a pas besoin d'utiliser `use App\Covoiturage\Configuration\ConnexionBaseDeDonnees;` dans
    la classe `ModeleUtilisateur` car ces classes se trouvent dans le même `namespace`.
 
-5. **Attention :** La classe `PDO` dans `ConnexionBaseDeDonnees.php` est
-   comprise comme `App\Covoiturage\Modele\PDO` à cause du `namespace
-   App\Covoiturage\Modele`. Or son nom complet est `\PDO`. Deux solutions
-   possibles :
-
-   * Ajoutez `use \PDO as PDO;` pour que PHP sache que `PDO` est dans l'espace de nom
-     global.
-   * Ou spécifiez que `PDO` est dans l'espace de nom global en appelant la
-     classe `\PDO`.
-     
-   La même remarque tient pour toutes les autres classes de la librairie standard de PHP
-   (comme `DateTime` que nous avions utilisée dans `Trajet` dans un précédent TD, par exemple).
-
-   Le site doit maintenant fonctionner à nouveau.
+5. Le site doit maintenant fonctionner à nouveau.
 
 6. Maintenant que vous avez compris le principe de `Psr4AutoloaderClass`, vous
-   pouvez si vous le souhaitez désactiver son affichage de débogage dans `controleurFrontal.php`:
+   pouvez désactiver son affichage de débogage dans `controleurFrontal.php`:
    ```php
    $chargeurDeClasse = new App\Covoiturage\Lib\Psr4AutoloaderClass(false);
    ```

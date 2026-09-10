@@ -778,15 +778,12 @@ cf http://defeo.lu/aws/lessons/session-fixation
 
 1. Nous allons ajouter un mécanisme d'expiration pour les sessions.
 La durée d'expiration est une donnée qui dépend du site. Il serait donc
-judicieux de la mettre dans une classe de configuration `ConfigurationSite.php`
-(similaire à `ConfigurationBaseDeDonnees.php`). Créez donc la classe `ConfigurationSite`
-dans `src/Configuration/ConfigurationSite.php` qui définit la méthode suivante :
+judicieux de la mettre dans un fichier de configuration `ConfigurationSite.ini`
+(similaire à `ConfigurationBaseDeDonnees.ini`). Créez donc ce fichier `ConfigurationSite.ini`
+dans `src/Configuration` avec le contenu suivant :
 
-   ```php
-    static public function getDureeExpirationSession(): int
-    {
-        return 300;
-    }
+   ```ini
+   duree_expiration = 300
    ```
 
    Le `300` correspond au temps d'inactivité maximal avant que les données de la
