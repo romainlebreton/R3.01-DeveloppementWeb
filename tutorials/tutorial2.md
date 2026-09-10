@@ -331,10 +331,9 @@ Pour avoir plus de messages d'erreur de `PDO` et qu'il gère mieux l'UTF-8,
 
 ```php?start_inline=1
 // Connexion à la base de données            
-// Le dernier argument sert à ce que toutes les chaines de caractères 
-// en entrée et sortie de MySQL soient dans l'encodage UTF-8
-$this->pdo = new PDO("mysql:host=$nomHote;port=$port;dbname=$nomBaseDeDonnees", $login, $motDePasse,
-                     array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"));
+// charset=utf8mb4 sert à ce que toutes les chaines de caractères 
+// en entrée et sortie de MySQL utilisent dans l'encodage UTF-8
+$this->pdo = new PDO("mysql:host=$nomHote;port=$port;dbname=$nomBaseDeDonnees;charset=utf8mb4", $login, $motDePasse);
 
 // On active le mode d'affichage des erreurs, et le lancement d'exception en cas d'erreur
 $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
