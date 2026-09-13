@@ -96,25 +96,24 @@ vulnérable aux **injections SQL** et un utilisateur pourrait faire comme dans
 l'exemple précédent pour exécuter le code SQL qu'il souhaite.
 
 
-Pour empêcher les **injections SQL**, nous allons utiliser une fonctionnalité
-qui s'appelle les **requêtes préparées** et qui est fournie par PDO. Voici
+Pour empêcher les **injections SQL**, nous allons utiliser une fonctionnalité fournie par PDO
+qui s'appelle les **requêtes préparées** et qui permet de protéger les valeurs dans les requêtes SQL. Voici
 comment les requêtes préparées fonctionnent :
 
-1. On met un *tag* `:nomTag` en lieu de la valeur à remplacer dans la requête
-SQL
+1. On met un *tag* `:nomTag` en lieu de la valeur à remplacer dans la requête SQL.
 
-1. On doit "préparer" la requête avec la commande `prepare($requeteSql)`
+2. On doit "préparer" la requête avec la commande `prepare($requeteSql)`
 
-1. Puis utiliser un tableau pour associer des valeurs aux noms des tags des
+3. Puis utiliser un tableau pour associer des valeurs aux noms des tags des
    variables à remplacer :
 
    ```php?start_inline=1
    $values = array("nomTag" => "une valeur"); // Sans deux points devant nomTag
    ```
 
-1. Et exécuter la requête préparée avec `execute($values)`
+4. Et exécuter la requête préparée avec `execute($values)`
 
-1. On peut alors récupérer les résultats comme précédemment (e.g. avec
+5. On peut alors récupérer les résultats comme précédemment (e.g. avec
    `fetch()`)
 
 Voici toutes ces étapes regroupées dans une fonction :
@@ -154,10 +153,10 @@ d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 1. Copiez/collez dans un nouveau dossier TD3 les fichiers `ConfigurationBaseDeDonnees.ini`,
    `ConnexionBaseDeDonnees.php`, `Utilisateur.php` et `lireUtilisateurs.php`.
 
-1. Copiez la fonction précédente `recupererUtilisateurParLogin` dans la classe `Utilisateur`
+2. Copiez la fonction précédente `recupererUtilisateurParLogin` dans la classe `Utilisateur`
    en la déclarant publique et statique.
 
-2. Testez la fonction `recupererUtilisateurParLogin` dans un nouveau fichier `testRequetePrepare.php`.
+3. Testez la fonction `recupererUtilisateurParLogin` dans un nouveau fichier `testRequetePrepare.php`.
 
    **Remarque :** Vous aurez sans doute une erreur `Class "ConnexionBaseDeDonnees" not found`.
    Où inclure `ConnexionBaseDeDonnees.php` : dans `Utilisateur.php` ou dans `creerUtilisateur.php` ?  
@@ -167,7 +166,7 @@ d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 
    "Mais pourquoi cela fonctionnait avant alors que `recupererUtilisateurParLogin` utilisait déjà `ConnexionBaseDeDonnees::getPdo()` ?!". C'est une très bonne question ! En fait, dans votre fichier `lireUtilisateurs.php`, la classe `ConnexionBaseDeDonnees` était chargée par ce fichier (avant d'appeler la fonction `recupererUtilisateurParLogin`). Maintenant que l'inclusion du fichier est faite au bon endroit, vous pouvez également supprimer le `require_once` important `ConnexionBaseDeDonnees.php` dans `lireUtilisateurs.php`.
    
-3. On souhaite que `recupererUtilisateurParLogin` renvoie `null` s'il n'existe pas
+4. On souhaite que `recupererUtilisateurParLogin` renvoie `null` s'il n'existe pas
    d'utilisateur de login `$login`. Mettez à jour le code
    et la déclaration de type. Testez votre code.
 
@@ -178,8 +177,7 @@ requêtes préparées**, sauf éventuellement des requêtes SQL sans variable co
 `SELECT * FROM utilisateur`.
 
 <div class="exercise">
-
-2. Créez une fonction `public function ajouter() : void` dans la classe `Utilisateur` qui insère l'utilisateur
+1. Créez une fonction `public function ajouter() : void` dans la classe `Utilisateur` qui insère l'utilisateur
 courant (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
 
    ```sql
@@ -190,7 +188,7 @@ courant (`$this`) dans la BDD. On vous rappelle la syntaxe SQL d'une insertion :
      faut donc pas faire de `fetch()` sous peine d'avoir une erreur
      `SQLSTATE[HY000]: General error`.
 
-3. Testez cette fonction dans `testRequetePrepare.php` en créant un objet de classe
+1. Testez cette fonction dans `testRequetePrepare.php` en créant un objet de classe
    `Utilisateur` et en l'enregistrant.
    
 **Remarque :** Le nom de la fonction `ajouter()` peut prêter à confusion. En effet, lorsqu'on voit une fonction `ajouter()`
@@ -203,18 +201,17 @@ et le nom `ajouter()` prendra tout son sens.
 
 Branchons maintenant notre enregistrement d'utilisateur dans la BDD au formulaire
 de création d'utilisateur du TD1 :
-
-2. Copiez dans le dossier TD3 les fichiers `creerUtilisateur.php` et
+1. Copiez dans le dossier TD3 les fichiers `creerUtilisateur.php` et
    `formulaireCreationUtilisateur.html` du TD1.
 
-3. Modifiez la page `creerUtilisateur.php` de sorte qu'elle sauvegarde
+2. Modifiez la page `creerUtilisateur.php` de sorte qu'elle sauvegarde
    l'objet `Utilisateur` reçu (en GET ou POST, au choix).
 
-4. Testez l'insertion grâce au formulaire `formulaireCreationUtilisateur.html`.
+3. Testez l'insertion grâce au formulaire `formulaireCreationUtilisateur.html`.
 
-5. Vérifiez dans PhpMyAdmin que les utilisateurs sont bien sauvegardés.
+4. Vérifiez dans PhpMyAdmin que les utilisateurs sont bien sauvegardés.
 
-6. Essayez d'ajouter un utilisateur dont un champ contient une apostrophe
+5. Essayez d'ajouter un utilisateur dont un champ contient une apostrophe
    `'`, par exemple un nom `"D'Artagnan"`. Est-ce qu'elle a bien été
    sauvegardée ? Si ce n'est pas le cas, c'est sûrement que vous n'avez pas
    utilisé les requêtes préparées.
@@ -263,7 +260,6 @@ Comme il n'y a qu'un conducteur par trajet, nous allons rajouter un champ
 
 <div class="exercise">
 La table `utilisateur` avec quelques utilisateurs a déjà été créée dans votre PhpMyAdmin. Créez la table `trajet` comme suit :
-
 1. Créez une table `trajet` avec les champs suivants :
    * `id` : INT, clé primaire (champ Index, puis `PRIMARY`), qui s'auto-incrémente (voir en dessous)
    * `depart` : VARCHAR (taille 64)
@@ -281,7 +277,7 @@ La table `utilisateur` avec quelques utilisateurs a déjà été créée dans vo
    **Note :** Observez qu'à l'enregistrement de votre table dans PhpMyAdmin le type BOOLEAN est remplacé
    par `tinyint`, où `0` correspond à `"faux"` et `1` correspond à `"vrai"`.
 
-3. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
+2. Insérez quelques trajets en prenant soin de ne pas remplir la case `id` (pour
    que l'auto-incrément marche) et en mettant dans `conducteurLogin` un login
    d'utilisateur valide (pour éviter des problèmes par la suite).
 
@@ -297,7 +293,6 @@ Elle est assez semblable à la classe `Utilisateur.php` que vous avez déjà cod
 3. l'attribut `$conducteur` est stocké en tant qu'objet de la classe PHP `Utilisateur` ;
 
 <div class="exercise">
-
 1. Enregistrez la classe suivante :
 <!-- [`Utilisateur.php`]({{site.baseurl}}/assets/TD3/Utilisateur.php) et -->
 [`Trajet.php`]({{site.baseurl}}/assets/TD3/Trajet.php).
@@ -474,8 +469,8 @@ la table `passager` ne soit pas vide.
 5. Vous allez maintenant vous assurer de la bonne gestion des clés étrangères en
 testant le comportement `ON DELETE CASCADE`. Pour cela :
    1. créez un trajet correspondant à un certain conducteur,
-   1. puis inscrivez des passagers pour ce trajet,
-   1. supprimez ensuite le conducteur en question de la table `utilisateur` et
+   2. puis inscrivez des passagers pour ce trajet,
+   3. supprimez ensuite le conducteur en question de la table `utilisateur` et
       vérifiez que les lignes de la table `passager` précédemment insérées ont
       bien été supprimées elles aussi.
 
@@ -531,7 +526,7 @@ pouvez vous rafraîchir la mémoire en lisant
    2. Mettez à jour le constructeur pour qu'il gère cet attribut avec la valeur par défaut `[]`.
    3. Générez à l'aide de PhpStorm les accesseurs `getPassagers` et
       `setPassagers`. 
-   3. Modifiez la fonction `construireDepuisTableauSQL` pour qu'elle instancie
+   4. Modifiez la fonction `construireDepuisTableauSQL` pour qu'elle instancie
       le nouveau `$trajet` avec une liste des passagers vide, qu'elle récupère
       les passagers de ce trajet, et qu'elle stocke ces passagers dans
       l'attribut. 
@@ -564,22 +559,21 @@ d'injection SQL.
 
 <div class="exercise">
 Mettons en place notre attaque SQL :
-
 1. Pour ne pas supprimer une table importante, créons une table `utilisateur2` qui ne craint rien :
     * allez dans PHPMyAdmin et cliquez sur votre base de données (celle dont le
      nom est votre login à l'IUT)
    * Dans l'onglet SQL `Importer`, donnez le fichier
      [`utilisateur2.sql`]({{site.baseurl}}/assets/TD3/utilisateur2.sql) qui créera une table
      `utilisateur2` avec quelques utilisateurs.
-1. Nous vous fournissons le fichier PHP que nous allons attaquer :
-[`formulaireLectureUtilisateur.php`]({{site.baseurl}}/assets/TD3/formulaireLectureUtilisateur.php)  
-Ce fichier contient un formulaire qui affiche les informations d'un utilisateur
-étant donné son login.  
-**Testez** ce fichier en donnant un login existant.  
-**Lisez** le code pour être sûr de bien comprendre le fonctionnement de cette
-  page (et demandez au professeur si vous ne comprenez pas tout !).
+2. Nous vous fournissons le fichier PHP que nous allons attaquer :
+   [`formulaireLectureUtilisateur.php`]({{site.baseurl}}/assets/TD3/formulaireLectureUtilisateur.php)  
+   Ce fichier contient un formulaire qui affiche les informations d'un utilisateur
+   étant donné son login.  
+   **Testez** ce fichier en donnant un login existant.  
+   **Lisez** le code pour être sûr de bien comprendre le fonctionnement de cette
+   page (et demandez au professeur si vous ne comprenez pas tout !).
 
-1. **Trouvez** ce qu'il faut taper dans le formulaire pour que
+3. **Trouvez** ce qu'il faut taper dans le formulaire pour que
    `recupererUtilisateurParLogin` vide la table `utilisateur2` [(TRUNCATE TABLE)](https://sql.sh/cours/truncate-table).
      
    **Aide :**  Le point clé de ce fichier est que la fonction
@@ -779,7 +773,6 @@ Documentation :
 ### Quelques idées complémentaires
 
 Voici une liste d'idées pour compléter notre site :
-
 1. Notre liste des trajets d'un utilisateur est incomplète : il manque les
    trajets dont il est conducteur (et non passager). La page qui liste les
    trajets d'un utilisateur pourrait donner les deux listes comme conducteur et
