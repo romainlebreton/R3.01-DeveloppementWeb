@@ -96,7 +96,7 @@ exclu du suivi de version.
 <!--      * qu'il prenne en charge la coloration syntaxique -->
 <!--      * qu'il sache indenter automatiquement votre code -->
 
-1. Commencez par créer un dossier `tds-php/TD2` dans l'explorateur de fichier, puis ouvrez ce dossier dans PHPStorm.
+1. Commencez par créer un dossier `tds-php/TD2` dans l'explorateur de fichier, puis ouvrez ce dossier dans PhpStorm.
 
 2. Créez un fichier `ConfigurationBaseDeDonnees.ini`. Un fichier `.ini` est un simple fichier texte
    contenant des paires `cle = valeur`, une par ligne, que PHP sait lire nativement.

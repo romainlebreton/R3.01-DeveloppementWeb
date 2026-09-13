@@ -119,7 +119,7 @@ TD1]({{site.baseurl}}/assets/tut1-complement.html#installer-phpstorm-sur-sa-mach
    précieusement ces informations, car c'est grâce à elles que vous pourrez
    importer votre licence sur toutes les machines que vous allez utiliser (chez
    vous, à l'IUT etc).
-3. Cliquez en haut à droite sur *Open* puis sélectionnez le dossier `tds-php/TD1` (qui deviendra un projet PHPStorm).
+3. Cliquez en haut à droite sur *Open* puis sélectionnez le dossier `tds-php/TD1` (qui deviendra un projet PhpStorm).
 </div>
 
 **Documentations de PhpStorm**

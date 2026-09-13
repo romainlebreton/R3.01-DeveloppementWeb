@@ -31,8 +31,8 @@ Semaine 8 - lundi 20 octobre
 
 * [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html) (durée indicative ≃ 3h)
 * [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html) (durée indicative ≃ 2h)
-{% comment %}
 * [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html) (durée indicative ≃ 3h) 
+{% comment %}
 
 ### Architecture Modèle - Vue - Contrôleur (3 semaines)
 
@@ -61,9 +61,9 @@ La dernière séance de PHP (fin de la semaine du 20 octobre) sera dédiée au s
 ## Notes complémentaires aux TDs
 
 * TD1 -- [Encodage des caractères, promotion de propriétés, serveur HTTP de l'IUT, note sur les URLs et Git]({{site.baseurl}}/assets/tut1-complement.html)
-{% comment %}
 * TD2 -- [Attributs et méthodes statiques]({{site.baseurl}}/assets/tut2-complement.html)
 * TD3 -- [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
+{% comment %}
 * TD4 -- [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html)
 * TD5 -- [`.htaccess`, namespace et autoloader]({{site.baseurl}}/assets/tut5-complement.html)
 * TD7 -- [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html)

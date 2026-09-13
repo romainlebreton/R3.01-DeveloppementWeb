@@ -103,9 +103,9 @@ lors des TDs précédents (sauf la méthode `__toString()` qui correspond plutô
 
 2. Créez les répertoires `Configuration`, `Controleur`, `Modele`, `vue` et `vue/utilisateur`.
 
-3. Déplacez vos fichiers `Utilisateur.php` et `ConnexionBaseDeDonnees.php` dans le répertoire `Modele/` **en évitant d'utiliser PHPStorm**. 
+3. Déplacez vos fichiers `Utilisateur.php` et `ConnexionBaseDeDonnees.php` dans le répertoire `Modele/` **en évitant d'utiliser PhpStorm**. 
    
-   En effet, *PHPStorm* vous rajouterait des lignes `namespace ...` et `use ...`
+   En effet, *PhpStorm* vous rajouterait des lignes `namespace ...` et `use ...`
    en haut de vos scripts PHP qu'il faudrait supprimer. 
    
    **Remarque :** Vous pourrez enfin utiliser PhpStorm pour déplacer des classes
@@ -125,7 +125,7 @@ lors des TDs précédents (sauf la méthode `__toString()` qui correspond plutô
    Mettez en commentaire la fonction `__toString()` pour la désactiver.
 
    **Aide pour le *refactoring*** : Clic droit sur le fichier de déclaration de classe à renommer à PhpStorm, puis *Refactor* → *Rename*.
-8. Assurez-vous que PHPStorm n'a pas créé de ligne `namespace ...`, ni `use ...` en haut de
+8. Assurez-vous que PhpStorm n'a pas créé de ligne `namespace ...`, ni `use ...` en haut de
    vos scripts PHP. Sinon, supprimez ces lignes. **Attention :** si l'utilisation de certaines classes dans votre code
    est soulignée en avertissement par votre IDE, alors des `namespace ...` et/ou `use ...` persistent quelque part dans vos classes.
 </div>

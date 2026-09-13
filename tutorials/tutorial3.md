@@ -1,13 +1,13 @@
 ---
 title: TD3 &ndash; Requêtes préparées et association de classes
-subtitle: SQL JOIN
+subtitle: Clés étrangères et tables de jointure SQL
 layout: tutorial
 lang: fr
 ---
 
 <!-- Afficher après la requête préparée la requête qui a vraiment été faite pour
 voir l'échappement des caractères spéciaux dans SQL
-Voir aussi si on arrive à enregitrer des noms comme D'alembert-ignac dans la BDD
+Voir aussi si on arrive à enregistrer des noms comme D'alembert-ignac dans la BDD
 -->
 
 <!-- Expliquer comment les requêtes préparées empêchent les injections SQL -->
@@ -85,7 +85,7 @@ comme suit
 
 ```php?start_inline=1
 function recupererUtilisateurParLogin(string $login) {
-    $sql = "SELECT * from utilisateur WHERE login='$login'";
+    $sql = "SELECT * FROM utilisateur WHERE login='$login'";
     $pdoStatement = ConnexionBaseDeDonnees::getPdo()->query($sql);
     return $pdoStatement->fetch();
 }
@@ -120,7 +120,8 @@ SQL
 Voici toutes ces étapes regroupées dans une fonction :
 
 ```php?start_inline=1
-function recupererUtilisateurParLogin(string $login) : Utilisateur {
+// Cette fonction renvoie un objet Utilisateur correspondant au login donné, ou null s'il n'existe pas
+function recupererUtilisateurParLogin(string $login) : ?Utilisateur {
     $sql = "SELECT * from utilisateur WHERE login = :loginTag";
     // Préparation de la requête
     $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
@@ -136,7 +137,10 @@ function recupererUtilisateurParLogin(string $login) : Utilisateur {
     // Note: fetch() renvoie false si pas d'utilisateur correspondant
     $utilisateurFormatTableau = $pdoStatement->fetch();
 
-    return Utilisateur::construireDepuisTableauSQL($utilisateurFormatTableau);
+    if ($utilisateurTableau !== false) {
+        return Utilisateur::construireDepuisTableauSQL($utilisateurTableau);
+    }
+    return null;
 }
 ```
 
@@ -210,7 +214,7 @@ de création d'utilisateur du TD1 :
 
 5. Vérifiez dans PhpMyAdmin que les utilisateurs sont bien sauvegardés.
 
-6. Essayez d'ajouter un utilisateur dont un champ contient un guillemet simple
+6. Essayez d'ajouter un utilisateur dont un champ contient une apostrophe
    `'`, par exemple un nom `"D'Artagnan"`. Est-ce qu'elle a bien été
    sauvegardée ? Si ce n'est pas le cas, c'est sûrement que vous n'avez pas
    utilisé les requêtes préparées.
@@ -236,7 +240,7 @@ The only exception (pun not intended) is the creation of the PDO instance, which
 
 Vous avez couvert dans le cours *R2.01 -- Développement orienté objets*
 les diagrammes de classes. Ce type de diagramme est utile pour
-penser la base de donnée d'une application Web. Voici le nôtre :
+penser la base de données d'une application Web. Voici le nôtre :
 
 <img alt="Diagramme entité association"
 src="https://www.plantuml.com/plantuml/png/JOv1IyGm48Nl-HL3Zy92zvhJ2Y9u4rn_m3GPocWoASb4HF6_crIxv50wx-MzcUzI5BFM64nvPzamOmH9dWfjS9xdmNK1IxbNpRnKfIUNv8M_26PZzXTuLGvSKAbc-3Od26bbiL1QGTQc9SL1RPcwyQz_ZYNNZ6-aUvyzM63HDdfg20f37NFc3wBHygXTFxJVbIFjD_ZpjaEIFDROuImiAOL-SqIUxgPJ-mu22rlZmPNocBBsZnkcyvYsLfRdW8vAwxaalhgUDXTgOmo_" style="margin-left:auto;margin-right:auto;display:block;">
@@ -308,7 +312,7 @@ Elle est assez semblable à la classe `Utilisateur.php` que vous avez déjà cod
    * MySQL ne renvoie que le login du conducteur tandis que `Trajet` attend un
      `Utilisateur`. Utilisez la méthode `Utilisateur::recupererUtilisateurParLogin`.
    * MySQL renvoie le booléen `nonFumeur` comme un entier `0` ou `1`. Par chance,
-     PHP converti automatiquement les entiers en booléen donc il n'y a rien à
+     PHP convertit automatiquement les entiers en booléen donc il n'y a rien à
      faire.
 
 </div>
@@ -359,9 +363,9 @@ Voici les étapes pour faire ce lien :
       * Et la colonne à référencer dans la table : `login`.
 
    **Attention :** Pour supporter les clés étrangères, il faut que le moteur de
-   stockage de toutes vos tables impliqués soit `InnoDB`. Vous pouvez choisir ce
+   stockage de toutes vos tables impliquées soit `InnoDB`. Vous pouvez choisir ce
    paramètre à la création de la table ou le changer après coup dans l'onglet
-   `Opérations`. Il faut aussi que les colonnes en questions aient le même interclassement
+   `Opérations`. Il faut aussi que les colonnes en question aient le même interclassement
    (normalement, `utf8mb4_unicode_ci`) et la même taille (64). Si vous vous êtes trompés, vous
    pouvez modifier la configuration d'une colonne dans l'onglet "Structure" de la table en
    cliquant sur le bouton `Modifier` en face de la colonne.
@@ -377,7 +381,7 @@ Plutôt que le texte: "Reprendre les classes du TP précédent sur le covoiturag
 ### Création d'un trajet
 
 La création d'un trajet à partir d'un formulaire va nous permettre d'apprendre à
-gérer le fait qu'un formulaire HTML, une classe PHP et une base de donnée ne
+gérer le fait qu'un formulaire HTML, une classe PHP et une base de données ne
 stockent pas certaines données de la même façon.
 
 <div class="exercise">
@@ -448,7 +452,7 @@ correspondante dans la table `passager` avec leur `passagerLogin` et leur
 
 1. Créer la table `passager` en utilisant l'interface de PhpMyAdmin. Pensez à bien 
    sélectionner la valeur `PRIMARY` dans la section **Index** pour les deux colonnes
-   (vu que c'est un couple de clé primaire).
+   (vu que c'est un couple formant une clé primaire composite).
 
    **Important :** Il faut encore une fois préciser `InnoDB` et `utf8mb4_unicode_ci`.
 
@@ -460,7 +464,7 @@ le bouton "Primaire" un peu plus bas.
 
 3. Ajoutez la contrainte de **clé étrangère** entre `passager.trajetId` et
 `trajet.id`, puis celle entre `passager.passagerLogin` et
-`utilisateur.login`. Utiliser encore les comportements `ON DELETE CASCADE` et
+`utilisateur.login`. Utilisez encore les comportements `ON DELETE CASCADE` et
 `ON UPDATE CASCADE` pour qu'une association soit mise à jour si la clé étrangère
 est mise à jour.
 
@@ -470,7 +474,7 @@ la table `passager` ne soit pas vide.
 5. Vous allez maintenant vous assurer de la bonne gestion des clés étrangères en
 testant le comportement `ON DELETE CASCADE`. Pour cela :
    1. créez un trajet correspondant à un certain conducteur,
-   1. puis inscrivez des passagers pour ce trajet
+   1. puis inscrivez des passagers pour ce trajet,
    1. supprimez ensuite le conducteur en question de la table `utilisateur` et
       vérifiez que les lignes de la table `passager` précédemment insérées ont
       bien été supprimées elles aussi.
@@ -512,7 +516,7 @@ pouvez vous rafraîchir la mémoire en lisant
    pour développer la bonne requête est d'essayer des requêtes dans l'onglet SQL de
    PhpMyAdmin jusqu'à tenir la bonne.
    * Inspirez-vous de `Utilisateur::recupererUtilisateurs` pour la création d'objets
-     `Utilisateurs` depuis une réponse SQL.
+     `Utilisateur` depuis une réponse SQL.
    * **Avez-vous** bien utilisé une requête préparée dans `recupererPassagers` ?
 
 2. Nous allons stocker la liste des passagers comme un attribut de la classe
@@ -525,7 +529,7 @@ pouvez vous rafraîchir la mémoire en lisant
       private array $passagers;
       ```
    2. Mettez à jour le constructeur pour qu'il gère cet attribut avec la valeur par défaut `[]`.
-   3. Générez à l'aide de PHPStorm les accesseurs `getPassagers` et
+   3. Générez à l'aide de PhpStorm les accesseurs `getPassagers` et
       `setPassagers`. 
    3. Modifiez la fonction `construireDepuisTableauSQL` pour qu'elle instancie
       le nouveau `$trajet` avec une liste des passagers vide, qu'elle récupère
@@ -562,7 +566,7 @@ d'injection SQL.
 Mettons en place notre attaque SQL :
 
 1. Pour ne pas supprimer une table importante, créons une table `utilisateur2` qui ne craint rien :
-    * allez dans PHPMyAdmin et cliquez sur votre base de donnée (celle dont le
+    * allez dans PHPMyAdmin et cliquez sur votre base de données (celle dont le
      nom est votre login à l'IUT)
    * Dans l'onglet SQL `Importer`, donnez le fichier
      [`utilisateur2.sql`]({{site.baseurl}}/assets/TD3/utilisateur2.sql) qui créera une table
@@ -658,7 +662,7 @@ pas encore été chargée.
       private ?array $trajetsCommePassager;
       ```
    2. Mettez à jour le constructeur pour qu'il initialise cet attribut à `null`.
-   3. Générez à l'aide de PHPStorm l'accesseur `getTrajetsCommePassager` et le modifieur
+   3. Générez à l'aide de PhpStorm l'accesseur `getTrajetsCommePassager` et le modifieur
       `setTrajetsCommePassager`.  
    4. Modifiez le code de `getTrajetsCommePassager` pour que, si
       `$trajetsCommePassager` est `null`, alors on l'initialise à l'aide de `recupererTrajetsCommePassager`. 
@@ -709,7 +713,7 @@ enlèvera l'utilisateur courant du trajet sélectionné.
 
    La première méthode a l'avantage de permettre de vérifier l'existence du trajet sélectionné dans l'application avant d'essayer de faire la mise à jour au niveau de la base de données (avec la seconde solution, dans le cas où le trajet n'existe pas, on aura quand même une erreur à gérer, mais émise par la base de données).
 
-3. Ajoutez à `lireTrajets.php` de liens `<a>` de désinscription pour chaque
+3. Ajoutez à `lireTrajets.php` des liens `<a>` de désinscription pour chaque
    passager de chaque trajet qui renvoient sur `supprimerPassager.php` en transmettant via le *query string* de l'URL les bons `login` et `trajet_id`. 
 
 4. Testez la désinscription.
@@ -725,7 +729,7 @@ les méthodes suivantes sont correctement codées :
 
 Par contre, vous allez améliorer les méthodes suivantes :
 * `ajouter()` de `Utilisateur.php` ne traite pas :
-  * le cas d'un utilisateur existant déjà en base de donnée (`SQLSTATE[23000]: Integrity constraint violation`)
+  * le cas d'un utilisateur existant déjà en base de données (`SQLSTATE[23000]: Integrity constraint violation`)
   * le cas d'un problème de données, par exemple : chaîne de caractères trop longue (`SQLSTATE[22001]: String data, right truncation`)
 * `supprimerPassager()` de `Trajet.php` ne traite pas le cas d'un passager inexistant.
 
@@ -787,7 +791,7 @@ Voici une liste d'idées pour compléter notre site :
    valeurs du trajet actuel. Ce formulaire est proche de celui de création, à
    ceci près qu'il rajoute des valeurs préchargées dans les `<input>` (via l'attribut `value`).  
    Créez ensuite un script de traitement du formulaire de mise à jour `mettreAJourTrajet.php` 
-   (proche du script de création) et vérifiez dans la base de donnée que la modification a
+   (proche du script de création) et vérifiez dans la base de données que la modification a
    bien été effectuée.
 
    **Astuce** : vous aurez également besoin de renvoyer l'identifiant du trajet via

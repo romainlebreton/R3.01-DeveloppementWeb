@@ -82,15 +82,15 @@ fonction de s'ils doivent être accessibles sur le Web.
    du dossier `TD4`.
 
    2. Renommez et déplacez le fichier `Controleur/routeur.php` pour qu'il
-   devienne `web/controleurFrontal.php` **en évitant d'utiliser PHPStorm**. En
-   effet, *PHPStorm* vous rajouterait des lignes `namespace ...` et `use ...` en
+   devienne `web/controleurFrontal.php` **en évitant d'utiliser PhpStorm**. En
+   effet, *PhpStorm* vous rajouterait des lignes `namespace ...` et `use ...` en
    haut de vos scripts PHP qu'il faudrait supprimer.
 
       **Note :** Ce script s'appelle contrôleur frontal (*front controller* en
       anglais) puisque c'est la partie visible de notre site.
 
    3. Déplacez les dossiers `Configuration`, `Controleur`, `Modele` et `vue` dans un
-      dossier `src` **en évitant d'utiliser PHPStorm**. 
+      dossier `src` **en évitant d'utiliser PhpStorm**. 
       
       Ce déplacement casse quand même le site Web, mais nous allons le réparer
       dans le prochain exercice.
@@ -239,7 +239,7 @@ l'équivalent des `package` en Java.
 
    **Note :** 
    * Vous ne devez pas toucher aux noms de fichiers dans les `require_once`, mais plutôt changer le nom de classe `ConnexionBaseDeDonnees` dans les appels à des méthodes statiques.
-   * Utilisez la recherche/remplacement de PHPStorm avec `Ctrl+R`.
+   * Utilisez la recherche/remplacement de PhpStorm avec `Ctrl+R`.
 
 3. Le site est toujours cassé : La classe `PDO` dans `ConnexionBaseDeDonnees.php` est comprise comme `App\Covoiturage\Modele\PDO` à cause du `namespace App\Covoiturage\Modele`. Or son nom complet est `\PDO`.  
    **Spécifiez** que `PDO` est dans l'espace de nom global en appelant la classe `\PDO`.

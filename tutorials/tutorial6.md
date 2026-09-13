@@ -422,8 +422,8 @@ travail, commençons par créer l'action `afficherListe` de `Trajet`.
      `construireDepuisTableauSQL($trajetTableau)`, `recupererTrajets()` et
      `recupererPassagers()`.
 
-   **Attention** : il faudra probablement importer la classe `DateTime` (`use DateTime`). Aussi, de manière générale, comme nous allons changer beaucoup de choses au fil du TD, certains imports risquent d'être cassés au fur et à mesure. Mais pas de panique, grâce au système d'autoloading mis en place dans le dernier TP et à PHPStorm, il est facile de corriger les imports cassés/manquants. 
-   PHPStorm vous signale les classes qui ne sont pas importées par un warning (nom de la classe
+   **Attention** : il faudra probablement importer la classe `DateTime` (`use DateTime`). Aussi, de manière générale, comme nous allons changer beaucoup de choses au fil du TD, certains imports risquent d'être cassés au fur et à mesure. Mais pas de panique, grâce au système d'autoloading mis en place dans le dernier TP et à PhpStorm, il est facile de corriger les imports cassés/manquants. 
+   PhpStorm vous signale les classes qui ne sont pas importées par un warning (nom de la classe
    souligné en jaune). En survolant le nom de la classe manquante, l'IDE vous propose certaines solutions comme notamment ajouter les lignes `use ...` nécessaires (**Import Class**). 
    Vous pouvez aussi utiliser le raccourci `Alt+Entrée`.
 
@@ -458,7 +458,7 @@ travail, commençons par créer l'action `afficherListe` de `Trajet`.
    Importez les classes nécessaires.
 
    **Astuce :** Vous pouvez utiliser la fonction de remplacement (`Ctrl+R` sous
-     PHPStorm) pour remplacer tous les `utilisateur` par `trajet`. En cochant
+     PhpStorm) pour remplacer tous les `utilisateur` par `trajet`. En cochant
      `Préserver la casse` (`Preserve case`), vous pouvez faire en sorte de
      respecter les majuscules lors du remplacement.
 
@@ -639,15 +639,15 @@ qui permet de faire une recherche par clé primaire dans une table.
 
 1. Commençons par déclarer la fonction `recupererUtilisateurParLogin` dans la
    classe `AbstractRepository` en généralisant la méthode correspondante déjà existante dans `UtilisateurRepository` :
-   1. utilisez PHPStorm sur la fonction
+   1. utilisez PhpStorm sur la fonction
       `UtilisateurRepository::recupererUtilisateurParLogin`, clic droit >
       *Refactor* > *Pull Members Up*.
-   2. utilisez PHPStorm sur la fonction
+   2. utilisez PhpStorm sur la fonction
       `AbstractRepository::recupererUtilisateurParLogin`, clic droit >
       *Refactor* > *Rename* > indiquez `recupererParClePrimaire` : ceci
       renommera la méthode ainsi que tous ses appels.
    3. enlevez le `static` de la méthode `AbstractRepository::recupererParClePrimaire`.  
-      Corrigez tous les appels à la méthode avec PHPStorm : Faites `Ctlr+Maj+R`
+      Corrigez tous les appels à la méthode avec PhpStorm : Faites `Ctlr+Maj+R`
       pour remplacer dans tous les fichiers
       `UtilisateurRepository::recupererParClePrimaire` par 
       `new UtilisateurRepository()->recupererParClePrimaire`.
@@ -840,7 +840,7 @@ méthode.
 1. Implémentez la méthode `getNomsColonnes` dans `TrajetRepository`. Indiquez
    bien tous les champs, même `id`. 
    
-   PHPStorm peut vous générer le squelette de la méthode avec Clic droit dans la
+   PhpStorm peut vous générer le squelette de la méthode avec Clic droit dans la
    classe `TrajetRepository` > *Generate* > *Implement Methods* >
    `getNomsColonnes`.
 2. Implémentez la méthode `formatTableauSQL` dans `TrajetRepository` en vous
@@ -961,7 +961,7 @@ l'isoler dans une méthode pour ne pas le dupliquer.
 
 <div class="exercise">
 
-1. PHPStorm permet d'isoler le code dans une méthode automatiquement : surlignez
+1. PhpStorm permet d'isoler le code dans une méthode automatiquement : surlignez
    les lignes complètes de `ControleurTrajet::creerDepuisFormulaire` qui lisent
    `$_GET` et construisent le trajet, puis Clic droit > *Refactor* > *Extract
    Method*. Indiquez `construireDepuisFormulaire` comme nom de méthode. Modifiez
