@@ -167,12 +167,12 @@ en pratique tout cela !
    **Que signifie le *file* au début de l'URL ?**  
    <!-- **Est-ce que la page HTML s'affiche correctement ?**   -->
    **Est-ce qu'il y a une communication entre un serveur et un client HTTP ?**
-   
-   **Réponses (surlignez le texte caché à droite) :** 
-   <span style="color:#FCFCFC">
-   Le gestionnaire de fichier ouvre page1.html dans le navigateur en tant que fichier local. Autrement dit, le navigateur va lire le fichier page1.html directement sur le disque dur. C'est la signification de file au début de l'URL. Du coup, le navigateur n'envoie pas de requête HTTP, et n'attend pas de réponse en retour. 
-   <!-- La page s'affiche correctement. -->
-   </span>
+   <details markdown="0">
+      <summary><strong>Réponses (cliquez pour afficher) :</strong></summary>
+      <p markdown="1">
+         Le gestionnaire de fichier ouvre `page1.html` dans le navigateur en tant que fichier local. Autrement dit, le navigateur va lire le fichier `page1.html` directement sur le disque dur. C'est la signification de file au début de l'URL. Du coup, le navigateur n'envoie pas de requête HTTP, et n'attend pas de réponse en retour. 
+      </p>
+   </details>
 
    <!-- * **Rappel : Un problème avec les accents ?**
      Dans l'en-tête du fichier HTML vous devez rajouter la ligne qui spécifie
@@ -196,22 +196,24 @@ en pratique tout cela !
    [http://localhost_IUT/TD1/page1.html](http://localhost_IUT/TD1/page1.html))
    ?** -->
 
-   **Réponse :**
-   <span style="color:#FCFCFC">
-   Les pages Web doivent être enregistrées dans le dossier **public_html** de
-   votre répertoire personnel.
-   </span>
+   <details markdown="0">
+      <summary><strong>Réponse (cliquez pour afficher) :</strong></summary>
+      <p markdown="1">
+         Les pages Web doivent être enregistrées dans le dossier **public_html** de votre répertoire personnel.
+      </p>
+   </details>
 
    **Ouvrez donc** `page1.html` depuis le navigateur en tapant l'URL dans la
    barre d'adresse.
    
    **Est-ce qu'il y a une communication entre un serveur et un client HTTP maintenant ?**  
    **Comment fait-on pour voir la page Web brute (code source), et non son rendu HTML par le navigateur ?**    
-   **Réponses (surlignez le texte caché à droite) :** 
-   <span style="color:#FCFCFC">
-   Cette fois-ci, l'URL commence par *http* et donc le navigateur envoie une requête HTTP à l'URL demandée. Le navigateur reçoit une réponse HTTP qui contient une page HTML. Puis, le navigateur affiche le rendu HTML de la page. Pour voir le code source HTML, il faut faire un clic droit sur la page, puis *Affichez le code source* (ou **Ctrl+U**).
-   </span>
-   
+   <details markdown="0">
+      <summary><strong>Réponses (cliquez pour afficher) :</strong></summary>
+      <p markdown="1">
+         Cette fois-ci, l'URL commence par *http* et donc le navigateur envoie une requête HTTP à l'URL demandée. Le navigateur reçoit une réponse HTTP qui contient une page HTML. Puis, le navigateur affiche le rendu HTML de la page. Pour voir le code source HTML, il faut faire un clic droit sur la page, puis *Affichez le code source* (ou **Ctrl+U**).
+      </p>
+   </details>   
 </div>
 
 <!-- ### Droits d'accès des pages Web   
@@ -294,10 +296,12 @@ fichiers OU de façon équivalente avec une URL en `file://` comme :
    **Que se passe-t-il quand on ouvre un fichier PHP directement dans le navigateur ?**  
    **Pourquoi ?**  
    *Ça vous rappelle le [cours 1]({{site.baseurl}}/classes/class1.html#le-langage-de-cration-de-pages-web--php) j'espère ?*  
-   **Réponses (surlignez le texte caché à droite) :** 
-   <span style="color:#FCFCFC">
-   Un navigateur ne sait que faire d'un script PHP. Du coup, soit il vous demande comment l'ouvrir, soit il le télécharge directement.
-   </span>
+   <details markdown="0">
+      <summary><strong>Réponses (cliquez pour afficher) :</strong></summary>
+      <p markdown="1">
+         Un navigateur ne sait que faire d'un script PHP. Du coup, soit il vous demande comment l'ouvrir, soit il le télécharge directement.
+      </p>
+   </details>
 
 6. Ouvrez cette page dans le navigateur dans un second onglet en passant par le
    serveur HTTP de Docker :  
@@ -309,10 +313,12 @@ fichiers OU de façon équivalente avec une URL en `file://` comme :
    *N'hésitez pas à relire la partie du
     [cours 1 concernée]({{site.baseurl}}/classes/class1.html#mcanisme-de-gnration-des-pages-dynamiques-22).*
 
-   **Réponses (surlignez le texte caché à droite) :** 
-   <span style="color:#FCFCFC">
+   <details markdown="0">
+      <summary><strong>Réponses (cliquez pour afficher) :</strong></summary>
+      <p markdown="1">
    Quand le serveur Web reçoit une requête HTTP pour un fichier PHP, il exécute le script PHP et renvoie la page Web générée par le script.
-   </span>
+      </p>
+   </details>
 
 </div>
 
@@ -405,11 +411,13 @@ Testez votre réponse en rajoutant ce code dans `echo.php`.
 
 **Pourquoi ne voit-on pas les sauts de ligne `\n` dans le navigateur ?**  
 **Où peut-on voir ces sauts de ligne ?**   
-**Réponses (surlignez le texte caché à droite) :** 
-<span style="color:#FCFCFC">
-Les sauts de ligne se voient dans le code source produit par PHP, auquel on peut accéder avec un clic droit sur la page, puis *Affichez le code source* (ou **Ctrl+U**).
-Les sauts de ligne dans un code HTML ne produisent pas de saut de ligne à l'affichage. Il faut ajouter par exemple une balise <p> pour afficher un saut de ligne dans le rendu HTML.
-</span>
+<details markdown="0">
+   <summary><strong>Réponses (cliquez pour afficher) :</strong></summary>
+   <p markdown="1">
+      Les sauts de ligne se voient dans le code source produit par PHP, auquel on peut accéder avec un clic droit sur la page, puis *Affichez le code source* (ou **Ctrl+U**).
+      Les sauts de ligne dans un code HTML ne produisent pas de saut de ligne à l'affichage. Il faut ajouter par exemple une balise <p> pour afficher un saut de ligne dans le rendu HTML.
+   </p>
+</details>
 
 **Astuce :** 
 * Vous pouvez aussi tester ce code dans le terminal (sans passer par un serveur Web et un navigateur). Pour cela, écrivez votre script dans `echo.php` (n'oubliez pas la balise ouvrante `<?php` en début de fichier). Puis, dans le terminal, exécutez `php echo.php`.
@@ -583,8 +591,12 @@ Les tableaux en PHP peuvent aussi s'indexer par des entiers ou des chaînes de c
      des utilisateurs.
 
 4. Pour déboguer votre script, il est parfois pratique d'afficher la sortie brute du script. Vous souvenez-vous comment faire ?  
-   **Réponse (surlignez à droite) :** 
-   <span style="color:#FCFCFC">Affichez donc le code source de la page.</span>
+   <details markdown="0">
+      <summary><strong>Réponse (cliquez pour afficher) :</strong></summary>
+      <p markdown="1">
+         Affichez donc le code source de la page.
+      </p>
+   </details>
  
 5. Rajoutez un cas par défaut qui affiche "Il n'y a aucun utilisateur." si la
    liste est vide.  
