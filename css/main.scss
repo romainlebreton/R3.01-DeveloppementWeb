@@ -67,6 +67,7 @@ h4:before{
     box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 hsla(0, 0%, 0%, 0.19);
     padding: 0.5em 1em;
     margin-bottom: 26px;
+   position: relative;
 }
 .exercise:before, .exercise-en:before {
     /* margin-left: -1em; */
@@ -81,7 +82,29 @@ h4:before{
 .exercise p:first-of-type, .exercise-en p:first-of-type {
     margin-top: 0.5em
 }
-
+/* Système d'exercices "fait" : repli du contenu une fois coché */
+/* Annule la marge du paragraphe auto-généré par kramdown pour que la case
+   à cocher reste sur la même ligne que le "Exercice N" du :before */
+.exercise-toggle {
+    float: right;
+    cursor: pointer;
+    user-select: none;
+    font-weight: bold;
+    font-size: 110%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0.5em 1em;
+}
+.exercise-toggle input {
+    margin-right: 0.4em;
+}
+.exercise.exercise-done {
+    opacity: 0.5;
+}
+.exercise.exercise-done .exercise-content {
+    display: none;
+}
 /* Inline style */
 a {
     text-decoration: none;
