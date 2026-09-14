@@ -249,12 +249,12 @@ https://www.plantuml.com/plantuml/uml/JOv1IyGm48Nl-HL3Zy92zvhJ2Y9u4rn_m3GPocWoAS
 **Question :** Comment implémenteriez-vous l'association *conducteur* entre
 utilisateurs et trajets dans la BDD en tenant compte de sa multiplicité ?
 
-**Notre solution (surlignez le texte caché à droite) :**
- <span style="color:#FCFCFC">
-Comme il n'y a qu'un conducteur par trajet, nous allons rajouter un champ
-*conducteurLogin* à la table *trajet*.
-</span>
-
+<details markdown="0">
+   <summary><strong>Notre solution (cliquez pour afficher) :</strong></summary>
+   <p markdown="1">
+      Comme il n'y a qu'un conducteur par trajet, nous allons rajouter un champ *conducteurLogin* à la table *trajet*.
+   </p>
+</details>
 
 ### Création des tables
 
@@ -319,8 +319,12 @@ On souhaite que le champ `trajet.conducteurLogin` corresponde à tout moment au
 login `utilisateur.login` d'un conducteur existant. Vous souvenez-vous quelle
 est la fonctionnalité des bases de données qui permet ceci ?
 
-**Réponse (surlignez le texte caché à droite) :** <span style="color:#FCFCFC">Il faut utiliser des clés
-  étrangères.</span>
+<details markdown="0">
+   <summary><strong>Réponse (cliquez pour afficher) :</strong></summary>
+   <p markdown="1">
+      Il faut utiliser des clés étrangères.
+   </p>
+</details>
 
 <div class="exercise">
 
@@ -421,10 +425,14 @@ utilisateurs et trajets dans la BDD en tenant compte de ses multiplicités ?
 <img alt="Diagramme entité association"
 src="https://www.plantuml.com/plantuml/png/JOv1IyGm48Nl-HL3Zy92zvhJ2Y9u4rn_m3GPocWoASb4HF6_crIxv50wx-MzcUzI5BFM64nvPzamOmH9dWfjS9xdmNK1IxbNpRnKfIUNv8M_26PZzXTuLGvSKAbc-3Od26bbiL1QGTQc9SL1RPcwyQz_ZYNNZ6-aUvyzM63HDdfg20f37NFc3wBHygXTFxJVbIFjD_ZpjaEIFDROuImiAOL-SqIUxgPJ-mu22rlZmPNocBBsZnkcyvYsLfRdW8vAwxaalhgUDXTgOmo_" style="margin-left:auto;margin-right:auto;display:block;">
 
-**Réponse (surlignez le texte caché à droite) :** <span style="color:#FCFCFC">Comme la relation *passager* est non
-bornée (on ne limite pas le nombre d'utilisateurs d'un trajet et inversement), on
-utilise une table de jointure.</span>
-
+<details markdown="0">
+   <summary><strong>Réponse (cliquez pour afficher) :</strong></summary>
+   <p markdown="1">
+      Comme la relation *passager* est non
+      bornée (on ne limite pas le nombre d'utilisateurs d'un trajet et inversement), on
+      utilise une table de jointure.
+   </p>
+</details>
 
 Nous choisissons donc de créer une table `passager` qui contiendra deux champs :
 
@@ -437,11 +445,16 @@ correspondante dans la table `passager` avec leur `passagerLogin` et leur
 
 **Question :** Quelle est la clé primaire de la table `passager` ?
 
-**Réponse (surlignez à droite) :** <span style="color:#FCFCFC">Le couple
-  (*trajetId*, *passagerLogin*). Si vous choisissez *trajetId* seul comme clé
-  primaire, un trajet aura au plus un passager, et si vous choisissez
-  *passagerLogin*, chaque utilisateur ne pourra être passager que sur un
-  unique trajet.</span>
+<details markdown="0">
+   <summary><strong>Réponse (cliquez pour afficher) :</strong></summary>
+   <p markdown="1">
+      Le couple
+      (*trajetId*, *passagerLogin*). Si vous choisissez *trajetId* seul comme clé
+      primaire, un trajet aura au plus un passager, et si vous choisissez
+      *passagerLogin*, chaque utilisateur ne pourra être passager que sur un
+      unique trajet.
+   </p>
+</details>
 
 <div class="exercise">
 

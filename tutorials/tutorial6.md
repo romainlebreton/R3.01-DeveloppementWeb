@@ -549,10 +549,12 @@ faire pour avoir un code générique :
    et une implémentation de `getNomTable()` dans `UtilisateurRepository`.
 
    **Question** : pourquoi la visibilité de cette fonction est `protected` ?  
-   **Réponse (surlignez le texte caché à droite):**
-   <span style="color:#FCFCFC">
-   Pour rendre accessible cette méthode uniquement à la classe *AbstractRepository* et à ses classes filles.
-   </span>
+  <details markdown="0">
+      <summary><strong>Réponse (cliquez pour afficher) :</strong></summary>
+      <p markdown="1">
+         Pour rendre accessible cette méthode uniquement à la classe *AbstractRepository* et à ses classes filles.
+      </p>
+   </details>
 
    <!-- getNomTable n'est pas statique car PHP déconseille l'utilisation de méthode statique et abstraite (PHP émet un warning) -->
 

@@ -18,38 +18,44 @@ sur deux mécanismes assez indépendants:
 
 1. **Question :** Est-ce que `$_COOKIE` se met à jour après un `setcookie()` ?
    Pourquoi ?   
-   **Réponse :** 
-   <span style="color:#FCFCFC">
-   Non car <code style="color:#FCFCFC">$_COOKIE</code> contient toujours le
-   cookie déposé la fois d'avant.  
-   En particulier, la première fois qu'on dépose un cookie, on n'y a pas accès
-   tout de suite dans <code style="color:#FCFCFC">$_COOKIE</code> car le cookie
-   est seulement déposé sur l'ordinateur du client. Mais si le client revient
-   sur la page, il enverra le cookie avec sa requête et 
-   <code style="color:#FCFCFC">$_COOKIE</code> contiendra enfin le cookie.
-   </span>
+   <details markdown="0">
+      <summary><strong>Réponse (cliquez pour afficher) :</strong></summary>
+      <p markdown="1">
+         Non car `$_COOKIE` contient toujours le
+         cookie déposé la fois d'avant.  
+         En particulier, la première fois qu'on dépose un cookie, on n'y a pas accès
+         tout de suite dans `$_COOKIE` car le cookie
+         est seulement déposé sur l'ordinateur du client. Mais si le client revient
+         sur la page, il enverra le cookie avec sa requête et 
+         `$_COOKIE` contiendra enfin le cookie.
+      </p>
+   </details>
    
 1. **Question :** Est-ce que l'on peut écrire un cookie en changeant la variable
    `$_COOKIE` ?  
-   **Réponse :**
-   <span style="color:#FCFCFC">
-   Non, écrire sur  <code style="color:#FCFCFC">$_COOKIE</code> n'a pas d'effet sur 
-   les cookies du client.  
-   Attention à la confusion avec les sessions : 
-   <code style="color:#FCFCFC">$_SESSION</code> a le comportement inverse et il 
-   faut écrire dans cette variable pour créer/mettre-à-jour une variable de session.
-   </span>
+   <details markdown="0">
+      <summary><strong>Réponse (cliquez pour afficher) :</strong></summary>
+      <p markdown="1">
+         Non, écrire sur `$_COOKIE` n'a pas d'effet sur les cookies du
+         client.  
+         Attention à la confusion avec les sessions :
+         `$_SESSION` a le comportement inverse et il faut écrire dans
+         cette variable pour créer/mettre-à-jour une variable de session.
+      </p>
+   </details>
    
 1. **Question :** Supposons qu'un cookie `TestCookie` contenant la valeur `"OK"`
    a été déposé chez le client. Faut-il faire à nouveau 
    `setcookie("TestCookie","OK")` pour que le cookie reste chez le client ?  
-   **Réponse :**
-   <span style="color:#FCFCFC">
-   Non, si on ne fait pas <code style="color:#FCFCFC">setcookie()</code> alors aucune
-   action d'écriture/mise-à-jour n'a lieu sur le cookie. Les cookies ne sont pas 
-   nécessairement réécrits à chaque fois et ils restent donc sur l'ordinateur du client 
-   jusqu'à leur expiration.  
-   </span>
+   <details markdown="0">
+      <summary><strong>Réponse (cliquez pour afficher) :</strong></summary>
+      <p markdown="1">
+         Non, si on ne fait pas `setcookie()` alors aucune action
+         d'écriture/mise-à-jour n'a lieu sur le cookie. Les cookies ne sont pas
+         nécessairement réécrits à chaque fois et ils restent donc sur
+         l'ordinateur du client jusqu'à leur expiration.
+      </p>
+   </details>
 
 
 ## Quelques informations supplémentaires sur les sessions
