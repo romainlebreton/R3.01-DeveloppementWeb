@@ -58,9 +58,9 @@ class Utilisateur {
 
   public function __construct(string $nom, ...) { ... }
 
-  public static function construireDepuisTableauSQL(array $utilisateurTableau): ModeleUtilisateur { ... }
+  public static function construireDepuisTableauSQL(array $utilisateurTableau): Utilisateur { ... }
 
-  public function __toString()() { ... }
+  public function __toString() { ... }
 
   public static function recupererUtilisateurs() { ... }
 
@@ -114,7 +114,7 @@ lors des TDs précédents (sauf la méthode `__toString()` qui correspond plutô
 4. Si vous aviez une instruction `require_once` pour importer le fichier `Trajet.php` dans `Utilisateur.php`, supprimez-la.
 
 5. Déplacez le fichier de configuration `ConfigurationBaseDeDonnees.ini` dans le dossier
-   `Configuration`**.
+   `Configuration`.
 
 6. Corrigez le chemin relatif du fichier `ConfigurationBaseDeDonnees.ini` dans `ConnexionBaseDeDonnees.php`.
 
@@ -152,10 +152,8 @@ leur classe (et non pas des objets instanciés). D'où la syntaxe différente
 
 Dans la vue sont regroupées toutes les lignes de code qui génèrent la page HTML
 que l'on va envoyer à l'utilisateur. Les vues sont des fichiers qui ne
-contiennent quasiment exclusivement que du code HTML, à l'exception de quelques
-`echo` permettant d'afficher les variables préremplies par le contrôleur. Une
-boucle `for` est toutefois autorisée pour les vues qui affichent une liste
-d'éléments. **La vue n'effectue pas de traitement, de calcul**.
+contiennent quasiment que du code HTML, à l'exception de quelques
+`echo` permettant d'afficher les variables préremplies par le contrôleur, et de la logique d'affichage (conditions, boucles), mais **pas de logique métier ni d'accès à la base de données**.
 
 Dans notre exemple, la vue serait le fichier `vue/utilisateur/liste.php`
 suivant. Le code de ce fichier permet d'afficher une page Web contenant tous
@@ -209,8 +207,7 @@ une variable dont l'existence n'est pas garantie ! Cependant, si vous savez ce q
 
 Le contrôleur gère la logique du code qui prend des décisions. C'est en quelque
 sorte l'intermédiaire entre le modèle et la vue : le contrôleur va demander au
-modèle les données, les analyser, prendre des décisions et appeler la vue
-adéquate en lui donnant le texte à afficher. Le contrôleur contient
+modèle les données, les analyser, prendre des décisions, puis transmettre les données à la vue qui se chargera de les afficher. Le contrôleur contient
 exclusivement du PHP.
 
 Il existe une multitude d'implémentations du **MVC** :
@@ -362,7 +359,7 @@ ControleurUtilisateur::$action();
    Avez-vous compris l'ordre dans lequel PHP exécute votre code ?
    Est-ce que ce code vous semble similaire à l'ancien fichier
    `lireUtilisateur.php` ?
-   N'hésitez à parler de votre compréhension avec votre chargé de TD.
+   N'hésitez pas à parler de votre compréhension avec votre chargé de TD.
 
 </div>
 
@@ -387,7 +384,7 @@ toutes les informations, nous souhaitons créer une page de détail dont le rôl
 sera d'afficher toutes les informations de l'utilisateur. Cette action aura besoin
 de connaître le login de l'utilisateur visé ; on utilisera encore le
 *query string* pour passer l'information dans l'URL en même temps que l'action :
-[.../routeur.php?action=afficherDetail&login=AAA111BB](http://localhost/tds-php/TD4/Controleur/routeur.php?action=afficherDetail&login=AAA11BB)
+[.../routeur.php?action=afficherDetail&login=AA111BB](http://localhost/tds-php/TD4/Controleur/routeur.php?action=afficherDetail&login=AA111BB)
 
 <div class="exercise">
 
@@ -399,7 +396,7 @@ de connaître le login de l'utilisateur visé ; on utilisera encore le
 
 1. Ajoutez une action `afficherDetail` au contrôleur `ControleurUtilisateur.php`. Cette
    action devra récupérer le login donné dans l'URL, appeler la
-   fonction `recupererUtilisateurParLogin()` du modèle, mettre l'utilisateur visée dans la
+   fonction `recupererUtilisateurParLogin()` du modèle, mettre l'utilisateur visé dans la
    variable `$utilisateur` et appeler la vue précédente.
 
 2. Testez cette vue en appelant la page du routeur avec les bons paramètres dans
@@ -423,13 +420,22 @@ Actuellement, le chargement d'une vue se fait à l'aide du code
 require ('../vue/utilisateur/liste.php');
 ```
 On peut légitimement se demander comment le script `liste.php` accède à la variable locale `$utilisateurs` de
-`ControleurUtilisateur::afficherListe()`. C'est parce que `require` a pour effet
-de "copier/coller" les instructions du `liste.php` dans la méthode `ControleurUtilisateur::afficherListe()`.
+`ControleurUtilisateur::afficherListe()`. En réalité, `require` ne "charge" pas une vue dans un espace isolé : il
+exécute le contenu du fichier à l'endroit exact où l'appel est fait. Autrement dit, PHP remplace
+l'instruction `require` par le code contenu dans `liste.php` avant de continuer.
 
-Cela pose plusieurs problèmes :
+C'est pourquoi les variables de la méthode, comme `$utilisateurs`, restent visibles dans la vue. Le fichier `liste.php`
+peut donc lire et utiliser directement ces variables, car il est en quelque sorte intégré dans la méthode.
+
+Ce mécanisme pose plusieurs problèmes :
 1. la vue a accès à toutes les variables accessibles dans `ControleurUtilisateur::afficherListe()`,
-1. la manière de procéder du `require` est très éloignée d'un code orienté-objet propre,
-1. une duplication de code commence à se dessiner avec les multiples instructions "*require ('../vue')*"
+   ce qui peut créer des dépendances cachées et des erreurs difficiles à comprendre ;
+1. la manière de procéder avec `require` est très éloignée d'un code orienté-objet propre,
+   car la vue ne constitue pas une entité autonome ;
+1. une duplication de code commence à se dessiner avec les multiples instructions "*require ('../vue')*".
+
+Pour éviter cela, on va passer à une approche plus nette : le contrôleur fournira explicitement à la vue les
+variables dont elle a besoin, et la vue ne pourra accéder qu'à ces variables.
 
 <div class="exercise">
 
@@ -445,11 +451,11 @@ Cela pose plusieurs problèmes :
    vous appelez
    ```php?start_inline=1
    ControleurUtilisateur::afficherVue('utilisateur/detail.php', [
-      "utilisateurEnParametre" => new Utilisateur("leblancj", "Leblanc", "Juste")
+      "utilisateurEnParametre" => new ModeleUtilisateur("leblancj", "Leblanc", "Juste")
    ]);
    ```
    alors `afficherVue` affichera la vue `vue/utilisateur/detail.php`, qui aura accès uniquement à la variable
-   `$utilisateurEnParametre` qui vaut `new Utilisateur("leblancj", "Leblanc", "Juste")`. 
+   `$utilisateurEnParametre` qui vaut `new ModeleUtilisateur("leblancj", "Leblanc", "Juste")`. 
    
    Remarques :
 
@@ -517,7 +523,7 @@ dans la base de données.
 
 6. Testez le tout, c.-à-d. que la création de l'utilisateur depuis le formulaire
    (action `afficherFormulaireCreation`) appelle bien l'action `creerDepuisFormulaire` et que l'utilisateur est bien
-   créée dans la base de données.
+   créé dans la base de données.
 
 </div>
 
@@ -542,16 +548,18 @@ Concernant le PHP, notez la communication entre les 3 entités Modèle, Vue, Con
 Plus globalement :
 
 * Le serveur Web (Apache) existe avant la requête et continuera de vivre après :
-  c'est un *démon*, c'est-à-dire qu'il tourne en continu pour écouter les
-  requêtes HTTP. Quand il reçoit une requête, il crée un nouveau processus à
-  l'aide d'un fork. C'est ce nouveau processus qui traitera la requête,
-  notamment en exécutant PHP.
+   c'est un *démon*, c'est-à-dire qu'il tourne en continu pour écouter les
+   requêtes HTTP. Lorsqu'il reçoit une requête, il la transmet à un gestionnaire
+   PHP, qui exécute le script PHP.
 * Les scripts PHP sont donc exécutés indépendamment. Ceci implique par exemple
   que la connexion à la base de données est refaite à chaque exécution (requête HTTP du client).
-* Le script PHP renvoie le code HTML de la page Web, ce qui constituera le corps
-  de la réponse HTTP. À partir de ce code HTML, le serveur Web Apache crée et renvoie
-  au client une réponse HTTP complète en ajoutant des en-têtes HTTP.
+* Le script PHP génère le code HTML de la page Web, qui constituera le corps
+   de la réponse HTTP. Il peut également définir des en-têtes HTTP. Le serveur Web
+   transmet ensuite au client une réponse HTTP complète.
 * On voit que le serveur de base de données est un autre *démon*.
+* Notez que ces remarques concernent le fonctionnement standard et historique. 
+  Il existe des solutions pour garder la connexion à la base de données ouverte entre deux requêtes HTTP, 
+  et pour ne pas réinitialiser le gestionnaire PHP à chaque requête. Ces solutions sont plus complexes et ne sont pas abordées dans ce cours.
 
 Quelques détails de lecture des diagrammes de séquence :
 
@@ -560,6 +568,8 @@ Quelques détails de lecture des diagrammes de séquence :
 * Un acteur *<<class>> NomDeClasse* fait référence au `NomDeClasse` en tant que classe (et pas une instance particulière de celle-ci).
   Donc cet acteur existe tout le temps et n'est pas créé par un appel de
   constructeur. Ainsi, sur cet acteur, seules les méthodes statiques peuvent être invoquées. 
+
+
 
 <!--
 
