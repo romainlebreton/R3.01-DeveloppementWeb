@@ -136,9 +136,11 @@ function recupererUtilisateurParLogin(string $login) : ?Utilisateur {
     // Note: fetch() renvoie false si pas d'utilisateur correspondant
     $utilisateurFormatTableau = $pdoStatement->fetch();
 
-    if ($utilisateurTableau !== false) {
-        return Utilisateur::construireDepuisTableauSQL($utilisateurTableau);
+    //Si un utilisateur correspond au login, on construit un utilisateur et on le renvoie
+    if ($utilisateurFormatTableau !== false) {
+        return Utilisateur::construireDepuisTableauSQL($utilisateurFormatTableau);
     }
+    //Si pas d'utilisateur correspondant, on renvoie null
     return null;
 }
 ```
@@ -159,16 +161,12 @@ d'utiliser systématiquement la syntaxe avec un tableau `execute($values)`.
 3. Testez la fonction `recupererUtilisateurParLogin` dans un nouveau fichier `testRequetePrepare.php`.
 
    **Remarque :** Vous aurez sans doute une erreur `Class "ConnexionBaseDeDonnees" not found`.
-   Où inclure `ConnexionBaseDeDonnees.php` : dans `Utilisateur.php` ou dans `creerUtilisateur.php` ?  
+   Où inclure `ConnexionBaseDeDonnees.php` : dans `Utilisateur.php` ou dans `testRequetePrepare.php` ?  
    Règle simple : chaque fichier doit inclure les classes dont il a besoin.
    Comme `Utilisateur.php` a besoin de la classe `ConnexionBaseDeDonnees` (à cause de l'instruction `ConnexionBaseDeDonnees::getPdo()`),
    c'est au début de `Utilisateur.php` qu'il faut faire `require_once "ConnexionBaseDeDonnees.php";`.
 
-   "Mais pourquoi cela fonctionnait avant alors que `recupererUtilisateurParLogin` utilisait déjà `ConnexionBaseDeDonnees::getPdo()` ?!". C'est une très bonne question ! En fait, dans votre fichier `lireUtilisateurs.php`, la classe `ConnexionBaseDeDonnees` était chargée par ce fichier (avant d'appeler la fonction `recupererUtilisateurParLogin`). Maintenant que l'inclusion du fichier est faite au bon endroit, vous pouvez également supprimer le `require_once` important `ConnexionBaseDeDonnees.php` dans `lireUtilisateurs.php`.
-   
-4. On souhaite que `recupererUtilisateurParLogin` renvoie `null` s'il n'existe pas
-   d'utilisateur de login `$login`. Mettez à jour le code
-   et la déclaration de type. Testez votre code.
+   "Mais pourquoi cela fonctionnait avant alors que `recupererUtilisateurs` utilisait déjà `ConnexionBaseDeDonnees::getPdo()` ?!". C'est une très bonne question ! En fait, dans votre fichier `lireUtilisateurs.php`, la classe `ConnexionBaseDeDonnees` était chargée par ce fichier (avant d'appeler la fonction `recupererUtilisateurParLogin`). Maintenant que l'inclusion du fichier est faite au bon endroit, vous pouvez également supprimer le `require_once` important `ConnexionBaseDeDonnees.php` dans `lireUtilisateurs.php`. Comme vous importez déjà `Utilisateur.php`, celui-ci chargera déjà `ConnexionBaseDeDonnees.php`.
 
 </div>
 

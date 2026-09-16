@@ -405,11 +405,12 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
 
    Utilisez l’un des affichages de débogage (par exemple `var_dump`) pour afficher ce tableau.
 
-5. Créez un `$utilisateur` de classe `Utilisateur` à l'aide de
-   `$utilisateurFormatTableau` en appelant le constructeur. Affichez
-   l'utilisateur en utilisant la méthode adéquate de `Utilisateur`. Copiez le
-   fichier `tds-php/TD1/Utilisateur.php` dans `tds-php/TD2` pour pouvoir
-   utiliser la classe `Utilisateur` dans le TD2.
+5. Copiez le fichier `tds-php/TD1/Utilisateur.php` dans `tds-php/TD2` pour pouvoir utiliser la 
+   classe `Utilisateur` dans le TD2.
+
+5. Incluez le fichier `Utilisateur.php` dans `lireUtilisateurs` puis créez un `$utilisateur` de 
+   classe `Utilisateur` à l'aide de `$utilisateurFormatTableau` en appelant le constructeur.
+   Affichez l'utilisateur en utilisant la méthode adéquate de `Utilisateur`.
 
 6. On souhaite désormais afficher tous les utilisateurs dans la base de données. On pourrait
    faire une boucle `while` sur `fetch` tant qu'on n'a pas parcouru toutes les entrées de la base de données.
