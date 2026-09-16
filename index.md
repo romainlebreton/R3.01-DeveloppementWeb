@@ -17,14 +17,14 @@ Cours à l'IUT de Montpellier - 2ème année
 ## TDs
 
 {% comment %}
-Semaine 1 - lundi 1er septembre
-Semaine 2 - lundi 8 septembre
-Semaine 3 - lundi 15 septembre
-Semaine 4 - lundi 22 septembre
-Semaine 5 - lundi 29 septembre
-Semaine 6 - lundi 6 octobre
-Semaine 7 - lundi 13 octobre
-Semaine 8 - lundi 20 octobre
+Semaine 1 - lundi 7 septembre
+Semaine 2 - lundi 14 septembre
+Semaine 3 - lundi 21 septembre
+Semaine 4 - lundi 28 septembre
+Semaine 5 - lundi 5 octobre
+Semaine 6 - lundi 12 octobre
+Semaine 7 - lundi 19 octobre
+Semaine 8 - lundi 2 novembre
 {% endcomment %}
 
 ### Introduction à PHP et relation à la base de données (2 semaines)

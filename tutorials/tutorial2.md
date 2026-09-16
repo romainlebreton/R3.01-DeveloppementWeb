@@ -32,7 +32,7 @@ données.
 1. Connectez-vous à votre base de données MySQL, à l'aide de l'interface
    PhpMyAdmin
    [http://webinfo.iutmontp.univ-montp2.fr/my](http://webinfo.iutmontp.univ-montp2.fr/my).
-   Le login est votre login IUT et votre mot de passe initial est votre numéro INE (avec les lettres en majuscule).  
+   Le login est votre login IUT et votre mot de passe initial est votre numéro INE (avec les lettres en minuscules ou en majuscules selon les années).  
    **Si cela ne marche pas**, c'est que vous n'êtes probablement pas inscrit administrativement. Dans ce cas, demandez à votre chargé de TD ou allez voir le service informatique (bâtiment K, premier étage).
    
 
