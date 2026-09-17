@@ -693,7 +693,7 @@ pas encore été chargée.
     [*ORM*](https://fr.wikipedia.org/wiki/Mapping_objet-relationnel) (*cf.*
     Hibernate au semestre 3, ou Doctrine au semestre 5). Cette stratégie est par
     exemple expliqué dans la [documentation de
-    Doctrine](https://www.doctrine-project.org/projects/doctrine-orm/en/3.2/reference/unitofwork.html#how-doctrine-keeps-track-of-objects).
+    Doctrine](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/unitofwork.html#how-doctrine-keeps-track-of-objects).
 
 ### Désinscrire un utilisateur d'un trajet et inversement
 
