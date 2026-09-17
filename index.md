@@ -17,14 +17,14 @@ Cours à l'IUT de Montpellier - 2ème année
 ## TDs
 
 {% comment %}
-Semaine 1 - lundi 7 septembre
-Semaine 2 - lundi 14 septembre
-Semaine 3 - lundi 21 septembre
-Semaine 4 - lundi 28 septembre
-Semaine 5 - lundi 5 octobre
-Semaine 6 - lundi 12 octobre
-Semaine 7 - lundi 19 octobre
-Semaine 8 - lundi 2 novembre
+Semaine 1 - lundi 07 septembre - TD1 2h          puis TD1 1h + TD2 1h
+Semaine 2 - lundi 14 septembre - TD2 1h + TD3 1h puis TD3 2h
+Semaine 3 - lundi 21 septembre - TD4 2h          puis TD4 1h + TD5 1h
+Semaine 4 - lundi 28 septembre - TD5 2h          puis TD5 1h + TD6 1h
+Semaine 5 - lundi 05 octobre   - TD6 2h          puis TD6 2h
+Semaine 6 - lundi 12 octobre   - Projets PHP     puis TD7 2h
+Semaine 7 - lundi 19 octobre   - TD8 2h          puis TD8 2h
+Semaine 8 - lundi 02 novembre  - TD9 2h          puis Projets PHP
 {% endcomment %}
 
 ### Introduction à PHP et relation à la base de données (2 semaines)
@@ -32,22 +32,22 @@ Semaine 8 - lundi 2 novembre
 * [TD 1 -- Introduction aux objets en PHP](tutorials/tutorial1.html) (durée indicative ≃ 3h)
 * [TD 2 -- La persistance des données en PHP](tutorials/tutorial2.html) (durée indicative ≃ 2h)
 * [TD 3 -- Requêtes préparées et association de classes](tutorials/tutorial3.html) (durée indicative ≃ 3h) 
-{% comment %}
 
 ### Architecture Modèle - Vue - Contrôleur (3 semaines)
 
 * [TD 4 -- Architecture MVC simple](tutorials/tutorial4.html) (durée indicative ≃ 3h) 
 * [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html) (durée indicative ≃ 4h)
+{% comment %}
 * [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html) (durée indicative ≃ 5h)
 
 ### Lancement des projets
 
-La première séance de la semaine du 6 octobre sera dédiée aux projets PHP (si vous avez fini le TD6) :
+La première séance de la semaine du 12 octobre sera dédiée aux projets PHP (si vous avez fini le TD6) :
 
 * **Parcours RACDV -- SAÉ**.
-* [Parcours DACS & IAMSI -- Instructions du projet -- Date de rendu : samedi 22/11 à 23h59](projet.html)
+* [Parcours DACS & IAMSI -- Instructions du projet -- Date de rendu : samedi 28/11 à 23h59](projet.html)
 
-La dernière séance de PHP (fin de la semaine du 20 octobre) sera dédiée au suivi des projets.
+La dernière séance de PHP (fin de la semaine du 02 novembre) sera dédiée au suivi des projets.
 
 ### Authentification (2 semaines)
 
@@ -63,9 +63,9 @@ La dernière séance de PHP (fin de la semaine du 20 octobre) sera dédiée au s
 * TD1 -- [Encodage des caractères, promotion de propriétés, serveur HTTP de l'IUT, note sur les URLs et Git]({{site.baseurl}}/assets/tut1-complement.html)
 * TD2 -- [Attributs et méthodes statiques]({{site.baseurl}}/assets/tut2-complement.html)
 * TD3 -- [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
-{% comment %}
 * TD4 -- [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html)
 * TD5 -- [`.htaccess`, namespace et autoloader]({{site.baseurl}}/assets/tut5-complement.html)
+{% comment %}
 * TD7 -- [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html)
 1. [Syntaxe simple & avancée de PHP 8.1]({{site.baseurl}}/assets/complement1-PHPSyntax.html)
 {% endcomment %}

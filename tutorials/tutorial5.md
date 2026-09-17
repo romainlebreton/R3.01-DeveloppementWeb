@@ -8,7 +8,7 @@ lang: fr
 <!-- TODO An prochain : changer le nom du dossier Lib -->
 
 <!-- Prévoir une explication écrite de la différence entre chemin de fichier et
-URL.  Notament pour ceux qui mettent du ROOT dans les URL -->
+URL.  Notamment pour ceux qui mettent du ROOT dans les URL -->
 
 <!--
 URL absolue en récupérant nom de domaine et chemin de l'URL avec
@@ -97,9 +97,15 @@ fonction de s'ils doivent être accessibles sur le Web.
 
 </div>
 
+Vous avez donc la structure de fichiers suivante :
+
+<img alt="Structure de nos fichiers"
+src="../assets/TD5/StructureRepertoire.png" style="margin-left:auto;margin-right:auto;display:block;width:17em;">
+
 #### Réparer les inclusions de fichiers du site
 
-Lorsque l'on a déplacé la page d'accueil vers `controleurFrontal.php`, **tous nos chemins relatifs de fichiers ont été décalés**. En effet, commes tous les fichiers PHP sont copiés/collés dans `controleurFrontal.php`, les chemins relatifs de fichiers sont interprétés par rapport au dossier du contrôleur frontal. Ce problème se produit dans les `require`, `require_once` et `parse_ini_file`.
+Lorsque l'on a déplacé la page d'accueil vers `controleurFrontal.php`, **tous nos chemins relatifs de fichiers ont été décalés**. En effet, comme tous les fichiers PHP 
+sont exécutés dans `controleurFrontal.php`, les chemins relatifs de fichiers sont interprétés par rapport au dossier du contrôleur frontal. Ce problème se produit dans les `require`, `require_once` et `parse_ini_file`.
 
 Prenons l'exemple du `parse_ini_file` de  `../Configuration/ConfigurationBaseDeDonnees.ini` dans `ConnexionBaseDeDonnees.php` :
 * Dans le TD4, cette adresse était relative à `/chemin_du_site/Controleur/routeur.php`, donc elle pointait vers  
@@ -145,7 +151,7 @@ pas de slash final (sauf si c'est le dossier racine `/`). -->
 </div>
 
 Maintenant que le site remarche et que les scripts accessibles sur le Web sont
-isolées dans des dossiers différents, nous allons pouvoir appliquer la
+isolés dans des dossiers différents, nous allons pouvoir appliquer la
 restriction d'accès.
 
 <div class="exercise">
@@ -185,7 +191,7 @@ n'avez jamais inclus de fichier de déclaration de classe en Java avec des
 inclure ? 
 
 Le chemin du fichier est directement lié au nom de classe *qualifié*, c.-à-d. du
-nom de classe précédé du nom de `package`. Par exemple, le fichier Java
+nom de classe précédé du nom du `package`. Par exemple, le fichier Java
 `src/main/java/fr/umontpellier/iut/svg/SVG.java` 
 ```java
 package fr.umontpellier.iut.svg;
@@ -247,6 +253,8 @@ l'équivalent des `package` en Java.
    La même remarque tient pour toutes les autres classes de la librairie standard de PHP
    (comme `DateTime` que nous avions utilisée dans `Trajet` dans un précédent TD, par exemple).
 
+4. Vérifiez que le site remarche.
+
 3. Vous conviendrez volontiers que ce nom de classe à rallonge est pénible. Nous
    allons utiliser un alias à la place :
 
@@ -260,7 +268,7 @@ l'équivalent des `package` en Java.
    use \PDO;
    ```
   
-   **Raccourcissez** les noms de classe de `ConnexionBaseDeDonnees`, `PDO` et `PDOException` dans `ModeleUtilisateur.php` grâce à cet alias (à placer au début du fichier).
+   **Raccourcissez** les noms de classe de `ConnexionBaseDeDonnees`, `PDO` (et éventuellement `PDOException`) dans `ModeleUtilisateur.php` grâce à cet alias (à placer au début du fichier).
 
    **Remarques :**
    * `use` est similaire à `import` en Java.
@@ -272,6 +280,8 @@ l'équivalent des `package` en Java.
      Lorsque votre curseur est sur la ligne du *warning*, une ampoule apparaît
      pour vous proposer des solutions rapides (ou faites `Alt+Entrée`).
      Choisissez la solution *Import Class*.
+
+4. Vérifiez que le site marche toujours.
 
 4. Supprimez le `require_once` qui charge et exécute le fichier `ConnexionBaseDeDonnees.php` dans `ModeleUtilisateur.php`.
 
@@ -309,7 +319,7 @@ vous pourrez enregistrer une association entre un espace de nom et un dossier
 ```php
 $chargeurDeClasse->addNamespace('App\Covoiturage', __DIR__ . '/../src');
 ```
-Vous pouvez maintenant utiliser n'importe quelle classe dont l'espace nom
+Vous pouvez maintenant utiliser n'importe quelle classe dont l'espace de noms
 commence par `App\Covoiturage` et `Psr4AutoloaderClass` chargera le fichier de
 déclaration de classe correspondant avec un `require_once`. Par exemple, si vous
 exécutez maintenant dans `ModeleUtilisateur.php`
@@ -335,7 +345,7 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
 
    **Attention :** Un bug apparaît si vous vous servez de PhpStorm pour déplacer `Psr4AutoloaderClass` et le changer de dossier. Il est donc important d'enregistrer `Psr4AutoloaderClass` directement dans le bon dossier.
 
-2. Au début du contrôleur frontal, incluez ce fichier à l'aide d'un
+2. Au tout début du contrôleur frontal, incluez ce fichier à l'aide d'un
    `require_once`. Utilisez un chemin de fichier absolu avec `__DIR__` comme vu
    précédemment. 
 
@@ -357,9 +367,17 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
    la méthode `requireFile` de `Psr4AutoloaderClass` pour afficher le nom du fichier
    que l'*autoloader* essaye de charger. -->
 
-4. Nous allons enfin pouvoir utiliser l’autoloader. Avec les changements effectués dans l'exercice précédent, la classe `App\Covoiturage\Modele\ConnexionBaseDeDonnees` sera cherchée dans le fichier `src/Modele/ConnexionBaseDeDonnees.php`.
-   
-   Répétez le processus de l'exercice précédent afin d'enlever tous les 
+4. Vérifiez que le site fonctionne de nouveau. 
+
+</div>
+
+Un affichage est apparu en haut de votre page. C'est le *debug* de `Psr4AutoloaderClass` qui vous indique les classes qu'il a chargé. Avec les changements effectués dans l'exercice précédent, la classe `App\Covoiturage\Modele\ConnexionBaseDeDonnees` est chargée automatiquement en incluant le fichier `src/Modele/ConnexionBaseDeDonnees.php` dans `ModeleUtilisateur`.
+
+Cet affichage de débogage est là pour vous aider à comprendre le fonctionnement de l'autoloader. Vous pourrez le désactiver dans un prochain exercice.
+
+<div class="exercise">
+
+4. Répétez le processus de l'exercice précédent afin d'enlever tous les 
    `require_once` de fichier de déclaration de classe (sauf pour 
    `Psr4AutoloaderClass` dans `controleurFrontal.php`) :
    * ajout de `namespace` dans chaque classe,
@@ -374,8 +392,8 @@ l'association déclarée précédemment avec `addNamespace` pour remplacer
    Nous n'enlèverons pas le `require` de la fonction `afficherVue` du contrôleur, car nous l'utilisons pour
    charger un script (et pas une classe) de manière dynamique (le nom du script à charger est passé en paramètre).
 
-   **Remarque :** Il n'y a pas besoin d'utiliser `use App\Covoiturage\Configuration\ConnexionBaseDeDonnees;` dans
-   la classe `ModeleUtilisateur` car ces classes se trouvent dans le même `namespace`.
+   **Remarque :** Il n'y a pas besoin d'utiliser `use App\Covoiturage\Modele\ConnexionBaseDeDonnees;` dans
+   la classe `ModeleUtilisateur` car ces classes se trouvent dans le même `namespace App\Covoiturage\Modele`.
 
 5. Le site doit maintenant fonctionner à nouveau.
 
@@ -394,7 +412,7 @@ remplaçons une variable PHP par sa valeur dans l'écriture de la page HTML. Vou
 allez voir que les raisons sont assez similaires au problème derrière les
 injections SQL.
 
-Prenons l'exemple de notre vue `detail.php` qui écrit entre autre
+Prenons l'exemple de notre vue `detail.php` qui écrit entre autres
 
 ```php?start_inline=1
 echo "<p> Utilisateur {$u->getLogin()} </p>";
@@ -411,8 +429,8 @@ s'est passé.
 
 </div>
 
-Le login est compris comme du code HTML et est donc interprétée. Ce
-comportement est non désiré et peut carrément être dangereux, notamment si
+La valeur du login est interprétée comme du code HTML. Ce
+comportement est indésirable et peut carrément être dangereux, notamment si
 l'utilisateur se met à écrire du JavaScript. 
 
 <!-- XSS et aussi que ça marche bien pour Math O'reilly (! ') -->
@@ -476,20 +494,23 @@ echo '<input type="text" value="' . htmlspecialchars($valeurDefaut) . '">'; // �
 <div class="exercise">
 
 1. Changer donc toutes vos vues pour appliquer la fonction `htmlspecialchars` à
-toutes les variables PHP qui se trouvent à un endroit où du code HTML pourrait
-être interprété. L'endroit typique est dans les zones de texte.  
-Nous vous conseillons de créer des variables temporaires pour stocker le texte
-échappé, par exemple `$loginHTML`, puis d'afficher ces variables.
+   toutes les variables PHP qui se trouvent à un endroit où du code HTML pourrait
+   être interprété. L'endroit typique est dans les zones de texte.
+
+   Nous vous conseillons de créer des variables temporaires pour stocker le texte
+   échappé, par exemple `$loginHTML`, puis d'afficher ces variables.
+   
+   Ne changez pas les variables PHP qui sont utilisées pour construire des liens ou des URLs, nous allons les traiter dans le prochain exercice.
 
 2. Vérifiez que votre utilisateur de login `<h1>Hack` s'affiche maintenant
-   correctement et ne crée plus de balise HTML `<h1>`. Allez voir dans le code
+   correctement et ne crée plus de balise HTML `<h1>` dans les vues de liste et de détail. Allez voir dans le code
    source comment le login a été échappé.
 
 </div>
 
 #### Échappement des URLs
 
-De la même manière, il faut encoder les URLs pour éviter d'en changer le sens
+De la même manière, il faut encoder les valeurs dans les *query strings* des URLs pour éviter d'en changer le sens
 lorsque l'on insère une donnée fournie par l'utilisateur. Par exemple, nous
 allons devoir échapper les caractères `?` et `=` puisqu'ils permettent de passer
 de l'information dans l'URL avec le format *query string*.
@@ -497,7 +518,7 @@ de l'information dans l'URL avec le format *query string*.
 Pour information, la liste des caractères réservés des URLs est
 `:/?#[]@!$&'()*+,;=`. Nous allons donc utiliser la fonction
 [`rawurlencode`](http://php.net/manual/fr/function.rawurlencode.php) pour
-échapper les variables PHP qui interviennent dans des URLs.
+échapper les variables PHP qui interviennent dans des *query string*.
 
 
 <div class="exercise">
@@ -560,7 +581,7 @@ Au niveau du HTML, l'en-tête de la page (*header*) correspond à la partie :
 
 ```html
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>Liste des trajets</title>
@@ -608,7 +629,7 @@ vues "corps" en l'incluant dans l'en-tête et le pied de page communs.
 
    ```php
    <!DOCTYPE html>
-   <html>
+   <html lang="fr">
       <head>
          <meta charset="UTF-8">
          <title><?php echo $titre; ?></title>
@@ -631,7 +652,7 @@ vues "corps" en l'incluant dans l'en-tête et le pied de page communs.
    ```
    **Rappel :** L'IDE devrait signaler une erreur/warning indiquant que
    les variables `$titre` et `$cheminCorpsVue` sont non définies. Pensez à ajouter une
-   documentation en format PHDoc avant l'utilisation de la variable pour avoir un code propre.
+   documentation en format PHPDoc avant l'utilisation de la variable pour avoir un code propre.
    
    Par exemple, pour `$titre` :
    ```php
@@ -640,8 +661,7 @@ vues "corps" en l'incluant dans l'en-tête et le pied de page communs.
     */
    ```
    
-3. Dans vos vues existantes, supprimer les parties du code correspondant aux
-   *header* et *footer*.
+3. Dans vos vues existantes, supprimer les parties du code sauf ce qui rentrera dans le corps de la page `<main>`.
 
 4. Reprendre l'action `afficherListe` du contrôleur pour afficher la vue `vueGenerale.php`
    avec les paramètres supplémentaires `"titre" => "Liste des utilisateurs"`,
@@ -707,12 +727,12 @@ avec deux liens vers les différents contrôleurs :
 
 3. Ce fichier CSS rajoute aussi un style pour les formulaires. Pour l'appliquer,
    changez `formulaireCreation.php` pour qu'un champ de formulaire s'obtienne par exemple avec 
-    ```html
-    <p class="InputAddOn">
-        <label class="InputAddOn-item" for="login_id">Login</label>
-        <input class="InputAddOn-field" type="text" placeholder="Ex : leblancj" name="login" id="login_id" required>
-    </p>
-    ```
+   ```html
+   <p class="InputAddOn">
+       <label class="InputAddOn-item" for="login_id">Login</label>
+       <input class="InputAddOn-field" type="text" placeholder="Ex : leblancj" name="login" id="login_id" required>
+   </p>
+   ```
 
 </div> 
 
