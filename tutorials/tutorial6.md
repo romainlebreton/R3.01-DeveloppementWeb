@@ -5,20 +5,6 @@ layout: tutorial
 lang: fr
 ---
 
-<!-- Ajouter des fonctions de sécurité/contrôle avec isset($_GET) et les
-htmlspecialchars quand on écrit dans du HTML et URLencode quand on écrit dans
-une URL -->
-
-<!-- XSS et protection de l'écriture html -->
-
-<!--
-Ajouter dispatcher
--->
-
-<!--
-Ou est-ce qu'ils codent vraiment utilisateurs et trajets ?
--->
-
 Nous continuons de développer notre site-école de covoiturage. En attendant de pouvoir gérer les
 sessions d'utilisateur, nous allons développer l'interface "administrateur" du
 site.
@@ -27,9 +13,9 @@ Ce TD présuppose que vous avez fini [le TD précédent](tutorial5.html).
 
 ## Amélioration du routeur
 
-On veut ajouter un comportement par défaut du routeur qui est contenu dans le
-contrôleur frontal. Nous allons faire en sorte qu'un utilisateur qui arrive sur
-`controleurFrontal.php` voit la même page que s'il était arrivé sur
+On veut ajouter au contrôleur frontal une action par défaut. 
+Nous allons faire en sorte qu'un utilisateur qui arrive sur
+`controleurFrontal.php` voie la même page que s'il était arrivé sur
 `controleurFrontal.php?action=afficherListe`.
 
 #### Action par défaut
@@ -47,11 +33,23 @@ contrôleur frontal. Nous allons faire en sorte qu'un utilisateur qui arrive sur
 
 3. Testez votre site en appelant `controleurFrontal.php` sans action.
 
+4. PHP fournit [une syntaxe raccourcie `??`](https://www.php.net/manual/fr/migration70.new-features.php#migration70.new-features.null-coalesce-op)
+   pour donner une valeur par défaut si une variable n'existe pas. Voici un exemple :
+   ```php
+   // Récupère la valeur de $_GET['utilisateur'] ou retourne 'aucun' s'il n'existe pas.
+   $identifiant = $_GET['utilisateur'] ?? 'aucun';
+   // Ceci est équivalent à :
+   $identifiant = isset($_GET['utilisateur']) ? $_GET['utilisateur'] : 'aucun';
+   ```
+
+   **Remplacez** votre `isset` précédent par la syntaxe raccourcie `??` pour initialiser la variable `action`. **Testez** votre site.
+
+
+</div>
+
 **Note :** De manière générale, il ne faut jamais lire la case d'un tableau
   avant d'avoir vérifié qu'elle était bien définie avec un `isset(...)` sous peine
   d'avoir des erreurs `Undefined index : ...`.
-
-</div>
 
 Désormais, la page [http://localhost/tds-php/TD6/web/controleurFrontal.php](http://localhost/tds-php/TD6/web/controleurFrontal.php) doit marcher sans paramètre ([http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/controleurFrontal.php](http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD6/web/controleurFrontal.php) si vous hébergez le site sur le serveur de l'IUT).
 
@@ -68,7 +66,7 @@ On souhaite que le routeur vérifie que `action` est le nom d'une méthode de
 `ControleurUtilisateur.php` avant d'appeler cette méthode. Sinon, nous renverrons
 vers une page d'erreur.
 
-1. Créez une action `afficherErreur(string $messageErreur = "")` dans le contrôleur
+1. Créez une action `afficherErreur(string $messageErreur = ""): void` dans le contrôleur
    *utilisateur* qui affiche la vue d'erreur `src/vue/utilisateur/erreur.php` contenant
    le message d'erreur *Problème avec l'utilisateur : `$messageErreur`*, ou juste
    *Problème avec l'utilisateur* si le message est vide. Pour ce faire, il faudra adapter la vue
@@ -82,7 +80,7 @@ vers une page d'erreur.
    [la fonction `get_class_methods()`](http://php.net/manual/fr/function.get-class-methods.php)
    et tester si une valeur appartient à un tableau avec
    [la fonction `in_array`](http://php.net/manual/fr/function.in-array.php).
-   * `get_class_methods()` prend en argument une chaine de caractères contenant le
+   * `get_class_methods()` prend en argument une chaîne de caractères contenant le
    nom de la classe **qualifié**, c.-à-d. avec le `namespace`.
    <!-- (*Astuce optionnelle*) Si une classe possède un alias avec `use`, on peut
    récupérer le nom de classe qualifié avec
@@ -109,17 +107,17 @@ les aborder dans le cours *Qualité de développement* de Semestre 3. Le `S` de 
 français) : chaque classe doit faire une seule tâche.
 
 Actuellement, notre classe `ModeleUtilisateur` gère 2 tâches : la gestion des
-utilisateurs et leur persistance dans une base de donnée. Ceci est contraire aux
+utilisateurs et leur persistance dans une base de données. Ceci est contraire aux
 principes *SOLID*. Plus concrètement, si on veut enregistrer un utilisateur
 différemment plus tard (dans une session, dans un fichier, via un appel d'API,
-ou avec une classe *mock* pour des tests), cela impliquera beaucoup de
+ou avec un objet simulé (*mock*) pour des tests), cela impliquera beaucoup de
 réécriture de code.
 
 Nous allons séparer les méthodes gérant la persistance des données des autres méthodes
-propres aux utilisateurs (méthodes métiers). Voici le diagramme de classe UML modifié que
+propres aux utilisateurs (méthodes métiers). Voici le diagramme de classes UML modifié que
 nous allons obtenir à la fin de cette section :
 
-<img alt="Diagramme de classe"
+<img alt="Diagramme de classes"
 src="//www.plantuml.com/plantuml/png/ZP91Qy9048Nl-HLpZDIAlNeeIhqKR6jhUnDa4eUmThExpCuMhFZVksfAbjIY44XuyxqtuUsElI1Bg7NcFvLno5Y3iMlovE1kE4pKKgFt4n5MHH1wBArPg6-2OPOPhCaxB0acpYqVx9TL4XWhMZx594tBAGg-51ig1NOPG0QdCFWGfPL7eS37mGq0h5OnsGk7Kd9jAsNwO6pT1ySKtxr8tKRgE1b1v9Ife17Zl2j5LwesEpp9x11mMj1hrEfNxPtXvyUW_9JNEXgzjRIEvoYdR5Gwu3xRNr7U6pdhbLZU_bjUYZJhTbvGLBa7fZ8uOkA4zuVVG6RSTcdSs234UG93QB-ZhR1MNxDZZfnsF89arlKt9wwOfkI2ykzOQCAmU9tboV96_HCLIupFnVO6vmiRt5--jQar6vDPXrh_0000" style="margin-left:auto;margin-right:auto;display:block;">
 
 Notez que dans le schéma UML ci-dessus :
@@ -170,14 +168,14 @@ outils professionnels (*ORM Doctrine* par exemple).
    Pensez également à adapter le code des autres fonctions
    de la classe `UtilisateurRepository` afin qu'elles appellent correctement la méthode `construireDepuisTableauSQL`.
 
-4. Déplacer `Utilisateur` dans le dossier `DataObject` et `ConnexionBaseDeDonnees` dans
-   `Repository`. 
+4. Déplacez `Utilisateur` dans le dossier `DataObject`.  
+   Déplacez `ConnexionBaseDeDonnees` dans `Repository` et corrigez le chemin de `ConfigurationBaseDeDonnees.ini`. 
    
    **Attention** si vous utilisez le drag & drop de PhpStorm, vous allez
    avoir des mauvaises surprises car les `namespace` risquent de ne pas se mettre à jour correctement...  
    La façon correcte de le faire : Clic droit sur le nom de la classe > *Refactor* > *Move Class* > Indiquer le `namespace` correspondant.
    
-   Vérifiez que votre code correspond à celui indiqué dans le diagramme de classe évoqué précédemment.
+   Vérifiez que votre code correspond à celui indiqué dans le diagramme de classes évoqué précédemment.
 
 5. Faites remarcher les actions une par une :
    * `afficherListe` : 
@@ -186,8 +184,6 @@ outils professionnels (*ORM Doctrine* par exemple).
      * `recupererUtilisateurParLogin` appartient à la classe `UtilisateurRepository`.
    * `creerDepuisFormulaire` :
      * `ajouter` et `recupererUtilisateurs` appartiennent à la classe `UtilisateurRepository` désormais.
-     * `ajouter` sera maintenant statique et prendra en argument un objet de
-       la classe `Utilisateur` ; les getters de `Utilisateur` servent à construire la requête SQL.
 
 </div>
 
@@ -219,7 +215,9 @@ Nous souhaitons ajouter l'action `supprimer` aux utilisateurs. Pour cela :
 1. Créez une vue `src/vue/utilisateur/utilisateurSupprime.php` qui affiche *"L'utilisateur
    de login `$login` a bien été supprimé*", suivi de la liste des
    utilisateurs en appelant la vue `liste.php` (de la même manière que
-   `utilisateurCreee.php`).
+   `utilisateurCree.php`).
+
+   **Avez-vous pensé** à échapper vos variables PHP avant de les écrire dans le HTML ?
 
 2. Écrivez l'action `supprimer` du contrôleur d'utilisateur pour que
 
@@ -282,8 +280,11 @@ formulaire de mise à jour, aux utilisateurs. Pour cela :
       ```
       -->
 
-   4. Pensez bien à échapper vos variables PHP avant de les écrire dans l'HTML
-     et dans les URL.
+   4. Pensez bien à échapper vos variables PHP avant de les écrire dans le HTML et dans les URL.
+
+      Si vous avez un doute sur la méthode à utiliser, rafraîchissez vos souvenirs avec le [TD précédent]({{site.baseurl}}/tutorials/tutorial5.html#échappement-dans-du-html).
+
+      
 
    5. Astuce optionnelle : La vue `formulaireMiseAJour.php` peut être
    raccourcie en utilisant la syntaxe 
@@ -305,7 +306,11 @@ formulaire de mise à jour, aux utilisateurs. Pour cela :
 
 1. Ajoutons les liens manquants. Enrichissez la vue `liste.php` pour ajouter des
    liens HTML qui permettent de mettre à jour un utilisateur. Ces liens pointent
-   donc vers le formulaire de mis-à-jour prérempli.
+   donc vers le formulaire de mise à jour prérempli.
+
+1. Rajoutez les vérifications manquantes dans l'action `afficherFormulaireMiseAJour` 
+   du contrôleur d'utilisateur pour qu'elle affiche la vue d'erreur si le login n'est pas
+   passé en paramètre dans l'URL ou si l'utilisateur n'existe pas dans la BDD.
 
 </div>
 
@@ -315,9 +320,11 @@ formulaire de mise à jour, aux utilisateurs. Pour cela :
    BDD.
 
    Créez la vue `src/vue/utilisateur/utilisateurMisAJour.php` pour qu'elle
-   affiche *"L'utilisateur de login `$login` a bien été mis à jour*". Affichez
+   affiche *"L'utilisateur de login `$login` a bien été mis à jour"*. Affichez
    en dessous de ce message la liste des utilisateurs mise à jour (à la manière
    de `utilisateurSupprime.php` et `utilisateurCreee.php`).
+
+   **Avez-vous pensé** à échapper vos variables PHP avant de les écrire dans le HTML ?
 
 2. Ajoutez à `UtilisateurRepository` une méthode statique
    `mettreAJour(Utilisateur $utilisateur)`. Cette méthode est proche de
@@ -396,7 +403,7 @@ valeur à partir de l'URL.
 
 5. Les liens URL de vos différentes vues (`<a href="...">` et formulaires...) ne fonctionnent plus. C'est normal, il faut maintenant spécifier dans quel contrôleur se trouve l'action désirée. Mettez donc à jour adéquatement les éléments suivants :
    
-   * Les liens dans la vue `liste.php` (afficher les détails, mettre à jour, supprimer).
+   * Les liens dans la vue `liste.php` (afficher les détails, mettre à jour, supprimer, créer un utilisateur).
    * Les deux vues contenant un formulaire : `formulaireCreation` et `formulaireMiseAJour`. Ici, il faudra ajouter un champ de type `hidden` comme nous l'avons fait précédemment, afin d'indiquer le contrôleur adéquat.
 
 6. Dans `controleurFrontal.php`, faites en sorte de donner la valeur `utilisateur` par défaut à la variable `controleur` si aucun contrôleur n'est précisé par l'utilisateur (de manière similaire à ce que nous avons déjà pour `$action`). Testez en essayant de charger [http://localhost/TD6/web/controleurFrontal.php](http://localhost/TD6/web/controleurFrontal.php) (donc, sans spécifier de nom de contrôleur et d'action). Vous devriez alors arriver sur la page listant les utilisateurs (contrôleur par défaut `utiliseur`, action par défaut `afficherListe`).
@@ -482,20 +489,20 @@ Pour éviter la duplication de code et la perte d'un temps conséquent à
 développer le CRUD pour chaque nouveau type d'objet, nous allons mettre en commun le
 code autant que possible. Commençons par abstraire les 2 classes métiers `Utilisateur` et `Trajet`.
 
-<img alt="Diagramme de classe"
+<img alt="Diagramme de classes"
 src="https://www.plantuml.com/plantuml/png/SoWkIImgAStDuN9CAYufIamkSKaiIVHFoafDBb6mgT7LLGWfIinABS4f7LgIcPDPd5YIMbh4vP2Qbm8q2W00" style="margin-left:auto;margin-right:auto;display:block;">
 
 <div class="exercise">
 
 Créer une classe abstraite `AbstractDataObject` dans le dossier `DataObject`.
 Faites hériter les autres classes de ce répertoire de `AbstractDataObject` pour
-correspondre au diagramme de classe ci-dessus (mot clé `extends` comme en Java).
+correspondre au diagramme de classes ci-dessus (mot clé `extends` comme en Java).
 
 </div>
 
 Également, nous allons abstraire les classes *Repository* de façon à obtenir le schéma suivant :   
 
-<img alt="Diagramme de classe"
+<img alt="Diagramme de classes"
 src="https://www.plantuml.com/plantuml/png/SoWkIImgAStDuN9CAYufIamk2Kejo2_EBCalgbImgT7LLGWfIinAHHB5gJ2q93CdipYn9BMq24crGsfU2j1u0000" style="margin-left:auto;margin-right:auto;display:block;">
 
 Nous allons détailler ces changements dans les prochaines sections.
@@ -1004,9 +1011,9 @@ l'isoler dans une méthode pour ne pas le dupliquer.
 Limiter les contrôleurs aux actions autant que possible
  -->
 
-### Diagramme de classe final de la partie `Repository`
+### Diagramme de classes final de la partie `Repository`
 
-<img alt="Diagramme de classe"
+<img alt="Diagramme de classes"
 src="https://www.plantuml.com/plantuml/png/vLJ1hjem4BpxArRgeQaG4hrMY890bLfLBItq0pPXYqpjE5glAr7AlzUD2KHA0eVtRe-BpNfsD3ixojmBiWHhbF-bomePBPHkHvugU3kPgDTmgnS6lL-8iCw3qCV2bHlzXs2Y5EPU60j945XS_dwdodajZeymdJQOsUoa0E0Ld9hA6VOaNvpTOcueU_CEObcN-m7Kqj2QjKNDZx5-wOmhI_B_aSYCnmumJX6l8RAjg0hQro8mRBvzpke6SFc1v8DZYt9vYrpDX2iK_1e1XNI8VpOj3Lst1rnzjBMDWAa85J5nDb1V8xSzI0R0RpGKsW-n-ts_p17WmGKXxf5qLPGxPnBOaWZJufCBV6U6XFMXgbXRuc5PYHhKMQMmR1aFr8vAYiUTJ3mEmltjF-_AdxpdDNgFUsAV9Ij0wgD1Nutw8TfeZqA1Nx1RoQCerbfgdCjQra2utID5T4_rVOx-ZiVTvDM_8NY__sfEvIvOymy0" style="margin-left:auto;margin-right:auto;display:block;">
 
 
