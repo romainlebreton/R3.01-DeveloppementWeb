@@ -118,7 +118,7 @@ propres aux utilisateurs (méthodes métiers). Voici le diagramme de classes UML
 nous allons obtenir à la fin de cette section :
 
 <img alt="Diagramme de classes"
-src="//www.plantuml.com/plantuml/png/ZP91Qy9048Nl-HLpZDIAlNeeIhqKR6jhUnDa4eUmThExpCuMhFZVksfAbjIY44XuyxqtuUsElI1Bg7NcFvLno5Y3iMlovE1kE4pKKgFt4n5MHH1wBArPg6-2OPOPhCaxB0acpYqVx9TL4XWhMZx594tBAGg-51ig1NOPG0QdCFWGfPL7eS37mGq0h5OnsGk7Kd9jAsNwO6pT1ySKtxr8tKRgE1b1v9Ife17Zl2j5LwesEpp9x11mMj1hrEfNxPtXvyUW_9JNEXgzjRIEvoYdR5Gwu3xRNr7U6pdhbLZU_bjUYZJhTbvGLBa7fZ8uOkA4zuVVG6RSTcdSs234UG93QB-ZhR1MNxDZZfnsF89arlKt9wwOfkI2ykzOQCAmU9tboV96_HCLIupFnVO6vmiRt5--jQar6vDPXrh_0000" style="margin-left:auto;margin-right:auto;display:block;">
+src="https://www.plantuml.com/plantuml/png/ZP91Qy9048Nl-HLpZDIAlNeeIhqKR6jhUnDa4eUmThExpCuMhFZVksfAbjIY44XuyxqtuUsElI1Bg7NcFvLno5Y3iMlovE1kE4pKKgFt4n5MHH1wBArPg6-2OPOPhCaxB0acpYqVx9TL4XWhMZx594tBAGg-51ig1NOPG0QdCFWGfPL7eS37mGq0h5OnsGk7Kd9jAsNwO6pT1ySKtxr8tKRgE1b1v9Ife17Zl2j5LwesEpp9x11mMj1hrEfNxPtXvyUW_9JNEXgzjRIEvoYdR5Gwu3xRNr7U6pdhbLZU_bjUYZJhTbvGLBa7fZ8uOkA4zuVVG6RSTcdSs234UG93QB-ZhR1MNxDZZfnsF89arlKt9wwOfkI2ykzOQCAmU9tboV96_HCLIupFnVO6vmiRt5--jQar6vDPXrh_0000" style="margin-left:auto;margin-right:auto;display:block;">
 
 Notez que dans le schéma UML ci-dessus :
 * `ModeleUtilisateur` est scindé en deux classes `UtilisateurRepository` et `Utilisateur`.
@@ -418,8 +418,9 @@ travail, commençons par créer l'action `afficherListe` de `Trajet`.
 
 <div class="exercise">
 
-2. Créez deux classes `DataObject/Trajet.php` et
-   `Repository/TrajetRepository.php` (indépendamment de la classe `Trajet` que vous avez fait dans les TDs 2 & 3)
+2. Créez deux classes vides `DataObject/Trajet.php` et
+   `Repository/TrajetRepository.php` à l'aide de `New > PHP Class` dans PhpStorm. 
+   Elles doivent avoir le `namespace` correspondant à leur dossier.
 
 3. À partir de votre classe `Trajet` des TDs 2 & 3, copiez/collez : 
    
@@ -429,31 +430,32 @@ travail, commençons par créer l'action `afficherListe` de `Trajet`.
      `construireDepuisTableauSQL($trajetTableau)`, `recupererTrajets()` et
      `recupererPassagers()`.
 
-   **Attention** : il faudra probablement importer la classe `DateTime` (`use DateTime`). Aussi, de manière générale, comme nous allons changer beaucoup de choses au fil du TD, certains imports risquent d'être cassés au fur et à mesure. Mais pas de panique, grâce au système d'autoloading mis en place dans le dernier TP et à PhpStorm, il est facile de corriger les imports cassés/manquants. 
-   PhpStorm vous signale les classes qui ne sont pas importées par un warning (nom de la classe
-   souligné en jaune). En survolant le nom de la classe manquante, l'IDE vous propose certaines solutions comme notamment ajouter les lignes `use ...` nécessaires (**Import Class**). 
-   Vous pouvez aussi utiliser le raccourci `Alt+Entrée`.
-
-   <!-- Enlevez les `require_once`, indiquez les bons `namespace` correspondant aux
-   dossiers et importez les classes nécessaires avec `use`. -->
-
-
 4. Corrigeons les appels aux méthodes dans `TrajetRepository.php` : 
    * `Utilisateur::recupererUtilisateurParLogin` → `UtilisateurRepository::recupererUtilisateurParLogin`
    * `Utilisateur::construireDepuisTableauSQL` → `UtilisateurRepository::construireDepuisTableauSQL`
    * `Trajet::construireDepuisTableauSQL` → `TrajetRepository::construireDepuisTableauSQL`
    * changez la signature de la fonction `recupererPassagers` pour 
      ```php
-     static public function recupererPassagers(Trajet $trajet): array
+     public static function recupererPassagers(Trajet $trajet): array
      ```
      et corrigez le tableau de valeurs donné à la requête préparée.
    * `$trajet->recupererPassagers()` → `TrajetRepository::recupererPassagers($trajet)`
    
    Si vous aviez codé l'attribut `trajetsCommePassager` de `Utilisateur` au TD3 : 
    * Dans `UtilisateurRepository.php` :  
-     `Trajet::construireDepuisTableauSQL` → `TrajetRepository::construireDepuisTableauSQL`
-   * Dans `Utilisateur.php` : importez la classe `Trajet` dans `Utilisateur.php`
-   (utilisé au niveau du PHPDoc du getter et du setter de l'attribut `trajetsCommePassager`).
+     `Trajet::construireDepuisTableauSQL` → `TrajetRepository::construireDepuisTableauSQL`.
+
+5. Importez les classes nécessaires:
+
+   * dans `TrajetRepository.php`, importez `Utilisateur`, `Trajet` et `DateTime`,
+   * dans `Trajet.php`, importez `DateTime`. 
+
+   **Astuce** : 
+   PhpStorm vous signale les classes qui ne sont pas importées par un warning (nom de la classe
+   souligné en jaune). En survolant le nom de la classe manquante, l'IDE vous propose certaines solutions comme notamment ajouter les lignes `use ...` nécessaires (**Import Class** ou `Alt+Entrée`).
+
+   <!-- Enlevez les `require_once`, indiquez les bons `namespace` correspondant aux
+   dossiers et importez les classes nécessaires avec `use`. -->
 
 5. Créez une vue `src/vue/trajet/liste.php` similaire à celle des utilisateurs
    (en commentant les liens pour l'instant).  
@@ -494,7 +496,7 @@ src="https://www.plantuml.com/plantuml/png/SoWkIImgAStDuN9CAYufIamkSKaiIVHFoafDB
 
 <div class="exercise">
 
-Créer une classe abstraite `AbstractDataObject` dans le dossier `DataObject`.
+Créer une classe abstraite `abstract class AbstractDataObject` dans le dossier `DataObject`.
 Faites hériter les autres classes de ce répertoire de `AbstractDataObject` pour
 correspondre au diagramme de classes ci-dessus (mot clé `extends` comme en Java).
 
@@ -556,7 +558,7 @@ faire pour avoir un code générique :
    et une implémentation de `getNomTable()` dans `UtilisateurRepository`.
 
    **Question** : pourquoi la visibilité de cette fonction est `protected` ?  
-  <details markdown="0">
+   <details markdown="0">
       <summary><strong>Réponse (cliquez pour afficher) :</strong></summary>
       <p markdown="1">
          Pour rendre accessible cette méthode uniquement à la classe *AbstractRepository* et à ses classes filles.
@@ -572,7 +574,7 @@ faire pour avoir un code générique :
 
 3. Utilisez `getNomTable()` dans la requête *SQL* de `recuperer()`. Puisque
    `getNomTable()` est une méthode dynamique, enlevez le `static` de
-   `recuperer()`.
+   `recuperer()` (et modifiez le PhpDoc).
 
    ```php
    /**
@@ -599,6 +601,8 @@ faire pour avoir un code générique :
    * Pensez à vérifier que l'implémentation de la méthode `construireDepuisTableauSQL()` de
      `UtilisateurRepository` déclare bien le type de retour `Utilisateur` (sous-classe
      de `AbstractDataObject`).
+
+   * `AbstractRepository::recuperer` doit maintenant utiliser `$this->construireDepuisTableauSQL(...)` pour construire les objets à partir des tableaux SQL.
    <!-- * La méthode `construireDepuisTableauSQL()` devient **dynamique** et `protected` dans `UtilisateurRepository`. -->
 
    <!-- attention déclaration de type correspondante entre méthode et 
@@ -643,6 +647,13 @@ faire pour avoir un code générique :
 Pour faciliter les actions `afficherDetail` des différents contrôleurs, nous allons créer
 une fonction `recupererParClePrimaire($valeurClePrimaire)` générique dans `AbstractRepository`
 qui permet de faire une recherche par clé primaire dans une table.
+Cette recherche aura besoin de connaitre le nom de la clé primaire de la table, que nous allons demander à toutes les classes filles de `AbstractRepository` de fournir via une méthode `getNomClePrimaire()`.
+
+Ces modifications sont représentées dans le diagramme de classes suivant :
+
+<img alt="Diagramme de classes"
+src="https://www.plantuml.com/plantuml/png/jL9BItCn4DtdLmny7wX8jMxBvTfIDuAFucFNpJHtkAJc9c4oAMZjVxSFxqCf516pcyavPywSP1W5ML9bLNmnBY1Z1SuN52d0HR-lZg3jQuinZaJOp9BGjVRkqRmHz9LoM54Cg0b68Kp7Vk6D9CQIfhU-84lJ1me-6l7y2ak5ioYCMdQ2CFeiEvWigp5vlYR0-lo3PTrRGQQzzJmecSZb9ScThyQM9cmgD4p79mE8miQLsVaMc6yLJh_Ic7GAnCGJv2vvnuJ_2xIKkZThrSlQwnKAti_cfAKPiL9gjyyJuvowszGB_DHrA_ainfg8Geb_hrkdiOo2OdIJ9bFHXjAPE46-yQLnJJ9sKstIw81QpnlN1t_1sRv7V-_ru33pUxn_Ecnly6f8haYL_G00" style="margin-left:auto;margin-right:auto;display:block;">
+
 
 <div class="exercise">
 
@@ -715,30 +726,67 @@ Faites de même pour les trajets.
 
    **Rappel :** Utilisez le remplacement `Ctrl+R` en préservant la casse pour vous faciliter le travail.
 
-3. Créer la vue associée `detail.php` en repartant de l'ancien code de
-   `Trajet::toString()`. Ajouter les liens vers la vue de détail dans
+3. Créer la vue associée `detail.php` en vous inspirant de votre affichage de `Trajet::__toString()` du TD3. 
+   Ajouter les liens vers la vue de détail dans
    `liste.php` en spécifiant bien `controleur=trajet` dans le *query string*.  
    L'action `afficherDetail` doit maintenant fonctionner.
 
-5. *Question innocente :* Avez-vous pensé à échapper vos variables dans vos vues
+5. *Question innocente* 😇 : Avez-vous pensé à échapper vos variables dans vos vues
    pour le HTML et les URL ?  
    Ayez toujours un utilisateur et un trajet avec des caractères spéciaux pour
    le HTML (par ex. `<h1>Hack`) et les URL (par ex. `a&b=c`) dans votre base de
    données. Comme ça, vous pourrez tester plus facilement que vous avez sécurisé
    cet aspect.
 
-**Remarque :** Observez que lors de l'appel du constructeur de `Trajet` dans la fonction `construireDepuisTableauSQL`
+</div>
+
+#### Remarque sur le typage générique
+
+Observez que lors de l'appel du constructeur de `Trajet` dans la fonction `construireDepuisTableauSQL`
 de `TrajetRepository`, vous passez en paramètres la référence obtenue à partir de `recupererParClePrimaire()`.
 La fonction `recupererParClePrimaire()` est "générique" et retourne un objet de type `AbstractDataObject` ou `null`.
 Or, la signature du constructeur de `Trajet` demande une référence de type `Utilisateur` et pas n'importe quel `AbstractDataObject` !
 À l'exécution ce code fonctionne, car la liaison dynamique fait que le type effectif retourné par `recupererParClePrimaire()` est bel et bien
 `Utilisateur`. Mais la vérification de type ne peut pas être garantie par votre IDE en amont et vous pouvez obtenir un warning.
+
 On touche là aux limites d'un langage non fortement typé : la vérification que les types sont correctement définis et respectés est une
-tâche du développeur, contrairement aux langages fortement typés où cette vérification est faite davantage lors de la phase de compilation. Ce qu'il faudrait ici, c'est pouvoir paramétrer la classe
-avec un type générique `class AbstractRepository <T extends DataObject>` et faire en sorte que `UtilisateurRepository` soit définit ainsi `class UtilisateurRepository extends AbstractRepository<Utilisateur>` et utiliser `T` au lieu de `DataObject` comme type. C'est ce que vous faisiez l'année dernière en `Java`. Cependant, cela n'est pas possible en PHP... Du moins pour le moment ! L'inclusion du typage générique dans PHP est une demande qui revient régulièrement, donc, il est possible que dans l'avenir PHP évolue pour l'inclure dans une future version... 
+tâche du développeur, contrairement aux langages fortement typés où cette vérification est faite davantage lors de la phase de compilation. Ce qu'il faudrait ici, et que vous faisiez l'année dernière en `Java`, c'est
+1. pouvoir paramétrer la classe avec un type générique `class AbstractRepository <T extends AbstractDataObject>`, 
+2. utiliser `T` au lieu de `AbstractDataObject` comme type dans `AbstractRepository`, 
+3. et faire en sorte que `UtilisateurRepository` soit définit ainsi `class UtilisateurRepository extends AbstractRepository<Utilisateur>`. 
 
+Cependant, les types génériques ne sont pas disponibles en PHP. La communauté a décidé d'annoter les types génériques dans les commentaires PHPDoc et de déléguer la vérification aux outils d'analyse statique comme **PhpStorm**, **PHPStan**, **Psalm**. Voici les annotations à ajouter pour bénéficier de ce typage générique :
+
+1. Dans `AbstractRepository` 
+
+   ```php
+   /** @template T of AbstractDataObject */
+   abstract class AbstractRepository
+   {
+      /** @return T */
+      protected abstract function construireDepuisTableauSQL(array $objetTableau) : AbstractDataObject;
+
+      /** @return array<T> */
+      public function recuperer(): array { }
+
+      /** @return T|null */
+      public function recupererParClePrimaire(string $valeurClePrimaire): ?AbstractDataObject { }
+   }
+   ```
+
+2. Dans `UtilisateurRepository` et `TrajetRepository` :   
+   ```php
+   /** @extends AbstractRepository<Utilisateur> */
+   class UtilisateurRepository extends AbstractRepository { }
+   ```
+   ```php
+   /** @extends AbstractRepository<Trajet> */
+   class TrajetRepository extends AbstractRepository { }
+   ```
+
+<div class="exercise">
+**Ajoutez** ces annotations dans vos classes `AbstractRepository`, `UtilisateurRepository` et `TrajetRepository`.
 </div>
-
 
 ### Action `supprimer`
 
@@ -760,13 +808,25 @@ Pas de nouveautés.
 
 ### Actions `afficherFormulaireCreation` et `creerDepuisFormulaire`
 
-Commençons par rendre générique la méthode de création d'entités. Pour
+Commençons par rendre générique la méthode `ajouter`de création d'entités. Pour
 reconstituer la requête
 ```sql
 INSERT INTO utilisateur (login,  nom,  prenom) VALUES (:loginTag, :nomTag, :prenomTag)
 ```
 il est nécessaire de pouvoir lister les champs de la table `utilisateur`. De même, il sera nécessaire de lister
-les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans `AbstractRepository`.
+les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans la méthode `AbstractRepository::getNomsColonnes()`.
+
+Nous aurons également besoin de transformer un objet `Utilisateur` ou `Trajet` en un tableau de valeurs pour l'exécution de la requête préparée. Nous allons factoriser le code nécessaire dans la méthode `AbstractRepository::formatTableauSQL()`.
+
+Nous pouvons résumer le tout dans le diagramme de classes suivant :
+
+<img alt="Diagramme de classes"
+src="https://www.plantuml.com/plantuml/png/lL91J_904BtlhvZaEtny-OBYbJGDX9E9cYZrncLQncPnkzFCpfeWyjzjG0gYs8FHlUpkvBqty_9c51H5O-LCUBI-Hi4AFCyfK0qNWu7v2_jwuJ24iQhOF2fT5kodzfbWO8p7YaAD1S6uhcSJVcAhKR2asNMZvMXsHpK7gonBM1dCWmeMkXM4yTjtZqco599a1qlJXWFD-GEhNMqDIS6EPLWAaKzBqXkkmgGfUK-Xzsy8A8BBf45RNwR9-GQTTiWyi5Ie6UQEC4vlhtePSBwWGh_K-_zU11SSbUIGcpExbh8sPkix4rpGWUlMvJUiTVZPjWJTN2ULsWdlrJeRK2dAhuvvq1VY_jsHmYeegYtQJ8NcRHWd5O-pQRnthl3Pnus5vANVXsxcSUO_skpJ-Co8_3nMxXK0" style="margin-left:auto;margin-right:auto;display:block;">
+
+Concernant le contrôleur, nous allons créer deux actions `afficherFormulaireCreation` et `creerDepuisFormulaire` pour les trajets, similaires à celles des utilisateurs.
+
+<img alt="Diagramme de classes"
+src="https://www.plantuml.com/plantuml/png/VOwnJWCn38RtF8KtMZ5mh5LLjIf2OeQHnUJ-ba0IHux3mEdUdUW6RgijMTRlJvzyhCPgBKLNlqCkh9meouYAGe_3uEvepNtaMazc6ZwQuSLBVWs_eC6vp0cri0UTIda_ouy4QyfNz3sRIaHJcjmYe3LwK_w2zGFrkgUf6blmC-szHD7TLO5yuCib-4_eisXgaOFYhEYSvCrs_x2GXvi2twS-eRHGLyTckwF-vVXlc7iVaSUMuXy0" style="margin-left:auto;margin-right:auto;display:block;">
 
 <div class="exercise">
 
@@ -774,6 +834,7 @@ les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans
    `UtilisateurRepository` vers `AbstractRepository`. Changez la signature
    de la fonction par
    ```php
+   /** @param T $utilisateur */
    public function ajouter(AbstractDataObject $objet): bool
    ```
 
@@ -817,6 +878,7 @@ les champs de la table `trajet`. Nous allons factoriser le code nécessaire dans
 
    Ajoutez une méthode abstraite `formatTableauSQL()` dans `AbstractRepository`
    ```php
+   /** @param T $objet */
    protected abstract function formatTableauSQL(AbstractDataObject $objet): array;
    ```
    Implémentez cette fonction dans `UtilisateurRepository` avec
@@ -1014,7 +1076,7 @@ Limiter les contrôleurs aux actions autant que possible
 ### Diagramme de classes final de la partie `Repository`
 
 <img alt="Diagramme de classes"
-src="https://www.plantuml.com/plantuml/png/vLJ1hjem4BpxArRgeQaG4hrMY890bLfLBItq0pPXYqpjE5glAr7AlzUD2KHA0eVtRe-BpNfsD3ixojmBiWHhbF-bomePBPHkHvugU3kPgDTmgnS6lL-8iCw3qCV2bHlzXs2Y5EPU60j945XS_dwdodajZeymdJQOsUoa0E0Ld9hA6VOaNvpTOcueU_CEObcN-m7Kqj2QjKNDZx5-wOmhI_B_aSYCnmumJX6l8RAjg0hQro8mRBvzpke6SFc1v8DZYt9vYrpDX2iK_1e1XNI8VpOj3Lst1rnzjBMDWAa85J5nDb1V8xSzI0R0RpGKsW-n-ts_p17WmGKXxf5qLPGxPnBOaWZJufCBV6U6XFMXgbXRuc5PYHhKMQMmR1aFr8vAYiUTJ3mEmltjF-_AdxpdDNgFUsAV9Ij0wgD1Nutw8TfeZqA1Nx1RoQCerbfgdCjQra2utID5T4_rVOx-ZiVTvDM_8NY__sfEvIvOymy0" style="margin-left:auto;margin-right:auto;display:block;">
+src="https://www.plantuml.com/plantuml/png/pLHTZzCm47pthrY91mwXayeh2k6gGqWWX0eNVi0cNIeNEuxMwvDAwN_7rFrmcwRf8s_9U6QyEnFbmGko16kK_wNR3Xajj6vEdZfuCvcebt346uFUJqLOrq7eK-FQ9_sROA8KrbuO6qaKcEvUlrFdl1R7gw8geIZsjB9SAm1u0Uizie45oLTdAwmDtRrw2n7MxMA0zMXenjgYvd6kVtJ6jItvVqnanbMH-6LF41UAZo6wVg0kQByT1iFJjozt9q9mzPBaesEBikD4xwhdzpCnZYxLLjd8fKbU0rCJEcBYmwHd-0mvtpo9uHaDXVmWgjzNIOfB5uGulxXspgH3Io9Cqyykd12UdPudWWzT5ps9XwzAVg0sAZLVCIufwnrIqTVQ7QtqjXvlBayOBxMtHPDLhxTqc9HZvStGUrmG-ykgGr8_H1ljKIZmVnrNECvvdbcsma1m6ICt6eam1HSti9RsSLwnYf6g_Xy7YZ_tz_tlCJODxtRmeAhNJIRDbtwWTXwi-Gi0" style="margin-left:auto;margin-right:auto;display:block;">
 
 
 ## Bonus
