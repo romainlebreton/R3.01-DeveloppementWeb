@@ -37,8 +37,8 @@ Semaine 8 - lundi 02 novembre  - TD9 2h          puis Projets PHP
 
 * [TD 4 -- Architecture MVC simple](tutorials/tutorial4.html) (durée indicative ≃ 3h) 
 * [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html) (durée indicative ≃ 4h)
-{% comment %}
 * [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html) (durée indicative ≃ 5h)
+{% comment %}
 
 ### Lancement des projets
 
