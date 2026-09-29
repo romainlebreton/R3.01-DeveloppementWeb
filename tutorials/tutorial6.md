@@ -118,7 +118,7 @@ propres aux utilisateurs (méthodes métiers). Voici le diagramme de classes UML
 nous allons obtenir à la fin de cette section :
 
 <img alt="Diagramme de classes"
-src="https://www.plantuml.com/plantuml/png/ZP91Qy9048Nl-HLpZDIAlNeeIhqKR6jhUnDa4eUmThExpCuMhFZVksfAbjIY44XuyxqtuUsElI1Bg7NcFvLno5Y3iMlovE1kE4pKKgFt4n5MHH1wBArPg6-2OPOPhCaxB0acpYqVx9TL4XWhMZx594tBAGg-51ig1NOPG0QdCFWGfPL7eS37mGq0h5OnsGk7Kd9jAsNwO6pT1ySKtxr8tKRgE1b1v9Ife17Zl2j5LwesEpp9x11mMj1hrEfNxPtXvyUW_9JNEXgzjRIEvoYdR5Gwu3xRNr7U6pdhbLZU_bjUYZJhTbvGLBa7fZ8uOkA4zuVVG6RSTcdSs234UG93QB-ZhR1MNxDZZfnsF89arlKt9wwOfkI2ykzOQCAmU9tboV96_HCLIupFnVO6vmiRt5--jQar6vDPXrh_0000" style="margin-left:auto;margin-right:auto;display:block;">
+src="https://www.plantuml.com/plantuml/png/ZL9FQ_f04BtdKymnylCdzkgXLUgbOAsjxKsGIHp2sarscPqjMF6xTuqfMOD5OI7XpVkplDcn4sJnfKxSfweiCfPGcGqvid0t74Pehj6vYGYhp0izvQPQgc-2OP9KM9Apc1DCh5qzcY-Zn3CMj7eEJffMKnHyoRQK2-mJW71gC_WGfPL38S_ru1y0hDV1sGdxN59j2bNrmttAFbYcyEq5rl_0gYSZ23nL5T20OTw5WYf6cmn7CZiQd09w3LhyehqB_4Ljb9xyMaM3jv9MCG_mENVU8HwImmtblP4rJedXtP_bnPGcRky4HUK7OCgz9IQE-Evu3MJ6NPUDM-E5E8qtuzl_8CkCqRTaB93ZZaVm40sx1itA5TEKh5Vk7JDDw9UlipHARz3WTMuLMWpdQds3ouqDxgy_srYQZAdQ-5B_0000" style="margin-left:auto;margin-right:auto;display:block;">
 
 Notez que dans le schéma UML ci-dessus :
 * `ModeleUtilisateur` est scindé en deux classes `UtilisateurRepository` et `Utilisateur`.
@@ -397,7 +397,7 @@ valeur à partir de l'URL.
       fonction [`class_exists`](http://php.net/manual/fr/function.class-exists.php), et appeler l'action `afficherErreur` de `ControleurUtilisateur` si ce n'est pas le cas.
       * Si le contrôleur existe bien, vérifier que l'action visée existe bien dans ce contrôleur et afficher un message
       d'erreur si ce n'est pas le cas (comme nous le faisions avant).
-      * Si tout est bon (contrôleur et action existent), appeler l'action `action` de la classe `$nomDeClasseControleur`.
+      * Si tout est bon (contrôleur et action existent), appeler dynamiquement la méthode de la classe `$nomDeClasseControleur` dont le nom est contenu dans `$action`.
 
 4. Testez votre code en appelant vos anciennes pages du contrôleur *utilisateur* avec la bonne URL.
 
@@ -406,14 +406,14 @@ valeur à partir de l'URL.
    * Les liens dans la vue `liste.php` (afficher les détails, mettre à jour, supprimer, créer un utilisateur).
    * Les deux vues contenant un formulaire : `formulaireCreation` et `formulaireMiseAJour`. Ici, il faudra ajouter un champ de type `hidden` comme nous l'avons fait précédemment, afin d'indiquer le contrôleur adéquat.
 
-6. Dans `controleurFrontal.php`, faites en sorte de donner la valeur `utilisateur` par défaut à la variable `controleur` si aucun contrôleur n'est précisé par l'utilisateur (de manière similaire à ce que nous avons déjà pour `$action`). Testez en essayant de charger [http://localhost/TD6/web/controleurFrontal.php](http://localhost/TD6/web/controleurFrontal.php) (donc, sans spécifier de nom de contrôleur et d'action). Vous devriez alors arriver sur la page listant les utilisateurs (contrôleur par défaut `utiliseur`, action par défaut `afficherListe`).
+6. Dans `controleurFrontal.php`, faites en sorte de donner la valeur `utilisateur` par défaut à la variable `controleur` si aucun contrôleur n'est précisé par l'utilisateur (de manière similaire à ce que nous avons déjà pour `$action`). Testez en essayant de charger [http://localhost/TD6/web/controleurFrontal.php](http://localhost/TD6/web/controleurFrontal.php) (donc, sans spécifier de nom de contrôleur et d'action). Vous devriez alors arriver sur la page listant les utilisateurs (contrôleur par défaut `utilisateur`, action par défaut `afficherListe`).
 
 </div>
 
 ### Début du nouveau contrôleur
 
 Maintenant que notre routeur dans le contrôleur frontal est en place, nous
-pouvons créer de nouveaux contrôleurs. Pour avoir un aperçu de l'étendu du
+pouvons créer de nouveaux contrôleurs. Pour avoir un aperçu de l'étendue du
 travail, commençons par créer l'action `afficherListe` de `Trajet`.
 
 <div class="exercise">
@@ -593,7 +593,7 @@ faire pour avoir un code générique :
    * Passez tous les appels à `construireDepuisTableauSQL()` de
      `UtilisateurRepository` en appel de méthode d'instance (dynamique) avec  
      ```php
-     new UtilisateurRepository()->construireDepuisTableauSQL($objetFormatTableau);
+     (new UtilisateurRepository())->construireDepuisTableauSQL($objetFormatTableau);
      ```
      Ceci construit un objet anonyme afin de pouvoir appeler les fonctions
      dynamiques de `UtilisateurRepository`.
@@ -614,7 +614,7 @@ faire pour avoir un code générique :
    méthode d'instance `recuperer()` de `UtilisateurRepository` avec :
 
    ```php
-   new UtilisateurRepository()->recuperer();
+   (new UtilisateurRepository())->recuperer();
    ```
 
    L'action `afficherListe` du contrôleur *utilisateur* doit remarcher.
@@ -654,6 +654,7 @@ Ces modifications sont représentées dans le diagramme de classes suivant :
 <img alt="Diagramme de classes"
 src="https://www.plantuml.com/plantuml/png/jL9BItCn4DtdLmny7wX8jMxBvTfIDuAFucFNpJHtkAJc9c4oAMZjVxSFxqCf516pcyavPywSP1W5ML9bLNmnBY1Z1SuN52d0HR-lZg3jQuinZaJOp9BGjVRkqRmHz9LoM54Cg0b68Kp7Vk6D9CQIfhU-84lJ1me-6l7y2ak5ioYCMdQ2CFeiEvWigp5vlYR0-lo3PTrRGQQzzJmecSZb9ScThyQM9cmgD4p79mE8miQLsVaMc6yLJh_Ic7GAnCGJv2vvnuJ_2xIKkZThrSlQwnKAti_cfAKPiL9gjyyJuvowszGB_DHrA_ainfg8Geb_hrkdiOo2OdIJ9bFHXjAPE46-yQLnJJ9sKstIw81QpnlN1t_1sRv7V-_ru33pUxn_Ecnly6f8haYL_G00" style="margin-left:auto;margin-right:auto;display:block;">
 
+Les méthodes affichées en vert sont celles que nous allons créer, et celles en rouge sont celles que nous allons supprimer.
 
 <div class="exercise">
 
@@ -667,13 +668,13 @@ src="https://www.plantuml.com/plantuml/png/jL9BItCn4DtdLmny7wX8jMxBvTfIDuAFucFNp
       *Refactor* > *Rename* > indiquez `recupererParClePrimaire` : ceci
       renommera la méthode ainsi que tous ses appels.
    3. enlevez le `static` de la méthode `AbstractRepository::recupererParClePrimaire`.  
-      Corrigez tous les appels à la méthode avec PhpStorm : Faites `Ctlr+Maj+R`
+      Corrigez tous les appels à la méthode avec PhpStorm : Faites `Ctrl+Maj+R`
       pour remplacer dans tous les fichiers
       `UtilisateurRepository::recupererParClePrimaire` par 
-      `new UtilisateurRepository()->recupererParClePrimaire`.
+      `(new UtilisateurRepository())->recupererParClePrimaire`.
    4. Testez que la page de détail d'un utilisateur marche toujours.
       
-2.  Pour que la fonction `recupererParClePrimaire(string)` puisse être générique, il faut récupérer
+2.  Pour que la fonction `recupererParClePrimaire(string)` puisse être générique, il faut récupérer le
    *nom de la clé primaire* du type effectif de `$this`. De la même manière qu'avec `getNomTable()`,
     demandez aux implémentations de `AbstractRepository` de fournir une méthode `getNomClePrimaire() : string`.
 
@@ -726,7 +727,7 @@ Faites de même pour les trajets.
 
    **Rappel :** Utilisez le remplacement `Ctrl+R` en préservant la casse pour vous faciliter le travail.
 
-3. Créer la vue associée `detail.php` en vous inspirant de votre affichage de `Trajet::__toString()` du TD3. 
+3. Créez la vue associée `detail.php` en vous inspirant de votre affichage de `Trajet::__toString()` du TD3. 
    Ajouter les liens vers la vue de détail dans
    `liste.php` en spécifiant bien `controleur=trajet` dans le *query string*.  
    L'action `afficherDetail` doit maintenant fonctionner.
@@ -753,7 +754,7 @@ On touche là aux limites d'un langage non fortement typé : la vérification qu
 tâche du développeur, contrairement aux langages fortement typés où cette vérification est faite davantage lors de la phase de compilation. Ce qu'il faudrait ici, et que vous faisiez l'année dernière en `Java`, c'est
 1. pouvoir paramétrer la classe avec un type générique `class AbstractRepository <T extends AbstractDataObject>`, 
 2. utiliser `T` au lieu de `AbstractDataObject` comme type dans `AbstractRepository`, 
-3. et faire en sorte que `UtilisateurRepository` soit définit ainsi `class UtilisateurRepository extends AbstractRepository<Utilisateur>`. 
+3. et faire en sorte que `UtilisateurRepository` soit définie ainsi `class UtilisateurRepository extends AbstractRepository<Utilisateur>`. 
 
 Cependant, les types génériques ne sont pas disponibles en PHP. La communauté a décidé d'annoter les types génériques dans les commentaires PHPDoc et de déléguer la vérification aux outils d'analyse statique comme **PhpStorm**, **PHPStan**, **Psalm**. Voici les annotations à ajouter pour bénéficier de ce typage générique :
 
@@ -808,7 +809,7 @@ Pas de nouveautés.
 
 ### Actions `afficherFormulaireCreation` et `creerDepuisFormulaire`
 
-Commençons par rendre générique la méthode `ajouter`de création d'entités. Pour
+Commençons par rendre générique la méthode `ajouter` de création d'entités. Pour
 reconstituer la requête
 ```sql
 INSERT INTO utilisateur (login,  nom,  prenom) VALUES (:loginTag, :nomTag, :prenomTag)
@@ -1076,7 +1077,7 @@ Limiter les contrôleurs aux actions autant que possible
 ### Diagramme de classes final de la partie `Repository`
 
 <img alt="Diagramme de classes"
-src="https://www.plantuml.com/plantuml/png/pLHTZzCm47pthrY91mwXayeh2k6gGqWWX0eNVi0cNIeNEuxMwvDAwN_7rFrmcwRf8s_9U6QyEnFbmGko16kK_wNR3Xajj6vEdZfuCvcebt346uFUJqLOrq7eK-FQ9_sROA8KrbuO6qaKcEvUlrFdl1R7gw8geIZsjB9SAm1u0Uizie45oLTdAwmDtRrw2n7MxMA0zMXenjgYvd6kVtJ6jItvVqnanbMH-6LF41UAZo6wVg0kQByT1iFJjozt9q9mzPBaesEBikD4xwhdzpCnZYxLLjd8fKbU0rCJEcBYmwHd-0mvtpo9uHaDXVmWgjzNIOfB5uGulxXspgH3Io9Cqyykd12UdPudWWzT5ps9XwzAVg0sAZLVCIufwnrIqTVQ7QtqjXvlBayOBxMtHPDLhxTqc9HZvStGUrmG-ykgGr8_H1ljKIZmVnrNECvvdbcsma1m6ICt6eam1HSti9RsSLwnYf6g_Xy7YZ_tz_tlCJODxtRmeAhNJIRDbtwWTXwi-Gi0" style="margin-left:auto;margin-right:auto;display:block;">
+src="https://www.plantuml.com/plantuml/png/pLJHRjD047o_hrY91ufGfV1Q6TEe20c4KA7c0zRE4bsuyrcxUvLAoBzpoZdDjQwLFF9cpytCxSvOlXP5rkYTaT-s7v3HGnzM93J0kyN2l8OZtZaKMQgoRQFIvoxqT_OFmS8OR4KPEyqKM8wlFsW8OZNmGzNKK5K7Mbrl3G2yWkq1sS6Qz5lm3RQEBjvSGO9jlvvXtJYwPUlHycckt0GN-fuaCG6PyQ7A_7eYI0kbnsYPFj8GhUo7mNZt_Ul54o64TaFwAR177Jd9kvdu_JeoiakpLtRwqYHlWQcB0p7nuwJFy5laSlCiXdjq5Ck3fFxGP2bkGbJYyk8s19SFFQaoBR-4-8Hm7-mg4oGEG_8adhyg-u7PcTnymxYXedSOYvvlztIbv_LuTddA-59xUpHRJNhBXravKzvM5DLskx8j4LmJoumye_LZT3_LEYke5Fc_pYyUvtmUOh72J985epGwDzESMLh5UphaUygp2DfCVqnG_Rsyd7wsLz30-n6ULKqQAwHb5DVKhw9t_m00" style="margin-left:auto;margin-right:auto;display:block;">
 
 
 ## Bonus
@@ -1106,7 +1107,7 @@ retourner au détail du trajet modifié.
 <!-- * Factoriser le code des contrôleurs dans un contrôleur générique, au moins pour
   la méthode `afficherVue()`  -->
 * Faire en sorte que les formulaires de création et de mise à jour d'un trajet
-  ne propose que les logins des conducteurs existants, via un champ `<select>`.
+  ne proposent que les logins des conducteurs existants, via un champ `<select>`.
 * `construireDepuisFormulaire` devrait gérer ses erreurs avec un `throw new
   Exception("message personnalisé")`. L'action du contrôleur aurait donc un
   `try` / `catch` qui appellerait `afficherErreur` en cas d'exception. Les
