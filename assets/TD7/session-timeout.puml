@@ -1,0 +1,18 @@
+@startuml
+title Timeout : vérification de la dernière activité (durée d'expiration = 300 s)
+actor "Navigateur" as C
+participant "Session::verifierDerniereActivite()" as S
+participant "$_SESSION" as D
+
+C -> S : Requête à t = 0 s
+S -> D : derniereActivite = 0
+
+C -> S : Requête à t = 100 s
+S -> S : 100 - 0 ≤ 300 : on garde les données
+S -> D : derniereActivite = 100
+
+C -> S : Requête à t = 500 s
+S -> D : 500 - 100 > 300 : session_unset()
+S -> D : derniereActivite = 500
+note right : les données de session\nont été supprimées
+@enduml

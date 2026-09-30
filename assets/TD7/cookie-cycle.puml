@@ -1,0 +1,30 @@
+@startuml
+title Cookies : déposer puis lire
+skinparam sequenceMessageAlign left
+actor "Navigateur\n(client)" as C
+participant "Serveur PHP" as S
+participant "Exécution script PHP" as E
+
+== Requête 1 : dépôt du cookie ==
+C -> S : GET controleurFrontal.php?action=deposerCookie
+activate S
+S -> E : Exécute controleurFrontal.php
+activate E
+E -> E : setcookie("TestCookie", "OK", time() + 3600)
+E --> S : 
+deactivate E
+S --> C : 200 OK\nSet-Cookie: TestCookie=OK; Max-Age=3600\n<html>...</html>
+deactivate S
+C -> C : enregistre le cookie\n(sans garantie)
+
+== Requêtes suivantes : lecture du cookie ==
+C -> S : GET controleurFrontal.php?action=lireCookie\nCookie: TestCookie=OK
+activate S
+S -> S : PHP remplit $_COOKIE["TestCookie"]
+S -> E : Exécute controleurFrontal.php
+activate E
+E --> S : 
+deactivate E
+S --> C : 200 OK\n<html>... OK ...</html>
+deactivate S
+@enduml

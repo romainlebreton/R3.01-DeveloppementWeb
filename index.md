@@ -38,20 +38,23 @@ Semaine 8 - lundi 02 novembre  - TD9 2h          puis Projets PHP
 * [TD 4 -- Architecture MVC simple](tutorials/tutorial4.html) (durée indicative ≃ 3h) 
 * [TD 5 -- Architecture MVC avancée 1/2](tutorials/tutorial5.html) (durée indicative ≃ 4h)
 * [TD 6 -- Architecture MVC avancée 2/2](tutorials/tutorial6.html) (durée indicative ≃ 5h)
-{% comment %}
 
 ### Lancement des projets
 
-La première séance de la semaine du 12 octobre sera dédiée aux projets PHP (si vous avez fini le TD6) :
+La première séance de la semaine du 12 octobre sera dédiée aux projets PHP (si vous avez fini le TD6).
+
+{% comment %} :
 
 * **Parcours RACDV -- SAÉ**.
 * [Parcours DACS & IAMSI -- Instructions du projet -- Date de rendu : samedi 28/11 à 23h59](projet.html)
 
+{% endcomment %}
 La dernière séance de PHP (fin de la semaine du 02 novembre) sera dédiée au suivi des projets.
 
 ### Authentification (2 semaines)
 
 * [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) (durée indicative ≃ 2h)
+{% comment %}
 * [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html) (durée indicative ≃ 4h)
 * [TD 9 -- Messages Flash](tutorials/tutorial9.html) (durée indicative ≃ 2h) 
 * Suivi des projets / SAE si vous avez fini les TDs

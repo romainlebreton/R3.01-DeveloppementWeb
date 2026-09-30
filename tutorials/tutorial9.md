@@ -38,9 +38,9 @@ comporter plusieurs messages. Voici 2 exemples dans le cas d'un site qui gèrera
     justify-content: space-around;
 ">
 
-![VoitureCreatedSuccess]({{site.baseurl}}/assets/TD7/VoitureCreatedSuccess.png){: .blockcenter}
+![VoitureCreatedSuccess]({{site.baseurl}}/assets/TD9/VoitureCreatedSuccess.png){: .blockcenter}
 
-![VoitureCreatedWarning]({{site.baseurl}}/assets/TD7/VoitureCreatedWarning.png){: .blockcenter}
+![VoitureCreatedWarning]({{site.baseurl}}/assets/TD9/VoitureCreatedWarning.png){: .blockcenter}
 
 </div>
 
@@ -161,23 +161,23 @@ Il est pratique pour le site de pouvoir rediriger sur une autre page en cas
 d'erreur ou de succès. Par exemple, si le site gère les voitures et que le
 client est sur le formulaire de création d'une voiture :
 
-![VoitureCreate]({{site.baseurl}}/assets/TD7/VoitureCreate.png){: .blockcenter}
+![VoitureCreate]({{site.baseurl}}/assets/TD9/VoitureCreate.png){: .blockcenter}
 
 S'il rentre une immatriculation existante, le site le redirige vers le
 formulaire de création avec un message flash d'avertissement :
 
-![VoitureCreatedWarning]({{site.baseurl}}/assets/TD7/VoitureCreatedWarning.png){: .blockcenter}
+![VoitureCreatedWarning]({{site.baseurl}}/assets/TD9/VoitureCreatedWarning.png){: .blockcenter}
 
 De même, s'il oublie un champ du formulaire (ce qui ne devrait *normalement* pas
 arriver puisque les `<input>` ont l'attribut `required`), le site le redirige vers le
 formulaire de création avec un message flash de danger :
 
-![VoitureCreatedDanger]({{site.baseurl}}/assets/TD7/VoitureCreatedDanger.png){: .blockcenter}
+![VoitureCreatedDanger]({{site.baseurl}}/assets/TD9/VoitureCreatedDanger.png){: .blockcenter}
 
 Quand le formulaire est valide, le client est redirigé vers la vue qui liste
 toutes les voitures avec un message flash de succès :
 
-![VoitureCreatedSuccess]({{site.baseurl}}/assets/TD7/VoitureCreatedSuccess.png){: .blockcenter}
+![VoitureCreatedSuccess]({{site.baseurl}}/assets/TD9/VoitureCreatedSuccess.png){: .blockcenter}
 
 Le système de redirection est pratique car il évite la duplication de code.
 Précédemment, pour que l'action `creerDepuisFormulaire` affiche la liste des
@@ -234,17 +234,17 @@ https://getbootstrap.com/docs/3.4/javascript/#carousel
 
 Le client est sur le formulaire de création d'une voiture :
 
-![VoitureCreate]({{site.baseurl}}/assets/TD7/VoitureCreate.png){: .blockcenter}
+![VoitureCreate]({{site.baseurl}}/assets/TD9/VoitureCreate.png){: .blockcenter}
 
 Quand le formulaire est valide, le client est redirigé vers la vue qui liste
 toutes les voitures avec un message flash de succès :
 
-![VoitureCreatedSuccess]({{site.baseurl}}/assets/TD7/VoitureCreatedSuccess.png){: .blockcenter}
+![VoitureCreatedSuccess]({{site.baseurl}}/assets/TD9/VoitureCreatedSuccess.png){: .blockcenter}
 
 Nous souhaitons maintenant que ce message ne s'affiche qu'une fois ; si le
 client rafraîchit la page (`F5`), alors le message flash disparait :
 
-![VoitureReadAll]({{site.baseurl}}/assets/TD7/VoitureReadAll.png){: .blockcenter}
+![VoitureReadAll]({{site.baseurl}}/assets/TD9/VoitureReadAll.png){: .blockcenter}
 
 Le principe du *flash* d'un message flash est qu'il est détruit quand il est lu.
 Du coup, le message ne sera affiché qu'une fois. 

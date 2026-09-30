@@ -1,0 +1,29 @@
+@startuml
+title Sessions : le cookie ne contient que l'identifiant
+skinparam sequenceMessageAlign left
+actor "Navigateur" as C
+participant "Serveur PHP" as S
+database "Fichiers de session\n(/tmp)" as F
+
+== Première visite ==
+C -> S : GET controleurFrontal.php?action=ecrireSession
+activate S
+S -> S : session_start()\n(pas de PHPSESSID reçu)
+S -> F : crée sess_aapot
+S -> S : $_SESSION["login"] = "rlebreton"
+S -> F : fin du script : écrit login|s:9:"rlebreton";
+S --> C : Set-Cookie: PHPSESSID=aapot
+deactivate S
+
+== Visites suivantes ==
+C -> S : GET controleurFrontal.php?action=lireSession\nCookie: PHPSESSID=aapot
+activate S
+S -> S : session_start()
+S -> F : lit sess_aapot
+activate F
+F --> S : login = "rlebreton"
+deactivate F
+S -> S : echo $_SESSION["login"]
+S --> C : <html>... rlebreton ...</html>
+deactivate S
+@enduml

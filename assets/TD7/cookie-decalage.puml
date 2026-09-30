@@ -1,0 +1,32 @@
+@startuml
+title setcookie() n'a pas d'effet sur $_COOKIE pendant la même requête
+actor "Navigateur" as C
+participant "Serveur PHP" as S
+participant "Exécution script PHP" as E
+
+== Requête 1 (aucun cookie) ==
+C -> S : GET controleurFrontal.php?action=deposerCookie
+activate S
+S -> E : Exécute controleurFrontal.php
+activate E
+E -> E : setcookie("TestCookie", "OK")
+E -> E : isset($_COOKIE["TestCookie"]) ?
+note right : false : $_COOKIE a été rempli\navant l'exécution du script
+E --> S : 
+deactivate E
+S --> C : 200 OK\nSet-Cookie: TestCookie=OK\n<html>...</html>
+deactivate S
+
+== Requêtes suivantes  ==
+C -> S : GET controleurFrontal.php?action=lireCookie\nCookie: TestCookie=OK
+activate S
+S -> S : PHP remplit $_COOKIE["TestCookie"]
+S -> E : Exécute controleurFrontal.php
+activate E
+E -> E : isset($_COOKIE["TestCookie"]) ?
+note right : true
+E --> S : 
+deactivate E
+S --> C : 200 OK\n<html>... OK ...</html>
+deactivate S
+@enduml

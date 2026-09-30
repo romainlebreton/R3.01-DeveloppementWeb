@@ -32,7 +32,7 @@ On peut se faire passer pour quelqu'un si on connait son PHPSESSID
 -->
 
 HTTP est un protocole de communication avec lequel chaque requête-réponse est
-indépendante l'une de l'autre. Du coup, le serveur n'a pas de moyen de
+indépendante l'une de l'autre. Ainsi, le serveur n'a pas de moyen de
 reconnaître un client particulier, et donc n'a pas de moyen d'enregistrer
 d'informations liées à un client spécifique. Par exemple, avec le HTTP de base,
 si vous allez plusieurs fois sur Facebook, le réseau social ne sait pas
@@ -79,17 +79,17 @@ l'initiative du serveur.
 #### Comment déposer un cookie en PHP ?
 
 D'un point de vue pratique en PHP, on dépose un cookie à l'aide de la fonction
-[`setcookie`](http://php.net/manual/fr/function.setcookie.php). Par exemple, la
+[`setcookie`](https://php.net/manual/fr/function.setcookie.php). Par exemple, la
 ligne ci-dessous crée un cookie nommé `TestCookie` contenant la valeur `"OK"`
 et qui expire dans 1h.
 
 ```php?start_inline=1
-setcookie("TestCookie", "OK", time() + 3600);  
+setcookie("TestCookie", "OK", ["expires" => time() + 3600]);  
 /* expire dans 1 heure = 3600 secondes */
 ```
 
-**Explication** : la fonction [`time`](http://php.net/manual/fr/function.time.php) renvoie l'horodatage
-actuel, mesurée en nombre de secondes écoulé depuis le 1er janvier 1970 (l'époque UNIX). Cette unité
+**Explication** : la fonction [`time`](https://php.net/manual/fr/function.time.php) renvoie l'horodatage
+actuel, mesurée en nombre de secondes écoulées depuis le 1er janvier 1970 ("*l'epoch UNIX"*). Cette unité
 temporelle permet aux divers systèmes de calculer la date actuelle. Le code `time() + 3600` rajoute
 donc 3600 secondes (une heure) à ce nombre de secondes, donc le cookie expirera dans une heure.
 
@@ -103,13 +103,10 @@ des lignes `Set-Cookie` dans l'en-tête de sa réponse HTTP
 
 ```http
 HTTP/1.1 200 OK
-Date:Thu, 03 Oct 2024 15:43:27 GMT
-Server: Apache/2.2.14 (Ubuntu)
-Accept-Ranges: bytes
-Content-Length: 5781
-Content-Type: text/html
-Set-Cookie: TestCookie1=valeur1; expires=Thu, 03-Oct-2024 16:43:27 GMT; Max-Age=3600
-Set-Cookie: TestCookie2=valeur2; expires=Thu, 03-Oct-2024 16:43:27 GMT; Max-Age=3600
+...
+Set-Cookie: TestCookie1=valeur1; expires=Sat, 03 Oct 2026 16:43:27 GMT; Max-Age=3600
+Set-Cookie: TestCookie2=valeur2; expires=Sat, 03 Oct 2026 16:43:27 GMT; Max-Age=3600
+...
 
 <html><head>...
 ```
@@ -176,7 +173,7 @@ Cookie: TestCookie1=valeur1; TestCookie2=valeur2
 
 Le PHP traite la requête pour rendre le cookie 
 disponible dans la variable
-[`$_COOKIE`](http://php.net/manual/fr/reserved.variables.cookies.php), de la même
+[`$_COOKIE`](https://php.net/manual/fr/reserved.variables.cookies.php), de la même
 manière que `$_GET` récupère l'information dans l'URL et que `$_POST` récupère
 l'information dans le corps de la requête (*cf.* [le cours
 1]({{site.baseurl}}/classes/class1.html#protocole-de-communication--http)).
@@ -200,18 +197,40 @@ devrait afficher `valeur1`.
 
 </div>
 
-### Notes techniques 
+Le schéma suivant résume le cycle complet : le serveur dépose le cookie dans
+la réponse de la première requête, puis le navigateur le renvoie dans chaque
+requête suivante.
+
+<div class="centered">
+<object data="{{site.baseurl}}/assets/TD7/cookie-cycle.svg" type="image/svg+xml">
+  Schéma de séquence : dépôt puis lecture d'un cookie. Votre navigateur ne supporte pas les SVG.
+</object>
+</div>
+
+
+**Attention au décalage dans le temps :** `$_COOKIE` est rempli par PHP avant
+l'exécution du script, à partir des cookies reçus dans la requête. Un
+`setcookie()` n'a donc aucun effet sur `$_COOKIE` pendant la requête en cours :
+le nouveau cookie n'est visible dans `$_COOKIE` qu'à la requête suivante.
+
+<div class="centered">
+<object data="{{site.baseurl}}/assets/TD7/cookie-decalage.svg" type="image/svg+xml">
+  Schéma de séquence : setcookie n'a pas d'effet sur $_COOKIE dans la même requête.
+</object>
+</div>
+
+### Notes techniques sur les cookies 1/2
 
 1. Les cookies ne peuvent contenir que des valeurs `string`, donc *a priori* pas
    des objets PHP. Il faut donc convertir en chaîne de caractères les autres
    variables PHP avant de les stocker :
 
    * La fonction
-   [`serialize`](http://php.net/manual/fr/function.serialize.php)
+   [`serialize`](https://php.net/manual/fr/function.serialize.php)
    permet de transformer une variable en chaîne de caractère.
    
    * Inversement, il faut appliquer
-   [`unserialize`](http://php.net/manual/fr/function.unserialize.php) pour
+   [`unserialize`](https://php.net/manual/fr/function.unserialize.php) pour
    récupérer la variable PHP à partir de sa chaîne de caractère *sérialisée*. On
    applique donc `unserialize` lorsque l'on récupère la valeur stockée dans le
    cookie.
@@ -233,7 +252,7 @@ devrait afficher `valeur1`.
 
 2. Si vous ne spécifiez pas le temps d'expiration d'un cookie (3ème paramètre de
    `setcookie`) ou que vous le mettez à `0` alors le cookie sera supprimé à la
-   fin de la session (lorsque le navigateur sera fermé).
+   fin de la session de navigation (lorsque le navigateur sera fermé).
 
 <div class="exercise">
 
@@ -241,9 +260,9 @@ Nous allons regrouper toutes les fonctionnalités des cookies dans une classe.
 
 1. Créez la classe `Cookie` dans le fichier `src/Modele/HTTP/Cookie.php` en y indiquant le bon espace de nom.
 1. Codez la méthode
-```php
-public static function enregistrer(string $cle, mixed $valeur, ?int $dureeExpiration = null): void
-```
+   ```php
+   public static function enregistrer(string $cle, mixed $valeur, ?int $dureeExpiration = null): void
+   ```
 
    Note :
    * Pour pouvoir stocker tout type de valeur, transformez-la toujours en chaîne
@@ -254,9 +273,9 @@ public static function enregistrer(string $cle, mixed $valeur, ?int $dureeExpira
    <!-- * Le type de retour `mixed` nécessite la version 8 de PHP. En cas de problème, vous pouvez retirer les `mixed`. -->
 
 1. Codez la méthode
-```php
-public static function lire(string $cle): mixed
-```
+   ```php
+   public static function lire(string $cle): mixed
+   ```
 
 1. Modifiez les actions `deposerCookie` et `lireCookie` pour utiliser la classe
    `Cookie`. Testez votre code, en particulier l'enregistrement d'une valeur
@@ -264,16 +283,18 @@ public static function lire(string $cle): mixed
    et l'expiration des cookies.
 
 1. Codez la méthode
-```php
-public static function contient($cle) : bool
-```
+   ```php
+   public static function contient(string $cle) : bool
+   ```
 
-   Note : Un cookie existe si le tableau `$_COOKIE` contient une case à son nom.
-   Vous pouvez tester ceci de deux manières équivalentes
-```php
-array_key_exists("nomCookie", $_COOKIE);
-isset($_COOKIE["nomCookie"]);
-```
+   **Notes :** 
+   * Un cookie existe si le tableau `$_COOKIE` contient une case à son nom.
+     Vous pouvez tester ceci de deux manières équivalentes
+     ```php
+     array_key_exists("nomCookie", $_COOKIE);
+     isset($_COOKIE["nomCookie"]);
+     ```
+   * La fonction `lire` ne vérifie pas l'existence de la clé et déclenche un warning si elle est absente. Il faut donc avoir vérifié l'existence de la clé avec `contient` avant d'appeler `lire`.
 
 </div>
 
@@ -282,39 +303,45 @@ isset($_COOKIE["nomCookie"]);
 
 Enfin pour effacer un cookie,
 * on efface le cookie lu par PHP
-```php
-unset($_COOKIE["TestCookie"]);
-```
+  ```php
+  unset($_COOKIE["TestCookie"]);
+  ```
 
-* on le supprime chez le client en le faisant expirer, c-à-d en lui mettant une
-date d'expiration passée. Comme la date d'expiration `0` a une signification
-particulière (vous souvenez-vous laquelle ?), on propose d'utiliser 
-```php?start_inline=1
-setcookie ("TestCookie", "", 1);
-```
+* on le supprime chez le client en le faisant expirer, c'est-à-dire en lui mettant une
+  date d'expiration passée. Comme la date d'expiration `0` a une signification
+  particulière (vous souvenez-vous laquelle ?), on propose d'utiliser 
+  ```php?start_inline=1
+  setcookie("TestCookie", "", 1);
+  ```
 
 <div class="exercise">
 
-1. Codez et testez la méthode suivante de la classe `Cookie` :
-```php
-public static function supprimer($cle) : void
-```
+1. Copiez et testez la méthode suivante de la classe `Cookie` :
+
+   ```php    
+   public static function supprimer(string $cle, string $path = "") : void {
+       unset($_COOKIE[$cle]);
+       setcookie ($cle, "", ["expires" => 1, "path" => $path]);
+   }
+   ```
+
+   **Remarque :** Le paramètre optionnel `path` vous sera utile plus tard et sera expliqué dans les notes techniques ci-dessous. Pour l'instant, vous pouvez l'ignorer et appeler `supprimer($cle)`.
 
 1. Nettoyez le contrôleur *utilisateur* en commentant les actions
    `deposerCookie` et `lireCookie`.
 
 </div>
 
-### Notes techniques 
+### Notes techniques sur les cookies 2/2
 
 1. La taille d'un cookie est limité à 4KB (car les en-têtes HTTP doivent être <4KB).
 
-1. **Attention :** la fonction `setcookie()` doit être appelée avant tout écriture
+1. **Attention :** la fonction `setcookie()` doit être appelée avant toute écriture
    de la page HTML. Le protocole HTTP impose cette restriction.  
 
    **Pourquoi ?** Le Set-Cookie est une information envoyée dans
    l'en-tête de la réponse. Le corps de la réponse HTTP, c'est-à-dire la page
-   HTML, doit être envoyée après son en-tête. Or PHP écrit et envoie la page HTML
+   HTML, doit être envoyé après son en-tête. Or PHP écrit et envoie la page HTML
    dans le corps de la réponse HTTP au fur et à mesure.
 
    **Astuce :** Une erreur classique est d'avoir un fichier PHP qui contient un
@@ -335,18 +362,37 @@ public static function supprimer($cle) : void
 
 2. Nous avons précédemment dit que le client envoie ses cookies à chaque requête
    HTTP. Mais heureusement le navigateur n'envoie pas tous ses cookies à tous
-   les sites. Déjà, le nom de domaine du site est enregistré en même temps que
-   les cookies pour se souvenir de leur provenance. Le comportement normal d'un
-   navigateur est **d'envoyer tous les cookies provenant des sous-domaines** du
-   domaine de la page Web qu'il demande.
+   les sites. Par défaut, 
+   * le navigateur **n'envoie un cookie qu'au nom d'hôte exact qui l'a déposé**, et
+     non à ses sous-domaines ni à son domaine parent.  
 
-   Par exemple, un cookie enregistré à l'initiative d'un site hébergé sur
-   `webinfo.iutmontp.univ-montp2.fr` (nom de domaine `univ-montp2.fr`) sera
-   disponible à tous les sites ayant ce nom de domaine, en particulier aux
-   pages de `*.univ-montp2.fr`,  mais pas aux autres domaines tels que `google.fr`.
+     Par exemple, un cookie déposé par un site hébergé sur
+     `webinfo.iutmontp.univ-montp2.fr` ne sera renvoyé qu'à
+     `webinfo.iutmontp.univ-montp2.fr`, mais ni à `univ-montp2.fr`, ni à
+     `autre.univ-montp2.fr`, ni à `google.fr`.
 
-   Il est possible de préciser ce comportement en donnant plus de paramètres à
-   la fonction [`setcookie`](http://php.net/manual/fr/function.setcookie.php). On peut ainsi restreindre l'envoi des cookies à certains noms de domaine, à certains chemins (partie après le nom d'hôte dans l'URL), ou seulement aux URL utilisant le protocole sécurisé `https`.
+   * le navigateur **n'envoie un cookie qu'aux URL dont le chemin se situe dans le dossier du script qui l'a déposé, ou dans ses sous-dossiers**.
+
+     Par exemple, un cookie déposé par `http://localhost/PHP2627/TD7/web/controleurFrontal.php?action=lireSession` ne sera renvoyé qu'à des URL dont le chemin se situe dans le dossier `web/` ou dans ses sous-dossiers, mais pas à des URL dont le chemin se situe dans le dossier parent `PHP2627/TD7/` ni dans un autre sous-dossier `PHP2627/TD7/autreSousDossier/`.
+
+   Il est possible de modifier ce comportement en donnant plus de paramètres à
+   la fonction [`setcookie`](https://php.net/manual/fr/function.setcookie.php). 
+   On peut ainsi :
+   * étendre l'envoi des cookies à un nom de domaine et à tous ses sous-domaines (paramètre `domain`, par exemple `univ-montp2.fr`).
+     
+     **Exemple avec `domain` :** un site hébergé sur `webinfo.iutmontp.univ-montp2.fr`
+     dépose un cookie en précisant `domain` avec ce même nom d'hôte. Le cookie est alors
+     renvoyé à `webinfo.iutmontp.univ-montp2.fr` **et à ses sous-domaines** (par exemple
+     `x.webinfo.iutmontp.univ-montp2.fr`), mais toujours pas au domaine parent
+     `iutmontp.univ-montp2.fr`, ni au domaine « frère »
+     comme `autre.iutmontp.univ-montp2.fr`, ni à `google.fr`.
+
+     La valeur par défaut `$domain = ""` de `setcookie` a un comportement différent qui n'envoie le cookie qu'au nom d'hôte exact qui l'a déposé.
+   * spécifier un chemin différent (paramètre `path`, par exemple `/` pour tout le site).
+     Ainsi, le cookie n'est envoyé que pour les URL dont le chemin se situe dans le dossier indiqué par `path`, ou dans ses sous-dossiers.  
+     La valeur par défaut `$path = ""` de `setcookie` correspond au chemin du script qui l'a déposé.
+
+   * ou les restreindre aux URL utilisant le protocole sécurisé `https` (paramètre `secure`).
 
    <!-- The Max-Age attribute defines the lifetime of the  cookie, in seconds. -->
    <!-- The Expires attribute indicates the maximum lifetime of the cookie, -->
@@ -367,6 +413,7 @@ public static function supprimer($cle) : void
       le serveur avec `hash_hmac`.
    3. Les frameworks Web comme Symfony (*cf.* semestre 5 pour les parcours RACDV et
       IAMSI) fournissent leurs propres méthodes de sérialisation/désérialisation.
+
 **Référence :** [La RFC des cookies](https://tools.ietf.org/html/rfc6265)
 
 ### Exercice sur l'utilisation des cookies
@@ -409,6 +456,8 @@ l'action par défaut plutôt que le contrôleur par défaut.
 
    Le paramètre `width` permet d'ajuster la taille de l'image.
 
+   **Aide :** Le chemin de l'image est relatif au chemin `.../web/` de l'URL du contrôleur frontal.
+
 3. Créez une nouvelle classe ``src/Controleur/ControleurPreference.php`` qui hérite de `ControleurGenerique`.
 
 4. Créez une action `afficherFormulairePreference` dans ce nouveau contrôleur, qui
@@ -425,10 +474,14 @@ l'action par défaut plutôt que le contrôleur par défaut.
    <label for="trajetId">Trajet</label>
    ```
 
+   **Rappel :** L'action et le contrôleur sont passés avec deux `<input type="hidden">`.
+
 6. Afin de pouvoir gérer les préférences de contrôleur, créez une classe
-   `src/Lib/GestionPreferenceControleur.php` avec le bon espace de nom et le contenu
+   `src/Lib/GestionPreferenceControleur.php` avec le contenu
    suivant que vous complèterez
    ```php
+   namespace App\Covoiturage\Lib;
+   use App\Covoiturage\Modele\HTTP\Cookie;
    class GestionPreferenceControleur {
       private static string $clePreference = "preferenceControleur";
 
@@ -461,7 +514,7 @@ l'action par défaut plutôt que le contrôleur par défaut.
    * appelle une nouvelle vue `src/vue/preference/preferenceEnregistree.php`
      qui affiche *La préférence de contrôleur est enregistrée !*.
 
-8. Vérifier que ce cookie a bien été déposé à l'aide des outils de développement.
+8. Testez le formulaire de préférence et vérifiez que ce cookie a bien été déposé à l'aide des outils de développement.
 
 9. Dans le contrôleur frontal, le contrôleur par défaut est `utilisateur`. Faites en
    sorte d'utiliser la préférence de contrôleur par défaut si elle existe.
@@ -470,8 +523,10 @@ l'action par défaut plutôt que le contrôleur par défaut.
 choisissant autre chose que `utilisateur` dans le formulaire.
 
 11. On souhaite que le formulaire de préférence soit déjà coché si la préférence
-   existe déjà. Implémentez cette fonctionnalité. Vous utiliserez l'attribut
-   `checked` pour cocher un `<input type="radio">`.
+   existe déjà. Implémentez cette fonctionnalité. 
+   
+    **Aide :** Vous pouvez utiliser l'attribut `checked` pour cocher un `<input type="radio">`. 
+    La méthode `existe` vous sera utile pour gérer le cas où la préférence n'existe pas.
 
 <!--
 1. Il est possible que vos anciens liens du contrôleur *utilisateur* (vues `liste` et
@@ -519,16 +574,20 @@ Présentons maintenant les opérations fondamentales sur les sessions :
 
    <!-- session_name("chaineUniqueInventeParMoi");  // Optionnel : voir section 3.2 -->
 
-   [`session_start()`](http://php.net/manual/fr/function.session-start.php)
+   [`session_start()`](https://php.net/manual/fr/function.session-start.php)
    démarre une nouvelle session ou reprend une session existante. Cette fonction
    est donc indispensable pour se servir des sessions (et donc pouvoir utiliser
    `$_SESSION`).
 
-   **Attention :** Il faut mettre <!-- `session_name()` avant `session_start()`
-     et --> `session_start()` avant toute écriture de code HTML dans la page
-     pour la même raison qu'il faut mettre `setcookie()` avant les mêmes
-     écritures (on doit écrire l'en-tête HTTP avant d'envoyer le corps de la
-     réponse HTTP).
+   Notez que le cookie déposé par `session_start()` est associé au `path: "/"` par défaut.
+   Nous en reparlerons bientôt.
+
+   **Attention :** Il faut mettre 
+   <!-- `session_name()` avant `session_start()` et --> 
+   `session_start()` avant toute écriture de code HTML dans la page
+   pour la même raison qu'il faut mettre `setcookie()` avant les mêmes
+   écritures (on doit écrire l'en-tête HTTP avant d'envoyer le corps de la
+   réponse HTTP).
 
 *  **Mettre une variable en session**
 
@@ -537,7 +596,7 @@ Présentons maintenant les opérations fondamentales sur les sessions :
    ```
 
    On peut stocker presque tout dans une variable de session : un chiffre, un
-   texte, voir un tableau ou un objet. Contrairement aux cookies, il n'est pas
+   texte, voire un tableau ou un objet. Contrairement aux cookies, il n'est pas
    nécessaire d'utiliser `serialize()` pour convertir tous les types en texte.
 
    **Nouveauté :** Contrairement à `$_GET`, `$_POST` et `$_COOKIE`, la variable
@@ -576,20 +635,22 @@ Présentons maintenant les opérations fondamentales sur les sessions :
 *  **Suppression complète d'une session**
 
    ```php?start_inline=1
-   session_unset();     // unset $_SESSION variable for the run-time 
-   session_destroy();   // destroy session data in storage
-   // Il faut réappeler session_start() pour accéder de nouveau aux variables de session
-   Cookie::supprimer(session_name()); // deletes the session cookie containing the session ID
+   Cookie::supprimer(session_name(), "/"); // supprime le cookie de session contenant l'identifiant de session
+   session_unset();     // vide $_SESSION, equivalent à $_SESSION = []
+   session_destroy();   // supprime les données de session stockées
    ```
 
    Pour le dire autrement :
 
+   * On demande au client de supprimer son cookie de session (sans garantie).
+     Comme le cookie contenant l'identifiant de session est associé au chemin `/`, 
+     qui est différent du chemin par défaut `""` de `setcookie()`,
+     il faut spécifier le chemin `/` dans l'appel à `Cookie::supprimer()` pour que le cookie soit bien supprimé chez le client.
    * `session_unset()` vide le tableau `$_SESSION` en faisant
    `unset($_SESSION['name_var'])` pour tous les champs `name_var` de
    `$_SESSION`,
    * `session_destroy()` supprime le fichier de données associées à la session
    courante qui étaient enregistrées sur le disque dur du serveur,
-   * On demande au client de supprimer son cookie de session (sans garantie).
 
 ### Exercice sur les sessions
 
@@ -622,7 +683,7 @@ Présentons maintenant les opérations fondamentales sur les sessions :
             return Session::$instance;
         }
 
-        public function contient($nom): bool
+        public function contient(string $nom): bool
         {
             // À compléter
         }
@@ -637,17 +698,16 @@ Présentons maintenant les opérations fondamentales sur les sessions :
             // À compléter
         }
         
-        public function supprimer($nom): void
+        public function supprimer(string $nom): void
         {
             // À compléter
         }
         
         public function detruire() : void
         {
-            session_unset();     // unset $_SESSION variable for the run-time
-            session_destroy();   // destroy session data in storage
-            Cookie::supprimer(session_name()); // deletes the session cookie
-            // Il faudra reconstruire la session au prochain appel de getInstance()
+            Cookie::supprimer(session_name(), "/"); // supprime le cookie de session
+            session_unset();     // vide $_SESSION, equivalent à $_SESSION = []
+            session_destroy();   // supprime les données de session stockées
             Session::$instance = null;
         }        
     }
@@ -656,8 +716,8 @@ Présentons maintenant les opérations fondamentales sur les sessions :
     *Note :* Cette classe suit le patron de conception *Singleton*, car une session
     est forcément unique. De plus, on ne peut pas se satisfaire d'une classe
     statique comme `Cookie`, car une session a deux états : démarrée ou pas.
-    Notre classe dynamique nous permets de nous assurer que la session est
-    démarré avec `session_start()` avant de l'utiliser. En pratique, l'appel à
+    Notre classe dynamique nous permet de nous assurer que la session est
+    démarrée avec `session_start()` avant de l'utiliser. En pratique, l'appel à
     une méthode dynamique comme `enregistrer()` nécessite d'avoir construit
     l'objet précédemment, donc d'avoir appelé `session_start()`. 
 
@@ -680,18 +740,18 @@ Vous appliquerez les sessions dans le prochain TD8 pour gérer l'authentificatio
 des utilisateurs. Nous vous proposons une autre application au TD9 avec les
 messages Flash.
 
-**Note** : à priori, nous ne nous servirons pas directement de la méthode `detruire`
+**Note** : a priori, nous ne nous servirons pas directement de la méthode `detruire`
 par la suite, même pour déconnecter un utilisateur (TD8). On préférera plutôt garder
 sa session active et simplement vider `$_SESSION` des données qui indique qu'il est
-connecté ou non, voir vider entièrement `$_SESSION` (avec `session_unset`)
+connecté ou non, voire vider entièrement `$_SESSION` (avec `session_unset`)
 pour effectuer un **timeout** comme nous allons le faire dans le prochain exercice.
 
-### Notes techniques
+### Notes techniques sur les sessions
 
 #### Avantages des sessions
 
 Par rapport aux cookies, les sessions offrent plusieurs avantages. Il n'y a plus
-de limite de taille sur les données stockées côté client. 
+de limite de taille de 4 Ko sur les données stockées côté client. 
 
 Mais surtout, l'utilisateur ne peut plus tricher en éditant lui-même le contenu
 du cookie. Imaginons par exemple que l'on note si l'utilisateur est
@@ -708,16 +768,18 @@ aux données qui lui sont associées.
    au délai d'expiration du cookie de l'identifiant unique `PHPSESSID` qui est par
    défaut `0`. Or nous avons vu dans la section sur les cookies que cela entraîne
    l'expiration du cookie à la fermeture du navigateur.
+   (Notez que les données restent sur le serveur jusqu'à leur suppression par le
+   ramasse-miettes.)
 
-	Vous pouvez changer cela en modifiant la variable de configuration
-	`session.cookie_lifetime` qui gère le délai d'expiration du cookie. La
-	fonction
-	[`session_set_cookie_params()`](http://php.net/manual/en/function.session-set-cookie-params.php)
-	permet de régler facilement cette variable.
+   Vous pouvez changer cela en modifiant la variable de configuration
+   `session.cookie_lifetime` qui gère le délai d'expiration du cookie. La
+   fonction
+   [`session_set_cookie_params()`](https://php.net/manual/fr/function.session-set-cookie-params.php)
+   permet de régler facilement cette variable.
 
-	Ceci peut être utile si vous souhaitez que votre panier stocké avec des
-	sessions soit conservé disons 30 minutes, même en cas de fermeture du
-	navigateur.
+   Ceci peut être utile si vous souhaitez que votre panier stocké avec des
+   sessions soit conservé disons 30 minutes, même en cas de fermeture du
+   navigateur.
 
 1. **Comment rajouter un timeout sur les sessions :**
 
@@ -726,21 +788,21 @@ aux données qui lui sont associées.
    attendant de gérer la connexion des utilisateurs dans le TD prochain, voyons
    comment mettre en place un **timeout** sur les sessions.
 
-	La durée de vie d'une session est liée à deux paramètres. D'une part, le
-	délai d'expiration du cookie permet d'effacer l'identifiant unique côté
-	client (sans garantie). D'autre part, une variable de PHP permet de définir
-	un délai d'expiration aux fichiers de session (`session.gc_maxlifetime`) qui
-	dira que le fichier **peut** être supprimé à partir d'un certain
-	délai. Cependant, aucune de ces techniques n'offre de réelle garantie de
-	suppression de la session après le délai imparti.
+   La durée de vie d'une session est liée à deux paramètres. D'une part, le
+   délai d'expiration du cookie permet d'effacer l'identifiant unique côté
+   client (sans garantie). D'autre part, une variable de PHP permet de définir
+   un délai d'expiration aux fichiers de session (`session.gc_maxlifetime`) qui
+   dira que le fichier **peut** être supprimé à partir d'un certain
+   délai. Cependant, aucune de ces techniques n'offre de réelle garantie de
+   suppression de la session après le délai imparti.
 
-	La seule manière sûre de bien gérer la durée de vie d'une session est de
-	stocker la date de dernière activité dans la session :
-	
+   La seule manière sûre de bien gérer la durée de vie d'une session est de
+   stocker la date de dernière activité dans la session :
+   
    ```php?start_inline=1
    if (isset($_SESSION['derniereActivite']) && (time() - $_SESSION['derniereActivite'] > ($dureeExpiration)))
-       session_unset();     // unset $_SESSION variable for the run-time
-   $_SESSION['derniereActivite'] = time(); // update last activity time stamp
+       session_unset();     // vide $_SESSION, equivalent à $_SESSION = []
+   $_SESSION['derniereActivite'] = time(); // màj de la date de dernière activité
    ```
    
    <!-- Ancien code : Problèmes : 
@@ -751,28 +813,37 @@ aux données qui lui sont associées.
      -> Tant pis pour lui, il le sait quand il appelle detruire ?
    ```php?start_inline=1
    if (isset($_SESSION['derniereActivite']) && (time() - $_SESSION['derniereActivite'] > (30*60))) {
-       // if last request was more than 30 minutes ago
-       session_unset();     // unset $_SESSION variable for the run-time 
-       session_destroy();   // destroy session data in storage
+       // si la dernière requête date de plus de 30 minutes
+       session_unset();     // vide $_SESSION, equivalent à $_SESSION = []
+       session_destroy();   // supprime les données de session stockées
    } else {
-       $_SESSION['derniereActivite'] = time(); // update last activity time stamp
+       $_SESSION['derniereActivite'] = time(); // màj de la date de dernière activité
    }
    ``` -->
    
-	<!-- Nous recommandons de mettre un délai d'expiration correspondant au cookie
+   <!-- Nous recommandons de mettre un délai d'expiration correspondant au cookie
     d'identifiant de session à l'aide de la méthode
     [`session_set_cookie_params`](https://www.php.net/manual/fr/function.session-set-cookie-params.php). -->
     
-    **Référence :** [Stackoverflow](http://stackoverflow.com/questions/520237/how-do-i-expire-a-php-session-after-30-minutes)
+    **Référence :** [Stackoverflow](https://stackoverflow.com/questions/520237/how-do-i-expire-a-php-session-after-30-minutes)
 
-<!--
-Note technique :
+   <!--
+   Note technique :
 
-Si les cookies ne sont pas utilisés, le PHPSESSID peut être passé en GET (et en
-POST ?)
-Alors il y a un risque plus important de "session fixation"
-cf http://defeo.lu/aws/lessons/session-fixation
--->
+   Si les cookies ne sont pas utilisés, le PHPSESSID peut être passé en GET (et en
+   POST ?)
+   Alors il y a un risque plus important de "session fixation"
+   cf https://defeo.lu/aws/lessons/session-fixation
+   -->
+
+   Le schéma suivant illustre ce mécanisme de timeout, avec une durée d'expiration
+   de 300 secondes.
+
+   <div class="centered">
+   <object data="{{site.baseurl}}/assets/TD7/session-timeout.svg" type="image/svg+xml">
+   Schéma de séquence : timeout d'une session par dernière activité.
+   </object>
+   </div>
 
 <div class="exercise">
 
@@ -806,14 +877,14 @@ dans `src/Configuration` avec le contenu suivant :
 
    Vous pouvez reprendre le code donné en exemple un peu plus haut...
 
-3. Appelez cette nouvelle méthode dans `getInstance()` après l'appel au constructeur 
+3. Appelez cette nouvelle méthode dans le `if (is_null(...))` de `getInstance()` après l'appel au constructeur 
 (afin de ne vérifier l'expiration qu'au démarrage de la session).
 
 4. Testez votre nouveau mécanisme de timeout en réglant le temps sur une 
 courte période (par exemple, 30 secondes). Pour cela, enregistrez une donnée
 dans la session via une action temporaire (dans un contrôleur quelconque), 
 et affichez-la via une autre action. Attendez que la session expire puis réessayez
-d'afficher la donnée en question : elle doit avoir disparue. 
+d'afficher la donnée en question : elle doit avoir disparu. 
 
 </div>
 
@@ -840,11 +911,21 @@ $_SESSION['login'] = "rlebreton";
 $_SESSION['isAdmin'] = "1";
 ```
 
-alors le fichier `/var/lib/php/sessions/sess_aapot` contient
+alors le fichier `/tmp/sess_aapot` contient
 
 ```
 login|s:9:"rlebreton";isAdmin|s:1:"1";
 ```
+
+Le schéma de séquence suivant détaille les échanges : le cookie ne contient que
+l'identifiant de session, et les données sont lues et écrites dans un fichier
+sur le serveur.
+
+<div class="centered">
+<object data="{{site.baseurl}}/assets/TD7/session-cycle.svg" type="image/svg+xml">
+  Schéma de séquence : cycle de vie d'une session.
+</object>
+</div>
 
 <!-- ## Mise en application sur le site de covoiturage
 
