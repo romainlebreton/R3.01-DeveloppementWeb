@@ -34,12 +34,13 @@ Nous allons faire en sorte qu'un utilisateur qui arrive sur
 3. Testez votre site en appelant `controleurFrontal.php` sans action.
 
 4. PHP fournit [une syntaxe raccourcie `??`](https://www.php.net/manual/fr/migration70.new-features.php#migration70.new-features.null-coalesce-op)
-   pour donner une valeur par défaut si une variable n'existe pas. Voici un exemple :
+   pour donner une valeur par défaut si une variable n'existe pas ou si elle vaut `null`. Voici un exemple :
    ```php
    // Récupère la valeur de $_GET['utilisateur'] ou retourne 'aucun' s'il n'existe pas.
    $identifiant = $_GET['utilisateur'] ?? 'aucun';
    // Ceci est équivalent à :
    $identifiant = isset($_GET['utilisateur']) ? $_GET['utilisateur'] : 'aucun';
+   // En effet, isset détermine si une variable est déclarée et est différente de null
    ```
 
    **Remplacez** votre `isset` précédent par la syntaxe raccourcie `??` pour initialiser la variable `action`. **Testez** votre site.

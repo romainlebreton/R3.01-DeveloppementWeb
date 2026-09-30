@@ -321,7 +321,7 @@ Enfin pour effacer un cookie,
    ```php    
    public static function supprimer(string $cle, string $path = "") : void {
        unset($_COOKIE[$cle]);
-       setcookie ($cle, "", ["expires" => 1, "path" => $path]);
+       setcookie($cle, "", ["expires" => 1, "path" => $path]);
    }
    ```
 
