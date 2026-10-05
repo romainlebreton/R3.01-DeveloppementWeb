@@ -1,0 +1,36 @@
+@startuml
+title Singleton : une seule connexion PDO par exécution de script
+skinparam sequenceMessageAlign left
+participant "Script PHP\n(code appelant)" as A
+participant "ConnexionBaseDeDonnees\n(classe, méthodes statiques)" as C
+participant "Unique instance de\nConnexionBaseDeDonnees" as I
+database "Base de données\nMySQL" as B
+
+== Premier appel : l'instance n'existe pas encore ==
+A -> C : ConnexionBaseDeDonnees::getPdo()
+activate C
+C -> C : getInstance()
+C -> C : is_null(ConnexionBaseDeDonnees::$instance) ?
+note right : true : première fois
+C -> I ** : new ConnexionBaseDeDonnees()
+activate I
+I -> B : new PDO(...) : ouverture de la connexion
+B --> I : connexion
+I -> I : $this->pdo = objet PDO
+I --> C :
+deactivate I
+C -> C : ConnexionBaseDeDonnees::$instance = instance créée
+C --> A : $instance->pdo
+deactivate C
+
+== Appels suivants : on réutilise l'instance ==
+A -> C : ConnexionBaseDeDonnees::getPdo()
+activate C
+C -> C : getInstance()
+C -> C : is_null(ConnexionBaseDeDonnees::$instance) ?
+note right : false : pas de nouvel appel au constructeur,\npas de nouvelle connexion
+C --> A : $instance->pdo (le même objet PDO)
+deactivate C
+
+note over A, B : Le constructeur étant privé, « new ConnexionBaseDeDonnees() » est interdit hors de la classe :\non est obligé de passer par getPdo(). L'instance vit le temps de l'exécution du script :\nune nouvelle requête HTTP recrée une nouvelle instance (et une nouvelle connexion).
+@enduml
