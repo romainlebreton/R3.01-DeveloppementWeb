@@ -1,0 +1,42 @@
+@startuml
+title Validation d'une adresse email par nonce
+skinparam sequenceMessageAlign left
+actor "Navigateur" as C
+participant "Serveur PHP" as S
+database "Table utilisateur\n(BDD)" as B
+participant "Boîte mail de\ntoto@yopmail.com" as M
+
+== Création de l'utilisateur ==
+C -> S : POST controleurFrontal.php?action=creerDepuisFormulaire\nlogin=toto, email=toto@yopmail.com, ...
+activate S
+S -> S : nonce = MotDePasse::genererChaineAleatoire()
+S -> B : INSERT de l'utilisateur toto
+note right of B
+  email = NULL
+  emailAValider = "toto@yopmail.com"
+  nonce = "a1b2c3"
+end note
+S -> M : VerificationEmail::envoiEmailValidation()\nlien : ...?action=validerEmail&login=toto&nonce=a1b2c3
+S --> C : 200 OK\n<html>...</html>
+deactivate S
+
+== Validation de l'email ==
+C -> M : consulte ses mails
+M --> C : lien de validation
+C -> S : GET controleurFrontal.php?action=validerEmail&login=toto&nonce=a1b2c3
+activate S
+S -> B : récupère l'utilisateur toto
+activate B
+B --> S : nonce = "a1b2c3"
+deactivate B
+S -> S : "a1b2c3" === "a1b2c3" ?
+note right : true : seul le propriétaire de\nla boîte mail connaît le nonce
+S -> B : UPDATE de l'utilisateur toto
+note right of B
+  email = "toto@yopmail.com"
+  emailAValider = NULL
+  nonce = NULL
+end note
+S --> C : 200 OK\n<html>... détail de toto ...</html>
+deactivate S
+@enduml

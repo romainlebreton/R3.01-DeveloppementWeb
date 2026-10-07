@@ -798,30 +798,52 @@ cryptographique](https://fr.wiktionary.org/wiki/nonce). Nous envoyons ce nonce
 par email à l'adresse indiquée. La connaissance de ce nonce sert de preuve que
 l'adresse email existe et que l'utilisateur y a accès. Il suffit alors à
 l'utilisateur de renvoyer le nonce au site pour que ce dernier valide l'adresse
-email (en mettant la valeur du nonce à la chaîne de caractères vide `""` dans
-notre cas).
+email.
 
-Commençons par mettre à jour notre classe métier `Utilisateur`. Nous allons
-rajouter des données `nonce` et `email`. Cependant, en cas de changement
+Aussi, en cas de changement
 d'adresse mail, nous souhaitons garder l'ancienne adresse mail en mémoire tant
 que la nouvelle n'a pas été validée. Nous aurons donc une donnée `emailAValider`
 en plus.
 
+Le diagramme suivant résume la procédure, ainsi que l'évolution des champs
+`email`, `emailAValider` et `nonce` dans la base de données :
+
+<div class="centered">
+<object data="{{site.baseurl}}/assets/TD8/validation-email.svg" type="image/svg+xml">
+  Schéma de séquence : à la création, l'email est à valider et un nonce est envoyé par mail ; le clic sur le lien de validation recopie l'email à valider dans l'email et remet les autres champs à NULL. Votre navigateur ne supporte pas les SVG.
+</object>
+</div>
+
+Commençons par mettre à jour notre classe métier `Utilisateur`. Nous allons
+rajouter des données `nonce`, `email` et `emailAValider`. 
+
 <div class="exercise">
 
 1. Ajoutez trois champs à la table `utilisateur` : 
-   * `email` de type `VARCHAR` (taille **256**) non `NULL`,
-   * `emailAValider` de type `VARCHAR` (taille **256**) non `NULL`,
-   * `nonce` de type `VARCHAR` (taille **32**) non `NULL`,
+   * `email` de type `VARCHAR` (taille **256**) pouvant être `NULL` et de
+   valeur par défaut `NULL` : l'email validé, `NULL` tant
+     qu'aucun email n'a été validé,
+   * `emailAValider` de type `VARCHAR` (taille **256**) pouvant être `NULL` et de
+   valeur par défaut `NULL` : l'email en attente de
+     validation, `NULL` s'il n'y en a pas,
+   * `nonce` de type `VARCHAR` (taille **32**) pouvant être `NULL` et de
+   valeur par défaut `NULL` : `NULL` s'il n'y a pas d'email
+     en attente de validation.
 
 2. Mettez à jour la classe métier `Utilisateur` (dossier `src/Modele/DataObject`) :
-   1. ajoutez les attributs,
+   1. ajoutez les attributs, de type `?string` puisqu'ils peuvent valoir `null`,
    2. mettez à jour le constructeur, les *getters* et les *setters*.
 
 3. Mettez à jour la classe de persistance `UtilisateurRepository` :
    1. mettez à jour `construireDepuisTableauSQL` (qui permet de construire un utilisateur à partir de la sortie d'une requête SQL),
    2. mettez à jour `getNomsColonnes`,
    3. mettez à jour la méthode `formatTableauSQL` (qui fournit les données des requêtes SQL préparées).
+
+4. Modifiez la vue `detail.php` pour afficher l'adresse email de l'utilisateur.
+
+   **Attention :** depuis PHP 8.1, `htmlspecialchars(null)` déclenche un
+   avertissement *Deprecated*. Comme `getEmail()` peut renvoyer `null`,
+   écrivez plutôt `htmlspecialchars($utilisateur->getEmail() ?? "")`.
 
 </div>
 
@@ -831,13 +853,10 @@ mail sur la page Web.
 
 <div class="exercise">
 
-1. Dans la classe `src/Configuration/ConfigurationSite.php` ajoutez une 
-   fonction publique et statique `getURLAbsolue` qui renvoie la base de 
-   l'URL de votre site, par exemple :
-   ```php
-   public static function getURLAbsolue() : string {
-      return "http://localhost/tds-php/TD8/web/controleurFrontal.php";
-   }
+1. Dans le fichier de configuration `ConfigurationSite.ini`, ajoutez une ligne 
+   qui contient l'URL de votre site, par exemple :
+   ```ini
+   url_absolue = "http://localhost/tds-php/TD8/web/controleurFrontal.php"
    ```
 
 2. Créez la classe `src/Lib/VerificationEmail.php` avec le code suivant, que 
@@ -846,45 +865,49 @@ mail sur la page Web.
    ```php
    namespace App\Covoiturage\Lib;
 
-   use App\Covoiturage\Configuration\ConfigurationSite;
    use App\Covoiturage\Modele\DataObject\Utilisateur;
 
    class VerificationEmail
    {
-      public static function envoiEmailValidation(Utilisateur $utilisateur): void
-      {
-         $destinataire = $utilisateur->getEmailAValider();
-         $sujet = "Validation de l'adresse email";
-         // Pour envoyer un email contenant du HTML
-         $enTete = "MIME-Version: 1.0\r\n";
-         $enTete .= "Content-type:text/html;charset=UTF-8\r\n";
-
-         // Corps de l'email
-         $loginURL = rawurlencode($utilisateur->getLogin());
-         $nonceURL = rawurlencode($utilisateur->getNonce());
-         $URLAbsolue = ConfigurationSite::getURLAbsolue();
-         $lienValidationEmail = "$URLAbsolue?action=validerEmail&controleur=utilisateur&login=$loginURL&nonce=$nonceURL";
-         $corpsEmailHTML = "<a href=\"$lienValidationEmail\">Validation</a>";
-
-         // Temporairement avant d'envoyer un vrai mail
-         $destinataireHTML = htmlspecialchars($destinataire);
-         echo "Simulation d'envoi d'un mail<br> Destinataire : $destinataireHTML<br> Sujet : $sujet<br> Corps : <br>$corpsEmailHTML";
-
-         // Quand vous aurez configuré l'envoi de mail via PHP
-         // mail($destinataire, $sujet, $corpsEmailHTML, $enTete);
-      }
-
-      public static function traiterEmailValidation(string $login, string $nonce): bool
-      {
-         // À compléter
-         return true;
-      }
-
-      public static function aValideEmail(Utilisateur $utilisateur) : bool
-      {
-         // À compléter
-         return true;
-      }
+       public static function envoiEmailValidation(Utilisateur $utilisateur): void
+       {
+           $destinataire = $utilisateur->getEmailAValider();
+           $sujet = "Validation de l'adresse email";
+           // Pour envoyer un email contenant du HTML
+           $enTete = "MIME-Version: 1.0\r\n";
+           $enTete .= "Content-type:text/html;charset=UTF-8\r\n";
+   
+           // Corps de l'email
+           $loginURL = rawurlencode($utilisateur->getLogin());
+           $nonceURL = rawurlencode($utilisateur->getNonce());
+           $configurationSite = parse_ini_file(
+               __DIR__ . '/../Configuration/ConfigurationSite.ini',
+               false,
+               INI_SCANNER_RAW
+           );
+           $URLAbsolue = $configurationSite["url_absolue"];
+           $lienValidationEmail = "$URLAbsolue?action=validerEmail&controleur=utilisateur&login=$loginURL&nonce=$nonceURL";
+           $corpsEmailHTML = "<a href=\"$lienValidationEmail\">Validation</a>";
+   
+           // Temporairement avant d'envoyer un vrai mail
+           $destinataireHTML = htmlspecialchars($destinataire);
+           echo "Simulation d'envoi d'un mail<br> Destinataire : $destinataireHTML<br> Sujet : $sujet<br> Corps : <br>$corpsEmailHTML";
+   
+           // Quand vous aurez configuré l'envoi de mail via PHP
+           // mail($destinataire, $sujet, $corpsEmailHTML, $enTete);
+       }
+ 
+       public static function traiterEmailValidation(string $login, string $nonce): bool
+       {
+          // À compléter
+          return true;
+       }
+ 
+       public static function aValideEmail(Utilisateur $utilisateur) : bool
+       {
+          // À compléter
+          return true;
+       }
    }
    ```
 
@@ -898,30 +921,35 @@ mail sur la page Web.
    ```
 
 4. Pour faire fonctionner l'action `creerDepuisFormulaire` :
-   * il faut que l'utilisateur créé avec `construireDepuisFormulaire` soit
-   correct :   
-   Mettez à jour la méthode `construireDepuisFormulaire` pour
-   qu'elle donne la valeur `""` à l'email, qu'elle stocke l'adresse mail du
-   formulaire dans `emailAValider`, et qu'elle crée un nonce aléatoire à
-   l'aide de `MotDePasse::genererChaineAleatoire()`.
-   * il faut envoyer l'email de validation en cas de succès de la sauvegarde :
-     appelez la fonction `VerificationEmail::envoiEmailValidation`.
+   1. il faut que l'utilisateur créé avec `construireDepuisFormulaire` soit
+      correct :   
+      Mettez à jour la méthode `construireDepuisFormulaire` pour
+      qu'elle donne la valeur `null` à l'email, qu'elle stocke l'adresse mail du
+      formulaire dans `emailAValider`, et qu'elle crée un nonce aléatoire de 32 caractères à
+      l'aide de `MotDePasse::genererChaineAleatoire(32)`.
+   2. il faut envoyer l'email de validation en cas de succès de la sauvegarde :
+      appelez la fonction `VerificationEmail::envoiEmailValidation`.
+   3. vérifiez aussi qu'un email a été fourni dans le query string.
 
 5. Faisons en sorte que le lien envoyé par mail valide bien l'adresse mail :
-   * Codez la méthode `traiterEmailValidation()` de `VerificationEmail` :    
+   Codez la méthode `traiterEmailValidation()` de `VerificationEmail` :    
    Si le login correspond à un utilisateur présent dans la base et que le
    `nonce` passé en paramètre correspond au `nonce` de la BDD, alors coupez/collez
-   l'email à valider dans l'email et passez à `""` le champ `nonce` de la BDD.  
-   **Attention :** un `nonce` vide (`""`) signifie que l'adresse est déjà
-   validée. Cette méthode doit donc renvoyer `false` si le `nonce` reçu est vide
-   ; sinon, n'importe qui pourrait vider l'email d'un utilisateur déjà validé.
-   * Ajoutez une action `validerEmail` au contrôleur `Utilisateur` qui récupère
+   l'email à valider dans l'email, puis passez à `NULL` les champs
+   `emailAValider` et `nonce` de la BDD et renvoyez `true`. Sinon renvoyez `false`.
+
+   **Attention :** un `nonce` `NULL` signifie qu'il n'y a pas d'email à valider.
+   Comparez donc les nonces avec l'égalité stricte `===`. Sinon, en PHP, `"" == null`
+   vaut `true`, et n'importe qui pourrait alors, en envoyant un nonce vide, vider
+   l'email d'un utilisateur déjà validé.
+   
+6. Ajoutez une action `validerEmail` au contrôleur `Utilisateur` qui récupère
    en `GET` deux valeurs `login` et `nonce` (si elles existent, sinon on appelle
    `afficherErreur`) et appelle `VerificationEmail::traiterEmailValidation()`
    avec ces valeurs. En cas de succès, on affiche la page de détail de cet
    utilisateur. En cas d'échec, on appelle `afficherErreur`.
 
-6. Testez que la validation de l'email marche bien après la création d'un
+7. Testez que la validation de l'email marche bien après la création d'un
    utilisateur en cliquant sur le lien de validation (qui, pour le moment, 
    apparaît sur la page web après la création de l'utilisateur). Vérifiez 
    dans la BDD que les données évoluent bien à chaque étape.
@@ -937,7 +965,7 @@ dans le site.
 la connexion uniquement si l'utilisateur a validé un email. 
    * Pour ceci, appelez la méthode `VerificationEmail::aValideEmail()`.
    * Codez cette méthode pour qu'elle regarde si l'utilisateur a un email
-     différent de `""`.
+     différent de `null`.
    * Faites cette vérification **après** celle du mot de passe, avec un message
      d'erreur spécifique (*Adresse email non validée*). Dans l'ordre inverse, ce
      message révélerait à n'importe qui que le login existe, sans même connaître
@@ -953,14 +981,48 @@ la connexion uniquement si l'utilisateur a validé un email.
 
 
 3. Mise à jour d'un utilisateur : 
-   * rajoutez un champ *Email* prérempli avec l'email validé actuel (`getEmail()`),
+   * rajoutez un champ *Email* prérempli avec l'email validé actuel.  
+
    * dans l'action `mettreAJour`, si l'email du formulaire est différent de
-     l'email validé actuel (`getEmail()`), vérifiez le format de l'email puis
+     l'email validé actuel, vérifiez le format de l'email puis
      écrivez-le dans le champ `emailAValider`. Créez aussi un nouveau nonce
      aléatoire et envoyez le mail de validation. L'email validé actuel reste
      inchangé tant que le nouveau n'a pas été validé.
 
+4. Testez que la mise à jour de l'email marche bien après le clic sur le lien 
+   de validation. Vérifiez dans la BDD que les données évoluent bien à chaque étape.
+
 </div>
+
+**Remarque :** Notre système de validation d'email reste simplifié. Dans un
+vrai site, il faudrait aussi :
+
+* **Garantir qu'un email validé n'appartient qu'à un seul utilisateur.**
+  Idéalement, on ajouterait une contrainte `UNIQUE` sur la colonne `email`. Les
+  valeurs `NULL` ne posent pas de problème : plusieurs lignes peuvent avoir
+  `email` à `NULL` sans violer la contrainte. C'est d'ailleurs une des raisons
+  pour lesquelles nous avons choisi `NULL` plutôt que `""` pour représenter
+  l'absence d'email.  
+  Cette contrainte ne dispense pas de vérifier l'unicité dans le code PHP, afin
+  d'afficher un message d'erreur clair plutôt que de laisser remonter une
+  `PDOException`. Il faudrait par exemple une méthode
+  `UtilisateurRepository::recupererParEmail()`, appelée :
+  * à la création d'un utilisateur et à la mise à jour de son email, pour
+    refuser une adresse déjà validée par un autre utilisateur ;
+  * au moment de la validation (`traiterEmailValidation()`), car deux
+    utilisateurs peuvent avoir la même adresse en attente dans `emailAValider` :
+    seul le premier à valider doit réussir.
+* **Limiter la durée de validité du nonce**, en stockant sa date de création et
+  en refusant les nonces trop anciens (par exemple plus de 24 heures).
+* **Permettre de renvoyer le mail de validation**, si l'utilisateur ne l'a pas
+  reçu ou si le nonce a expiré.
+{% comment %}
+* **Comparer les nonces en temps constant** avec
+  [`hash_equals`](https://www.php.net/manual/fr/function.hash-equals.php)
+  plutôt qu'avec `===` (après avoir vérifié que le nonce de la BDD n'est pas
+  `null`, car `hash_equals` n'accepte que des chaînes), pour éviter qu'un attaquant devine le nonce caractère
+  par caractère en mesurant le temps de réponse du serveur (*timing attack*).
+{% endcomment %}
 
 {% comment %}
 Si l'utilisateur fait une faute de frappe dans l'email, le nonce sera envoyé à
@@ -1017,8 +1079,7 @@ Nous allons utiliser 2 outils :
    # Mise à jour des paquets
    apt-get update
 
-   # Installer msmtp en désactivant AppArmor
-   echo "msmtp	msmtp/apparmor	boolean	false" | debconf-set-selections
+   # Installer msmtp
    DEBIAN_FRONTEND=noninteractive apt install -y msmtp
    
    # Configuration de msmtp
@@ -1045,9 +1106,13 @@ Nous allons utiliser 2 outils :
    docker run -d --name=mailpit -p 8025:8025 -p 1025:1025 axllent/mailpit
    ``` 
 
-4. Ouvrez votre navigateur à l'URL
-   [http://localhost:8025/](http://localhost:8025/) pour ouvrir l'interface Web
-   de Mailpit.
+4. Modifiez `VerificationEmail::envoiEmailValidation` pour envoyer le lien de validation par mail (décommentez la ligne `mail(...)`) 
+   au lien de l'écrire dans la page web. 
+
+5. Testez l'envoi du lien de validation par mail en créant un nouvel utilisateur.
+   Vous trouverez le mail envoyé en ouvrant votre navigateur à l'URL
+   [http://localhost:8025/](http://localhost:8025/) pour accéder à l'interface Web
+   du serveur de mail Mailpit.
 </div>
 
 <!-- docker run -d --name serveurTestMSMTP2 -p 8081:80 --volume /home/lebreton/public_html:/var/www/html serveur.web.docker.iut -->
@@ -1071,42 +1136,88 @@ bibliothèques PHP `composer`, que nous verrons au semestre 4 pour le parcours `
 <!-- Prévoir formulaire en POST si site en production et en GET sinon ? -->
 
 À l'heure actuelle, le mot de passe transite en clair dans l'URL. Vous
-conviendrez facilement que ce n'est pas top. Nous allons donc passer nos
-formulaires en méthode `POST` si le site est en production, ou en méthode `GET` si
-le site est en développement.
+conviendrez facilement que ce n'est pas idéal. 
 
-Il faudrait donc maintenant récupérer les variables à l'aide de `$_POST` ou
-`$_GET`. Cependant, nos liens internes, tels que 'Détails' ou 'Mettre à jour'
-fonctionnent en passant les variables dans l'URL comme un formulaire `GET`. Nous
-avons donc besoin d'être capable de récupérer les variables automatiquement dans
-`$_POST` ou le cas échéant dans `$_GET`.
+Nous allons donc faire dépendre la méthode de transmission des formulaires d'un
+booléen `debug` de configuration du site :
+* en mode **production** (`debug` vaut `false`), les formulaires seront envoyés
+  avec la méthode `POST`, pour que leurs données n'apparaissent plus dans l'URL ;
+* en mode **debug** (`debug` vaut `true`), les formulaires seront envoyés avec
+  la méthode `GET`, ce qui reste pratique pendant le développement pour voir
+  directement dans l'URL les données transmises.
+
+Il faudra donc modifier l'attribut `method` de nos formulaires pour qu'il
+dépende de la valeur de ce booléen.
+
+Côté contrôleur, les données d'un formulaire peuvent donc désormais arriver soit
+dans `$_GET`, soit dans `$_POST`. De plus, nos liens internes, tels que
+'Détails' ou 'Mettre à jour', transmettent forcément leurs informations dans le
+*query string* de l'URL, c'est-à-dire en `GET`, quel que soit le mode du site.
+Il faut donc que le contrôleur lise les informations à la fois dans `$_GET` et
+dans `$_POST`, en donnant la priorité à `$_POST` en cas de conflit. C'est
+exactement le rôle de la variable `$_REQUEST`.
 
 <div class="exercise">
 
-1. Dans la classe `src/Configuration/ConfigurationSite.php` ajoutez une fonction publique et statique 
-   `getDebug` qui renvoie un booléen (**bool**) `true` ou `false` (selon si le site est en mode **debug** ou non).
-   Pour l'instant, renvoyez `true` (debug activé), par exemple.
+1. Dans le fichier de configuration `ConfigurationSite.ini`, ajoutez une ligne 
+   ```ini
+   ; true pour mode debug, false pour mode production
+   debug = true
+   ```
+   qui va servir à indiquer si le site est en mode **debug** ou non (mode production).
 
-2. La variable globale `$_REQUEST` est similaire à `$_GET` et `$_POST`, à ceci
-   près qu'elle est la fusion de ces tableaux. En cas de conflit, les valeurs de
-   `$_POST` écrasent celles de `$_GET`.
+2. Pour que toutes les vues aient accès à la valeur de `debug`, modifiez la
+   méthode `afficherVue` de `ControleurGenerique` pour qu'elle lise cette valeur
+   dans `ConfigurationSite.ini` et la stocke dans une variable `$debug` avant de
+   charger la vue :
 
-   Remplacez tous les `$_GET` par `$_REQUEST`.
+   ```php
+   protected static function afficherVue(string $cheminVue, array $parametres = []): void
+   {
+       extract($parametres); // Crée des variables à partir du tableau $parametres
+       // Récupère la variable debug dans le fichier de configuration, ou false si elle n'y est pas
+       $debug = parse_ini_file(
+           __DIR__ . '/../Configuration/ConfigurationSite.ini',
+           false,
+           INI_SCANNER_RAW
+       )["debug"] ?? false;
+
+       // Pour transformer la chaine de caractères "false" en le booléen false
+       // Et de même pour "true" → true
+       $debug = filter_var($debug, FILTER_VALIDATE_BOOLEAN);
+       require __DIR__ . "/../vue/$cheminVue"; // Charge la vue
+   }
+   ```
+
+   **Explications :** 
+   * Comme pour les autres lectures de fichiers `.ini`, le mode `INI_SCANNER_RAW`
+     renvoie la valeur telle qu'elle est écrite, c'est-à-dire la chaîne de
+     caractères `"true"` ou `"false"`. La fonction `filter_var` avec le filtre
+     `FILTER_VALIDATE_BOOLEAN` la convertit en booléen.
+   * La variable `$debug` est aussi accessible dans les vues incluses par
+     `vueGenerale.php` (comme les formulaires), car un `require` partage la
+     portée des variables du code qui l'appelle.
+
+3. Remplacez tous les `$_GET` par `$_REQUEST`.
 
    **Aide :** Utilisez la fonction de remplacement globale avec `Ctrl+Shift+R`
    (sur tous les fichiers du dossier `TD8`) pour vous aider.
 
-3. Modifiez les vues contenant des formulaires liés à la gestion des utilisateurs (`formulaireCreation.php`, `formulaireMiseAJour.php`, 
-   `formulaireConnexion.php`) et `preference/formulairePreference.php` pour faire en sorte que la méthode `post` soit utilisée si `ConfigurationSite::getDebug()` renvoie `false` ou en méthode `get` sinon. De la même manière, mettez aussi à jour 
-   les formulaires liés à la gestion des trajets.
+4. Modifiez les vues contenant des formulaires pour que
+   la méthode `post` soit utilisée si `$debug` vaut `false`, et la méthode `get`
+   sinon.
 
-4. Vérifiez que tout fonctionne toujours en utilisant un des formulaires du site, puis en changeant la valeur retournée par          
-   `ConfigurationSite::getDebug()`. Vérifiez notamment que quand `ConfigurationSite::getDebug()` renvoie `false`, la méthode `POST` 
-   est bien utilisée (pas de données du formulaire dans le query string...).
+   Pour que votre IDE connaisse le type de `$debug`, ajoutez en haut
+   de ces vues le commentaire `/** @var bool $debug */`.
+
+5. Vérifiez que tout fonctionne toujours en utilisant un des formulaires du
+   site, puis en changeant la valeur de `debug` dans `ConfigurationSite.ini`.
+   Vérifiez notamment que quand `debug = false`, la méthode `POST` est bien
+   utilisée (pas de données du formulaire dans le *query string*...).
 
 </div>
 
-### Sécurité avancée
+### Sécurité avancée (optionnel)
 
 Remarquez que les mots de passe envoyés en POST sont toujours visibles, car envoyés
 en clair. Vous pouvez par exemple les voir dans l'onglet réseau des outils de
@@ -1133,7 +1244,7 @@ compliquée. Même si
 [elle s'est simplifiée considérablement récemment](https://letsencrypt.org/),
 cela dépasse le cadre de notre cours.
 
-### Notes techniques supplémentaires
+### Notes techniques supplémentaires (optionnel)
 
 Malgré nos protections, il est toujours possible pour un attaquant d'essayer des
 couples login / mot de passe en passant par notre interface de connexion. Un
@@ -1189,7 +1300,7 @@ La parade consiste à appeler
 dans `ConnexionUtilisateur::connecter()`, juste avant d'enregistrer le login en
 session, pour attribuer un nouvel identifiant de session.
 
-Sources :
+**Sources :**
 * [Recommandations du NIST (SP 800-63B-4)](https://pages.nist.gov/800-63-4/sp800-63b.html#password)
 * [Recommandation de la CNIL relative aux mots de passe (2022)](https://www.cnil.fr/fr/mots-de-passe-une-nouvelle-recommandation-pour-maitriser-sa-securite)
 * [Recommandations de l'ANSSI relatives à l'authentification multifacteur et aux mots de passe](https://cyber.gouv.fr/publications/recommandations-relatives-lauthentification-multifacteur-et-aux-mots-de-passe)
