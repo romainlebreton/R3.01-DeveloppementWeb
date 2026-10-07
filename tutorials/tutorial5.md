@@ -622,7 +622,7 @@ vues "corps" en l'incluant dans l'en-tête et le pied de page communs.
 
 <div class="exercise">
 
-1. Créer une vue générique `TD5/vue/vueGenerale.php` avec le code suivant. La fonction
+1. Créer une vue générique `TD5/src/vue/vueGenerale.php` avec le code suivant. La fonction
    de `vueGenerale.php` est de charger un en-tête et un pied de page communs, ainsi
    que la vue dont le nom de fichier est stocké dans la variable `$cheminCorpsVue` (et le titre de
    page contenu dans `$titre`).
