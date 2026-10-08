@@ -836,7 +836,7 @@ src="https://www.plantuml.com/plantuml/png/VOwnJWCn38RtF8KtMZ5mh5LLjIf2OeQHnUJ-b
    `UtilisateurRepository` vers `AbstractRepository`. Changez la signature
    de la fonction par
    ```php
-   /** @param T $utilisateur */
+   /** @param T $objet */
    public function ajouter(AbstractDataObject $objet): bool
    ```
 
