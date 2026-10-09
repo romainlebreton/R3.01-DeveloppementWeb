@@ -967,7 +967,7 @@ la stocker avec des sessions.
 
 Pour approfondir votre compréhension des cookies et des sessions, vous avez
 aussi accès aux [notes complémentaires à ce
-sujet]({{site.baseurl}}/assets/tut7-complement).
+sujet]({{site.baseurl}}/assets/tut7-complement.html).
 
 ### Cas d'utilisation classique : panier sur un site marchand
 

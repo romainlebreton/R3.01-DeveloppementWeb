@@ -169,12 +169,6 @@ restriction d'accès.
 
 3. Vérifiez que l'accès par internet aux scripts autres que `web/controleurFrontal.php`
    affiche une page Web `Forbidden You don't have permission to access this resource`.
-
-   {% comment %}
-   Note : Si votre fichier `.htaccess` n'a pas d'effet et que vous êtes sur
-   votre machine, il se peut qu'il faille 
-   [configurer Apache autrement]({{site.baseurl}}/assets/tut5-complement.html#si-le-fichier-htaccess-ne-marche-pas).
-   {% endcomment %}
    
 </div>
 
