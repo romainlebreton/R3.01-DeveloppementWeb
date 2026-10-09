@@ -66,9 +66,9 @@ La dernière séance de PHP (fin de la semaine du 02 novembre) sera dédiée au 
 * TD1 -- [Encodage des caractères, promotion de propriétés, serveur HTTP de l'IUT, note sur les URLs, installation de PhpStorm]({{site.baseurl}}/assets/tut1-complement.html)
 * TD2 -- [Attributs et méthodes statiques]({{site.baseurl}}/assets/tut2-complement.html)
 * TD3 -- [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
-* TD4 -- [Upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html)
 * TD5 -- [`.htaccess`, namespace et autoloader]({{site.baseurl}}/assets/tut5-complement.html)
 * TD7 -- [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html)
+* [Upload de fichiers (par exemple une image de profil)]({{site.baseurl}}/assets/tut4-complement.html)
 
 {% comment %}
 1. [Syntaxe simple & avancée de PHP 8.1]({{site.baseurl}}/assets/complement1-PHPSyntax.html)
