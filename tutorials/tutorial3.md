@@ -732,7 +732,7 @@ pas encore été chargée.
     données. Cette solution est utilisée dans les solutions professionnelles de
     gestion des bases de données appelées
     [*ORM*](https://fr.wikipedia.org/wiki/Mapping_objet-relationnel) (*cf.*
-    Hibernate au semestre 3, ou Doctrine au semestre 5). Cette stratégie est par
+    Doctrine au semestre 5). Cette stratégie est par
     exemple expliqué dans la [documentation de
     Doctrine](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/unitofwork.html#how-doctrine-keeps-track-of-objects).
 
