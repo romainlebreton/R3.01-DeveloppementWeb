@@ -5,6 +5,8 @@ layout: tutorial
 lang: fr
 ---
 
+<!-- Pour 27-28 : Mailpit déjà disponible sous Docker donc changer les instructions  -->
+
 <!-- Parler des nouvelles fonctions de PHP pour les mots de passe ?
 http://php.net/manual/fr/book.password.php -->
 

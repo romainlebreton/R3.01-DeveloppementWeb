@@ -5,6 +5,9 @@ layout: tutorial
 lang: fr
 ---
 
+
+<!-- Pour 27-28 : Créer une classe pour lire les .ini et màj TD7 & TD8  -->
+
 <!--
 Explication au tableau :
 schéma avec ce que fait le PHP avant d'exécuter le fichier
