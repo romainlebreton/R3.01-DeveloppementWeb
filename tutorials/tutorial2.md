@@ -423,7 +423,15 @@ qui retourne un tableau indexé par les noms de colonnes et aussi par les numér
    Affichez l'utilisateur en utilisant la méthode adéquate de `Utilisateur`.
 
 6. On souhaite désormais afficher tous les utilisateurs dans la base de données. On pourrait
-   faire une boucle `while` sur `fetch` tant qu'on n'a pas parcouru toutes les entrées de la base de données.
+   faire une boucle `while` sur `fetch` tant qu'on n'a pas parcouru toutes les entrées de la base de données :
+
+   ```php?start_inline=1
+   while (($utilisateurFormatTableau = $pdoStatement->fetch()) !== false) {
+      // ...
+   }
+   ```
+
+   En effet, `fetch` renvoie `false` quand il n'y a plus d'entrée à lire.
 
    Heureusement, il existe une syntaxe simplifiée qui fait exactement cela :   
 
