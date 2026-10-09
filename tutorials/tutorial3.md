@@ -231,6 +231,47 @@ The only exception (pun not intended) is the creation of the PDO instance, which
 
 </div>
 
+Mais au fait, comment `PDO` fait-il pour que l'apostrophe de `"D'Artagnan"` ne
+termine pas la chaîne de caractères SQL ? La méthode
+[`debugDumpParams()`](https://www.php.net/manual/fr/pdostatement.debugdumpparams.php)
+de `PDOStatement` permet de le voir.
+
+<div class="exercise">
+
+1. Dans la méthode `ajouter()` de `Utilisateur`, rajoutez temporairement les
+   lignes suivantes **après** l'appel à `execute($values)` :
+
+   ```php?start_inline=1
+   echo "<pre>";
+   $pdoStatement->debugDumpParams();
+   echo "</pre>";
+   ```
+
+2. Créez avec le formulaire un utilisateur de nom `D'Artagnan`. Comparez les
+   lignes `SQL:` et `Sent SQL:` de l'affichage. La ligne `SQL:` est la requête
+   avec ses tags, telle que vous l'avez écrite. La ligne `Sent SQL:` est la
+   requête réellement envoyée à MySQL.  
+   **Question :** Comment l'apostrophe a-t-elle été transformée ? Pourquoi ?
+
+   <details markdown="0">
+      <summary><strong>Réponse (cliquez pour afficher) :</strong></summary>
+      <p markdown="1">
+         La valeur est devenue `'D\'Artagnan'` : `PDO` a mis la valeur entre
+         apostrophes et a **échappé** l'apostrophe interne avec un antislash
+         `\`. Pour MySQL, `\'` signifie « le caractère apostrophe » et non « fin
+         de la chaîne ». La valeur ne peut donc plus être interprétée comme du
+         code SQL.
+      </p>
+   </details>
+
+3. Recommencez avec d'autres caractères spéciaux pour MySQL, par exemple le
+   prénom `Jean\"Michel"`. Comment sont échappés l'antislash `\` et les
+   guillemets `"` ?
+
+4. Enlevez l'affichage de `debugDumpParams()` de la méthode `ajouter()`.
+
+</div>
+
 ## Utilisateurs et trajets
 
 Vous avez couvert dans le cours *R2.01 -- Développement orienté objets*
