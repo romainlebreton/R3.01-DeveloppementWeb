@@ -2,19 +2,20 @@
 title: Compléments sur les cookies et les sessions
 subtitle: 
 layout: tutorial
+lang: fr
 ---
 
 ## Quelques informations supplémentaires sur les cookies
 
 Pour bien comprendre en profondeur les cookies, il faut savoir que tout est basé
-sur deux mécanismes assez indépendants:
+sur deux mécanismes assez indépendants :
 
 1. le serveur peut enregistrer/modifier un cookie chez le client avec une ligne
    `Set-Cookie` dans la réponse HTTP (commande PHP `setcookie`).
 1. les cookies sont envoyés à chaque requête par le client au serveur. PHP
    traite les cookies en remplissant la variable en lecture seule `$_COOKIE`.
    
-**Quizz de compréhension:**
+**Quiz de compréhension :**
 
 1. **Question :** Est-ce que `$_COOKIE` se met à jour après un `setcookie()` ?
    Pourquoi ?   
@@ -60,16 +61,17 @@ sur deux mécanismes assez indépendants:
 
 ## Quelques informations supplémentaires sur les sessions
 
-Soyons plus précis sur le mécanisme de sessions :
+Le TD7 détaille le cycle de vie d'une session (voir le schéma de séquence de la
+partie *Où sont stockées les sessions ?*). Résumons les deux moments clés :
 
 1. Que fait `session_start()` ?  
-   Si aucun cookie `PHPSESSID=xyz` n'a été envoyé par le client, il crée le
-   cookie, crée le fichier local correspondant `sess_xyz` et initialise
-   `$_SESSION=array()`.  
+   Si aucun cookie `PHPSESSID=xyz` n'a été envoyé par le client, il génère un
+   nouvel identifiant, dépose le cookie correspondant chez le client et
+   initialise `$_SESSION=array()`.  
    Si un cookie `PHPSESSID=xyz` a été envoyé par le client, il lit le fichier
-   local correspondant `sess_xyz` et le recopie dans la variable `$_SESSION`.
+   local correspondant `sess_xyz` et recopie son contenu dans la variable `$_SESSION`.
    
-1. Quand est-ce que le contenu de `$_SESSION` est écrit le fichier local
+1. Quand est-ce que le contenu de `$_SESSION` est écrit dans le fichier local
    `sess_xyz` ?  
    Si le mécanisme de session est toujours actif (pas de `session_destroy()`),
    alors après la fin de votre script, PHP recopie le contenu de `$_SESSION`
@@ -78,29 +80,53 @@ Soyons plus précis sur le mécanisme de sessions :
 
 ### Le cas particulier des sessions en hébergement mutualisé
 
-Dans le cas d'un hébergement mutualisé, (comme à l'IUT) deux répertoires
-différents par exemple
+Dans le cas d'un hébergement mutualisé, comme sur le serveur `webinfo` de l'IUT
+où vous pourrez déployer votre projet, deux répertoires différents, par exemple
 [http://webinfo.iutmontp.univ-montp2.fr/~mon_login](http://webinfo.iutmontp.univ-montp2.fr/~mon_login)
 et
 [http://webinfo.iutmontp.univ-montp2.fr/~le_login_du_voisin](http://webinfo.iutmontp.univ-montp2.fr/~le_login_du_voisin)
 sont vus comme un seul site web, alors qu'il s'agit en réalité de deux sites web
-différents.  De ce fait, si vous utilisez exactement le même nom de variable de
-session, il est possible que s'authentifier sur
+différents. En effet :
+* le cookie de session est déposé par défaut avec le chemin `path: "/"`, donc le
+  navigateur l'envoie à tous les sites de `webinfo` ;
+* tous les sites stockent leurs fichiers de session `sess_xyz` dans le même
+  dossier du serveur.
+
+De ce fait, si vous utilisez exactement le même nom de variable de session (par
+exemple `$_SESSION['utilisateurConnecte']`), il est possible que s'authentifier sur
 [http://webinfo.iutmontp.univ-montp2.fr/~mon_login](http://webinfo.iutmontp.univ-montp2.fr/~mon_login)
 vous permette de contourner l'authentification de
 [http://webinfo.iutmontp.univ-montp2.fr/~le_login_du_voisin](http://webinfo.iutmontp.univ-montp2.fr/~le_login_du_voisin).
 
-Afin d'éviter ces désagréments, deux solutions :
+**Remarque :** Le même phénomène se produit sur votre serveur Docker entre
+`http://localhost/tds-php` et votre projet s'il est aussi servi par
+`localhost`.
 
-1. utiliser un nom de variable de session différent avec l'instruction
-   `session_name("chaineUniqueInventeParMoi");` que vous appellerez de manière
-   systématique, avant chaque appel à `session_start();`. Cela a pour effet de
-   remplacer le nom de la variable unique `PHPSESSID` en
-   `chaineUniqueInventeParMoi` et éviter les conflits.
+Afin d'éviter ces désagréments, deux solutions complémentaires, à mettre en
+place **avant** l'appel à `session_start()` (dans le constructeur de la classe
+`Session` du TD7) :
+
+1. utiliser un nom de cookie de session différent avec l'instruction
+   `session_name("chaineUniqueInventeParMoi");`. Cela a pour effet de
+   remplacer le nom du cookie `PHPSESSID` par
+   `chaineUniqueInventeParMoi` et d'éviter les conflits.
    
-1. Dans la fonction `setcookie()`, il est possible de spécifier un chemin de
-   fichier que doit satisfaire la page pour que le cookie soit envoyé. Cela
-   étend le mécanisme de vérification de nom de domaine.
+1. restreindre le chemin pour lequel le navigateur envoie le cookie de session
+   avec la fonction
+   [`session_set_cookie_params()`](https://www.php.net/manual/fr/function.session-set-cookie-params.php)
+   (et non `setcookie()`, car c'est `session_start()` qui dépose ce cookie) :
+   ```php?start_inline=1
+   session_set_cookie_params(["path" => "/~mon_login/"]);
+   ```
+   Le paramètre `path` fonctionne comme celui de `setcookie()`, expliqué dans le TD7.
+
+**Attention :** Ces solutions évitent les conflits accidentels, mais elles ne
+protègent pas d'un voisin malveillant. Sur `webinfo`, tous les sites s'exécutent
+sous le même utilisateur `www-data` : le script PHP d'un voisin peut donc lire et
+écrire vos fichiers de session (et même lire vos fichiers PHP, dont la
+configuration de la base de données). Il n'existe pas de protection complète sur
+ce type d'hébergement mutualisé. Un hébergement professionnel isole chaque site
+en l'exécutant sous un utilisateur différent.
 
    
 ### Sessions et sécurité
@@ -108,39 +134,37 @@ Afin d'éviter ces désagréments, deux solutions :
 Comme vous l'aurez deviné, on peut se faire passer pour quelqu'un si on connaît
 son cookie `PHPSESSID`. Il est donc important que l'on essaye de protéger cette
 information. Or, comme on peut le voir avec les outils de développement, onglet
-Réseaux, l'information des cookies passent sur le réseau sans être cachée.
+Réseau, l'information des cookies passe sur le réseau sans être cachée.
 
-Le premier point est donc de sécuriser le canal de communication pour que
-personne ne puisse écouter nos échanges avec le serveur Web (HTTPS). Il faut
-aussi que le client n'envoye pas cette information à un autre site, d'où
-l'importance de limiter l'envoi des cookies à certain nom de domaine, chemin de
-fichier...
+Plusieurs mesures permettent de protéger le cookie de session :
+* sécuriser le canal de communication avec HTTPS, pour que personne ne puisse
+  écouter nos échanges avec le serveur Web, et n'envoyer le cookie que sur
+  HTTPS (paramètre `secure`) ;
+* empêcher le JavaScript de la page de lire le cookie (paramètre `httponly`), ce
+  qui limite les vols de cookie par une faille XSS ;
+* limiter l'envoi des cookies à certains noms de domaine et chemins (paramètres
+  `domain` et `path`, voir ci-dessus) ;
+* ne pas envoyer le cookie lors de requêtes provenant d'autres sites
+  (paramètre `samesite`), ce qui protège des attaques CSRF présentées au TD8.
 
-Enfin il existe une technique par laquelle un attaquant peut forcer un client
+Ces paramètres se règlent tous avec `session_set_cookie_params()`, par exemple
+```php?start_inline=1
+session_set_cookie_params([
+    "secure" => true,       // Seulement si votre site est en HTTPS
+    "httponly" => true,
+    "samesite" => "Lax",
+]);
+```
+
+Enfin, il existe une technique par laquelle un attaquant peut forcer un client
 HTTP à prendre un `PHPSESSID` particulier. L'attaquant n'a plus qu'à attendre
 que le client s'identifie sur le site, puis il réutilise ce `PHPSESSID` pour
 usurper l'identité du client. Cette attaque s'appelle en anglais *session
-fixation*. Une parade consiste à renouveller régulièrement l'identifiant de
-session des clients et à toujours vérifier l'identité du client (en redemandant
-le mot de passe) avant toute opération sensible.
+fixation*. La parade principale, mise en place dans le
+[TD8]({{site.baseurl}}/tutorials/tutorial8.html), consiste à changer
+l'identifiant de session au moment de la connexion avec
+`session_regenerate_id(true)`. Il est aussi conseillé de toujours vérifier
+l'identité du client (en redemandant le mot de passe) avant toute opération
+sensible.
 
-**Référence :** [Cours "Applications web et sécurité" de Luca De Feo](http://defeo.lu/aws/lessons/session-fixation)
-
-<!-- Explication sur les sessions
-
-session 
-stocke où ?
-à quoi sert le cookie
-commande PHP 
-- session_start()
-  Si cookie PHPSESSID=xxx reçu alors lance la session pour cet id
-  Sinon crée un cookie PHPSESSID=xxx (setcookie) et lance le mécanisme de session
-- $_SESSION en lecture et écriture
-  au moment du session_start charge $_SESSION avec le fichier sess_xxx
-  Derrière les rideaux, après vos fichiers PHP, écris le contenu de $_SESSION dans le ficher sess_xxx
-
-On peut se faire passer pour quelqu'un si on connait son PHPSESSID
-=> HTTPS et paramétrisation des cookies par nom de domaine et chemin
-=> Fixation de session si session_id par query string ou faille XSS
-
--->
+**Référence :** [Cours "Applications web et sécurité" de Luca De Feo](https://defeo.lu/aws/lessons/session-fixation)
