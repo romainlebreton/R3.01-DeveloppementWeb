@@ -300,96 +300,74 @@ $tabC = Session::getInstance()->lire('tableau');
 1. Implémentez un système de message flash en complétant le squelette suivant
    dans le fichier `src/Lib/MessageFlash.php` :
 
-    ```php
-    namespace App\Covoiturage\Lib;
+   ```php
+   namespace App\Covoiturage\Lib;
 
-    use App\Covoiturage\Modele\HTTP\Session;
+   use App\Covoiturage\Modele\HTTP\Session;
 
-    class MessageFlash
-    {
+   class MessageFlash
+   {
 
-        // Les messages sont enregistrés en session, associés à la clé suivante
-        private static string $cleFlash = "_messagesFlash";
+      // Les messages sont enregistrés en session associée à la clé suivante
+      private static string $cleFlash = "_messagesFlash";
 
-        /**
-         * Récupère le tableau à deux dimensions correspondant à la clé 
-         * self::$cleFlash stocké en session puis ajoute une entrée 
-         * contenant $message au sous-tableau correspondant à la clé $type.
-         * Enregistre ensuite ce tableau dans la session (en écrasant l'ancien).
-         * 
-         * $type parmi "success", "info", "warning" ou "danger".
-         * 
-         * Attention : si le tableau stockant les messages flash n'existe
-         * pas en session, il faut le créer.
-         */
-        public static function ajouter(string $type, string $message): void
-        {
-            // À compléter
-            $session = Session::getInstance();
-            $flashs = [];
-            if($session->contient(MessageFlash::$cleFlash)) {
-                // ...
-            }
-            // ...
-            $session->enregistrer(MessageFlash::$cleFlash, $flashs);
-        }
+      /**
+       * Renvoie le tableau à deux dimensions ne contenant aucun message.
+       * Ce tableau sert de valeur initiale lorsque aucun message flash n'est
+       * stocké en session, et de valeur de réinitialisation après lecture.
+       * @return string[][]
+       */
+      private static function messagesVides(): array
+      {
+         return ["success" => [], "info" => [], "warning" => [], "danger" => []];
+      }
 
-        /**
-         * Renvoie true si le tableau à deux dimensions stockant les messages 
-         * flash en session contient une entrée $type, correspondant à 
-         * un sous-tableau, et que ce tableau n'est pas vide.
-         * Renvoie false sinon.
-         */
-        public static function contientMessage(string $type): bool
-        {
-            // À compléter
-            $session = Session::getInstance();
-            // ...
-            // return ...
-        }
+      /**
+       * Renvoie le tableau à deux dimensions stocké en session à la clé
+       * MessageFlash::$cleFlash.
+       *
+       * Si cette clé n'est pas présente en session, renvoie le tableau
+       * sans message donné par MessageFlash::messagesVides().
+       *
+       * Remarque : c'est le serveur qui écrit cette donnée en session.
+       * Si elle est présente, on peut donc supposer qu'elle a le bon format.
+       * @return string[][]
+       */
+      private static function lireSession(): array
+      {
+         // À compléter
+         return [];
+      }
 
-        /**
-         * Renvoie un tableau (à une dimension) contenant tous les messages
-         * du type $type, correspondant aux données du tableau de l'entrée 
-         * $type dans le tableau à deux dimensions stockant les messages
-         * flash en session.
-         * Attention : la lecture doit détruire tous les messages de ce 
-         * type, donc, supprimer l'entrée $type du tableau stockant les 
-         * messages flash, puis enregistrer de nouveau le tableau en session.
-         * @return string[]
-         */
-        public static function lireMessages(string $type): array
-        {
-            // À compléter
-            $session = Session::getInstance();
-            // ...
-            // $flashs = ...
-            //...
-            $session->enregistrer(MessageFlash::$cleFlash, $flashs);
-            // return ...
-        }
+      /**
+       * Récupère le tableau des messages flashs grâce à MessageFlash::lireSession(),
+       * puis ajoute une entrée contenant $message à la fin du sous-tableau
+       * associé à la clé $type.
+       * Enregistre ensuite ce tableau en session à la clé MessageFlash::$cleFlash.
+       */
+      public static function ajouter(string $type, string $message): void
+      {
+         // À compléter
+         return;
+      }
 
-        /**
-         * Renvoie un tableau (à deux dimensions) contenant tous les messages
-         * flash, correspondant aux données du tableau stockant tous les 
-         * messages flash en session.
-         * Attention : la lecture doit détruire tous les messages, donc, supprimer 
-         * le tableau stockant les messages flash en session.
-         * @return string[][]
-         */
-        public static function lireTousMessages() : array
-        {
-            // À compléter
-            $session = Session::getInstance();
-            // ...
-            // $flashs = ...
-            // ...
-            $session->enregistrer(MessageFlash::$cleFlash, $flashs);
-            // return ...
-        }
+      /**
+       * Renvoie le tableau à deux dimensions contenant tous les messages flashs,
+       * rangés par type, obtenu grâce à MessageFlash::lireSession().
+       *
+       * Attention : la lecture doit détruire tous les messages. Avant de renvoyer
+       * le tableau, il faut donc enregistrer en session, le tableau sans message 
+       * donné par MessageFlash::messagesVides().
+       * @return string[][]
+       */
+      public static function lireTousMessages(): array
+      {
+         // À compléter
+         return [];
+      }
 
-    }
-    ```
+   }
+   ```
 
 2. Modifiez `ControleurGenerique::afficherVue()` pour lire les messages flash
    depuis cette classe avec :
