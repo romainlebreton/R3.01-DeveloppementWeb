@@ -24,12 +24,12 @@ l'état de la session
 
 ### Bandeau de messages
 
-Au lieu de créer une vue spécifique comme `utilisateurCree.php` pour ajouter un
-message flash en haut d'une vue existante, nous allons intégrer un système de message
-à nos pages.
+Au lieu de créer une vue spécifique comme `utilisateurCree.php` pour afficher un
+message au-dessus d'une vue existante, nous allons intégrer à toutes nos pages un
+bandeau de messages, appelés *messages flash*.
 
 Les messages pourront être de 4 types : *success* (vert),
-*info* (jaune), *warning* (orange) et *danger* (rouge). Chaque type peut
+*info* (bleu), *warning* (jaune) et *danger* (rouge). Chaque type peut
 comporter plusieurs messages. Voici 2 exemples dans le cas d'un site qui gèrerait aussi des voitures : 
 
 <div style="
@@ -66,7 +66,7 @@ $messagesFlash = [
    `vueGenerale.php`, que nous allons mettre à jour pour afficher tous les
    messages existants. 
 
-   Dans `vueGenerale.php`, rajouter le `<div>` suivant juste après le `<nav>`
+   Dans `vueGenerale.php`, rajoutez le `<div>` suivant juste après le `<nav>`
    dans le `<header>`.
 
    ```php
@@ -90,18 +90,18 @@ $messagesFlash = [
 
    Prenez le temps de bien comprendre ce code.
    
-3. Dans `ControleurGenerique::afficherVue()`, récupérez les messages dans une variable `$messagesFlash` à partir de l'URL (si présente dans l'URL), juste avant de `require` la vue :
+3. Dans `ControleurGenerique::afficherVue()`, récupérez les messages dans une variable `$messagesFlash` à partir de l'URL (s'ils y sont présents), juste avant le `require` de la vue :
    ```php
    // Avec le if/else ternaire
    $messagesFlash = isset($_REQUEST["messagesFlash"]) ? $_REQUEST["messagesFlash"] : [];
-   // Ou de manière équivalent avec l'opérateur "null coalescent"
+   // Ou de manière équivalente avec l'opérateur "null coalescent"
    // https://www.php.net/manual/fr/migration70.new-features.php#migration70.new-features.null-coalesce-op
    // $messagesFlash = $_REQUEST["messagesFlash"] ?? [];
    ```
 
 4.  Pour le CSS des messages d'alerte, rajoutez le code suivant à
     `navstyle.css`. Le code provient du [composant d'alerte du framework CSS
-    Bootstrap](https://getbootstrap.com/docs/3.4/components/#alerts)
+    Bootstrap](https://getbootstrap.com/docs/3.4/components/#alerts) :
     ```css
     /* Bootstrap alerts */
     /* https://getbootstrap.com/docs/3.4/components/#alerts */
@@ -138,13 +138,13 @@ $messagesFlash = [
     }
     ```
 
-    On obtient alors par exemple un bloc de succès avec le code
+    On obtient alors par exemple un bloc de succès avec le code :
     ```html
     <div class="alert alert-success">...</div>
     ```
 
-5. Testez les messages flash. Pour ceci, appelez une vue en rajoutant le tableau des
-   messages dans le *query string* de la manière suivante
+5. Testez les messages flash. Pour cela, appelez une vue en rajoutant le tableau des
+   messages dans le *query string* de la manière suivante :
    ```text
    http://localhost/tds-php/TD9/web/controleurFrontal.php?messagesFlash[success][]=Hello+World
    ```
@@ -153,17 +153,23 @@ $messagesFlash = [
    http://localhost/tds-php/TD9/web/controleurFrontal.php?messagesFlash[danger][]=Message+de+danger+1&messagesFlash[danger][]=Message+de+danger+2
    ```
 
+   *Remarque :* les messages sont affichés sans `htmlspecialchars` (cf. TD5).
+   Comme ils proviennent ici de l'URL, n'importe qui peut injecter du HTML ou du
+   JavaScript dans la page (essayez avec `messagesFlash[info][]=<h1>Hack</h1>`).
+   Cette faille disparaîtra dans la suite du TD, quand les messages flash seront
+   écrits uniquement par le serveur.
+
 </div>
 
 ### Redirection
 
-Il est pratique pour le site de pouvoir rediriger sur une autre page en cas
+Il est pratique pour le site de pouvoir rediriger vers une autre page en cas
 d'erreur ou de succès. Par exemple, si le site gère les voitures et que le
 client est sur le formulaire de création d'une voiture :
 
 ![VoitureCreate]({{site.baseurl}}/assets/TD9/VoitureCreate.png){: .blockcenter}
 
-S'il rentre une immatriculation existante, le site le redirige vers le
+S'il saisit une immatriculation existante, le site le redirige vers le
 formulaire de création avec un message flash d'avertissement :
 
 ![VoitureCreatedWarning]({{site.baseurl}}/assets/TD9/VoitureCreatedWarning.png){: .blockcenter}
@@ -202,9 +208,7 @@ l'action `afficherListe` sans code supplémentaire.
     nouvelle URL comme si on avait cliqué sur un lien. Enfin, `exit()` termine
     l'exécution du script courant. 
 
-    *Note :* L'utilisation de `exit()` est optionnelle. Nous vous le mentionnons
-    car généralement le script n'a plus rien à faire après avoir demandé une
-    redirection. Le type de retour `never` indique une fonction qui ne termine pas, c.-à-d. 
+    *Note :* Le type de retour `never` indique une fonction qui ne retourne jamais, c.-à-d. 
     qui appelle `exit()`, lève une exception, ou est une boucle infinie.
 
 2. Utilisons la redirection dans un premier scénario d'erreur. Dans
@@ -213,17 +217,17 @@ l'action `afficherListe` sans code supplémentaire.
    `afficherListe` avec le message flash de type `danger` suivant : `Login inconnu`.
 
    **Aide :** Par exemple, pour rediriger vers l'action `bonjour` du
-    contrôleur `exemple` avec la donnée `var=a` avec un message flash de succès `OK!`, je peux faire :
+    contrôleur `exemple` avec la donnée `var=a` avec un message flash de succès `OK`, on peut écrire :
 
     ```php
-    redirigerVersURL('controleurFrontal.php?controleur=exemple&action=bonjour&var=a&messagesFlash[success][]=OK!')
+    ControleurUtilisateur::redirigerVersURL('controleurFrontal.php?controleur=exemple&action=bonjour&var=a&messagesFlash[success][]=OK');
     ```
 
 3. Dans `ControleurUtilisateur::supprimer`, si l'utilisateur a bien été
    supprimé, redirigez-le vers l'action `afficherListe` avec le message flash de
-   succès `L'utilisateur a bien été supprimé !`.
+   succès `L'utilisateur a bien été supprimé`.
 
-4. Vérifiez que tout fonctionne et que les messages flashs s'affichent bien.
+4. Vérifiez que tout fonctionne et que les messages flash s'affichent bien.
 
 </div>
 
@@ -244,38 +248,38 @@ toutes les voitures avec un message flash de succès :
 ![VoitureCreatedSuccess]({{site.baseurl}}/assets/TD9/VoitureCreatedSuccess.png){: .blockcenter}
 
 Nous souhaitons maintenant que ce message ne s'affiche qu'une fois ; si le
-client rafraîchit la page (`F5`), alors le message flash disparait :
+client rafraîchit la page (`F5`), alors le message flash disparaît :
 
 ![VoitureReadAll]({{site.baseurl}}/assets/TD9/VoitureReadAll.png){: .blockcenter}
 
-Le principe du *flash* d'un message flash est qu'il est détruit quand il est lu.
-Du coup, le message ne sera affiché qu'une fois. 
+Un message *flash* est détruit dès qu'il est lu : il ne s'affiche donc qu'une
+seule fois.
 
 Les messages flash seront stockés en session pour pouvoir être écrits lors d'une
 requête et lus lors de la requête de redirection suivante. Prenons un exemple : 
 
    1. En cliquant sur le bouton `Envoyer` du formulaire de création de voiture,
-      vous faites une requête à l'action `creerDepuisFormulaire`. Si la création
-      se passe bien, vous enregistrez en session un message flash de succès,
-      puis vous redirigez le client vers l'affichage des voitures.
+      le client fait une requête à l'action `creerDepuisFormulaire`. Si la
+      création se passe bien, le contrôleur enregistre en session un message
+      flash de succès, puis redirige le client vers l'affichage des voitures.
 
    2. Sur la page de l'action `afficherListe`, le contrôleur va lire les
       messages flash stockés en session. Ces messages sont affichés sur la
       page. Selon le principe des messages flash, cette lecture entraînera leur
       suppression de la session.
 
-   3. Si vous rafraîchissez la page, l'action `afficherListe` va toujours lire
+   3. Si le client rafraîchit la page, l'action `afficherListe` va toujours lire
       les messages flash, mais n'en trouvera pas. Le message disparaîtra donc.
 
 Dans l'exercice suivant, vous allez manipuler les **sessions** (lors
-du dernier TD, vous avez créé un objet `Session` pour faciliter la manipulation des
+du TD7, vous avez créé une classe `Session` pour faciliter la manipulation des
 données). Vous allez notamment stocker et lire le tableau à deux dimensions contenant
-les messages flashs.
+les messages flash.
 
-Attention, quand on récupère un tableau depuis les données de session, si on le modifie 
-directement, les données ne seront pas directement enregistrées/répercutées dans le 
-tableau stocké en session. Il faut réenregistrer le tableau après modification pour
-écraser l'ancien :
+Attention, en PHP, les tableaux sont copiés par valeur : quand on récupère un
+tableau depuis les données de session, on obtient une copie. Si on modifie cette
+copie, les modifications ne sont pas répercutées dans le tableau stocké en session.
+Il faut réenregistrer le tableau après modification pour écraser l'ancien :
 
 ```php
 $tabA = [1,2,3,4];
@@ -294,15 +298,17 @@ $tabC = Session::getInstance()->lire('tableau');
 <div class="exercise">
 
 1. Implémentez un système de message flash en complétant le squelette suivant
-   dans le fichier `src/Lib/MessageFlash.php`
+   dans le fichier `src/Lib/MessageFlash.php` :
 
     ```php
     namespace App\Covoiturage\Lib;
 
+    use App\Covoiturage\Modele\HTTP\Session;
+
     class MessageFlash
     {
 
-        // Les messages sont enregistrés en session associée à la clé suivante 
+        // Les messages sont enregistrés en session, associés à la clé suivante
         private static string $cleFlash = "_messagesFlash";
 
         /**
@@ -313,7 +319,7 @@ $tabC = Session::getInstance()->lire('tableau');
          * 
          * $type parmi "success", "info", "warning" ou "danger".
          * 
-         * Attention : si le tableau stockant les messages flashs n'existe
+         * Attention : si le tableau stockant les messages flash n'existe
          * pas en session, il faut le créer.
          */
         public static function ajouter(string $type, string $message): void
@@ -330,7 +336,7 @@ $tabC = Session::getInstance()->lire('tableau');
 
         /**
          * Renvoie true si le tableau à deux dimensions stockant les messages 
-         * flashs en session contient une entrée $type, correspondant à 
+         * flash en session contient une entrée $type, correspondant à 
          * un sous-tableau, et que ce tableau n'est pas vide.
          * Renvoie false sinon.
          */
@@ -346,10 +352,10 @@ $tabC = Session::getInstance()->lire('tableau');
          * Renvoie un tableau (à une dimension) contenant tous les messages
          * du type $type, correspondant aux données du tableau de l'entrée 
          * $type dans le tableau à deux dimensions stockant les messages
-         * flashs en session.
+         * flash en session.
          * Attention : la lecture doit détruire tous les messages de ce 
          * type, donc, supprimer l'entrée $type du tableau stockant les 
-         * messages flashs, puis enregistrer de nouveau le tableau en session.
+         * messages flash, puis enregistrer de nouveau le tableau en session.
          * @return string[]
          */
         public static function lireMessages(string $type): array
@@ -365,10 +371,10 @@ $tabC = Session::getInstance()->lire('tableau');
 
         /**
          * Renvoie un tableau (à deux dimensions) contenant tous les messages
-         * flashs, correspondant aux données du tableau stockant tous les 
-         * messages flashs en session.
+         * flash, correspondant aux données du tableau stockant tous les 
+         * messages flash en session.
          * Attention : la lecture doit détruire tous les messages, donc, supprimer 
-         * le tableau stockant les messages flashs en session.
+         * le tableau stockant les messages flash en session.
          * @return string[][]
          */
         public static function lireTousMessages() : array
@@ -386,13 +392,13 @@ $tabC = Session::getInstance()->lire('tableau');
     ```
 
 2. Modifiez `ControleurGenerique::afficherVue()` pour lire les messages flash
-   depuis cette classe avec 
+   depuis cette classe avec :
    ```php
    $messagesFlash = MessageFlash::lireTousMessages();
    ```
 
-3. Tester vos nouveaux messages flash. Pour ceci, reprenez les scénarios de
-   l'exercice 2. Au lieu de passer les messages flash dans l'URL, vous les
+3. Testez vos nouveaux messages flash. Pour cela, reprenez les scénarios de
+   la section *Redirection*. Au lieu de passer les messages flash dans l'URL, vous les
    ajouterez dans la session avec `MessageFlash::ajouter()` avant la
    redirection.
 
@@ -402,20 +408,20 @@ $tabC = Session::getInstance()->lire('tableau');
 
 La méthode `redirigerVersURL` fonctionne, mais n'est pas forcément très pratique à utiliser :
 
-* Il faut créer manuellement le query string.
-* De plus, techniquement, il faudrait encoder les données avec `rawurlencode` pour éviter certains problèmes.
+* Il faut créer manuellement le *query string*.
+* De plus, techniquement, il faudrait encoder les données avec `rawurlencode` (cf. TD5) pour qu'un caractère comme `&` ou `=` dans une valeur ne casse pas le *query string*.
 
-Nous allons mettre en place une méthode plus pratique qui fera tout ça automatiquement :
+Nous allons mettre en place une méthode plus pratique qui fera tout cela automatiquement :
 
 ```php
 public static function rediriger(string $controleur = "", string $action = "", array $query = []): never
 {
     $tableauQueryString = [];
-    if($action != "") {
-        $tableauQueryString[] = "action=$action";
-    }
-    if($controleur != "") {
+    if($controleur !== "") {
         $tableauQueryString[] = "controleur=$controleur";
+    }
+    if($action !== "") {
+        $tableauQueryString[] = "action=$action";
     }
     foreach ($query as $name => $value) {
         $valueURL = rawurlencode($value);
@@ -427,7 +433,7 @@ public static function rediriger(string $controleur = "", string $action = "", a
 }
 ```
 
-Grâce à cette nouvelle fonction, il sera possible de rediriger plus facilement l'utilisateur.
+Grâce à cette nouvelle méthode, il sera possible de rediriger plus facilement l'utilisateur.
 
 Par exemple, si on souhaite rediriger vers l'action `monAction` du contrôleur `exemple` :
 
@@ -436,11 +442,11 @@ Par exemple, si on souhaite rediriger vers l'action `monAction` du contrôleur `
 ControleurGenerique::rediriger('exemple', 'monAction');
 ```
 
-Le tableau `$query` est un tableau associatif qui permet de venir compléter le **query string** avec des
+Le tableau `$query` est un tableau associatif qui permet de venir compléter le *query string* avec des
 données utiles à l'action ciblée (un peu comme ce qu'on fait déjà avec `afficherVue` et les données
-transmissent par le contrôleur aux vues).
+transmises par le contrôleur aux vues).
 
-Par exemple, si je souhaite fournir des données à l'action de l'exemple précédent :
+Par exemple, si on souhaite fournir des données à l'action de l'exemple précédent :
 
 ```php
 //Redirige vers controleurFrontal.php?controleur=exemple&action=monAction&varA=valeurA&varB=5
@@ -449,20 +455,20 @@ ControleurGenerique::rediriger('exemple', 'monAction', ["varA" => "valeurA", "va
 
 <div class="exercise">
 
-1. Ajouter la méthode `rediriger` au **contrôleur générique**, en copiant le code ci-dessus.
+1. Ajoutez la méthode `rediriger` au **contrôleur générique**, en copiant le code ci-dessus.
 
 2. Prenez bien le temps de comprendre ce que fait cette méthode, ligne par ligne. Demandez à votre enseignant chargé de TD si vous n'êtes pas sûr de comprendre certaines parties.
 
 3. Remplacez les appels à `redirigerVersURL` par `rediriger` dans les actions `ControleurUtilisateur::afficherDetail` et `ControleurUtilisateur::supprimer`.
 
-4. Testez et vérifiez que tout fonctionne et que vos messages flashs s'affichent toujours.
+4. Testez et vérifiez que tout fonctionne et que vos messages flash s'affichent toujours.
 
 </div>
 
 ### Utilisation des messages flash
 
 Utilisez les messages flash pour enlever toutes les vues qui affichaient un
-message puis appelaient une autre vue.
+message puis incluaient une autre vue.
 
 <div class="exercise">
 
@@ -473,32 +479,32 @@ message puis appelaient une autre vue.
    et éventuellement les vues concernant les passagers si vous aviez
    fait certaines questions bonus.
 
-2. Remplacez ces vues par des messages flashs de type `success` dans les 
+2. Remplacez ces vues par des messages flash de type `success` dans les 
    actions concernées.
    
    * Par exemple, en cas de succès de création d'un 
    utilisateur, on pourrait ajouter un message flash de succès 
-   *L'utilisateur a bien été créé* puis rediriger dans l'action 
+   *L'utilisateur a bien été créé* puis rediriger vers l'action 
    `afficherListe` du contrôleur `utilisateur`.
 
    * Ou bien, pour la connexion, on pourra ajouter un message flash de succès 
-   *Connexion réussie* puis rediriger dans l'action 
+   *Connexion réussie* puis rediriger vers l'action 
    `afficherDetail` du contrôleur `utilisateur` en passant le login de l'utilisateur
    dans l'URL grâce au tableau associatif `$query` de la méthode `rediriger`.
    
-3. L'action `enregistrerPreference()` doit maintenant rediriger
+3. L'action `enregistrerPreference()` doit maintenant rediriger vers
    l'action par défaut du contrôleur par défaut, que l'on obtient sans indiquer
    d'action ni de contrôleur dans la méthode `rediriger`, 
    avec un message flash de succès *La préférence de contrôleur est enregistrée*.
 
 </div>
 
-Dans votre site, nous allons remplacer tous les appels `afficherErreur` à la vue
-d'erreur par des redirections avec messages flash.
+Dans votre site, nous allons remplacer tous les appels à `afficherErreur` (qui
+affichent la vue d'erreur) par des redirections avec messages flash.
 
 Nous réserverons les messages flash de type *danger* pour les
 erreurs qui ne sont censées se produire que si le client a essayé de hacker
-le site (accès à une page qu'on ne lui a pas proposé, donnée de formulaire
+le site (accès à une page qu'on ne lui a pas proposée, donnée de formulaire
 manquante alors qu'elle était `required`), et les messages flash de type
 *warning* pour les erreurs de l'utilisateur.
 
@@ -522,7 +528,7 @@ manquante alors qu'elle était `required`), et les messages flash de type
    le formulaire de création avec un message flash *Adresse email invalide* 
    de type *warning*.
 
-   * si la sauvegarde échoue (par exemple parce que login est déjà pris),
+   * si la sauvegarde échoue (par exemple parce que le login est déjà pris),
    redirigez vers le formulaire de création avec un message flash 
    *Échec de la sauvegarde* de type *warning*.
 
@@ -530,16 +536,16 @@ manquante alors qu'elle était `required`), et les messages flash de type
    * s'il manque le `login`, redirigez vers la liste des utilisateurs
    avec un message flash *Login manquant* de type *danger*.
 
-   * si l'utilisateur qui modifie de profil n'est pas l'utilisateur à qui
+   * si l'utilisateur qui modifie le profil n'est pas l'utilisateur à qui
    appartient le profil ou un administrateur, redirigez vers la liste des 
-   utilisateurs avec un message flash *La mise à jour n’est possible que 
-   pour l’utilisateur connecté!* de type *danger*.
+   utilisateurs avec un message flash *La mise à jour n'est possible que 
+   pour l'utilisateur connecté* de type *danger*.
 
    * si l'utilisateur n'existe pas, redirigez vers la liste des utilisateurs
-   avec un message flash *Utilisateur inexistant !* de type *danger*.
+   avec un message flash *Utilisateur inexistant* de type *danger*.
 
 
-4. Action `mettreAJour`: 
+4. Action `mettreAJour` :
 
    * s'il manque des données, redirigez vers la liste des utilisateurs
    avec un message flash *Données manquantes* de type *danger*.
@@ -549,8 +555,8 @@ manquante alors qu'elle était `required`), et les messages flash de type
 
    * si l'utilisateur qui modifie le profil n'est pas l'utilisateur à qui
    appartient le profil ou un administrateur, redirigez vers la liste
-   des utilisateurs avec un message flash *La mise à jour n’est possible 
-   que pour l’utilisateur connecté* de type *danger*.
+   des utilisateurs avec un message flash *La mise à jour n'est possible 
+   que pour l'utilisateur connecté* de type *danger*.
 
    * si les 2 nouveaux mots de passe ne coïncident pas, redirigez vers le
    formulaire de mise à jour en indiquant le login dans l'URL 
@@ -564,21 +570,21 @@ manquante alors qu'elle était `required`), et les messages flash de type
    * si le format du nouvel email n'est pas valide, redirigez vers le formulaire de mise à jour en indiquant le login 
    dans l'URL avec un message flash *Adresse email invalide* de type *warning*.
 
-5. Action `supprimer`:
-    * s'il manque le `login`, redirigez vers la liste des utilisateurs
+5. Action `supprimer` :
+   * s'il manque le `login`, redirigez vers la liste des utilisateurs
    avec un message flash *Login manquant* de type *danger*.
 
    * si l'utilisateur qui supprime l'utilisateur n'est pas l'utilisateur à qui
    appartient le profil ou un administrateur, redirigez vers la liste des 
-   utilisateurs avec un message flash *La suppression n’est possible que 
-   pour l’utilisateur connecté!* de type *danger*.
+   utilisateurs avec un message flash *La suppression n'est possible que 
+   pour l'utilisateur connecté* de type *danger*.
 
    * si la suppression a échoué, par exemple parce que l'utilisateur n'existe pas, 
    redirigez vers la liste des utilisateurs
    avec un message flash *Utilisateur inexistant* de type *danger*.
 
-6. Action `connecter()` :  
-   * si le login ou le mot de passe ne sont pas transmis redirigez 
+6. Action `connecter` :
+   * si le login ou le mot de passe ne sont pas transmis, redirigez 
    vers le formulaire de connexion avec un message flash *Login et/ou 
    mot de passe manquant* de type *danger*.
 
@@ -586,7 +592,7 @@ manquante alors qu'elle était `required`), et les messages flash de type
     un message flash *Login et/ou mot de passe incorrect* de type *warning*. 
 
    * si l'utilisateur n'a pas validé son adresse email, redirigez vers le formulaire 
-     de connexion avec un message flash *Votre adresse email n'est pas validée!* de 
+     de connexion avec un message flash *Votre adresse email n'est pas validée* de 
      type *warning*. 
 
 7. Action `validerEmail` : 
@@ -604,20 +610,20 @@ manquante alors qu'elle était `required`), et les messages flash de type
    notamment ceux des autres contrôleurs.
 
 9. Normalement, à ce stade, vous ne devriez plus avoir d'appel à `afficherErreur` dans vos contrôleurs. Nous
-   allons donc, à priori, pouvoir supprimer cette méthode. Cependant, elle est encore utilisée à un dernier
+   allons donc, a priori, pouvoir supprimer cette méthode. Cependant, elle est encore utilisée à un dernier
    endroit : le point d'entrée de notre site, `controleurFrontal.php`. Nous pouvons mettre en place deux solutions :
 
-    * Soit remplacer les appels à `afficherErreur` dans `controleurFrontal.php` par un ajout de message flashs de 
+    * Soit remplacer les appels à `afficherErreur` dans `controleurFrontal.php` par un ajout de messages flash de 
     type `danger` et une redirection vers le contrôleur et l'action par défaut (en appelant 
-    `ControleurGenerique::redirger` sans paramètres).
+    `ControleurGenerique::rediriger` sans paramètres).
 
     * Soit créer une vue globale `erreur.php` dans le dossier `src/vue` puis une méthode statique `afficherErreur($message)` dans
     `ControleurGenerique` qui appellera cette vue en lui passant le message d'erreur (proche de ce que nous avions jusqu'ici).
-    Ensuite, il suffit alors d'utiliser `ControleurGenerique::afficherErreur` dans `controleurFrontal.php` à la place de ce qui été
+    Il suffit alors d'utiliser `ControleurGenerique::afficherErreur` dans `controleurFrontal.php` à la place de ce qui était
     utilisé jusqu'ici.
 
-    Choisissez une des deux solutions et implémentez là. Ensuite, vérifiez dans chaque contrôleur (sauf le contrôleur générique) que
-    la méthode `afficherErrreur` n'est plus utilisée et supprimez-la.
+    Choisissez une des deux solutions et implémentez-la. Ensuite, vérifiez dans chaque contrôleur (sauf le contrôleur générique) que
+    la méthode `afficherErreur` n'est plus utilisée et supprimez-la.
 
 10. Tentez d'accéder à un contrôleur et/ou une action qui n'existe pas et vérifiez que le message d'erreur est affiché correctement.
 
