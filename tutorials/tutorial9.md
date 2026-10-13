@@ -100,7 +100,7 @@ $messagesFlash = [
    ```
 
 4.  Pour le CSS des messages d'alerte, rajoutez le code suivant à
-    `navstyles.css`. Le code provient du [composant d'alerte du framework CSS
+    `navstyle.css`. Le code provient du [composant d'alerte du framework CSS
     Bootstrap](https://getbootstrap.com/docs/3.4/components/#alerts)
     ```css
     /* Bootstrap alerts */
@@ -190,7 +190,7 @@ l'action `afficherListe` sans code supplémentaire.
 <div class="exercise">
 
 1.  Pour la redirection, nous allons utiliser le code suivant (à encapsuler dans
-    une méthode statique `redirigerVersURL(string $url)` du **contrôleur générique**) :
+    une méthode statique `redirigerVersURL(string $url): never` du **contrôleur générique**) :
     ```php
     header("Location: $url");
     exit();
@@ -204,18 +204,20 @@ l'action `afficherListe` sans code supplémentaire.
 
     *Note :* L'utilisation de `exit()` est optionnelle. Nous vous le mentionnons
     car généralement le script n'a plus rien à faire après avoir demandé une
-    redirection.
-
-    L'URL qu'il faut mentionner n'a **pas besoin d'être l'URL absolue** (comme dans
-    les liens dans nos vues). Par exemple, pour rediriger vers l'action `bonjour` du
-    contrôleur `exemple` avec la donnée `var=a` avec un message flash de succès, je peux faire :
-
-    `redirigerVersURL('controleurFrontal.php?controleur=exemple&action=bonjour&var=a&messagesFlash[success][]=OK!')`
+    redirection. Le type de retour `never` indique une fonction qui ne termine pas, c.-à-d. 
+    qui appelle `exit()`, lève une exception, ou est une boucle infinie.
 
 2. Utilisons la redirection dans un premier scénario d'erreur. Dans
    `ControleurUtilisateur::afficherDetail`, si le `login` ne correspond à aucun
    utilisateur, utilisez la redirection précédente vers l'URL de l'action
-   `afficherListe` avec le message flash de type `warning` suivant : `Login inconnu`.
+   `afficherListe` avec le message flash de type `danger` suivant : `Login inconnu`.
+
+   **Aide :** Par exemple, pour rediriger vers l'action `bonjour` du
+    contrôleur `exemple` avec la donnée `var=a` avec un message flash de succès `OK!`, je peux faire :
+
+    ```php
+    redirigerVersURL('controleurFrontal.php?controleur=exemple&action=bonjour&var=a&messagesFlash[success][]=OK!')
+    ```
 
 3. Dans `ControleurUtilisateur::supprimer`, si l'utilisateur a bien été
    supprimé, redirigez-le vers l'action `afficherListe` avec le message flash de
@@ -304,7 +306,7 @@ $tabC = Session::getInstance()->lire('tableau');
         private static string $cleFlash = "_messagesFlash";
 
         /**
-         * Récupère le  tableau à deux dimensions correspondant à la clé 
+         * Récupère le tableau à deux dimensions correspondant à la clé 
          * self::$cleFlash stocké en session puis ajoute une entrée 
          * contenant $message au sous-tableau correspondant à la clé $type.
          * Enregistre ensuite ce tableau dans la session (en écrasant l'ancien).
@@ -319,13 +321,11 @@ $tabC = Session::getInstance()->lire('tableau');
             // À compléter
             $session = Session::getInstance();
             $flashs = [];
-            if($session->contient(self::$cleFlash)) {
-                ...
+            if($session->contient(MessageFlash::$cleFlash)) {
+                // ...
             }
-
-            ...
-
-            $session->enregistrer(self::$cleFlash, $flashs);
+            // ...
+            $session->enregistrer(MessageFlash::$cleFlash, $flashs);
         }
 
         /**
@@ -338,8 +338,8 @@ $tabC = Session::getInstance()->lire('tableau');
         {
             // À compléter
             $session = Session::getInstance();
-            ...
-            return ...
+            // ...
+            // return ...
         }
 
         /**
@@ -356,11 +356,11 @@ $tabC = Session::getInstance()->lire('tableau');
         {
             // À compléter
             $session = Session::getInstance();
-            ...
-            $flashs = ...
-            ...
-            $session->enregistrer(self::$cleFlash, $flashs);
-            return ...
+            // ...
+            // $flashs = ...
+            //...
+            $session->enregistrer(MessageFlash::$cleFlash, $flashs);
+            // return ...
         }
 
         /**
@@ -375,11 +375,11 @@ $tabC = Session::getInstance()->lire('tableau');
         {
             // À compléter
             $session = Session::getInstance();
-            ...
-            $flashs = ...
-            ...
-            $session->enregistrer(self::$cleFlash, $flashs);
-            return ...
+            // ...
+            // $flashs = ...
+            // ...
+            $session->enregistrer(MessageFlash::$cleFlash, $flashs);
+            // return ...
         }
 
     }
@@ -408,7 +408,7 @@ La méthode `redirigerVersURL` fonctionne, mais n'est pas forcément très prati
 Nous allons mettre en place une méthode plus pratique qui fera tout ça automatiquement :
 
 ```php
-public static function rediriger(string $controleur = "", string $action = "", array $query = []) : void
+public static function rediriger(string $controleur = "", string $action = "", array $query = []): never
 {
     $tableauQueryString = [];
     if($action != "") {
@@ -423,7 +423,7 @@ public static function rediriger(string $controleur = "", string $action = "", a
     }
     $queryString = !empty($tableauQueryString) ? ("?" . join("&", $tableauQueryString)) : "";
     $url = "controleurFrontal.php" . $queryString;
-    self::redirigerVersURL($url);
+    ControleurGenerique::redirigerVersURL($url);
 }
 ```
 
@@ -482,48 +482,53 @@ message puis appelaient une autre vue.
    `afficherListe` du contrôleur `utilisateur`.
 
    * Ou bien, pour la connexion, on pourra ajouter un message flash de succès 
-   *Connexion réussie!* puis rediriger dans l'action 
+   *Connexion réussie* puis rediriger dans l'action 
    `afficherDetail` du contrôleur `utilisateur` en passant le login de l'utilisateur
    dans l'URL grâce au tableau associatif `$query` de la méthode `rediriger`.
    
 3. L'action `enregistrerPreference()` doit maintenant rediriger
    l'action par défaut du contrôleur par défaut, que l'on obtient sans indiquer
    d'action ni de contrôleur dans la méthode `rediriger`, 
-   avec un message flash de succès *La préférence de contrôleur est enregistrée !*.
+   avec un message flash de succès *La préférence de contrôleur est enregistrée*.
 
 </div>
 
 Dans votre site, nous allons remplacer tous les appels `afficherErreur` à la vue
 d'erreur par des redirections avec messages flash.
 
+Nous réserverons les messages flash de type *danger* pour les
+erreurs qui ne sont censées se produire que si le client a essayé de hacker
+le site (accès à une page qu'on ne lui a pas proposé, donnée de formulaire
+manquante alors qu'elle était `required`), et les messages flash de type
+*warning* pour les erreurs de l'utilisateur.
+
 <div class="exercise">
 
 1. Action `afficherDetail`
 
    * s'il manque le `login`, redirigez vers la liste des utilisateurs
-   avec un message flash *Login manquant* de type *warning*.
-
-   * si l'utilisateur n'existe pas, redirigez vers la liste des utilisateurs
-   avec un message flash *Utilisateur inexistant !* de type *warning*.
-
-   *Note* : Nous réserverons les messages flash de type *danger* pour les
-   erreurs qui ne sont censées se produire que si le client a essayé de hacker
-   le site (accès à une page qu'on ne lui a pas proposé, donnée de formulaire
-   manquante alors qu'elle était `required`), et les messages flash de type
-   *warning* pour les erreurs de l'utilisateur.
+   avec un message flash *Login manquant* de type *danger*.
 
 2. Action `creerDepuisFormulaire`
 
    * s'il manque des données, redirigez vers le formulaire de création 
-   avec un message flash *Données manquantes* de type *warning*.
+   avec un message flash *Données manquantes* de type *danger*.
 
    * si les deux champs mot de passe ne coïncident pas, redirigez vers 
    le formulaire de création avec un message flash *Mots de
    passe distincts* de type *warning*.
 
+   * si le format de l'email n'est pas valide, redirigez vers 
+   le formulaire de création avec un message flash *Adresse email invalide* 
+   de type *warning*.
+
+   * si la sauvegarde échoue (par exemple parce que login est déjà pris),
+   redirigez vers le formulaire de création avec un message flash 
+   *Échec de la sauvegarde* de type *warning*.
+
 3. Action `afficherFormulaireMiseAJour` :
    * s'il manque le `login`, redirigez vers la liste des utilisateurs
-   avec un message flash *Login manquant* de type *warning*.
+   avec un message flash *Login manquant* de type *danger*.
 
    * si l'utilisateur qui modifie de profil n'est pas l'utilisateur à qui
    appartient le profil ou un administrateur, redirigez vers la liste des 
@@ -531,81 +536,68 @@ d'erreur par des redirections avec messages flash.
    pour l’utilisateur connecté!* de type *danger*.
 
    * si l'utilisateur n'existe pas, redirigez vers la liste des utilisateurs
-   avec un message flash *Utilisateur inexistant !* de type *warning*.
+   avec un message flash *Utilisateur inexistant !* de type *danger*.
 
 
 4. Action `mettreAJour`: 
-   * si l'utilisateur qui modifie de profil n'est pas l'utilisateur à qui
-   appartient le profil ou un administrateur, redirigez vers la liste
-   des utilisateurs avec un message flash *La mise à jour n’est possible 
-   que pour l’utilisateur connecté!* de type *danger*.
+
+   * s'il manque des données, redirigez vers la liste des utilisateurs
+   avec un message flash *Données manquantes* de type *danger*.
 
    * si l'utilisateur n'existe pas, redirigez vers la liste des utilisateurs
-   avec un message flash *Utilisateur inexistant !* de type *warning*.
+   avec un message flash *Utilisateur inexistant* de type *danger*.
 
-   * s'il manque des données, redirigez vers le formulaire de mise à jour 
-   en indiquant le login dans l'URL (grâce au tableau associatif `$query` en 
-   paramètre de `rediriger`) avec un message flash *Données manquantes* 
-   de type *warning*.
+   * si l'utilisateur qui modifie le profil n'est pas l'utilisateur à qui
+   appartient le profil ou un administrateur, redirigez vers la liste
+   des utilisateurs avec un message flash *La mise à jour n’est possible 
+   que pour l’utilisateur connecté* de type *danger*.
 
    * si les 2 nouveaux mots de passe ne coïncident pas, redirigez vers le
    formulaire de mise à jour en indiquant le login dans l'URL 
    (toujours grâce au paramètre `$query` de `rediriger`) avec un message
-   flash *Mots de passe distincts*.
+   flash *Mots de passe distincts* de type *warning*.
 
    * si l'ancien mot de passe n'est pas correct et que l'utilisateur n'est pas 
    administrateur, redirigez vers le formulaire de mise à jour en indiquant le login 
-   dans l'URL avec un message flash *Ancien mot de passe erroné*.
+   dans l'URL avec un message flash *Ancien mot de passe erroné* de type *warning*.
 
-   <!-- * Le cas échéant, redirigez vers l'action `afficherListe` avec un message
-   flash de succès *Utilisateur mis à jour*. -->
-
-   <!-- **Aide :** Pour pouvoir rediriger vers le formulaire de mise à jour avec
-    l'identifiant d'un utilisateur, modifiez la méthode `redirection` pour qu'elle ajoute
-    une *query string* dans les redirections, -->
+   * si le format du nouvel email n'est pas valide, redirigez vers le formulaire de mise à jour en indiquant le login 
+   dans l'URL avec un message flash *Adresse email invalide* de type *warning*.
 
 5. Action `supprimer`:
     * s'il manque le `login`, redirigez vers la liste des utilisateurs
-   avec un message flash *Login manquant* de type *warning*.
+   avec un message flash *Login manquant* de type *danger*.
 
    * si l'utilisateur qui supprime l'utilisateur n'est pas l'utilisateur à qui
    appartient le profil ou un administrateur, redirigez vers la liste des 
    utilisateurs avec un message flash *La suppression n’est possible que 
    pour l’utilisateur connecté!* de type *danger*.
 
-   * si l'utilisateur n'existe pas, redirigez vers la liste des utilisateurs
-   avec un message flash *Utilisateur inexistant !* de type *warning*.
+   * si la suppression a échoué, par exemple parce que l'utilisateur n'existe pas, 
+   redirigez vers la liste des utilisateurs
+   avec un message flash *Utilisateur inexistant* de type *danger*.
 
 6. Action `connecter()` :  
    * si le login ou le mot de passe ne sont pas transmis redirigez 
    vers le formulaire de connexion avec un message flash *Login et/ou 
-   mot de passe manquant* de type `warning`.
+   mot de passe manquant* de type *danger*.
 
-   * si l'utilisateur n'existe pas, redirigez vers le formulaire de connexion avec
-    un message flash *Login inconnu* de type `warning`. 
-
-   * si le mot de passe transmis n'est pas correct, redirigez vers le
-    formulaire de connexion avec un message flash *Mot de passe incorrect* de
-    type `danger`.
+   * si l'utilisateur n'existe pas ou que le mot de passe est incorrect, redirigez vers le formulaire de connexion avec
+    un message flash *Login et/ou mot de passe incorrect* de type *warning*. 
 
    * si l'utilisateur n'a pas validé son adresse email, redirigez vers le formulaire 
      de connexion avec un message flash *Votre adresse email n'est pas validée!* de 
-     type `warning`. 
-
-   <!-- 4. Enfin, vous pouvez connecter l'utilisateur (utiliser une méthode de la
-      classe `ConnexionUtilisateur`). Redirigez vers l'action `read` de
-      l'utilisateur connecté avec un message flash *Connexion effectuée* de type
-      `success`. -->
-
-<!-- 4. action `deconnecter` : redirigez vers l'action `readAll` avec un message
-   flash de type `success`. -->
+     type *warning*. 
 
 7. Action `validerEmail` : 
+
    * s'il manque le `login` et/ou le `nonce`, redirigez vers la liste des utilisateurs
-   avec un message flash *Données manquantes* de type *warning*.
-   * en cas de succès, redirigez vers la page de détail de cet utilisateur (en passant son login dans l'URL 
-   grâce au paramètre `$query` de `rediriger`) avec un message flash *Adresse email validée* de type success. 
-   * en cas d'échec, "redirection flash" redirigez vers la liste des utilisateurs
+   avec un message flash *Données manquantes* de type *danger*.
+
+   * en cas de succès de la validation de l'email, redirigez vers la page de détail de cet utilisateur (en passant son login dans l'URL 
+   grâce au paramètre `$query` de `rediriger`) avec un message flash *Adresse email validée* de type *success*. 
+   
+   * en cas d'échec de la validation de l'email, redirigez vers la liste des utilisateurs
    avec un message flash *Erreur lors de la validation* de type *danger*.
 
 8. Remplacez les autres appels à `afficherErreur` restants (s'ils n'ont pas été listés dans cet exercice), 
