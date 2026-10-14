@@ -985,6 +985,9 @@ la connexion uniquement si l'utilisateur a validé un email.
 3. Mise à jour d'un utilisateur : 
    * rajoutez un champ *Email* prérempli avec l'email validé actuel.  
 
+   * dans l'action `mettreAJour`, vérifiez qu'un email a été fourni dans le
+     *query string*.
+
    * dans l'action `mettreAJour`, si l'email du formulaire est différent de
      l'email validé actuel, vérifiez le format de l'email puis
      écrivez-le dans le champ `emailAValider`. Créez aussi un nouveau nonce

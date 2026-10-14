@@ -585,7 +585,11 @@ manquante alors qu'elle était `required`), et les messages flash de type
    avec un message flash *Erreur lors de la validation* de type *danger*.
 
 8. Remplacez les autres appels à `afficherErreur` restants (s'ils n'ont pas été listés dans cet exercice), 
-   notamment ceux des autres contrôleurs.
+   notamment ceux des autres contrôleurs. Par exemple :
+   * à la création d'un trajet, si le login du conducteur ne correspond à aucun utilisateur, 
+   redirigez vers le formulaire de création avec un message flash *Conducteur inconnu* de type *warning* ;
+   * si vous avez codé le contrôleur *passager* (bonus du TD6), vérifiez la présence des paramètres et
+   l'existence du trajet, et traitez l'échec de l'inscription (login inconnu, passager déjà inscrit).
 
 9. Normalement, à ce stade, vous ne devriez plus avoir d'appel à `afficherErreur` dans vos contrôleurs. Nous
    allons donc, a priori, pouvoir supprimer cette méthode. Cependant, elle est encore utilisée à un dernier
@@ -593,7 +597,11 @@ manquante alors qu'elle était `required`), et les messages flash de type
 
     * Soit remplacer les appels à `afficherErreur` dans `controleurFrontal.php` par un ajout de messages flash de 
     type `danger` et une redirection vers le contrôleur et l'action par défaut (en appelant 
-    `ControleurGenerique::rediriger` sans paramètres).
+    `ControleurGenerique::rediriger` sans paramètres).  
+    **Attention :** ne redirigez pas vers le contrôleur demandé (`rediriger($controleur)`).
+    Par exemple, pour `controleurFrontal.php?controleur=preference`, l'action par défaut
+    `afficherListe` n'existe pas dans ce contrôleur : la redirection
+    tournerait en boucle.
 
     * Soit créer une vue globale `erreur.php` dans le dossier `src/vue` puis une méthode statique `afficherErreur($message)` dans
     `ControleurGenerique` qui appellera cette vue en lui passant le message d'erreur (proche de ce que nous avions jusqu'ici).
@@ -604,6 +612,7 @@ manquante alors qu'elle était `required`), et les messages flash de type
     la méthode `afficherErreur` n'est plus utilisée et supprimez-la.
 
 10. Tentez d'accéder à un contrôleur et/ou une action qui n'existe pas et vérifiez que le message d'erreur est affiché correctement.
+    Testez aussi `controleurFrontal.php?controleur=preference` (sans action).
 
 </div>
 
