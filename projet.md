@@ -5,6 +5,12 @@ layout: tutorial
 lang: fr
 ---
 
+{% comment %}
+<!-- 
+TODO : fixer la date et le format de la soutenance (oral individuel ou collectif ?)
+-->
+{% endcomment %}
+
 ## Sujet
 
 Vous devez réaliser un site de e-commerce. Les produits que vous devez vendre
@@ -13,7 +19,13 @@ de restriction particulière. Pensez néanmoins que ce projet Web fait partie de
 vos réalisations qui pourraient être mises en avant lors d'un entretien pour un
 stage, par exemple.
 
-À la fin de la première séance de la semaine du lundi 6 octobre, vous devrez
+Le but pédagogique de ce projet est de **réappliquer ce que vous avez appris en
+TD** sur un sujet proche du site de covoiturage, mais différent. Votre site doit
+donc reprendre au maximum le code et l'architecture que vous avez construits
+pendant les TDs, en les adaptant à votre sujet. Le projet évalue ainsi aussi le
+travail que vous avez fourni sur les TDs.
+
+À la fin de la première séance de la semaine du lundi 12 octobre, vous devrez
 donner à votre encadrant : 
 * la liste des membres de votre groupe, 
 * le thème de votre site (quels produits votre site vend-il ?),
@@ -24,55 +36,120 @@ groupes de 2 sont autorisés (mais ils seront notés comme un groupe de 3). Les
 groupes de 4 peuvent être exceptionnellement autorisés par votre enseignant, mais
 seront évalués de manière plus stricte et l'on attendra 1/3 de boulot en plus.
 
+### Cahier des charges
+
+Votre site doit proposer les fonctionnalités suivantes :
+
+* **Catalogue** : tout visiteur peut consulter la liste des produits et le
+  détail d'un produit.
+* **Panier** : tout visiteur, connecté ou non, peut ajouter un produit à son
+  panier, consulter son panier et en retirer un produit. Pour simplifier le
+  projet, vous n'avez pas à gérer de quantité : un produit est présent au plus
+  une fois dans le panier.
+* **Comptes utilisateurs** : un visiteur peut s'inscrire. Son adresse email doit
+  être validée avant qu'il puisse se connecter. Un utilisateur connecté peut
+  consulter, modifier et supprimer son compte, et se déconnecter.
+* **Commande** : un utilisateur connecté peut valider son panier. Cela crée une
+  commande contenant tous les produits du panier, puis vide le panier.
+* **Historique** : un utilisateur connecté peut consulter ses commandes passées
+  et leur contenu.
+* **Administration** : un administrateur peut créer, modifier et supprimer des
+  produits. Il peut aussi gérer les comptes utilisateurs, y compris donner le
+  rôle d'administrateur.
+
+### Contraintes techniques
+
+C'est un projet d'application des TDs : il doit **réutiliser au maximum les
+techniques et le code vus dans ce cours**. En particulier :
+
+* Votre site est écrit en PHP sans framework (pas de Laravel, Symfony…), sans
+  bibliothèque externe et sans ORM, comme dans les TDs.
+* Reprenez l'architecture construite en TD : contrôleur frontal, MVC, modèle
+  séparé en *DataObject* et *Repository* génériques, chargement automatique des
+  classes, vue générique `vueGenerale.php`, classes utilitaires de `src/Lib`…
+* Le site utilise la base de données MySQL de l'IUT et le rendu final est 
+  déployé sur `webinfo`. 
+  Nous vous recommandons de le développer sous Docker, comme lors des TDs, avant 
+  de le déployer sur `webinfo`.
+* JavaScript n'est pas nécessaire. 
+
+### Utilisation de l'IA
+
+L'utilisation d'assistants d'IA (ChatGPT, Copilot, Claude…) est autorisée.
+Cependant, **c'est vous qui êtes évalués, pas l'IA** : vous devez être capables
+d'expliquer, de justifier et de modifier n'importe quelle partie du code que
+vous rendez. Un code que vous auriez fait générer sans le comprendre vous
+pénalisera lors des évaluations.
+
+Indiquez dans votre `README` comment vous avez utilisé l'IA (outils utilisés,
+parties du projet concernées).
+
 ## Modalités
 
 ### Rendu
 
-**Date de rendu du projet :** samedi 22 novembre à 23h59.
+**Date de rendu du projet :** samedi 28 novembre à 23h59.
 
 Le projet sera à rendre [sur
 Moodle](https://moodle.umontpellier.fr/course/view.php?id=27615). Un seul membre
-du trinôme dépose une archive zip nommée selon le format :
+du groupe dépose une archive zip nommée selon le format :
 `NomPrenomMembre1-NomPrenomMembre2-NomPrenomMembre3.zip`.
 
 Cette archive devra contenir :
-* Les sources de votre projet,
-* l'URL où le site est déployé sur `webinfo`,
+* Les sources de votre projet (sans les dossiers superflus comme `.idea` ou `.git`).
+* Un script SQL qui crée vos tables et les remplit avec un jeu de données de
+  démonstration (utilisateurs, produits, commandes).
 * Un fichier `README` qui contient :
-  * Le lien du dépôt git où le code source de l’application est hébergé.
-  * Un pourcentage et un récapitulatif de l’investissement de chaque membre du groupe dans le projet (globalement, qui a fait quoi).
+  * le lien du site déployé sur `webinfo`,
+  * le lien du dépôt Git où le code source de l'application est hébergé,
+  * la répartition du travail dans l'équipe (qui a fait quoi) avec, pour chaque
+    membre, une estimation en pourcentage de sa contribution au projet. Cette
+    répartition doit être validée par l'ensemble du groupe,
+  * la description de votre utilisation de l'IA (cf. plus haut),
+  * tout autre commentaire que vous jugez pertinent.
+* Un fichier `IDENTIFIANTS` qui donne les identifiants de plusieurs comptes de
+  votre site déployé sur `webinfo` : au moins un administrateur et un
+  utilisateur normal.
+* Pour **chaque membre du groupe**, un fichier `CONTRIBUTIONS_NOM_PRENOM` qui
+  indique, pour chaque fonctionnalité à laquelle il a contribué :
+  * le nom de la fonctionnalité,
+  * ce qu'il a personnellement réalisé,
+  * les principaux fichiers concernés (contrôleurs, repositories, vues…).
+    L'idée n'est pas d'être exhaustif, mais d'indiquer « si vous voulez voir
+    comment j'ai réalisé cette fonctionnalité, voici où regarder ».
 
-
-<!-- 
-Prévoir des règles pour l'IA et demander de déclarer son utilisation.
--->
-
+{% comment %}
 ### Soutenance
 
-**Date de *soutenance* des projets** : mercredi 26 novembre 
+**Date de *soutenance* des projets** : communiquée ultérieurement.
 
 Le jour de la soutenance, **le site devra être déployé sur `webinfo`** sous l'un
 de vos comptes. Le code source du site doit être accessible à votre enseignant :
 **ajouter votre professeur de PHP à votre dépôt Git** (de préférence le GitLab
 de l'IUT), et lui donner le rôle *maintainer* ou *owner*. 
 
-Il n'y a **pas** de rapport à écrire, ni de présentation à préparer. Vous devrez
-juste répondre à une série de questions sur votre code qui nous permettra
-d'évaluer ce qui a été implémenté.
+Il n'y a **pas** de rapport à écrire, ni de présentation à préparer. Vous serez
+interrogés sur votre code : vous devrez être capables de retrouver le code d'une
+fonctionnalité, d'expliquer son fonctionnement, de justifier vos choix et de le
+faire évoluer. Les fichiers `CONTRIBUTIONS_NOM_PRENOM` serviront de base à ces
+questions. Les modalités précises de la soutenance vous seront communiquées
+ultérieurement.
+{% endcomment %}
+
+{% comment %}
+**Référence :**
+  [La page Côté Technique > Site Web > Partager public_html de intradepinfo](https://iutdepinfo.iutmontp.univ-montp2.fr/intranet/partager-public_html/) -->
+{% endcomment %}
 
 ### Critères de notation
 
-Le but pédagogique de ce projet est de mettre en application toutes les
-techniques que vous avez apprises lors des TDs.  
-
-**Important :** Voici donc [**les critères sur lesquels vous serez
+**Important :** Voici [**les critères sur lesquels vous serez
 notés**](https://docs.google.com/spreadsheets/d/1oUd7fe0K8WZhI2TPRRvgZ2xPZf5H22CUvlpcXEMD3Ao/edit#gid=0).
-Pour simplifier le projet, vous n'avez pas à gérer de quantité pour les achats
-de produits.
+Ces critères sont indicatifs.
 
-La note de ce projet Web interviendra pour environ moitié, l'autre moitié sera
-donnée par l'examen final sur papier (pas de code à écrire, questions de
-compréhension), sans oublier l'interrogation de fin de TD3 qui comptera moins.
+La note de ce projet Web comptera pour 30 % de la note du module. L'examen final
+sur papier (pas de code à écrire, questions de compréhension) comptera pour 50 %
+et les deux interrogations écrites pour 20 %.
 
 ## Informations techniques 
 
@@ -90,7 +167,7 @@ git config --global user.email prenom.nom@etu.umontpellier.fr
 ### Héberger le site sur `webinfo`
 
 Vous disposez de votre propre *home* sur les serveurs de l'IUT. Ce *home* contient un dossier `public_html`. Tout ce que vous déposez dans ce dossier est automatiquement servi par le serveur à l'adresse suivante (si votre login était `mon_login_IUT` et votre fichier était `page.html`):
-[http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/page.html](http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/page.html)
+[https://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/page.html](https://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/page.html)
 
 Pour pouvoir accéder à votre *home* à distance et y déposer des fichiers, il faudra d'abord trouver vos identifiants de connexion login et mot de passe (vous les utilisez probablement déjà pour vous connecter à d'autres services de l'IUT).
 
@@ -113,7 +190,7 @@ Il faudra ensuite entrer votre mot de passe et répondre "yes" à la question "A
    setfacl -R -m d:u:www-data:r-x ~/public_html
 ```
 
-Votre page devrait maintenant être accessible à l'adresse [http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/](http://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/).
+Votre page devrait maintenant être accessible à l'adresse [https://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/](https://webinfo.iutmontp.univ-montp2.fr/~mon_login_IUT/).
 
 
 Des sources complémentaires sur comment se connecter en FTP et en SSH à `public_html` (pour y déposer des fichiers) :
@@ -123,6 +200,13 @@ Des sources complémentaires sur comment se connecter en FTP et en SSH à `publi
 * [https://iutdepinfo.iutmontp.univ-montp2.fr/intranet/partager-public_html/](https://iutdepinfo.iutmontp.univ-montp2.fr/intranet/partager-public_html/)
 * [https://docs.google.com/document/d/1rLb4QWt0uOxE8IuLqeUxjZTivMIA6KbLzieNvsSa_p0/edit#heading=h.l1xavd57lfgb](https://docs.google.com/document/d/1rLb4QWt0uOxE8IuLqeUxjZTivMIA6KbLzieNvsSa_p0/edit#heading=h.l1xavd57lfgb)
 
+### Envoyer des emails depuis `webinfo`
+
+Sur `webinfo`, la fonction `mail()` de PHP est déjà configurée, mais elle ne
+peut envoyer des emails qu'à des adresses du domaine `yopmail.com` (adresses
+jetables consultables sur [yopmail.com](https://yopmail.com)). Utilisez donc ces
+adresses pour vos comptes de test (cf. [TD8]({{site.baseurl}}/tutorials/tutorial8.html)).
+
 ## Par où commencer ?
 
 1. Définir les produits que vous souhaitez vendre.
@@ -130,7 +214,7 @@ Des sources complémentaires sur comment se connecter en FTP et en SSH à `publi
    **Conseil:** Préfixez vos noms de tables de projet, e.g. `p_utilisateur`,
    `p_produit`, pour ne pas mélanger vos tables MySQL de projet et celles des TDs.
 3. La première séance doit vous permettre d'implémenter quelques actions du MVC
-   Produit.
+   Produit, en vous inspirant de votre MVC Trajet.
 
 ### Ce que ce projet n'est pas :
 
@@ -143,61 +227,15 @@ Des sources complémentaires sur comment se connecter en FTP et en SSH à `publi
 
 ### Que garder pour plus tard ?
 
-Dans la suite de ce cours, plusieurs séances seront consacrées à
+Le projet démarre après le TD6. Les TDs suivants vous apprendront ce dont vous
+aurez besoin pour :
 
-* la gestion des utilisateurs,
-* la gestion des paniers, 
-* la sécurisation de votre site Web
+* le panier, avec les cookies et les sessions
+  ([TD7]({{site.baseurl}}/tutorials/tutorial7.html)),
+* l'authentification des utilisateurs et le contrôle d'accès
+  ([TD8]({{site.baseurl}}/tutorials/tutorial8.html)),
+* les messages flash et les redirections
+  ([TD9]({{site.baseurl}}/tutorials/tutorial9.html)).
 
-En conséquence, ne pas attaquer ces parties pour le moment. 
-
-{% comment %}
-### Où héberger ce site? Comment partager votre code PHP ? Comment travailler à distance de l'IUT ?
-
-Pour travailler à distance, vous pouvez soit installer un serveur Web sur votre
-ordinateur (cf. [la fin du
-TD1](http://romainlebreton.github.io/R3.01-DeveloppementWeb/tutorials/tutorial1.html#installez-un-serveur-apache-chez-vous))
-ou envoyer vos fichiers à l'IUT en FTP avec FileZilla par exemple ou utiliser SSH
-(cf. [instructions sur l'intranet Côté Technique > Accès au Réseau > Depuis chez
-vous](https://iutdepinfo.iutmontp.univ-montp2.fr/intranet/acces-aux-serveurs/)).
-
-Lors de la soutenance, le site devra être hébergé dans le répertoire de l'un des
-membres de votre groupe. Par exemple
-[http://webinfo.iutmontp.univ-montp2.fr/~mon_login/eCommerce/](http://webinfo.iutmontp.univ-montp2.fr/~mon_login/eCommerce/)
-
-Pour partager votre code PHP, créez un projet Git commun sur le [Gitlab de
-l'IUT](https://gitlabinfo.iutmontp.univ-montp2.fr). Puis chacun
-`clone` le projet dans son `public_html` pour avoir une copie du dépôt sur son
-compte. 
-
-Établissez clairement qui écrit dans quel fichier : si 2 personnes modifient la
-même partie de code, ils risquent d'avoir des conflits lors du `git pull`. Une
-bonne pratique est d'utiliser le système de branches de Git à chaque fois que
-l'on veut développer une nouvelle fonctionnalité.
-
-Pour plus d'informations sur Git, la création d'une clé SSH, les commandes `git pull/add/commit/push` 
-et autres `git log/status`, la gestion des conflits, je vous renvoie sur le [tutoriel d'introduction à
-Git](https://gitlabinfo.iutmontp.univ-montp2.fr/valicov/tutoGit1ereAnnee/blob/master/README.md). -->
-
-#### Répertoire partagé à l'IUT
-
-L'étudiant 1 doit donc créer le répertoire `eCommerce` dans son dossier `public_html`
-puis donner les droits aux autres étudiants de son groupe sur ce répertoire :
-
-* `setfacl -m u:loginetudiant2:x /home/ann2/loginetudiant1` (droit de
-     lister le répertoire personnel)
-* `setfacl -m u:loginetudiant2:x /home/ann2/loginetudiant1/public_html` (droit de
-     lister le répertoire `public_html`)
-* `setfacl -R -m u:loginetudiant2:rwx eCommerce` (donne récursivement les droits
-à tous les fichiers inclus dans `eCommerce`)
-* `setfacl -R -m d:u:loginetudiant2:rwx eCommerce` (défini des droits par
-défaut : les nouveaux fichiers créés prendront ces droits)
-
-**Rappel du TD 1 :** Les ACL permettent d'avoir des droits spécifiques à
-   plusieurs utilisateurs et à plusieurs groupes quand les droits classiques
-   sont limités à un utilisateur et un groupe. Pour lire les droits ACL d'un
-   fichier ou dossier, on tape `getfacl nom_du_fichier`.
-
-**Référence :**
-  [La page Côté Technique > Site Web > Partager public_html de intradepinfo](https://iutdepinfo.iutmontp.univ-montp2.fr/intranet/partager-public_html/) -->
-{% endcomment %}
+En conséquence, n'attaquez pas ces parties pour le moment : intégrez-les à votre
+projet au fur et à mesure que vous avancez dans les TDs.

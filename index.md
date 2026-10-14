@@ -44,23 +44,18 @@ Semaine 8 - lundi 02 novembre  - TD9 2h          puis Projets PHP
 La première séance de la semaine du 12 octobre sera dédiée aux projets PHP (si vous avez fini le TD6).
 
 
-{% comment %}
 * **Parcours RACDV -- SAÉ**.
 * [Parcours DACS & IAMSI -- Instructions du projet -- Date de rendu : samedi 28/11 à 23h59](projet.html)
 
 La dernière séance de PHP (fin de la semaine du 02 novembre) sera dédiée au suivi des projets.
-{% endcomment %}
 
 ### Authentification (2 semaines)
 
 * [TD 7 -- Cookies & Sessions](tutorials/tutorial7.html) (durée indicative ≃ 2h)
 * [TD 8 -- Authentification & Validation par email](tutorials/tutorial8.html) (durée indicative ≃ 4h)
 * [TD 9 -- Messages Flash](tutorials/tutorial9.html) (durée indicative ≃ 2h) 
-{% comment %}
 * Suivi des projets / SAE si vous avez fini les TDs
 
-
-{% endcomment %}
 ## Notes complémentaires aux TDs
 
 * TD1 -- [Encodage des caractères, promotion de propriétés, serveur HTTP de l'IUT, note sur les URLs, installation de PhpStorm]({{site.baseurl}}/assets/tut1-complement.html)
@@ -72,9 +67,9 @@ La dernière séance de PHP (fin de la semaine du 02 novembre) sera dédiée au 
 
 {% comment %}
 1. [Syntaxe simple & avancée de PHP 8.1]({{site.baseurl}}/assets/complement1-PHPSyntax.html)
+{% endcomment %}
 
 ## Instructions du projet
 
 * **Parcours RACDV -- SAÉ**.
 * [Parcours DACS & IAMSI -- Instructions du projet](projet.html)
-{% endcomment %}
