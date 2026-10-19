@@ -576,3 +576,10 @@ moment de l'exécution.
 
 Il faut distinguer trois choses : la base de données, le serveur MySQL, et phpMyAdmin. La base de données est l'endroit où les informations sont réellement stockées : tables, colonnes et enregistrements. Le serveur MySQL est le logiciel qui gère cette base de données, reçoit les requêtes SQL et les exécute. phpMyAdmin est seulement une interface web d'administration qui permet d'interagir plus facilement avec MySQL, par exemple pour visualiser les tables, créer des données ou exécuter des requêtes, mais il ne remplace ni la base de données ni le serveur lui-même.
 
+
+#### Accéder à la base de données depuis PhpStorm
+
+PhpMyAdmin n'est pas la seule interface possible : PhpStorm intègre lui aussi un client de bases
+de données, qui permet de parcourir vos tables, d'exécuter des requêtes SQL et surtout d'obtenir
+l'autocomplétion du SQL écrit dans votre code PHP. Pour le configurer, consultez la [note
+complémentaire du TD2]({{site.baseurl}}/assets/tut2-complement.html#accéder-à-la-base-de-données-depuis-phpstorm).

@@ -1,6 +1,6 @@
 ---
 title:  TD2 &ndash; Compléments
-subtitle: Attributs et méthodes statiques
+subtitle: Attributs et méthodes statiques, base de données dans PhpStorm
 layout: tutorial
 lang: fr
 ---
@@ -141,3 +141,118 @@ Fille::afficherSelfStatic();
 // self : Mere
 // static : Fille
 ```
+
+## Accéder à la base de données depuis PhpStorm
+
+PhpStorm intègre un client de bases de données complet. Une fois configuré, il
+permet de parcourir et modifier vos tables sans quitter l'éditeur, d'exécuter des
+requêtes SQL dans une console, et surtout de bénéficier de l'autocomplétion et de
+la vérification du SQL écrit dans vos chaînes de caractères PHP.
+
+### Créer la source de données
+
+1. Ouvrez la fenêtre **Database** : *View* → *Tool Windows* → *Database* (ou
+   l'icône en forme de cylindre dans la barre latérale droite).
+
+2. Cliquez sur **+** → *Data Source* → **MariaDB**.
+
+   ![PhpStormAddDataSource]({{site.baseurl}}/assets/TD2/PhpStormAddDataSource.jpg){: .blockcenter}
+
+3. Dans l'onglet *General*, renseignez les mêmes informations que dans votre
+   fichier `ConfigurationBaseDeDonnees.ini` :
+
+   * *Host* : `webinfo.iutmontp.univ-montp2.fr`
+   * *Port* : `3316` (et non le port MariaDB par défaut 3306)
+   * *Authentication* : `User & Password`
+   * *User* : votre login IUT
+   * *Password* : le mot de passe que vous avez défini dans phpMyAdmin
+   * *Database* : votre login IUT (c'est le nom de votre base de données)
+
+   Vous pouvez aussi renommer la source de données (champ *Name* en haut), par
+   exemple en `webinfo`.
+
+   ![PhpStormDataSource]({{site.baseurl}}/assets/TD2/PhpStormDataSource.png){: .blockcenter}
+
+4. Si un lien **Download missing driver files** apparaît en bas de la fenêtre,
+   cliquez dessus : PhpStorm télécharge le pilote JDBC de MariaDB.
+
+5. Cliquez sur **Test Connection**. Vous devez obtenir une coche verte
+   *Succeeded*. Sinon, vérifiez en priorité le port, le login et le mot de passe
+   (essayez de vous connecter à phpMyAdmin avec les mêmes identifiants).
+
+**Remarque :** La configuration de la source de données est enregistrée dans `.idea/dataSources.xml`, mais le mot de passe, lui, est stocké dans le
+trousseau de mots de passe de votre système (selon l'option *Save* à côté du
+champ *Password*). Il ne se retrouve donc pas dans vos fichiers versionnés par
+Git.
+
+**MariaDB ou MySQL ?** Le serveur de bases de données de l'IUT (`webinfo`) utilise
+**MariaDB**, une version dérivée de **MySQL** (un *fork*) créée par les développeurs
+d'origine de MySQL après son rachat par Oracle. Les deux systèmes restent très
+largement compatibles (même syntaxe SQL, même protocole, même port 3306 par défaut) :
+tout ce que vous lirez sur MySQL s'applique donc presque toujours à MariaDB.
+
+### Parcourir et modifier les données
+
+* Dans la fenêtre **Database**, dépliez la source de données jusqu'à
+  *tables* : vous y retrouvez vos tables (par exemple `utilisateur`), leurs
+  colonnes, clés et index.
+
+  ![PhpStormDatabaseTree]({{site.baseurl}}/assets/TD2/PhpStormDatabaseTree.png){: .blockcenter}
+
+* Double-cliquez sur une table pour afficher son contenu. Vous pouvez modifier
+  une cellule, ajouter une ligne (**+**) ou en supprimer une (**−**). Les
+  modifications ne sont envoyées à la base qu'après avoir cliqué sur **Submit**
+  (flèche verte ou `Ctrl+Entrée`).
+
+  ![PhpStormTable]({{site.baseurl}}/assets/TD2/PhpStormTable.png){: .blockcenter}
+
+* Si vous modifiez la structure de la base depuis phpMyAdmin (ou depuis votre
+  code), pensez à rafraîchir la vue avec le bouton **Refresh** (`Ctrl+F5`) pour
+  que PhpStorm prenne en compte les changements.
+
+### Exécuter des requêtes dans la console SQL
+
+Clic droit sur la source de données → *New* → **Query Console** (ou
+`Ctrl+Maj+F10`). Vous pouvez y écrire n'importe quelle requête SQL, avec
+autocomplétion des noms de tables et de colonnes. Placez le curseur sur une
+requête et appuyez sur `Ctrl+Entrée` pour l'exécuter ; le résultat s'affiche
+dans un onglet en bas de la fenêtre.
+
+```sql
+SELECT * FROM utilisateur WHERE login = 'leblancj';
+```
+
+![PhpStormConsole]({{site.baseurl}}/assets/TD2/PhpStormConsole.png){: .blockcenter}
+
+C'est l'endroit idéal pour mettre au point vos requêtes SQL avant de les
+recopier dans votre code PHP (comme on le faisait jusqu'ici avec phpMyAdmin).
+
+### Autocomplétion du SQL dans le code PHP
+
+PhpStorm reconnaît automatiquement le SQL contenu dans une chaîne de caractères
+PHP commençant par `SELECT`, `INSERT`, `UPDATE`, `DELETE`… Pour qu'il
+comprenne la syntaxe de MariaDB et connaisse vos tables, deux réglages sont
+nécessaires dans *File* → *Settings* → *Languages & Frameworks* :
+
+1. **SQL Dialects** : choisissez `MariaDB` comme *Project SQL Dialect*.
+
+2. **SQL Resolution Scopes** : choisissez votre source de données comme
+   *Project mapping*.
+
+Vous bénéficiez alors, directement dans vos fichiers PHP, de l'autocomplétion
+des noms de tables et de colonnes, et PhpStorm souligne les tables ou colonnes
+qui n'existent pas :
+
+```php?start_inline=1
+$sql = "SELECT * FROM utilisateur WHERE login = :loginTag";
+$pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
+```
+
+**Remarques :**
+
+* Si une chaîne n'est pas reconnue comme du SQL (par exemple parce qu'elle est
+  construite par concaténation), placez le curseur dans la chaîne, faites
+  `Alt+Entrée` → *Inject language or reference* → `MariaDB`.
+* `Alt+Entrée` dans une requête SQL permet aussi de l'exécuter directement sur
+  la base (*Run query in console*), pratique pour vérifier rapidement une
+  requête écrite dans le code.
