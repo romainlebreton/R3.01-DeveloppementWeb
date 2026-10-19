@@ -744,6 +744,10 @@ Nous pouvons maintenant coder la logique d'autorisation d'accès.
         l'utilisateur connecté ou un administrateur* sinon.
       * Le champ *Administrateur* du formulaire de mise à jour ne doit
          apparaître que si l'utilisateur connecté est administrateur.
+      * Un administrateur ne connaît pas le mot de passe des autres
+        utilisateurs : il ne doit donc pas avoir à saisir l'ancien mot de passe.
+        Si l'utilisateur connecté est administrateur, enlevez l'attribut
+        `required` du champ *ancien mot de passe* du formulaire de mise à jour.
    3. Action `mettreAJour` : 
       * L'accès à l'action `mettreAJour` d'un utilisateur est autorisé 
         si il existe bien un utilisateur avec ce login, et soit
@@ -752,7 +756,9 @@ Nous pouvons maintenant coder la logique d'autorisation d'accès.
         En cas d'accès refusé, affichez le message d'erreur *Login inconnu* si
         un admin est connecté ou *La mise à jour n'est possible que pour
         l'utilisateur connecté ou un administrateur* sinon. 
-      * On ne vérifie pas l'ancien mot de passe si un admin est connecté.
+      * Si un admin est connecté, l'ancien mot de passe n'est pas obligatoire :
+        on ne vérifie ni qu'il a été transmis dans le *query string*, ni qu'il
+        est correct.
       * Plus important, l'action `mettreAJour` ne doit modifier le rôle
         *administrateur* que si l'utilisateur connecté est administrateur.  
         Pour appliquer cette règle, nous allons changer la manière dont nous
