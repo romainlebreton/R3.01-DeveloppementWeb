@@ -156,7 +156,7 @@ la vérification du SQL écrit dans vos chaînes de caractères PHP.
 
 2. Cliquez sur **+** → *Data Source* → **MariaDB**.
 
-   ![PhpStormAddDataSource]({{site.baseurl}}/assets/TD2/PhpStormAddDataSource.jpg){: .blockcenter}
+   ![PhpStormAddDataSource]({{site.baseurl}}/assets/TD2/PhpStormAddDataSource.png){: .blockcenter}
 
 3. Dans l'onglet *General*, renseignez les mêmes informations que dans votre
    fichier `ConfigurationBaseDeDonnees.ini` :
