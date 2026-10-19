@@ -23,6 +23,158 @@ dossier `web` (et `ressources`).
 > réponse à une **requête HTTP**. C'est le rôle du fichier `.htaccess`, qui règle
 > le comportement d'Apache face aux requêtes, et non l'accès au disque.
 
+## Chemin de fichier ou URL ?
+
+Depuis que le contrôleur frontal est dans `web` et que les vues sont dans
+`src/vue`, beaucoup d'erreurs viennent d'une confusion entre deux sortes
+d'adresses qui se ressemblent beaucoup : les **chemins de fichiers** et les
+**URL**.
+
+### Deux sortes d'adresses
+
+* Un **chemin de fichier** désigne un fichier sur le disque dur du serveur. Il
+  est utilisé par PHP, qui s'exécute sur le serveur. Exemples :
+  * `/home/lebreton/public_html/ILovePHP/bonjour.php`
+  * `/var/www/html/tds-php/TD5/web/controleurFrontal.php`
+* Une **URL** désigne une ressource sur Internet. Elle est utilisée par le
+  **navigateur** (le client), qui envoie une requête HTTP au serveur. Exemple :
+  
+  <div class="centered">
+  `http://localhost/tds-php/TD5/web/controleurFrontal.php`
+  </div>
+
+  se décompose en le protocole `http://`, le nom de domaine `localhost`, et le
+  chemin `/tds-php/TD5/web/controleurFrontal.php` (voir aussi la [note sur les
+  URL du TD1]({{site.baseurl}}/assets/tut1-complement.html#note-sur-les-urls)).
+
+Le chemin d'une URL ressemble à un chemin de fichier, mais ce n'est pas le même :
+c'est Apache qui fait la correspondance entre les deux. Par exemple, le chemin
+d'URL `/tds-php/TD5/web/controleurFrontal.php` correspond au fichier
+`/var/www/html/tds-php/TD5/web/controleurFrontal.php`.
+
+### Qui lit l'adresse ?
+
+Pour savoir quelle sorte d'adresse écrire, il faut se demander **qui va
+l'utiliser** :
+
+| Emplacement dans le code | Utilisé par | Type d'adresse |
+|--------------------------|-------------|----------------|
+| `require`, `require_once` (déclaration de classe, vue) | PHP | chemin de fichier |
+| `parse_ini_file`, `move_uploaded_file`, … | PHP | chemin de fichier |
+| `<a href="…">` | navigateur | URL |
+| `<form action="…">` | navigateur | URL |
+| `<link rel="stylesheet" href="…">` (CSS), `<img src="…">`, `<script src="…">` | navigateur | URL |
+| `header("Location: …")` (TD9) | navigateur | URL |
+{: .centered}
+
+**En résumé :** ce qui est argument d'une fonction PHP est un chemin de fichier ;
+ce qui est écrit dans du HTML (ou dans un en-tête HTTP) envoyé au navigateur est
+une URL.
+
+Le [complément sur l'upload de fichiers]({{site.baseurl}}/assets/tut4-complement.html)
+illustre bien la différence : la même image est désignée par le chemin de fichier
+`__DIR__ . "/../../ressources/img/profils/$nomFichier"` dans `move_uploaded_file`,
+et par l'URL relative `../ressources/img/profils/$nomFichier` dans `<img src="…">`.
+
+### Relatif par rapport à quoi ?
+
+Les deux sortes d'adresses peuvent être **relatives**, c.-à-d. ne pas commencer
+par `/` (ni par `http://`). Mais elles ne sont pas relatives à la même chose !
+
+* Un **chemin de fichier relatif** est interprété par PHP par rapport au dossier
+  du script exécuté, c.-à-d. en pratique `web`, le dossier de
+  `controleurFrontal.php`, et **pas** par rapport au fichier qui contient le
+  `require`. C'est pour cela que nous n'utilisons que des chemins de fichiers
+  absolus construits avec `__DIR__` (voir le TD5).
+
+  À l'inverse, `__DIR__` contient le dossier du **fichier dans lequel il est
+  écrit**, et **pas** celui du script exécuté. Par exemple, si
+  `web/controleurFrontal.php` charge `src/Modele/ConnexionBaseDeDonnees.php`, qui
+  contient
+
+  ```php?start_inline=1
+  parse_ini_file(__DIR__ . '/../Configuration/ConfigurationBaseDeDonnees.ini');
+  ```
+
+  alors `__DIR__` vaut `/var/www/html/tds-php/TD5/src/Modele` (et non
+  `/var/www/html/tds-php/TD5/web`), même si c'est `controleurFrontal.php` qui
+  est exécuté. Le chemin obtenu ne dépend donc pas du script qui a fait le
+  `require`, ce qui le rend fiable.
+
+* Une **URL relative** est complétée par le navigateur par rapport à l'**URL de
+  la page affichée**, c.-à-d. celle de la barre d'adresse. Le navigateur ne sait
+  rien de vos fichiers PHP : il ne voit que le HTML qu'il a reçu. Or toutes nos
+  pages sont produites par
+  `http://localhost/tds-php/TD5/web/controleurFrontal.php`. Les URL relatives sont
+  donc toutes complétées à partir du dossier d'URL
+  `http://localhost/tds-php/TD5/web/`, même si le code HTML est écrit dans une
+  vue de `src/vue/utilisateur/`.
+
+Voici comment le navigateur complète quelques URL, si la page affichée est
+`http://localhost/tds-php/TD5/web/controleurFrontal.php` :
+
+| URL écrite dans le HTML | URL complétée par le navigateur |
+|-------------------------|---------------------------------|
+| `controleurFrontal.php?action=afficherListe` | `http://localhost/tds-php/TD5/web/controleurFrontal.php?action=afficherListe` |
+| `./css/styles.css` | `http://localhost/tds-php/TD5/web/css/styles.css` |
+| `../ressources/img/logo.png` | `http://localhost/tds-php/TD5/ressources/img/logo.png` |
+| `../../index.html` | `http://localhost/tds-php/index.html` |
+| `/projet/` | `http://localhost/projet/` |
+{: .centered}
+
+**Remarques :**
+* Une URL qui commence par `/` est relative au **nom de domaine** : elle repart
+  de la racine du site `http://localhost/`. Ce n'est donc pas la même chose que
+  le `/` d'un chemin de fichier, qui désigne la racine du disque dur.
+* Quand une URL désigne un dossier, comme `http://localhost/projet/`, Apache
+  renvoie le fichier `index.html` ou `index.php` de ce dossier s'il existe, ou
+  sinon liste les fichiers du dossier (si `mod_autoindex` est activé).
+* On privilégie les URL relatives car elles continuent de fonctionner si le site
+  est déplacé, par exemple de `http://localhost/tds-php/TD5/` vers
+  `http://webinfo.iutmontp.univ-montp2.fr/~votre_login/TD5/`.
+
+### Exemple : le formulaire de création d'un utilisateur
+
+Le formulaire de `src/vue/utilisateur/formulaireCreation.php` doit envoyer ses
+données à l'action `creerDepuisFormulaire` du contrôleur frontal.
+
+```html
+<!-- Correct -->
+<form method="get" action="controleurFrontal.php">
+<!-- Incorrect -->
+<form method="get" action="../../../web/controleurFrontal.php">
+```
+
+La deuxième version a été écrite en partant du fichier
+`src/vue/utilisateur/formulaireCreation.php` sur le disque. Mais le navigateur la
+complète à partir de l'URL de la page affichée et obtient
+`http://localhost/web/controleurFrontal.php`, qui n'existe pas.
+
+C'est aussi pour cela que PhpStorm affiche parfois un *warning* sur les URL de
+vos vues : de son point de vue, vous êtes dans `src/vue/…`, alors que le
+navigateur chargera la page depuis `web`.
+
+### Erreurs classiques
+
+* **Calculer une URL relative depuis l'emplacement du fichier de vue** : voir
+  l'exemple ci-dessus.
+* **Mettre un chemin de fichier dans une URL**, par exemple
+  ```php
+  <link rel="stylesheet" href="<?= __DIR__ ?>/../../ressources/css/navstyle.css">
+  ```
+  Le navigateur reçoit `href="/var/www/html/tds-php/TD5/src/vue/../../ressources/css/navstyle.css"`,
+  qu'il interprète comme l'URL
+  `http://localhost/var/www/html/tds-php/TD5/src/vue/../../ressources/css/navstyle.css`,
+  d'où une erreur 404. `__DIR__` (ou toute constante contenant un chemin de fichier)
+  n'a rien à faire dans un attribut `href`, `src` ou `action`.
+* **Utiliser une URL en `file://`** : elle désigne un fichier de *votre* disque
+  dur et ne passe pas par le serveur HTTP. Elle est donc à proscrire (voir le
+  [TD1]({{site.baseurl}}/assets/tut1-complement.html#les-url-en-file)).
+* **Mettre une URL dans un `require`**, par exemple
+  `require "controleurFrontal.php?action=afficherListe";`. Un `require` attend un
+  chemin de fichier : il n'y a pas de *query string*. Pour passer des données à
+  une vue, on définit des variables avant le `require`.
+
 ## `namespace`
 
 Les espaces de noms permettent d'encapsuler des classes, fonctions pour éviter

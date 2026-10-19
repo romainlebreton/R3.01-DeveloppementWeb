@@ -7,9 +7,6 @@ lang: fr
 
 <!-- TODO An prochain : changer le nom du dossier Lib -->
 
-<!-- Prévoir une explication écrite de la différence entre chemin de fichier et
-URL.  Notamment pour ceux qui mettent du ROOT dans les URL -->
-
 <!--
 URL absolue en récupérant nom de domaine et chemin de l'URL avec
 http://{$_SERVER['HTTP_HOST']}{$_SERVER['PHP_SELF']}
@@ -132,6 +129,12 @@ $configurationBaseDeDonnees = parse_ini_file(
 ```
 
 À partir de maintenant, nous n'utiliserons plus de chemins relatifs dans `require`, `require_once` et `parse_ini_file`. Il va donc falloir changer ceux qui existent déjà.
+
+**Attention :** ne confondez pas chemin de fichier et URL. Les adresses des
+`require` sont des chemins de fichiers, alors que celles des `href`, `src` ou
+`action` dans le HTML sont des URL, qui restent relatives. Voir la [note
+complémentaire sur les chemins de fichiers et les
+URL]({{site.baseurl}}/assets/tut5-complement.html#chemin-de-fichier-ou-url-).
 
 <!-- 
 `__DIR__` donne le dossier du fichier. Si utilisé dans une inclusion, le
@@ -718,6 +721,8 @@ avec deux liens vers les différents contrôleurs :
    **Remarque :** il est probable que votre IDE affiche un warning car il ne connaît pas le chemin ciblé.
    C'est normal, de son point de vue, vous vous trouvez dans `src/vue/vueGenerale.php`. Mais en réalité, le
    navigateur chargera la page web depuis `web`.
+   Plus d'explications dans la [note complémentaire sur les chemins de fichiers et les
+   URL]({{site.baseurl}}/assets/tut5-complement.html#chemin-de-fichier-ou-url-).
 
 3. Ce fichier CSS rajoute aussi un style pour les formulaires. Pour l'appliquer,
    changez `formulaireCreation.php` pour qu'un champ de formulaire s'obtienne par exemple avec 
