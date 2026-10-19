@@ -88,10 +88,18 @@ var_dump($mdpHache === hash('sha256', $mdpClair));
 
 <div class="exercise">
 
-   Créez à partir du code précédent le haché `SHA-256` d'un mot du dictionnaire
-   français (placez par exemple le code dans un fichier PHP temporaire et accédez-y 
-   via le navigateur). 
-   Utilisez un site comme [dcode](https://www.dcode.fr/sha256-hash)
+1. Créez à partir du code précédent le haché `SHA-256` d'un mot du dictionnaire
+   français : 
+   * Ouvrez un terminal dans votre conteneur Docker : dans Docker Desktop, ouvrez
+      votre conteneur, puis cliquez sur l'onglet `Exec`. Dans le terminal qui
+      apparaît, tapez `bash` pour retrouver votre shell habituel. 
+   * Exécutez le code dans le terminal de votre
+     conteneur Docker :
+     ```bash
+     php -r 'echo hash("sha256", "pomme"), PHP_EOL;'
+     ```
+
+2. Utilisez un site comme [dcode](https://www.dcode.fr/sha256-hash)
    pour retrouver le mot de passe originel à partir de son haché.
    <!-- http://reverse-hash-lookup.online-domain-tools.com/ -->
 
@@ -210,7 +218,7 @@ mot de passe).
 On vous donne la classe `MotDePasse` qui reprend les explications précédentes.
 Prenez le temps de bien comprendre les deux fonctions `hacher` et `verifier`.
 
-Notez que la méthode `getPoivre()` lit le poivre une fois dans le fichier `ConfigurationBaseDeDonnees.ini` et le stocke dans l'attribut statique `$poivre`.
+Notez que la méthode `getPoivre()` lit le poivre une fois dans le fichier `ConfigurationSite.ini` et le stocke dans l'attribut statique `$poivre`.
 
 ```php
 namespace App\Covoiturage\Lib;
@@ -223,7 +231,7 @@ class MotDePasse
     {
         if (is_null(MotDePasse::$poivre)) {
             $configurationSite = parse_ini_file(
-                __DIR__ . '/../Configuration/ConfigurationBaseDeDonnees.ini',
+                __DIR__ . '/../Configuration/ConfigurationSite.ini',
                 false,
                 INI_SCANNER_RAW
             );
@@ -244,19 +252,7 @@ class MotDePasse
         $mdpPoivre = hash_hmac("sha256", $mdpClair, MotDePasse::getPoivre());
         return password_verify($mdpPoivre, $mdpHache);
     }
-
-    public static function genererChaineAleatoire(int $nbCaracteres = 22): string
-    {
-        // 22 caractères par défaut pour avoir au moins 128 bits aléatoires
-        // 1 caractère = 6 bits car 64=2^6 caractères en base_64
-        // et 128 <= 22*6 = 132
-        $octetsAleatoires = random_bytes(ceil($nbCaracteres * 6 / 8));
-        return substr(base64_encode($octetsAleatoires), 0, $nbCaracteres);
-    }
 }
-
-// Pour créer votre poivre (une seule fois)
-// var_dump(MotDePasse::genererChaineAleatoire());
 ```
 
 <div class="exercise">
@@ -264,26 +260,48 @@ class MotDePasse
 1. Copiez/collez dans un nouveau dossier `TD8` tous les fichiers du dossier `TD7`.  
    **Attention :** vérifiez que les fichiers cachés `.htaccess` ont bien
    été copiés. Ce sont eux qui empêchent de télécharger les données sensibles comme
-   `ConfigurationBaseDeDonnees.ini`, qui contiendra bientôt
+   `ConfigurationSite.ini`, qui contiendra bientôt
    votre poivre.
 
 2. Copiez le code de la classe présentée au-dessus dans le fichier `src/Lib/MotDePasse.php`.
 
 3. Ouvrez un terminal dans votre conteneur Docker : dans Docker Desktop, ouvrez
    votre conteneur, puis cliquez sur l'onglet `Exec`. Dans le terminal qui
-   apparaît, tapez `bash` pour retrouver votre shell habituel. Via ce terminal,
-   rendez-vous dans le dossier `tds-php/TD8/src/Lib`. 
+   apparaît, tapez `bash` pour retrouver votre shell habituel. 
 
-4. Décommentez la dernière ligne du fichier `MotDePasse.php`, puis, dans le terminal (sous
-   Docker), exécutez ce fichier : 
+4. Générez votre poivre (une seule fois) en exécutant dans ce terminal la commande
+   suivante, qui tire 18 octets aléatoires (144 bits) et les encode en base 64
+   (24 caractères) :
 
    ```bash
-   php MotDePasse.php
-   ``` 
-   
-   Puis copiez le résultat dans le fichier `ConfigurationBaseDeDonnees.ini` en n'oubliant pas les guillemets autour du poivre. Recommentez la dernière ligne.
+   php -r 'echo base64_encode(random_bytes(18)), PHP_EOL;'
+   ```
 
-5. Nous allons modifier la structure de données *utilisateur* :
+   Puis ajoutez le résultat dans le fichier `src/Configuration/ConfigurationSite.ini`
+   en n'oubliant pas les guillemets autour du poivre, par exemple :
+
+   ```ini
+   poivre = "M7UKGv9fkptxwbSmZvlr1U+/"
+   ```
+
+5. Le fichier `ConfigurationSite.ini` contient désormais un secret : il ne doit
+   **jamais** être versionné avec Git. Comme pour `ConfigurationBaseDeDonnees.ini`
+   au TD2, ajoutez la ligne suivante au fichier `.gitignore` à la racine de votre
+   dépôt `tds-php` :
+
+   ```
+   ConfigurationSite.ini
+   ```
+
+   **Vérifiez** avec `git status` que `TD8/src/Configuration/ConfigurationSite.ini`
+   n'apparaît pas parmi les fichiers proposés au commit.  
+   *Remarque :* `.gitignore` n'agit pas sur un fichier déjà suivi par Git. Si vous
+   aviez déjà commité le fichier `ConfigurationSite.ini` du TD8 avec le poivre,
+   arrêtez de le suivre avec `git rm --cached TD8/src/Configuration/ConfigurationSite.ini`
+   (le fichier est conservé sur le disque), puis changez de poivre, car l'ancien
+   reste lisible dans l'historique Git.
+
+6. Nous allons modifier la structure de données *utilisateur* :
    1. Modifiez la table utilisateur en lui ajoutant une colonne `VARCHAR mdpHache (taille 256)` non `null` stockant son mot de passe.
    2. Mettez à jour la classe métier `Utilisateur` (dossier `src/Modele/DataObject`) :
       1. ajoutez un attribut `private string $mdpHache`,
@@ -410,8 +428,8 @@ Procédons en plusieurs étapes :
    ![connexion]({{site.baseurl}}/assets/TD8/enter.png) qui pointe vers la future
    action `afficherFormulaireConnexion` (contrôleur *utilisateur*).  
    Ce lien, ainsi que le lien d'inscription ![icône
-   inscription]({{site.baseurl}}/assets/TD8/add-user.png), ne doivent s'afficher que si aucun
-   utilisateur n'est connecté (utilisez une méthode de la classe
+   inscription]({{site.baseurl}}/assets/TD8/add-user.png), ne doivent s'afficher que si l'utilisateur
+   courant n'est pas connecté (utilisez une méthode de la classe
    `ConnexionUtilisateur`). 
    
    *Notes* : 
@@ -681,6 +699,16 @@ Mettons à jour la classe utilitaire `ConnexionUtilisateur`.
 
    *Remarque optionnelle :* On aurait pu coder un système qui récupère une seule
    fois les données de l'utilisateur connecté à partir de la base de données, et le stocke dans un attribut statique de la classe `ConnexionUtilisateur`.
+   On ferait ainsi au plus une requête à la base de données par page.
+
+   *Remarque :* Pourquoi ne pas stocker directement l'objet `Utilisateur` en
+   session pour éviter ces requêtes ? Parce que la session deviendrait une copie
+   de la base de données, avec le risque de ne pas être à jour. 
+   Par exemple, si un administrateur retire le
+   rôle d'administrateur à un utilisateur connecté, ou supprime son compte,
+   celui-ci garderait ses droits jusqu'à la fin de sa session. C'est pourquoi
+   nous ne stockons en session que le login, et relisons les droits dans la base
+   de données.
 
 </div>
 
@@ -910,6 +938,14 @@ mail sur la page Web.
           // À compléter
           return true;
        }
+
+       public static function genererNonce(int $nbCaracteres = 32): string
+       {
+           // 1 caractère = 6 bits aléatoires car 64 = 2^6 caractères en base 64
+           // donc 32 caractères = 192 bits aléatoires (au moins 128 bits suffisent)
+           $octetsAleatoires = random_bytes(ceil($nbCaracteres * 6 / 8));
+           return substr(base64_encode($octetsAleatoires), 0, $nbCaracteres);
+       }
    }
    ```
 
@@ -928,7 +964,7 @@ mail sur la page Web.
       Mettez à jour la méthode `construireDepuisFormulaire` pour
       qu'elle donne la valeur `null` à l'email, qu'elle stocke l'adresse mail du
       formulaire dans `emailAValider`, et qu'elle crée un nonce aléatoire de 32 caractères à
-      l'aide de `MotDePasse::genererChaineAleatoire(32)`.
+      l'aide de `VerificationEmail::genererNonce()`.
    2. il faut envoyer l'email de validation en cas de succès de la sauvegarde :
       appelez la fonction `VerificationEmail::envoiEmailValidation`.
    3. vérifiez aussi qu'un email a été fourni dans le query string.
@@ -978,7 +1014,7 @@ la connexion uniquement si l'utilisateur a validé un email.
    exemple utiliser la fonction
    [`filter_var`](https://www.php.net/manual/fr/function.filter-var.php) avec le
    filtre
-   [`FILTER_VALIDATE_EMAIL`](https://www.php.net/manual/fr/filter.filters.validate.php).
+   [`FILTER_VALIDATE_EMAIL`](https://www.php.net/manual/fr/filter.constants.validation.php#constant.filter-validate-email).
    Cette fonction renverra `false` si la donnée passée en paramètre ne valide pas le filtre spécifié.
 
 
@@ -991,7 +1027,7 @@ la connexion uniquement si l'utilisateur a validé un email.
    * dans l'action `mettreAJour`, si l'email du formulaire est différent de
      l'email validé actuel, vérifiez le format de l'email puis
      écrivez-le dans le champ `emailAValider`. Créez aussi un nouveau nonce
-     aléatoire et envoyez le mail de validation. L'email validé actuel reste
+     aléatoire (`VerificationEmail::genererNonce()`) et envoyez le mail de validation. L'email validé actuel reste
      inchangé tant que le nouveau n'a pas été validé.
 
 4. Testez que la mise à jour de l'email marche bien après le clic sur le lien 

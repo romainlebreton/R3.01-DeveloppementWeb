@@ -70,7 +70,7 @@ La dernière séance de PHP (fin de la semaine du 02 novembre) sera dédiée au 
 ## Notes complémentaires aux TDs
 
 * TD1 -- [Encodage des caractères, promotion de propriétés, serveur HTTP de l'IUT, note sur les URLs, installation de PhpStorm]({{site.baseurl}}/assets/tut1-complement.html)
-* TD2 -- [Attributs et méthodes statiques]({{site.baseurl}}/assets/tut2-complement.html)
+* TD2 -- [Attributs et méthodes statiques, accéder à la base de données depuis PhpStorm]({{site.baseurl}}/assets/tut2-complement.html)
 * TD3 -- [Requête préparée]({{site.baseurl}}/assets/tut3-complement.html)
 * TD5 -- [`.htaccess`, namespace et autoloader]({{site.baseurl}}/assets/tut5-complement.html)
 * TD7 -- [Cookies & sessions]({{site.baseurl}}/assets/tut7-complement.html)
