@@ -56,6 +56,17 @@ La dernière séance de PHP (fin de la semaine du 02 novembre) sera dédiée au 
 * [TD 9 -- Messages Flash](tutorials/tutorial9.html) (durée indicative ≃ 2h) 
 * Suivi des projets / SAE si vous avez fini les TDs
 
+### Évaluations
+
+* Examen le lundi 9 novembre de 10:15 à 11:45
+* Soutenances : 
+  * Q3 : jeudi 10 décembre de 13:00 à 16:00
+  * Q4 : mercredi 9 décembre de 14:45 à 17:45
+{% comment %}
+  * Q1 : 
+  * Q-Sète : 
+{% endcomment %}
+
 ## Notes complémentaires aux TDs
 
 * TD1 -- [Encodage des caractères, promotion de propriétés, serveur HTTP de l'IUT, note sur les URLs, installation de PhpStorm]({{site.baseurl}}/assets/tut1-complement.html)
