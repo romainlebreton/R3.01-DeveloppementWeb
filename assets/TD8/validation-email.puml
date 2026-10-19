@@ -1,4 +1,5 @@
 @startuml
+scale 1.2
 title Validation d'une adresse email par nonce
 skinparam sequenceMessageAlign left
 actor "Navigateur" as C

@@ -204,11 +204,9 @@ Le schéma suivant résume le cycle complet : le serveur dépose le cookie dans
 la réponse de la première requête, puis le navigateur le renvoie dans chaque
 requête suivante.
 
-<div class="centered">
 <object data="{{site.baseurl}}/assets/TD7/cookie-cycle.svg" type="image/svg+xml">
   Schéma de séquence : dépôt puis lecture d'un cookie. Votre navigateur ne supporte pas les SVG.
 </object>
-</div>
 
 
 **Attention au décalage dans le temps :** `$_COOKIE` est rempli par PHP avant
@@ -216,11 +214,9 @@ l'exécution du script, à partir des cookies reçus dans la requête. Un
 `setcookie()` n'a donc aucun effet sur `$_COOKIE` pendant la requête en cours :
 le nouveau cookie n'est visible dans `$_COOKIE` qu'à la requête suivante.
 
-<div class="centered">
 <object data="{{site.baseurl}}/assets/TD7/cookie-decalage.svg" type="image/svg+xml">
   Schéma de séquence : setcookie n'a pas d'effet sur $_COOKIE dans la même requête.
 </object>
-</div>
 
 ### Notes techniques sur les cookies 1/2
 
@@ -924,11 +920,9 @@ Le schéma de séquence suivant détaille les échanges : le cookie ne contient 
 l'identifiant de session, et les données sont lues et écrites dans un fichier
 sur le serveur.
 
-<div class="centered">
 <object data="{{site.baseurl}}/assets/TD7/session-cycle.svg" type="image/svg+xml">
   Schéma de séquence : cycle de vie d'une session.
 </object>
-</div>
 
 <!-- ## Mise en application sur le site de covoiturage
 

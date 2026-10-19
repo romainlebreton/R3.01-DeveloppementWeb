@@ -128,6 +128,14 @@ ul.menu {
     text-align: center;
 }
 
+// Fond blanc derrière les schémas SVG (sinon flèches invisibles en mode sombre)
+object[type="image/svg+xml"] {
+    background-color: #FFFFFF;
+    max-width: 100%;
+    margin: 0 auto;
+    display: block;
+}
+
 .blockcenter {
     display: block;
     margin: 0 auto;

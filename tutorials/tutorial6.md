@@ -118,8 +118,9 @@ Nous allons séparer les méthodes gérant la persistance des données des autre
 propres aux utilisateurs (méthodes métiers). Voici le diagramme de classes UML modifié que
 nous allons obtenir à la fin de cette section :
 
-<img alt="Diagramme de classes"
-src="https://www.plantuml.com/plantuml/png/ZL9FQ_f04BtdKymnylCdzkgXLUgbOAsjxKsGIHp2sarscPqjMF6xTuqfMOD5OI7XpVkplDcn4sJnfKxSfweiCfPGcGqvid0t74Pehj6vYGYhp0izvQPQgc-2OP9KM9Apc1DCh5qzcY-Zn3CMj7eEJffMKnHyoRQK2-mJW71gC_WGfPL38S_ru1y0hDV1sGdxN59j2bNrmttAFbYcyEq5rl_0gYSZ23nL5T20OTw5WYf6cmn7CZiQd09w3LhyehqB_4Ljb9xyMaM3jv9MCG_mENVU8HwImmtblP4rJedXtP_bnPGcRky4HUK7OCgz9IQE-Evu3MJ6NPUDM-E5E8qtuzl_8CkCqRTaB93ZZaVm40sx1itA5TEKh5Vk7JDDw9UlipHARz3WTMuLMWpdQds3ouqDxgy_srYQZAdQ-5B_0000" style="margin-left:auto;margin-right:auto;display:block;">
+<object data="{{site.baseurl}}/assets/TD6/repository-utilisateur.svg" type="image/svg+xml">
+  Diagramme de classes : UtilisateurRepository et Utilisateur. Votre navigateur ne supporte pas les SVG.
+</object>
 
 Notez que dans le schéma UML ci-dessus :
 * `ModeleUtilisateur` est scindé en deux classes `UtilisateurRepository` et `Utilisateur`.
@@ -492,8 +493,9 @@ Pour éviter la duplication de code et la perte d'un temps conséquent à
 développer le CRUD pour chaque nouveau type d'objet, nous allons mettre en commun le
 code autant que possible. Commençons par abstraire les 2 classes métiers `Utilisateur` et `Trajet`.
 
-<img alt="Diagramme de classes"
-src="https://www.plantuml.com/plantuml/png/SoWkIImgAStDuN9CAYufIamkSKaiIVHFoafDBb6mgT7LLGWfIinABS4f7LgIcPDPd5YIMbh4vP2Qbm8q2W00" style="margin-left:auto;margin-right:auto;display:block;">
+<object data="{{site.baseurl}}/assets/TD6/abstract-dataobject.svg" type="image/svg+xml">
+  Diagramme de classes : AbstractDataObject et ses classes filles. Votre navigateur ne supporte pas les SVG.
+</object>
 
 <div class="exercise">
 
@@ -505,8 +507,9 @@ correspondre au diagramme de classes ci-dessus (mot clé `extends` comme en Java
 
 Également, nous allons abstraire les classes *Repository* de façon à obtenir le schéma suivant :   
 
-<img alt="Diagramme de classes"
-src="https://www.plantuml.com/plantuml/png/SoWkIImgAStDuN9CAYufIamk2Kejo2_EBCalgbImgT7LLGWfIinAHHB5gJ2q93CdipYn9BMq24crGsfU2j1u0000" style="margin-left:auto;margin-right:auto;display:block;">
+<object data="{{site.baseurl}}/assets/TD6/abstract-repository.svg" type="image/svg+xml">
+  Diagramme de classes : AbstractRepository et ses classes filles. Votre navigateur ne supporte pas les SVG.
+</object>
 
 Nous allons détailler ces changements dans les prochaines sections.
 
@@ -652,8 +655,9 @@ Cette recherche aura besoin de connaitre le nom de la clé primaire de la table,
 
 Ces modifications sont représentées dans le diagramme de classes suivant :
 
-<img alt="Diagramme de classes"
-src="https://www.plantuml.com/plantuml/png/jL9BItCn4DtdLmny7wX8jMxBvTfIDuAFucFNpJHtkAJc9c4oAMZjVxSFxqCf516pcyavPywSP1W5ML9bLNmnBY1Z1SuN52d0HR-lZg3jQuinZaJOp9BGjVRkqRmHz9LoM54Cg0b68Kp7Vk6D9CQIfhU-84lJ1me-6l7y2ak5ioYCMdQ2CFeiEvWigp5vlYR0-lo3PTrRGQQzzJmecSZb9ScThyQM9cmgD4p79mE8miQLsVaMc6yLJh_Ic7GAnCGJv2vvnuJ_2xIKkZThrSlQwnKAti_cfAKPiL9gjyyJuvowszGB_DHrA_ainfg8Geb_hrkdiOo2OdIJ9bFHXjAPE46-yQLnJJ9sKstIw81QpnlN1t_1sRv7V-_ru33pUxn_Ecnly6f8haYL_G00" style="margin-left:auto;margin-right:auto;display:block;">
+<object class="blockcenter" data="{{site.baseurl}}/assets/TD6/recuperer-par-cle-primaire.svg" type="image/svg+xml">
+  Diagramme de classes : recupererParClePrimaire et getNomClePrimaire. Votre navigateur ne supporte pas les SVG.
+</object>
 
 Les méthodes affichées en vert sont celles que nous allons créer, et celles en rouge sont celles que nous allons supprimer.
 
@@ -822,13 +826,15 @@ Nous aurons également besoin de transformer un objet `Utilisateur` ou `Trajet` 
 
 Nous pouvons résumer le tout dans le diagramme de classes suivant :
 
-<img alt="Diagramme de classes"
-src="https://www.plantuml.com/plantuml/png/lL91J_904BtlhvZaEtny-OBYbJGDX9E9cYZrncLQncPnkzFCpfeWyjzjG0gYs8FHlUpkvBqty_9c51H5O-LCUBI-Hi4AFCyfK0qNWu7v2_jwuJ24iQhOF2fT5kodzfbWO8p7YaAD1S6uhcSJVcAhKR2asNMZvMXsHpK7gonBM1dCWmeMkXM4yTjtZqco599a1qlJXWFD-GEhNMqDIS6EPLWAaKzBqXkkmgGfUK-Xzsy8A8BBf45RNwR9-GQTTiWyi5Ie6UQEC4vlhtePSBwWGh_K-_zU11SSbUIGcpExbh8sPkix4rpGWUlMvJUiTVZPjWJTN2ULsWdlrJeRK2dAhuvvq1VY_jsHmYeegYtQJ8NcRHWd5O-pQRnthl3Pnus5vANVXsxcSUO_skpJ-Co8_3nMxXK0" style="margin-left:auto;margin-right:auto;display:block;">
+<object data="{{site.baseurl}}/assets/TD6/ajouter-generique.svg" type="image/svg+xml">
+  Diagramme de classes : ajouter, getNomsColonnes et formatTableauSQL. Votre navigateur ne supporte pas les SVG.
+</object>
 
 Concernant le contrôleur, nous allons créer deux actions `afficherFormulaireCreation` et `creerDepuisFormulaire` pour les trajets, similaires à celles des utilisateurs.
 
-<img alt="Diagramme de classes"
-src="https://www.plantuml.com/plantuml/png/VOwnJWCn38RtF8KtMZ5mh5LLjIf2OeQHnUJ-ba0IHux3mEdUdUW6RgijMTRlJvzyhCPgBKLNlqCkh9meouYAGe_3uEvepNtaMazc6ZwQuSLBVWs_eC6vp0cri0UTIda_ouy4QyfNz3sRIaHJcjmYe3LwK_w2zGFrkgUf6blmC-szHD7TLO5yuCib-4_eisXgaOFYhEYSvCrs_x2GXvi2twS-eRHGLyTckwF-vVXlc7iVaSUMuXy0" style="margin-left:auto;margin-right:auto;display:block;">
+<object data="{{site.baseurl}}/assets/TD6/controleur-trajet.svg" type="image/svg+xml">
+  Diagramme de classes : actions de création de ControleurTrajet. Votre navigateur ne supporte pas les SVG.
+</object>
 
 <div class="exercise">
 
@@ -1077,8 +1083,9 @@ Limiter les contrôleurs aux actions autant que possible
 
 ### Diagramme de classes final de la partie `Repository`
 
-<img alt="Diagramme de classes"
-src="https://www.plantuml.com/plantuml/png/pLJHRjD047o_hrY91ufGfV1Q6TEe20c4KA7c0zRE4bsuyrcxUvLAoBzpoZdDjQwLFF9cpytCxSvOlXP5rkYTaT-s7v3HGnzM93J0kyN2l8OZtZaKMQgoRQFIvoxqT_OFmS8OR4KPEyqKM8wlFsW8OZNmGzNKK5K7Mbrl3G2yWkq1sS6Qz5lm3RQEBjvSGO9jlvvXtJYwPUlHycckt0GN-fuaCG6PyQ7A_7eYI0kbnsYPFj8GhUo7mNZt_Ul54o64TaFwAR177Jd9kvdu_JeoiakpLtRwqYHlWQcB0p7nuwJFy5laSlCiXdjq5Ck3fFxGP2bkGbJYyk8s19SFFQaoBR-4-8Hm7-mg4oGEG_8adhyg-u7PcTnymxYXedSOYvvlztIbv_LuTddA-59xUpHRJNhBXravKzvM5DLskx8j4LmJoumye_LZT3_LEYke5Fc_pYyUvtmUOh72J985epGwDzESMLh5UphaUygp2DfCVqnG_Rsyd7wsLz30-n6ULKqQAwHb5DVKhw9t_m00" style="margin-left:auto;margin-right:auto;display:block;">
+<object data="{{site.baseurl}}/assets/TD6/repository-final.svg" type="image/svg+xml">
+  Diagramme de classes final de la partie Repository. Votre navigateur ne supporte pas les SVG.
+</object>
 
 
 ## Bonus

@@ -1,0 +1,42 @@
+@startuml
+scale 1.2
+skinparam backgroundColor #FFFFFF
+skinparam classBackgroundColor #F1F1F1
+skinparam classBorderColor #181818
+skinparam ArrowColor #181818
+skinparam PackageBorderColor #181818
+skinparam nodesep 100
+' skinparam classAttributeIconSize 0
+
+abstract class AbstractRepository<T> <<abstract>>{
+   # {abstract} getNomTable(): string
+   # {abstract} getNomClePrimaire(): string
+   # {abstract} getNomsColonnes(): array<string>
+   # {abstract} construireDepuisTableauSQL(array<string> objetFormatTableau): T
+   # {abstract} formatTableauSQL(T object): array<string>
+   + recuperer(): array
+   + recupererParClePrimaire(string valeurClePrimaire): ?T
+   + ajouter(T object): bool
+   + mettreAJour(T object): void
+   + supprimer(string valeurClePrimaire): bool 
+}
+class TrajetRepository {
+   # getNomTable(): string
+   # getNomClePrimaire(): string
+   # getNomsColonnes(): array<string>
+   # construireDepuisTableauSQL(array<string> trajetFormatTableau): Trajet
+   # formatTableauSQL(Trajet trajet): array<string>
+   + {static} recupererPassagers(Trajet trajet): array<Trajet>
+}
+class UtilisateurRepository {
+   # getNomTable(): string
+   # getNomClePrimaire(): string
+   # getNomsColonnes(): array<string>
+   # construireDepuisTableauSQL(array<string> utilisateurFormatTableau): Utilisateur
+   # formatTableauSQL(Utilisateur utilisateur): array<string>
+   + {static} recupererTrajetsCommePassager(Utilisateur utilisateur): array<Trajet>
+}
+
+AbstractRepository <|-- TrajetRepository : T = Trajet
+AbstractRepository <|-- UtilisateurRepository : T = Utilisateur
+@enduml

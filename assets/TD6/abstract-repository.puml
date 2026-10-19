@@ -1,0 +1,10 @@
+@startuml
+scale 1.2
+skinparam backgroundColor #FFFFFF
+skinparam classBackgroundColor #F1F1F1
+skinparam classBorderColor #181818
+skinparam ArrowColor #181818
+skinparam PackageBorderColor #181818
+AbstractRepository <|-- TrajetRepository
+AbstractRepository <|-- UtilisateurRepository
+@enduml

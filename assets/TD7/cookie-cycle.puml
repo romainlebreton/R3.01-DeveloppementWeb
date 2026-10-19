@@ -1,4 +1,5 @@
 @startuml
+scale 1.2
 title Cookies : déposer puis lire
 skinparam sequenceMessageAlign left
 actor "Navigateur\n(client)" as C

@@ -1,4 +1,5 @@
 @startuml
+scale 1.2
 title Sessions : le cookie ne contient que l'identifiant
 skinparam sequenceMessageAlign left
 actor "Navigateur" as C

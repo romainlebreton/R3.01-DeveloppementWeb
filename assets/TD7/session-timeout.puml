@@ -1,4 +1,5 @@
 @startuml
+scale 1.2
 title Timeout : vérification de la dernière activité (durée d'expiration = 300 s)
 actor "Navigateur" as C
 participant "Session::verifierDerniereActivite()" as S

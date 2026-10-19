@@ -296,11 +296,9 @@ Le schéma suivant résume le fonctionnement du *Singleton* : le premier appel �
 `ConnexionBaseDeDonnees::getPdo()` crée l'unique instance, et donc la connexion
 à la base de données ; les appels suivants réutilisent cette instance.
 
-<div class="centered">
 <object data="{{site.baseurl}}/assets/TD2/singleton.svg" type="image/svg+xml">
   Schéma de séquence : le premier appel à getPdo crée l'unique instance, les suivants la réutilisent. Votre navigateur ne supporte pas les SVG.
 </object>
-</div>
 
 #### Gestion des erreurs 
 

@@ -1,4 +1,5 @@
 @startuml
+scale 1.2
 title setcookie() n'a pas d'effet sur $_COOKIE pendant la même requête
 actor "Navigateur" as C
 participant "Serveur PHP" as S

@@ -1,0 +1,32 @@
+@startuml
+scale 1.2
+skinparam backgroundColor #FFFFFF
+skinparam classBackgroundColor #F1F1F1
+skinparam classBorderColor #181818
+skinparam ArrowColor #181818
+skinparam PackageBorderColor #181818
+skinparam nodesep 100
+' skinparam classAttributeIconSize 0
+
+namespace App\Covoiturage\Modele\Repository {
+abstract class AbstractRepository<T> <<abstract>> {
+    # {abstract} <color:green>getNomsColonnes(): array<string></color>
+    # {abstract} <color:green>formatTableauSQL(T object): array<string></color>
+    + <color:green>ajouter(T object): bool</color>
+}
+
+class TrajetRepository {
+    # <color:green>getNomsColonnes(): array<string></color>
+    # <color:green>formatTableauSQL(Trajet trajet): array<string></color>
+}
+
+class UtilisateurRepository {
+    # <color:green>getNomsColonnes(): array<string></color>
+    # <color:green>formatTableauSQL(Utilisateur utilisateur): array<string></color>
+    + {static} <color:red>ajouter(Utilisateur utilisateur): bool</color>
+}
+}
+
+App\Covoiturage\Modele\Repository.AbstractRepository <|-- App\Covoiturage\Modele\Repository.TrajetRepository
+App\Covoiturage\Modele\Repository.AbstractRepository <|-- App\Covoiturage\Modele\Repository.UtilisateurRepository
+@enduml

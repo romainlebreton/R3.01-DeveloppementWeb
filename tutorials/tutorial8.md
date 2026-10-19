@@ -844,11 +844,9 @@ en plus.
 Le diagramme suivant résume la procédure, ainsi que l'évolution des champs
 `email`, `emailAValider` et `nonce` dans la base de données :
 
-<div class="centered">
 <object data="{{site.baseurl}}/assets/TD8/validation-email.svg" type="image/svg+xml">
   Schéma de séquence : à la création, l'email est à valider et un nonce est envoyé par mail ; le clic sur le lien de validation recopie l'email à valider dans l'email et remet les autres champs à NULL. Votre navigateur ne supporte pas les SVG.
 </object>
-</div>
 
 Commençons par mettre à jour notre classe métier `Utilisateur`. Nous allons
 rajouter des données `nonce`, `email` et `emailAValider`. 

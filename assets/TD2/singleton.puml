@@ -1,4 +1,5 @@
 @startuml
+scale 1.2
 title Singleton : une seule connexion PDO par exécution de script
 skinparam sequenceMessageAlign left
 participant "Script PHP\n(code appelant)" as A
