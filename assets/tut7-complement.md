@@ -120,6 +120,7 @@ place **avant** l'appel à `session_start()` (dans le constructeur de la classe
    ```
    Le paramètre `path` fonctionne comme celui de `setcookie()`, expliqué dans le TD7.
 
+{% comment %}
 **Attention :** Ces solutions évitent les conflits accidentels, mais elles ne
 protègent pas d'un voisin malveillant. Sur `webinfo`, tous les sites s'exécutent
 sous le même utilisateur `www-data` : le script PHP d'un voisin peut donc lire et
@@ -127,7 +128,7 @@ sous le même utilisateur `www-data` : le script PHP d'un voisin peut donc lire 
 configuration de la base de données). Il n'existe pas de protection complète sur
 ce type d'hébergement mutualisé. Un hébergement professionnel isole chaque site
 en l'exécutant sous un utilisateur différent.
-
+{% endcomment %}
    
 ### Sessions et sécurité
 
