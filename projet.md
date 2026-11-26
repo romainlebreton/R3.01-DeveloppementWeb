@@ -88,7 +88,7 @@ parties du projet concernées).
 
 ### Rendu
 
-**Date de rendu du projet :** samedi 28 novembre à 23h59.
+**Date de rendu du projet :** dimanche 29 novembre à 20h00.
 
 Le projet sera à rendre [sur
 Moodle](https://moodle.umontpellier.fr/course/view.php?id=27615). Un seul membre
